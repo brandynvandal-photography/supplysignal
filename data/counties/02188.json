@@ -1,10 +1,10 @@
 {
-  "fips": "41051",
-  "name": "Multnomah County",
-  "state": "OR",
+  "fips": "02188",
+  "name": "Northwest Arctic Borough",
+  "state": "AK",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T09:43:42.128Z",
+    "lastScan": "2026-08-10T09:43:42.132Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],
