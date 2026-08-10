@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10T02:09:56.492Z",
+  "updated": "2026-08-10T13:36:42.131Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -21,6 +21,74 @@
           "positive for"
         ],
         "score": 6
+      }
+    },
+    {
+      "title": "Memphis Grizzlies' Brandon Clarke died of cocaine, heroin overdose, coroner reports - localmemphis.com",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQdmFqQzB2aFZBSkEydnhFcWcxUUJRZnZGb1k4OU1hYnZZQmxCd0NtRGc2UGU1dmdjVW9FeEljVHJtaWVhSUlSX1c2ZEthaS1jcnlSblBpTUQ3c3I4VWg0SzRuVnZzd1Mybjl0UVdEUEl3cUNQNmM0VmNyVXhYLXlkVGZJX3V5UUFuQ1dCdFFkVVBmYVJBazRnTjJ3dlU1Z2hQXzZITVhIWEpZYVpEZGE1MjliSVoxbHVRNUE?oc=5",
+      "source": "localmemphis.com",
+      "published": "2026-08-07T21:23:00.000Z",
+      "confidence": 0.6153846153846154,
+      "audit": {
+        "substances": [
+          "heroin",
+          "cocaine"
+        ],
+        "events": [
+          "overdose",
+          "died"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "died"
+        ],
+        "elevatedMarkers": [],
+        "score": 8
+      }
+    },
+    {
+      "title": "Memphis Grizzlies' Brandon Clarke died from 'effects of heroin and cocaine' - The Commercial Appeal",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQcE54Vkk4UDJzaEJhTXpkU3hIMTgzQWlONmdXNFVIc1U5RzFxakhIYXQybm1wdzR1TGlUZHJPQ3R3SkczcFA4NEpsRXlldzl6clFwWXlpR0lHQ0F1OTZCRHB3Wm0wendxNmxyR3ExUHpRa3EyZUJ6R216QzJ2WW51R0ViZ2RYcVNmN012eXVTUHlsTUh0SVJLcHNreEZORThCRkdCTTFXOUlzMzBXNEpoNS03U1Jnd0JOWXU3X1h0Y2k?oc=5",
+      "source": "The Commercial Appeal",
+      "published": "2026-08-07T21:40:00.000Z",
+      "confidence": 0.5,
+      "audit": {
+        "substances": [
+          "heroin",
+          "cocaine"
+        ],
+        "events": [
+          "died"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "died"
+        ],
+        "elevatedMarkers": [],
+        "score": 6.5
+      }
+    },
+    {
+      "title": "Coroner: Grizzlies’ Brandon Clarke Died From Accidental Overdose of Heroin, Cocaine - Azat TV",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBoWUJtNkNmUllZVEZMcU1KXzNXdk1BLVUzeUZULTg3THl5dUVqN3ZIeE1FMWRINW44NTNvZG1yQ2hoMEhZVWxwMG1RaXFHX2ZmLUZadjM0ZGtkcy1pTnpkXzd2T2lDdWY4VDFlWE9hbXN5amdhY3hTMTVHVWE?oc=5",
+      "source": "Azat TV",
+      "published": "2026-08-08T03:30:00.000Z",
+      "confidence": 0.6153846153846154,
+      "audit": {
+        "substances": [
+          "heroin",
+          "cocaine"
+        ],
+        "events": [
+          "overdose",
+          "died"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "died"
+        ],
+        "elevatedMarkers": [],
+        "score": 8
       }
     }
   ]

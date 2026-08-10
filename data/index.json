@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T11:17:19.147Z",
+  "generated": "2026-08-10T13:36:42.130Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "24510": {
@@ -7,21 +7,21 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T11:17:19.139Z"
+      "t": "2026-08-10T13:36:42.124Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T11:17:19.138Z"
+      "t": "2026-08-10T13:36:42.123Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T11:17:19.137Z"
+      "t": "2026-08-10T13:36:42.122Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -820,6 +820,139 @@
       "c": 0,
       "sev": null,
       "t": "2026-08-10T11:17:19.146Z"
+    },
+    "05007": {
+      "n": "Benton County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.124Z"
+    },
+    "05009": {
+      "n": "Boone County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.125Z"
+    },
+    "05011": {
+      "n": "Bradley County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.125Z"
+    },
+    "05013": {
+      "n": "Calhoun County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.125Z"
+    },
+    "05015": {
+      "n": "Carroll County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.125Z"
+    },
+    "05017": {
+      "n": "Chicot County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.126Z"
+    },
+    "05019": {
+      "n": "Clark County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.126Z"
+    },
+    "05021": {
+      "n": "Clay County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.126Z"
+    },
+    "05023": {
+      "n": "Cleburne County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.127Z"
+    },
+    "05025": {
+      "n": "Cleveland County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.127Z"
+    },
+    "05027": {
+      "n": "Columbia County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.127Z"
+    },
+    "05029": {
+      "n": "Conway County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.127Z"
+    },
+    "05031": {
+      "n": "Craighead County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.128Z"
+    },
+    "05033": {
+      "n": "Crawford County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.128Z"
+    },
+    "05035": {
+      "n": "Crittenden County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.128Z"
+    },
+    "05037": {
+      "n": "Cross County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.128Z"
+    },
+    "05039": {
+      "n": "Dallas County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.129Z"
+    },
+    "05041": {
+      "n": "Desha County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.129Z"
+    },
+    "05043": {
+      "n": "Drew County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T13:36:42.129Z"
     }
   }
 }
