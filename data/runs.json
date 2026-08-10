@@ -1,6 +1,28 @@
 {
   "runs": [
     {
+      "started": "2026-08-10T22:49:30.990Z",
+      "fetched": 1863,
+      "notModified": 0,
+      "dropped": {
+        "prefilter": 96,
+        "outside_window": 1767
+      },
+      "published": 0,
+      "escalated": 0,
+      "reviewed": 0,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "google-news"
+      ],
+      "finished": "2026-08-10T22:49:40.986Z",
+      "newClusters": 0
+    },
+    {
       "started": "2026-08-10T21:52:04.801Z",
       "fetched": 1935,
       "notModified": 0,

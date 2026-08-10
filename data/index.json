@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T21:53:18.202Z",
+  "generated": "2026-08-10T22:49:40.986Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "24510": {
@@ -7,21 +7,21 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T21:53:18.197Z"
+      "t": "2026-08-10T22:49:40.978Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T21:53:18.196Z"
+      "t": "2026-08-10T22:49:40.977Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T21:53:18.195Z"
+      "t": "2026-08-10T22:49:40.976Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -1751,6 +1751,139 @@
       "c": 0,
       "sev": null,
       "t": "2026-08-10T21:53:18.201Z"
+    },
+    "08007": {
+      "n": "Archuleta County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.978Z"
+    },
+    "08009": {
+      "n": "Baca County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.979Z"
+    },
+    "08011": {
+      "n": "Bent County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.979Z"
+    },
+    "08013": {
+      "n": "Boulder County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.980Z"
+    },
+    "08014": {
+      "n": "Broomfield County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.980Z"
+    },
+    "08015": {
+      "n": "Chaffee County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.980Z"
+    },
+    "08017": {
+      "n": "Cheyenne County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.981Z"
+    },
+    "08019": {
+      "n": "Clear Creek County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.981Z"
+    },
+    "08021": {
+      "n": "Conejos County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.982Z"
+    },
+    "08023": {
+      "n": "Costilla County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.982Z"
+    },
+    "08025": {
+      "n": "Crowley County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.982Z"
+    },
+    "08027": {
+      "n": "Custer County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.983Z"
+    },
+    "08029": {
+      "n": "Delta County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.983Z"
+    },
+    "08031": {
+      "n": "Denver County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.983Z"
+    },
+    "08033": {
+      "n": "Dolores County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.984Z"
+    },
+    "08035": {
+      "n": "Douglas County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.984Z"
+    },
+    "08037": {
+      "n": "Eagle County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.984Z"
+    },
+    "08039": {
+      "n": "Elbert County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.985Z"
+    },
+    "08041": {
+      "n": "El Paso County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T22:49:40.985Z"
     }
   }
 }
