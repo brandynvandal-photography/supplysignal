@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T15:10:15.432Z",
+  "generated": "2026-08-10T17:03:30.035Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "24510": {
@@ -7,21 +7,21 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.425Z"
+      "t": "2026-08-10T17:03:30.030Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.424Z"
+      "t": "2026-08-10T17:03:30.029Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.423Z"
+      "t": "2026-08-10T17:03:30.028Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -1086,6 +1086,139 @@
       "c": 0,
       "sev": null,
       "t": "2026-08-10T15:10:15.431Z"
+    },
+    "05083": {
+      "n": "Logan County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.030Z"
+    },
+    "05085": {
+      "n": "Lonoke County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.031Z"
+    },
+    "05087": {
+      "n": "Madison County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.031Z"
+    },
+    "05089": {
+      "n": "Marion County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.031Z"
+    },
+    "05091": {
+      "n": "Miller County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.031Z"
+    },
+    "05093": {
+      "n": "Mississippi County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.032Z"
+    },
+    "05095": {
+      "n": "Monroe County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.032Z"
+    },
+    "05097": {
+      "n": "Montgomery County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.032Z"
+    },
+    "05099": {
+      "n": "Nevada County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.032Z"
+    },
+    "05101": {
+      "n": "Newton County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.033Z"
+    },
+    "05103": {
+      "n": "Ouachita County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.033Z"
+    },
+    "05105": {
+      "n": "Perry County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.033Z"
+    },
+    "05107": {
+      "n": "Phillips County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.033Z"
+    },
+    "05109": {
+      "n": "Pike County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.034Z"
+    },
+    "05111": {
+      "n": "Poinsett County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.034Z"
+    },
+    "05113": {
+      "n": "Polk County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.034Z"
+    },
+    "05115": {
+      "n": "Pope County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.034Z"
+    },
+    "05117": {
+      "n": "Prairie County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.034Z"
+    },
+    "05119": {
+      "n": "Pulaski County",
+      "s": "AR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T17:03:30.035Z"
     }
   }
 }
