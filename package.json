@@ -1,0 +1,20 @@
+{
+  "name": "supplysignal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "County-level drug supply alerts aggregated from public sources",
+  "scripts": {
+    "ingest": "node src/ingest.mjs",
+    "dry": "DRY_RUN=1 node src/ingest.mjs",
+    "age": "node src/age.mjs",
+    "test": "node test/pipeline.test.mjs && node test/locate.test.mjs",
+    "build:shapes": "node scripts/build-shapes.mjs"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "recency": {
+    "windowDays": 365,
+    "defaultWindowDays": 90,
+    "googleNewsWindow": "when:30d",
+    "dropUndated": true,
+    "dropForeignYears": true
+  },
+  "classifier": {
+    "publishFloor": 0.70,
+    "escalateBand": [0.35, 0.70],
+    "reviewFloor": 0.35
+  },
+  "llm": {
+    "enabled": true,
+    "model": "claude-haiku-4-5-20251001",
+    "maxItemsPerRun": 60,
+    "itemsPerCall": 10,
+    "useBatchApi": false,
+    "note": "Escalation only. Items scoring inside escalateBand get one cheap structured call. No web search tool is ever used - that is the expensive part."
+  },
+  "polling": {
+    "coldRotationPerRun": 19,
+    "maxWatchedPerRun": 120,
+    "requestDelayMs": 1500,
+    "userAgent": "SupplySignal/1.0 (public health alert aggregator; +https://github.com/OWNER/supplysignal)"
+  },
+  "dedupe": {
+    "clusterWindowDays": 7,
+    "trigramThreshold": 0.55
+  }
+}

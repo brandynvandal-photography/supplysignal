@@ -1,0 +1,43 @@
+name: maintain
+
+on:
+  schedule:
+    - cron: '30 3 * * *'    # nightly: age out alerts past the window
+    - cron: '17 4 * * SUN'  # weekly: keepalive commit
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  maintain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Age out stale alerts (Gate 3, nightly pass)
+        run: node src/age.mjs
+
+      # GitHub disables scheduled workflows in public repos after 60 days with
+      # no repository activity. Hourly ingest commits normally cover this, but a
+      # long quiet stretch produces no commits — so touch a marker weekly.
+      - name: Keepalive marker
+        run: |
+          mkdir -p .github
+          date -u +%FT%TZ > .github/last-activity
+
+      - name: Commit
+        run: |
+          git config user.name  "supplysignal-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ archive/ .github/last-activity
+          if git diff --staged --quiet; then
+            echo "no changes"
+          else
+            git commit -m "maintain: $(date -u +%FT%TZ)"
+            git push
+          fi

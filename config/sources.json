@@ -1,0 +1,63 @@
+{
+  "_comment": "trust: 1 = official health authority, 2 = established news, 3 = aggregator. Add state feeds here; no code change needed. Verify each URL before enabling.",
+  "feeds": [
+    {
+      "id": "cdc-han",
+      "name": "CDC Health Alert Network",
+      "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
+      "kind": "rss",
+      "trust": 1,
+      "scope": { "level": "national" },
+      "enabled": true
+    },
+    {
+      "id": "cdc-newsroom",
+      "name": "CDC Newsroom",
+      "url": "https://tools.cdc.gov/api/v2/resources/media/316422.rss",
+      "kind": "rss",
+      "trust": 1,
+      "scope": { "level": "national" },
+      "enabled": true
+    },
+    {
+      "id": "tn-doh",
+      "name": "Tennessee Department of Health",
+      "url": "https://www.tn.gov/health/news.rss",
+      "kind": "rss",
+      "trust": 1,
+      "scope": { "level": "state", "state": "TN" },
+      "enabled": false
+    },
+    {
+      "id": "or-oha",
+      "name": "Oregon Health Authority",
+      "url": "https://www.oregon.gov/oha/news/RSS/newsroom.xml",
+      "kind": "rss",
+      "trust": 1,
+      "scope": { "level": "state", "state": "OR" },
+      "enabled": false
+    },
+    {
+      "id": "md-mdh",
+      "name": "Maryland Department of Health",
+      "url": "https://health.maryland.gov/newsroom/rss.xml",
+      "kind": "rss",
+      "trust": 1,
+      "scope": { "level": "state", "state": "MD" },
+      "enabled": false
+    }
+  ],
+  "googleNews": {
+    "enabled": true,
+    "template": "https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en",
+    "windowOperator": "when:30d",
+    "trust": 2,
+    "minIntervalMs": 1500
+  },
+  "gdelt": {
+    "enabled": true,
+    "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc",
+    "trust": 3,
+    "minIntervalMs": 2000
+  }
+}
