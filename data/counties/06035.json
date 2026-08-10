@@ -1,10 +1,10 @@
 {
-  "fips": "41051",
-  "name": "Multnomah County",
-  "state": "OR",
+  "fips": "06035",
+  "name": "Lassen County",
+  "state": "CA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T19:10:29.116Z",
+    "lastScan": "2026-08-10T19:10:29.121Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],

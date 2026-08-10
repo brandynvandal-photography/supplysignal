@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T17:57:46.367Z",
+  "generated": "2026-08-10T19:10:29.123Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "24510": {
@@ -7,21 +7,21 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T17:57:46.360Z"
+      "t": "2026-08-10T19:10:29.116Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T17:57:46.359Z"
+      "t": "2026-08-10T19:10:29.116Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T17:57:46.358Z"
+      "t": "2026-08-10T19:10:29.115Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -1352,6 +1352,139 @@
       "c": 0,
       "sev": null,
       "t": "2026-08-10T17:57:46.367Z"
+    },
+    "06009": {
+      "n": "Calaveras County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.117Z"
+    },
+    "06011": {
+      "n": "Colusa County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.117Z"
+    },
+    "06013": {
+      "n": "Contra Costa County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.118Z"
+    },
+    "06015": {
+      "n": "Del Norte County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.118Z"
+    },
+    "06017": {
+      "n": "El Dorado County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.118Z"
+    },
+    "06019": {
+      "n": "Fresno County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.119Z"
+    },
+    "06021": {
+      "n": "Glenn County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.119Z"
+    },
+    "06023": {
+      "n": "Humboldt County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.119Z"
+    },
+    "06025": {
+      "n": "Imperial County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.120Z"
+    },
+    "06027": {
+      "n": "Inyo County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.120Z"
+    },
+    "06029": {
+      "n": "Kern County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.120Z"
+    },
+    "06031": {
+      "n": "Kings County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.121Z"
+    },
+    "06033": {
+      "n": "Lake County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.121Z"
+    },
+    "06035": {
+      "n": "Lassen County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.121Z"
+    },
+    "06037": {
+      "n": "Los Angeles County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.121Z"
+    },
+    "06039": {
+      "n": "Madera County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.122Z"
+    },
+    "06041": {
+      "n": "Marin County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.122Z"
+    },
+    "06043": {
+      "n": "Mariposa County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.122Z"
+    },
+    "06045": {
+      "n": "Mendocino County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T19:10:29.123Z"
     }
   }
 }

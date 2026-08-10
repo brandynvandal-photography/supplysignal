@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10T17:57:46.369Z",
+  "updated": "2026-08-10T19:10:29.125Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -152,6 +152,28 @@
         "criticalMarkers": [],
         "elevatedMarkers": [],
         "score": 6
+      }
+    },
+    {
+      "title": "Memphis forward Brandon Clarke died from effects of heroin and cocaine, authorities say - KTLA",
+      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNMzZxLUpTTVVFbWp6V0ZMb01hT0UzR1JBcjVPRV9HYXNIRVFhZzlIaFFXeVpleVc5c015UElUM21LYk44R2swZkJxV2FLWkN0Wk9GbXZydHgyaFFtczR2cWktYktaclhMNDBOWVdoVDZKLWhGMno3R3VlNnRoWWo3bDBlemczblZnWmQ3cjlJcEJyWG9ZYVlqbFRYZ01aSjhXQXRfcTlvY3lXS0FpNjZwMUZra2NqVnFUdjZVR0Y3V19xZ9IBxwFBVV95cUxQQWFPb1pJVm5wS3ZfZEdFZjJuRE54U0FfR3JuUHZrN2hYMHpiOHBCQk5jMHNQNjFpQk1XN21lRjRuNE14bk5nVlFVU1lGV05Yd1d5VFNNRDhpa01mdGtTZ1F1d3pFdjNqVjlmQnNKZDhqYWxueEQwNlgzVXlHbTd2N19veWNVam5INlQ4ek5BUmo2cU1pRDlhbDkwLUpBY3l0V1BTMVZGcFAya0RrMmc5Q1dMZllzNzlNWWFYYlhPWGVIQ3Roc1g4?oc=5",
+      "source": "KTLA",
+      "published": "2026-08-07T21:34:13.000Z",
+      "confidence": 0.5,
+      "audit": {
+        "substances": [
+          "heroin",
+          "cocaine"
+        ],
+        "events": [
+          "died"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "died"
+        ],
+        "elevatedMarkers": [],
+        "score": 6.5
       }
     }
   ]
