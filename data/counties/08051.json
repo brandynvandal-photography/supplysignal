@@ -1,10 +1,10 @@
 {
-  "fips": "41051",
-  "name": "Multnomah County",
-  "state": "OR",
+  "fips": "08051",
+  "name": "Gunnison County",
+  "state": "CO",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T23:45:31.123Z",
+    "lastScan": "2026-08-10T23:45:31.126Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],

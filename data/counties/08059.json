@@ -1,10 +1,10 @@
 {
-  "fips": "41051",
-  "name": "Multnomah County",
-  "state": "OR",
+  "fips": "08059",
+  "name": "Jefferson County",
+  "state": "CO",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T23:45:31.123Z",
+    "lastScan": "2026-08-10T23:45:31.128Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],

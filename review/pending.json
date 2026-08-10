@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10T21:53:18.203Z",
+  "updated": "2026-08-10T23:45:31.134Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -192,6 +192,73 @@
         ],
         "negatives": [],
         "criticalMarkers": [],
+        "elevatedMarkers": [],
+        "score": 6
+      }
+    },
+    {
+      "title": "DEA: Colorado fentanyl, meth seizures climb as overdose deaths rise 14% - KJCT",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPQTRoWVNQQThUcVZBLUZRMzZWdmJYRWxlUXNwNWdMX0tqbVdqS1IyQzlWdFFHTjVjM0NseXhnZVM3NWM2QU0zT3JaY1hJNnkxX3R5N2hLT2JQWjg4UGRyODNBSjJIaEV3ZFdXWFdxUHMyZXNraXZLSDZYel9WTkJ0b2thLS1pWlQtZkljVTRSc2ZURW9sR1JWTzV4MklPR01t0gG0AUFVX3lxTFBKZndoZVU5elIyb25rMkwtT2NaQWN2OFkxVlRTd0tvZ2xwcDdFb2dpNE1GZGxPVjJwV0VnRWVnMjFGNThLRVBlcUhRbkRJUXZpN2FsTFpRT2NES3BTR3Ztb0xOYjFibG5hc1VTNTVQcFBiNVR6TF9GbG1HbTZVbnB3NVlmeTdRb3lDOFFaWXlTWklKb3JJTThJTk50NVo5bThCc3k3alE0QlFua1BYNWtURU4weQ?oc=5",
+      "source": "KJCT",
+      "published": "2026-08-07T05:00:17.000Z",
+      "confidence": 0.6153846153846154,
+      "audit": {
+        "substances": [
+          "fentanyl",
+          "meth"
+        ],
+        "events": [
+          "overdose",
+          "deaths"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "deaths"
+        ],
+        "elevatedMarkers": [],
+        "score": 8
+      }
+    },
+    {
+      "title": "How a rural Utah community hit hard by overdose deaths is responding to fentanyl - FOX 13 News Utah",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOS2JEaEZHd2ZJU1FqXzFJTV9zYkQtZmhOSnhKSkRkOWNNdDJkbm9LQkRncVVnVWEta3FwalhwcG9qbTkwNV9uTzRoRHMzWXlDN0hQMnFlMXQzVEdRcHdzVUtXbXVGTURfRFlNV09meXJCdUNtRVVBcnRpSWtWNWVKdkZvdXRlQmh1MTl2dzIybWEzdklqSWRqTmVkY0VtaDB5Y3RnVWdmN0NEU19mLWhHQ0tQZ1E?oc=5",
+      "source": "FOX 13 News Utah",
+      "published": "2026-07-30T07:00:00.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "fentanyl"
+        ],
+        "events": [
+          "overdose",
+          "deaths"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "deaths"
+        ],
+        "elevatedMarkers": [],
+        "score": 6
+      }
+    },
+    {
+      "title": "How a rural Utah community hit hard by overdose deaths is responding to fentanyl - FOX 13 News Utah",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOS2JEaEZHd2ZJU1FqXzFJTV9zYkQtZmhOSnhKSkRkOWNNdDJkbm9LQkRncVVnVWEta3FwalhwcG9qbTkwNV9uTzRoRHMzWXlDN0hQMnFlMXQzVEdRcHdzVUtXbXVGTURfRFlNV09meXJCdUNtRVVBcnRpSWtWNWVKdkZvdXRlQmh1MTl2dzIybWEzdklqSWRqTmVkY0VtaDB5Y3RnVWdmN0NEU19mLWhHQ0tQZ1E?oc=5",
+      "source": "FOX 13 News Utah",
+      "published": "2026-07-30T07:00:00.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "fentanyl"
+        ],
+        "events": [
+          "overdose",
+          "deaths"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "deaths"
+        ],
         "elevatedMarkers": [],
         "score": 6
       }
