@@ -1,10 +1,10 @@
 {
-  "fips": "24510",
-  "name": "Baltimore city",
-  "state": "MD",
+  "fips": "01101",
+  "name": "Montgomery County",
+  "state": "AL",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T05:42:03.562Z",
+    "lastScan": "2026-08-10T05:42:03.566Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],

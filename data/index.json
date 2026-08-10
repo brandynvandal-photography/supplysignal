@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T04:05:59.922Z",
+  "generated": "2026-08-10T05:42:03.568Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "24510": {
@@ -7,21 +7,21 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T04:05:59.888Z"
+      "t": "2026-08-10T05:42:03.562Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T04:05:59.885Z"
+      "t": "2026-08-10T05:42:03.561Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T04:05:59.882Z"
+      "t": "2026-08-10T05:42:03.560Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -288,6 +288,139 @@
       "c": 0,
       "sev": null,
       "t": "2026-08-10T04:05:59.920Z"
+    },
+    "01077": {
+      "n": "Lauderdale County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.563Z"
+    },
+    "01079": {
+      "n": "Lawrence County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.563Z"
+    },
+    "01081": {
+      "n": "Lee County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.563Z"
+    },
+    "01083": {
+      "n": "Limestone County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.564Z"
+    },
+    "01085": {
+      "n": "Lowndes County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.564Z"
+    },
+    "01087": {
+      "n": "Macon County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.564Z"
+    },
+    "01089": {
+      "n": "Madison County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.564Z"
+    },
+    "01091": {
+      "n": "Marengo County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.565Z"
+    },
+    "01093": {
+      "n": "Marion County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.565Z"
+    },
+    "01095": {
+      "n": "Marshall County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.565Z"
+    },
+    "01097": {
+      "n": "Mobile County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.566Z"
+    },
+    "01099": {
+      "n": "Monroe County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.566Z"
+    },
+    "01101": {
+      "n": "Montgomery County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.566Z"
+    },
+    "01103": {
+      "n": "Morgan County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.567Z"
+    },
+    "01105": {
+      "n": "Perry County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.567Z"
+    },
+    "01107": {
+      "n": "Pickens County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.567Z"
+    },
+    "01109": {
+      "n": "Pike County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.567Z"
+    },
+    "01111": {
+      "n": "Randolph County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.568Z"
+    },
+    "01113": {
+      "n": "Russell County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T05:42:03.568Z"
     }
   }
 }
