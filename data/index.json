@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T05:42:03.568Z",
+  "generated": "2026-08-10T07:59:23.498Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "24510": {
@@ -7,21 +7,21 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T05:42:03.562Z"
+      "t": "2026-08-10T07:59:23.490Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T05:42:03.561Z"
+      "t": "2026-08-10T07:59:23.489Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T05:42:03.560Z"
+      "t": "2026-08-10T07:59:23.488Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -421,6 +421,139 @@
       "c": 0,
       "sev": null,
       "t": "2026-08-10T05:42:03.568Z"
+    },
+    "01115": {
+      "n": "St. Clair County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.491Z"
+    },
+    "01117": {
+      "n": "Shelby County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.491Z"
+    },
+    "01119": {
+      "n": "Sumter County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.491Z"
+    },
+    "01121": {
+      "n": "Talladega County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.492Z"
+    },
+    "01123": {
+      "n": "Tallapoosa County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.492Z"
+    },
+    "01125": {
+      "n": "Tuscaloosa County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.493Z"
+    },
+    "01127": {
+      "n": "Walker County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.493Z"
+    },
+    "01129": {
+      "n": "Washington County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.493Z"
+    },
+    "01131": {
+      "n": "Wilcox County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.494Z"
+    },
+    "01133": {
+      "n": "Winston County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.494Z"
+    },
+    "02013": {
+      "n": "Aleutians East Borough",
+      "s": "AK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.495Z"
+    },
+    "02016": {
+      "n": "Aleutians West Census Area",
+      "s": "AK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.495Z"
+    },
+    "02020": {
+      "n": "Anchorage Municipality",
+      "s": "AK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.495Z"
+    },
+    "02050": {
+      "n": "Bethel Census Area",
+      "s": "AK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.496Z"
+    },
+    "02060": {
+      "n": "Bristol Bay Borough",
+      "s": "AK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.496Z"
+    },
+    "02068": {
+      "n": "Denali Borough",
+      "s": "AK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.496Z"
+    },
+    "02070": {
+      "n": "Dillingham Census Area",
+      "s": "AK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.497Z"
+    },
+    "02090": {
+      "n": "Fairbanks North Star Borough",
+      "s": "AK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.497Z"
+    },
+    "02100": {
+      "n": "Haines Borough",
+      "s": "AK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T07:59:23.497Z"
     }
   }
 }
