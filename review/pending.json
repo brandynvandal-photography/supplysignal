@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10T13:36:42.131Z",
+  "updated": "2026-08-10T17:57:46.369Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -89,6 +89,69 @@
         ],
         "elevatedMarkers": [],
         "score": 8
+      }
+    },
+    {
+      "title": "Brandon Clarke’s death ruled accidental overdose of cocaine, heroin - The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQNnVsSWdDTDlCcFJITEdyS1M1QWhIWHdVblQ2MUF0cWdQQnJnd3NJX2JYTlN0LU5iajZZYmFiX1NpeVBqZ2ZfNEJMV2dpMGJ4WTFnOXd2X0hUZ1ZnMGxtUmU4X2lMcmlCRWk1eW1Bazg5NXBiakxBR3NwNXZLRlloRENtT3pheExNOUtWMHpBMnk1WThSSGtkVzZpN0ZBdw?oc=5",
+      "source": "The New York Times",
+      "published": "2026-08-07T22:06:10.000Z",
+      "confidence": 0.5,
+      "audit": {
+        "substances": [
+          "heroin",
+          "cocaine"
+        ],
+        "events": [
+          "overdose"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [],
+        "score": 6.5
+      }
+    },
+    {
+      "title": "Grizzlies' Brandon Clarke Died From Cocaine And Heroin Overdose, Says L.A. County Medical Examiner - Fadeaway World",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOcHlEVVNySVc4eWxRYTZrQlF0NWlXeEZlTjk3bjdkdXZWRGJxTjQtNk1SNGtuZzlJbF9XSkF1c0I1cjB5UFdqS0xBWkhPMkgtbkhSWEZfVmhCSnI0TUl0UmlLQjJGUWVxRGxxWkxETU5WV29zWl96amZqaUZzdkhYbWRkdUhrM1lNWnF2TktpQTYwTU5JUGctOWNzSUtzcWRpS1ptRVF5YU1tTnJ5dWFWVmFUeEtLUW93N1JVR2VKcVJfZTJFY19XTExFWkU5dWZLOXlsNmNKdlpicFk?oc=5",
+      "source": "Fadeaway World",
+      "published": "2026-08-08T03:23:34.000Z",
+      "confidence": 0.6153846153846154,
+      "audit": {
+        "substances": [
+          "heroin",
+          "cocaine"
+        ],
+        "events": [
+          "overdose",
+          "died"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "died"
+        ],
+        "elevatedMarkers": [],
+        "score": 8
+      }
+    },
+    {
+      "title": "Oakland Mother Faces Child Abuse Charges After 5-Year-Old Overdoses On Fentanyl: Report - Patch",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPdkcyS2NSeGFxWFVLRFRhZTNtU0J0cEJXNXdlUHlGbFptV25HMlEyOE55MkdzRVdVYW9DTVlpTi1rNTFUM2wtSkR5NHhrMjh3RjlSSUs4UmRLbHhEaTJXc1FpRXVpSzllUG9ieUFlZFJkMjRCRjdkOS01dURCQ3hEdEhqMkdqbC04M3J1NGJqTU4yTGlBaWM1RVQzb3I5cVlXSHhaanNuVS1LWS1WbzI0OERpUdIB0gFBVV95cUxQVjZfZ003TmJmSHNNMmx3cEJsenRtRi1mUDNOM2dDWkZJWHpFM2hRbktpY1hCdFdKa3lETnpfZEY5V1RyQmtvZlYySHR6RDVyNS10RmZLS2xNMWdiUVRwc2l2a1VzOFFGa2NSemZKUi02Q3lTQnNKUEFZVzNIeVlRajZVaXEtV2lZemh1WTdRa2gtWDJMeUUtZWs3QUxOTFZXc2x0a2FGMjB1ZWVuelVndzFKUk9LdlY4UXZ2M1Z5bU5FOWdpY2V4REJhVU1NY1RKUUE?oc=5",
+      "source": "Patch",
+      "published": "2026-08-06T18:12:50.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "fentanyl"
+        ],
+        "events": [
+          "overdose",
+          "overdoses"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [],
+        "score": 6
       }
     }
   ]

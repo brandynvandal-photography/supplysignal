@@ -1,10 +1,10 @@
 {
-  "fips": "41051",
-  "name": "Multnomah County",
-  "state": "OR",
+  "fips": "06003",
+  "name": "Alpine County",
+  "state": "CA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T17:57:46.359Z",
+    "lastScan": "2026-08-10T17:57:46.366Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],
