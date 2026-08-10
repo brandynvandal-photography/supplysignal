@@ -1,0 +1,15 @@
+{
+  "fips": "01021",
+  "name": "Chilton County",
+  "state": "AL",
+  "clusters": [],
+  "coverage": {
+    "lastScan": "2026-08-10T02:09:56.486Z",
+    "windowDays": 365,
+    "sourcesChecked": 3,
+    "sourcesFailed": [],
+    "scanned": true,
+    "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
+  },
+  "newSinceLastRun": []
+}

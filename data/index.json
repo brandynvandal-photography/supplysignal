@@ -1,1 +1,160 @@
-{"generated":null,"counties":{}}
+{
+  "generated": "2026-08-10T02:09:56.490Z",
+  "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
+  "counties": {
+    "24510": {
+      "n": "Baltimore city",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.482Z"
+    },
+    "41051": {
+      "n": "Multnomah County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.481Z"
+    },
+    "47065": {
+      "n": "Hamilton County",
+      "s": "TN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.480Z"
+    },
+    "01001": {
+      "n": "Autauga County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.482Z"
+    },
+    "01003": {
+      "n": "Baldwin County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.482Z"
+    },
+    "01005": {
+      "n": "Barbour County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.483Z"
+    },
+    "01007": {
+      "n": "Bibb County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.483Z"
+    },
+    "01009": {
+      "n": "Blount County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.483Z"
+    },
+    "01011": {
+      "n": "Bullock County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.484Z"
+    },
+    "01013": {
+      "n": "Butler County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.484Z"
+    },
+    "01015": {
+      "n": "Calhoun County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.485Z"
+    },
+    "01017": {
+      "n": "Chambers County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.485Z"
+    },
+    "01019": {
+      "n": "Cherokee County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.485Z"
+    },
+    "01021": {
+      "n": "Chilton County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.486Z"
+    },
+    "01023": {
+      "n": "Choctaw County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.487Z"
+    },
+    "01025": {
+      "n": "Clarke County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.487Z"
+    },
+    "01027": {
+      "n": "Clay County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.487Z"
+    },
+    "01029": {
+      "n": "Cleburne County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.488Z"
+    },
+    "01031": {
+      "n": "Coffee County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.488Z"
+    },
+    "01033": {
+      "n": "Colbert County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.489Z"
+    },
+    "01035": {
+      "n": "Conecuh County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.489Z"
+    },
+    "01037": {
+      "n": "Coosa County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T02:09:56.490Z"
+    }
+  }
+}

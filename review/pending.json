@@ -1,1 +1,27 @@
-{"items":[]}
+{
+  "updated": "2026-08-10T02:09:56.492Z",
+  "items": [
+    {
+      "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
+      "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNQ2lwNG12M05qUGg1c0dhRkhFWV8wcVpWVGZ0R3dXbk5MSzh3ck5ObHcwRHZsd292UEd1RUpucktkSjRBN3QzQW1oSXRfemNpLVM5aGZELThMQ19peTFVZjh4UnV6QjNzV01EY2VkbUxtMkp6b3IzenNibDhKU0Qxa3BVRW4ybVBMc1N4bjlDalBWZWNZZ21vUEgtMnA5M21GWm9LSEdYWnlmSUhBRi1TRnVEckQ2OEFHZlplWlB0b1VBZnpEdk00dVBGaGFPWXlIdC1ZcW84RnNZbjlrbXRyNtIB4AFBVV95cUxNQ2lwNG12M05qUGg1c0dhRkhFWV8wcVpWVGZ0R3dXbk5MSzh3ck5ObHcwRHZsd292UEd1RUpucktkSjRBN3QzQW1oSXRfemNpLVM5aGZELThMQ19peTFVZjh4UnV6QjNzV01EY2VkbUxtMkp6b3IzenNibDhKU0Qxa3BVRW4ybVBMc1N4bjlDalBWZWNZZ21vUEgtMnA5M21GWm9LSEdYWnlmSUhBRi1TRnVEckQ2OEFHZlplWlB0b1VBZnpEdk00dVBGaGFPWXlIdC1ZcW84RnNZbjlrbXRyNg?oc=5",
+      "source": "breitbart.com",
+      "published": "2026-08-08T15:20:35.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "meth"
+        ],
+        "events": [
+          "positive for",
+          "testing positive"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [
+          "positive for"
+        ],
+        "score": 6
+      }
+    }
+  ]
+}
