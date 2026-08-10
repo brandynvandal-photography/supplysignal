@@ -1,10 +1,10 @@
 {
-  "fips": "24510",
-  "name": "Baltimore city",
-  "state": "MD",
+  "fips": "04001",
+  "name": "Apache County",
+  "state": "AZ",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T11:17:19.139Z",
+    "lastScan": "2026-08-10T11:17:19.140Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],
