@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T02:09:56.490Z",
+  "generated": "2026-08-10T04:05:59.922Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "24510": {
@@ -7,21 +7,21 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T02:09:56.482Z"
+      "t": "2026-08-10T04:05:59.888Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T02:09:56.481Z"
+      "t": "2026-08-10T04:05:59.885Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T02:09:56.480Z"
+      "t": "2026-08-10T04:05:59.882Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -155,6 +155,139 @@
       "c": 0,
       "sev": null,
       "t": "2026-08-10T02:09:56.490Z"
+    },
+    "01039": {
+      "n": "Covington County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.891Z"
+    },
+    "01041": {
+      "n": "Crenshaw County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.893Z"
+    },
+    "01043": {
+      "n": "Cullman County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.895Z"
+    },
+    "01045": {
+      "n": "Dale County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.896Z"
+    },
+    "01047": {
+      "n": "Dallas County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.898Z"
+    },
+    "01049": {
+      "n": "DeKalb County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.900Z"
+    },
+    "01051": {
+      "n": "Elmore County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.902Z"
+    },
+    "01053": {
+      "n": "Escambia County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.904Z"
+    },
+    "01055": {
+      "n": "Etowah County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.905Z"
+    },
+    "01057": {
+      "n": "Fayette County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.907Z"
+    },
+    "01059": {
+      "n": "Franklin County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.909Z"
+    },
+    "01061": {
+      "n": "Geneva County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.911Z"
+    },
+    "01063": {
+      "n": "Greene County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.913Z"
+    },
+    "01065": {
+      "n": "Hale County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.914Z"
+    },
+    "01067": {
+      "n": "Henry County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.915Z"
+    },
+    "01069": {
+      "n": "Houston County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.917Z"
+    },
+    "01071": {
+      "n": "Jackson County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.918Z"
+    },
+    "01073": {
+      "n": "Jefferson County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.919Z"
+    },
+    "01075": {
+      "n": "Lamar County",
+      "s": "AL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T04:05:59.920Z"
     }
   }
 }
