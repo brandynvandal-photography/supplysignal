@@ -1,10 +1,10 @@
 {
-  "fips": "24510",
-  "name": "Baltimore city",
-  "state": "MD",
+  "fips": "06105",
+  "name": "Trinity County",
+  "state": "CA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T21:53:18.197Z",
+    "lastScan": "2026-08-10T21:53:18.200Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],

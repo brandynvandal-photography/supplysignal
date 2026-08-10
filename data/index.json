@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T20:56:06.732Z",
+  "generated": "2026-08-10T21:53:18.202Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "24510": {
@@ -7,21 +7,21 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T20:56:06.724Z"
+      "t": "2026-08-10T21:53:18.197Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T20:56:06.723Z"
+      "t": "2026-08-10T21:53:18.196Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T20:56:06.722Z"
+      "t": "2026-08-10T21:53:18.195Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -1618,6 +1618,139 @@
       "c": 0,
       "sev": null,
       "t": "2026-08-10T20:56:06.731Z"
+    },
+    "06085": {
+      "n": "Santa Clara County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.197Z"
+    },
+    "06087": {
+      "n": "Santa Cruz County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.198Z"
+    },
+    "06089": {
+      "n": "Shasta County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.198Z"
+    },
+    "06091": {
+      "n": "Sierra County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.198Z"
+    },
+    "06093": {
+      "n": "Siskiyou County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.198Z"
+    },
+    "06095": {
+      "n": "Solano County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.199Z"
+    },
+    "06097": {
+      "n": "Sonoma County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.199Z"
+    },
+    "06099": {
+      "n": "Stanislaus County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.199Z"
+    },
+    "06101": {
+      "n": "Sutter County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.199Z"
+    },
+    "06103": {
+      "n": "Tehama County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.200Z"
+    },
+    "06105": {
+      "n": "Trinity County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.200Z"
+    },
+    "06107": {
+      "n": "Tulare County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.200Z"
+    },
+    "06109": {
+      "n": "Tuolumne County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.200Z"
+    },
+    "06111": {
+      "n": "Ventura County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.200Z"
+    },
+    "06113": {
+      "n": "Yolo County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.201Z"
+    },
+    "06115": {
+      "n": "Yuba County",
+      "s": "CA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.201Z"
+    },
+    "08001": {
+      "n": "Adams County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.201Z"
+    },
+    "08003": {
+      "n": "Alamosa County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.201Z"
+    },
+    "08005": {
+      "n": "Arapahoe County",
+      "s": "CO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-10T21:53:18.201Z"
     }
   }
 }

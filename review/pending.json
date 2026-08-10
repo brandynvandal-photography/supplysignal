@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10T19:10:29.125Z",
+  "updated": "2026-08-10T21:53:18.203Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -174,6 +174,26 @@
         ],
         "elevatedMarkers": [],
         "score": 6.5
+      }
+    },
+    {
+      "title": "Soulsbyville woman gets 7 years in prison after jailhouse fentanyl overdoses - The Union Democrat",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQaHh0blpLN2dvV0t5cm9KRUVMdEhHZHV0WjV0cGVUZFlUY3JjX1ZXVm9IUC1ZQ0xFbjh6bExPc1ZiaUpDNkMwcGJRX2hEeW80M3dTNS1zODZRQi1kX0c4aHVvOV9rTlRhblg2eVdOMFZ1d0JMRnpUeDRMaHM3MzJkMHQzM2VfOUF5dk9JTg?oc=5",
+      "source": "The Union Democrat",
+      "published": "2026-08-04T01:05:00.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "fentanyl"
+        ],
+        "events": [
+          "overdose",
+          "overdoses"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [],
+        "score": 6
       }
     }
   ]
