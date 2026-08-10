@@ -1,10 +1,10 @@
 {
-  "fips": "24510",
-  "name": "Baltimore city",
-  "state": "MD",
+  "fips": "06057",
+  "name": "Nevada County",
+  "state": "CA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T20:56:06.724Z",
+    "lastScan": "2026-08-10T20:56:06.727Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],

@@ -1,6 +1,27 @@
 {
   "runs": [
     {
+      "started": "2026-08-10T20:54:52.094Z",
+      "fetched": 1991,
+      "notModified": 0,
+      "dropped": {
+        "prefilter": 219,
+        "outside_window": 1767,
+        "low_confidence": 5
+      },
+      "published": 0,
+      "escalated": 0,
+      "reviewed": 0,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [],
+      "finished": "2026-08-10T20:56:06.732Z",
+      "newClusters": 0
+    },
+    {
       "started": "2026-08-10T19:09:13.620Z",
       "fetched": 1982,
       "notModified": 0,
