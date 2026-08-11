@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10T23:45:31.134Z",
+  "updated": "2026-08-11T04:36:04.112Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -261,6 +261,28 @@
         ],
         "elevatedMarkers": [],
         "score": 6
+      }
+    },
+    {
+      "title": "Cocaine, fentanyl and PFAS detected in Connecticut wastewater, researchers say - CT Insider",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOZzhsYWRpRmRVcmc2TDZ2d0pwbk1WNmtMakF1WDZUd2RncC1VZF9Ga2d1QURwVnVmWnlxakYwUVFJcHR5UlVqRmRraHZqVmN1czhxUkpDYUR3cDJlZ3ZxVWgzUWF4akxBaVlfR3prczI3WTZWU29sTGdPNUIwOGNyckcycEZVcU93eDJzVjExYXJDY3A0cGNjamw2bE50TVBxRy1QdXNvOGVKbGM?oc=5",
+      "source": "CT Insider",
+      "published": "2026-08-10T09:03:05.000Z",
+      "confidence": 0.5,
+      "audit": {
+        "substances": [
+          "fentanyl",
+          "cocaine"
+        ],
+        "events": [
+          "detected"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [
+          "detected"
+        ],
+        "score": 6.5
       }
     }
   ]
