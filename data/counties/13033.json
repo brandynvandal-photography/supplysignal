@@ -1,10 +1,10 @@
 {
-  "fips": "24510",
-  "name": "Baltimore city",
-  "state": "MD",
+  "fips": "13033",
+  "name": "Burke County",
+  "state": "GA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-11T11:52:42.360Z",
+    "lastScan": "2026-08-11T11:52:42.362Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],
