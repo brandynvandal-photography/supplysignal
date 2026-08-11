@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11T07:22:34.328Z",
+  "generated": "2026-08-11T09:11:01.331Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -317,26 +317,159 @@
       "sev": null,
       "t": "2026-08-11T07:22:34.327Z"
     },
+    "12085": {
+      "n": "Martin County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.324Z"
+    },
+    "12086": {
+      "n": "Miami-Dade County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.324Z"
+    },
+    "12087": {
+      "n": "Monroe County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.324Z"
+    },
+    "12089": {
+      "n": "Nassau County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.325Z"
+    },
+    "12091": {
+      "n": "Okaloosa County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.325Z"
+    },
+    "12093": {
+      "n": "Okeechobee County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.326Z"
+    },
+    "12095": {
+      "n": "Orange County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.326Z"
+    },
+    "12097": {
+      "n": "Osceola County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.326Z"
+    },
+    "12099": {
+      "n": "Palm Beach County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.327Z"
+    },
+    "12101": {
+      "n": "Pasco County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.327Z"
+    },
+    "12103": {
+      "n": "Pinellas County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.328Z"
+    },
+    "12105": {
+      "n": "Polk County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.328Z"
+    },
+    "12107": {
+      "n": "Putnam County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.328Z"
+    },
+    "12109": {
+      "n": "St. Johns County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.329Z"
+    },
+    "12111": {
+      "n": "St. Lucie County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.329Z"
+    },
+    "12113": {
+      "n": "Santa Rosa County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.329Z"
+    },
+    "12115": {
+      "n": "Sarasota County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.330Z"
+    },
+    "12117": {
+      "n": "Seminole County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.330Z"
+    },
+    "12119": {
+      "n": "Sumter County",
+      "s": "FL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T09:11:01.330Z"
+    },
     "24510": {
       "n": "Baltimore city",
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T07:22:34.321Z"
+      "t": "2026-08-11T09:11:01.323Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T07:22:34.320Z"
+      "t": "2026-08-11T09:11:01.322Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T07:22:34.319Z"
+      "t": "2026-08-11T09:11:01.320Z"
     },
     "01001": {
       "n": "Autauga County",
