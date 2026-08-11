@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-11T20:58:43.936Z",
+  "updated": "2026-08-11T22:55:53.760Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -368,6 +368,26 @@
         "criticalMarkers": [
           "fatal"
         ],
+        "elevatedMarkers": [],
+        "score": 6
+      }
+    },
+    {
+      "title": "Vending machines with free public health supplies help fight opioid overdoses - KPVI",
+      "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxNM2lSelB0QzhSdEFNR0Z6QmJlUkhYSjc4cXNpZUNtd2hnLWxNRHpYeVNnT3dCNUVpWFFubk9rdlVnWGFQQmc4RzluS0g1dXZWczRZSk5rYjN2aUczbmdQUVVzUUQ5Q2VvQjJZS2JKbHc0NXNSU3lwRjhYMjh3VjRDNV9uQlVvMEdKNzZLaHR5S01qai1oNE1fRFY4SWF6RVZWMGlCdDV0Mm0tMk0zOUlsbUE0c1dFWGl0M0NLeHlpX29PVTBpdUJjclg0cEpGaWNVRU1lbXZGQlp5Wko1OWM2dVVMNjdRc29hZFdIeDhrb2MyM2lyMVVKZVk0NA?oc=5",
+      "source": "KPVI",
+      "published": "2026-08-07T13:00:04.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "opioid"
+        ],
+        "events": [
+          "overdose",
+          "overdoses"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
         "elevatedMarkers": [],
         "score": 6
       }

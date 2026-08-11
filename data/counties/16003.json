@@ -1,10 +1,10 @@
 {
-  "fips": "47065",
-  "name": "Hamilton County",
-  "state": "TN",
+  "fips": "16003",
+  "name": "Adams County",
+  "state": "ID",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-11T22:55:53.750Z",
+    "lastScan": "2026-08-11T22:55:53.752Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],

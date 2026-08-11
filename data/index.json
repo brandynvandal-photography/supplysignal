@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11T21:58:52.847Z",
+  "generated": "2026-08-11T22:55:53.758Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -1647,26 +1647,159 @@
       "sev": null,
       "t": "2026-08-11T21:58:52.847Z"
     },
+    "16001": {
+      "n": "Ada County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.752Z"
+    },
+    "16003": {
+      "n": "Adams County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.752Z"
+    },
+    "16005": {
+      "n": "Bannock County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.753Z"
+    },
+    "16007": {
+      "n": "Bear Lake County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.753Z"
+    },
+    "16009": {
+      "n": "Benewah County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.753Z"
+    },
+    "16011": {
+      "n": "Bingham County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.754Z"
+    },
+    "16013": {
+      "n": "Blaine County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.754Z"
+    },
+    "16015": {
+      "n": "Boise County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.754Z"
+    },
+    "16017": {
+      "n": "Bonner County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.755Z"
+    },
+    "16019": {
+      "n": "Bonneville County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.755Z"
+    },
+    "16021": {
+      "n": "Boundary County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.755Z"
+    },
+    "16023": {
+      "n": "Butte County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.756Z"
+    },
+    "16025": {
+      "n": "Camas County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.756Z"
+    },
+    "16027": {
+      "n": "Canyon County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.756Z"
+    },
+    "16029": {
+      "n": "Caribou County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.756Z"
+    },
+    "16031": {
+      "n": "Cassia County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.757Z"
+    },
+    "16033": {
+      "n": "Clark County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.757Z"
+    },
+    "16035": {
+      "n": "Clearwater County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.757Z"
+    },
+    "16037": {
+      "n": "Custer County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T22:55:53.758Z"
+    },
     "24510": {
       "n": "Baltimore city",
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T21:58:52.840Z"
+      "t": "2026-08-11T22:55:53.751Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T21:58:52.840Z"
+      "t": "2026-08-11T22:55:53.751Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T21:58:52.839Z"
+      "t": "2026-08-11T22:55:53.750Z"
     },
     "01001": {
       "n": "Autauga County",
