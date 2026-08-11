@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-11T04:36:04.112Z",
+  "updated": "2026-08-11T07:22:34.330Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -283,6 +283,71 @@
           "detected"
         ],
         "score": 6.5
+      }
+    },
+    {
+      "title": "2 charged with murder after fentanyl overdose deaths in Tampa - WFLA",
+      "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOTHVOQ1p2dks3UFowRXg3X3ZhQ2ZUTHlLWUdwYTJaZDFIdzR0ZXVKRk1nWURXcnFFZnYyeW45eHNTNkZnODdfY2VlaVFtUXItdlQ4VE5YWU9BYndVMjVGRXAxWi1GRjIzaEVDZDBsNlYxVFQ0S2JCdmIycnJiaC0wYWN2VjhyWFN0SHlxVDg5MUZ5RHNnZ0c1NmV6SG9mZWhhMThRWmhWeDVWMENady1vXzU5SFdEZTA3RDNZVTIyZ19MWlhuVE5zRGhR0gHPAUFVX3lxTE5EWTNUNGk4MThBVWRyOXNqYU1DcWRCM3NWT1ZUajh0ZWx6UkhzV09VZEtGVTAxYWFxRWJiZ1ROa0FaMEFsMkFPdjBvMUlNcExOckR6ZXhremttVVVibUVEeVJhbVlXR21LODBZb1lqWmlrQVJUcUNRMWdnN0M3OHFIYTdJOTQxa2daakhmUGpkUDI0SVdkZ2Zqdkk5WURXYUpmSndxZDRpV2dSOHdQRDJnbENlN01OQS1pbFZBXzhCbTF6eW43ekt0ZU5CUEl4Zw?oc=5",
+      "source": "WFLA",
+      "published": "2026-08-10T17:22:36.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "fentanyl"
+        ],
+        "events": [
+          "overdose",
+          "deaths"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "deaths"
+        ],
+        "elevatedMarkers": [],
+        "score": 6
+      }
+    },
+    {
+      "title": "2 facing murder charges after Hillsborough County fentanyl overdoses - wtsp.com",
+      "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxPRmlRdk1IRHRfTnc1T294Ql9NMXRJaG5mUkpZNUYwU1g0VW1lVVhHMlFvZFJnRVVyRzVNbTZBOWVMdElWZC1Oa1dkdHh1dlVaQXo4RlNnR3R2czJJcGpiNVZQeTRrSGZiS0MxWXZNZ2tGcmdGMktsUWRsNjVrXy12QVQzLVpVbVp6M283djdhQmVDNnBmVXJSMExRbmVXMS16N25zcnE5TFUzS3Y5YXh0REY5OTZ2azJSSS1JWHhiZzFERlQ0Tjc1UmFEUTA2QlFIX2p1X0Zta3RnY0pzR1Vmd0xxY0tWRWx3cUN6MTZTQjRfRE9VdW5vMWdOek5QQQ?oc=5",
+      "source": "wtsp.com",
+      "published": "2026-08-10T17:43:00.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "fentanyl"
+        ],
+        "events": [
+          "overdose",
+          "overdoses"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [],
+        "score": 6
+      }
+    },
+    {
+      "title": "Fatal Pill Trap: Two Charged With Murder In Hillsborough County Fentanyl Overdoses - Tampa Free Press",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOdzdwaEp1QmxmRVRITDFrQUkzNTVuRVlWSFlLNlkwLUhYTktJcEwyMUdEY1BYX2s2Qks4ZkNBYW9PampDaWM3OXRaa3VSVGZjeWgwRlQ2U2RGWEFyd3dEYmdielRNbUFMOXF4MnJYQ3MtaFhLRTRLbmhJdmR2TTJtbWkwa3ZCMHZpRmRPSnVsRDZLYmZrQ0Z6SndwLWFWX25MeExmMHFMaDdpQQ?oc=5",
+      "source": "Tampa Free Press",
+      "published": "2026-08-10T18:34:01.000Z",
+      "confidence": 0.5769230769230769,
+      "audit": {
+        "substances": [
+          "fentanyl"
+        ],
+        "events": [
+          "overdose",
+          "overdoses",
+          "fatal"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "fatal"
+        ],
+        "elevatedMarkers": [],
+        "score": 7.5
       }
     }
   ]
