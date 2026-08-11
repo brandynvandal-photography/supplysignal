@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11T18:05:28.463Z",
+  "generated": "2026-08-11T19:16:30.468Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -1248,26 +1248,159 @@
       "sev": null,
       "t": "2026-08-11T18:05:28.463Z"
     },
+    "13219": {
+      "n": "Oconee County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.463Z"
+    },
+    "13221": {
+      "n": "Oglethorpe County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.463Z"
+    },
+    "13223": {
+      "n": "Paulding County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.464Z"
+    },
+    "13225": {
+      "n": "Peach County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.464Z"
+    },
+    "13227": {
+      "n": "Pickens County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.464Z"
+    },
+    "13229": {
+      "n": "Pierce County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.464Z"
+    },
+    "13231": {
+      "n": "Pike County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.465Z"
+    },
+    "13233": {
+      "n": "Polk County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.465Z"
+    },
+    "13235": {
+      "n": "Pulaski County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.465Z"
+    },
+    "13237": {
+      "n": "Putnam County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.465Z"
+    },
+    "13239": {
+      "n": "Quitman County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.466Z"
+    },
+    "13241": {
+      "n": "Rabun County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.466Z"
+    },
+    "13243": {
+      "n": "Randolph County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.466Z"
+    },
+    "13245": {
+      "n": "Richmond County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.467Z"
+    },
+    "13247": {
+      "n": "Rockdale County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.467Z"
+    },
+    "13249": {
+      "n": "Schley County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.467Z"
+    },
+    "13251": {
+      "n": "Screven County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.467Z"
+    },
+    "13253": {
+      "n": "Seminole County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.468Z"
+    },
+    "13255": {
+      "n": "Spalding County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T19:16:30.468Z"
+    },
     "24510": {
       "n": "Baltimore city",
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T18:05:28.458Z"
+      "t": "2026-08-11T19:16:30.463Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T18:05:28.457Z"
+      "t": "2026-08-11T19:16:30.462Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T18:05:28.456Z"
+      "t": "2026-08-11T19:16:30.461Z"
     },
     "01001": {
       "n": "Autauga County",
