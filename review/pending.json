@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-11T07:22:34.330Z",
+  "updated": "2026-08-11T13:26:02.670Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -348,6 +348,28 @@
         ],
         "elevatedMarkers": [],
         "score": 7.5
+      }
+    },
+    {
+      "title": "Man Accused of Selling Fentanyl That Caused Fatal Overdose — Coweta County - The Georgia Gazette",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOeENDck5uLU1feGF3ekhtazZlOXR1V1Y5RmE1OXZVOC1Ddlk0U29IUkctMnFpSDlzY25EeHRhblJVN2ZVMUdxeU9vQ2h1V19KNHNTQ1c5T3NpQXpxX2pqenB3NEhpMjFuVE1jdkV4NXgxMGlPWmxxTkFoX0tjdnBvb2FXdG9TQTBxR2YzTjdzbHV6VGFuaXl4aE5obEQ?oc=5",
+      "source": "The Georgia Gazette",
+      "published": "2026-07-13T07:00:00.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "fentanyl"
+        ],
+        "events": [
+          "overdose",
+          "fatal"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "fatal"
+        ],
+        "elevatedMarkers": [],
+        "score": 6
       }
     }
   ]
