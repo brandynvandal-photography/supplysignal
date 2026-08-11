@@ -1,10 +1,10 @@
 {
-  "fips": "24510",
-  "name": "Baltimore city",
-  "state": "MD",
+  "fips": "13131",
+  "name": "Grady County",
+  "state": "GA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-11T15:10:14.270Z",
+    "lastScan": "2026-08-11T15:10:14.275Z",
     "windowDays": 365,
     "sourcesChecked": 3,
     "sourcesFailed": [],

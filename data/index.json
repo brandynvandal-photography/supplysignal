@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11T13:26:02.669Z",
+  "generated": "2026-08-11T15:10:14.276Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -849,26 +849,159 @@
       "sev": null,
       "t": "2026-08-11T13:26:02.668Z"
     },
+    "13103": {
+      "n": "Effingham County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.271Z"
+    },
+    "13105": {
+      "n": "Elbert County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.271Z"
+    },
+    "13107": {
+      "n": "Emanuel County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.271Z"
+    },
+    "13109": {
+      "n": "Evans County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.272Z"
+    },
+    "13111": {
+      "n": "Fannin County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.272Z"
+    },
+    "13113": {
+      "n": "Fayette County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.272Z"
+    },
+    "13115": {
+      "n": "Floyd County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.272Z"
+    },
+    "13117": {
+      "n": "Forsyth County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.273Z"
+    },
+    "13119": {
+      "n": "Franklin County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.273Z"
+    },
+    "13121": {
+      "n": "Fulton County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.273Z"
+    },
+    "13123": {
+      "n": "Gilmer County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.274Z"
+    },
+    "13125": {
+      "n": "Glascock County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.274Z"
+    },
+    "13127": {
+      "n": "Glynn County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.274Z"
+    },
+    "13129": {
+      "n": "Gordon County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.274Z"
+    },
+    "13131": {
+      "n": "Grady County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.275Z"
+    },
+    "13133": {
+      "n": "Greene County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.275Z"
+    },
+    "13135": {
+      "n": "Gwinnett County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.275Z"
+    },
+    "13137": {
+      "n": "Habersham County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.275Z"
+    },
+    "13139": {
+      "n": "Hall County",
+      "s": "GA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-11T15:10:14.276Z"
+    },
     "24510": {
       "n": "Baltimore city",
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T13:26:02.661Z"
+      "t": "2026-08-11T15:10:14.270Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T13:26:02.661Z"
+      "t": "2026-08-11T15:10:14.270Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T13:26:02.659Z"
+      "t": "2026-08-11T15:10:14.268Z"
     },
     "01001": {
       "n": "Autauga County",
