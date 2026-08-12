@@ -283,13 +283,22 @@ async function renderFooterMeta() {
   /* The kindness bar: rendered once, above the content, and never touched
      again. Two rules it has to keep at the top of the screen that it did not
      have to keep at the bottom:
-       - It is STATIC. No rotation, no motion, no re-pick on navigation. A
-         changing line at the top of the page is a ticker, and a ticker draws
-         the eye of whoever else is in the room.
        - It is never on Emergency. Nothing may sit between someone and the
-         overdose steps, however kind it is. */
+         overdose steps, however kind it is.
+       - It cross-fades rather than scrolling, slowly. Peripheral vision is
+         drawn far more by movement than by a change in opacity, and this app
+         gets opened with other people in the room. See kindness.js.
+
+     TURNED OFF 2026-08-12, on purpose and reversibly. It occupies the most
+     valuable strip on every screen - directly above the content, on the first
+     screenful - and the open question is whether that space earns more as
+     warmth or as content. Flip this to true to bring it back; nothing else
+     needs changing, and kindness.js is untouched so the lines and their
+     rules survive the experiment either way. */
+  const KIND_BAR = false;
+
   const kindbar = document.getElementById("kindbar");
-  if (kindbar) {
+  if (kindbar && KIND_BAR) {
     /* Mounted ONCE. Navigation toggles visibility with a class rather than
        re-rendering, so the cycle keeps its own rhythm instead of restarting
        every time someone touches a tab - a bar that reset on navigation would

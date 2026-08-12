@@ -608,6 +608,10 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    came for below the fold. */
 #kindbar { margin: 0 0 var(--sp-3); }
 #kindbar.is-hidden { display: none; }
+/* An unmounted bar must take no space at all. The margin above would otherwise
+   leave a 20px ghost at the top of every screen - the exact strip the bar was
+   turned off to reclaim. See KIND_BAR in app.js. */
+#kindbar:empty { display: none; margin: 0; }
 
 /* Cross-fade, never a scroll. Nothing travels across the screen - movement in
    the periphery is what draws a bystander's eye, and this app is used where
