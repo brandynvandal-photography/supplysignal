@@ -591,20 +591,29 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 }
 /* ...but NOT the h3 that titles a row inside a list. Those are the row's own
    label, and giving them a section heading's 32px blew every list apart. */
-#sec-calling .lovedrow h3,
-#sec-voice .lovedrow h3,
-#sec-orgs .lovedrow h3 { margin-top: 0; margin-bottom: 3px; }
+/* The h3 that titles a bubble is the bubble's own label, not a section
+   heading, so it keeps .card's spacing rather than the 32px above. */
+#sec-calling .card h3,
+#sec-voice .card h3,
+#sec-orgs .card h3 { margin-top: 0; margin-bottom: 3px; }
 /* Nor the heading of a callout or a card, which already carry their own. */
 #sec-calling .callout h3, #sec-voice .callout h3, #sec-orgs .callout h3,
 #sec-calling .card h3, #sec-voice .card h3, #sec-orgs .card h3 {
   margin-top: 0;
 }
-#sec-calling .list, #sec-law .list, #sec-voice .list, #sec-orgs .list {
+/* The stat figures sit two-up where there is room - they are short, and one
+   per row made a five-screen list out of five facts. */
+.statgrid {
+  display: grid; gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
   margin-bottom: var(--sp-2);
 }
-/* A note explaining the list above it should sit with that list, not float
+.statgrid .card { margin-bottom: 0; }
+/* A note explaining the bubbles above it should sit with them, not float
    equidistant between two blocks. */
-.list + .sec__note { margin-top: var(--sp-2); margin-bottom: var(--sp-3); }
+.card + .sec__note, .statgrid + .sec__note {
+  margin-top: var(--sp-2); margin-bottom: var(--sp-3);
+}
 
    A figure and the thing it belongs to. The number leads because the whole
    point of that block is that the ranking is counterintuitive - a phone call

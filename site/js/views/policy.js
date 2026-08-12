@@ -37,9 +37,15 @@ import * as data from "../data.js";
 
 let SRC = null;
 
-/** A titled item with a body, the shape most of this file's content takes. */
+/* A titled item with a body, the shape most of this file's content takes.
+ *
+ * Its own .card, not a row inside one .list. A grouped list says "these are
+ * twenty rows of the same thing" - right for the bordering-counties list,
+ * wrong here, where each item is a separate fact someone might read on its own
+ * and where several carry their own sources. Individual bubbles, the same as
+ * the drug category tiles. */
 function item(it) {
-  return h("div", { class: "lovedrow" },
+  return h("div", { class: "card" },
     h("h3", null, it.t),
     h("p", null, it.d),
     it.sources ? SRC.add(it.sources) : null);
@@ -47,7 +53,7 @@ function item(it) {
 
 /** The numbered influence rows - a figure and what it belongs to. */
 function statRow(it) {
-  return h("div", { class: "lovedrow" },
+  return h("div", { class: "card statcard" },
     h("p", { class: "stat__n" }, it.t),
     h("p", null, it.d));
 }
@@ -61,7 +67,7 @@ function orgRow(o) {
   if (o.donate) links.push(extLink(o.donate, "Donate"));
   if (o.involved && o.involved !== o.donate) links.push(extLink(o.involved, "Get involved"));
 
-  return h("div", { class: "lovedrow" },
+  return h("div", { class: "card" },
     h("h3", null, o.name),
     tags.length
       ? h("p", { class: "org__tags" }, tags.join(" · "))
@@ -121,7 +127,7 @@ export async function render(route, { go }) {
           h("p", null, h("strong", null, i.t + " — "), i.d))),
 
       h("h3", null, c.variations.headline),
-      h("div", { class: "list" }, c.variations.items.map(item)),
+      frag(c.variations.items.map(item)),
       h("p", { class: "sec__note" }, c.variations.note),
 
       h("p", { class: "leadin" }, c.bottom),
@@ -131,7 +137,7 @@ export async function render(route, { go }) {
   wrap.appendChild(
     h("div", { id: "sec-law" },
       section(g.law.headline, g.law.blurb,
-        h("div", { class: "list" }, g.law.items.map(item)))));
+        frag(g.law.items.map(item)))));
 
   /* ---- money ---- */
   wrap.appendChild(
@@ -147,11 +153,11 @@ export async function render(route, { go }) {
     h("div", { id: "sec-voice" },
     section(v.headline, v.blurb,
       h("h3", null, v.what.headline),
-      h("div", { class: "list" }, v.what.items.map(statRow)),
+      h("div", { class: "statgrid" }, v.what.items.map(statRow)),
       h("p", { class: "sec__note" }, v.what.note),
 
       h("h3", null, v.gap.headline),
-      h("div", { class: "list" }, v.gap.items.map(item)),
+      frag(v.gap.items.map(item)),
       h("p", { class: "sec__note" }, v.gap.note),
 
       h("h3", null, v.who.headline),
@@ -173,7 +179,7 @@ export async function render(route, { go }) {
       ...o.groups.map((grp) =>
         frag(
           h("h3", null, grp.title),
-          h("div", { class: "list" }, grp.items.map(orgRow)))),
+          frag(grp.items.map(orgRow)))),
 
       h("h3", null, o.giving.headline),
       h("div", { class: "card" },
