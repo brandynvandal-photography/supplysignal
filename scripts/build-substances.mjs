@@ -25,7 +25,7 @@ import { writeFileSync } from "node:fs";
 const PW_API = "https://api.psychonautwiki.org/";
 const FDA_API = "https://api.fda.gov/drug/label.json";
 
-const UA = "Nightlight/1.0 (public health harm reduction; contact via repo)";
+const UA = "Nightlight/1.0 (public health harm reduction; +https://nightlight.help)";
 
 /* ------------------------------------------------------------ PsychonautWiki */
 

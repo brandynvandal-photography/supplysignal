@@ -174,7 +174,15 @@ async function main() {
     byCounty.get(c.fips).push(c);
   }
 
-  const siteUrl = process.env.SITE_URL || "https://example.github.io/supplysignal";
+  /* Absolute base for the per-county RSS links. The fallback is the real
+     production host rather than a placeholder, because these URLs get written
+     into feeds that leave the building - a wrong default ships broken links to
+     every subscriber rather than failing loudly here.
+
+     No trailing path: root index.html redirects into site/ and carries the
+     #/fips fragment across, so https://nightlight.help/#/47065 lands correctly
+     and stays readable in a feed reader. */
+  const siteUrl = process.env.SITE_URL || "https://nightlight.help";
   const indexEntries = await readJson(p("data/index.json"), { counties: {} }).then(
     (i) => i.counties || {}
   );

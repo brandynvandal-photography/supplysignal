@@ -1,5 +1,15 @@
 # Netlify configuration.
 #
+# Production host: https://nightlight.help
+#
+# The domain is also compiled into two places that leave the building, and they
+# have to be kept in step or the app starts publishing dead links:
+#   - src/ingest.mjs SITE_URL, which writes absolute <link> elements into every
+#     per-county RSS feed. Set the SITE_URL repository variable in GitHub
+#     Actions; the fallback in that file is production, not a placeholder.
+#   - config/settings.json userAgent, so a health department administrator
+#     seeing this crawler in their logs can look up who it is.
+#
 # The reason to be here rather than on GitHub Pages is headers. site/index.html
 # carries a strict CSP in a <meta> tag, but two directives CANNOT be set that
 # way - frame-ancestors and X-Frame-Options are ignored in meta and only work as
