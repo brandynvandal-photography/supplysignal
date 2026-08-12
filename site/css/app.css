@@ -963,7 +963,12 @@ details.acc > summary::after {
 }
 details.acc[open] > summary::after { transform: rotate(-90deg); }
 details.acc > summary:hover { background: var(--surface-2); }
-.acc__body { padding: 0 var(--sp-4) var(--sp-4); }
+/* Top padding, not zero.
+   The first child's margin is killed on the line below, so padding was the
+   only thing separating the body from the summary above it - and there was
+   none. Opening a region dropdown put the first drug hard against the region
+   name, so the two read as one block instead of a heading and its contents. */
+.acc__body { padding: var(--sp-2) var(--sp-4) var(--sp-4); }
 .acc__body > :first-child { margin-top: 0; }
 
 /* ---------------------------------------------------------------- steps */
@@ -1250,7 +1255,10 @@ details.disc > summary::after {
 }
 details.disc[open] > summary::after { content: "\2212"; background: var(--brand); color: var(--brand-ink); }
 details.disc > summary:hover h2 { color: var(--brand); }
-.disc__body { padding: var(--sp-1) var(--sp-4) var(--sp-4); }
+/* Matches .acc__body. The two disclosure types were on 6px and 12px of top
+   padding respectively, which is exactly the kind of difference nobody can
+   name but everybody feels when the same control is used twice on one page. */
+.disc__body { padding: var(--sp-2) var(--sp-4) var(--sp-4); }
 .disc__body > .sec:first-child { margin-top: 0; }
 
 /* Padding must not COMPOUND on a phone.
@@ -1606,7 +1614,10 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
    reserved for callout(), and a page opening that borrows a warning's styling
    spends urgency it does not have. */
 .intro, .welcome, .letter {
-  padding: var(--sp-3);
+  /* --sp-3 --sp-4, the same inset as .card and callout(). These were on
+     --sp-3 all round, so the first block on a page sat 12px narrower than
+     everything beneath it - subtle, but it read as a different width column. */
+  padding: var(--sp-3) var(--sp-4);
   margin-bottom: var(--sp-4);
   background: linear-gradient(135deg,
     color-mix(in srgb, var(--brand) 10%, transparent),
@@ -1618,6 +1629,19 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
 .intro h2, .welcome h2 { margin: 0 0 6px; font-size: 1.25rem; letter-spacing: -0.01em; }
 .intro p, .welcome p { margin: 0 0 10px; color: var(--ink-2); max-width: 58ch; }
 .intro p:last-child, .welcome p:last-child { margin-bottom: 0; }
+
+/* The urgent variant, for the Emergency tab's opener. Same shape as every
+   other page opener so the app reads as one thing; the colour is the only
+   difference, because on that tab the whole page is the emergency and a
+   filled panel just competed with its own contents. */
+.intro--urgent {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--critical) 13%, transparent),
+    color-mix(in srgb, var(--critical) 4%, transparent) 60%,
+    transparent);
+  border-left-color: var(--critical);
+}
+.intro--urgent h2 { color: var(--critical); }
 
 /* ------------------------------------------------- list row breathing room */
 

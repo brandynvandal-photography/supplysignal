@@ -92,19 +92,6 @@ export async function render() {
   { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
 
   wrap.appendChild(
-    /* Instruction only. This used to spend four of its six lines on Good
-       Samaritan caveats and close by telling the reader to go read a collapsed
-       law section "before you decide what that means for you" - i.e. to pause
-       the 911 decision. The nuance is real and still lives in "911 and the
-       law", one tap away in the jump nav. It does not belong inside the
-       instruction. */
-    callout("stop", "If someone is overdosing right now",
-      h("p", null, "Call 911. Give naloxone if you have it. Stay with them."),
-      h("p", null,
-        "You do not have to say what they took — only that someone is not breathing."))
-  );
-
-  wrap.appendChild(
     jumpNav([
       { id: "sec-lines", label: "Hotlines" },
       { id: "sec-response", label: "Overdose response" },
@@ -113,6 +100,27 @@ export async function render() {
       { id: "sec-police", label: "If police come" },
     ])
   );
+
+  wrap.appendChild(
+    /* Instruction only. This used to spend four of its six lines on Good
+       Samaritan caveats and close by telling the reader to go read a collapsed
+       law section "before you decide what that means for you" - i.e. to pause
+       the 911 decision. The nuance is real and still lives in "911 and the
+       law", one tap away in the jump nav. It does not belong inside the
+       instruction. */
+    /* The same opener every other tab uses, in the urgent colour. It was a
+       filled "stop" callout, which is right for a warning interrupting a page
+       but wrong for the thing a page opens with - this tab IS the emergency,
+       so the panel was shouting the same volume as its own contents and
+       nothing stood out. The red left rule and wash keep the signal; the shape
+       matches Alerts, Support, Test and About. */
+    h("div", { class: "intro intro--urgent" },
+      h("h2", null, "If someone is overdosing right now"),
+      h("p", null, "Call 911. Give naloxone if you have it. Stay with them."),
+      h("p", null,
+        "You do not have to say what they took — only that someone is not breathing."))
+  );
+
 
   /* ---- hotlines. Open: nobody should have to expand anything to find a
          number during an emergency. ---- */

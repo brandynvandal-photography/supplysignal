@@ -212,8 +212,22 @@ function focusView() {
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
 let first = true;
+let lastHash = location.hash;
+
+/* Scroll to the top on a real navigation, but NOT when only a filter changed.
+ *
+ * The 30 / 90 / 12-month chips are hash links, so every tap counted as a
+ * navigation and threw the reader back to the top of the county page - away
+ * from the very numbers they had just asked to change. Same page, same county,
+ * different window is a filter, not a destination.
+ *
+ * Compared on the route MINUS its trailing window segment, so switching county
+ * still scrolls to the top the way arriving anywhere else does. */
+const routeIdentity = (hash) => hash.replace(/\/(30|90|365)$/, "");
+
 window.addEventListener("hashchange", async () => {
-  window.scrollTo(0, 0);
+  if (routeIdentity(location.hash) !== routeIdentity(lastHash)) window.scrollTo(0, 0);
+  lastHash = location.hash;
   await route();
   focusView();
 });
