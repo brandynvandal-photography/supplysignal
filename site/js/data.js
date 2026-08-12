@@ -306,6 +306,11 @@ export async function policy() {
   return load("policy", null);
 }
 
+/** Drug testing, probation and parole. */
+export async function supervision() {
+  return load("supervision", null);
+}
+
 /* Articles, keyed by substance.
  *
  * Bundled and indexed here rather than fetched per drug, for the same reason

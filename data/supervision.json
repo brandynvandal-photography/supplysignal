@@ -1,0 +1,218 @@
+{
+  "note": "Hand-curated. Nothing here explains how to beat a test — that is out of scope on purpose. This is about understanding what you are facing and what you are actually entitled to.",
+  "verified": "2026-08-12",
+  "headline": "Drug testing, probation and parole",
+  "blurb": "What a test can and cannot see, what to do when it says something wrong, and what the law says about being on methadone or buprenorphine while under supervision.",
+  "rights": {
+    "headline": "A positive screen is not a result yet",
+    "body": [
+      "Almost every test starts as an immunoassay — a fast, cheap, presumptive screen. It is not an identification. It reacts to a shape, which is why it can be set off by things you did not take and miss things you did.",
+      "The confirmation is a different machine: GC/MS or LC-MS/MS, which identifies the actual molecule. Labs do not always run it unless somebody asks."
+    ],
+    "callout": {
+      "title": "On federal supervision, contesting it is what triggers confirmation",
+      "body": "Federal law requires a confirmed result before a screen can cost you your liberty, and the courts' own guide says that when an instant screening result is positive and contested by the person under supervision, the sample must be sent for GC/MS confirmation. The trigger is you saying you dispute it. Say it immediately, say it plainly, and ask for it in writing."
+    },
+    "caveat": "This is federal supervision. State probation and parole rules vary and we have not verified them state by state — ask your attorney or public defender what your state requires, and ask before you need it.",
+    "sources": [
+      {
+        "name": "18 U.S.C. § 3583 — supervised release",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title18/html/USCODE-2023-title18-partII-chap227-subchapD-sec3583.htm"
+      },
+      {
+        "name": "18 U.S.C. § 3563 — conditions of probation",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title18/html/USCODE-2023-title18-partII-chap227-subchapB-sec3563.htm"
+      }
+    ]
+  },
+  "panels": {
+    "headline": "What is actually on the test",
+    "blurb": "A panel only finds what it was built to look for. Several of the drugs most present in the supply are on no routine panel at all.",
+    "items": [
+      {
+        "t": "Fentanyl is not on a classic 5-panel",
+        "d": "The standard five — amphetamines, cocaine, cannabis, opiates, PCP — does not include it. Fentanyl has no structural resemblance to morphine, so morphine-calibrated opiate assays do not react to it. It needs its own assay. Federal agency testing added a dedicated fentanyl line effective July 7 2025; DOT-regulated testing still has not, as of August 2026."
+      },
+      {
+        "t": "Xylazine is on nothing routine",
+        "d": "Absent from both federal panels. A dedicated xylazine immunoassay exists but is labelled for forensic use, not clinical. If somebody wants to know whether xylazine is involved, it has to be asked for specifically."
+      },
+      {
+        "t": "Methadone and buprenorphine need their own assays",
+        "d": "Neither is on the federal panel and neither cross-reacts with the opiate screen. Being prescribed one does not make you show up positive for opioids, and a routine panel will not confirm you are taking it either."
+      },
+      {
+        "t": "Gabapentin, kratom and most novel benzos are invisible by default",
+        "d": "None are on the federal panel. Novel benzodiazepines are assay-dependent — a benzodiazepine screen will often flag etizolam or flualprazolam, sometimes at several times the sensitivity of its own calibrator, but a negative screen does not rule out bromazolam. Which ones get caught depends on the manufacturer's platform."
+      }
+    ],
+    "sources": [
+      {
+        "name": "Federal Register 91 FR 12308 — current HHS testing cutoffs (March 13 2026)",
+        "url": "https://www.govinfo.gov/content/pkg/FR-2026-03-13/html/2026-04981.htm"
+      }
+    ]
+  },
+  "misreads": {
+    "headline": "When the test is wrong",
+    "blurb": "Both directions happen, and both are documented.",
+    "items": [
+      {
+        "t": "Hand sanitizer can produce a positive alcohol test",
+        "d": "In a study of 11 people using ethanol hand sanitizer through the day for three days and drinking nothing, urine EtG reached 2,001 ng/mL — four times the cutoff most labs use, and twenty times the sensitive clinical one. The authors concluded plainly that current EtG cutoffs do not distinguish drinking from incidental exposure. A useful tell: EtG went high while EtS stayed low.",
+        "sources": [
+          {
+            "name": "Reisfield et al., J Anal Toxicol 2011",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/21396227/"
+          }
+        ]
+      },
+      {
+        "t": "Your prescribed benzodiazepine may not show up",
+        "d": "Most benzodiazepine immunoassays are built around oxazepam or nordiazepam. Alprazolam and lorazepam are excreted mainly as glucuronides and are not detected unless the lab does an extra hydrolysis step, which most do not. Clonazepam becomes 7-aminoclonazepam, which barely cross-reacts. A negative screen is not evidence you stopped taking what you were prescribed.",
+        "sources": [
+          {
+            "name": "Moeller et al., Mayo Clin Proc 2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28325505/"
+          }
+        ]
+      },
+      {
+        "t": "Ordinary medicines set off the methadone screen",
+        "d": "Verapamil, diphenhydramine and doxylamine are documented causes of methadone false positives. Diphenhydramine is Benadryl; doxylamine is in night-time cold medicine and some sleep aids.",
+        "sources": [
+          {
+            "name": "Moeller et al., Mayo Clin Proc 2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28325505/"
+          }
+        ]
+      }
+    ]
+  },
+  "cannabis": {
+    "headline": "Testing negative then positive is a known pattern",
+    "body": [
+      "This is the one most likely to be used against you, and it is the one most people cannot argue their way out of without knowing it.",
+      "Cannabis does not leave the body on a smooth downward curve. Under strictly supervised abstinence — where continued use was ruled out by the study design — people alternated between positive and negative results for weeks. In a study of 60 people on a closed research unit, 40% did not reach their peak concentration until up to 2.9 days AFTER abstinence began.",
+      "So a negative followed by a positive is a documented excretion pattern in people who have not used. It is not proof of anything.",
+      "How long you stay positive depends enormously on the cutoff, which is why any single number is close to meaningless without one attached. The same frequent users in the same study were positive for 17 days at one threshold, 22 at a lower one, and 27 at a lower one still."
+    ],
+    "note": "Most chronic users clear faster than the famous long-tail figures suggest — but in one study of 37 people, roughly one in four were still above the cutoff after two weeks. Both things are true.",
+    "sources": [
+      {
+        "name": "Goodwin et al., J Anal Toxicol 2008 (N=60, 6,158 specimens)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/19007504/"
+      },
+      {
+        "name": "Smith-Kielland et al., J Anal Toxicol 1999",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/10488918/"
+      },
+      {
+        "name": "Ellis et al., Clin Pharmacol Ther 1985 (N=86, supervised abstinence)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/3902318/"
+      }
+    ]
+  },
+  "medication": {
+    "headline": "They cannot make you stop your medication",
+    "body": [
+      "If you are prescribed methadone or buprenorphine, a court, a probation officer, a drug court or a jail telling you to taper off it is on very weak legal ground.",
+      "Federal law says so directly: medication taken under the supervision of a licensed health care professional is not “illegal use of drugs”. That is the statute, not a guideline — and the Americans with Disabilities Act covers courts, prisons and jails.",
+      "This has been enforced. The Justice Department settled with Pennsylvania's court system in January 2024 over exactly this, and with the Massachusetts Parole Board in 2021 over a person being pushed onto a different medication than the one that was working."
+    ],
+    "callout": {
+      "title": "If it is happening to you",
+      "body": "Get it in writing if you can — an order, a condition sheet, a message. Then contact a disability rights organization or your public defender. The Legal Action Center works on exactly this and keeps a list of the cases. Do not simply comply and taper: stopping medication is the single largest overdose risk there is."
+    },
+    "caveat": "The Justice Department's guidance document says on its face that it does not carry the force of law. The statute it rests on does. Cite the statute.",
+    "links": [
+      {
+        "name": "DOJ — the ADA and people in treatment for opioid use disorder",
+        "url": "https://www.ada.gov/resources/opioid-use-disorder/"
+      },
+      {
+        "name": "Legal Action Center",
+        "url": "https://www.lac.org/"
+      }
+    ],
+    "sources": [
+      {
+        "name": "42 U.S.C. § 12210(d) — medication under supervision is not illegal use",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title42/html/USCODE-2023-title42-chap126-subchapIV-sec12210.htm"
+      }
+    ]
+  },
+  "violations": {
+    "headline": "What a violation actually is",
+    "blurb": "Most people sent back are not sent back for a new crime.",
+    "items": [
+      {
+        "t": "Technical violations are the bulk of it",
+        "d": "Nationwide, 45% of state prison admissions are due to violations of probation or parole — and technical violations alone, things like a missed appointment with a supervision officer or a failed drug test, account for nearly a quarter of every admission to state prison. Not a new offence. A quarter.",
+        "sources": [
+          {
+            "name": "CSG Justice Center — Confined and Costly (50-state collection begun 2019)",
+            "url": "https://csgjusticecenter.org/publications/confined-costly/"
+          }
+        ]
+      },
+      {
+        "t": "Calling 911 may not protect you from a violation",
+        "d": "27 states and DC extend Good Samaritan protection to probation and parole violations. 23 do not. And in Minnesota and North Carolina the statutes expressly preserve the authority to drug test you anyway — meaning the call itself is protected but the test that follows it is not. That is a real trap and worth knowing before the night it matters.",
+        "sources": [
+          {
+            "name": "LAPPA — Good Samaritan laws, July 2025",
+            "url": "https://legislativeanalysis.org/wp-content/uploads/2025/08/Good-Samaritan-Fatal-Overdose-Prevention-and-Drug-Induced-Homidice.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "reentry": {
+    "headline": "Coming out is the most dangerous time",
+    "body": [
+      "Tolerance falls fast during any break in use, and jail or prison is a break in use. The dose that was normal before is not normal now.",
+      "In a study following 30,237 people released from Washington State prisons, the risk of fatal overdose in the first two weeks after release was 129 times that of the general population. A later North Carolina study found overdose deaths among people recently released at 46.6 times the expected rate.",
+      "If you are getting out, or someone you love is: have naloxone in hand on day one, do not use alone, and start far lower than you used to."
+    ],
+    "sources": [
+      {
+        "name": "Binswanger et al., N Engl J Med 2007",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/17215533/"
+      },
+      {
+        "name": "Ranapurwala et al., Am J Public Health 2022",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/35319958/"
+      }
+    ]
+  },
+  "hair": {
+    "headline": "If they use a hair test",
+    "body": [
+      "Hair testing has problems the government's own proposed rule concedes.",
+      "It cannot see recent use at all — drugs do not appear in hair for 5 to 7 days after they are taken. And the first centimetre of hair does not represent the last month: because of the time it takes hair to reach the surface, it represents roughly one to two months ago.",
+      "The federal proposal will not let a hair result stand alone. An agency choosing to test hair must also collect another specimen type, and the rule cites litigation warning that action taken on a hair test alone may be legally vulnerable."
+    ],
+    "bias": {
+      "title": "It is not the same test for everyone",
+      "body": "In a study where 44 people took an identical controlled dose of codeine, the amount ending up in their hair tracked hair melanin — the correlation explained about 73% of the variance. Concentrations in black hair were around seven times those in brown and fourteen to fifteen times those in blond. At the cutoff the government proposes, 100% of the black-haired subjects would have been reported positive and only half of the brown-haired ones. Same drug, same dose, different hair.",
+      "sources": [
+        {
+          "name": "Rollins et al., J Anal Toxicol 2003 (N=44)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/14670132/"
+        }
+      ]
+    },
+    "thc": "One more: finding cannabis metabolites in hair does not prove someone used cannabis. A controlled dosing study found them in hair segments that had already grown before the person ever took any, and in people who had not used at all — transferred by hand, sweat and smoke from someone who had.",
+    "sources": [
+      {
+        "name": "HHS proposed hair testing guidelines, 85 FR 56108",
+        "url": "https://www.govinfo.gov/content/pkg/FR-2020-09-10/html/2020-16432.htm"
+      },
+      {
+        "name": "Moosmann et al., Scientific Reports 2015",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26443501/"
+      }
+    ]
+  }
+}

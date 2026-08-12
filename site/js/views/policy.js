@@ -156,6 +156,16 @@ export async function render(route, { go }) {
       section(g.law.headline, g.law.blurb,
         frag(g.law.items.map(item)))));
 
+  /* Testing and supervision is its own page: it is long, it is operational
+     rather than civic, and the person who needs it arrived with a specific
+     problem rather than a general interest in policy. */
+  wrap.appendChild(
+    h("a", { class: "bigptr", href: "#/supervision" },
+      h("span", { class: "bigptr__hd" }, "Drug testing, probation and parole"),
+      h("span", { class: "bigptr__sub" },
+        "What a test can and cannot see, what to do when it says something "
+        + "wrong, and why they cannot make you stop your medication.")));
+
   /* ---- money ---- */
   wrap.appendChild(
     h("div", { id: "sec-money" },
