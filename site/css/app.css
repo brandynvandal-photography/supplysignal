@@ -987,11 +987,27 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
 
 /* -------------------------------------------------------- combination check */
 
-.mixslots { display: grid; gap: 10px; margin-bottom: 12px; }
-.mixslot { display: flex; gap: 8px; align-items: end; }
-.mixslot label { display: block; flex: 1; min-width: 0; }
-.mixlabel { display: block; font-size: .86rem; font-weight: 650; color: var(--ink-2); margin-bottom: 6px; }
-.mixslot select { width: 100%; }
+/* The label sits BESIDE its dropdown, not above it.
+   Stacked, each row cost 80px - a 23px label, 6px of margin, and a 51px
+   select - which pushed the two dropdowns 39px apart and made a two-line
+   question look like a form. "I took" and "and" are two and three characters
+   of context; they do not need their own line.
+
+   flex-wrap is the safety net: at large Dynamic Type sizes the select falls
+   back to its own line rather than crushing to nothing, which is the layout
+   this replaced. min-width on the label keeps both dropdowns left-aligned
+   with each other so the column still reads as a column. */
+.mixslots { display: grid; gap: 8px; margin-bottom: 12px; }
+.mixslot { display: flex; gap: 8px; align-items: center; }
+.mixslot label {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  flex: 1; min-width: 0;
+}
+.mixlabel {
+  font-size: .86rem; font-weight: 650; color: var(--ink-2);
+  flex: none; min-width: 3.1rem;
+}
+.mixslot select { flex: 1 1 11rem; min-width: 0; width: auto; }
 .mixslot__x { flex: none; font-size: 1.3rem; line-height: 1; }
 .mixpairs__h { font-size: .95rem; margin: 18px 0 8px; color: var(--ink-2); }
 
