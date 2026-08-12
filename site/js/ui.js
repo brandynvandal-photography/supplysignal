@@ -290,6 +290,45 @@ export function englishOnlyNotice() {
  * that hides its own contents is a tile people scroll past. The preview lists
  * what is underneath, on the summary, where it survives being closed.
  */
+/**
+ * Collects citations while a page builds and renders them ONCE at the foot.
+ *
+ * Every claim still carries its source; it just does not interrupt the reading
+ * to prove itself. Rows of grey links between every two paragraphs turned
+ * pages people read while frightened into bibliographies with prose in them.
+ *
+ * WHAT DOES NOT GO IN HERE, and this distinction is the whole reason this is a
+ * helper rather than a find-and-replace: a link is only a citation if it backs
+ * a claim. "Open" on a training course, "Visit the store", "Read the alert",
+ * the donate link, and every organization link in the support directory are
+ * DESTINATIONS - the thing a reader taps to actually do something. Moving
+ * those to a footer would break the page's job. Only sources move.
+ *
+ *   const src = sourceSink();
+ *   ... src.add(block.sources) ...        // returns null, sits inline in a tree
+ *   const foot = src.render(); if (foot) wrap.appendChild(foot);
+ */
+export function sourceSink() {
+  const seen = new Map();               // url -> {name, url}, deduped across blocks
+  return {
+    add(list) {
+      for (const s of list || []) {
+        if (s?.url && !seen.has(s.url)) seen.set(s.url, s);
+      }
+      return null;
+    },
+    size: () => seen.size,
+    render(title = "Where this comes from") {
+      if (!seen.size) return null;
+      return h("div", { class: "foot-attr" },
+        h("h3", null, title),
+        h("ul", null,
+          [...seen.values()].map((s) =>
+            h("li", null, extLink(s.url, s.name || s.url)))));
+    },
+  };
+}
+
 export function group(id, title, blurb, children, preview = null) {
   const kids = (children || []).filter(Boolean);
   if (!kids.length) return h("span");

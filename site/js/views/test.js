@@ -13,6 +13,7 @@
 
 import {
   h, frag, section, callout, badge, extLink, empty, disclosure, jumpNav, group,
+  sourceSink,
 } from "../ui.js";
 import * as data from "../data.js";
 
@@ -20,6 +21,7 @@ export async function render() {
   const g = await data.testingGuide();
   if (!g) return empty("The testing guide could not load.", "Check your connection and try again.");
 
+  SRC = sourceSink();          // fresh per render; see the note on sourceRow
   const wrap = h("div");
 
   wrap.appendChild(h("h1", null, "Test your supply"));
@@ -302,6 +304,9 @@ export async function render() {
         h("ul", null, g.companion.map((c) => h("li", null, c)))))
   );
 
+  const sources = SRC.render();
+  if (sources) wrap.appendChild(sources);
+
   return wrap;
 }
 
@@ -528,9 +533,15 @@ function reagentCard(r) {
         : null));
 }
 
+/* Citations no longer render where they are cited - they collect into one
+   list at the foot of the page. This keeps every existing call site working
+   while moving the output; see sourceSink in ui.js for what deliberately does
+   NOT come here (destination links like "Visit the store").
+
+   Module-scoped rather than passed down because render() rebuilds the page on
+   every navigation and resets it there. */
+let SRC = sourceSink();
+
 function sourceRow(sources) {
-  if (!sources?.length) return null;
-  return h("div", { class: "sources" },
-    h("span", { class: "card__meta" }, "Sources:"),
-    sources.map((s) => extLink(s.url, s.name)));
+  return SRC.add(sources);
 }

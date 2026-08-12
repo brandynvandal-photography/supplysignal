@@ -18,6 +18,7 @@
 
 import {
   h, frag, clear, section, callout, extLink, empty, disclosure, jumpNav, badge, group, safeHref,
+  sourceSink,
 } from "../ui.js";
 import * as data from "../data.js";
 import { saferUseBlock } from "./help.js";
@@ -32,6 +33,7 @@ export async function render() {
     return empty("This section could not load.", "Check your connection and try again.");
   }
 
+  SRC = sourceSink();          // fresh per render; see the note on sourceRow
   const wrap = h("div");
   wrap.appendChild(h("h1", null, "Support"));
 
@@ -126,6 +128,9 @@ export async function render() {
   /* No About link here. It lives in the footer, which is on every page and is
      where people look for it - a second copy at the foot of Support was just
      the old dropdown wearing a different hat. */
+
+  const sources = SRC.render();
+  if (sources) wrap.appendChild(sources);
 
   return wrap;
 }
@@ -369,7 +374,16 @@ function stateLookup(bs) {
   );
 }
 
+/* Collected to one list at the foot of the page rather than rendered where
+   cited - see sourceSink in ui.js, and note what deliberately stays inline
+   (every organization link in the directory is a destination, not a source). */
+let SRC = sourceSink();
+
 function sourceRow(sources) {
+  return SRC.add(sources);
+}
+
+function unusedSourceRow(sources) {
   if (!sources?.length) return null;
   return h("div", { class: "sources" },
     h("span", { class: "card__meta" }, "Sources:"),
