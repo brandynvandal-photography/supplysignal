@@ -69,12 +69,72 @@ async function probe(url) {
       headers: { "user-agent": UA, accept: "*/*" },
       signal: ctl?.signal,
     });
-    return { status: res.status, finalUrl: res.url };
+    /* The body matters, not just the code. A parked domain answers 200 with a
+       stub, which every status-only checker on earth calls healthy. */
+    let body = "";
+    try { body = (await res.text()).slice(0, 20000); } catch {}
+    return {
+      status: res.status, finalUrl: res.url,
+      parked: looksParked(res, body),
+      challenged: looksChallenged(res, body),
+    };
   } catch (e) {
     return { status: 0, error: e.name === "AbortError" ? "timeout" : e.message };
   } finally {
     if (timer) clearTimeout(timer);
   }
+}
+
+/* Parked-domain signatures.
+ *
+ * urbansurvivorsunion.org shipped in this app for months pointing at a drug
+ * user union. It answers 200 - so this checker passed it - with a 114-byte
+ * body whose entire content is a script redirecting to /lander. It is a
+ * monetized parking page. That is strictly worse than a 404: a 404 tells the
+ * reader the thing is gone, while this hands someone looking for a peer-run
+ * union an ad page and looks deliberate.
+ *
+ * Two independent tests, because either alone misfires: an explicit parking
+ * marker, or a body too small to be a real page with no title to speak of.
+ * A genuine content page fails neither. */
+const PARK_MARKERS = [
+  /window\.location(\.href)?\s*=\s*["'`]\/lander/i,
+  /sedoparking|parkingcrew|bodis\.com|afternic|dan\.com|hugedomains/i,
+  /this\s+domain\s+(name\s+)?(is|may\s+be)\s+for\s+sale/i,
+  /buy\s+this\s+domain/i,
+];
+
+/* Bot challenges that answer 200 instead of 403.
+ *
+ * These look identical to a parking stub from the outside - small body, no
+ * title, a script and an iframe - and the first version of the parked check
+ * duly accused APA.org of being a squatter. That is the exact false
+ * accusation this file was written to avoid, so challenges are identified
+ * first and routed to GUARDED, where a human can see the page is fine in a
+ * browser. */
+const CHALLENGE_MARKERS = [
+  /_Incapsula_Resource|incapsula/i,
+  /cf-browser-verification|challenge-platform|cdn-cgi\/challenge/i,
+  /just a moment\.\.\.|checking your browser|enable javascript and cookies/i,
+  /ak-bmsc|akamai.*bot|distil_r_captcha/i,
+];
+
+function looksChallenged(res, body) {
+  return res.ok && CHALLENGE_MARKERS.some((re) => re.test(body));
+}
+
+function looksParked(res, body) {
+  /* Strictly 200. library.samhsa.gov answers 202 with an empty body - a queue
+     or WAF response, not a squatter - and the length test happily condemned
+     it. Parking pages always render something at 200; that is the whole point
+     of parking. */
+  if (res.status !== 200) return false;
+  if (!body.length) return false;
+  if (looksChallenged(res, body)) return false;
+  if (PARK_MARKERS.some((re) => re.test(body))) return true;
+  /* Only reached for a page that is small, untitled, and NOT a challenge. */
+  const hasTitle = /<title>\s*\S[^<]*<\/title>/i.test(body);
+  return body.length < 1200 && !hasTitle;
 }
 
 const files = (await readdir(DATA)).filter((f) => f.endsWith(".json") && !SKIP.has(f));
@@ -93,7 +153,7 @@ for (const l of links) {
 
 console.log(`checking ${byUrl.size} unique URLs from ${files.length} hand-curated files\n`);
 
-const dead = [], guarded = [], moved = [], ok = [];
+const dead = [], guarded = [], moved = [], ok = [], parked = [];
 const entries = [...byUrl.entries()];
 
 /* Small concurrency: polite to the nonprofits on this list, and fast enough. */
@@ -106,8 +166,9 @@ for (let i = 0; i < entries.length; i += LIMIT) {
        accusation here means deleting a working drug-checking program. */
     if (r.status === 0) r = await probe(url);
     const row = { url, where, ...r };
-    if (r.status === 0 || r.status === 404 || r.status === 410) dead.push(row);
-    else if (r.status === 403 || r.status === 429) guarded.push(row);
+    if (r.parked) parked.push(row);
+    else if (r.status === 0 || r.status === 404 || r.status === 410) dead.push(row);
+    else if (r.status === 403 || r.status === 429 || r.challenged) guarded.push(row);
     else if (r.status >= 400) dead.push(row);
     else {
       // A redirect that lands somewhere structurally different is worth knowing.
@@ -128,13 +189,20 @@ const show = (label, rows) => {
   console.log("");
 };
 
+show("PARKED - answers 200 but is a domain-parking stub. Worse than a 404.", parked);
 show("DEAD - fix or remove", dead);
 show("MOVED to another host - verify the destination is still right", moved);
 show("GUARDED by a bot filter - almost certainly fine in a browser", guarded);
 
-console.log(`${ok.length} ok · ${guarded.length} guarded · ${moved.length} moved · ${dead.length} dead`);
+console.log(`${ok.length} ok · ${guarded.length} guarded · ${moved.length} moved · ` +
+            `${dead.length} dead · ${parked.length} parked`);
 
-if (STRICT && dead.length) {
-  console.error(`\n${dead.length} dead link(s). A reader tapping one of these gets nothing.`);
+/* Parked fails the build alongside dead. It is not a lesser problem: a dead
+   link tells the reader the thing is gone, a parked one hands them an ad page
+   dressed as the resource they asked for. */
+if (STRICT && (dead.length || parked.length)) {
+  const n = dead.length + parked.length;
+  console.error(`\n${n} broken link(s). A reader tapping one of these gets nothing, ` +
+                `or worse, gets something pretending to be the thing they wanted.`);
   process.exitCode = 1;
 }

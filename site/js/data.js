@@ -301,6 +301,31 @@ export async function education() {
   return load("education", null);
 }
 
+/** Drug policy: what the law is, who decides it, and how to weigh in. */
+export async function policy() {
+  return load("policy", null);
+}
+
+/* Articles, keyed by substance.
+ *
+ * Bundled and indexed here rather than fetched per drug, for the same reason
+ * reagentsFor is: a request for "articles about heroin" tells whoever serves
+ * it that this reader is interested in heroin. That is precisely the leak this
+ * app exists to avoid, so the whole index ships and the lookup is local.
+ *
+ * Returns [] rather than null for a drug with nothing filed, because "we have
+ * no articles for this one" is a real answer the view is expected to show. An
+ * empty shelf stated plainly beats a padded one. */
+export async function articlesFor(id) {
+  const a = await load("articles", { bySubstance: {} });
+  return a.bySubstance?.[id] || [];
+}
+
+/** Policy articles not tied to any one drug. */
+export async function articles() {
+  return load("articles", { general: [], bySubstance: {}, generated: null });
+}
+
 /** Session-only condition lens content. */
 export async function conditions() {
   return load("conditions", null);

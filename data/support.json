@@ -520,11 +520,11 @@
           "note": "A national network supporting local peer-run programs. Often the fastest route to free supplies where no storefront carries them — and they answer on social media when a website would be too slow."
         },
         {
-          "name": "Urban Survivors Union",
-          "what": "The national drug user union — organized by people who use drugs. Local chapters run supply distribution, overdose response, and advocacy. The best route to a peer-run group in your area.",
+          "name": "National Survivors Union",
+          "what": "The national union of drug users and sex workers, organized by people who use drugs — formerly Urban Survivors Union. Methadone advocacy, harm reduction education, an advocacy academy, and support for local and underground syringe programs. If there is no chapter where you are, they help you start one.",
           "cost": "Free",
-          "delivery": "Chapters nationwide",
-          "url": "https://urbansurvivorsunion.org/"
+          "delivery": "Local chapters, plus national online meetings",
+          "url": "https://www.nationalsurvivorsunion.com/"
         },
         {
           "name": "Never Use Alone",
