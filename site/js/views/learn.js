@@ -44,7 +44,10 @@ export async function render(route, { go }) {
   wrap.appendChild(
     jumpNav([
       { id: "sec-practice", label: "Practice" },
-      { id: "sec-sitting", label: "Sitting with someone" },
+      /* Points at the disclosure, not the section wrapper, because jumpNav
+         OPENS a details on the way - landing on a collapsed section would
+         look like the chip did nothing. Label matches the section heading. */
+      { id: "sec-sitting", label: "Being the calm person" },
       ...e.groups.map((g) => ({ id: `sec-${g.id}`, label: g.title })),
     ])
   );
@@ -54,7 +57,20 @@ export async function render(route, { go }) {
      has a reason to take the course underneath it. */
   wrap.appendChild(h("div", { id: "sec-practice" }, await practiceBlock()));
 
-  wrap.appendChild(await sittingBlock());
+  /* Sitting gets its own section header rather than sitting flush against
+     Practice, where it read as a third practice exercise. It is not one: the
+     exercises are a thing you try on yourself, and this is a thing you do to
+     somebody else in the room, with a hard boundary at the top about when to
+     stop doing it and call an ambulance instead. Different act, different
+     stakes, so it gets a heading and a line saying which is which. */
+  wrap.appendChild(
+    section("Being the calm person", null,
+      h("p", { class: "sec__note" },
+        "The exercises above are for you. This is for somebody else — what to " +
+        "do when a person near you is frightened, overwhelmed, or having a bad " +
+        "time on something, and nobody is quite sure whether it is an emergency."),
+      await sittingBlock())
+  );
 
   /* Does training gate naloxone? Answered up front, because the honest answer
      is "no, but" - and someone who believes they need a certificate to help
