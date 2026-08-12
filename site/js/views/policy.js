@@ -80,14 +80,8 @@ export async function render(route, { go }) {
   const wrap = h("div");
   wrap.appendChild(h("h1", null, "Policy"));
 
-  /* The dateline is the first thing, not a footnote. Everything below is only
-     as good as when it was last checked, and the reader should know that
-     before they read it rather than after. */
-  wrap.appendChild(
-    h("p", { class: "sec__note" },
-      `Checked ${g.verified}. Drug policy changes faster than this app updates — ` +
-      "anything here without a date should be treated as unverified."));
-
+  /* Jump nav directly under the title, ahead of the page's own blurb, so it
+     is in the same place on every tab. */
   wrap.appendChild(
     jumpNav([
       { id: "sec-calling", label: "Calling 911" },
@@ -96,6 +90,14 @@ export async function render(route, { go }) {
       { id: "sec-voice", label: "Being heard" },
       { id: "sec-orgs", label: "Organizations" },
     ]));
+
+  /* The dateline is a blurb, not a footnote. Everything below is only as good
+     as when it was last checked, and the reader should know that before they
+     read it rather than after. */
+  wrap.appendChild(
+    h("p", { class: "sec__note" },
+      `Checked ${g.verified}. Drug policy changes faster than this app updates — ` +
+      "anything here without a date should be treated as unverified."));
 
   /* ---- calling 911 -------------------------------------------------------
      First, and outside any collapsing, because it is the only thing on this

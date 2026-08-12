@@ -26,12 +26,6 @@ export async function render() {
 
   wrap.appendChild(h("h1", null, "Test your supply"));
 
-  /* ---- framing stays outside the collapsing, and short ---- */
-  wrap.appendChild(
-    callout("info", g.framing.headline,
-      h("p", null, g.framing.ruleInRuleOut))
-  );
-
   wrap.appendChild(
     /* One chip per top-level section, in page order. It had accumulated one
        per SUB-section too, which after grouping meant eleven chips, "Reagents"
@@ -45,6 +39,19 @@ export async function render() {
       { id: "sec-storage", label: "Storing supplies" },
     ])
   );
+
+  /* ---- framing stays outside the collapsing, and short ----
+     .intro, not callout("info"). This is the page introducing itself, which is
+     the same act as the Alerts welcome and the Support letter, so it wears the
+     same soft wash. A filled info panel here spent a severity treatment on a
+     sentence that warns of nothing - and made the real callouts further down
+     the page worth slightly less. */
+  wrap.appendChild(
+    h("div", { class: "intro" },
+      h("h2", null, g.framing.headline),
+      h("p", null, g.framing.ruleInRuleOut))
+  );
+
 
   /* The page had no section headings at all, so eight top-level disclosures
      floated in a row and nothing told a reader where one idea ended and the

@@ -64,7 +64,7 @@ export async function render(route, { go }) {
      exists. */
   wrap.appendChild(
     h("a", { class: "bigptr", href: "#/support" },
-      h("span", { class: "bigptr__hd" }, "Finding people who already get it"),
+      h("span", { class: "bigptr__hd" }, "Finding your people"),
       h("span", { class: "bigptr__sub" },
         "Support for LGBTQIA+ and trans people, Black, Native and Latino " +
         "communities, survivors, pregnant people, veterans and others — on the " +

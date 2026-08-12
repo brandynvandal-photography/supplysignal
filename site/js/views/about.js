@@ -24,7 +24,19 @@ export async function render(route, { go }) {
   wrap.appendChild(h("h1", null, "About Nightlight"));
 
   wrap.appendChild(
-    callout("info", "What this is",
+    jumpNav([
+      { id: "sec-what", label: "What it is" },
+      { id: "sec-sources", label: "Where data comes from" },
+      { id: "sec-updates", label: "How often it updates" },
+      { id: "sec-privacy", label: "What it knows about you" },
+      { id: "sec-wrong", label: "If something is wrong" },
+    ])
+  );
+
+  /* Same shared opener as Alerts, Support and Test - see .intro. */
+  wrap.appendChild(
+    h("div", { class: "intro" },
+      h("h2", null, "What this is"),
       h("p", null,
         "A free, open reference that collects what public sources have already " +
         "published about the drug supply in each US county — and puts the harm " +
@@ -34,15 +46,6 @@ export async function render(route, { go }) {
         "loaded, and it is built to be useful at 3am on a bad phone."))
   );
 
-  wrap.appendChild(
-    jumpNav([
-      { id: "sec-what", label: "What it is" },
-      { id: "sec-sources", label: "Where data comes from" },
-      { id: "sec-updates", label: "How often it updates" },
-      { id: "sec-privacy", label: "What it knows about you" },
-      { id: "sec-wrong", label: "If something is wrong" },
-    ])
-  );
 
   /* ---- what it is and is not ---- */
   wrap.appendChild(

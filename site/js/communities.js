@@ -1,4 +1,4 @@
-/* "Finding people who already get it" - the culturally-specific directory.
+/* "Finding your people" - the culturally-specific directory.
  *
  * Lives on Support rather than on After an overdose, because needing a
  * provider who will not make you explain yourself first is not an

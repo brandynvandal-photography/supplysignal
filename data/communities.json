@@ -1,6 +1,6 @@
 {
   "lastVerified": "2026-08-12",
-  "headline": "Finding people who already get it",
+  "headline": "Finding your people",
   "intro": "Most help is built around one kind of person: white, straight, housed, documented, insured. If that is not you, the hard part is often not finding help — it is explaining yourself before you can get any. These are places where the explaining is already done.",
   "howChecked": "Every number and link here was opened and read on 2026-08-12, not copied from a directory. Anything we could not confirm was left out, and the gaps are named rather than filled.",
   "keyNote": {
@@ -210,6 +210,44 @@
           "caution": "Written material and referrals, not a crisis line."
         }
       ]
+    },
+    {
+      "id": "sexwork",
+      "title": "Sex workers",
+      "blurb": "Peer-run, by people who have done the work themselves.",
+      "items": [
+        {
+          "name": "SWOP Behind Bars — Community Support Line",
+          "num": "877-776-2004",
+          "tel": "8777762004",
+          "url": "https://www.swopbehindbars.org/programs-and-services",
+          "hours": "Hours are not published. Try it, but do not count on it being answered at 4am.",
+          "what": "A national peer line answered by sex workers and survivors — safety planning, resources, and support after an arrest or an assault. Voice or chat. In their words: “All of our services and support are provided by other sex workers and survivors.”",
+          "caution": "They publish nothing about whether they would ever contact police or emergency services, so treat that as unknown rather than as a no."
+        },
+        {
+          "name": "Lyon-Martin Community Health Services",
+          "num": "415-565-7667",
+          "tel": "4155657667",
+          "url": "https://www.lyon-martin.org/",
+          "hours": "Harm reduction supplies drop-in Tuesdays 5–7pm, plus normal clinic hours.",
+          "what": "San Francisco only. A clinic that took over St. James Infirmary's street outreach in 2024 and gives out harm reduction and safer sex supplies with no appointment. Primary care, gender-affirming care, and addiction medicine for trans, intersex and cisgender women, and for street-based sex workers.",
+          "caution": "Local to San Francisco. Nothing national replaced St. James Infirmary's harm reduction program when it closed in December 2023 — that gap is real and we have not found anyone filling it."
+        },
+        {
+          "name": "SWOP Los Angeles",
+          "url": "https://swoplosangeles.org/",
+          "what": "Monthly street outreach with condoms, lube, naloxone, water and cash, plus peer support twice a month. Email only, and they ask you not to DM them for your own safety.",
+          "caution": "Los Angeles only."
+        },
+        {
+          "name": "SWOP Minneapolis",
+          "url": "https://www.swopmpls.com/",
+          "what": "Harm reduction and naloxone, connected to the Minneapolis Stripper Guild. Email only, no phone.",
+          "caution": "Minneapolis only."
+        }
+      ],
+      "gap": "SWOP USA's own site lists chapters in Hawaii, Philadelphia, Denton, Grand Rapids, Orlando, Houston and Austin. We checked every one: most of those domains no longer resolve, Houston's has not been touched since 2015, and SWOP USA publishes no working phone number and no working contact page. We are not linking chapters we could not confirm are still there — but it means this list is much shorter than the movement actually is. If you know a live local group, tell us."
     },
     {
       "id": "pregnancy",

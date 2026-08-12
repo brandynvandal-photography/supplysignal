@@ -39,13 +39,6 @@ export async function render(route, { go }) {
     return wrap;
   }
 
-  wrap.appendChild(
-    h("p", { class: "sec__note" },
-      "Things worth knowing before the night you need them — a few minutes of " +
-      "practice, how to sit with someone having a hard time, free courses, and " +
-      "how to handle consent and repair when substances are in the room.")
-  );
-
   const consent = await consentBlock();
 
   wrap.appendChild(
@@ -62,6 +55,13 @@ export async function render(route, { go }) {
                      { id: "sec-repair", label: "After you hurt someone" }] : []),
       { id: "sec-policy", label: "The law" },
     ])
+  );
+
+  wrap.appendChild(
+    h("p", { class: "sec__note" },
+      "Things worth knowing before the night you need them — a few minutes of " +
+      "practice, how to sit with someone having a hard time, free courses, and " +
+      "how to handle consent and repair when substances are in the room.")
   );
 
   /* Practice first. It is free, instant, needs no signup and no shipping
@@ -127,8 +127,8 @@ export async function render(route, { go }) {
     h("div", { id: "sec-policy" },
       section("The law, and having a say in it", null,
         h("p", { class: "sec__note" },
-          "Separate from everything above: what the rules actually are where you "
-          + "are, who writes them, and how people change them."),
+          "What the rules actually are where you are, who writes them, and how "
+          + "people change them."),
         h("a", { class: "bigptr", href: "#/policy" },
           h("span", { class: "bigptr__hd" }, "Drug policy and how to weigh in"),
           h("span", { class: "bigptr__sub" },

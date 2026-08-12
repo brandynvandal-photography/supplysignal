@@ -561,24 +561,9 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    measure that stops around 62 characters, because the failure mode of a full
    width paragraph on a laptop is that the eye loses its place returning to the
    next line. */
-.letter {
-  /* Same treatment as the first-open note on Alerts: a soft brand wash and a
-     left rule, not a bordered card. That block is the friendliest thing in the
-     app and this is the page that most needs to read that way. Sharing the
-     look also means the two moments where the app speaks TO the reader rather
-     than about a substance are recognisably the same voice. */
-  padding: var(--sp-3);
-  background: linear-gradient(135deg,
-    color-mix(in srgb, var(--brand) 10%, transparent),
-    color-mix(in srgb, var(--brand) 3%, transparent) 60%,
-    transparent);
-  border-left: 3px solid var(--brand);
-  border-radius: var(--radius);
-  /* --sp-5, not --sp-4. This block runs to three paragraphs where the Alerts
-     welcome runs to two lines, so it needs more air under it before the jump
-     nav or the two read as one stack. */
-  margin-bottom: var(--sp-5);
-}
+/* --sp-5, not the shared --sp-4: this runs to three paragraphs where the
+   Alerts welcome runs to two lines, so it needs more air under it. */
+.letter { margin-bottom: var(--sp-5); }
 /* A notch under body size. At full size three paragraphs of this fill the
    whole first screen and the page reads as an essay someone has to get
    through before they are allowed to look for help. */
@@ -1593,8 +1578,15 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
 
 /* First-open arrival. A statement, not a dialog: nothing to dismiss, nothing
    gated behind it, gone by itself on every later visit. */
-.welcome {
-  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-3);
+/* One shell for every page-opening block.
+   .welcome (Alerts), .letter (Support) and .intro (Test, About) were on their
+   way to being three near-identical rules. They are the same object: the thing
+   a page says before it starts, in the app's voice rather than a substance's.
+   A soft brand wash and a left rule, never a filled severity panel - those are
+   reserved for callout(), and a page opening that borrows a warning's styling
+   spends urgency it does not have. */
+.intro, .welcome, .letter {
+  padding: var(--sp-3);
   margin-bottom: var(--sp-4);
   background: linear-gradient(135deg,
     color-mix(in srgb, var(--brand) 10%, transparent),
@@ -1603,8 +1595,9 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
   border-left: 3px solid var(--brand);
   border-radius: var(--radius);
 }
-.welcome h2 { margin: 0 0 6px; font-size: 1.25rem; letter-spacing: -0.01em; }
-.welcome p { margin: 0; color: var(--ink-2); max-width: 58ch; }
+.intro h2, .welcome h2 { margin: 0 0 6px; font-size: 1.25rem; letter-spacing: -0.01em; }
+.intro p, .welcome p { margin: 0 0 10px; color: var(--ink-2); max-width: 58ch; }
+.intro p:last-child, .welcome p:last-child { margin-bottom: 0; }
 
 /* ------------------------------------------------- list row breathing room */
 

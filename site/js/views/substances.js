@@ -12,6 +12,7 @@
 
 import {
   h, frag, clear, section, callout, badge, extLink, empty, englishOnlyNotice, group,
+  jumpNav,
 } from "../ui.js";
 import * as data from "../data.js";
 import { CLASSES, classInfo, groupAll } from "../taxonomy.js";
@@ -83,6 +84,22 @@ async function indexView(subs, combosP, { go }) {
   wrap.appendChild(h("h1", null, "Drugs"));
   { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
 
+  /* This page never said what it was. Every other tab opens by telling you,
+     and this is the one people arrive at holding a name they half-remember. */
+  wrap.appendChild(
+    jumpNav([
+      { id: "sec-find", label: "Find a drug" },
+      { id: "sec-checker", label: "Mixing two things" },
+      { id: "grp-yours", label: "Your situation" },
+      { id: "sec-market", label: "In your region" },
+    ]));
+
+  wrap.appendChild(
+    h("p", { class: "sec__note" },
+      "What something is, what it does, how long it lasts, and what it should " +
+      "never be mixed with — plus what a reagent can and cannot tell you about " +
+      "it. Search by name, or browse by class."));
+
   /* ---- search ---- */
   const input = h("input", {
     class: "input", type: "text", autocomplete: "off", spellcheck: "false",
@@ -134,9 +151,10 @@ async function indexView(subs, combosP, { go }) {
   input.addEventListener("input", () => paint(input.value));
 
   wrap.appendChild(
-    section("Find a drug", `${subs.substances.length} with published data`,
-      h("div", { class: "search" }, h("div", { class: "search__row" }, input)),
-      list)
+    h("div", { id: "sec-find" },
+      section("Find a drug", `${subs.substances.length} with published data`,
+        h("div", { class: "search" }, h("div", { class: "search__row" }, input)),
+        list))
   );
   paint("");
 
@@ -163,7 +181,7 @@ async function indexView(subs, combosP, { go }) {
 
      Reserved height, so the sections below do not shift downward when it
      arrives - see .checkerslot. */
-  const mixSlot = h("div", { class: "checkerslot" });
+  const mixSlot = h("div", { class: "checkerslot", id: "sec-checker" });
   wrap.appendChild(mixSlot);
 
   /* Built here, rendered inside the checker below - see the note in
