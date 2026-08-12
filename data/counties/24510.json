@@ -1,13 +1,15 @@
 {
   "fips": "24510",
-  "name": "Baltimore city",
+  "name": "Baltimore City",
   "state": "MD",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-12T02:37:03.214Z",
+    "lastScan": "2026-08-12T04:57:00.239Z",
     "windowDays": 365,
-    "sourcesChecked": 3,
-    "sourcesFailed": [],
+    "sourcesChecked": 27,
+    "sourcesFailed": [
+      "la-ldh"
+    ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
   },

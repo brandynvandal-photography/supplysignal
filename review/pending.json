@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-11T22:55:53.760Z",
+  "updated": "2026-08-12T04:57:00.343Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -390,6 +390,25 @@
         "criticalMarkers": [],
         "elevatedMarkers": [],
         "score": 6
+      }
+    },
+    {
+      "title": "Delaware Hospitals Adopt Statewide Emergency Department Guidance for Opioid Use Disorder Treatment",
+      "url": "https://news.delaware.gov/2026/07/07/delaware-hospitals-adopt-statewide-emergency-department-guidance-for-opioid-use-disorder-treatment/",
+      "source": "Delaware Health and Social Services",
+      "published": "2026-07-07T10:29:54.000Z",
+      "confidence": 0.5769230769230769,
+      "audit": {
+        "substances": [
+          "opioid"
+        ],
+        "events": [
+          "overdose"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [],
+        "score": 7.5
       }
     }
   ]
