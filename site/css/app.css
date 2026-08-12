@@ -562,22 +562,32 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    width paragraph on a laptop is that the eye loses its place returning to the
    next line. */
 .letter {
-  background: var(--glass); border: 1px solid var(--glass-line);
+  /* Same treatment as the first-open note on Alerts: a soft brand wash and a
+     left rule, not a bordered card. That block is the friendliest thing in the
+     app and this is the page that most needs to read that way. Sharing the
+     look also means the two moments where the app speaks TO the reader rather
+     than about a substance are recognisably the same voice. */
+  padding: var(--sp-3);
+  margin-bottom: var(--sp-4);
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--brand) 10%, transparent),
+    color-mix(in srgb, var(--brand) 3%, transparent) 60%,
+    transparent);
+  border-left: 3px solid var(--brand);
   border-radius: var(--radius);
-  box-shadow: var(--shadow), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
-  padding: var(--sp-4); margin-bottom: var(--sp-4);
 }
-.letter p { margin: 0 0 15px; line-height: 1.72; max-width: 62ch; }
+.letter p { margin: 0 0 14px; line-height: 1.65; max-width: 58ch; color: var(--ink-2); }
 .letter p:last-child { margin-bottom: 0; }
-/* The opening line carries the whole offer, so it gets the weight the deleted
-   headline used to have - without becoming a headline again. */
-.letter__open { font-size: 1.08rem; font-weight: 600; line-height: 1.55; }
-/* Set apart, but quiet. Bold made it read as terms and conditions attached to
-   the offer above it. */
+/* The opening line carries the offer, so it takes the weight and the full ink
+   colour - matching the h2 on the Alerts note. */
+.letter__open {
+  color: var(--ink); font-size: 1.25rem; font-weight: 650;
+  letter-spacing: -0.01em; line-height: 1.3; margin-bottom: 12px;
+}
+/* Set apart, but quiet. Bold made it read as terms attached to the offer. */
 .letter__close {
-  border-top: 1px solid var(--glass-line);
-  padding-top: 14px; margin-top: 18px;
-  color: var(--ink-2);
+  border-top: 1px solid color-mix(in srgb, var(--brand) 22%, transparent);
+  padding-top: 13px; margin-top: 16px;
 }
 @media (max-width: 560px) { .letter { padding: var(--sp-3); } }
 
