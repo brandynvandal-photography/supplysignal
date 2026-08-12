@@ -42,13 +42,37 @@
       {
         "t": "Pushing more into someone is its own harm",
         "b": "Pressuring somebody past what they wanted, or not telling them what is actually in what they are taking, is on the list of ways people get hurt — not a gray area. So is walking away from someone having a bad time who asked for help."
+      },
+      {
+        "t": "Arousal is not consent",
+        "b": "Getting hard, getting wet, or coming are involuntary. The body does them without agreement and sometimes during an assault. None of them means yes, and none of them cancels a no. This matters more when someone is high, because a body on drugs is doing all sorts of things the person did not ask it to."
+      },
+      {
+        "t": "Going still is a no",
+        "b": "People freeze. They go quiet, stop moving, turn their face away, or seem to check out. That is not consent arriving — it is often consent leaving, and it is one of the most common ways a body responds to fear. If someone goes still or silent, stop and ask. Do not read stillness as permission."
+      },
+      {
+        "t": "Once you know they are not into it, stop asking",
+        "b": "Asking again after a no is pressure, even when it is polite, even when you are gentle about it. Wearing someone down until they stop saying no is not the same as them saying yes."
+      },
+      {
+        "t": "Agree on a signal before anyone is high",
+        "b": "Speech is the first thing to go. Pick something physical that works when words do not — squeezing a leg twice, stomping, dropping something, shaking your head. Agree on it while everyone is still clear, and agree that it stops everything, no discussion. This is standard practice in kink communities and it transfers directly to being high."
+      },
+      {
+        "t": "Men get assaulted, and it is mostly not talked about",
+        "b": "In a CDC survey of 6,767 US men, 16.9% reported contact sexual violence at some point in their lives, and 3.8% reported being made to penetrate someone else — which is more than the 3.2% who reported rape, and which US surveys do not count as rape. In earlier CDC data, most men who were made to penetrate reported only female perpetrators. If this happened to you, it happened. The lines below are for you too."
+      },
+      {
+        "t": "Whether being high cancels consent is state law, not one rule",
+        "b": "Every state treats intoxication and the ability to consent differently, and some carve out voluntary intoxication specifically. That is a legal question with a different answer depending on where you are standing. It does not change the practical one: if you cannot tell whether someone is able to agree, you do not have agreement."
       }
     ],
     "after": {
       "title": "If you think somebody was drugged",
       "body": [
         "It is far more common for someone to take advantage of drugs a person already took than for a stranger to spike a drink — and alcohol is the substance involved most often. Either way, none of it is the fault of the person it happened to.",
-        "Many of these drugs are gone from the body within 12 to 72 hours. If you cannot get to a hospital straight away, pee into a clean container with a lid and put it in the fridge or freezer. It keeps the option open. Tell the staff you think there was drugging, so they run the right tests.",
+        "Urine can be worth collecting up to 96 hours after — that is the window the US Department of Justice tells examiners to work to, and it is longer than most sources say. Sooner is much better, and the first time you pee is the best sample. If you cannot get to a hospital straight away, pee into a clean container with a lid and put it in the fridge or freezer. It keeps the option open. Tell the staff you think there was drugging, so they run the right tests. Blood is a shorter window, about 24 hours.",
         "The National Sexual Assault Hotline is 800-656-4673, 24 hours. It is anonymous unless you give your name and location."
       ]
     },
@@ -71,11 +95,27 @@
       },
       {
         "name": "RAINN — drug-facilitated sexual assault",
-        "url": "https://rainn.org/articles/drug-facilitated-sexual-assault"
+        "url": "https://rainn.org/what-counts-as-sexual-violence/get-the-facts-about-drug-facilitated-sexual-assault/"
       },
       {
         "name": "Planned Parenthood — sexual consent",
         "url": "https://www.plannedparenthood.org/learn/relationships/sexual-consent"
+      },
+      {
+        "name": "US Department of Justice — A National Protocol for Sexual Assault Medical Forensic Examinations (2nd ed.)",
+        "url": "https://www.govinfo.gov/content/pkg/GOVPUB-J35-PURL-gpo175234/pdf/GOVPUB-J35-PURL-gpo175234.pdf"
+      },
+      {
+        "name": "CDC — National Intimate Partner and Sexual Violence Survey, sexual violence data brief",
+        "url": "https://www.cdc.gov/nisvs/media/pdfs/sexualviolence-brief.pdf"
+      },
+      {
+        "name": "RAINN — Consent 101",
+        "url": "https://rainn.org/share-the-facts/consent-101-respect-boundaries-and-building-trust/"
+      },
+      {
+        "name": "DanceSafe — mutual consent agreements, lessons from BDSM negotiation",
+        "url": "https://dancesafe.org/navigating-mutual-consent-agreements-lessons-from-bdsm-negotiations-weloveconsent-toolbox-series/"
       }
     ]
   },
@@ -159,6 +199,10 @@
       {
         "name": "National Domestic Violence Hotline — if an abusive partner apologizes",
         "url": "https://www.thehotline.org/resources/what-if-my-abusive-partner-apologizes/"
+      },
+      {
+        "name": "Creative Interventions Toolkit — Taking Accountability (Section 4F)",
+        "url": "https://www.creative-interventions.org/wp-content/uploads/2020/10/CI-Toolkit-Final-Section-4F-Taking-Accountability-Aug-2020.pdf"
       }
     ],
     "first": {

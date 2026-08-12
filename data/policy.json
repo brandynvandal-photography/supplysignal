@@ -1,0 +1,390 @@
+{
+  "note": "Hand-curated. Every figure here carries the date its source was current, because drug policy changes faster than this app ships. A number without a date is a liability.",
+  "verified": "2026-08-12",
+  "calling": {
+    "headline": "If you call 911, what happens to you?",
+    "lead": "This is the question that stops people, and it deserves a real answer rather than reassurance.",
+    "body": [
+      "Fear of police is the most commonly documented reason people don't call for help during an overdose. That fear is not irrational, and telling you it is would be dishonest.",
+      "Every state, plus DC, now has a Good Samaritan overdose law. New Mexico was first in 2007; Kansas and Wyoming were the last, in 2024 and 2025. But what those laws actually protect varies enormously, and the gaps are the part nobody tells you."
+    ],
+    "limits": {
+      "headline": "What these laws generally do not cover",
+      "items": [
+        {
+          "t": "Being arrested",
+          "d": "Only 25 states and DC explicitly protect against arrest or being taken into custody. In roughly half the country the law protects you from being prosecuted, and says nothing about being handcuffed first."
+        },
+        {
+          "t": "Anything beyond possession",
+          "d": "Protection is generally limited to low-level possession and paraphernalia. 39 states and DC expressly include paraphernalia. Selling, sharing, or handing someone drugs is usually excluded outright."
+        },
+        {
+          "t": "A homicide charge",
+          "d": "35 states plus DC have a drug-induced homicide law, and Good Samaritan protection reaches that charge in only three: Kentucky, Vermont, and Virginia. Someone who used alongside a person who died has been charged with homicide after calling for help. In most states the Good Samaritan law does not stop that."
+        },
+        {
+          "t": "An outstanding warrant",
+          "d": "Not protected. In 12 states and DC, acting in good faith expressly excludes seeking help while a warrant is being executed."
+        },
+        {
+          "t": "Probation or parole",
+          "d": "Only 27 states and DC extend protection to a violation. 23 states do not."
+        },
+        {
+          "t": "Evidence of other crimes",
+          "d": "31 states and DC specify that immunity is not grounds for suppressing evidence of something else found at the scene."
+        }
+      ]
+    },
+    "variations": {
+      "headline": "Where your state changes the answer entirely",
+      "items": [
+        {
+          "t": "Texas and Utah",
+          "d": "An affirmative defense, not immunity. That means it is raised at trial, after you have been charged — not a reason you don't get charged."
+        },
+        {
+          "t": "Alabama, Indiana, Maine, Oklahoma, Wisconsin",
+          "d": "The caller is protected. The person who overdosed is not. Louisiana is the reverse."
+        },
+        {
+          "t": "Alabama, Iowa, North Carolina, South Carolina, Texas",
+          "d": "Only the first person to call is covered."
+        },
+        {
+          "t": "Indiana",
+          "d": "The only state that requires the caller to administer naloxone."
+        }
+      ],
+      "note": "Most laws also require you to call in good faith, stay on the scene, and cooperate with responders. Leaving can cost you the protection."
+    },
+    "bottom": "None of this is a reason not to call. It is the reason to know what your state actually does before you are standing over someone. Look up your own state's law today, not tonight.",
+    "sources": [
+      {
+        "name": "LAPPA — Good Samaritan Fatal Overdose Prevention and Drug-Induced Homicide: Summary of State Laws (research current July 2025)",
+        "url": "https://legislativeanalysis.org/wp-content/uploads/2025/08/Good-Samaritan-Fatal-Overdose-Prevention-and-Drug-Induced-Homidice.pdf"
+      },
+      {
+        "name": "GAO-21-248 — Most States Have Good Samaritan Laws (2021)",
+        "url": "https://www.gao.gov/products/gao-21-248"
+      }
+    ]
+  },
+  "law": {
+    "headline": "Where the law actually stands",
+    "blurb": "Dated, because all of this moves. Anything here without a date should be treated as unverified.",
+    "items": [
+      {
+        "t": "Fentanyl test strips are legal almost everywhere — but not quite",
+        "d": "As of July 1 2026, possessing drug-checking equipment is outside paraphernalia law in 47 states, DC and 4 territories. Three states still potentially reach it: Iowa, North Dakota, Texas. Strips for xylazine are narrower — 11 more states wrote their carve-out for fentanyl only, so it does not cover xylazine there. Florida and Wisconsin cover fentanyl and xylazine but not medetomidine or nitazene strips.",
+        "sources": [
+          {
+            "name": "LAPPA — Drug Checking Equipment fact sheet, July 2026",
+            "url": "https://legislativeanalysis.org/wp-content/uploads/2026/07/Drug-Checking-Equipment-Fact-Sheet-Update-1.pdf"
+          }
+        ]
+      },
+      {
+        "t": "Federal money stopped paying for test strips in April 2026",
+        "d": "HHS guidance dated April 24 2026 bars federal funding from buying or distributing syringes, safer smoking supplies, sterile water, and test strips of any kind — including fentanyl, xylazine and medetomidine. Test strips were explicitly fundable as recently as July 2025. Naloxone, wound care, sharps disposal, condoms and HIV/HCV testing are still funded. Legal to own is not the same as available near you, and this is why the two can diverge.",
+        "sources": [
+          {
+            "name": "SAMHSA — Dear Colleague letter, April 24 2026",
+            "url": "https://www.samhsa.gov/sites/default/files/dear-colleague-letter-upated-hr-funding-guidance.pdf"
+          }
+        ]
+      },
+      {
+        "t": "Xylazine and medetomidine are not federally scheduled",
+        "d": "Neither is a controlled substance as of August 2026. Both are veterinary sedatives. Nine states have scheduled xylazine on their own. Medetomidine reports to federal forensic labs went from 12 in 2021 to 8,391 in 2025.",
+        "sources": [
+          {
+            "name": "DEA Diversion Control — Xylazine fact sheet, May 2026",
+            "url": "https://www.deadiversion.usdoj.gov/drug_chem_info/xylazine/Xylazine.pdf"
+          },
+          {
+            "name": "DEA Diversion Control — Medetomidine fact sheet, March 2026",
+            "url": "https://www.deadiversion.usdoj.gov/drug_chem_info/medetomidine/Medetomidine.pdf"
+          }
+        ]
+      },
+      {
+        "t": "Fentanyl-related substances are permanently Schedule I as a class",
+        "d": "The HALT Fentanyl Act became law on July 16 2025. It controls fentanyl-like compounds by chemical structure rather than one at a time, and extends the same mandatory minimums — 400 grams for ten years, 40 grams for five. Supporters say it stops traffickers changing one molecule to stay legal. Critics, including civil rights and drug policy organizations, say it schedules substances without individual evidence of harm and sweeps in compounds that may be inert. The Sentencing Commission added a rebuttable exception, effective November 1 2026, for substances shown to be significantly less potent than fentanyl or to counteract it.",
+        "sources": [
+          {
+            "name": "Public Law 119-26 (HALT Fentanyl Act), enacted July 16 2025",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-119publ26/html/PLAW-119publ26.htm"
+          }
+        ]
+      },
+      {
+        "t": "Cannabis rescheduling is half-done, and the main question is undecided",
+        "d": "A final rule effective April 28 2026 moved cannabis to Schedule III only where it is in an FDA-approved drug product or under a state medical license. Everything else, including all adult-use cannabis, stays Schedule I. A separate hearing on whether cannabis generally should move concluded July 15 2026; briefs were not due until August 17 2026 and no decision has issued. Three petitions challenging the rule are pending in the D.C. Circuit. Anyone telling you the outcome right now is guessing.",
+        "sources": [
+          {
+            "name": "Federal Register — final rule, 91 FR 22714, effective April 28 2026",
+            "url": "https://www.federalregister.gov/documents/full_text/text/2026/04/28/2026-08176.txt"
+          }
+        ]
+      },
+      {
+        "t": "Syringe programs: federal funds still cannot buy the syringes",
+        "d": "A rider carried in every appropriations act, including the one enacted February 3 2026, bars federal money from buying needles or syringes anywhere. Federal funds can support the rest of a program — staff, testing, naloxone, referrals — but only where a health department has made a determination of need with CDC. 37 states, DC and Puerto Rico authorize syringe programs; roughly 587 were operating as of June 2026. Five states have none at all: Kansas, Mississippi, Nebraska, South Dakota, Wyoming.",
+        "sources": [
+          {
+            "name": "Public Law 119-75, Sec. 525, enacted February 3 2026",
+            "url": "https://www.govinfo.gov/content/pkg/PLAW-119publ75/html/PLAW-119publ75.htm"
+          },
+          {
+            "name": "LAPPA — Syringe Services Programs, July 2026",
+            "url": "https://legislativeanalysis.org/wp-content/uploads/2026/07/Syringe-Services-Programs-Fact-Sheet-1.pdf"
+          }
+        ]
+      },
+      {
+        "t": "Overdose prevention centers: two operating, contested federally",
+        "d": "Two sanctioned sites operate in the US — OnPoint NYC's two locations in Manhattan, and one in Providence run by Project Weber/RENEW, which Rhode Island authorized by statute and extended to March 1 2028. Vermont has authorized one that has not opened. Federal law, 21 U.S.C. 856, makes maintaining a place for drug use an offense, and an executive order signed July 24 2025 directs review of federally funded organizations operating such sites. No prosecution of an operating site is documented. The pressure so far has been money: OnPoint reported losing over $2 million in federal grants.",
+        "sources": [
+          {
+            "name": "21 U.S.C. 856",
+            "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title21-section856&num=0&edition=prelim"
+          },
+          {
+            "name": "Rhode Island Department of Health — harm reduction centers",
+            "url": "https://health.ri.gov/addiction-overdose/harm-reduction-centers"
+          }
+        ]
+      },
+      {
+        "t": "Overdose deaths have fallen four years running — but not everywhere",
+        "d": "CDC's provisional counts show 67,798 deaths in the 12 months ending March 2026, down 12.3% year over year and below the 2019 figure, from a peak of 110,393 in 2022. Seven jurisdictions rose over that period rather than fell, led by New Mexico at +28.3%, Colorado at +11.6% and Arizona at +5.3%. A national decline is not your county's decline.",
+        "sources": [
+          {
+            "name": "CDC/NCHS — Provisional Drug Overdose Death Counts (data updated August 12 2026)",
+            "url": "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm"
+          }
+        ]
+      }
+    ]
+  },
+  "money": {
+    "headline": "Follow the money",
+    "blurb": "Where the funding actually comes from, and why that decides what exists near you.",
+    "body": [
+      "Roughly $58.6 billion in opioid settlement money is being paid to state and local governments over 18 years, with payments having started in 2022. Settlement agreements generally require 85% to go to opioid remediation.",
+      "How it is being spent is documented and uneven. Of about $6 billion distributed through 2023, syringe services received 1.7% — about $37 million — while 41.3% went to a category that includes law enforcement. Roughly a third was appropriated, a third held in reserve, and a third is unaccounted for because some jurisdictions have not reported at all.",
+      "Of twelve states that committed in writing to disclose every dollar, seven had kept that commitment by late 2024. Four jurisdictions — Alaska, DC, Louisiana and Mississippi — had published nothing.",
+      "This is the most direct lever most people have. Settlement spending is decided by state and county officials, in public processes, and it is now the main legal channel for the supplies federal money stopped covering in April 2026."
+    ],
+    "sources": [
+      {
+        "name": "Opioid Settlement Tracker — global settlement totals",
+        "url": "https://www.opioidsettlementtracker.com/globalsettlementtracker"
+      },
+      {
+        "name": "LAPPA — Opioid Litigation Proceeds, March 2025",
+        "url": "https://legislativeanalysis.org/wp-content/uploads/2025/03/Opioid-Litigation-Proceeds-FINAL.pdf"
+      }
+    ]
+  },
+  "voice": {
+    "headline": "Making yourself heard, in a way that counts",
+    "blurb": "Congressional staff were surveyed on what actually moves them. The answers are not what most advocacy pages tell you.",
+    "what": {
+      "headline": "What has influence, when a position isn't already fixed",
+      "items": [
+        {
+          "t": "94%",
+          "d": "An in-person visit from a constituent"
+        },
+        {
+          "t": "92%",
+          "d": "An email you wrote yourself"
+        },
+        {
+          "t": "88%",
+          "d": "A letter you wrote yourself"
+        },
+        {
+          "t": "84%",
+          "d": "A phone call — which outranks a visit from a paid lobbyist, at 83%"
+        },
+        {
+          "t": "56%",
+          "d": "A form email someone else wrote for you"
+        }
+      ],
+      "note": "A prewritten template scores 36 points below the same message in your own words. That is why this page will never hand you one to send."
+    },
+    "gap": {
+      "headline": "The two things that work, that almost nobody includes",
+      "items": [
+        {
+          "t": "What it means for your district",
+          "d": "91% of staff call this helpful. 9% of constituents include it. Name your county, the program that closed, the wait for a treatment bed where you live."
+        },
+        {
+          "t": "Your own story",
+          "d": "79% of staff call this helpful. 18% of constituents include it. You do not owe anyone this, and you should weigh what it costs you to put it in writing to a government office. But it is the single most under-used thing."
+        }
+      ],
+      "note": "Include both and your message is in rare company. Also say plainly what you want them to do — a specific ask, named bill if you have one."
+    },
+    "who": {
+      "headline": "Reaching the right office",
+      "body": [
+        "Contact your own representatives. Offices are guided to prioritize their own constituents and may refer everyone else back to their own member, so a message to a senator two states away is generally set aside.",
+        "District and state offices matter as much as Washington. Staff rate district office hours and local events among the strongest signals of what people at home think.",
+        "The Capitol switchboard will connect you to any House or Senate office: (202) 224-3121."
+      ],
+      "links": [
+        {
+          "name": "Find your US Senators",
+          "url": "https://www.senate.gov/senators/senators-contact.htm"
+        },
+        {
+          "name": "Find your US Representative",
+          "url": "https://www.house.gov/representatives/find-your-representative"
+        },
+        {
+          "name": "Your state legislature",
+          "url": "https://www.congress.gov/state-legislature-websites"
+        },
+        {
+          "name": "Elected officials at every level",
+          "url": "https://www.usa.gov/elected-officials"
+        }
+      ],
+      "privacy": "These are outside links. Following one leaves this app, and the site you land on will see your visit the way any website does. Nightlight never asks where you are and never looks anything up on your behalf."
+    },
+    "sources": [
+      {
+        "name": "Congressional Management Foundation — Citizen-Centric Advocacy: The Untapped Power of Constituent Engagement (2017)",
+        "url": "https://www.congressfoundation.org/research"
+      },
+      {
+        "name": "CRS R44696 — Casework in Congressional Offices: Frequently Asked Questions",
+        "url": "https://www.congress.gov/crs-product/R44696"
+      }
+    ]
+  },
+  "orgs": {
+    "headline": "Organizations worth knowing",
+    "blurb": "Every link here was opened and confirmed on 2026-08-12. Where an organization has no donate page, that is stated rather than invented.",
+    "ledNote": "Marked entries are led by people who use drugs or by directly impacted people. That is not a formality — it changes what an organization asks for.",
+    "groups": [
+      {
+        "title": "Led by people who use drugs",
+        "items": [
+          {
+            "name": "National Survivors Union",
+            "what": "The national union of drug users and sex workers. Methadone advocacy, an advocacy academy, and help starting a local chapter where there is none. Formerly Urban Survivors Union.",
+            "url": "https://www.nationalsurvivorsunion.com/",
+            "ledByPeopleWhoUse": true
+          },
+          {
+            "name": "Never Use Alone",
+            "what": "A peer-run overdose prevention line, staffed by people with lived experience, 24 hours a day. You give a location, they stay on the line, and they send help if you stop responding.",
+            "url": "https://neverusealone.com/",
+            "ledByPeopleWhoUse": true
+          },
+          {
+            "name": "NEXT Distro",
+            "what": "Mails naloxone and supplies to all 50 states, DC and Puerto Rico. Staff describe their own lived experience of drug use.",
+            "url": "https://nextdistro.org/",
+            "donate": "https://nextdistro.org/",
+            "ledByPeopleWhoUse": true
+          },
+          {
+            "name": "NAMA Recovery",
+            "what": "Advocacy by and for people on methadone and buprenorphine. Use this address, not the similarly named site that forwards calls to paid advertisers.",
+            "url": "https://namarecovery.org/",
+            "ledByPeopleWhoUse": true
+          }
+        ]
+      },
+      {
+        "title": "National policy and harm reduction",
+        "items": [
+          {
+            "name": "Drug Policy Alliance",
+            "what": "Federal and state policy work plus organizing to end criminalization. Publishes a tracker of federal cuts to overdose prevention.",
+            "url": "https://drugpolicy.org/",
+            "donate": "https://drugpolicy.org/take-action/",
+            "involved": "https://drugpolicy.org/take-action/"
+          },
+          {
+            "name": "National Harm Reduction Coalition",
+            "what": "Training and capacity building for syringe programs, plus policy advocacy. Infrastructure for the movement rather than a direct service provider.",
+            "url": "https://harmreduction.org/",
+            "donate": "https://give.harmreduction.org/",
+            "involved": "https://harmreduction.org/take-action/"
+          },
+          {
+            "name": "Students for Sensible Drug Policy",
+            "what": "A youth and campus chapter network doing peer drug education alongside state and federal lobbying.",
+            "url": "https://ssdp.org/",
+            "donate": "https://ssdp.org/donate/",
+            "involved": "https://ssdp.org/chapters/"
+          },
+          {
+            "name": "Law Enforcement Action Partnership",
+            "what": "Former police, prosecutors and judges who testify and speak for reform. Their donate page is /give — /donate returns nothing.",
+            "url": "https://lawenforcementactionpartnership.org/",
+            "donate": "https://lawenforcementactionpartnership.org/give"
+          },
+          {
+            "name": "Broken No More",
+            "what": "Bereaved families organizing against drug-induced homicide laws and mandatory minimums. Note the hyphens in the address — the unhyphenated domain is an unrelated template site.",
+            "url": "https://broken-no-more.org/",
+            "donate": "https://broken-no-more.org/donate/"
+          },
+          {
+            "name": "Remedy Alliance / For The People",
+            "what": "Supplies low-cost naloxone in bulk to harm reduction programs.",
+            "url": "https://remedyallianceftp.org/"
+          }
+        ]
+      },
+      {
+        "title": "Finding something local",
+        "items": [
+          {
+            "name": "NASEN syringe program directory",
+            "what": "A searchable map of syringe service programs, running since 1992. NASEN says itself that listing is opt-in and not comprehensive, so an absence here is not proof nothing exists near you.",
+            "url": "https://www.nasen.org/map/"
+          },
+          {
+            "name": "Harm Reduction Near You",
+            "what": "A gateway maintained by the National Harm Reduction Coalition that routes to NASEN and NEXT Distro.",
+            "url": "https://harmreduction.org/resource-center/harm-reduction-near-you/"
+          },
+          {
+            "name": "NEXT Distro naloxone by state",
+            "what": "State-by-state pages covering all 50 states, DC and Puerto Rico. The best fallback where there is no local program.",
+            "url": "https://nextdistro.org/naloxone"
+          }
+        ]
+      }
+    ],
+    "giving": {
+      "headline": "Before you give",
+      "body": [
+        "A 501(c)(3) donation is tax-deductible. A 501(c)(4) is not, because it can lobby without limit — Drug Policy Action and the Marijuana Policy Project are the (c)(4) arms of groups listed above.",
+        "Charity Navigator only rates US 501(c)(3) organizations with three years of filed returns, which excludes most small, new, and drug-user-led groups. An unrated organization is not a bad one, and the groups closest to this work are the ones most likely to be missing."
+      ],
+      "links": [
+        {
+          "name": "Charity Navigator",
+          "url": "https://www.charitynavigator.org/"
+        },
+        {
+          "name": "Candid / GuideStar",
+          "url": "https://www.guidestar.org/"
+        }
+      ]
+    }
+  }
+}

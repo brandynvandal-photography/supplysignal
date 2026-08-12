@@ -114,6 +114,17 @@ export async function render(route, { go }) {
      people; someone who came looking for this will use the jump chip. */
   if (consent) wrap.appendChild(consent);
 
+  /* Policy sits at the foot of Learn rather than in the tab bar. The bar is
+     already six wide at 375px and a seventh would truncate them all - and
+     someone arriving in a hurry needs Alerts and SOS, not legislation. */
+  wrap.appendChild(
+    h("a", { class: "bigptr", href: "#/policy" },
+      h("span", { class: "bigptr__hd" }, "The law, the money, and how to weigh in"),
+      h("span", { class: "bigptr__sub" },
+        "What a Good Samaritan law actually protects you from and what it does not, "
+        + "where test strips are legal, who funds this, and how to reach the people "
+        + "who decide it.")));
+
   wrap.appendChild(
     section("Teach someone else", null,
       h("p", null,

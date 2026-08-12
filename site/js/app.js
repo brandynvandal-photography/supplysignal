@@ -142,6 +142,7 @@ const VIEWS = {
   support:    () => import("./views/support.js"),
   emerging:   () => import("./views/emerging.js"),
   learn:      () => import("./views/learn.js"),
+  policy:     () => import("./views/policy.js"),
   about:      () => import("./views/about.js"),
   help:       () => import("./views/help.js"),
   /* Not a tab. Reached from Support and from the foot of Emergency - the two

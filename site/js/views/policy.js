@@ -1,0 +1,176 @@
+/* Drug policy: what the law is, where the money goes, and how to weigh in.
+ *
+ * Three rules govern this page, and they are what keep it from becoming a
+ * campaign leaflet sitting on top of a medical reference:
+ *
+ *   1. Everything factual carries a date. Drug policy moves faster than this
+ *      app ships - test strip legality changed in two states in the last year,
+ *      federal funding for those same strips reversed in April 2026, and
+ *      cannabis rescheduling is mid-proceeding as this is written. An undated
+ *      claim here is a liability, not a convenience.
+ *   2. Where something is contested, both positions get stated and attributed.
+ *      The reader can hold two arguments at once; they do not need to be
+ *      steered. This is also self-interested: the asset this app actually has
+ *      is that someone believes the overdose guidance at 3am, and a reader who
+ *      decides the app has an axe to grind discounts the part that keeps them
+ *      alive.
+ *   3. No lookups. The whole app makes zero third-party requests, and asking
+ *      "who represents you" would be the first - and the single most revealing
+ *      one, since it is a location. Official lookup tools are linked, plainly
+ *      marked as leaving the site.
+ *
+ * Content lives in data/policy.json so it can be re-verified and edited
+ * without touching code, and so check-links.mjs sweeps every URL in it.
+ */
+
+import {
+  h, frag, section, callout, extLink, empty, jumpNav, sourceSink,
+} from "../ui.js";
+import * as data from "../data.js";
+
+let SRC = null;
+
+/** A titled item with a body, the shape most of this file's content takes. */
+function item(it) {
+  return h("div", { class: "lovedrow" },
+    h("h3", null, it.t),
+    h("p", null, it.d),
+    it.sources ? SRC.add(it.sources) : null);
+}
+
+/** The numbered influence rows - a figure and what it belongs to. */
+function statRow(it) {
+  return h("div", { class: "lovedrow" },
+    h("p", { class: "stat__n" }, it.t),
+    h("p", null, it.d));
+}
+
+function orgRow(o) {
+  const tags = [];
+  if (o.ledByPeopleWhoUse) tags.push("Led by people who use drugs");
+  if (o.notDeductible) tags.push("Not tax-deductible");
+
+  const links = [extLink(o.url, "Their site")];
+  if (o.donate) links.push(extLink(o.donate, "Donate"));
+  if (o.involved && o.involved !== o.donate) links.push(extLink(o.involved, "Get involved"));
+
+  return h("div", { class: "lovedrow" },
+    h("h3", null, o.name),
+    tags.length
+      ? h("p", { class: "org__tags" }, tags.join(" · "))
+      : null,
+    h("p", null, o.what),
+    h("p", { class: "org__links" }, links));
+}
+
+export async function render(route, { go }) {
+  const g = await data.policy();
+  if (!g) {
+    return empty("This section could not load.", "Check your connection and try again.");
+  }
+
+  SRC = sourceSink();
+  const wrap = h("div");
+  wrap.appendChild(h("h1", null, "Policy"));
+
+  /* The dateline is the first thing, not a footnote. Everything below is only
+     as good as when it was last checked, and the reader should know that
+     before they read it rather than after. */
+  wrap.appendChild(
+    h("p", { class: "sec__note" },
+      `Checked ${g.verified}. Drug policy changes faster than this app updates — ` +
+      "anything here without a date should be treated as unverified."));
+
+  wrap.appendChild(
+    jumpNav([
+      { id: "sec-calling", label: "Calling 911" },
+      { id: "sec-law", label: "The law now" },
+      { id: "sec-money", label: "The money" },
+      { id: "sec-voice", label: "Being heard" },
+      { id: "sec-orgs", label: "Organizations" },
+    ]));
+
+  /* ---- calling 911 -------------------------------------------------------
+     First, and outside any collapsing, because it is the only thing on this
+     page that changes what someone does tonight. Everything else here is
+     civic; this is operational. */
+  const c = g.calling;
+  /* Anchored on a wrapper div, not on the section.
+     section() returns a FRAGMENT, so there is no single element to hang an id
+     on - setting it on wrap.lastChild silently marked whatever paragraph
+     happened to come last, and every jump chip landed at the BOTTOM of the
+     section it was supposed to open. Same wrapper pattern the Learn page
+     uses, which also keeps the spacing identical to every other page. */
+  wrap.appendChild(
+    h("div", { id: "sec-calling" },
+    section(c.headline, null,
+      h("p", { class: "leadin" }, c.lead),
+      ...c.body.map((t) => h("p", null, t)),
+
+      callout("warn", c.limits.headline,
+        ...c.limits.items.map((i) =>
+          h("p", null, h("strong", null, i.t + " — "), i.d))),
+
+      h("h3", null, c.variations.headline),
+      h("div", { class: "list" }, c.variations.items.map(item)),
+      h("p", { class: "sec__note" }, c.variations.note),
+
+      h("p", { class: "leadin" }, c.bottom),
+      SRC.add(c.sources))));
+
+  /* ---- the law ---- */
+  wrap.appendChild(
+    h("div", { id: "sec-law" },
+      section(g.law.headline, g.law.blurb,
+        h("div", { class: "list" }, g.law.items.map(item)))));
+
+  /* ---- money ---- */
+  wrap.appendChild(
+    h("div", { id: "sec-money" },
+      section(g.money.headline, g.money.blurb,
+        ...g.money.body.map((t) => h("p", null, t)),
+        SRC.add(g.money.sources))));
+
+  /* ---- being heard ---- */
+  const v = g.voice;
+  wrap.appendChild(
+    h("div", { id: "sec-voice" },
+    section(v.headline, v.blurb,
+      h("h3", null, v.what.headline),
+      h("div", { class: "list" }, v.what.items.map(statRow)),
+      h("p", { class: "sec__note" }, v.what.note),
+
+      h("h3", null, v.gap.headline),
+      h("div", { class: "list" }, v.gap.items.map(item)),
+      h("p", { class: "sec__note" }, v.gap.note),
+
+      h("h3", null, v.who.headline),
+      ...v.who.body.map((t) => h("p", null, t)),
+      h("p", { class: "org__links" }, v.who.links.map((l) => extLink(l.url, l.name))),
+      /* Said plainly rather than buried. Every other page in this app can
+         promise nothing leaves the device; this one cannot, because the whole
+         point is reaching someone outside it. */
+      callout("info", "These links leave Nightlight", h("p", null, v.who.privacy)),
+      SRC.add(v.sources))));
+
+  /* ---- organizations ---- */
+  const o = g.orgs;
+  wrap.appendChild(
+    h("div", { id: "sec-orgs" },
+    section(o.headline, o.blurb,
+      h("p", { class: "sec__note" }, o.ledNote),
+      ...o.groups.map((grp) =>
+        frag(
+          h("h3", null, grp.title),
+          h("div", { class: "list" }, grp.items.map(orgRow)))),
+
+      h("h3", null, o.giving.headline),
+      ...o.giving.body.map((t) => h("p", null, t)),
+      h("p", { class: "org__links" },
+        o.giving.links.map((l) => extLink(l.url, l.name))))));
+
+  const foot = SRC.render();
+  if (foot) wrap.appendChild(foot);
+
+  return wrap;
+}

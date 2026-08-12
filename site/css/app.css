@@ -581,6 +581,24 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 }
 @media (max-width: 560px) { .letter { padding: var(--sp-3); } }
 
+/* ---- policy page ---------------------------------------------------------
+   A figure and the thing it belongs to. The number leads because the whole
+   point of that block is that the ranking is counterintuitive - a phone call
+   outscores a paid lobbyist's visit, and a form email is 36 points below the
+   same words written yourself. */
+.stat__n {
+  font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em;
+  color: var(--brand); margin: 0 0 2px;
+}
+/* Who an organization answers to, said before what it does. For this audience
+   "led by people who use drugs" is not a badge, it is the thing that decides
+   whether the organization asks for what they actually need. */
+.org__tags {
+  color: var(--ink-2); font-size: .84rem; font-weight: 600;
+  margin: 0 0 6px; letter-spacing: .01em;
+}
+.org__links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 10px 0 0; }
+
 /* Severity reads as a soft edge rather than a warning stripe. The badge and
    its word still carry the signal at full contrast. */
 .card--critical { border-left: 4px solid var(--critical); }
