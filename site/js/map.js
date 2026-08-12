@@ -187,7 +187,21 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   function sizeCanvas() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const w = Math.max(240, stage.clientWidth || host.clientWidth || 640);
-    const hh = Math.max(300, Math.min(560, Math.round(w * 0.60)));
+
+    /* Height came from the WIDTH alone (w * 0.60), which is right for the
+       full-page map where the stage grows to fit. It was wrong for the inline
+       county map: CSS caps that stage at clamp(220px, 38vh, 340px) and hides
+       overflow, so a canvas drawn 467px tall inside a 340px box simply had its
+       bottom third cut off. The map looked broken on exactly the two routes
+       people arrive by - Near me, and searching a county.
+
+       When the stage has a CSS height (the compact case), fill it. Its
+       clientHeight is reliable there precisely because CSS declares it, so
+       this cannot feed back on the canvas's own size. */
+    const boxed = compact && stage.clientHeight > 40;
+    const hh = boxed
+      ? stage.clientHeight
+      : Math.max(300, Math.min(560, Math.round(w * 0.60)));
     const cw = Math.round(w * dpr), ch = Math.round(hh * dpr);
     if (canvas.width !== cw || canvas.height !== ch) {
       canvas.width = cw; canvas.height = ch;
@@ -395,19 +409,7 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     /* Center and zoom on the located county. Runs after the first draw so the
        canvas has real dimensions - transform() needs them, and before the
        first paint they are zero. */
-    if (focus) {
-      const co = mesh.counties.find((c) => c.fips === focus);
-      if (co) {
-        const dpr = sizeCanvas();
-        state.zoom = 6;
-        const { unit, ox, oy } = transform(canvas.width, canvas.height, dpr);
-        state.panX += (canvas.width / 2 - (co.cx * unit + ox)) / dpr;
-        state.panY += (canvas.height / 2 - (co.cy * unit + oy)) / dpr;
-        state.located = focus;
-        state.locatedLabel = focusLabel;
-        draw();
-      }
-    }
+    if (focus) { centerOnFocus(); draw(); }
 
   }
 
@@ -480,6 +482,31 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
      that, so they are coalesced to one render per animation frame - otherwise
      a single scroll gesture queues a dozen full redraws. */
   let rafId = 0;
+  /* Center and zoom on the located county.
+   *
+   * Extracted and made re-runnable because the pan offsets are DERIVED from
+   * the canvas dimensions - so any resize invalidates them and the county
+   * silently drifts off centre. It ran exactly once, which was fine only for
+   * as long as the canvas never changed size.
+   *
+   * panX/panY are reset to zero before accumulating rather than being added
+   * to, so calling this twice centres twice rather than panning twice as far.
+   */
+  function centerOnFocus() {
+    if (!focus || !mesh?.counties) return;
+    const co = mesh.counties.find((c) => c.fips === focus);
+    if (!co) return;
+    const dpr = sizeCanvas();
+    state.zoom = 6;
+    state.panX = 0;
+    state.panY = 0;
+    const { unit, ox, oy } = transform(canvas.width, canvas.height, dpr);
+    state.panX = (canvas.width / 2 - (co.cx * unit + ox)) / dpr;
+    state.panY = (canvas.height / 2 - (co.cy * unit + oy)) / dpr;
+    state.located = focus;
+    state.locatedLabel = focusLabel;
+  }
+
   function scheduleDraw() {
     if (rafId) return;
     rafId = requestAnimationFrame(() => { rafId = 0; draw(); });
@@ -589,10 +616,77 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   canvas.addEventListener("pointerup", clearPointer);
   canvas.addEventListener("pointercancel", clearPointer);
 
-  const ro = new ResizeObserver(() => { scheduleDraw(); drawPickSoon(); });
+  /* mountMap runs BEFORE its host is in the document, so the first
+     sizeCanvas() measures a stage of zero height and falls back to the
+     aspect-ratio height - which on the inline county map is taller than the
+     box CSS gives it, and the stage hides overflow. That is what cut the
+     bottom off the map on the two routes people actually arrive by: Near me,
+     and searching a county.
+
+     Layout arrives after mount, so re-measure then. Re-centring is not
+     optional here: the pan offsets were computed against the old dimensions,
+     so a resize without it leaves the county off centre. */
+  let lastW = 0, lastH = 0;
+  const ro = new ResizeObserver(() => {
+    sizeCanvas();
+    if (canvas.width !== lastW || canvas.height !== lastH) {
+      lastW = canvas.width; lastH = canvas.height;
+      centerOnFocus();
+    }
+    scheduleDraw(); drawPickSoon();
+  });
   ro.observe(stage);
 
   await refresh();
+
+  /* Settle once layout exists.
+   *
+   * mountMap is called from countyView WITHOUT being awaited, so it runs while
+   * its host is still detached. Every measurement in that first pass is the
+   * fallback: stage.clientWidth is 0, so w falls back to 640 and the canvas is
+   * sized 640x384 - taller than the 304px box CSS gives the inline map, whose
+   * stage hides overflow. That is why the bottom of the map was missing on the
+   * two routes people actually arrive by, Near me and county search.
+   *
+   * The ResizeObserver was supposed to catch this and does not fire reliably
+   * for an element that is inserted after observation begins, so this does not
+   * depend on it: two frames, because the host is inserted on one and laid out
+   * on the next. Re-centring is part of settling - the pan offsets were
+   * computed against the fallback dimensions and are meaningless once the
+   * canvas changes size. */
+  let tries = 0;
+  const settle = () => {
+    const beforeW = canvas.width, beforeH = canvas.height;
+    sizeCanvas();
+    /* Only when something actually changed. Assigning canvas.width or .height
+       CLEARS the canvas, so repainting has to be part of the same step - and
+       it has to be a direct draw() rather than scheduleDraw(), because that
+       queues through requestAnimationFrame, which does not run in a background
+       tab. Clearing on a timer and repainting on rAF leaves a blank map until
+       the reader switches to it. */
+    if (canvas.width !== beforeW || canvas.height !== beforeH) {
+      centerOnFocus();
+      draw();
+      drawPickSoon();
+    }
+    /* Keep looking until the host is genuinely laid out. Two frames was not
+       enough: countyView starts this with a bare import().then(), so it can
+       finish before the view is ever appended, and every measurement until
+       then returns zero. Capped so a map that never gets displayed cannot
+       spin forever. */
+    /* Poll unconditionally rather than stopping the moment a width appears:
+       width and height arrive at different times, and stopping on width alone
+       left the height on its fallback. sizeCanvas is a no-op when nothing has
+       changed, so ~3s of 75ms checks costs nothing and guarantees the map
+       corrects itself whenever layout actually lands. */
+    if (tries++ < 40) setTimeout(settle, 75);
+  };
+  /* setTimeout rather than requestAnimationFrame, deliberately: rAF does not
+     fire at all while a tab is in the background, so a map opened in a
+     background tab would never size itself and would still be showing the
+     640x384 fallback when the reader switched to it. Timers are throttled
+     there but they do run. */
+  setTimeout(settle, 0);
 
   return () => { ro.disconnect(); cancelAnimationFrame(rafId); };
 }
