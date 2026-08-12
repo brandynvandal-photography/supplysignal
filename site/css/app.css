@@ -855,7 +855,20 @@ ol.steps p { font-size: .95rem; color: var(--ink-2); }
 
 .tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch;
              border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-table.data { border-collapse: collapse; width: 100%; font-size: .92rem; min-width: 520px; }
+/* The 520px floor is OPT-IN, on .cmp, rather than the default.
+ *
+ * It used to apply to every .data table, which forced all six two-column
+ * tables to overflow their wrapper and scroll sideways on a phone - the
+ * columns squeezed into a cramped strip inside a box for no reason, since
+ * "Sold as / Found to contain fentanyl" fits a 402pt screen comfortably.
+ *
+ * Exactly one table in the app genuinely needs the floor: the four-column
+ * tool comparison, where wrapping every cell to three lines would destroy
+ * the side-by-side reading the table exists for. That one keeps it, and
+ * scrolls horizontally on purpose. Any future wide table should take .cmp
+ * (or its own modifier) rather than moving the floor back up here. */
+table.data { border-collapse: collapse; width: 100%; font-size: .92rem; }
+table.data.cmp { min-width: 520px; }
 table.data th, table.data td {
   text-align: left; padding: 13px var(--sp-3); border-bottom: 1px solid var(--line); vertical-align: top;
 }
@@ -1084,6 +1097,35 @@ details.disc[open] > summary::after { content: "\2212"; background: var(--brand)
 details.disc > summary:hover h2 { color: var(--brand); }
 .disc__body { padding: var(--sp-1) var(--sp-4) var(--sp-4); }
 .disc__body > .sec:first-child { margin-top: 0; }
+
+/* Padding must not COMPOUND on a phone.
+ *
+ * A card inside a disclosure body was paying 32px of inset twice: 402pt of
+ * screen became 362 (page gutters), then 296 (disc body), then 230 by the time
+ * content rendered - 43% of the width spent on air before a single word. A
+ * two-column table then had to scroll sideways inside a 230px box, which is
+ * what read as "too narrow".
+ *
+ * The airy inset is deliberate and stays; this only stops it being charged
+ * twice for the same edge. Three levels of 20px still keeps everything well
+ * clear of the border, and recovers ~50px of reading width. Desktop is
+ * untouched - it has the room. */
+@media (max-width: 560px) {
+  .disc__body,
+  /* .acc is the inner accordion, so its body is often a FOURTH inset on top
+     of page + disclosure + card. That is where the narrowest content on the
+     app lives. */
+  .acc__body { padding-left: var(--sp-3); padding-right: var(--sp-3); }
+  .disc__body > .card,
+  .disc__body > .sec + .card,
+  .acc__body > .card { padding-left: var(--sp-3); padding-right: var(--sp-3); }
+
+  /* Cell padding is the other half of it. At 20px a side, a two-column row
+     spent 80px on padding before any text, which is what kept the narrow
+     tables scrolling even once their container had room. 12px still reads as
+     a table rather than a spreadsheet. */
+  table.data th, table.data td { padding-left: 12px; padding-right: 12px; }
+}
 
 /* The combination checker arrives a moment after the rest of the page (see
    mixSlot in views/substances.js). Reserving its height means the sections
