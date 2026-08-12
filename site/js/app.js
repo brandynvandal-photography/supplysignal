@@ -193,8 +193,26 @@ function focusView() {
   target.focus({ preventScroll: true });
 }
 
+/* Every screen opens at its top.
+ *
+ * Without this, tapping a tab while halfway down a long page landed you
+ * halfway down the NEXT one - on Drugs that is somewhere in the middle of the
+ * class grid, with no heading in sight and no way to tell what you are looking
+ * at. The browser was doing what it does for a single document; this is six
+ * documents wearing one URL.
+ *
+ * Scrolled BEFORE the render so the skeleton is seen from the top rather than
+ * the page jumping under a finger after content lands. Instant, never smooth:
+ * a navigation is not a journey, and animating it would mean watching the old
+ * page leave.
+ *
+ * The jump chips are buttons and do not touch the hash (see jumpNav in ui.js),
+ * so in-page navigation is unaffected by this. */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
 let first = true;
 window.addEventListener("hashchange", async () => {
+  window.scrollTo(0, 0);
   await route();
   focusView();
 });
@@ -276,6 +294,55 @@ async function renderFooterMeta() {
       : t("footer.awaitingScan"));
 }
 
+/* Back to top.
+ *
+ * These pages are long by necessity - the limitations of a test strip are the
+ * part that keeps somebody alive, so they cannot be cut - and on a laptop
+ * there is no bottom tab bar to escape to. This is the way back up.
+ *
+ * DESKTOP ONLY, and that is a deliberate limit rather than an omission: on a
+ * phone the bottom bar already owns that corner, and a floating button over
+ * the Emergency tab is the last thing that should ever be there.
+ *
+ * It scrolls AND moves focus to the heading. Scrolling alone would leave a
+ * keyboard user's focus stranded at the foot of the page, so the next Tab
+ * would drop them back where they started - a button that appears to do
+ * nothing for the people most likely to need it.
+ */
+function mountBackToTop() {
+  const wide = window.matchMedia("(min-width: 880px)");
+  const btn = h("button", {
+    type: "button", class: "totop", hidden: true,
+    "aria-label": "Back to top",
+    onClick: () => {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+      focusView();
+    },
+  }, h("span", { "aria-hidden": "true" }, "↑"));
+
+  document.body.appendChild(btn);
+
+  /* One rAF-throttled read per frame at most. A scroll handler that measures
+     on every event is how a long page starts stuttering on a cheap laptop. */
+  let ticking = false;
+  const sync = () => {
+    ticking = false;
+    // Roughly one screenful down: far enough that "top" is genuinely lost.
+    const show = wide.matches && window.scrollY > window.innerHeight * 0.8;
+    btn.toggleAttribute("hidden", !show);
+  };
+  window.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(sync);
+  }, { passive: true });
+
+  wide.addEventListener?.("change", sync);
+  window.addEventListener("hashchange", sync);
+  sync();
+}
+
 /* ------------------------------------------------------------------- boot */
 
 (async function boot() {
@@ -319,6 +386,8 @@ async function renderFooterMeta() {
     syncKind();
     window.addEventListener("hashchange", syncKind);
   }
+
+  mountBackToTop();
 
   /* Stamp this visit only after the first render, so the screen the reader is
      looking at is still measured against their PREVIOUS visit. seen.js captures

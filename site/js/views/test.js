@@ -233,14 +233,31 @@ export async function render() {
          reader nothing about which of the three sections they want. */
       disclosure("sec-reagents", "Reagents",
         null,
-        callout("stop", "No reagent detects fentanyl",
+        /* The heading is scoped to the question a reader actually asks -
+           "is fentanyl in MY drugs" - rather than to reagent chemistry.
+           Reference-grade fentanyl DOES react with Marquis, so the flat claim
+           "no reagent detects fentanyl" is refutable, and a rule that can be
+           refuted is a rule someone talks themselves out of at the wrong
+           moment. This version cannot be refuted and is the same sentence
+           DanceSafe publishes. The chemistry nuance lives below, collapsed,
+           where it cannot read as permission. */
+        callout("stop", "No reagent can tell you if fentanyl is in your drugs",
           h("p", null, g.reagentIntro.cannotDetectFentanyl)),
         reagentFilter(g.reagents),
         h("details", { class: "acc" },
           h("summary", null, h("span", null, "Why a color can be hidden")),
           h("div", { class: "acc__body" },
             h("ul", null, g.reagentIntro.masking.map((m) => h("li", null, m))),
-            h("p", null, g.reagentIntro.mixtures))))
+            h("p", null, g.reagentIntro.mixtures))),
+        g.reagentIntro.pureSampleNote
+          ? h("details", { class: "acc" },
+              h("summary", null,
+                h("span", null, g.reagentIntro.pureSampleNote.q)),
+              h("div", { class: "acc__body" },
+                h("p", null, g.reagentIntro.pureSampleNote.a),
+                h("p", null, g.reagentIntro.pureSampleNote.b),
+                sourceRow(g.reagentIntro.pureSampleNote.sources)))
+          : null)
     ),
       (
       disclosure("sec-procedure", "How to run a reagent test", null,
