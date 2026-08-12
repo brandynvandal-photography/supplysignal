@@ -646,6 +646,13 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 
 .county-head { margin-bottom: var(--sp-2); }
 .county-head h1 { margin-bottom: 4px; }
+/* Air between a back link and the title it sits above.
+   h1 carries margin:0 and the button only had its own padding, so "‹ All
+   drugs" ended up almost touching the drug name - the two read as one stacked
+   block rather than a control and then the thing you came for. Scoped to the
+   sibling pair so the county and emerging headers, which have no button above
+   them, keep their existing spacing. */
+.btn + .county-head, .backlink + .county-head { margin-top: var(--sp-3); }
 .county-head .mono {
   font-size: .86rem; color: var(--ink-3); letter-spacing: 0;
 }
