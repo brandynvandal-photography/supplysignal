@@ -4,11 +4,11 @@
   "state": "CO",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T22:49:40.983Z",
+    "lastScan": "2026-08-12T23:53:46.077Z",
     "windowDays": 365,
-    "sourcesChecked": 3,
+    "sourcesChecked": 27,
     "sourcesFailed": [
-      "google-news"
+      "la-ldh"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
