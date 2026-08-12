@@ -162,8 +162,8 @@ async function indexView(subs, combosP, { go }) {
      jumps except this one block appearing.
 
      Reserved height, so the sections below do not shift downward when it
-     arrives - see .mixslot. */
-  const mixSlot = h("div", { class: "mixslot" });
+     arrives - see .checkerslot. */
+  const mixSlot = h("div", { class: "checkerslot" });
   wrap.appendChild(mixSlot);
 
   wrap.appendChild(

@@ -1073,8 +1073,8 @@ details.disc > summary:hover h2 { color: var(--brand); }
    mixSlot in views/substances.js). Reserving its height means the sections
    below do not jump downward when it lands - a shift under someone's thumb is
    how a fast page still feels broken. Collapses to nothing if it never comes. */
-.mixslot { min-height: 200px; }
-.mixslot:empty { min-height: 0; }
+.checkerslot { min-height: 200px; }
+.checkerslot:empty { min-height: 0; }
 
 /* A group tile says what is inside it while it is still closed.
    min-width:0 so a long preview ellipsizes instead of shoving the +/- off. */
