@@ -19,7 +19,13 @@
  * updates hourly and must never block an emergency lookup on the network.
  */
 
-const VERSION = "sc-v1";
+/* Bump this on any release that changes the shell. Stale-while-revalidate
+   means a returning reader gets the CACHED shell first, so without a bump the
+   Nightlight rename would have shown them the old name for one more visit.
+   Changing it drops the previous cache on activate, and skipWaiting +
+   clients.claim below make that take effect on this visit rather than the
+   next one. */
+const VERSION = "nl-v2";
 
 /* The minimum set that makes every screen renderable offline. Data files are
    picked up on first use by the runtime cache. */
