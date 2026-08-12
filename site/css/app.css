@@ -709,15 +709,31 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   display: grid; gap: 10px;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
 }
+/* A floating bubble, matching details.disc - not a boxed card.
+   It carried a hard --edge outline while every other surface on the site used
+   the soft --glass-line plus a shadow, which is what made these read as boxes
+   with a background rather than as tiles sitting on the page.
+
+   --edge exists for the BOUNDARY of a tappable thing (WCAG 1.4.11 wants 3:1
+   for that), so dropping it needs the affordance to come from somewhere else:
+   here it is the raised shadow, the distinct surface behind the text, and a
+   hover that both lifts and lightens. Same trade the disclosures already make,
+   and they are tappable too. */
 .classcard {
   display: flex; flex-direction: column; gap: 3px;
-  background: var(--glass); border: 1px solid var(--edge);
+  background: var(--glass); border: 1px solid var(--glass-line);
   border-radius: var(--radius); padding: var(--sp-3) var(--sp-3);
   min-height: var(--tap); cursor: pointer;
   font: inherit; color: inherit; text-align: left;
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
   transition: border-color .18s ease, background .18s ease, transform .18s ease;
 }
-.classcard:hover { background: var(--glass-strong); border-color: var(--line-2); }
+.classcard:hover {
+  background: var(--glass-strong); border-color: var(--line-2);
+  transform: translateY(-1px);
+}
 .classcard:active { transform: scale(.985); }
 /* No severity colour anywhere here. These are subject areas, not a ranking of
    danger, and tinting them would read as one. */
@@ -761,7 +777,10 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 
 .nbr {
   display: flex; align-items: center; gap: 11px; width: 100%;
-  background: var(--glass); border: 1px solid var(--edge);
+  background: var(--glass); border: 1px solid var(--glass-line);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
   border-radius: var(--radius); padding: 16px var(--sp-3); margin-bottom: 8px;
   cursor: pointer; font: inherit; color: inherit; text-align: left;
   min-height: var(--tap);
@@ -1903,8 +1922,11 @@ details.disc .groupkids > details.disc > summary h2 {
   margin: var(--sp-3) 0 var(--sp-4);
   padding: 14px var(--sp-3);
   background: var(--glass);
-  border: 1px solid var(--edge);
+  border: 1px solid var(--glass-line);
   border-radius: var(--radius);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
 }
 .naloxptr a {
   color: var(--brand); font-weight: 600;
