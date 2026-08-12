@@ -2,17 +2,14 @@
   "lastVerified": "2026-08-12",
   "headline": "Consent, and putting things right",
   "blurb": "Two things almost nobody is taught: how to be sure someone actually wants what is happening when substances are involved, and what to do once you have hurt somebody and want to fix it.",
-
   "consent": {
     "title": "Consent when people are high",
     "intro": "Most people who use drugs never hurt anyone. This is here because the rules everyone learned were written for sober rooms, and nobody hands you a new set at the door.",
-
     "callout": {
       "title": "If you are asking yourself whether they are too out of it, that is your answer",
       "body": "You do not have to work out where the line is. The fact that you are wondering means you are near it, and a good night is nowhere near that line.",
       "detail": "Wait. If they want you in the morning, they will still want you in the morning."
     },
-
     "items": [
       {
         "t": "There is no amount that makes it fine",
@@ -47,7 +44,6 @@
         "b": "Pressuring somebody past what they wanted, or not telling them what is actually in what they are taking, is on the list of ways people get hurt — not a gray area. So is walking away from someone having a bad time who asked for help."
       }
     ],
-
     "after": {
       "title": "If you think somebody was drugged",
       "body": [
@@ -56,24 +52,39 @@
         "The National Sexual Assault Hotline is 800-656-4673, 24 hours. It is anonymous unless you give your name and location."
       ]
     },
-
     "sources": [
-      { "name": "Brown University — substances and consent", "url": "https://bwell.brown.edu/resource/substances-and-consent" },
-      { "name": "DanceSafe — establishing mutual consent", "url": "https://dancesafe.org/weloveconsent-toolbox-redefining-consent-conversation/" },
-      { "name": "DanceSafe — hooking up with integrity", "url": "https://dancesafe.org/weloveconsent-toolbox-hooking-up-with-integrity/" },
-      { "name": "DanceSafe — dosing people is never okay", "url": "https://dancesafe.org/dosing-your-unexpecting-friends-is-never-okay/" },
-      { "name": "RAINN — drug-facilitated sexual assault", "url": "https://rainn.org/articles/drug-facilitated-sexual-assault" },
-      { "name": "Planned Parenthood — sexual consent", "url": "https://www.plannedparenthood.org/learn/relationships/sexual-consent" }
+      {
+        "name": "Brown University — substances and consent",
+        "url": "https://bwell.brown.edu/resource/substances-and-consent"
+      },
+      {
+        "name": "DanceSafe — establishing mutual consent",
+        "url": "https://dancesafe.org/weloveconsent-toolbox-redefining-consent-conversation/"
+      },
+      {
+        "name": "DanceSafe — hooking up with integrity",
+        "url": "https://dancesafe.org/weloveconsent-toolbox-hooking-up-with-integrity/"
+      },
+      {
+        "name": "DanceSafe — dosing people is never okay",
+        "url": "https://dancesafe.org/dosing-your-unexpecting-friends-is-never-okay/"
+      },
+      {
+        "name": "RAINN — drug-facilitated sexual assault",
+        "url": "https://rainn.org/articles/drug-facilitated-sexual-assault"
+      },
+      {
+        "name": "Planned Parenthood — sexual consent",
+        "url": "https://www.plannedparenthood.org/learn/relationships/sexual-consent"
+      }
     ]
   },
-
   "repair": {
     "title": "After you have hurt someone",
-    "intro": "Crossing a line does not make you a bad person. What you do next is the part that is actually yours. This is not about grovelling, and it is not about getting forgiven — neither of those helps the person you hurt.",
-
+    "intro": "Crossing a line does not make you a bad person — what you do next is the part that is actually yours. This is not about grovelling, and it is not about being forgiven. Neither of those helps the person you hurt.",
     "framework": {
-      "title": "The four parts",
-      "credit": "This is Mia Mingus's framework, from her essay “The Four Parts of Accountability” (2019). She is clear that it was written for conflict, hurt feelings and small breaks in trust — not for serious harm, violence or abuse. If what happened was serious, this is not enough on its own, and it is worth finding someone experienced to help.",
+      "title": "The four parts, if you want a map",
+      "credit": "The structure underneath all of this is Mia Mingus's, from her essay “The Four Parts of Accountability” (2019). She wrote it for conflict, hurt feelings and small breaks in trust — not for serious harm, violence or abuse. If what happened was serious, this is not enough on its own, and it is worth finding someone experienced to help.",
       "parts": [
         {
           "name": "Work out what you did",
@@ -93,7 +104,6 @@
         }
       ]
     },
-
     "apology": {
       "title": "What an apology needs, and what wrecks one",
       "helps": [
@@ -111,30 +121,54 @@
         "Apologizing when you do not mean it. A hollow apology does more damage than saying nothing."
       ]
     },
-
     "caution": {
       "title": "Sometimes the apology is for you, not for them",
       "body": "Turning up to make amends can land on somebody as one more thing being done to them — especially if they have been trying not to think about it, or if seeing you is frightening. Even AA's ninth step, which is all about making amends directly, stops at “except when to do so would injure them or others.”",
       "detail": "So check before you go: is this to put something right, or to feel better? Would it cost them anything to receive it? If you are not sure, ask someone else first, or write it and do not send it. Nobody is ever obliged to accept an apology, and someone deciding they do not want contact is an answer, not a door left open."
     },
-
     "shame": {
       "title": "Feeling terrible is not the same as fixing it",
       "body": [
         "There is a difference between “I did something bad” and “I am bad.” The research on this is fairly consistent: the first tends to lead people to own up, apologize and put things right, and the second tends to lead to hiding, getting defensive, and lashing out. Shame does not make people behave better — it mostly makes them harder to reach.",
         "That matters more here than most places. Feeling like a bad person is tangled up with using more, and drowning in it is not accountability. It looks like it from the inside, because it hurts, but the person you hurt gets nothing out of your suffering.",
         "One honest caveat: most of this research was done on college students, and one study of people with substance problems could not find the same clean split between the two feelings. So treat it as a useful way to steer yourself, not as a law.",
-        "The useful move when “I am a bad person” shows up is to answer it: I do not want to be someone who does that, and I am going to fix what I can."
+        "When “I am a bad person” shows up, answer it directly: I do not want to be someone who does that, and I am going to fix what I can. That is not letting yourself off — it is the difference between a person who changes and a person who hides."
       ]
     },
-
     "sources": [
-      { "name": "Mia Mingus — the four parts of accountability", "url": "https://leavingevidence.wordpress.com/2019/12/18/how-to-give-a-good-apology-part-1-the-four-parts-of-accountability/" },
-      { "name": "DanceSafe — repairing a consent violation", "url": "https://dancesafe.org/being-accused-of-consent-violation-how-to-respond-repair/" },
-      { "name": "Alcoholics Anonymous — the twelve steps", "url": "https://www.aa.org/the-twelve-steps" },
-      { "name": "Recovery Dharma (non 12-step) — amends", "url": "https://recoverydharma.org/book/" },
-      { "name": "Tangney et al., Annual Review of Psychology (2007)", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3083636/" },
-      { "name": "National Domestic Violence Hotline — if an abusive partner apologizes", "url": "https://www.thehotline.org/resources/what-if-my-abusive-partner-apologizes/" }
-    ]
+      {
+        "name": "Mia Mingus — the four parts of accountability",
+        "url": "https://leavingevidence.wordpress.com/2019/12/18/how-to-give-a-good-apology-part-1-the-four-parts-of-accountability/"
+      },
+      {
+        "name": "DanceSafe — repairing a consent violation",
+        "url": "https://dancesafe.org/being-accused-of-consent-violation-how-to-respond-repair/"
+      },
+      {
+        "name": "Alcoholics Anonymous — the twelve steps",
+        "url": "https://www.aa.org/the-twelve-steps"
+      },
+      {
+        "name": "Recovery Dharma (non 12-step) — amends",
+        "url": "https://recoverydharma.org/book/"
+      },
+      {
+        "name": "Tangney et al., Annual Review of Psychology (2007)",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3083636/"
+      },
+      {
+        "name": "National Domestic Violence Hotline — if an abusive partner apologizes",
+        "url": "https://www.thehotline.org/resources/what-if-my-abusive-partner-apologizes/"
+      }
+    ],
+    "first": {
+      "title": "The first five minutes",
+      "body": "Your feelings are real and they are not the focus right now. The instinct is to explain what you meant, or to fall apart — both land on the other person as being told it did not happen, or as a job to manage you.",
+      "scripts": [
+        "“Can you help me understand what just happened? I don't want this to happen again.”",
+        "“What could I have done differently?”"
+      ],
+      "note": "Then stop talking and listen to the answer, including if the answer is that they want you to go away."
+    }
   }
 }

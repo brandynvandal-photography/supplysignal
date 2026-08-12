@@ -254,6 +254,21 @@ async function consentBlock() {
       disclosure("sec-repair", r.title, { open: false },
         r.intro ? h("p", { class: "sec__note" }, r.intro) : null,
 
+        /* DanceSafe's guidance leads, and Mingus's framework follows as the
+           map. Two reasons, both from checking the sources: theirs is written
+           for exactly this setting and does not moralise, and Mingus's essay
+           explicitly excludes serious harm from its scope - which in a
+           drug-using context is precisely the case someone may be here for.
+           The scripts are quoted because a person who has just hurt somebody
+           usually cannot compose a sentence. */
+        r.first
+          ? h("div", { class: "card" },
+              h("h3", null, r.first.title),
+              h("p", null, r.first.body),
+              h("ul", null, (r.first.scripts || []).map((x) => h("li", null, x))),
+              r.first.note ? h("p", null, r.first.note) : null)
+          : null,
+
         /* Credited in the body, not just in a source row. This framework is
            somebody's work and the attribution is part of the content. */
         r.framework
