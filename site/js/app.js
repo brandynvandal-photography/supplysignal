@@ -144,6 +144,7 @@ const VIEWS = {
   learn:      () => import("./views/learn.js"),
   policy:     () => import("./views/policy.js"),
   supervision: () => import("./views/supervision.js"),
+  sex:        () => import("./views/sex.js"),
   about:      () => import("./views/about.js"),
   help:       () => import("./views/help.js"),
   /* Not a tab. Reached from Support and from the foot of Emergency - the two

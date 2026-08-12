@@ -1,0 +1,253 @@
+{
+  "note": "Hand-curated. Written for people who are going to be out, using, and having sex, because that is what happens. Nothing here is conditional on stopping any of it.",
+  "verified": "2026-08-12",
+  "headline": "Sex, and being out",
+  "blurb": "Barriers, PrEP and PEP, emergency contraception, the drug interactions that actually put people in hospital, and an honest answer about drink testing.",
+  "framing": {
+    "headline": "Why this page is not a list of precautions",
+    "body": [
+      "The usual nightlife advice — watch your drink, don't go out alone, don't wear that — has a measured effect, and it is not the one intended.",
+      "In a review of research on preventing sexual harm in nightlife, people who were given victim-focused prevention tips went on to blame victims MORE than people given tips aimed at potential perpetrators. Only 8 of 35 studies evaluated whether an intervention worked at all.",
+      "So this page is built the other way round: what you can do for other people, what actually reduces risk, and what to do afterwards."
+    ],
+    "sources": [
+      {
+        "name": "Button et al., Archives of Sexual Behavior 2024",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11219429/"
+      }
+    ]
+  },
+  "spiking": {
+    "headline": "Drink spiking, honestly",
+    "blurb": "Not what the posters say, and the products sold for it mostly do not work.",
+    "items": [
+      {
+        "t": "The drug most likely to be involved is alcohol",
+        "d": "In a US study of 144 people reporting sexual assault, drugs were found in 61.8% — but only 4.9% were the classic “date-rape” drugs, and 4.2% were assessed as having been drugged without knowing. In 100 people at an Oslo clinic who suspected spiking, GHB was found in exactly none. Across the research, the substance most often involved is alcohol, sometimes more of it than the person ordered.",
+        "note": "This is not a reason to relax. It is a reason to point your attention at the right thing — how much you have actually had, and who is topping you up.",
+        "sources": [
+          {
+            "name": "Negrusz et al., NIJ 2005",
+            "url": "https://www.ojp.gov/pdffiles1/nij/grants/212000.pdf"
+          },
+          {
+            "name": "Dalaker et al., PLoS One 2024",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11236145/"
+          }
+        ]
+      },
+      {
+        "t": "Drink test strips and coasters mostly do not work",
+        "d": "Detection coasters showed 0% sensitivity for ketamine in laboratory testing, and their “GHB” reagent turned out to be bromocresol green — a pH indicator that responds to any drink above about pH 5.5, not to GHB. Consumer kits tested at 37.5% and 69% sensitivity. In the strongest test, 236 drinks collected from real venues were clean by mass spectrometry across 39 drugs, and the colour kits called up to 97% of them positive.",
+        "note": "Massachusetts' health department reviewed these and recommended against buying and distributing them. California, meanwhile, requires bars to offer them — and in the same law immunises everyone against a wrong result. A state mandate is not an efficacy finding.",
+        "sources": [
+          {
+            "name": "Germain et al., Forensic Sci Int 2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37741179/"
+          },
+          {
+            "name": "Gautam & Grela, Anglia Ruskin University for Drinkaware, 2024",
+            "url": "https://media.drinkaware.co.uk/media/cakdj3ix/drink-spiking-research-report-2024.pdf"
+          }
+        ]
+      },
+      {
+        "t": "A cover is different, and worth using",
+        "d": "Nobody has tested whether drink covers work — that is a real gap, not a hidden finding. But a cover cannot give you a false negative. A strip can tell you your drink is clear when it is not, and that is worse than having nothing.",
+        "note": "That distinction is the whole point: prefer the thing that cannot lie to you."
+      },
+      {
+        "t": "If you think it happened",
+        "d": "Urine is worth collecting up to 96 hours after, which is longer than most sources say — sooner is much better, and the first time you pee is the best sample. You do not have to decide about police to have evidence taken, and the exam must not be made conditional on agreeing to a toxicology test. The National Sexual Assault Hotline is 800-656-4673.",
+        "note": "Voluntary drug use does not make it not an assault, and does not disqualify a case. The federal examination protocol says so directly to clinicians.",
+        "sources": [
+          {
+            "name": "US DOJ — National Protocol for Sexual Assault Medical Forensic Examinations",
+            "url": "https://www.govinfo.gov/content/pkg/GOVPUB-J35-PURL-gpo175234/pdf/GOVPUB-J35-PURL-gpo175234.pdf"
+          }
+        ]
+      },
+      {
+        "t": "And the other direction",
+        "d": "In a survey of 6,064 students, 462 reported having been drugged — and 83 reported drugging someone else. Men who did it most often gave “having fun” as the reason. Giving somebody a drug they are not expecting is never a joke, whatever it was.",
+        "sources": [
+          {
+            "name": "Swan et al., Psychology of Violence 2017",
+            "url": "https://scholars.uky.edu/en/publications/just-a-dare-or-unaware-outcomes-and-motives-of-drugging-drink-spi/"
+          }
+        ]
+      }
+    ]
+  },
+  "barriers": {
+    "headline": "Barriers",
+    "items": [
+      {
+        "t": "Condoms, and what actually breaks them",
+        "d": "About 98% effective with perfect use and around 87% in real life — meaning roughly 13 of every 100 people using them as their only birth control get pregnant in a year. Breakage is about 2 per 100 condoms; failure is usually about use rather than the rubber.",
+        "note": "New one every time, on before any genital contact, pinch the air out of the tip, hold the base coming out. Not in a wallet, not two at once, never past the expiry."
+      },
+      {
+        "t": "Oil destroys latex, fast",
+        "d": "Mineral oil cut condom strength by around 90% after sixty seconds of contact. Baby oil dropped the average burst time from nearly a minute to just over eleven seconds. Water- or silicone-based only, with latex AND with polyisoprene. Polyurethane is the exception that tolerates oil.",
+        "note": "Lambskin is for pregnancy only — its pores are more than ten times the diameter of HIV."
+      },
+      {
+        "t": "Internal condoms, and one hard rule",
+        "d": "About 95% with perfect use, around 79% typical. They can be used for anal sex, though the evidence for that specifically is described as unknown. Never use one at the same time as an external condom — the friction tears both."
+      },
+      {
+        "t": "Dental dams",
+        "d": "The CDC recommends them and gives instructions, including how to cut one from a condom. Worth saying plainly: nobody has ever measured how much risk they remove. We are not going to borrow a condom's number for them."
+      }
+    ],
+    "sources": [
+      {
+        "name": "CDC — condom use resources",
+        "url": "https://www.cdc.gov/condom-use/resources/external.html"
+      },
+      {
+        "name": "Voeller et al., Contraception 1989",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/2535978/"
+      }
+    ]
+  },
+  "prep": {
+    "headline": "PrEP, PEP and testing",
+    "items": [
+      {
+        "t": "PEP is an emergency, and the clock is 72 hours",
+        "d": "If you think you were exposed to HIV — sex, a shared needle, an assault — post-exposure prophylaxis works if started within 72 hours, ideally within 24. It is a 28-day course. Go to an emergency room or urgent care and say you need PEP. Do not wait for test results to start it.",
+        "note": "In twelve states pharmacists can prescribe it directly: Arkansas, California, Colorado, Illinois, Maine, Nevada, New Mexico, New York, North Carolina, Oregon, Utah and Virginia.",
+        "sources": [
+          {
+            "name": "CDC — nPEP guidelines, MMWR 2025",
+            "url": "https://www.cdc.gov/mmwr/volumes/74/rr/rr7401a1.htm"
+          }
+        ]
+      },
+      {
+        "t": "PrEP, and how long before it protects you",
+        "d": "Daily pills, a shot every two months, or a shot twice a year. Around 99% risk reduction from sex and at least 74% for injecting. It is not immediate: roughly 7 days of daily pills for receptive anal sex, and around 21 days for receptive vaginal sex and for injecting.",
+        "note": "CDC does not recommend the on-demand “2-1-1” schedule — it is not FDA approved and there is no data for people who inject, for women, or for trans people.",
+        "sources": [
+          {
+            "name": "CDC — PrEP",
+            "url": "https://www.cdc.gov/hiv/prevention/prep.html"
+          }
+        ]
+      },
+      {
+        "t": "Recreational drugs do not interfere with most PrEP",
+        "d": "This is the reassuring one and it is real: there are no known interactions between recreational drugs and the daily PrEP pills or the two-monthly injection. The exception is the twice-yearly lenacapavir shot, which does affect how the body clears other drugs.",
+        "sources": [
+          {
+            "name": "aidsmap — interactions between HIV medication and recreational drugs",
+            "url": "https://www.aidsmap.com/about-hiv/interactions-between-hiv-medication-and-recreational-drugs"
+          }
+        ]
+      },
+      {
+        "t": "Testing, and how often",
+        "d": "Anyone sharing injecting equipment: HIV at least once a year. Men who have sex with men: syphilis, chlamydia and gonorrhoea at least yearly at every site of contact regardless of condom use, and every 3 to 6 months with multiple partners — including if you are on PrEP. Free and low-cost testing is findable at gettested.cdc.gov.",
+        "sources": [
+          {
+            "name": "CDC — STI testing",
+            "url": "https://www.cdc.gov/sti/testing/index.html"
+          }
+        ]
+      }
+    ]
+  },
+  "ec": {
+    "headline": "Emergency contraception",
+    "items": [
+      {
+        "t": "What you can get, and by when",
+        "d": "Levonorgestrel (Plan B and generics) is over the counter with no age limit and no ID, and works best within 72 hours. Ulipristal (ella) needs a prescription and works up to 120 hours. A copper IUD fitted within 120 hours is the most effective option there is — better than 99% — and works as well on day five as day one."
+      },
+      {
+        "t": "The one thing everybody agrees on about body weight",
+        "d": "Whether the pills work less well at higher body weights is genuinely contested — the FDA label for one carries a warning, the European regulator reviewed the same evidence and removed theirs, and the study behind the numbers people quote was small. What is not contested: the copper IUD's effectiveness does not vary with body weight.",
+        "note": "If levonorgestrel is what you can get today, take it. Taking it beats not taking it."
+      },
+      {
+        "t": "Two things that stop it working",
+        "d": "Do not take two different kinds of morning-after pill within five days of each other — they can cancel each other out. And enzyme-inducing medicines reduce it: rifampin, St John's wort, carbamazepine, phenytoin, topiramate and some HIV medicines.",
+        "note": "There is no evidence that recreational drugs affect it either way, because nobody has studied it. The documented risk is prescribed medicines and St John's wort, which is sold over the counter."
+      }
+    ]
+  },
+  "interactions": {
+    "headline": "The combinations that put people in hospital",
+    "items": [
+      {
+        "t": "Poppers and erection pills",
+        "d": "Both drop blood pressure, and together they can drop it catastrophically. The FDA labels contraindicate nitrites outright. After tadalafil (Cialis) allow at least 48 hours. After sildenafil (Viagra) the label says the safe interval is unknown, even at 24 hours.",
+        "note": "Swallowing poppers rather than inhaling can be fatal — it turns blood brown and starves it of oxygen. Blue or grey lips with breathlessness after someone drank from a small bottle is a 911 call.",
+        "sources": [
+          {
+            "name": "DailyMed — VIAGRA label",
+            "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0b0be196-0c62-461c-94f4-9a35339b4501"
+          },
+          {
+            "name": "DanceSafe — poppers",
+            "url": "https://dancesafe.org/poppers/"
+          }
+        ]
+      },
+      {
+        "t": "Boosted HIV medication and MDMA",
+        "d": "If your regimen contains ritonavir or cobicistat, it slows how your body clears MDMA — one clinician guide puts it at five to ten times, and says avoid. The evidence is case reports rather than trials, but one of them was fatal and another nearly so.",
+        "note": "Look at what you actually take. Boosters are in darunavir, atazanavir, Kaletra, Stribild, Genvoya, Symtuza, Prezcobix and Evotaz. Bictegravir and dolutegravir regimens without a booster do not do this.",
+        "sources": [
+          {
+            "name": "NY/NJ AIDS Education and Training Center — recreational drugs and antiretrovirals",
+            "url": "https://aidsetc.org/sites/default/files/resources_files/2014_Recreational%20Drug%20Interaction%20Guide.pdf"
+          }
+        ]
+      },
+      {
+        "t": "GHB and GBL — the margin is the problem",
+        "d": "The dose that gives the effect people want and the dose that stops breathing are only about five times apart, in a drug usually measured by eye from a squeeze bottle. Alcohol narrows that further and was involved in 76% of GHB emergency visits. There is no antidote — treatment is keeping the airway open.",
+        "note": "GBL can be two to three times stronger than GHB by volume, so swapping one for the other at the same amount is an overdose. Measure with a marked oral syringe. Wait at least two hours before redosing. Do not mix it with alcohol, benzos, ketamine or meth. And withdrawal from regular use can kill — do not stop abruptly alone.",
+        "sources": [
+          {
+            "name": "Le & Richards, StatPearls — GHB toxicity",
+            "url": "https://www.ncbi.nlm.nih.gov/books/NBK430781/"
+          },
+          {
+            "name": "DanceSafe — GHB",
+            "url": "https://dancesafe.org/ghb/"
+          }
+        ]
+      }
+    ]
+  },
+  "out": {
+    "headline": "Long nights",
+    "items": [
+      {
+        "t": "Overheating, and over-drinking",
+        "d": "Dancing in a hot room you can lose about a pint of water an hour, and stimulants make heatstroke more likely. Aim for roughly two cups an hour — and no more, because drinking too much water kills people at events every year, especially on MDMA. Eat something; food is what keeps your electrolytes where they should be.",
+        "note": "Heat exhaustion looks like a panic attack. Heat stroke is different: no sweating, hot dry skin, a throbbing head, temperature above 103°F. That one is an ambulance.",
+        "sources": [
+          {
+            "name": "DanceSafe — heat stroke",
+            "url": "https://dancesafe.org/heat-stroke/"
+          }
+        ]
+      },
+      {
+        "t": "Long sessions",
+        "d": "Friction over hours causes sores and bleeding, which is how HIV and hepatitis get passed on during sessions that were meant to be safe. Plenty of water-based lube, and a new condom every 30 minutes rather than every act.",
+        "sources": [
+          {
+            "name": "We Are With You — chemsex harm reduction",
+            "url": "https://www.wearewithyou.org.uk/media/ofvp5zf4/chemsex-booklet-revised-nov-2024_converted-copy-digital-1.pdf"
+          }
+        ]
+      }
+    ]
+  }
+}

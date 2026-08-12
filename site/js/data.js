@@ -306,6 +306,11 @@ export async function policy() {
   return load("policy", null);
 }
 
+/** Sex, barriers, PrEP and PEP, and being out. */
+export async function sex() {
+  return load("sex", null);
+}
+
 /** Drug testing, probation and parole. */
 export async function supervision() {
   return load("supervision", null);
