@@ -420,13 +420,18 @@ function prevalenceBlock(p) {
       sourceRow(p.sources)));
 }
 
+/* The text is wrapped so a phone can put it BESIDE the strip drawing instead
+   of under it. Stacked, the three cards took 568px - two thirds of the screen
+   - to explain a thing that is sitting below them. Side by side they read as
+   what they are: a legend. */
 function resultCard(n, unit, verdict, meaning, kind) {
   return h("div", { class: `readout__card readout__card--${kind}` },
     h("div", { class: "readout__lines", "aria-hidden": "true" },
       Array.from({ length: Number(n) }, () => h("span", { class: "readout__line" }))),
-    h("div", { class: "readout__n" }, `${n} ${unit}`),
-    h("div", { class: `readout__verdict readout__verdict--${kind}` }, verdict),
-    h("div", { class: "readout__meaning" }, meaning));
+    h("div", { class: "readout__body" },
+      h("div", { class: "readout__n" }, `${n} ${unit}`),
+      h("div", { class: `readout__verdict readout__verdict--${kind}` }, verdict),
+      h("div", { class: "readout__meaning" }, meaning)));
 }
 
 /* `g` is the whole testing guide - stripCard needs the shared brand note that

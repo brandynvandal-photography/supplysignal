@@ -957,7 +957,18 @@ ol.steps--tight > li h4 { margin-top: 2px; }
    largest, plainest treatment on the page - drawn, counted, and named. */
 
 .readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-@media (max-width: 520px) { .readout { grid-template-columns: 1fr; } }
+@media (max-width: 520px) {
+  /* One column, and each card becomes a ROW: strip drawing on the left, its
+     meaning on the right. Stacked vertically the three cards took two thirds
+     of the screen to explain something sitting below them. */
+  .readout { grid-template-columns: 1fr; gap: 12px; }
+  .readout__card {
+    display: flex; align-items: center; gap: 16px; text-align: left;
+  }
+  .readout__lines { flex: none; height: auto; margin: 0; min-width: 46px; }
+  .readout__body { flex: 1; min-width: 0; }
+  .readout__meaning { max-width: none; margin-left: 0; margin-right: 0; }
+}
 
 .readout__card {
   background: var(--surface); border: 1px solid var(--line);
@@ -970,6 +981,12 @@ ol.steps--tight > li h4 { margin-top: 2px; }
 .readout__lines {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 6px; height: 42px; margin-bottom: 8px;
+}
+@media (max-width: 520px) {
+  /* The strip drawing carries the meaning at any size; it does not need 42px
+     of it. The line count is what matters and stays legible. */
+  .readout__lines { height: 30px; gap: 5px; margin-bottom: 6px; }
+  .readout__line { width: 40px; height: 6px; }
 }
 .readout__line { display: block; width: 46px; height: 7px; border-radius: 2px; background: var(--critical); }
 .readout__card--neutral .readout__line { background: var(--ink-3); }
@@ -1393,6 +1410,11 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
 /* min-width:0 is what actually lets the subtitle ellipsis. Without it the flex
    child refuses to shrink below its content and the text wraps instead. */
 .nbr__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
+/* The name must TRUNCATE, not overflow. Without this it had no limit, so on a
+   narrow screen a row carrying two badges ("Adulterant" plus "N dangerous")
+   squeezed the text column to nothing and the name ran out underneath them -
+   which is what read as the tags overlapping the drug name on iOS. */
+.nbr__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nbr__sub {
   color: var(--ink-2);
   font-size: .85rem;
@@ -1458,7 +1480,12 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
    accessory cluster gets explicit flex gaps instead of relying on inline
    spacing, and one step more padding all around. */
 .nbr { padding: 16px var(--sp-3); }
-.nbr__right { display: flex; align-items: center; gap: 10px; }
+/* Badges may wrap and may shrink. They were flex:none, so two of them held
+   their full width at any screen size and took it out of the name instead. */
+.nbr__right {
+  display: flex; align-items: center; gap: 10px;
+  flex: 0 1 auto; flex-wrap: wrap; justify-content: flex-end;
+}
 
 /* The section intro note was glued to the list it introduces. */
 .sec__note + .list, p + .list { margin-top: var(--sp-2); }
@@ -1853,9 +1880,9 @@ details.disc .groupkids > details.disc > summary h2 {
 /* The three result cards ran their text to the card edge, so the longest
    meaning line ("Not detected - can't rule out everything") wrapped hard
    against both sides. */
-.readout__card { padding: var(--sp-3) var(--sp-3) 22px; }
-.readout__meaning { max-width: 22ch; margin-left: auto; margin-right: auto; }
-.readout__verdict { margin-top: 4px; }
+.readout__card { padding: 14px var(--sp-3) 16px; }
+.readout__meaning { max-width: 26ch; margin-left: auto; margin-right: auto; }
+.readout__verdict { margin-top: 2px; font-size: 1.05rem; }
 
 /* The naloxone pointer sat as a bare line between two heavy sections and read
    as orphaned. Given a surface of its own it becomes a deliberate hand-off. */
