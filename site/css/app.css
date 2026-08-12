@@ -87,6 +87,17 @@
   --glass-strong: color-mix(in srgb, var(--surface) 78%, transparent);
   --glass-line: color-mix(in srgb, var(--line-2) 45%, transparent);
 
+  /* The two frosted bars - the header and the tab bar - sandwich the content
+     and are on screen together at every moment, so any difference between them
+     reads as a mistake rather than as a hierarchy. They had drifted: the header
+     was 72% and the tab bar 82%, each written as its own literal, which is
+     exactly how two things that must match stop matching. One token now, and
+     both bars reference it. Do not inline a value into either.
+
+     82%, following the tab bar rather than the header, because it is the more
+     opaque of the two and both sit over scrolling content. */
+  --bar-tint: color-mix(in srgb, var(--surface) 82%, transparent);
+
   /* --edge is for the boundary of anything TAPPABLE; --glass-line is for
      decorative containers.
      The distinction is WCAG 1.4.11: a control has to be identifiable, and a
@@ -154,6 +165,7 @@
     --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
     --glass: color-mix(in srgb, var(--surface) 62%, transparent);
     --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
+    --bar-tint: color-mix(in srgb, var(--surface) 82%, transparent);
   }
 }
 
@@ -173,6 +185,7 @@
   --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
   --glass: color-mix(in srgb, var(--surface) 62%, transparent);
   --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
+  --bar-tint: color-mix(in srgb, var(--surface) 82%, transparent);
 }
 
 /* ------------------------------------------------------------- baseline */
@@ -270,7 +283,7 @@ a { color: var(--brand); }
    it to the top of the screen. Filtering a child cannot capture siblings. */
 .topbar::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
-  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  background: var(--bar-tint);          /* shared with .nav - see the token */
   backdrop-filter: blur(18px) saturate(120%);
   -webkit-backdrop-filter: blur(18px) saturate(120%);
 }
@@ -372,7 +385,7 @@ a { color: var(--brand); }
 .nav {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 45;
   display: flex;
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  background: var(--bar-tint);          /* shared with .topbar - see the token */
   backdrop-filter: blur(18px) saturate(120%);
   -webkit-backdrop-filter: blur(18px) saturate(120%);
   border-top: 1px solid var(--glass-line);
