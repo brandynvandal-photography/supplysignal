@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-12T19:15:40.331Z",
+  "updated": "2026-08-12T20:58:05.600Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -409,6 +409,29 @@
         "criticalMarkers": [],
         "elevatedMarkers": [],
         "score": 7.5
+      }
+    },
+    {
+      "title": "Late NBA player Brandon Clarke died of accidental heroin and cocaine overdose, authorities say - Fox News",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQaWxyVGNjU0N0S0g3VjZrZ3BCdHpZb1RaVHBtVC0yTFVQVENfakN4bGc3WXFnVFg4NGVHX3h6RVByNGxUbjBfbjFHOE12N1Q4MjA0bm4xY0lfRWp0clRud2NOT29wTDdHOVVycUl3TVVBVTdxeElQbzNheTVTMXlKemhpLWdQd0dPRkJOaXU4U1E3ZThZc1FlWkRYdXFQZGFZT0s3VXZDSVZHV2JmV3ctUWhyRFpyNTNz0gG-AUFVX3lxTFBGTl9rZ05oQUk3VkU4V2pZSzVJb016UlRBX3BCUUJtaFZIaDBMMm5LY09SMGVlZkZJYVdRTGtESDZnaHhHRHpVckJSZFVxd2h6MURXMWxhTVBaRGNDZGlKak9oRHNSLVRLZUozdG5PN1RCVGtoMkJSRDZ2OEZ6NS15RXRoZlBMdmZVRGNsYmptUzRsVDBsMHJ3QWZBZUZ5MWFYcmg1R1lGLXA0UzZST0lvLXRzcmRvSjlkMF8xNHc?oc=5",
+      "source": "Fox News",
+      "published": "2026-08-07T22:20:15.000Z",
+      "confidence": 0.6153846153846154,
+      "audit": {
+        "substances": [
+          "heroin",
+          "cocaine"
+        ],
+        "events": [
+          "overdose",
+          "died"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "died"
+        ],
+        "elevatedMarkers": [],
+        "score": 8
       }
     }
   ]
