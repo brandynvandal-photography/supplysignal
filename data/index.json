@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-12T15:08:21.329Z",
+  "generated": "2026-08-12T16:08:12.115Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -2051,21 +2051,21 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-12T15:08:21.319Z"
+      "t": "2026-08-12T16:08:12.100Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-12T15:08:21.319Z"
+      "t": "2026-08-12T16:08:12.100Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-12T15:08:21.318Z"
+      "t": "2026-08-12T16:08:12.098Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -3003,133 +3003,133 @@
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.425Z"
+      "t": "2026-08-12T16:08:12.101Z"
     },
     "05047": {
       "n": "Franklin County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.426Z"
+      "t": "2026-08-12T16:08:12.102Z"
     },
     "05049": {
       "n": "Fulton County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.426Z"
+      "t": "2026-08-12T16:08:12.103Z"
     },
     "05051": {
       "n": "Garland County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.426Z"
+      "t": "2026-08-12T16:08:12.103Z"
     },
     "05053": {
       "n": "Grant County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.427Z"
+      "t": "2026-08-12T16:08:12.104Z"
     },
     "05055": {
       "n": "Greene County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.427Z"
+      "t": "2026-08-12T16:08:12.105Z"
     },
     "05057": {
       "n": "Hempstead County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.427Z"
+      "t": "2026-08-12T16:08:12.105Z"
     },
     "05059": {
       "n": "Hot Spring County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.428Z"
+      "t": "2026-08-12T16:08:12.106Z"
     },
     "05061": {
       "n": "Howard County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.428Z"
+      "t": "2026-08-12T16:08:12.107Z"
     },
     "05063": {
       "n": "Independence County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.428Z"
+      "t": "2026-08-12T16:08:12.108Z"
     },
     "05065": {
       "n": "Izard County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.429Z"
+      "t": "2026-08-12T16:08:12.108Z"
     },
     "05067": {
       "n": "Jackson County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.429Z"
+      "t": "2026-08-12T16:08:12.109Z"
     },
     "05069": {
       "n": "Jefferson County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.429Z"
+      "t": "2026-08-12T16:08:12.110Z"
     },
     "05071": {
       "n": "Johnson County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.430Z"
+      "t": "2026-08-12T16:08:12.110Z"
     },
     "05073": {
       "n": "Lafayette County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.430Z"
+      "t": "2026-08-12T16:08:12.111Z"
     },
     "05075": {
       "n": "Lawrence County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.430Z"
+      "t": "2026-08-12T16:08:12.112Z"
     },
     "05077": {
       "n": "Lee County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.431Z"
+      "t": "2026-08-12T16:08:12.113Z"
     },
     "05079": {
       "n": "Lincoln County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.431Z"
+      "t": "2026-08-12T16:08:12.113Z"
     },
     "05081": {
       "n": "Little River County",
       "s": "AR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T15:10:15.431Z"
+      "t": "2026-08-12T16:08:12.114Z"
     },
     "05083": {
       "n": "Logan County",
