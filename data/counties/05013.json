@@ -4,10 +4,12 @@
   "state": "AR",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T13:36:42.125Z",
+    "lastScan": "2026-08-12T15:08:21.321Z",
     "windowDays": 365,
-    "sourcesChecked": 3,
-    "sourcesFailed": [],
+    "sourcesChecked": 27,
+    "sourcesFailed": [
+      "la-ldh"
+    ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
   },
