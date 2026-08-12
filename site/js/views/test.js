@@ -228,7 +228,10 @@ export async function render() {
     group("grp-reagents", "Reagent testing",
       "What reagents do, how to run one, and how to handle the chemicals.", [
       (
-      disclosure("sec-reagents", "Reagent testing",
+      /* "Reagents", not "Reagent testing" - the parent tile is already called
+         Reagent testing, and a child repeating its parent's name tells a
+         reader nothing about which of the three sections they want. */
+      disclosure("sec-reagents", "Reagents",
         null,
         callout("stop", "No reagent detects fentanyl",
           h("p", null, g.reagentIntro.cannotDetectFentanyl)),
@@ -257,7 +260,8 @@ export async function render() {
           h("h3", null, "Disposal"),
           h("p", null, g.safety.disposal)))
     ),
-    ])
+    ],
+    ["Reagents", "Running a test", "Handling them safely"])
   );
 
   if (g.storage) {
