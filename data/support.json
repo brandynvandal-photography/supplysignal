@@ -1,661 +1,661 @@
 {
- "generated": "2026-08-10",
- "reviewNote": "Tone here matters more than completeness. This sits inside a harm reduction tool: it is for someone curious about options, never a push to quit, and never a judgment on anyone still using. Nothing should read as a condition for deserving help. Every link and phone number was verified 2026-08-10 — see EVIDENCE.md for what was checked and what was rejected.",
- "framing": {
-  "headline": "Whatever you want, there’s a way to it",
-  "body": [
-   "Maybe you want to stop. Maybe to use less, or more safely, or to keep using and just feel human again. Maybe you want help with what’s underneath. All of it counts.",
-   "You don’t have to be done using to ask for any of it, and you don’t have to be sure."
-  ],
-  "notAVerdict": "Nothing here is a judgment on how you’re living."
- },
- "underneath": {
-  "headline": "What is often underneath",
-  "body": [
-   "For a lot of people, substance use is not the first thing that happened. It is the thing that made something else survivable.",
-   "That is not an excuse and it is not a diagnosis — it is a pattern common enough that the research on it is unambiguous, and it means the useful question is often not “how do I stop” but “what am I carrying, and what would help me put it down”."
-  ],
-  "note": "Support for that exists separately from anything to do with drugs, and you can go looking for it without ever discussing your use."
- },
- "options": {
-  "intro": "There are three medications for opioid use disorder. They are treatment, not a substitute addiction, and being on one is not a lesser kind of recovery.",
-  "medications": [
-   {
-    "name": "Buprenorphine (Suboxone, Sublocade)",
-    "what": "A partial opioid agonist. It has a ceiling effect, which is why it carries a much lower overdose risk than the opioids it replaces.",
-    "how": "Any clinician with a normal DEA registration can prescribe it — a regular doctor, a clinic, a community health center, telehealth, or an emergency room. It is filled at an ordinary pharmacy. The old special waiver was abolished in 2023 and there is no longer any cap on how many patients a prescriber can treat.",
-    "note": "Usually started when you are already in mild withdrawal, to avoid precipitated withdrawal. Ask about low-dose initiation if that is a barrier for you.",
-    "sources": [
-     {
-      "name": "SAMHSA — buprenorphine",
-      "url": "https://www.samhsa.gov/substance-use/treatment/options/buprenorphine"
-     }
-    ]
-   },
-   {
-    "name": "Methadone",
-    "what": "A full agonist, long acting, and the most studied of the three. It works for many people that buprenorphine does not.",
-    "how": "Only through a licensed opioid treatment program — that restriction is federal law, not a medical judgment about you. Find one through SAMHSA's directory below.",
-    "note": "Take-home rules loosened permanently in 2024: up to 7 days of take-homes in the first two weeks, up to 14 through the first month, and up to 28 days after that, based on your clinician's judgment rather than a fixed checklist. The old requirement to have used opioids for a year before being admitted is gone.",
-    "sources": [
-     {
-      "name": "SAMHSA — methadone",
-      "url": "https://www.samhsa.gov/substance-use/treatment/options/methadone"
-     },
-     {
-      "name": "SAMHSA — 42 CFR Part 8 FAQs",
-      "url": "https://www.samhsa.gov/substance-use/treatment/opioid-treatment-program/42-cfr-part-8/faqs"
-     }
-    ]
-   },
-   {
-    "name": "Naltrexone (Vivitrol)",
-    "what": "A blocker rather than an opioid. Monthly injection or daily pill. Any prescriber can order it.",
-    "how": "Requires being fully off opioids for roughly 7 to 10 days first.",
-    "note": "That gap is a real barrier and a real risk — tolerance drops during it, so a return to use in that window is more dangerous than usual. Worth weighing honestly against the other two.",
-    "sources": [
-     {
-      "name": "SAMHSA — naltrexone",
-      "url": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone"
-     }
-    ]
-   }
-  ],
-  "evidence": {
-   "body": "A review of 15 trials and 36 studies covering more than 700,000 people found that while someone is on methadone or buprenorphine, overdose deaths and deaths from all causes drop sharply. In the four weeks after stopping, all-cause mortality was around six times higher, and stayed roughly double after that. The risk is not in taking the medication. It is in the weeks right after stopping — which is worth knowing if anyone pressures you to taper before you are ready.",
-   "sources": [
-    {
-     "name": "Santo et al., JAMA Psychiatry 2021",
-     "url": "https://pubmed.ncbi.nlm.nih.gov/34076676/"
-    }
-   ]
+  "generated": "2026-08-10",
+  "reviewNote": "Tone here matters more than completeness. This sits inside a harm reduction tool: it is for someone curious about options, never a push to quit, and never a judgment on anyone still using. Nothing should read as a condition for deserving help. Every link and phone number was verified 2026-08-10 — see EVIDENCE.md for what was checked and what was rejected.",
+  "framing": {
+    "opening": "Whatever you came here wanting, there’s a way to it.",
+    "body": [
+      "Maybe you want to stop. Maybe you want to use less, or more safely. Maybe you want to keep using and just feel like a person again for a while. Maybe the thing you actually need help with is underneath all of it. Every one of those counts, and none of them is the wrong reason to be reading this.",
+      "You don’t have to be done using to ask for any of it. You don’t have to be sure, or have a plan, or have anything to show for the last six months."
+    ],
+    "close": "Nothing on this page is a judgment on how you’re living."
   },
-  "stimulants": {
-   "body": "There is no approved medication for methamphetamine or cocaine use disorder. The approach with by far the strongest evidence is contingency management — structured, modest rewards for meeting goals you agreed to. It is mostly funded through state Medicaid programs, so availability depends on where you live; California, Delaware, Hawaii, Montana and Washington had approved programs as of early 2025 and more may have been added since. Ask a local provider or call the SAMHSA line below.",
-   "sources": [
-    {
-     "name": "SAMHSA TIP 33 — Treatment for Stimulant Use Disorders",
-     "url": "https://www.ncbi.nlm.nih.gov/books/NBK576540/"
+  "underneath": {
+    "headline": "What is often underneath",
+    "body": [
+      "For a lot of people, substance use is not the first thing that happened. It is the thing that made something else survivable.",
+      "That is not an excuse and it is not a diagnosis — it is a pattern common enough that the research on it is unambiguous, and it means the useful question is often not “how do I stop” but “what am I carrying, and what would help me put it down”."
+    ],
+    "note": "Support for that exists separately from anything to do with drugs, and you can go looking for it without ever discussing your use."
+  },
+  "options": {
+    "intro": "There are three medications for opioid use disorder. They are treatment, not a substitute addiction, and being on one is not a lesser kind of recovery.",
+    "medications": [
+      {
+        "name": "Buprenorphine (Suboxone, Sublocade)",
+        "what": "A partial opioid agonist. It has a ceiling effect, which is why it carries a much lower overdose risk than the opioids it replaces.",
+        "how": "Any clinician with a normal DEA registration can prescribe it — a regular doctor, a clinic, a community health center, telehealth, or an emergency room. It is filled at an ordinary pharmacy. The old special waiver was abolished in 2023 and there is no longer any cap on how many patients a prescriber can treat.",
+        "note": "Usually started when you are already in mild withdrawal, to avoid precipitated withdrawal. Ask about low-dose initiation if that is a barrier for you.",
+        "sources": [
+          {
+            "name": "SAMHSA — buprenorphine",
+            "url": "https://www.samhsa.gov/substance-use/treatment/options/buprenorphine"
+          }
+        ]
+      },
+      {
+        "name": "Methadone",
+        "what": "A full agonist, long acting, and the most studied of the three. It works for many people that buprenorphine does not.",
+        "how": "Only through a licensed opioid treatment program — that restriction is federal law, not a medical judgment about you. Find one through SAMHSA's directory below.",
+        "note": "Take-home rules loosened permanently in 2024: up to 7 days of take-homes in the first two weeks, up to 14 through the first month, and up to 28 days after that, based on your clinician's judgment rather than a fixed checklist. The old requirement to have used opioids for a year before being admitted is gone.",
+        "sources": [
+          {
+            "name": "SAMHSA — methadone",
+            "url": "https://www.samhsa.gov/substance-use/treatment/options/methadone"
+          },
+          {
+            "name": "SAMHSA — 42 CFR Part 8 FAQs",
+            "url": "https://www.samhsa.gov/substance-use/treatment/opioid-treatment-program/42-cfr-part-8/faqs"
+          }
+        ]
+      },
+      {
+        "name": "Naltrexone (Vivitrol)",
+        "what": "A blocker rather than an opioid. Monthly injection or daily pill. Any prescriber can order it.",
+        "how": "Requires being fully off opioids for roughly 7 to 10 days first.",
+        "note": "That gap is a real barrier and a real risk — tolerance drops during it, so a return to use in that window is more dangerous than usual. Worth weighing honestly against the other two.",
+        "sources": [
+          {
+            "name": "SAMHSA — naltrexone",
+            "url": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone"
+          }
+        ]
+      }
+    ],
+    "evidence": {
+      "body": "A review of 15 trials and 36 studies covering more than 700,000 people found that while someone is on methadone or buprenorphine, overdose deaths and deaths from all causes drop sharply. In the four weeks after stopping, all-cause mortality was around six times higher, and stayed roughly double after that. The risk is not in taking the medication. It is in the weeks right after stopping — which is worth knowing if anyone pressures you to taper before you are ready.",
+      "sources": [
+        {
+          "name": "Santo et al., JAMA Psychiatry 2021",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34076676/"
+        }
+      ]
+    },
+    "stimulants": {
+      "body": "There is no approved medication for methamphetamine or cocaine use disorder. The approach with by far the strongest evidence is contingency management — structured, modest rewards for meeting goals you agreed to. It is mostly funded through state Medicaid programs, so availability depends on where you live; California, Delaware, Hawaii, Montana and Washington had approved programs as of early 2025 and more may have been added since. Ask a local provider or call the SAMHSA line below.",
+      "sources": [
+        {
+          "name": "SAMHSA TIP 33 — Treatment for Stimulant Use Disorders",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK576540/"
+        }
+      ]
     }
-   ]
+  },
+  "getting": {
+    "intro": "Two national front doors, then the routes that work when you have no insurance and no money.",
+    "routes": [
+      {
+        "name": "SAMHSA National Helpline",
+        "what": "Free, confidential, 24/7, English and Spanish. They will not ask for your name or personal details — only a ZIP code. If you have no insurance they refer you to state-funded programs and sliding-scale providers. This is the fastest human route to care you can afford.",
+        "phone": "1-800-662-4357",
+        "url": "https://www.samhsa.gov/find-help/helplines/national-helpline",
+        "linkText": "About the helpline"
+      },
+      {
+        "name": "FindTreatment.gov",
+        "what": "The government's treatment locator. Confidential and anonymous. Filter for medication treatment, payment options, and telehealth.",
+        "url": "https://findtreatment.gov/",
+        "linkText": "Search for treatment"
+      },
+      {
+        "name": "Methadone program directory",
+        "what": "Methadone is only available through a licensed opioid treatment program. This is the official list.",
+        "url": "https://www.samhsa.gov/find-help/locators/opioid-treatment-program-directory",
+        "linkText": "Find an OTP"
+      },
+      {
+        "name": "Community health centers",
+        "what": "Federally funded health centers are required to see you regardless of your ability to pay, on a sliding scale. Many prescribe buprenorphine. No insurance needed.",
+        "url": "https://findahealthcenter.hrsa.gov/",
+        "linkText": "Find a health center"
+      },
+      {
+        "name": "Emergency departments can start you",
+        "what": "Many hospitals now start buprenorphine in the ER and connect you to a prescriber within a few days. In the programs built for this, treatment is not conditional on insurance, on lab results, or on promising to stop using anything else.",
+        "url": "https://bridgetotreatment.org",
+        "linkText": "About the bridge model"
+      },
+      {
+        "name": "211",
+        "what": "Dial 2-1-1 from anywhere in the US for local free and sliding-scale services — treatment, housing, food, transport.",
+        "phone": "211",
+        "url": "https://www.211.org/",
+        "linkText": "211 online"
+      },
+      {
+        "name": "Medicaid",
+        "what": "There is no open enrollment period for Medicaid — you can apply any day of the year. Coverage rules vary by state, and some states can backdate coverage.",
+        "url": "https://www.healthcare.gov/medicaid-chip/getting-medicaid-chip/",
+        "linkText": "How to apply"
+      },
+      {
+        "name": "If you are pregnant",
+        "what": "Fear of losing a child keeps many people away from care. A federal Plan of Safe Care is a health plan for you and the baby — it is not automatically a child protective services report. What is actually required varies a lot by state, and is often narrower than hospital practice suggests. This free toolkit covers your rights around drug testing, disclosure, and what happens after birth. Methadone and buprenorphine are the standard of care in pregnancy; being pregnant is not a reason to stop.",
+        "url": "https://harmreduction.org/issues/pregnancy-and-substance-use-a-harm-reduction-toolkit/",
+        "linkText": "Pregnancy and substance use toolkit"
+      }
+    ],
+    "lines": [
+      {
+        "name": "988 Suicide & Crisis Lifeline",
+        "who": "Call, text or chat 988 · Spanish: press 2 · ASL videophone available",
+        "phone": "988"
+      },
+      {
+        "name": "Never Use Alone",
+        "who": "Peer-run, 24/7. No abstinence requirement, no judgment. They stay on the line and send help if you stop responding.",
+        "phone": "1-800-484-3731"
+      },
+      {
+        "name": "Veterans Crisis Line",
+        "who": "988 then press 1, or text 838255. No VA enrollment needed.",
+        "phone": "988"
+      },
+      {
+        "name": "Vet Centers",
+        "who": "Free, strictly confidential counseling at community storefronts kept separate from VA medical records. Combat, military sexual trauma in any era, and bereavement for families.",
+        "phone": "1-877-927-8387"
+      },
+      {
+        "name": "The Trevor Project",
+        "who": "LGBTQ+ young people. Call, or text START to 678678.",
+        "phone": "1-866-488-7386"
+      },
+      {
+        "name": "Trans Lifeline",
+        "who": "Staffed by trans and nonbinary peers. Policy against calling police or emergency services without your explicit request.",
+        "phone": "1-877-565-8860"
+      },
+      {
+        "name": "StrongHearts Native Helpline",
+        "who": "For Native and Indigenous people.",
+        "phone": "1-844-762-8483"
+      },
+      {
+        "name": "National Domestic Violence Hotline",
+        "who": "24/7. Or text START to 88788.",
+        "phone": "1-800-799-7233"
+      },
+      {
+        "name": "RAINN",
+        "who": "Sexual assault, 24/7.",
+        "phone": "1-800-656-4673"
+      },
+      {
+        "name": "Childhelp",
+        "who": "Child abuse, including adult survivors. Call or text, 24/7.",
+        "phone": "1-800-422-4453"
+      },
+      {
+        "name": "Crisis Text Line",
+        "who": "Text HOME to 741741.",
+        "phone": "741741"
+      },
+      {
+        "name": "Partnership to End Addiction",
+        "who": "Free, human-staffed support for families. Text CONNECT to 55753.",
+        "phone": "1-855-378-4373"
+      }
+    ]
+  },
+  "peer": {
+    "intro": "Groups differ enormously, and the differences are not always advertised at the door. The most important one is how a group treats people on medication.",
+    "medicationNote": "If you are on methadone or buprenorphine, this matters before you walk in. Some rooms will treat you as being in recovery without qualification. Others will not let you share or hold a position. You are entitled to know which is which in advance rather than finding out in front of a room.",
+    "groups": [
+      {
+        "name": "MARA — Medication-Assisted Recovery Anonymous",
+        "what": "Built specifically for people on medication. No abstinence requirement, no higher power.",
+        "medication": "Fully supported. This is the point of the group.",
+        "url": "https://www.mara-international.org/online-meetings"
+      },
+      {
+        "name": "SMART Recovery",
+        "what": "Secular, science-based, uses cognitive-behavioral tools. Your goal can be abstinence, moderation, or harm reduction.",
+        "medication": "Explicitly supported — SMART endorses legally prescribed addiction and psychiatric medication.",
+        "url": "https://meetings.smartrecovery.org/meetings/"
+      },
+      {
+        "name": "LifeRing",
+        "what": "Secular, abstinence-based, no steps and no higher power.",
+        "medication": "Explicitly fine — their definition of sobriety carves out medically indicated prescribed medication.",
+        "url": "https://meetings.lifering.org/meetings/?scope=only"
+      },
+      {
+        "name": "All Recovery meetings and recovery community centers",
+        "what": "Multi-pathway by design — 12-step, secular, medication and harm reduction people in the same room. Find your local recovery community organization and ask for their schedule.",
+        "medication": "Explicitly welcomed.",
+        "url": "https://facesandvoicesofrecovery.org/arco-members-on-the-map/"
+      },
+      {
+        "name": "Narcotics Anonymous",
+        "what": "The largest and easiest to find. Abstinence-based and explicitly spiritual, though not tied to a religion.",
+        "medication": "NA as an organization takes no position on your medication and you are welcome to attend. But NA's own literature says individual groups may limit whether you can share or hold a service position, and warns you may meet strong opinions. NA's own advice is to try several meetings.",
+        "url": "https://virtual-na.org"
+      },
+      {
+        "name": "Recovery Dharma",
+        "what": "Buddhist-informed, peer-governed, non-theistic — no higher power required. Abstinence is held as an intention.",
+        "medication": "No published position. Their current FAQ does not mention medication either way, so ask locally rather than assuming.",
+        "url": "https://recoverydharma.org/meetings/"
+      },
+      {
+        "name": "Women for Sobriety",
+        "what": "Secular, abstinence-based, for women.",
+        "medication": "No published position — ask locally.",
+        "url": "https://meetings.womenforsobriety.org/meetings/"
+      }
+    ]
+  },
+  "trauma": {
+    "intro": "You can get help with this without ever discussing drugs, and without deciding anything about your use first.",
+    "aces": {
+      "title": "What the research actually says",
+      "body": "A large study of childhood adversity found a stepwise pattern: the more categories of adversity someone reported, the higher their later risk. People reporting five or more were seven to ten times more likely to report drug problems, addiction, or injection drug use. That is one of the strongest patterns in public health.",
+      "caveat": "It describes populations, not people. One of the study's own lead authors published a correction warning that the score is being misused as if it were a screening or diagnostic tool. Your score is not a diagnosis, not a prognosis, and not a prediction about your life.",
+      "sources": [
+        {
+          "name": "Dube et al., Pediatrics 2003",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/12612237/"
+        },
+        {
+          "name": "Anda et al. — limits and misapplications",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32222260/"
+        }
+      ]
+    },
+    "approaches": [
+      {
+        "name": "Seeking Safety",
+        "what": "Present-focused coping skills for trauma and substance use at the same time. Does not require abstinence, and does not require retelling what happened. Worth asking for by name — many programs still make sobriety a condition of trauma treatment."
+      },
+      {
+        "name": "CPT (Cognitive Processing Therapy)",
+        "what": "Around 12 sessions, working on the beliefs that formed afterwards — about blame, safety, and trust. A version exists that does not require a detailed account of the event."
+      },
+      {
+        "name": "Prolonged Exposure",
+        "what": "Gradual, repeated approach to the memory and to avoided situations. Effective and demanding — dropping out is common, and deciding it is not for you is a legitimate choice."
+      },
+      {
+        "name": "EMDR",
+        "what": "Attending to the memory while doing guided eye movements or other bilateral stimulation."
+      },
+      {
+        "name": "Somatic approaches",
+        "what": "Body-based work, often experienced as gentler. Honest caveat: the evidence base is much smaller and earlier than the three above, and it is not among the strongly recommended treatments in current clinical guidelines."
+      }
+    ],
+    "experiences": [
+      {
+        "name": "Deciding between treatments",
+        "what": "A free, non-commercial tool from the VA that compares trauma treatments side by side. No login, no sales.",
+        "url": "https://www.ptsd.va.gov/apps/decisionaid/",
+        "linkText": "PTSD treatment decision aid"
+      },
+      {
+        "name": "Finding a therapist you can afford",
+        "what": "Open Path connects uninsured and underinsured people to therapists at reduced rates.",
+        "url": "https://openpathcollective.org/",
+        "linkText": "Open Path Collective"
+      },
+      {
+        "name": "Losing someone to an overdose",
+        "what": "GRASP runs free peer groups, in person and online, specifically for people grieving a death from substances. Its sister organization does advocacy and naloxone education.",
+        "url": "https://grasphelp.org/community/meetings/",
+        "linkText": "GRASP meetings"
+      },
+      {
+        "name": "Losing a child, at any age",
+        "what": "The Compassionate Friends is free and secular, with long-running online groups for overdose loss. Often the best option where there is no GRASP chapter.",
+        "url": "https://www.compassionatefriends.org/",
+        "linkText": "The Compassionate Friends"
+      },
+      {
+        "name": "Families of someone still using",
+        "what": "Learn to Cope runs peer meetings for families, most weekdays online, including naloxone training.",
+        "url": "https://learn2cope.org/",
+        "linkText": "Learn to Cope"
+      },
+      {
+        "name": "Adult survivors of childhood abuse",
+        "what": "Free peer-led groups and a free workbook.",
+        "url": "https://ascasupport.org/meetings/list/",
+        "linkText": "ASCA meetings"
+      },
+      {
+        "name": "Chronic pain, including anyone tapered against their will",
+        "what": "The 2022 federal prescribing guideline was written partly to correct the misuse of the 2016 one. It states plainly that its recommendations are not rigid rules and should not lead to rapid tapering or abrupt discontinuation. If you were cut off, that was not what the guideline asked for.",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9639433/",
+        "linkText": "CDC 2022 guideline"
+      },
+      {
+        "name": "Free self-help that is not a product",
+        "what": "PTSD Coach from the VA, usable in a browser with nothing to install and nothing to sign up for. It does not replace care, and says so itself.",
+        "url": "https://www.ptsd.va.gov/apps/ptsdcoachonline/default.htm",
+        "linkText": "PTSD Coach Online"
+      }
+    ]
+  },
+  "cost": {
+    "headline": "If you cannot pay",
+    "body": "Cost, insurance, immigration status, a record, or no ID stop more people than lack of wanting. Most of these routes have a version that does not require money or paperwork: the SAMHSA line refers to state-funded and sliding-scale programs without asking who you are, community health centers cannot turn you away over money, and Medicaid has no enrollment deadline.",
+    "note": "Community health centers are required to see people regardless of ability to pay."
+  },
+  "supplies": {
+    "intro": "Naloxone, test strips, and safer-use supplies. Free options first, because most people reading this cannot pay and burying them under vendors is its own barrier.",
+    "lastVerified": "2026-08-10",
+    "free": [
+      {
+        "name": "NEXT Distro",
+        "what": "Free naloxone by mail, discreetly packaged. Their state finder covers every state — where they cannot ship directly they hand you off to a program that can. This is the single best starting point if you are not sure where to look.",
+        "cost": "Free",
+        "delivery": "By mail",
+        "url": "https://nextdistro.org/statefinder"
+      },
+      {
+        "name": "Your state health department",
+        "what": "Many states mail free naloxone to any resident who asks, and some include fentanyl test strips. Which tier your state falls into is below.",
+        "cost": "Free",
+        "delivery": "By mail, varies by state",
+        "url": "https://nextdistro.org/statefinder"
+      },
+      {
+        "name": "Syringe service programs",
+        "what": "SSPs give out naloxone, test strips, sterile supplies and wound care, usually with no ID and no questions. They are also the most reliable place to hear what is actually circulating locally.",
+        "cost": "Free",
+        "delivery": "In person",
+        "url": "https://nasen.org/programs"
+      }
+    ],
+    "directories": [
+      {
+        "name": "Harm Reduction Near You",
+        "what": "National Harm Reduction Coalition's directory of programs by location.",
+        "cost": "Directory",
+        "delivery": "Find a program",
+        "url": "https://harmreduction.org/resource-center/harm-reduction-near-you/"
+      },
+      {
+        "name": "NASEN syringe program directory",
+        "what": "The national list of syringe service programs.",
+        "cost": "Directory",
+        "delivery": "Find a program",
+        "url": "https://nasen.org/programs"
+      },
+      {
+        "name": "211",
+        "what": "Dial 2-1-1 and ask for harm reduction supplies or naloxone. Works everywhere, including where nothing above does.",
+        "cost": "Directory",
+        "delivery": "Phone",
+        "url": "https://www.211.org/"
+      }
+    ],
+    "paid": [
+      {
+        "name": "Naloxone over the counter",
+        "what": "Narcan 4mg and RiVive 3mg are available without a prescription at pharmacies nationwide. Worth knowing as a fallback, but check the free routes first — you should not have to pay for this.",
+        "cost": "Paid",
+        "delivery": "Pharmacy"
+      },
+      {
+        "name": "DanceSafe",
+        "what": "Reagent kits and fentanyl test strips. Their storefront moved to Transparency in March 2026; the strips are still made by the same manufacturer.",
+        "cost": "Paid",
+        "delivery": "Mail order",
+        "url": "https://dancesafe.org/dancesafextransparency/"
+      },
+      {
+        "name": "Bunk Police",
+        "what": "Reagent test kits.",
+        "cost": "Paid",
+        "delivery": "Mail order",
+        "url": "https://bunkpolice.com/"
+      },
+      {
+        "name": "BTNX",
+        "what": "The manufacturer of most fentanyl, xylazine, benzodiazepine and nitazene strips used in the US.",
+        "cost": "Paid",
+        "delivery": "Mail order",
+        "url": "https://www.btnx.com/"
+      }
+    ],
+    "byState": {
+      "intro": "What your state offers, as of August 2026. This changes often — if your state is not in the first group, the NEXT Distro finder above still covers you.",
+      "tiers": [
+        {
+          "id": "full",
+          "label": "Free naloxone AND test strips by mail, to any resident",
+          "tone": "ok",
+          "states": [
+            "NY",
+            "KS",
+            "DE",
+            "KY",
+            "NJ",
+            "WI",
+            "AZ",
+            "PA"
+          ]
+        },
+        {
+          "id": "naloxone",
+          "label": "Free naloxone by mail, no test strips",
+          "tone": "neutral",
+          "states": [
+            "MS",
+            "NM",
+            "VT",
+            "TX",
+            "OK",
+            "RI",
+            "AL",
+            "AK",
+            "FL",
+            "MO",
+            "MN",
+            "MA",
+            "NE",
+            "NH",
+            "NC",
+            "ND",
+            "OH",
+            "OR",
+            "WA",
+            "ME",
+            "MI",
+            "IA"
+          ],
+          "note": "Some cap how many kits you can request, and Alaska ships only to Alaska addresses."
+        },
+        {
+          "id": "orgs",
+          "label": "State program supplies organizations, not individuals",
+          "tone": "neutral",
+          "states": [
+            "CA",
+            "CO",
+            "IL",
+            "LA",
+            "ID",
+            "AR",
+            "WY"
+          ],
+          "note": "These states fund bulk naloxone for agencies and programs. As an individual, go through NEXT Distro or a local syringe service program instead — the state page will not help you directly."
+        },
+        {
+          "id": "none",
+          "label": "No verified statewide mail program for individuals",
+          "tone": "neutral",
+          "states": [
+            "CT",
+            "SD",
+            "VA",
+            "MT",
+            "SC",
+            "TN",
+            "GA",
+            "HI",
+            "UT",
+            "WV"
+          ],
+          "note": "Nonprofits often fill the gap. Hawaii's mail program covers Kauaʻi, Lānaʻi and Molokaʻi only, despite what most sources say."
+        }
+      ]
+    },
+    "closed": {
+      "title": "Recently closed — do not rely on these",
+      "items": [
+        "Oklahoma discontinued its mail-order fentanyl test strip program, and the statewide naloxone vending machines were removed in September 2024.",
+        "Idaho repealed authorization for syringe service programs; all programs closed on 30 June 2024.",
+        "Indiana's syringe program authorization was set to expire in July 2026 — check before traveling to one.",
+        "Federal grant funds can no longer be used to buy fentanyl or xylazine test strips as of April 2026, so state-funded strip programs are the most likely of any listing here to disappear."
+      ]
+    },
+    "legalNote": "Fentanyl test strips are legal in most states but not all, and xylazine strips are covered in fewer. Ordering by mail does not change your state's law. See the legality section under Test before you order.",
+    "grassroots": {
+      "intro": "Programs run by and for people who use drugs. These often reach people the formal system turns away, ask for no ID and no story, and tend to know what is actually circulating locally weeks before any official alert does. Several also stay stocked when state programs run dry.",
+      "items": [
+        {
+          "name": "Grassroots Harm Reduction",
+          "url": "https://grassrootsharmreduction.org/",
+          "note": "A national network supporting local peer-run programs. Often the fastest route to free supplies where no storefront carries them — and they answer on social media when a website would be too slow."
+        },
+        {
+          "name": "Urban Survivors Union",
+          "what": "The national drug user union — organized by people who use drugs. Local chapters run supply distribution, overdose response, and advocacy. The best route to a peer-run group in your area.",
+          "cost": "Free",
+          "delivery": "Chapters nationwide",
+          "url": "https://urbansurvivorsunion.org/"
+        },
+        {
+          "name": "Never Use Alone",
+          "what": "Peer-run, 24/7, staffed by people with lived experience. You give a location, they stay on the line, and they send help if you stop responding. No abstinence requirement and no judgment — verified from their own policy.",
+          "cost": "Free",
+          "delivery": "1-800-484-3731",
+          "url": "https://neverusealone.com/"
+        },
+        {
+          "name": "SafeSpot",
+          "what": "Another peer-run overdose prevention line, expanding to more states.",
+          "cost": "Free",
+          "delivery": "Phone line",
+          "url": "https://safe-spot.me/"
+        },
+        {
+          "name": "Brave",
+          "what": "Peer-built overdose detection technology, including a button and app that summon help if you stop responding while using alone.",
+          "cost": "Free",
+          "delivery": "App and devices",
+          "url": "https://www.brave.coop/"
+        },
+        {
+          "name": "Remedy Alliance / For The People",
+          "what": "Supplies naloxone in bulk at cost to harm reduction programs — much of the free naloxone handed out at a syringe program in the US passes through here. Not resident-facing: if you run or volunteer with a program, this is where the supply comes from.",
+          "cost": "For programs",
+          "delivery": "Bulk, to organizations",
+          "url": "https://remedyallianceftp.org/"
+        }
+      ],
+      "note": "Some community programs operate in legal gray areas depending on the state, which is exactly why they exist where official services do not. They will not ask you to explain yourself."
+    }
+  },
+  "loved": {
+    "headline": "When it’s someone you love",
+    "lastVerified": "2026-08-10",
+    "intro": "Being close to someone who uses is its own kind of hard, and most of the advice people are handed makes things worse. What follows is what the research actually supports, not what feels decisive.",
+    "keeping": {
+      "title": "Keep the relationship. It is the thing that works.",
+      "body": "The approach with the strongest evidence for families is CRAFT — Community Reinforcement and Family Training. It teaches communication and support rather than confrontation, and across randomized trials it engaged roughly two-thirds of people whose families had been told nothing would work, compared with about 13% for Al-Anon-style facilitation and 23% for the confrontational “intervention” approach. It also measurably improves the wellbeing of the family member doing it, whether or not their person ever enters treatment.",
+      "sources": [
+        {
+          "name": "Meta-analysis of CRAFT trials (PubMed)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/20626372/"
+        },
+        {
+          "name": "American Psychological Association — CRAFT",
+          "url": "https://www.apa.org/pi/about/publications/caregivers/practice-settings/intervention/community-reinforcement"
+        },
+        {
+          "name": "Partnership to End Addiction — what CRAFT is",
+          "url": "https://drugfree.org/article/craft-community-reinforcement-family-training/"
+        }
+      ]
+    },
+    "does": [
+      {
+        "t": "Ask, then listen longer than is comfortable.",
+        "b": "“How are you doing?” and then silence does more than any speech you have rehearsed. People tell you the real thing several minutes in, once they are sure you are not building toward a demand."
+      },
+      {
+        "t": "Say the specific thing you are worried about, once.",
+        "b": "“I’ve noticed you’ve seemed really tired lately and I’m worried” lands. “You’re throwing your life away” does not. Say it plainly, then stop — repeating it turns concern into pressure."
+      },
+      {
+        "t": "Ask what would actually help.",
+        "b": "It is often not what you assumed. Sometimes it is a ride, or money for strips, or somebody to text at 2am. Asking treats them as the expert on their own life, which they are."
+      },
+      {
+        "t": "Keep naloxone, and tell them you have it.",
+        "b": "Not as a threat or a statement about them — as a fact about the house. Learn to use it. Ask them to teach you if they already know how."
+      },
+      {
+        "t": "Talk about not using alone.",
+        "b": "This is the single most protective thing that does not require anyone to stop. Never Use Alone (1-800-484-3731) answers 24/7 and sends help if someone stops responding."
+      },
+      {
+        "t": "Notice out loud when things go well.",
+        "b": "A day they seemed better, a thing they did, a plan they kept. Positive attention on the parts of life that are not about drugs is the mechanism CRAFT actually runs on — not a nicety."
+      },
+      {
+        "t": "Look after yourself, separately.",
+        "b": "You are allowed support that is about you, not about managing them. This is not selfish; the research finds it is part of what makes the rest sustainable."
+      }
+    ],
+    "donts": [
+      {
+        "t": "Don’t stage a confrontation.",
+        "b": "The televised “intervention” — surprise, ultimatums, a room of people — performs worse than simply keeping in contact, and can end the contact you still have."
+      },
+      {
+        "t": "Don’t make love or contact conditional.",
+        "b": "“I’m done with you until you quit” removes the one thing keeping someone alive: another person who might notice. Cutting off contact pushes people toward using alone, which is how overdoses become deaths."
+      },
+      {
+        "t": "Don’t set an ultimatum you will not keep.",
+        "b": "It teaches that what you say does not mean anything, and it puts you in the position of having to choose between your word and your person."
+      },
+      {
+        "t": "Don’t treat abstinence as the only good outcome.",
+        "b": "Using less, using more safely, being alive in six months, staying in contact — those are real outcomes, and treating them as failure is how people stop telling you the truth."
+      },
+      {
+        "t": "Don’t search their things or monitor them secretly.",
+        "b": "Once discovered — and it is discovered — you have traded the honesty you need for information you cannot act on."
+      },
+      {
+        "t": "Don’t call it what the world calls it.",
+        "b": "“Addict”, “clean”, “junkie”: stigmatizing words measurably reduce how likely someone is to seek help, and they are the words your person has heard from every institution already."
+      }
+    ],
+    "hard": {
+      "title": "If they are not ready",
+      "body": "Most people are not, most of the time, and readiness is not something you can argue someone into. What you can do is stay someone they will call. The person who kept the door open is who people reach for when the moment does come — and that moment is far more often a quiet Tuesday than a rock bottom."
+    },
+    "help": [
+      {
+        "name": "Partnership to End Addiction — free helpline and family coaching",
+        "url": "https://drugfree.org/get-support/",
+        "note": "Text, call, or email with a trained specialist. Free."
+      },
+      {
+        "name": "SMART Recovery Family & Friends",
+        "url": "https://smartrecovery.org/family",
+        "note": "CRAFT-based meetings, online and in person."
+      },
+      {
+        "name": "SAMHSA National Helpline — 1-800-662-4357",
+        "url": "https://www.samhsa.gov/find-help/national-helpline",
+        "note": "Free, confidential, 24/7, English and Spanish."
+      }
+    ]
   }
- },
- "getting": {
-  "intro": "Two national front doors, then the routes that work when you have no insurance and no money.",
-  "routes": [
-   {
-    "name": "SAMHSA National Helpline",
-    "what": "Free, confidential, 24/7, English and Spanish. They will not ask for your name or personal details — only a ZIP code. If you have no insurance they refer you to state-funded programs and sliding-scale providers. This is the fastest human route to care you can afford.",
-    "phone": "1-800-662-4357",
-    "url": "https://www.samhsa.gov/find-help/helplines/national-helpline",
-    "linkText": "About the helpline"
-   },
-   {
-    "name": "FindTreatment.gov",
-    "what": "The government's treatment locator. Confidential and anonymous. Filter for medication treatment, payment options, and telehealth.",
-    "url": "https://findtreatment.gov/",
-    "linkText": "Search for treatment"
-   },
-   {
-    "name": "Methadone program directory",
-    "what": "Methadone is only available through a licensed opioid treatment program. This is the official list.",
-    "url": "https://www.samhsa.gov/find-help/locators/opioid-treatment-program-directory",
-    "linkText": "Find an OTP"
-   },
-   {
-    "name": "Community health centers",
-    "what": "Federally funded health centers are required to see you regardless of your ability to pay, on a sliding scale. Many prescribe buprenorphine. No insurance needed.",
-    "url": "https://findahealthcenter.hrsa.gov/",
-    "linkText": "Find a health center"
-   },
-   {
-    "name": "Emergency departments can start you",
-    "what": "Many hospitals now start buprenorphine in the ER and connect you to a prescriber within a few days. In the programs built for this, treatment is not conditional on insurance, on lab results, or on promising to stop using anything else.",
-    "url": "https://bridgetotreatment.org",
-    "linkText": "About the bridge model"
-   },
-   {
-    "name": "211",
-    "what": "Dial 2-1-1 from anywhere in the US for local free and sliding-scale services — treatment, housing, food, transport.",
-    "phone": "211",
-    "url": "https://www.211.org/",
-    "linkText": "211 online"
-   },
-   {
-    "name": "Medicaid",
-    "what": "There is no open enrollment period for Medicaid — you can apply any day of the year. Coverage rules vary by state, and some states can backdate coverage.",
-    "url": "https://www.healthcare.gov/medicaid-chip/getting-medicaid-chip/",
-    "linkText": "How to apply"
-   },
-   {
-    "name": "If you are pregnant",
-    "what": "Fear of losing a child keeps many people away from care. A federal Plan of Safe Care is a health plan for you and the baby — it is not automatically a child protective services report. What is actually required varies a lot by state, and is often narrower than hospital practice suggests. This free toolkit covers your rights around drug testing, disclosure, and what happens after birth. Methadone and buprenorphine are the standard of care in pregnancy; being pregnant is not a reason to stop.",
-    "url": "https://harmreduction.org/issues/pregnancy-and-substance-use-a-harm-reduction-toolkit/",
-    "linkText": "Pregnancy and substance use toolkit"
-   }
-  ],
-  "lines": [
-   {
-    "name": "988 Suicide & Crisis Lifeline",
-    "who": "Call, text or chat 988 · Spanish: press 2 · ASL videophone available",
-    "phone": "988"
-   },
-   {
-    "name": "Never Use Alone",
-    "who": "Peer-run, 24/7. No abstinence requirement, no judgment. They stay on the line and send help if you stop responding.",
-    "phone": "1-800-484-3731"
-   },
-   {
-    "name": "Veterans Crisis Line",
-    "who": "988 then press 1, or text 838255. No VA enrollment needed.",
-    "phone": "988"
-   },
-   {
-    "name": "Vet Centers",
-    "who": "Free, strictly confidential counseling at community storefronts kept separate from VA medical records. Combat, military sexual trauma in any era, and bereavement for families.",
-    "phone": "1-877-927-8387"
-   },
-   {
-    "name": "The Trevor Project",
-    "who": "LGBTQ+ young people. Call, or text START to 678678.",
-    "phone": "1-866-488-7386"
-   },
-   {
-    "name": "Trans Lifeline",
-    "who": "Staffed by trans and nonbinary peers. Policy against calling police or emergency services without your explicit request.",
-    "phone": "1-877-565-8860"
-   },
-   {
-    "name": "StrongHearts Native Helpline",
-    "who": "For Native and Indigenous people.",
-    "phone": "1-844-762-8483"
-   },
-   {
-    "name": "National Domestic Violence Hotline",
-    "who": "24/7. Or text START to 88788.",
-    "phone": "1-800-799-7233"
-   },
-   {
-    "name": "RAINN",
-    "who": "Sexual assault, 24/7.",
-    "phone": "1-800-656-4673"
-   },
-   {
-    "name": "Childhelp",
-    "who": "Child abuse, including adult survivors. Call or text, 24/7.",
-    "phone": "1-800-422-4453"
-   },
-   {
-    "name": "Crisis Text Line",
-    "who": "Text HOME to 741741.",
-    "phone": "741741"
-   },
-   {
-    "name": "Partnership to End Addiction",
-    "who": "Free, human-staffed support for families. Text CONNECT to 55753.",
-    "phone": "1-855-378-4373"
-   }
-  ]
- },
- "peer": {
-  "intro": "Groups differ enormously, and the differences are not always advertised at the door. The most important one is how a group treats people on medication.",
-  "medicationNote": "If you are on methadone or buprenorphine, this matters before you walk in. Some rooms will treat you as being in recovery without qualification. Others will not let you share or hold a position. You are entitled to know which is which in advance rather than finding out in front of a room.",
-  "groups": [
-   {
-    "name": "MARA — Medication-Assisted Recovery Anonymous",
-    "what": "Built specifically for people on medication. No abstinence requirement, no higher power.",
-    "medication": "Fully supported. This is the point of the group.",
-    "url": "https://www.mara-international.org/online-meetings"
-   },
-   {
-    "name": "SMART Recovery",
-    "what": "Secular, science-based, uses cognitive-behavioral tools. Your goal can be abstinence, moderation, or harm reduction.",
-    "medication": "Explicitly supported — SMART endorses legally prescribed addiction and psychiatric medication.",
-    "url": "https://meetings.smartrecovery.org/meetings/"
-   },
-   {
-    "name": "LifeRing",
-    "what": "Secular, abstinence-based, no steps and no higher power.",
-    "medication": "Explicitly fine — their definition of sobriety carves out medically indicated prescribed medication.",
-    "url": "https://meetings.lifering.org/meetings/?scope=only"
-   },
-   {
-    "name": "All Recovery meetings and recovery community centers",
-    "what": "Multi-pathway by design — 12-step, secular, medication and harm reduction people in the same room. Find your local recovery community organization and ask for their schedule.",
-    "medication": "Explicitly welcomed.",
-    "url": "https://facesandvoicesofrecovery.org/arco-members-on-the-map/"
-   },
-   {
-    "name": "Narcotics Anonymous",
-    "what": "The largest and easiest to find. Abstinence-based and explicitly spiritual, though not tied to a religion.",
-    "medication": "NA as an organization takes no position on your medication and you are welcome to attend. But NA's own literature says individual groups may limit whether you can share or hold a service position, and warns you may meet strong opinions. NA's own advice is to try several meetings.",
-    "url": "https://virtual-na.org"
-   },
-   {
-    "name": "Recovery Dharma",
-    "what": "Buddhist-informed, peer-governed, non-theistic — no higher power required. Abstinence is held as an intention.",
-    "medication": "No published position. Their current FAQ does not mention medication either way, so ask locally rather than assuming.",
-    "url": "https://recoverydharma.org/meetings/"
-   },
-   {
-    "name": "Women for Sobriety",
-    "what": "Secular, abstinence-based, for women.",
-    "medication": "No published position — ask locally.",
-    "url": "https://meetings.womenforsobriety.org/meetings/"
-   }
-  ]
- },
- "trauma": {
-  "intro": "You can get help with this without ever discussing drugs, and without deciding anything about your use first.",
-  "aces": {
-   "title": "What the research actually says",
-   "body": "A large study of childhood adversity found a stepwise pattern: the more categories of adversity someone reported, the higher their later risk. People reporting five or more were seven to ten times more likely to report drug problems, addiction, or injection drug use. That is one of the strongest patterns in public health.",
-   "caveat": "It describes populations, not people. One of the study's own lead authors published a correction warning that the score is being misused as if it were a screening or diagnostic tool. Your score is not a diagnosis, not a prognosis, and not a prediction about your life.",
-   "sources": [
-    {
-     "name": "Dube et al., Pediatrics 2003",
-     "url": "https://pubmed.ncbi.nlm.nih.gov/12612237/"
-    },
-    {
-     "name": "Anda et al. — limits and misapplications",
-     "url": "https://pubmed.ncbi.nlm.nih.gov/32222260/"
-    }
-   ]
-  },
-  "approaches": [
-   {
-    "name": "Seeking Safety",
-    "what": "Present-focused coping skills for trauma and substance use at the same time. Does not require abstinence, and does not require retelling what happened. Worth asking for by name — many programs still make sobriety a condition of trauma treatment."
-   },
-   {
-    "name": "CPT (Cognitive Processing Therapy)",
-    "what": "Around 12 sessions, working on the beliefs that formed afterwards — about blame, safety, and trust. A version exists that does not require a detailed account of the event."
-   },
-   {
-    "name": "Prolonged Exposure",
-    "what": "Gradual, repeated approach to the memory and to avoided situations. Effective and demanding — dropping out is common, and deciding it is not for you is a legitimate choice."
-   },
-   {
-    "name": "EMDR",
-    "what": "Attending to the memory while doing guided eye movements or other bilateral stimulation."
-   },
-   {
-    "name": "Somatic approaches",
-    "what": "Body-based work, often experienced as gentler. Honest caveat: the evidence base is much smaller and earlier than the three above, and it is not among the strongly recommended treatments in current clinical guidelines."
-   }
-  ],
-  "experiences": [
-   {
-    "name": "Deciding between treatments",
-    "what": "A free, non-commercial tool from the VA that compares trauma treatments side by side. No login, no sales.",
-    "url": "https://www.ptsd.va.gov/apps/decisionaid/",
-    "linkText": "PTSD treatment decision aid"
-   },
-   {
-    "name": "Finding a therapist you can afford",
-    "what": "Open Path connects uninsured and underinsured people to therapists at reduced rates.",
-    "url": "https://openpathcollective.org/",
-    "linkText": "Open Path Collective"
-   },
-   {
-    "name": "Losing someone to an overdose",
-    "what": "GRASP runs free peer groups, in person and online, specifically for people grieving a death from substances. Its sister organization does advocacy and naloxone education.",
-    "url": "https://grasphelp.org/community/meetings/",
-    "linkText": "GRASP meetings"
-   },
-   {
-    "name": "Losing a child, at any age",
-    "what": "The Compassionate Friends is free and secular, with long-running online groups for overdose loss. Often the best option where there is no GRASP chapter.",
-    "url": "https://www.compassionatefriends.org/",
-    "linkText": "The Compassionate Friends"
-   },
-   {
-    "name": "Families of someone still using",
-    "what": "Learn to Cope runs peer meetings for families, most weekdays online, including naloxone training.",
-    "url": "https://learn2cope.org/",
-    "linkText": "Learn to Cope"
-   },
-   {
-    "name": "Adult survivors of childhood abuse",
-    "what": "Free peer-led groups and a free workbook.",
-    "url": "https://ascasupport.org/meetings/list/",
-    "linkText": "ASCA meetings"
-   },
-   {
-    "name": "Chronic pain, including anyone tapered against their will",
-    "what": "The 2022 federal prescribing guideline was written partly to correct the misuse of the 2016 one. It states plainly that its recommendations are not rigid rules and should not lead to rapid tapering or abrupt discontinuation. If you were cut off, that was not what the guideline asked for.",
-    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9639433/",
-    "linkText": "CDC 2022 guideline"
-   },
-   {
-    "name": "Free self-help that is not a product",
-    "what": "PTSD Coach from the VA, usable in a browser with nothing to install and nothing to sign up for. It does not replace care, and says so itself.",
-    "url": "https://www.ptsd.va.gov/apps/ptsdcoachonline/default.htm",
-    "linkText": "PTSD Coach Online"
-   }
-  ]
- },
- "cost": {
-  "headline": "If you cannot pay",
-  "body": "Cost, insurance, immigration status, a record, or no ID stop more people than lack of wanting. Most of these routes have a version that does not require money or paperwork: the SAMHSA line refers to state-funded and sliding-scale programs without asking who you are, community health centers cannot turn you away over money, and Medicaid has no enrollment deadline.",
-  "note": "Community health centers are required to see people regardless of ability to pay."
- },
- "supplies": {
-  "intro": "Naloxone, test strips, and safer-use supplies. Free options first, because most people reading this cannot pay and burying them under vendors is its own barrier.",
-  "lastVerified": "2026-08-10",
-  "free": [
-   {
-    "name": "NEXT Distro",
-    "what": "Free naloxone by mail, discreetly packaged. Their state finder covers every state — where they cannot ship directly they hand you off to a program that can. This is the single best starting point if you are not sure where to look.",
-    "cost": "Free",
-    "delivery": "By mail",
-    "url": "https://nextdistro.org/statefinder"
-   },
-   {
-    "name": "Your state health department",
-    "what": "Many states mail free naloxone to any resident who asks, and some include fentanyl test strips. Which tier your state falls into is below.",
-    "cost": "Free",
-    "delivery": "By mail, varies by state",
-    "url": "https://nextdistro.org/statefinder"
-   },
-   {
-    "name": "Syringe service programs",
-    "what": "SSPs give out naloxone, test strips, sterile supplies and wound care, usually with no ID and no questions. They are also the most reliable place to hear what is actually circulating locally.",
-    "cost": "Free",
-    "delivery": "In person",
-    "url": "https://nasen.org/programs"
-   }
-  ],
-  "directories": [
-   {
-    "name": "Harm Reduction Near You",
-    "what": "National Harm Reduction Coalition's directory of programs by location.",
-    "cost": "Directory",
-    "delivery": "Find a program",
-    "url": "https://harmreduction.org/resource-center/harm-reduction-near-you/"
-   },
-   {
-    "name": "NASEN syringe program directory",
-    "what": "The national list of syringe service programs.",
-    "cost": "Directory",
-    "delivery": "Find a program",
-    "url": "https://nasen.org/programs"
-   },
-   {
-    "name": "211",
-    "what": "Dial 2-1-1 and ask for harm reduction supplies or naloxone. Works everywhere, including where nothing above does.",
-    "cost": "Directory",
-    "delivery": "Phone",
-    "url": "https://www.211.org/"
-   }
-  ],
-  "paid": [
-   {
-    "name": "Naloxone over the counter",
-    "what": "Narcan 4mg and RiVive 3mg are available without a prescription at pharmacies nationwide. Worth knowing as a fallback, but check the free routes first — you should not have to pay for this.",
-    "cost": "Paid",
-    "delivery": "Pharmacy"
-   },
-   {
-    "name": "DanceSafe",
-    "what": "Reagent kits and fentanyl test strips. Their storefront moved to Transparency in March 2026; the strips are still made by the same manufacturer.",
-    "cost": "Paid",
-    "delivery": "Mail order",
-    "url": "https://dancesafe.org/dancesafextransparency/"
-   },
-   {
-    "name": "Bunk Police",
-    "what": "Reagent test kits.",
-    "cost": "Paid",
-    "delivery": "Mail order",
-    "url": "https://bunkpolice.com/"
-   },
-   {
-    "name": "BTNX",
-    "what": "The manufacturer of most fentanyl, xylazine, benzodiazepine and nitazene strips used in the US.",
-    "cost": "Paid",
-    "delivery": "Mail order",
-    "url": "https://www.btnx.com/"
-   }
-  ],
-  "byState": {
-   "intro": "What your state offers, as of August 2026. This changes often — if your state is not in the first group, the NEXT Distro finder above still covers you.",
-   "tiers": [
-    {
-     "id": "full",
-     "label": "Free naloxone AND test strips by mail, to any resident",
-     "tone": "ok",
-     "states": [
-      "NY",
-      "KS",
-      "DE",
-      "KY",
-      "NJ",
-      "WI",
-      "AZ",
-      "PA"
-     ]
-    },
-    {
-     "id": "naloxone",
-     "label": "Free naloxone by mail, no test strips",
-     "tone": "neutral",
-     "states": [
-      "MS",
-      "NM",
-      "VT",
-      "TX",
-      "OK",
-      "RI",
-      "AL",
-      "AK",
-      "FL",
-      "MO",
-      "MN",
-      "MA",
-      "NE",
-      "NH",
-      "NC",
-      "ND",
-      "OH",
-      "OR",
-      "WA",
-      "ME",
-      "MI",
-      "IA"
-     ],
-     "note": "Some cap how many kits you can request, and Alaska ships only to Alaska addresses."
-    },
-    {
-     "id": "orgs",
-     "label": "State program supplies organizations, not individuals",
-     "tone": "neutral",
-     "states": [
-      "CA",
-      "CO",
-      "IL",
-      "LA",
-      "ID",
-      "AR",
-      "WY"
-     ],
-     "note": "These states fund bulk naloxone for agencies and programs. As an individual, go through NEXT Distro or a local syringe service program instead — the state page will not help you directly."
-    },
-    {
-     "id": "none",
-     "label": "No verified statewide mail program for individuals",
-     "tone": "neutral",
-     "states": [
-      "CT",
-      "SD",
-      "VA",
-      "MT",
-      "SC",
-      "TN",
-      "GA",
-      "HI",
-      "UT",
-      "WV"
-     ],
-     "note": "Nonprofits often fill the gap. Hawaii's mail program covers Kauaʻi, Lānaʻi and Molokaʻi only, despite what most sources say."
-    }
-   ]
-  },
-  "closed": {
-   "title": "Recently closed — do not rely on these",
-   "items": [
-    "Oklahoma discontinued its mail-order fentanyl test strip program, and the statewide naloxone vending machines were removed in September 2024.",
-    "Idaho repealed authorization for syringe service programs; all programs closed on 30 June 2024.",
-    "Indiana's syringe program authorization was set to expire in July 2026 — check before traveling to one.",
-    "Federal grant funds can no longer be used to buy fentanyl or xylazine test strips as of April 2026, so state-funded strip programs are the most likely of any listing here to disappear."
-   ]
-  },
-  "legalNote": "Fentanyl test strips are legal in most states but not all, and xylazine strips are covered in fewer. Ordering by mail does not change your state's law. See the legality section under Test before you order.",
-  "grassroots": {
-   "intro": "Programs run by and for people who use drugs. These often reach people the formal system turns away, ask for no ID and no story, and tend to know what is actually circulating locally weeks before any official alert does. Several also stay stocked when state programs run dry.",
-   "items": [
-    {
-     "name": "Grassroots Harm Reduction",
-     "url": "https://grassrootsharmreduction.org/",
-     "note": "A national network supporting local peer-run programs. Often the fastest route to free supplies where no storefront carries them — and they answer on social media when a website would be too slow."
-    },
-    {
-     "name": "Urban Survivors Union",
-     "what": "The national drug user union — organized by people who use drugs. Local chapters run supply distribution, overdose response, and advocacy. The best route to a peer-run group in your area.",
-     "cost": "Free",
-     "delivery": "Chapters nationwide",
-     "url": "https://urbansurvivorsunion.org/"
-    },
-    {
-     "name": "Never Use Alone",
-     "what": "Peer-run, 24/7, staffed by people with lived experience. You give a location, they stay on the line, and they send help if you stop responding. No abstinence requirement and no judgment — verified from their own policy.",
-     "cost": "Free",
-     "delivery": "1-800-484-3731",
-     "url": "https://neverusealone.com/"
-    },
-    {
-     "name": "SafeSpot",
-     "what": "Another peer-run overdose prevention line, expanding to more states.",
-     "cost": "Free",
-     "delivery": "Phone line",
-     "url": "https://safe-spot.me/"
-    },
-    {
-     "name": "Brave",
-     "what": "Peer-built overdose detection technology, including a button and app that summon help if you stop responding while using alone.",
-     "cost": "Free",
-     "delivery": "App and devices",
-     "url": "https://www.brave.coop/"
-    },
-    {
-     "name": "Remedy Alliance / For The People",
-     "what": "Supplies naloxone in bulk at cost to harm reduction programs — much of the free naloxone handed out at a syringe program in the US passes through here. Not resident-facing: if you run or volunteer with a program, this is where the supply comes from.",
-     "cost": "For programs",
-     "delivery": "Bulk, to organizations",
-     "url": "https://remedyallianceftp.org/"
-    }
-   ],
-   "note": "Some community programs operate in legal gray areas depending on the state, which is exactly why they exist where official services do not. They will not ask you to explain yourself."
-  }
- },
- "loved": {
-  "headline": "When it’s someone you love",
-  "lastVerified": "2026-08-10",
-  "intro": "Being close to someone who uses is its own kind of hard, and most of the advice people are handed makes things worse. What follows is what the research actually supports, not what feels decisive.",
-  "keeping": {
-   "title": "Keep the relationship. It is the thing that works.",
-   "body": "The approach with the strongest evidence for families is CRAFT — Community Reinforcement and Family Training. It teaches communication and support rather than confrontation, and across randomized trials it engaged roughly two-thirds of people whose families had been told nothing would work, compared with about 13% for Al-Anon-style facilitation and 23% for the confrontational “intervention” approach. It also measurably improves the wellbeing of the family member doing it, whether or not their person ever enters treatment.",
-   "sources": [
-    {
-     "name": "Meta-analysis of CRAFT trials (PubMed)",
-     "url": "https://pubmed.ncbi.nlm.nih.gov/20626372/"
-    },
-    {
-     "name": "American Psychological Association — CRAFT",
-     "url": "https://www.apa.org/pi/about/publications/caregivers/practice-settings/intervention/community-reinforcement"
-    },
-    {
-     "name": "Partnership to End Addiction — what CRAFT is",
-     "url": "https://drugfree.org/article/craft-community-reinforcement-family-training/"
-    }
-   ]
-  },
-  "does": [
-   {
-    "t": "Ask, then listen longer than is comfortable.",
-    "b": "“How are you doing?” and then silence does more than any speech you have rehearsed. People tell you the real thing several minutes in, once they are sure you are not building toward a demand."
-   },
-   {
-    "t": "Say the specific thing you are worried about, once.",
-    "b": "“I’ve noticed you’ve seemed really tired lately and I’m worried” lands. “You’re throwing your life away” does not. Say it plainly, then stop — repeating it turns concern into pressure."
-   },
-   {
-    "t": "Ask what would actually help.",
-    "b": "It is often not what you assumed. Sometimes it is a ride, or money for strips, or somebody to text at 2am. Asking treats them as the expert on their own life, which they are."
-   },
-   {
-    "t": "Keep naloxone, and tell them you have it.",
-    "b": "Not as a threat or a statement about them — as a fact about the house. Learn to use it. Ask them to teach you if they already know how."
-   },
-   {
-    "t": "Talk about not using alone.",
-    "b": "This is the single most protective thing that does not require anyone to stop. Never Use Alone (1-800-484-3731) answers 24/7 and sends help if someone stops responding."
-   },
-   {
-    "t": "Notice out loud when things go well.",
-    "b": "A day they seemed better, a thing they did, a plan they kept. Positive attention on the parts of life that are not about drugs is the mechanism CRAFT actually runs on — not a nicety."
-   },
-   {
-    "t": "Look after yourself, separately.",
-    "b": "You are allowed support that is about you, not about managing them. This is not selfish; the research finds it is part of what makes the rest sustainable."
-   }
-  ],
-  "donts": [
-   {
-    "t": "Don’t stage a confrontation.",
-    "b": "The televised “intervention” — surprise, ultimatums, a room of people — performs worse than simply keeping in contact, and can end the contact you still have."
-   },
-   {
-    "t": "Don’t make love or contact conditional.",
-    "b": "“I’m done with you until you quit” removes the one thing keeping someone alive: another person who might notice. Cutting off contact pushes people toward using alone, which is how overdoses become deaths."
-   },
-   {
-    "t": "Don’t set an ultimatum you will not keep.",
-    "b": "It teaches that what you say does not mean anything, and it puts you in the position of having to choose between your word and your person."
-   },
-   {
-    "t": "Don’t treat abstinence as the only good outcome.",
-    "b": "Using less, using more safely, being alive in six months, staying in contact — those are real outcomes, and treating them as failure is how people stop telling you the truth."
-   },
-   {
-    "t": "Don’t search their things or monitor them secretly.",
-    "b": "Once discovered — and it is discovered — you have traded the honesty you need for information you cannot act on."
-   },
-   {
-    "t": "Don’t call it what the world calls it.",
-    "b": "“Addict”, “clean”, “junkie”: stigmatizing words measurably reduce how likely someone is to seek help, and they are the words your person has heard from every institution already."
-   }
-  ],
-  "hard": {
-   "title": "If they are not ready",
-   "body": "Most people are not, most of the time, and readiness is not something you can argue someone into. What you can do is stay someone they will call. The person who kept the door open is who people reach for when the moment does come — and that moment is far more often a quiet Tuesday than a rock bottom."
-  },
-  "help": [
-   {
-    "name": "Partnership to End Addiction — free helpline and family coaching",
-    "url": "https://drugfree.org/get-support/",
-    "note": "Text, call, or email with a trained specialist. Free."
-   },
-   {
-    "name": "SMART Recovery Family & Friends",
-    "url": "https://smartrecovery.org/family",
-    "note": "CRAFT-based meetings, online and in person."
-   },
-   {
-    "name": "SAMHSA National Helpline — 1-800-662-4357",
-    "url": "https://www.samhsa.gov/find-help/national-helpline",
-    "note": "Free, confidential, 24/7, English and Spanish."
-   }
-  ]
- }
 }

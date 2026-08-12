@@ -40,10 +40,21 @@ export async function render() {
   /* ---- framing, outside the collapsing so it is always the first thing
          read. It sets whether the rest of the page feels like an offer or an
          instruction. ---- */
+  /* A letter, not a callout.
+     As a filled info panel with a headline this read as a banner - a notice
+     ABOUT the reader rather than something written TO them - and a banner is
+     the one register this page cannot afford, because it is the page where
+     someone decides whether this site is an offer or an instruction. So: a
+     plain bubble, the same surface as every other card on the site, and prose
+     that addresses the reader directly. No severity tint either; there is
+     nothing here to warn anyone about. */
   wrap.appendChild(
-    callout("info", g.framing.headline,
+    h("div", { class: "letter" },
+      h("p", { class: "letter__open" }, g.framing.opening),
       ...g.framing.body.map((p) => h("p", null, p)),
-      h("p", null, h("strong", null, g.framing.notAVerdict)))
+      /* Quiet, not bold. Bolding this made it read as the terms and
+         conditions on the offer above it. */
+      h("p", { class: "letter__close" }, g.framing.close))
   );
 
   wrap.appendChild(

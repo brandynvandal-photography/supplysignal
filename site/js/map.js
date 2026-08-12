@@ -551,6 +551,18 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
 
   let last = null, moved = 0;
 
+  /* Set the moment a second finger lands, and cleared only when every finger
+     is back up. A pinch must never open a county.
+
+     Distance travelled cannot answer this on its own. `moved` only accumulates
+     in the drag handler, and that handler deliberately yields while two
+     pointers are down, so a pinch ends with moved === 0 - which is precisely
+     what "this was a tap" looks like. Lifting the first finger then opened
+     whatever county happened to be under it. Two fingers is not a tap
+     regardless of how far they travelled, so record the gesture instead of
+     trying to infer it. */
+  let multiTouch = false;
+
   canvas.addEventListener("pointerdown", (e) => {
     canvas.setPointerCapture?.(e.pointerId);
     state.dragging = true;
@@ -607,7 +619,7 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   canvas.addEventListener("pointerup", (e) => {
     const wasDrag = moved > 6;      // don't open a county at the end of a pan
     endDrag();
-    if (wasDrag) return;
+    if (wasDrag || multiTouch) return;
     const co = countyAt(e);
     if (co) go(`#/alerts/${co.fips}`);
   });
@@ -634,7 +646,10 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   /* Pinch. Two pointers, tracked by id. */
   const active = new Map();
   let pinchStart = null;
-  canvas.addEventListener("pointerdown", (e) => active.set(e.pointerId, e));
+  canvas.addEventListener("pointerdown", (e) => {
+    active.set(e.pointerId, e);
+    if (active.size >= 2) multiTouch = true;
+  });
   canvas.addEventListener("pointermove", (e) => {
     if (!active.has(e.pointerId)) return;
     active.set(e.pointerId, e);
@@ -668,6 +683,11 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   });
   const clearPointer = (e) => {
     active.delete(e.pointerId);
+    /* Only once EVERY finger is up. Clearing it as the first one lifts would
+       hand the second one a clean slate and let it open a county on release -
+       the same bug one finger later. The tap handler is registered before this
+       one, so it still sees the flag set on the final pointerup. */
+    if (active.size === 0) multiTouch = false;
     if (active.size < 2) {
       const wasPinching = !!pinchStart;
       pinchStart = null;

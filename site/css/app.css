@@ -550,6 +550,37 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   box-shadow: var(--shadow), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
   padding: var(--sp-3) var(--sp-4); margin-bottom: 14px;
 }
+/* ---- letter --------------------------------------------------------------
+   For prose written TO the reader rather than about them. The Support page
+   opened with a filled green info panel and a headline, which reads as a
+   banner - an announcement - and that is the wrong register for the one page
+   where someone is deciding whether this site is an offer or an instruction.
+
+   So: the same clear bubble as every other surface here, no severity tint,
+   and the type set for reading rather than scanning. Wider line height and a
+   measure that stops around 62 characters, because the failure mode of a full
+   width paragraph on a laptop is that the eye loses its place returning to the
+   next line. */
+.letter {
+  background: var(--glass); border: 1px solid var(--glass-line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+  padding: var(--sp-4); margin-bottom: var(--sp-4);
+}
+.letter p { margin: 0 0 15px; line-height: 1.72; max-width: 62ch; }
+.letter p:last-child { margin-bottom: 0; }
+/* The opening line carries the whole offer, so it gets the weight the deleted
+   headline used to have - without becoming a headline again. */
+.letter__open { font-size: 1.08rem; font-weight: 600; line-height: 1.55; }
+/* Set apart, but quiet. Bold made it read as terms and conditions attached to
+   the offer above it. */
+.letter__close {
+  border-top: 1px solid var(--glass-line);
+  padding-top: 14px; margin-top: 18px;
+  color: var(--ink-2);
+}
+@media (max-width: 560px) { .letter { padding: var(--sp-3); } }
+
 /* Severity reads as a soft edge rather than a warning stripe. The badge and
    its word still carry the signal at full contrast. */
 .card--critical { border-left: 4px solid var(--critical); }
@@ -1603,6 +1634,27 @@ details.disc[open] { margin-bottom: var(--sp-3); }
   margin: 0 5px 0 8px; vertical-align: baseline;
 }
 .reagtable td .swatch:first-child, .reagtable td span.swatch { margin-left: 0; }
+
+/* On a phone, stack the name over its result.
+   Reagent names are single long words - "Liebermann", "Zimmermann" - so they
+   cannot wrap, and the colour column takes whatever width its swatches and
+   arrows need. Side by side in a narrow card the name lost, and because .card
+   clips its overflow the name was cut off mid-word rather than spilling where
+   it could be seen. Stacked, it gets the full width, and the result gets the
+   room a value deserves. */
+@media (max-width: 560px) {
+  .reagtable, .reagtable tbody, .reagtable tr, .reagtable th, .reagtable td {
+    display: block; width: auto;
+  }
+  .reagtable th { white-space: normal; padding: 0; }
+  .reagtable td { padding: 4px 0 0; }
+  /* The separator belongs to the row now, not to each cell. */
+  .reagtable tr + tr th, .reagtable tr + tr td { border-top: 0; }
+  .reagtable tr + tr {
+    border-top: 1px solid var(--glass-line);
+    margin-top: 12px; padding-top: 12px;
+  }
+}
 .swatch__sep { color: var(--ink-3); margin: 0 2px 0 7px; }
 .reag__none { color: var(--ink-2); font-style: italic; }
 
