@@ -6,7 +6,7 @@
     "description": "Alertas sobre el suministro de drogas por condado, resultados de análisis y cómo analizar una sustancia. Información de reducción de daños, no consejo médico.",
     "skipToContent": "Ir al contenido",
     "themeToggle": "Cambiar el tema de color",
-    "quickExit": "Salida rápida — salir de este sitio ahora y borrar los rastros locales",
+    "quickExit": "Salir ahora — va a un sitio del tiempo y quita esta página de tu historial",
     "language": "Idioma",
     "loadFailed": "No se pudo cargar esta sección.",
     "loadFailedHint": "Revisa tu conexión e inténtalo de nuevo.",
@@ -33,7 +33,8 @@
     "activeAlerts": "{count} alertas activas",
     "activeAlert": "{count} alerta activa",
     "updated": "datos actualizados el {date}",
-    "awaitingScan": "esperando el primer escaneo"
+    "awaitingScan": "esperando el primer escaneo",
+    "privacy": "No se guarda nada — cerrar esta pestaña lo borra. ✕ sale ahora mismo y quita esta página de tu historial."
   },
   "alerts": {
     "heading": "Qué está apareciendo cerca de ti",
@@ -79,7 +80,9 @@
     "locateFailed": "No se pudo obtener la ubicación. Busca por nombre.",
     "locateUnsupported": "Este navegador no puede compartir la ubicación. Busca por nombre.",
     "locateOutside": "Esa ubicación no está dentro de un condado de EE. UU. Busca por nombre.",
-    "locateNoData": "No se pudieron cargar los datos del mapa. Busca por nombre."
+    "locateNoData": "No se pudieron cargar los datos del mapa. Busca por nombre.",
+    "sessionTitle": "Nada de lo que hagas aquí se guarda",
+    "sessionBody": "Sin cuenta y sin guardar nada entre visitas — cierra la pestaña y desaparece. La ✕ es para cuando necesitas salir en el momento: quita esta página de tu historial y te lleva a un sitio del tiempo."
   },
   "severity": {
     "critical": "Crítica",

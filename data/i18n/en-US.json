@@ -6,7 +6,7 @@
     "description": "County-level drug supply alerts, drug-checking results, and how to test a supply. Harm reduction information, not medical advice.",
     "skipToContent": "Skip to content",
     "themeToggle": "Switch color theme",
-    "quickExit": "Quick exit — leave this site now and clear local traces",
+    "quickExit": "Leave now — jumps to a weather site and removes this page from your back button",
     "language": "Language",
     "loadFailed": "This section could not load.",
     "loadFailedHint": "Check your connection and try again."
@@ -32,7 +32,8 @@
     "activeAlerts": "{count} active alerts",
     "activeAlert": "{count} active alert",
     "updated": "data updated {date}",
-    "awaitingScan": "awaiting first scan"
+    "awaitingScan": "awaiting first scan",
+    "privacy": "Nothing is saved — closing this tab clears it. ✕ leaves right now and drops this page from your back button."
   },
   "alerts": {
     "heading": "What's showing up near you",
@@ -78,7 +79,9 @@
     "locateFailed": "Couldn’t get a location. Search by name instead.",
     "locateUnsupported": "This browser can’t share location. Search by name instead.",
     "locateOutside": "That location isn’t inside a US county. Search by name instead.",
-    "locateNoData": "Couldn’t load the map data. Search by name instead."
+    "locateNoData": "Couldn’t load the map data. Search by name instead.",
+    "sessionTitle": "Nothing you do here is saved",
+    "sessionBody": "No account, and nothing kept between visits — close the tab and it is gone. The ✕ in the corner is for when you need to leave this second: it drops this page from your back button and sends you to a weather site."
   },
   "severity": {
     "critical": "Critical",

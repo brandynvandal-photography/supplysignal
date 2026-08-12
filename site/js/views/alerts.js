@@ -88,7 +88,14 @@ async function pickerView(route, { go, data }) {
     /* From the locale files - a translated key already existed while this text
        sat here hardcoded in English, which is exactly how the two drift. */
     callout("info", t("alerts.locationPrivacyTitle"),
-      h("p", null, t("alerts.locationPrivacyBody")))
+      h("p", null, t("alerts.locationPrivacyBody")),
+      /* Storage now clears itself, so the X is no longer the mechanism - it is
+         the escape. Someone who thinks they must remember to press it will
+         worry when they forget, and someone who does not know it exists will
+         not reach for it when they need to leave in a hurry. Both facts, once,
+         in the callout that is already about privacy. */
+      h("p", null, h("strong", null, t("alerts.sessionTitle")), ". ",
+        t("alerts.sessionBody")))
   );
 
   const a = await data.alerts();

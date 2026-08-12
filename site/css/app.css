@@ -2027,3 +2027,13 @@ html, body { overscroll-behavior-y: none; }
 .mort__trend--down { color: var(--ok); }
 .mort__trend--up { color: var(--critical); }
 .mort__trend--flat { color: var(--ink-2); }
+
+/* "Nothing is saved" - first line of the footer rather than last. Someone
+   wondering whether they have to press the X is looking for reassurance, and
+   should not have to read past the medical disclaimer and four phone numbers
+   to find it. Quiet, but not buried: slightly stronger than the small print
+   around it. */
+#foot-privacy {
+  color: var(--ink-2); font-weight: 600;
+  margin: 0 0 10px; font-size: min(.9rem, 15px);
+}

@@ -262,6 +262,12 @@ function applyStrings() {
     else a.removeAttribute("aria-label");
   }
 
+  /* Says the app clears itself. Without this, the X reads as the ONLY way to
+     clear anything - which was true until storage became session-only, and
+     leaves someone who forgets to press it worrying for no reason. */
+  const priv = document.getElementById("foot-privacy");
+  if (priv) priv.textContent = t("footer.privacy");
+
   // Footer. The crisis numbers are never translated - they are dialled, not read.
   const disc = document.getElementById("foot-disclaimer");
   clear(disc).append(
