@@ -2095,3 +2095,8 @@ html, body { overscroll-behavior-y: none; }
   color: var(--ink-2); font-weight: 600;
   margin: 0 0 10px; font-size: min(.9rem, 15px);
 }
+
+/* "We don't have a description yet." Quieter than a real lead-in, because it
+   is an absence rather than content - but still a full paragraph, because
+   burying it as small print would make it look like an error message. */
+.leadin--none { color: var(--ink-2); }

@@ -349,7 +349,12 @@ export async function substances() {
      a placeholder. Coverage is partial on purpose: these are written by hand
      because no upstream source has usable ones. */
   const withDesc = [...(base.substances || []), ...added].map((s) => {
-    let out = desc.descriptions?.[s.id] ? { ...s, description: desc.descriptions[s.id] } : s;
+    /* Hand-written description first; an adulterant's own verified summary
+       second. The four adulterants already carried a checked one-line summary
+       and were still rendering with no description at all, purely because the
+       two fields had different names. */
+    const plain = desc.descriptions?.[s.id] || s.summary || null;
+    let out = plain ? { ...s, description: plain } : s;
     /* Deceptive street names: the warning renders on the page, and the names
        join the aliases so searching "tusi" finds the page that says tusi is
        probably not this. */

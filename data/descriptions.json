@@ -61,6 +61,26 @@
     "baclofen": "A prescription muscle relaxant for spasticity, sometimes used for alcohol dependence. It is a depressant and adds to what opioids and alcohol are already doing. Stopping it suddenly after regular use can cause serious withdrawal.",
     "mdai": "A drug related to MDMA that brings emotional warmth without much stimulation. Sometimes sold as a legal stand-in for MDMA.",
     "5-apb": "A stimulant with a psychedelic edge, sold as an MDMA substitute, and often lasting a lot longer than people expect.",
-    "6-apb": "A stimulant with a psychedelic edge, sometimes called benzo fury, sold as an MDMA substitute. It comes on slowly — the usual way people end up taking more than they meant to — and then lasts a long time."
+    "6-apb": "A stimulant with a psychedelic edge, sometimes called benzo fury, sold as an MDMA substitute. It comes on slowly — the usual way people end up taking more than they meant to — and then lasts a long time.",
+    "caffeine": "The stimulant in coffee, tea and energy drinks, and a very common cutting agent in powders sold as something else. On its own it is mild; mixed into a stimulant it makes a bag look bigger without making it stronger.",
+    "nicotine": "The drug in tobacco and vapes. It is a stimulant, it builds dependence fast, and concentrated vape liquid is genuinely dangerous to swallow — especially around children.",
+    "clonazepam": "A benzodiazepine, prescribed as Klonopin for seizures and panic. Long-acting. Like the rest of its family it stacks with opioids and alcohol, and stopping suddenly after regular use can cause seizures.",
+    "lorazepam": "A benzodiazepine, prescribed as Ativan for anxiety and seizures. Shorter-acting than diazepam. Same two rules as the rest of the family: it stacks dangerously with opioids and alcohol, and coming off it needs to be gradual.",
+    "zolpidem": "A sleeping tablet, prescribed as Ambien. Not a benzodiazepine but it acts on the same system and carries the same danger next to opioids and alcohol. It is well known for people doing things while apparently awake and having no memory of it.",
+    "zopiclone": "A sleeping tablet, sold as Imovane or Zimovane. Like zolpidem it is not a benzodiazepine but behaves like one, including how badly it mixes with opioids and alcohol. Often leaves a metallic taste.",
+    "eszopiclone": "A sleeping tablet, prescribed as Lunesta. Closely related to zopiclone and carries the same warning about mixing with opioids or alcohol.",
+    "etizolam": "A benzodiazepine-type drug prescribed in a few countries and sold widely online everywhere else. It is often what is actually in a pill sold as Xanax. Strength varies enormously batch to batch, which is what makes it dangerous alongside opioids.",
+    "flualprazolam": "A designer benzodiazepine, never a medicine anywhere. It turns up pressed into counterfeit Xanax and is considerably stronger than alprazolam, so a pill that looks familiar can be far more sedating than expected.",
+    "flubromazolam": "A designer benzodiazepine, never approved as a medicine. Very strong in very small amounts and long-lasting, which is a bad combination when nobody knows how much is in a pill.",
+    "metizolam": "A designer benzodiazepine sold online, never a medicine. Like the others in this group, the real problem is that the amount in any given pill is unknown.",
+    "deschloroetizolam": "A designer benzodiazepine related to etizolam, never approved as a medicine and not made to any consistent strength.",
+    "phenibut": "A Russian anxiety medicine sold as a supplement in the US. It is a depressant and adds to alcohol and opioids. Dependence builds faster than people expect, and the withdrawal is genuinely severe — closer to benzodiazepine withdrawal than to a hangover.",
+    "f-phenibut": "A stronger, faster version of phenibut, sold as a supplement. Same dependence and same severe withdrawal, reached sooner.",
+    "modafinil": "A prescription wakefulness drug, sold as Provigil, used for narcolepsy and shift work. It keeps you awake without much of a stimulant rush. It speeds up how the liver clears some medicines, which matters most for hormonal birth control.",
+    "armodafinil": "A longer-lasting version of modafinil, prescribed as Nuvigil, with the same effects and the same interaction with hormonal birth control.",
+    "psilocin": "What your body turns psilocybin into, and the part that actually does something. It is also what is measured when mushrooms are tested.",
+    "datura": "A plant — jimsonweed or thornapple — containing deliriants. This is not a psychedelic: people experience convincing hallucinations they cannot tell from real, often with no memory afterwards. The amount varies wildly between plants and even between parts of the same plant, and the gap between an active and a poisonous dose is small.",
+    "ayahuasca": "A brew from South America combining a DMT-containing plant with an MAOI plant, traditionally used in ceremony. The MAOI is what makes it last hours rather than minutes, and it is also the part that reacts dangerously with many antidepressants and with some foods.",
+    "changa": "DMT absorbed onto a herb blend that includes an MAOI, made to be smoked. It lasts longer than smoked DMT alone, and the MAOI brings the same medication interactions ayahuasca has."
   }
 }

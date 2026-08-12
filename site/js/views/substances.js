@@ -718,6 +718,23 @@ async function detailView(id, subs, combos, { go }) {
     wrap.appendChild(
       h("div", { class: "leadin" }, h("p", null, s.description))
     );
+  } else {
+    /* Say so, rather than opening on a dose chart for something the reader
+       cannot identify. 250 of 302 entries are in this state, almost all of
+       them obscure research chemicals with no plain-language description
+       published anywhere we could check - and writing one from memory is
+       exactly how a confident sentence about an unfamiliar drug ends up
+       wrong. An absence, stated, is more useful than a guess. */
+    wrap.appendChild(
+      h("div", { class: "leadin leadin--none" },
+        h("p", null,
+          "We don’t have a plain description of this one yet. Nobody has published a " +
+          "checked one, and we would rather leave a gap than write something that " +
+          "sounds confident and turns out to be wrong."),
+        h("p", { class: "sec__note" },
+          "The dose, duration and interaction data below comes from PsychonautWiki " +
+          "and TripSit and is sourced at the foot of the page."))
+    );
   }
 
   /* Adulterants take a different page shape entirely, and return early.
