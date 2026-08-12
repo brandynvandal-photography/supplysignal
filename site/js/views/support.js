@@ -37,25 +37,30 @@ export async function render() {
   const wrap = h("div");
   wrap.appendChild(h("h1", null, "Support"));
 
-  /* ---- framing, outside the collapsing so it is always the first thing
-         read. It sets whether the rest of the page feels like an offer or an
-         instruction. ---- */
   /* A letter, not a callout.
      As a filled info panel with a headline this read as a banner - a notice
      ABOUT the reader rather than something written TO them - and a banner is
      the one register this page cannot afford, because it is the page where
-     someone decides whether this site is an offer or an instruction. So: a
-     plain bubble, the same surface as every other card on the site, and prose
-     that addresses the reader directly. No severity tint either; there is
-     nothing here to warn anyone about. */
-  wrap.appendChild(
-    h("div", { class: "letter" },
-      h("p", { class: "letter__open" }, g.framing.opening),
-      ...g.framing.body.map((p) => h("p", null, p)),
-      /* Quiet, not bold. Bolding this made it read as the terms and
-         conditions on the offer above it. */
-      h("p", { class: "letter__close" }, g.framing.close))
-  );
+     someone decides whether this site is an offer or an instruction. So: the
+     same soft wash and left rule as the Alerts welcome, and prose that
+     addresses the reader directly. No severity tint either; there is nothing
+     here to warn anyone about.
+
+     No opening line in bold. It was doing a headline's job under a different
+     name - the eye landed on it, read a statement, and skipped the paragraphs
+     that actually say the thing. Straight into the body means the first words
+     read are "Maybe you want to stop", which is the offer itself rather than
+     an announcement of one.
+
+     Placed BELOW the jump nav. At the top it was the first and largest thing
+     on the page, so someone who came looking for a phone number had to read a
+     paragraph about how they are allowed to feel before reaching anything
+     actionable. The nav goes first; this is here for whoever slows down. */
+  const letter = h("div", { class: "letter" },
+    ...g.framing.body.map((p) => h("p", null, p)),
+    /* Quiet, not bold. Bolding this made it read as the terms and
+       conditions on the offer above it. */
+    h("p", { class: "letter__close" }, g.framing.close));
 
   wrap.appendChild(
     jumpNav([
@@ -66,6 +71,8 @@ export async function render() {
       { id: "sec-communities", label: "Finding your people" },
     ])
   );
+
+  wrap.appendChild(letter);
 
   /* Two doors into the After page, high on Support because the people who
      need it are usually looking for something else when they realise it

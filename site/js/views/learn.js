@@ -60,6 +60,7 @@ export async function render(route, { go }) {
          that is not on the page is worse than no chip. */
       ...(consent ? [{ id: "sec-consent", label: "Consent" },
                      { id: "sec-repair", label: "After you hurt someone" }] : []),
+      { id: "sec-policy", label: "The law" },
     ])
   );
 
@@ -116,14 +117,24 @@ export async function render(route, { go }) {
 
   /* Policy sits at the foot of Learn rather than in the tab bar. The bar is
      already six wide at 375px and a seventh would truncate them all - and
-     someone arriving in a hurry needs Alerts and SOS, not legislation. */
+     someone arriving in a hurry needs Alerts and SOS, not legislation.
+
+     It gets its own heading rather than being appended after consent. Bare,
+     it sat flush under the repair block and read as a continuation of it -
+     as though the law were the next thing to know about hurting someone.
+     They are unrelated subjects and the page should not imply otherwise. */
   wrap.appendChild(
-    h("a", { class: "bigptr", href: "#/policy" },
-      h("span", { class: "bigptr__hd" }, "The law, the money, and how to weigh in"),
-      h("span", { class: "bigptr__sub" },
-        "What a Good Samaritan law actually protects you from and what it does not, "
-        + "where test strips are legal, who funds this, and how to reach the people "
-        + "who decide it.")));
+    h("div", { id: "sec-policy" },
+      section("The law, and having a say in it", null,
+        h("p", { class: "sec__note" },
+          "Separate from everything above: what the rules actually are where you "
+          + "are, who writes them, and how people change them."),
+        h("a", { class: "bigptr", href: "#/policy" },
+          h("span", { class: "bigptr__hd" }, "Drug policy and how to weigh in"),
+          h("span", { class: "bigptr__sub" },
+            "What a Good Samaritan law actually protects you from and what it does not, "
+            + "where test strips are legal, who funds this, and how to reach the people "
+            + "who decide it.")))));
 
   wrap.appendChild(
     section("Teach someone else", null,
