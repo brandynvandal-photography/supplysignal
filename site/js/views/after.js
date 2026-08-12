@@ -4,10 +4,9 @@
  * nobody writes: the person wakes up, the ambulance leaves or does not come,
  * and then there is a Tuesday.
  *
- * Three audiences share the page because they share the night:
- *   1. the person it happened to,
- *   2. whoever was in the room,
- *   3. anyone for whom the ordinary version of help does not fit.
+ * Two audiences share the page because they share the night: the person it
+ * happened to, and whoever was in the room. The culturally-specific directory
+ * used to live here too and now sits on Support - see js/communities.js.
  *
  * Rules this page keeps, all of which are easy to break with good intentions:
  *
@@ -18,19 +17,17 @@
  *     dangerous window there is, and someone deserves to know that in the same
  *     tone you would tell them the stairs are icy.
  *   - NO NUMBER SHIPS WITHOUT A DENOMINATOR. "5% get brain injury" is false;
- *     "5.1% of people HOSPITALISED for opioid overdose" is true. Complication
- *     rates diverge wildly between overdoses reversed on a floor and overdoses
- *     that reach an ICU, and stripping that context is how this page would
- *     start lying while quoting real papers.
- *   - A DEAD PHONE NUMBER IS WORSE THAN NO PHONE NUMBER. Every line in the
- *     directory was opened and read, not copied from a listing. One widely
- *     published elder hotline turned out to have been switched off in 2023 and
- *     is still listed as live across dozens of directories.
- *   - WHERE A LINE MIGHT SEND POLICE, WE SAY SO. For this audience that is not
- *     a footnote, it is the deciding factor.
+ *     "14% of people whose fentanyl overdose brought them to an emergency
+ *     department" is true. Complication rates diverge wildly between an
+ *     overdose reversed on a floor and one that reaches an ICU, and stripping
+ *     that context is how this page would start lying while quoting real
+ *     papers.
+ *   - EVERY CITATION GOES TO THE FOOT. Claims carry their sources, but a
+ *     reader who is frightened should not have to wade through a row of grey
+ *     links between every two paragraphs. See sourceSink below.
  */
 
-import { h, frag, section, callout, extLink, disclosure, jumpNav, badge } from "../ui.js";
+import { h, frag, callout, extLink, disclosure, jumpNav } from "../ui.js";
 import * as data from "../data.js";
 
 export async function render(route, { go }) {
@@ -53,17 +50,30 @@ export async function render(route, { go }) {
   const jumps = [];
   if (d.survivor) jumps.push({ id: "sec-survivor", label: "If it was you" });
   if (d.witness) jumps.push({ id: "sec-witness", label: "If you were there" });
-  if (d.communities) jumps.push({ id: "sec-communities", label: "Finding your people" });
   if (jumps.length > 1) wrap.appendChild(jumpNav(jumps));
 
-  if (d.survivor) wrap.appendChild(survivorBlock(d.survivor));
-  if (d.witness) wrap.appendChild(witnessBlock(d.witness));
-  if (d.communities) wrap.appendChild(communitiesBlock(d.communities));
+  const src = sourceSink();
 
+  if (d.survivor) wrap.appendChild(survivorBlock(d.survivor, src));
+  if (d.witness) wrap.appendChild(witnessBlock(d.witness, src));
+
+  /* The directory lives on Support - see js/communities.js for why. This is
+     the pointer, not a copy: someone who arrives here after an overdose is
+     also exactly the person who may need a provider who will not make them
+     explain themselves, and they should not have to already know that page
+     exists. */
   wrap.appendChild(
-    h("p", { class: "sec__note" },
-      `Organizations and phone numbers checked ${d.lastVerified}.`)
+    h("a", { class: "bigptr", href: "#/support" },
+      h("span", { class: "bigptr__hd" }, "Finding people who already get it"),
+      h("span", { class: "bigptr__sub" },
+        "Support for LGBTQIA+ and trans people, Black, Native and Latino " +
+        "communities, survivors, pregnant people, veterans and others — on the " +
+        "Support page."))
   );
+
+  /* Every citation on the page, once, at the foot. */
+  const sources = src.render();
+  if (sources) wrap.appendChild(sources);
 
   void go; void route;
   return wrap;
@@ -71,7 +81,7 @@ export async function render(route, { go }) {
 
 /* ------------------------------------------------------------- the person */
 
-function survivorBlock(s) {
+function survivorBlock(s, src) {
   return disclosure("sec-survivor", s.title, { open: true },
     h("p", { class: "sec__note" }, s.intro),
 
@@ -81,7 +91,7 @@ function survivorBlock(s) {
       ? callout("warn", s.window.title,
           h("p", null, s.window.body),
           s.window.detail ? h("p", null, s.window.detail) : null,
-          sourceRow(s.window.sources))
+          src.add(s.window.sources))
       : null,
 
     s.watch
@@ -94,7 +104,7 @@ function survivorBlock(s) {
               h("p", null, w.what),
               w.when ? h("p", { class: "card__meta" }, w.when) : null))),
           s.watch.note ? h("p", { class: "sec__note" }, s.watch.note) : null,
-          sourceRow(s.watch.sources))
+          src.add(s.watch.sources))
       : null,
 
     /* The mortality figure and the brain-injury figure are the two most
@@ -106,7 +116,7 @@ function survivorBlock(s) {
           h("h3", null, s.risk.title),
           h("p", null, s.risk.body),
           h("p", null, s.risk.detail),
-          sourceRow(s.risk.sources))
+          src.add(s.risk.sources))
       : null,
 
     s.brain
@@ -114,7 +124,7 @@ function survivorBlock(s) {
           h("h3", null, s.brain.title),
           h("p", null, s.brain.body),
           h("p", null, s.brain.detail),
-          sourceRow(s.brain.sources))
+          src.add(s.brain.sources))
       : null,
 
     s.feelings
@@ -131,7 +141,7 @@ function survivorBlock(s) {
 
 /* ------------------------------------------------------------ the witness */
 
-function witnessBlock(w) {
+function witnessBlock(w, src) {
   return disclosure("sec-witness", w.title, { open: false },
     h("p", { class: "sec__note" }, w.intro),
 
@@ -139,7 +149,7 @@ function witnessBlock(w) {
       ? callout("info", w.anger.title,
           h("p", null, w.anger.body),
           w.anger.detail ? h("p", null, w.anger.detail) : null,
-          sourceRow(w.anger.sources))
+          src.add(w.anger.sources))
       : null,
 
     w.items
@@ -151,87 +161,36 @@ function witnessBlock(w) {
       ? frag(
           h("h3", null, w.grief.title),
           h("p", null, w.grief.body),
-          sourceRow(w.grief.sources))
+          src.add(w.grief.sources))
       : null);
 }
 
-/* -------------------------------------------------------------- who you are
-   A directory, not a hierarchy. The groups are ordered by how badly the
-   default version of help tends to fail the people in them, not by size. */
-
-function communitiesBlock(c) {
-  return disclosure("sec-communities", c.headline, { open: false },
-    h("p", { class: "sec__note" }, c.intro),
-
-    /* Before any phone number: which of these can send police. */
-    callout("warn", c.keyNote.title,
-      h("p", null, c.keyNote.body),
-      h("p", null, c.keyNote.detail)),
-
-    frag((c.groups || []).map(groupBlock)),
-
-    h("p", { class: "sec__note" }, c.howChecked),
-    c.closing ? h("p", null, c.closing) : null);
-}
-
-function groupBlock(g) {
-  return h("details", { class: "acc" },
-    h("summary", null,
-      h("span", null, g.title),
-      badge(String((g.items || []).length), "neutral")),
-    h("div", { class: "acc__body" },
-      g.blurb ? h("p", { class: "sec__note" }, g.blurb) : null,
-
-      frag((g.items || []).map(resourceCard)),
-
-      /* Law sections are date-stamped and deliberately refuse to predict. */
-      g.law
-        ? callout("info", g.law.title,
-            h("p", null, g.law.body),
-            h("p", null, g.law.detail),
-            g.law.checked ? h("p", { class: "sec__note" }, g.law.checked) : null,
-            sourceRow(g.law.sources))
-        : null,
-
-      /* A named gap is information. Padding it with something that does not
-         fit would waste a phone call someone made while desperate. */
-      g.gap
-        ? h("p", { class: "sec__note gapnote" },
-            h("strong", null, "What doesn’t exist: "), g.gap)
-        : null));
-}
-
-function resourceCard(it) {
-  const policy =
-    it.policy === "noncarceral"
-      ? badge("Won’t call police unless you ask", "ok")
-      : it.policy === "rescue"
-        ? badge("May send police or EMS", "elevated")
-        : null;
-
-  return h("div", { class: "card rescard" },
-    h("div", { class: "card__top" },
-      h("h4", null, it.url ? extLink(it.url, it.name) : it.name),
-      policy),
-
-    it.what ? h("p", null, it.what) : null,
-
-    /* The number is a tel: link and also readable as text - someone reading
-       this on a laptop needs to be able to write it down. */
-    it.num
-      ? h("p", { class: "rescard__num" },
-          it.tel ? h("a", { href: `tel:${it.tel}` }, it.num) : it.num)
-      : null,
-
-    it.hours ? h("p", { class: "card__meta" }, it.hours) : null,
-    it.note ? h("p", null, it.note) : null,
-    it.policyQuote ? h("p", { class: "sec__note" }, it.policyQuote) : null,
-    it.caution
-      ? h("p", { class: "sec__note rescard__caution" }, it.caution)
-      : null);
-}
-
-function sourceRow(sources) {
-  if (!sources?.length) return null;
-  return h("div", { class: "sources" }, sources.map((x) => extLink(x.url, x.name)));
+/* Citations are collected while the page builds and rendered ONCE at the foot,
+   rather than as a row of grey links under every block.
+ *
+ * Every claim still carries its source - it just does not interrupt the
+ * reading to prove itself. Six citation rows stacked between "what to watch
+ * for" and "the honest number" turned a page someone reads while frightened
+ * into a bibliography with paragraphs in it.
+ *
+ * The org links inside the directory cards are deliberately NOT collected.
+ * Those are not attribution, they are the destination - the thing a person
+ * taps to get help - and moving them to a footer would break the page's
+ * actual job. Only sources move.
+ */
+function sourceSink() {
+  const seen = new Map();          // url -> {name, url}, dedup across blocks
+  return {
+    add(list) {
+      for (const s of list || []) if (s?.url && !seen.has(s.url)) seen.set(s.url, s);
+      return null;                 // returns null so it can sit inline in a tree
+    },
+    render() {
+      if (!seen.size) return null;
+      return h("div", { class: "foot-attr" },
+        h("h3", null, "Where this comes from"),
+        h("ul", null,
+          [...seen.values()].map((s) => h("li", null, extLink(s.url, s.name)))));
+    },
+  };
 }

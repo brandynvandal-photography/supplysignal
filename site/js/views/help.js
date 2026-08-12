@@ -383,17 +383,20 @@ export function privacyBlock() {
           li("Your searches never leave your device.", "Every county, substance, and alert is already downloaded with the page, so choosing one makes no new request. The server cannot see which county or drug you picked."),
           li("No third parties.", "No analytics, no fonts, no maps, no trackers. This page contacts nothing but the server it came from."),
           li("Your location stays on your device.", "“Near me” matches your coordinates to a county in your browser. No location service is contacted."),
-          /* This said "the only thing stored is your light/dark preference",
-             which stopped being true the moment seen.js began recording a
-             last-opened timestamp. On the one page that promises a plain
-             account of what the app knows, an inaccurate inventory is the
-             worst possible copy. */
-          li("Almost nothing is saved.", "No account, no cookies, no record of what you searched or which counties you opened. Two things are kept on this device: your light/dark choice, and one timestamp of when you last opened the app — that is what the “new since you last looked” line counts from. Quick exit clears both.")),
+          /* This copy has been wrong twice, both times by lagging behind the
+             code: it once claimed only a light/dark preference was kept, after
+             seen.js had begun writing a timestamp. On the one page that
+             promises a plain account of what the app knows, an inaccurate
+             inventory is the worst possible copy. Re-read it against
+             app.js/seen.js/i18n.js after touching any of them. */
+          li("Nothing outlives the session.", "No account, no cookies, no record of what you searched or which counties you opened. Your light/dark choice and your language are held only until you close the tab, and the offline copy is deleted when you leave. Nothing is left on this device for next time.")),
 
         h("h3", null, "Quick exit"),
         h("p", null,
-          "The ✕ button in the header clears what this site has stored, removes this " +
-          "page from your Back button, and sends you to a weather site."),
+          "The ✕ button in the header clears everything immediately, removes this " +
+          "page from your Back button, and sends you to a weather site. It is a " +
+          "shortcut, not a requirement — closing the tab clears the same things on " +
+          "its own, and so does simply leaving."),
 
         callout("warn", "What quick exit cannot do",
           h("p", null,

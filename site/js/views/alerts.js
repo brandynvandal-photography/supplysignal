@@ -522,8 +522,10 @@ function notHere(c, nearCount, win) {
  * one, which rule 2 does not allow.
  */
 function freshLine(items, win, c) {
-  const windowStart = Date.now() - win * 864e5;
-  const { count, sinceVisit } = countNew(items, windowStart);
+  /* Always the fixed-window wording. The app keeps nothing between sessions,
+     so it cannot know when this reader last looked - and saying "since you
+     last looked" would claim a memory it deliberately does not have. */
+  const { count } = countNew(items);
   if (!count) return null;
 
   const noun = `alert${count === 1 ? "" : "s"}`;
@@ -532,9 +534,7 @@ function freshLine(items, win, c) {
     h("span", { class: "fresh__dot", "aria-hidden": "true" }),
     h("p", null,
       h("strong", null,
-        sinceVisit
-          ? `${count} new ${noun} since you last looked`
-          : `${count} ${noun} published in the last ${FALLBACK_DAYS} days`),
+        `${count} ${noun} published in the last ${FALLBACK_DAYS} days`),
       h("span", { class: "fresh__where" },
         ` in ${c.name} and bordering counties.`)));
 }

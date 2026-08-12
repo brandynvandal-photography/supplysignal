@@ -1,0 +1,374 @@
+{
+  "lastVerified": "2026-08-12",
+  "headline": "Finding people who already get it",
+  "intro": "Most help is built around one kind of person: white, straight, housed, documented, insured. If that is not you, the hard part is often not finding help — it is explaining yourself before you can get any. These are places where the explaining is already done.",
+  "howChecked": "Every number and link here was opened and read on 2026-08-12, not copied from a directory. Anything we could not confirm was left out, and the gaps are named rather than filled.",
+  "keyNote": {
+    "title": "Some lines call the police. Some will not.",
+    "body": "A crisis line can send police or an ambulance to your address without asking you first. That is called active rescue, and for a lot of people it is the reason not to call at all. Where an organization publishes its policy, it is marked below in its own words. Where an organization does not publish one, it is left unmarked — that means unknown, not safe.",
+    "detail": "This matters more if you use drugs, are undocumented, are trans, are on parole, or have had police called on you before."
+  },
+  "groups": [
+    {
+      "id": "lgbtq",
+      "title": "LGBTQIA+ and trans people",
+      "blurb": "Two of these lines have a written policy against calling police on you. That is rare, and it is why they lead.",
+      "items": [
+        {
+          "name": "Trans Lifeline",
+          "num": "877-565-8860",
+          "tel": "8775658860",
+          "url": "https://translifeline.org/hotline/",
+          "hours": "Mon–Fri, 1pm–9pm Eastern. Closed weekends.",
+          "what": "Peer support staffed by trans people.",
+          "policy": "noncarceral",
+          "policyQuote": "“We will not call emergency services or law enforcement without your explicit request — even if you tell us you or someone else is in danger.”",
+          "caution": "Their microgrants program is paused, so do not count on it."
+        },
+        {
+          "name": "LGBT National Hotline",
+          "num": "888-843-4564",
+          "tel": "8888434564",
+          "url": "https://lgbthotline.org",
+          "hours": "Mon–Fri 2pm–11pm Eastern, Sat noon–5pm Eastern. Closed Sunday.",
+          "what": "Peer support from LGBTQIA+ volunteers, any age.",
+          "policy": "noncarceral",
+          "policyQuote": "“We don’t call other suicide hotlines, 911, or rescue services on your behalf.”"
+        },
+        {
+          "name": "LGBT National Youth Talkline",
+          "num": "800-246-7743",
+          "tel": "8002467743",
+          "url": "https://lgbthotline.org",
+          "hours": "Same hours as above.",
+          "what": "The same service, for younger people.",
+          "policy": "noncarceral"
+        },
+        {
+          "name": "LGBT National Senior Hotline",
+          "num": "888-234-7243",
+          "tel": "8882347243",
+          "url": "https://lgbthotline.org",
+          "hours": "Same hours as above.",
+          "what": "The same service, for older people.",
+          "policy": "noncarceral",
+          "caution": "If you were given a SAGE elder hotline number, it stopped working in 2023 — many websites still list it. This is the working one."
+        },
+        {
+          "name": "The Trevor Project",
+          "num": "866-488-7386",
+          "tel": "8664887386",
+          "url": "https://www.thetrevorproject.org/get-help/",
+          "hours": "24/7. Also text START to 678-678.",
+          "what": "Crisis support for LGBTQ+ people aged 13–24.",
+          "policy": "rescue",
+          "policyQuote": "In their words, counselors “may need to contact a child welfare agency or emergency service” in some situations."
+        }
+      ],
+      "gap": "There is no national organization for trans people specifically around drug use or overdose. We looked hard. A UK-facing site with a similar name comes up in searches and does not serve the US."
+    },
+    {
+      "id": "black",
+      "title": "Black communities",
+      "blurb": "Mostly directories and funded therapy rather than crisis lines — so worth setting up before you need it, not during.",
+      "items": [
+        {
+          "name": "The Steve Fund",
+          "num": "Text STEVE to 741741",
+          "url": "https://www.stevefund.org",
+          "hours": "24/7",
+          "what": "Mental health support for young people of color. The only round-the-clock option in this group."
+        },
+        {
+          "name": "BEAM (Black Emotional and Mental Health Collective)",
+          "url": "https://beam.community",
+          "what": "A directory of Black therapists and wellness practitioners, plus free toolkits.",
+          "caution": "No crisis line. In-person healing circles are Los Angeles and Atlanta only; the directory is national."
+        },
+        {
+          "name": "Therapy for Black Girls",
+          "url": "https://therapyforblackgirls.com",
+          "what": "A searchable directory of therapists who work with Black women and girls."
+        },
+        {
+          "name": "The Loveland Foundation",
+          "url": "https://thelovelandfoundation.org",
+          "what": "Pays for 4–12 therapy sessions for Black women and nonbinary people.",
+          "caution": "Applications open quarterly and replies take four to six weeks. Not a same-day resource."
+        },
+        {
+          "name": "Black Men Heal",
+          "url": "https://blackmenheal.org",
+          "what": "Eight free virtual therapy sessions with providers of color.",
+          "caution": "Only for residents of PA, NJ, DE, NYC, MD, DC, VA and GA, with a one-to-three-month waitlist."
+        },
+        {
+          "name": "Boris Lawrence Henson Foundation",
+          "url": "https://borislhensonfoundation.org",
+          "what": "Five free therapy sessions, open to anyone from age 12 regardless of insurance.",
+          "caution": "Enrollment opens in rounds rather than continuously — check whether it is open."
+        }
+      ]
+    },
+    {
+      "id": "indigenous",
+      "title": "Native and Indigenous people",
+      "blurb": "Overdose death rates are higher here than in any other racial group in the US, and the national support to match does not exist yet. This is what we could actually verify.",
+      "items": [
+        {
+          "name": "White Bison / Wellbriety",
+          "num": "877-871-1495",
+          "tel": "8778711495",
+          "url": "https://whitebison.org",
+          "what": "Native-run recovery circles, online and in person, plus a directory of Wellbriety-certified treatment centers.",
+          "note": "The strongest national Native-led option for substance use that we could confirm."
+        },
+        {
+          "name": "StrongHearts Native Helpline",
+          "num": "844-762-8483",
+          "tel": "8447628483",
+          "url": "https://strongheartshelpline.org",
+          "hours": "24/7, anonymous",
+          "what": "Native advocates, for domestic and sexual violence.",
+          "caution": "This is a domestic and sexual violence line — not a drug or overdose line."
+        },
+        {
+          "name": "We R Native",
+          "url": "https://wernative.npaihb.org",
+          "what": "Health information by and for Native youth, including substance use and grief, with an anonymous ask-a-question service."
+        },
+        {
+          "name": "Urban Indian health clinic directory",
+          "url": "https://ncuih.org/uio-directory/",
+          "what": "Find a Native-serving clinic in or near your city."
+        }
+      ],
+      "gap": "There is no national Native-specific overdose or drug-use helpline. Several good programs exist but are local — Native and Strong (Washington State, dial 988 and press 4), NARA NW (Portland, Oregon), Indigenous Wellbriety (southwest Colorado). If one is near you it is worth more than anything national on this page."
+    },
+    {
+      "id": "latino",
+      "title": "Latino and Spanish-speaking people",
+      "items": [
+        {
+          "name": "SAMHSA National Helpline",
+          "num": "1-800-662-4357",
+          "tel": "18006624357",
+          "url": "https://www.samhsa.gov/find-help/helplines/national-helpline",
+          "hours": "24/7, English and Spanish",
+          "what": "Free and confidential. Referrals to local treatment, support groups and community programs."
+        },
+        {
+          "name": "Su Familia — National Hispanic Family Health Helpline",
+          "num": "1-866-783-2645",
+          "tel": "18667832645",
+          "url": "https://www.healthyamericas.org/help-line",
+          "hours": "Weekdays 9am–6pm Eastern",
+          "what": "Bilingual health questions and referrals to care in your area.",
+          "caution": "General health, not substance use specifically, and business hours only."
+        },
+        {
+          "name": "Latinx Therapy",
+          "url": "https://latinxtherapy.com",
+          "what": "A national directory for finding Latinx therapists."
+        }
+      ]
+    },
+    {
+      "id": "survivors",
+      "title": "Survivors of abuse and violence",
+      "blurb": "If someone controls your access to drugs, or uses your using against you, that has a name and there are people who work on exactly it.",
+      "items": [
+        {
+          "name": "National Domestic Violence Hotline",
+          "num": "1-800-799-7233",
+          "tel": "18007997233",
+          "url": "https://www.thehotline.org",
+          "hours": "24/7. Also text START to 88788.",
+          "what": "Phone, text or chat."
+        },
+        {
+          "name": "National Sexual Assault Hotline (RAINN)",
+          "num": "800-656-4673",
+          "tel": "8006564673",
+          "url": "https://rainn.org",
+          "hours": "24/7",
+          "what": "Anonymous unless you give your name and location.",
+          "policy": "rescue",
+          "policyQuote": "In their words, if you share your name and location and are under 18 or a vulnerable adult, they are “required by law to report to authorities.” Staying anonymous keeps the session confidential."
+        },
+        {
+          "name": "The Deaf Hotline",
+          "num": "855-812-1001 (videophone)",
+          "url": "https://www.thedeafhotline.org",
+          "hours": "24/7",
+          "what": "ASL hotline for Deaf, DeafBlind and hard-of-hearing survivors."
+        },
+        {
+          "name": "National Center on Domestic Violence, Trauma and Mental Health",
+          "url": "https://www.ncdvtmh.org",
+          "what": "The national resource on substance use coercion — when the person harming you forces you to use, controls your supply, or blocks your access to recovery.",
+          "caution": "Written material and referrals, not a crisis line."
+        }
+      ]
+    },
+    {
+      "id": "pregnancy",
+      "title": "Pregnant or parenting",
+      "blurb": "The fear of losing a child is the single biggest reason people avoid help here. That fear is reasonable, and the answer depends heavily on your state — so the most useful thing we can give you is a free lawyer rather than our own guess.",
+      "items": [
+        {
+          "name": "Repro Legal Helpline",
+          "num": "844-868-2812",
+          "tel": "8448682812",
+          "url": "https://www.reprolegalhelpline.org/",
+          "what": "Free, confidential legal help about pregnancy, parenting and child protective services — in all 50 states, whatever your age or immigration status.",
+          "note": "If you have one question about what could happen to you, ask it here."
+        },
+        {
+          "name": "Pregnancy Justice",
+          "url": "https://www.pregnancyjusticeus.org/",
+          "what": "Defends people facing criminal charges or child-welfare action over drug use during pregnancy.",
+          "caution": "A legal organization, not a helpline. Replies are not immediate."
+        },
+        {
+          "name": "Academy of Perinatal Harm Reduction",
+          "url": "https://www.perinatalharmreduction.org/",
+          "what": "Know-your-rights guides and birth planning for pregnant and parenting people who use drugs."
+        }
+      ],
+      "law": {
+        "title": "What the law actually says",
+        "body": "Federal law requires hospitals to notify child welfare about a newborn affected by substance use, and to make a written “Plan of Safe Care.” Federal law also says that this notification is not by itself a finding of child abuse.",
+        "detail": "What happens after that depends on your state, and states differ a great deal. We are not going to guess yours. The Repro Legal Helpline above is free and will tell you.",
+        "sources": [
+          {
+            "name": "CAPTA Plans of Safe Care (NCSACW)",
+            "url": "https://ncsacw.acf.gov/topics/capta-plans-of-safe-care/"
+          },
+          {
+            "name": "Parental substance use as child maltreatment (Child Welfare Information Gateway)",
+            "url": "https://www.childwelfare.gov/resources/parental-substance-use-child-abuse/"
+          }
+        ]
+      }
+    },
+    {
+      "id": "access",
+      "title": "Deaf, hard of hearing, and disabled people",
+      "items": [
+        {
+          "name": "Deaf Crisis Line",
+          "num": "321-800-3323 (videophone)",
+          "url": "https://deaflead.org/services/crisis-intervention/",
+          "hours": "24/7. Also text HAND to 839863.",
+          "what": "Counselors fluent in ASL."
+        },
+        {
+          "name": "988 by videophone, text or relay",
+          "num": "988",
+          "url": "https://988lifeline.org/help-yourself/deaf-hard-of-hearing/",
+          "hours": "24/7",
+          "what": "Call 988 from a videophone number, text 988, chat online, or dial 711 then 988.",
+          "policy": "rescue"
+        }
+      ],
+      "gap": "There is no national disability-specific substance use helpline. Mail-order naloxone is often the most practical route if getting somewhere is the barrier."
+    },
+    {
+      "id": "veterans",
+      "title": "Veterans",
+      "items": [
+        {
+          "name": "Veterans Crisis Line",
+          "num": "988, then press 1",
+          "tel": "988",
+          "url": "https://www.veteranscrisisline.net/",
+          "hours": "24/7. Text 838255. TTY 800-799-4889.",
+          "what": "You do not need to be enrolled in VA care."
+        }
+      ]
+    },
+    {
+      "id": "reentry",
+      "title": "Leaving jail or prison",
+      "blurb": "This is the most dangerous window in this entire app. Tolerance drops fast inside, and the dose that was normal before can kill on the first day out.",
+      "items": [
+        {
+          "name": "NEXT Distro",
+          "url": "https://nextdistro.org/naloxone",
+          "what": "Mails free naloxone to all 50 states, DC and Puerto Rico, postage included.",
+          "note": "Have it before the day you get out, or have someone meet you with it."
+        }
+      ],
+      "gap": "There is no national organization handing out naloxone at release. Some state prison systems do — California, New York and Maine among them. Ask before you leave; if the answer is no, order it to wherever you are going."
+    },
+    {
+      "id": "youth",
+      "title": "Young people",
+      "items": [
+        {
+          "name": "Students for Sensible Drug Policy",
+          "url": "https://ssdp.org/",
+          "what": "Youth-led chapters that run overdose response training and give out free harm reduction supplies.",
+          "caution": "Chapter-based, so coverage depends on whether there is one near you."
+        },
+        {
+          "name": "DanceSafe",
+          "url": "https://dancesafe.org/",
+          "what": "Drug checking supplies, mail-in lab testing, and peer education for music and nightlife.",
+          "caution": "Most supplies are bought, not free."
+        }
+      ]
+    },
+    {
+      "id": "immigration",
+      "title": "If immigration status is part of the fear",
+      "blurb": "We are not going to tell you whether to call 911. We will tell you what we could and could not verify, and let you decide.",
+      "items": [
+        {
+          "name": "Never Use Alone",
+          "num": "1-800-484-3731",
+          "tel": "18004843731",
+          "url": "https://neverusealone.com/",
+          "hours": "24/7",
+          "what": "You give an address, stay on the line while you use, and if you stop responding for more than 30 seconds they send EMS to that address as an unresponsive person.",
+          "note": "Worth knowing exactly what that means before you call: no one is dispatched because you called or because you said you use — only if you go quiet."
+        },
+        {
+          "name": "United We Dream — MigraWatch",
+          "num": "1-844-363-1423",
+          "tel": "18443631423",
+          "url": "https://unitedwedream.org/our-work/deportation-defense/",
+          "what": "Report ICE activity and get know-your-rights materials.",
+          "caution": "Not an emergency line. Never use this instead of 911 during an overdose."
+        }
+      ],
+      "law": {
+        "title": "What we could verify about hospitals",
+        "body": "The federal policy that used to limit immigration enforcement at hospitals and clinics was withdrawn in January 2025 and, as far as we could verify, has not been reinstated. Enforcement decisions are now made case by case.",
+        "detail": "What appears to remain true: agents may enter public areas of a hospital, but non-public clinical areas require a valid judicial warrant or consent. Some states have passed their own protections and others have not. We are not able to tell you what applies where you are, and anyone who tells you confidently that hospitals are either safe or unsafe is overstating what is known.",
+        "checked": "Checked 2026-08-12. This one changes — treat it as a starting point, not a settled answer."
+      }
+    },
+    {
+      "id": "grief",
+      "title": "If someone died",
+      "blurb": "Overdose grief is its own thing. People bring casseroles when someone dies of anything else.",
+      "items": [
+        {
+          "name": "GRASP — Grief Recovery After a Substance Passing",
+          "num": "302-492-7717",
+          "url": "https://grasphelp.org/",
+          "what": "Free peer support meetings for people who lost someone to overdose or substance use.",
+          "caution": "An office line, not a crisis line. Meetings are local, so availability varies."
+        },
+        {
+          "name": "Team Sharing",
+          "url": "https://teamsharinginc.org/",
+          "what": "A national network of parents who lost a child to substance use."
+        }
+      ]
+    }
+  ],
+  "closing": "If nothing here fits, that is a real answer and not your failure. Several of these gaps are things that do not exist yet in the United States, not things you failed to find."
+}

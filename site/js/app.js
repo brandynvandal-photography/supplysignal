@@ -12,8 +12,8 @@ const view = document.getElementById("view");
 const navLinks = [...document.querySelectorAll(".nav a")];
 
 /* ------------------------------------------------------------------ theme
-   The only thing this app ever persists. A color preference says nothing
-   about anyone, and Quick Exit wipes it along with everything else. */
+   Session-scoped, like everything else. sessionStorage dies with the tab, so
+   a colour preference cannot become a durable mark that this app was used. */
 
 const THEME_KEY = "ss.theme";
 const THEMES = ["auto", "light", "dark"];
@@ -25,7 +25,7 @@ function applyTheme(t) {
 
 let theme = "auto";
 try {
-  const saved = localStorage.getItem(THEME_KEY);
+  const saved = sessionStorage.getItem(THEME_KEY);
   if (THEMES.includes(saved)) theme = saved;
 } catch { /* storage blocked or disabled - fine, stay on auto */ }
 applyTheme(theme);
@@ -33,11 +33,57 @@ applyTheme(theme);
 document.getElementById("theme").addEventListener("click", (e) => {
   theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
   applyTheme(theme);
-  try { localStorage.setItem(THEME_KEY, theme); } catch {}
+  try { sessionStorage.setItem(THEME_KEY, theme); } catch {}
   e.currentTarget.setAttribute(
     "aria-label",
     `Color theme: ${theme}. Activate to change.`
   );
+});
+
+/* -------------------------------------------------------- session lifetime
+ * Nothing this app writes may outlive the session. Quick Exit still exists,
+ * but it is now a shortcut rather than the mechanism - pressing it should
+ * never be the difference between leaving a trace and not, because the person
+ * most likely to need that guarantee is the one with the least opportunity to
+ * press anything.
+ *
+ * Three parts, because no single one of them is reliable:
+ *
+ *   1. sessionStorage instead of localStorage. The browser clears it when the
+ *      tab closes, with no cooperation from us. This is the only part that
+ *      cannot fail.
+ *   2. A wipe on `pagehide`, which is the one navigation-away event that fires
+ *      dependably on mobile - `unload` does not, and `beforeunload` is worse.
+ *   3. A sweep at boot, deleting anything a previous session left behind. This
+ *      is what makes the promise survive a browser that was force-quit before
+ *      any handler could run. Without it the guarantee is only as good as the
+ *      last exit, which is exactly when things go wrong.
+ *
+ * The cost, stated plainly because it is a real one: the offline cache no
+ * longer survives a session, so opening the app cold always needs a network.
+ * Within a session, caching still works and Emergency still renders offline.
+ */
+
+async function wipeCaches() {
+  try {
+    if (window.caches?.keys) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((k) => caches.delete(k)));
+    }
+  } catch { /* nothing recoverable, and nothing worth surfacing */ }
+}
+
+/* Boot sweep. Runs before the service worker is registered below, so a cache
+   left by a killed session is gone before it can serve a single response. */
+const swept = wipeCaches();
+
+/* `pagehide` covers closing the tab, navigating away, and the browser
+   backgrounding the page on iOS. Best-effort by nature: if the process is
+   killed outright, part 3 above is what catches it next time. */
+window.addEventListener("pagehide", () => {
+  try { sessionStorage.clear(); } catch {}
+  try { localStorage.clear(); } catch {}   // belt and braces; nothing writes here now
+  wipeCaches();
 });
 
 /* -------------------------------------------------------------- quick exit
@@ -185,6 +231,17 @@ function applyStrings() {
        overflow/text-overflow, so at large Dynamic Type sizes the tab bar had
        no way to truncate and blew the page width out instead. */
     a.appendChild(h("span", { class: "nav__label" }, label));
+
+    /* The visible label was shortened to fit six tabs on a 375px screen, but
+       "SOS" is three letters a screen reader spells or mispronounces. The
+       accessible name stays the whole word - this is the one tab where being
+       understood in half a second decides something. */
+    const ariaKey = `nav.${a.dataset.tab}Aria`;
+    const aria = t(ariaKey);
+    // A missing key returns the key itself (see i18n.js), which is how a tab
+    // with no override is told apart from one that has a real string.
+    if (aria !== ariaKey) a.setAttribute("aria-label", aria);
+    else a.removeAttribute("aria-label");
   }
 
   // Footer. The crisis numbers are never translated - they are dialled, not read.
@@ -257,7 +314,14 @@ async function renderFooterMeta() {
 
   /* Offline support - production only. On localhost a service worker would
      re-create the exact stale-preview problem the no-store dev server exists
-     to kill (see scripts/dev-server.mjs), so it never registers there. */
+     to kill (see scripts/dev-server.mjs), so it never registers there.
+
+     AWAITED ON THE BOOT SWEEP. Registering while the sweep is still deleting
+     would race it: the worker could repopulate a cache the sweep had not
+     reached yet, and last session's shell would survive the wipe that exists
+     to remove it. Offline caching is an enhancement; the wipe is a promise. */
+  await swept;
+
   const isDev = ["localhost", "127.0.0.1"].includes(location.hostname);
   if ("serviceWorker" in navigator && !isDev) {
     navigator.serviceWorker.register("./sw.js").catch(() => {

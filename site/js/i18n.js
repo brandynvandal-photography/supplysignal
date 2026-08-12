@@ -31,7 +31,7 @@ const listeners = new Set();
 /** Resolve the best available locale: saved > browser > default. */
 function resolve() {
   let saved = null;
-  try { saved = localStorage.getItem(KEY); } catch { /* storage blocked */ }
+  try { saved = sessionStorage.getItem(KEY); } catch { /* storage blocked */ }
   if (saved && LOCALES.some((l) => l.code === saved)) return saved;
 
   for (const want of navigator.languages || [navigator.language || ""]) {
@@ -72,7 +72,7 @@ export async function init() {
 
 export async function setLocale(code) {
   if (!LOCALES.some((l) => l.code === code) || code === current) return;
-  try { localStorage.setItem(KEY, code); } catch {}
+  try { sessionStorage.setItem(KEY, code); } catch {}
   await init();
   for (const fn of listeners) fn(current);
 }

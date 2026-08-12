@@ -21,10 +21,11 @@ import {
 } from "../ui.js";
 import * as data from "../data.js";
 import { saferUseBlock } from "./help.js";
+import { communitiesBlock } from "../communities.js";
 
 export async function render() {
   /* Started together, awaited later - see the note in views/substances.js. */
-  data.checking().catch(() => {});
+  [data.checking(), data.communities()].forEach((p) => p.catch(() => {}));
 
   const g = await data.support();
   if (!g) {
@@ -49,6 +50,7 @@ export async function render() {
       { id: "grp-now", label: "Staying safer now" },
       { id: "sec-trauma", label: "Trauma" },
       { id: "grp-loved", label: "Someone you love" },
+      { id: "sec-communities", label: "Finding your people" },
     ])
   );
 
@@ -114,6 +116,12 @@ export async function render() {
         lovedBlock(g),
       ])
   );
+
+  /* The culturally-specific directory. Last of the sections because it is the
+     one people arrive looking for by name rather than stumble into - and
+     because everything above it is the general case it exists to qualify. */
+  const communities = await communitiesBlock();
+  if (communities) wrap.appendChild(communities);
 
   /* No About link here. It lives in the footer, which is on every page and is
      where people look for it - a second copy at the foot of Support was just

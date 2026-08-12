@@ -204,9 +204,6 @@ export async function practiceBlock() {
         h("summary", null, h("span", null, p.overdose.title)),
         h("div", { class: "acc__body" },
           h("p", { class: "sec__note" }, p.overdose.why),
-          overdoseExercise(p.overdose)))),
-
-    h("p", { class: "sec__note" },
-      "Nothing here is scored, timed, or saved. Close the tab and it never happened.")
+          overdoseExercise(p.overdose))))
   );
 }

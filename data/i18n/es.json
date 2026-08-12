@@ -15,11 +15,12 @@
   "nav": {
     "alerts": "Alertas",
     "test": "Analizar",
-    "substances": "Sustancias",
-    "help": "Emergencia",
+    "substances": "Drogas",
+    "help": "SOS",
     "sections": "Secciones",
     "support": "Apoyo",
-    "learn": "Aprender"
+    "learn": "Aprender",
+    "helpAria": "Emergencia"
   },
   "footer": {
     "disclaimerLead": "Esto es información, no consejo médico.",

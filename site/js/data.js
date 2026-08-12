@@ -267,11 +267,17 @@ export async function sitting() {
   return load("sitting", null);
 }
 
-/** What happens after an overdose, and who to call if the default help
- *  does not fit you. Bundled like everything else - opening the directory
- *  makes no request that reveals which group anyone belongs to. */
+/** What happens after an overdose, for the person and for whoever was there. */
 export async function after() {
   return load("after", null);
+}
+
+/** Culturally-specific support, rendered on Support. One national bundle like
+ *  everything else, so opening a group makes NO request - the host's access log
+ *  cannot show that someone looked at the trans section or the immigration one,
+ *  which for this dataset is the entire point. */
+export async function communities() {
+  return load("communities", null);
 }
 
 /** Why an unregulated supply behaves the way it does. */

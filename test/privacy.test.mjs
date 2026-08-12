@@ -150,12 +150,13 @@ check("no data fetch built from a county or substance identifier", () => {
 
 /* Storage is allowed in exactly three modules, none of which records what a
    reader looked up: app.js (color theme), i18n.js (language), and seen.js (one
-   timestamp - when the app was last opened). Quick Exit clears all of it. Any
-   other module touching storage is a regression.
+   timestamp - whether the app was already opened this session). Any other
+   module touching storage is a regression.
 
    seen.js gets its own structural test below, because "it only stores a
    timestamp" is a promise the allowlist alone cannot keep. */
 const STORAGE_ALLOWED = new Set(["app.js", "i18n.js", "seen.js"]);
+
 
 /* Comments are stripped before scanning, exactly as the seen.js structural
    test does. A module must be free to EXPLAIN that it deliberately stores
@@ -177,6 +178,42 @@ check("storage APIs confined to the preference modules", () => {
   return bad.length
     ? `storage used outside ${[...STORAGE_ALLOWED].join("/")}: ${bad.join(", ")}`
     : null;
+});
+
+/* Nothing the app writes may outlive the session, so localStorage is banned
+   outright - including in the three modules allowed above. The only permitted
+   mentions are the defensive `localStorage.clear()` calls (Quick Exit, and the
+   wipe on pagehide), which exist to remove anything an older build left behind.
+
+   This is a stronger guarantee than the allowlist and it is the one that
+   matters on a phone that gets searched: a preference in localStorage is a
+   durable mark that this app was used, however harmless its value. */
+check("nothing is written to localStorage", () => {
+  const bad = [];
+  for (const f of byExt(".js")) {
+    const js = codeOnly(read(f));
+    for (const m of js.matchAll(/localStorage\s*\.\s*(\w+)/g)) {
+      if (m[1] !== "clear") bad.push(`${rel(f)}: localStorage.${m[1]}`);
+    }
+  }
+  return bad.length ? `localStorage written outside a clear(): ${bad.join(", ")}` : null;
+});
+
+/* The wipe has three parts and each is load-bearing (see app.js). A build that
+   quietly drops one still passes every other test here while leaving last
+   session's shell sitting on the device. */
+check("the session wipe is wired up", () => {
+  const js = codeOnly(read(path.join(SITE, "js", "app.js")));
+  const missing = [];
+  if (!/addEventListener\(\s*["']pagehide["']/.test(js)) missing.push("no pagehide handler");
+  if (!/caches\.delete/.test(js)) missing.push("caches are never deleted");
+  /* The boot sweep must be awaited BEFORE the service worker registers, or the
+     worker races it and can repopulate a cache the sweep has not reached. */
+  const sweep = js.indexOf("await swept");
+  const reg = js.indexOf("serviceWorker.register");
+  if (sweep < 0) missing.push("boot sweep is not awaited");
+  else if (reg >= 0 && sweep > reg) missing.push("service worker registers before the sweep completes");
+  return missing.length ? missing.join("; ") : null;
 });
 
 /* The whole point of seen.js is that the "new since you last looked" feature

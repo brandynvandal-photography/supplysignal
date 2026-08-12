@@ -14,11 +14,12 @@
   "nav": {
     "alerts": "Alerts",
     "test": "Test",
-    "substances": "Substances",
-    "help": "Emergency",
+    "substances": "Drugs",
+    "help": "SOS",
     "sections": "Sections",
     "support": "Support",
-    "learn": "Learn"
+    "learn": "Learn",
+    "helpAria": "Emergency"
   },
   "footer": {
     "disclaimerLead": "This is information, not medical advice.",

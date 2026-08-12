@@ -62,7 +62,7 @@ const BRITISH = [
    site/js and therefore sailed past "An anaesthetic used in hospitals" sitting
    in descriptions.json. Reader-facing prose lives in both places. */
 const CONTENT = ["descriptions.json", "adulterants.json", "testing.json", "support.json",
-                 "after.json", "sitting.json", "market.json", "education.json",
+                 "after.json", "communities.json", "sitting.json", "market.json", "education.json",
                  "checking.json", "rx.json", "conditions.json", "practice.json"]
   .map((f) => path.join(ROOT, "data", f))
   .filter((f) => { try { readFileSync(f); return true; } catch { return false; } });
