@@ -93,9 +93,12 @@ export async function render(route, { go }) {
     list.appendChild(frag(recent.map(line)));
     if (rest.length) {
       list.appendChild(
+        /* .disc__body, not a bare div. Without the class these 84 rows got no
+           padding at all and sat flush against the bubble's edge, while every
+           other disclosure in the app insets its contents. */
         h("details", { class: "disc" },
-          h("summary", null, `${rest.length} earlier first detections`),
-          h("div", null, rest.map(line)))
+          h("summary", null, h("h2", null, `${rest.length} earlier first detections`)),
+          h("div", { class: "disc__body" }, rest.map(line)))
       );
     }
 

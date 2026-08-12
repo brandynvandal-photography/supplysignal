@@ -693,9 +693,18 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 /* ------------------------------------------------------- first detections */
 
 /* A name and a date, nothing that could be read as a rate. */
+/* A long list of these reads as one dense block, so each row gets real
+   vertical room and the date sits under the name on a narrow screen rather
+   than fighting it for the same line. */
 .firstdet {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
-  padding: 14px 2px; border-bottom: 1px solid var(--glass-line);
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px;
+  padding: 12px 2px; border-bottom: 1px solid var(--glass-line);
+}
+@media (max-width: 520px) {
+  /* No forced line break for the name: flex-wrap already drops the date to its
+     own line when it genuinely does not fit, and forcing it doubled every row
+     to 76px - across 84 rows that is an extra 3,000px of scrolling for nothing. */
+  .firstdet { padding: 11px 0; }
 }
 .firstdet:last-child { border-bottom: 0; }
 .firstdet__name { font-weight: 600; }
