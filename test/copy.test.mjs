@@ -56,6 +56,12 @@ const BRITISH = [
   ["litre", "liter"], ["metre", "meter"], ["fibre", "fiber"],
   ["labelled", "labeled"], ["labelling", "labeling"], ["modelling", "modeling"],
   ["signalling", "signaling"], ["counsellor", "counselor"], ["counselling", "counseling"],
+  /* Added after "a dissociative anaesthetic" sat in the PCP description
+     through three sweeps - the medical words are the ones that slip past,
+     because nobody re-reads a drug description looking for spelling. */
+  ["anaesthetic", "anesthetic"], ["anaesthesia", "anesthesia"], ["haemorrhage", "hemorrhage"],
+  ["oesophag", "esophag"], ["paediatric", "pediatric"], ["diarrhoea", "diarrhea"],
+  ["foetal", "fetal"], ["oedema", "edema"], ["anaemia", "anemia"],
 ];
 
 /* Hand-written content files. The first version of this test scanned only
