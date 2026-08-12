@@ -27,6 +27,22 @@
   # ingest workflow rather than at deploy time.
   command = ""
 
+  # Skip the deploy when nothing a visitor can reach has changed.
+  #
+  # This repo pushes often: the ingest workflow runs hourly, maintain nightly,
+  # refresh weekly, plus ordinary commits - and every push is a build against
+  # the plan's allowance. Most of those DO need deploying, because data/ is
+  # served. But a commit touching only tests, scripts, workflows, docs, the
+  # review queue or the attic cannot change a single byte any reader receives,
+  # and paying a build for it is waste.
+  #
+  # `ignore` skips the build when the command exits 0. So: diff the paths that
+  # ARE served, and exit 0 when none of them moved.
+  #
+  # CACHED_COMMIT_REF is empty on a first build and on a cleared cache - build
+  # in that case rather than risk skipping a real deploy.
+  ignore = "if [ -z \"$CACHED_COMMIT_REF\" ]; then exit 1; fi; git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- data site feeds index.html manifest.webmanifest netlify.toml _headers _redirects"
+
 # Fast path to the app. index.html at the root does this too, in HTML and JS,
 # and it stays as the fallback for anyone who fetches the file directly.
 # Fragments survive a 301 - the browser reattaches them - so #/47065 still lands.

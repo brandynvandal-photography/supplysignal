@@ -316,6 +316,11 @@ export async function searchIntents() {
   return load("search-intents", { slang: {}, intents: [] });
 }
 
+/** Sleep loss, stimulant psychosis, and coming down. */
+export async function stimulants() {
+  return load("stimulants", null);
+}
+
 /** Sex, barriers, PrEP and PEP, and being out. */
 export async function sex() {
   return load("sex", null);

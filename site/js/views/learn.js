@@ -53,6 +53,7 @@ export async function render(route, { go }) {
          that is not on the page is worse than no chip. */
       ...(consent ? [{ id: "sec-consent", label: "Consent" },
                      { id: "sec-repair", label: "After you hurt someone" }] : []),
+      { id: "sec-stimulants", label: "Staying up" },
       { id: "sec-sex", label: "Sex and being out" },
       { id: "sec-policy", label: "The law" },
     ])
@@ -115,6 +116,18 @@ export async function render(route, { go }) {
      to find a naloxone class should not be met by a section about hurting
      people; someone who came looking for this will use the jump chip. */
   if (consent) wrap.appendChild(consent);
+
+  wrap.appendChild(
+    h("div", { id: "sec-stimulants" },
+      section("Staying up, and losing the thread", null,
+        h("p", { class: "sec__note" },
+          "What days without sleep do on their own, what stimulant psychosis "
+          + "looks like, and how to help somebody in it."),
+        h("a", { class: "bigptr", href: "#/stimulants" },
+          h("span", { class: "bigptr__hd" }, "Staying up, and losing the thread"),
+          h("span", { class: "bigptr__sub" },
+            "Sleep loss alone will do this eventually — the timeline is "
+            + "documented, and sleep is the treatment.")))));
 
   wrap.appendChild(
     h("div", { id: "sec-sex" },

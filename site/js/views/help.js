@@ -272,8 +272,11 @@ export async function render() {
      disclosure above them and read as footnotes rather than as the two doors
      they are. The arrow is supplied by the class - it was being typed into the
      string, which is why it survived the previous restyle. */
+  /* Straight to the naloxone section, not the top of Learn. Landing on the
+     page and making somebody scan for it is the difference between a pointer
+     and a signpost pointing at a building. */
   wrap.appendChild(
-    h("a", { class: "bigptr", href: "#/learn" },
+    h("a", { class: "bigptr", href: "#/learn", "data-reveal": "sec-naloxone" },
       h("span", { class: "bigptr__hd" }, "No naloxone yet?"),
       h("span", { class: "bigptr__sub" },
         "Where to get it free, and how to use it — worth doing before the night "

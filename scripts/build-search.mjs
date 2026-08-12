@@ -37,6 +37,7 @@ const PAGES = [
   { file: "policy.json",     route: "#/policy",      kind: "Policy" },
   { file: "supervision.json",route: "#/supervision", kind: "Testing & supervision" },
   { file: "sex.json",        route: "#/sex",         kind: "Sex and being out" },
+  { file: "stimulants.json", route: "#/stimulants",  kind: "Staying up" },
   { file: "market.json",     route: "#/substances",  kind: "Drugs" },
   { file: "conditions.json", route: "#/substances",  kind: "Drugs" },
   { file: "rx.json",         route: "#/substances",  kind: "Drugs" },
@@ -65,6 +66,7 @@ function anchorFor(file, topKey) {
   const map = {
     "supervision.json": ["rights","panels","windows","misreads","cannabis","medication","violations","reentry","hair"],
     "sex.json": ["framing","spiking","barriers","prep","ec","interactions","out"],
+    "stimulants.json": ["sleep","hallucination","interaction","psychosis","helping","calling","coming"],
     "policy.json": ["calling","law","money","voice","orgs"],
   };
   return (map[file] || []).includes(topKey) ? `sec-${topKey}` : null;

@@ -145,6 +145,7 @@ const VIEWS = {
   policy:     () => import("./views/policy.js"),
   supervision: () => import("./views/supervision.js"),
   sex:        () => import("./views/sex.js"),
+  stimulants: () => import("./views/stimulants.js"),
   about:      () => import("./views/about.js"),
   help:       () => import("./views/help.js"),
   /* Not a tab. Reached from Support and from the foot of Emergency - the two
@@ -486,8 +487,19 @@ function reveal(anchor, label) {
     return null;
   };
 
+  /* Resolve to the HEADING, never a container.
+     An id points at a wrapper div, and scrolling that lands the div's top edge
+     at the top of the viewport - the right pixel, but the wrong thing to be
+     looking at, because the reader arrives staring at whatever the section
+     opens with instead of at its title. Always end on the heading itself. */
+  const toHeading = (el) => {
+    if (!el) return null;
+    if (/^H[1-4]$/.test(el.tagName) || el.tagName === "SUMMARY") return el;
+    return el.querySelector("h1, h2, h3, h4, summary") || el;
+  };
+
   const tick = () => {
-    const el = (anchor && document.getElementById(anchor)) || findByText();
+    const el = toHeading((anchor && document.getElementById(anchor)) || findByText());
     if (el) {
       /* Open the target and every disclosure above it - landing on something
          still collapsed looks exactly like the result did nothing. */
@@ -527,6 +539,19 @@ function reveal(anchor, label) {
   };
   setTimeout(tick, 60);
 }
+
+/* Cross-page pointers that name a destination SECTION.
+ *
+ * A bigptr with data-reveal lands on that section rather than the top of the
+ * target page. Delegated at the document level so it works for links inside
+ * any view without every view having to wire it up - and because #view is
+ * cleared on every navigation, so a per-render listener would be re-added
+ * forever. */
+document.addEventListener("click", (e) => {
+  const a = e.target.closest?.("a[data-reveal]");
+  if (!a) return;
+  reveal(a.getAttribute("data-reveal"), null);
+});
 
 /* ---- search -------------------------------------------------------------
  *

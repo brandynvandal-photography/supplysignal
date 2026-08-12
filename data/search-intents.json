@@ -360,6 +360,84 @@
       "label": "What it knows about you",
       "route": "#/about",
       "anchor": "sec-privacy"
+    },
+    {
+      "q": [
+        "cant sleep",
+        "havent slept",
+        "up for days",
+        "no sleep for days",
+        "three days no sleep",
+        "sleep deprivation",
+        "staying up"
+      ],
+      "label": "Sleep loss alone will do this eventually",
+      "route": "#/stimulants",
+      "anchor": "sec-hallucination"
+    },
+    {
+      "q": [
+        "seeing things",
+        "hearing things",
+        "hallucinating",
+        "am i hallucinating",
+        "shadow people",
+        "paranoid",
+        "psychosis",
+        "meth psychosis",
+        "losing my mind"
+      ],
+      "label": "What stimulant psychosis looks like",
+      "route": "#/stimulants",
+      "anchor": "sec-psychosis"
+    },
+    {
+      "q": [
+        "my friend is freaking out",
+        "someone is paranoid",
+        "how to calm someone down",
+        "de-escalate",
+        "talking someone down"
+      ],
+      "label": "Helping somebody who is in it",
+      "route": "#/stimulants",
+      "anchor": "sec-helping"
+    },
+    {
+      "q": [
+        "should i call 988",
+        "will they send police",
+        "involuntary hold",
+        "psych hold",
+        "will i get committed",
+        "calling for help risk"
+      ],
+      "label": "What calling for help actually costs",
+      "route": "#/stimulants",
+      "anchor": "sec-calling"
+    },
+    {
+      "q": [
+        "comedown",
+        "crashing",
+        "coming down",
+        "meth comedown",
+        "how long does the crash last"
+      ],
+      "label": "Coming down",
+      "route": "#/stimulants",
+      "anchor": "sec-coming"
+    },
+    {
+      "q": [
+        "overamping",
+        "too much stimulant",
+        "overheating",
+        "heat stroke"
+      ],
+      "label": "Helping somebody who is in it",
+      "route": "#/stimulants",
+      "anchor": "sec-helping"
     }
   ]
 }

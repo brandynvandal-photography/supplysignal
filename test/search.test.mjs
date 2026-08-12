@@ -111,6 +111,12 @@ const CASES = [
   ["i love someone who uses", "#/support"],
   ["needle exchange", "#/support"],
   ["privacy", "#/about"],
+  // Sleep loss and psychosis.
+  ["havent slept", "#/stimulants"],
+  ["seeing things", "#/stimulants"],
+  ["my friend is freaking out", "#/stimulants"],
+  ["should i call 988", "#/stimulants"],
+  ["comedown", "#/stimulants"],
   // Typos - the fuzzy rescue.
   ["fentanol", "#/substances/fentanyl"],
   ["xanex", "#/substances/alprazolam"],

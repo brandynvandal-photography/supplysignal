@@ -1,0 +1,244 @@
+{
+  "note": "Hand-curated. Sleep loss and psychosis are covered together because they arrive together. Where the evidence cannot separate the drug from the sleep, the page says so rather than picking one.",
+  "verified": "2026-08-12",
+  "headline": "Staying up, and losing the thread",
+  "blurb": "What days without sleep do on their own, what stimulant psychosis actually looks like, how to help somebody in it, and what it costs to call for help.",
+  "sleep": {
+    "headline": "What being awake does by itself",
+    "lead": "None of the studies below involved drugs. This is what sleep loss alone does to a healthy person.",
+    "items": [
+      {
+        "t": "Hours awake convert into something like being drunk",
+        "d": "Forty people were kept awake 28 hours in one condition and given alcohol in another. After 17 hours awake, performance matched a blood alcohol level of 0.05%. After 24 hours awake, it matched roughly 0.10% — over the legal limit everywhere in the US. A second study of 39 people found the same thing independently.",
+        "note": "This is not about willpower. The impairment happens whether or not you feel impaired.",
+        "sources": [
+          {
+            "name": "Dawson & Reid, Nature 1997",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9230429/"
+          },
+          {
+            "name": "Williamson & Feyer, Occup Environ Med 2000",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10984335/"
+          }
+        ]
+      },
+      {
+        "t": "You stop being able to tell",
+        "d": "In 48 adults held to restricted sleep for two weeks, the people on six hours and the people on four hours rated their own sleepiness about the same — while their actual performance kept diverging. Self-assessment is the first thing to go.",
+        "sources": [
+          {
+            "name": "Van Dongen et al., Sleep 2003",
+            "url": "https://academic.oup.com/sleep/article-abstract/26/2/117/2709164"
+          }
+        ]
+      },
+      {
+        "t": "Everything gets bigger",
+        "d": "After about 35 hours awake, the brain's threat centre responded roughly 60% more strongly to unpleasant images, with the connection to the part that normally regulates it weakened. Small things stop feeling small. That is measurable, not a character flaw.",
+        "sources": [
+          {
+            "name": "Yoo et al., Current Biology 2007",
+            "url": "https://walkerlab.berkeley.edu/reprints/Yoo-Walker_CurrBiol_2007.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "hallucination": {
+    "headline": "Sleep loss alone will do this eventually",
+    "lead": "A review of 21 studies covering 760 people, all of them healthy, none of them on drugs, found a consistent timeline.",
+    "stages": [
+      {
+        "t": "24 to 48 hours",
+        "d": "Perceptual distortions, anxiety, irritability, feeling detached from yourself, losing track of time."
+      },
+      {
+        "t": "48 to 90 hours",
+        "d": "Full hallucinations and disordered thinking."
+      },
+      {
+        "t": "After 72 hours",
+        "d": "Delusions. At this point the review describes the picture as resembling acute psychosis."
+      }
+    ],
+    "body": [
+      "Vision is affected most often, then touch, then hearing. It happened in 20 of the 21 studies — but how many people it happens to varies enormously, from about 1 in 9 in one large study of army recruits at 112 hours awake, to everyone in some smaller ones.",
+      "It is worst around 4am. Time awake matters, but so does what time it is.",
+      "Recovery took roughly half as long as the time spent awake. Most people were fine after sleeping. In five of the studies, some people were still confused or having odd thoughts days or weeks later."
+    ],
+    "note": "So: if you have been up three days and things are getting strange, that is not necessarily the drug, and it is not you going mad permanently. It is a documented effect of not sleeping, and sleep is the treatment.",
+    "sources": [
+      {
+        "name": "Waters et al., Frontiers in Psychiatry 2018 (21 studies, 760 people)",
+        "url": "https://www.frontiersin.org/articles/10.3389/fpsyt.2018.00303/full"
+      }
+    ]
+  },
+  "interaction": {
+    "headline": "Sleep loss and stimulants together — what is actually known",
+    "body": [
+      "This is where honest reporting matters, because the obvious answer is not the proven one.",
+      "Sleep loss alone produces psychosis-like states in drug-free volunteers. That is solid. Methamphetamine alone produces psychotic symptoms in a dose-dependent way — in 278 people tracked across more than a thousand months, symptoms were present in 25% of months, and the odds rose sharply with days of use in that month. That is also solid.",
+      "What nobody has cleanly shown is the two multiplying. The one study that compared people who developed amphetamine psychosis with people who used and did not found the psychosis group had been awake longer — but they had also used more, and no study separates those. A systematic review of risk factors found only frequency of use and dependence severity consistently associated with psychosis; sleep deprivation was not established as independent."
+    ],
+    "note": "We are telling you this because sleep is one of the few things in reach. Treat it as worth protecting, not as a proven cause you can point at afterwards.",
+    "sources": [
+      {
+        "name": "McKetin et al., JAMA Psychiatry 2013 (278 people, 1,064 person-months)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/23303471/"
+      },
+      {
+        "name": "Arunogiri et al., Aust N Z J Psychiatry 2018 (systematic review)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/29338289/"
+      }
+    ]
+  },
+  "psychosis": {
+    "headline": "What stimulant psychosis looks like",
+    "items": [
+      {
+        "t": "Mostly it is being certain someone is after you",
+        "d": "Across several inpatient studies, persecutory delusions were the most common feature — 77% of 168 people in one, 85% of 152 in another. Hearing things came next, in roughly half. Seeing things was less common, and feeling things on the skin was rarer than the “meth mites” stories suggest: in the study that counted it, 2 of 152.",
+        "sources": [
+          {
+            "name": "Srisurapanont et al., 2003 (N=168)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/14604449/"
+          },
+          {
+            "name": "Zarrabi et al., 2016 (N=152)",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4766712/"
+          }
+        ]
+      },
+      {
+        "t": "Most of it passes quickly",
+        "d": "Of 205 emergency department presentations with psychotic features, 170 resolved completely, 200 were handled without admission, and the median stay was 15 hours. In people sick enough to be admitted to a psychiatric ward it takes longer — of 152 inpatients, about 1 in 3 had not recovered within a month.",
+        "note": "Which of those two pictures applies to you depends mostly on how bad it is when somebody looks at you, not on the drug."
+      },
+      {
+        "t": "It can be the first sign of something else",
+        "d": "Across a meta-analysis of 50 studies covering 40,783 people, about 22% of amphetamine-induced psychoses were later diagnosed as schizophrenia. But a Swedish study of 7,606 people found the ones who converted were marked by inherited risk for psychosis — not by heavier drug use. Their conclusion was that this is a drug-precipitated illness in people already vulnerable, rather than one the drug creates from nothing.",
+        "note": "Worth knowing in both directions: it does not mean you are destined for schizophrenia, and it does mean a first episode is worth telling a doctor about.",
+        "sources": [
+          {
+            "name": "Murrie et al., Schizophrenia Bulletin 2020",
+            "url": "https://academic.oup.com/schizophreniabulletin/article/46/3/505/5588638"
+          },
+          {
+            "name": "Kendler et al., 2019 (N=7,606)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31055966/"
+          }
+        ]
+      }
+    ]
+  },
+  "helping": {
+    "headline": "Helping somebody who is in it",
+    "lead": "This is consensus guidance from emergency psychiatry, and the people who wrote it say plainly that the evidence base is thin. It is still the best there is, and most of it costs nothing.",
+    "items": [
+      {
+        "t": "One person talks",
+        "d": "Not three. Several people talking at once is one of the reliable ways to make it worse. Everyone else steps back."
+      },
+      {
+        "t": "Two arms' length, hands visible",
+        "d": "Stay far enough away that neither of you feels cornered, and make sure you can both leave. Stand at an angle rather than squared up. If they tell you to move, move immediately."
+      },
+      {
+        "t": "Short sentences, then wait",
+        "d": "Simple words, one idea at a time, and leave a gap. Processing is slow right now."
+      },
+      {
+        "t": "Do not argue with the content",
+        "d": "You do not have to agree that it is true, and you must not pretend to. What works is agreeing that they are experiencing it: you have never been through what they are going through, and you believe that they are going through it."
+      },
+      {
+        "t": "Offer real choices",
+        "d": "A blanket, water, somewhere quieter, a phone call. Choice is the only power somebody has when they feel cornered — but only offer what you can actually deliver. Never promise something to calm them down that you cannot produce."
+      }
+    ],
+    "emergency": {
+      "title": "When it stops being a psychological emergency and becomes a medical one",
+      "body": "Get help immediately for: a temperature around 104°F or higher, confusion or unconsciousness, chest pain, a seizure, or a stroke sign. Overheating is what actually kills people in this situation. Cool them — wet cloth under the arms, behind the knees, on the forehead, air moving — and call 911."
+    },
+    "sources": [
+      {
+        "name": "Richmond et al., Project BETA verbal de-escalation, West J Emerg Med 2012",
+        "url": "https://escholarship.org/content/qt55g994m6/qt55g994m6.pdf"
+      },
+      {
+        "name": "National Harm Reduction Coalition — responding to overamping",
+        "url": "https://harmreduction.org/issues/overdose-prevention/overview/stimulant-overamping-basics/responding-to-stimulant-overamping/"
+      }
+    ]
+  },
+  "calling": {
+    "headline": "What calling for help actually costs",
+    "lead": "We are not going to tell you it is simple. Here is what the numbers say, so you can decide.",
+    "items": [
+      {
+        "t": "988",
+        "d": "Across nearly two million calls, emergency services were dispatched in about 2 in 100. But when the counsellor judged someone to be at imminent risk, dispatch happened in about half of those calls — and roughly half of those were without the person's agreement.",
+        "sources": [
+          {
+            "name": "Vibrant Emotional Health — imminent risk data",
+            "url": "https://www.vibrant.org/wp-content/uploads/2024/07/Imminent-Risk-Data-White-Paper-Final-Version.pdf"
+          }
+        ]
+      },
+      {
+        "t": "911 for a stimulant overdose",
+        "d": "In one large US city across two years, 21% of stimulant-involved overdose responses were followed by the person being jailed within six hours — against 9% for opioid-involved ones. That is one city, and it is the only measurement of its kind we could find.",
+        "sources": [
+          {
+            "name": "Ray et al., Drug Alcohol Depend 2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35868181/"
+          }
+        ]
+      },
+      {
+        "t": "Good Samaritan laws do not cover this",
+        "d": "48 states and DC have them, but they are written for drug overdose — not for psychiatric crisis. They mostly do not cover outstanding warrants, and they generally protect against minor drug charges only.",
+        "note": "Nobody has ever studied what happens when someone calls for help specifically for drug-induced psychosis. We are naming that gap rather than filling it with reassurance.",
+        "sources": [
+          {
+            "name": "Network for Public Health Law — overdose Good Samaritan laws",
+            "url": "https://www.networkforphl.org/wp-content/uploads/2023/07/Legal-Interventions-to-Reduce-Overdose-Mortality-Overdose-Good-Samaritan-Laws-2.pdf"
+          }
+        ]
+      }
+    ],
+    "note": "None of this is a reason to let somebody overheat or stop breathing. It is a reason to know what you are choosing, and to make the call anyway when it is that kind of emergency."
+  },
+  "coming": {
+    "headline": "Coming down",
+    "items": [
+      {
+        "t": "The shape of it",
+        "d": "Across three small inpatient studies, the worst is in the first 24 hours and eases over roughly the first week, with a longer tail of at least a couple more weeks. Depression and psychotic symptoms tend to lift within about a week. Anxiety and craving do not follow that curve — craving in one study did not drop until the second week.",
+        "note": "Those studies were all in supervised settings with a bed and food. Crashing alone is harder than the numbers suggest."
+      },
+      {
+        "t": "Nothing you can take makes it shorter",
+        "d": "A Cochrane review found four randomised trials with 125 people between them and concluded no medication is effective for amphetamine withdrawal. There is no evidence for melatonin, for antihistamines, or for benzodiazepines here.",
+        "note": "Benzodiazepines carry a specific risk worth stating: with fentanyl in most of the stimulant supply now, combining them with an opioid is how people stop breathing. And stopping benzodiazepines abruptly after regular use can itself be dangerous.",
+        "sources": [
+          {
+            "name": "Cochrane — treatment for amphetamine withdrawal",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19370579/"
+          }
+        ]
+      },
+      {
+        "t": "Water is not an antidote",
+        "d": "Drink to thirst, not on a schedule, and not more than about a litre an hour counting everything. Stimulants and MDMA both lower the body's sodium, and people die every year from drinking too much water believing it will fix a bad experience. Eat something — food is what keeps your electrolytes where they should be.",
+        "sources": [
+          {
+            "name": "DanceSafe — heatstroke and hydration",
+            "url": "https://dancesafe.org/heatstroke/"
+          }
+        ]
+      }
+    ]
+  }
+}
