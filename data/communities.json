@@ -291,16 +291,105 @@
     {
       "id": "reentry",
       "title": "Leaving jail or prison",
-      "blurb": "This is the most dangerous window in this entire app. Tolerance drops fast inside, and the dose that was normal before can kill on the first day out.",
+      "blurb": "This is the most dangerous window in the whole app. Tolerance drops fast inside, and the amount that was normal before can kill you on the first day out — the risk of a fatal opioid overdose in the first two weeks after release has been measured at about 40 times the general population's. Almost nothing is built for this moment, so most of what follows is a general line that will take your call rather than a reentry service, because reentry services with phone numbers largely do not exist.",
       "items": [
+        {
+          "name": "Never Use Alone",
+          "num": "1-800-484-3731",
+          "tel": "18004843731",
+          "url": "https://neverusealone.com/",
+          "hours": "24/7",
+          "what": "You give an address, stay on the line while you use, and if you stop responding for more than 30 seconds they send EMS to that address as an unresponsive person.",
+          "note": "If you use in the first days out, this is the single most useful number here. Lost tolerance and using alone is the combination that kills people in this window."
+        },
+        {
+          "name": "SAMHSA National Helpline",
+          "num": "1-800-662-4357",
+          "tel": "18006624357",
+          "url": "https://www.samhsa.gov/find-help/helplines/national-helpline",
+          "hours": "24/7, English and Spanish. Or text your ZIP to 435748.",
+          "what": "Free referrals to local treatment, including methadone and buprenorphine programs if you need to pick up where you left off inside.",
+          "note": "In their own words: “We will not ask you for any personal information. We may ask for your zip code.” No insurance, no ID, no address to call."
+        },
         {
           "name": "NEXT Distro",
           "url": "https://nextdistro.org/naloxone",
           "what": "Mails free naloxone to all 50 states, DC and Puerto Rico, postage included.",
-          "note": "Have it before the day you get out, or have someone meet you with it."
+          "note": "Order it to wherever you are going before your release date, or have someone meet you with it. Do not plan on getting it on day one."
+        },
+        {
+          "name": "211",
+          "num": "211",
+          "tel": "211",
+          "url": "https://www.211.org",
+          "what": "Dial 211 for referrals to local shelter, food, benefits and treatment.",
+          "caution": "About 200 independent local agencies rather than one service, so hours and quality vary a lot by area. They refer you to shelters — they do not hold a bed for you. They publish no policy on whether they send police, so treat that as unknown."
+        },
+        {
+          "name": "Oxford House",
+          "num": "1-800-689-6411",
+          "tel": "18006896411",
+          "url": "https://www.oxfordhouse.org/contact",
+          "what": "A national network of self-run sober houses. Vacancies are listed at oxfordvacancies.com.",
+          "caution": "Not an emergency bed. Current residents interview you, and living there means staying abstinent."
+        },
+        {
+          "name": "National Call Center for Homeless Veterans",
+          "num": "1-877-424-3838",
+          "tel": "18774243838",
+          "url": "https://www.va.gov/homeless/nationalcallcenter.asp",
+          "hours": "24/7",
+          "what": "Free and confidential, for veterans who are homeless or at risk — and for a family member or friend calling on their behalf.",
+          "note": "The only 24/7 national housing line we could verify, and it is veterans only."
+        },
+        {
+          "name": "Legal Action Center",
+          "num": "212-243-1313",
+          "tel": "2122431313",
+          "url": "https://www.lac.org/legal-help",
+          "what": "New York for most things — but they help people ANYWHERE in the country who are denied access to, or penalized for, taking addiction medication.",
+          "note": "That nationwide part applies whether or not you have ever been locked up. If methadone or buprenorphine is being used against you, this is the number.",
+          "caution": "Phone intake only, and they change their hours deliberately, so call to find out. They do not take general probation or parole condition cases."
+        },
+        {
+          "name": "Root & Rebound Reentry Legal Hotline",
+          "num": "510-279-4662",
+          "tel": "5102794662",
+          "url": "https://www.rootandreboundsc.org/programs/california/reentry-hotline/",
+          "hours": "Legal advice Fridays, 9am–3pm Pacific",
+          "what": "California reentry law — records, housing, licensing, parole conditions.",
+          "note": "They accept collect calls from prison and jail, so this one can be used before you are out.",
+          "caution": "California only, and they are mid-upgrade on their phone system — if it does not connect, they are asking people to email roadmap@rootandrebound.org."
+        },
+        {
+          "name": "Recidivism Reduction Hotline",
+          "num": "1-888-852-0004",
+          "tel": "18888520004",
+          "url": "https://rreps.net/recidivism-reduction-hotline",
+          "what": "Housing, work, healthcare and legal referrals across all 100 North Carolina counties, run by people who have been incarcerated themselves.",
+          "caution": "North Carolina only. A nonprofit, not a state program."
+        },
+        {
+          "name": "Center for Employment Opportunities",
+          "url": "https://ceoworks.org",
+          "what": "Paid transitional work starting soon after release, in about 30 cities across 12 states.",
+          "caution": "You apply at a local site, not through the head office."
+        },
+        {
+          "name": "The Fortune Society",
+          "url": "https://fortunesociety.org",
+          "hours": "Walk in Mon–Thu 8am–7pm, Fri 8am–4pm — no appointment",
+          "what": "Housing, health and job services under one roof in Queens, New York.",
+          "caution": "New York City only, and you have to get there in person."
         }
       ],
-      "gap": "There is no national organization handing out naloxone at release. Some state prison systems do — California, New York and Maine among them. Ask before you leave; if the answer is no, order it to wherever you are going."
+      "law": {
+        "title": "Before you count on naloxone at release — and a warning",
+        "body": "Only about a quarter of US prisons hand out naloxone when you leave, so ask well before your date rather than assuming. California is the strongest: kits are offered to everyone leaving state prison unless they decline, with no ID or diagnosis needed. Washington and Maryland have programs with conditions attached — Washington requires a documented opioid use disorder, and Maryland's law covers sentenced people but not pretrial releases. Ask your counselor, and if the answer is no, order from NEXT Distro above.",
+        "detail": "The warning: in several states, getting naloxone or staying on methadone or buprenorphine runs through your supervising officer, which turns asking for help into a disclosure. Washington distributes community kits through supervision officers. New York relays participation in medication treatment to parole. In Connecticut, being revived with naloxone inside triggers a drug test and can bring disciplinary action, reclassification, or a report recording your name and number. In Pennsylvania, an overdose reversal in community corrections is logged into a police information network under your parole number. None of that is a reason not to carry naloxone — it is a reason to know who finds out, so you are deciding with the facts.",
+        "checked": "Checked 2026-08-12. State programs and policies change; treat this as a starting point for a question, not a settled answer."
+      },
+      "gap": "There is no national reentry helpline, no national peer line staffed by people who have been inside, no national program handing out naloxone at release, no national emergency housing line unless you are a veteran, and no national reentry legal helpline. 988 lists twelve populations it has tailored support for and formerly incarcerated people are not one of them. If you are on supervision and required to abstain while still using, we could not find a single organization anywhere in the country offering guidance you can phone for. These are absences we verified, not things you failed to find."
     },
     {
       "id": "youth",
