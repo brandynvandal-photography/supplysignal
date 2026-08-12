@@ -1,1 +1,15 @@
-{"generated":"2026-08-10T14:46:31.044Z","windowDays":365,"disclaimer":"Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.","countyCount":3231,"coverage":{"lastScan":"2026-08-10T14:46:31.035Z","sourcesChecked":25,"sourcesFailed":["la-ldh"],"countiesScanned":22},"clusters":[]}
+{
+  "generated": "2026-08-12T06:23:30.979Z",
+  "windowDays": 365,
+  "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
+  "countyCount": 3231,
+  "coverage": {
+    "lastScan": "2026-08-12T06:23:30.863Z",
+    "sourcesChecked": 27,
+    "sourcesFailed": [
+      "la-ldh"
+    ],
+    "countiesScanned": 22
+  },
+  "clusters": []
+}
