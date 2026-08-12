@@ -1445,6 +1445,12 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* Truncating is right for a list of aliases and wrong for a subtitle that
+   carries the caveat - clipping "drugs showing up elsewhere, not local" to
+   "...not lo" would deliver the opposite of what the row exists to say. These
+   wrap to a second line instead. */
+.nbr__sub--wrap { white-space: normal; }
+
 .nbr__right { flex: none; }
 /* Accessory badges are secondary to the label they qualify. At full size they
    pulled the eye before the substance name did. */

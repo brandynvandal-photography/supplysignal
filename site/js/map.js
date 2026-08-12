@@ -284,62 +284,34 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
       zoom: state.zoom, panX: state.panX, panY: state.panY,
       w: W, h: H, metric: state.metric,
       offX: W * MARGIN, offY: H * MARGIN,
+      unit, ox, oy,
     };
   }
 
   function baseStale(dpr) {
     if (!baseState) return true;
     const W = canvas.width, H = canvas.height;
-    if (baseState.zoom !== state.zoom || baseState.metric !== state.metric) return true;
+    if (baseState.metric !== state.metric) return true;
     if (baseState.w !== W || baseState.h !== H) return true;
-    // Panned past the buffer's margin?
-    const dx = Math.abs(state.panX - baseState.panX) * dpr;
-    const dy = Math.abs(state.panY - baseState.panY) * dpr;
-    return dx > W * MARGIN * 0.9 || dy > H * MARGIN * 0.9;
-  }
 
-  /* The located county, drawn as its own persistent layer. It cannot ride on
-     `state.hover`: hover is cleared the moment the pointer leaves the canvas,
-     so "here is your county" would vanish on the first mouse move. */
-  function drawLocated(W, H, dpr) {
-    if (!state.located) return;
-    const co = mesh.counties.find((x) => x.fips === state.located);
-    if (!co) return;
-    const { unit, ox, oy } = transform(W, H, dpr);
+    /* Mid-pinch we scale the buffer we already have rather than re-tracing
+       3,143 counties per frame. That re-trace was the real cost behind
+       "clunky": panning was always a cheap blit, but every zoom frame rebuilt
+       the whole map. The image softens while the fingers move and sharpens on
+       release - the bargain a native map tile makes. Stretch it too far and it
+       is visibly mushy, so past those bounds we pay for a real render. */
+    const k = transform(W, H, dpr).unit / baseState.unit;
+    if (k !== 1 && (!pinchStart || k < 0.7 || k > 2.2)) return true;
 
-    tracePath(ctx2d, co, unit, ox, oy);
-    ctx2d.save();
-    ctx2d.strokeStyle = "rgba(255,255,255,.95)";
-    ctx2d.lineWidth = dpr * 3.5;
-    ctx2d.stroke();
-    ctx2d.strokeStyle = "#2d6a5f";
-    ctx2d.lineWidth = dpr * 2;
-    ctx2d.stroke();
-
-    /* A pin above the county, with the name. Color is never the only signal -
-       the label says which county this is in words. */
-    const cx = co.cx * unit + ox, cy = co.cy * unit + oy;
-    const label = state.locatedLabel || "Your county";
-    ctx2d.font = `${dpr * 13}px -apple-system, "Segoe UI", Roboto, sans-serif`;
-    const w = ctx2d.measureText(label).width + dpr * 18;
-    const hgt = dpr * 26, bx = cx - w / 2, by = cy - dpr * 44;
-
-    ctx2d.beginPath();
-    ctx2d.roundRect(bx, by, w, hgt, dpr * 13);
-    ctx2d.fillStyle = "#2d6a5f";
-    ctx2d.fill();
-    ctx2d.beginPath();                       // stem down to the county
-    ctx2d.moveTo(cx, by + hgt);
-    ctx2d.lineTo(cx, cy - dpr * 4);
-    ctx2d.strokeStyle = "#2d6a5f";
-    ctx2d.lineWidth = dpr * 2;
-    ctx2d.stroke();
-
-    ctx2d.fillStyle = "#ffffff";
-    ctx2d.textAlign = "center";
-    ctx2d.textBaseline = "middle";
-    ctx2d.fillText(label, cx, by + hgt / 2 + dpr * 0.5);
-    ctx2d.restore();
+    /* Does the buffer still cover the viewport? This replaces a pan-only
+       margin heuristic, which was blind to zoom: pinching toward a corner
+       moves pan as well as scale, and zooming OUT shrinks the blit, so either
+       one could uncover an edge that the old check never looked at. Test the
+       actual blit rectangle instead of guessing from pan alone. */
+    const cur = transform(W, H, dpr);
+    const tx = cur.ox - k * (baseState.ox + baseState.offX);
+    const ty = cur.oy - k * (baseState.oy + baseState.offY);
+    return tx > 0 || ty > 0 || tx + base.width * k < W || ty + base.height * k < H;
   }
 
   function draw(target) {
@@ -351,10 +323,18 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     ctx2d.setTransform(1, 0, 0, 1, 0, 0);
     ctx2d.clearRect(0, 0, W, H);
 
-    // Panning is a blit: the map has not changed, only where it sits.
-    const dx = (state.panX - baseState.panX) * dpr - baseState.offX;
-    const dy = (state.panY - baseState.panY) * dpr - baseState.offY;
-    ctx2d.drawImage(base, dx, dy);
+    /* Panning and (mid-pinch) zooming are both a blit: the map itself has not
+       changed, only how big it is and where it sits. `k` is 1 for a pure pan,
+       which makes this the same single drawImage it always was. */
+    const cur = transform(W, H, dpr);
+    const k = cur.unit / baseState.unit;
+    ctx2d.setTransform(
+      k, 0, 0, k,
+      cur.ox - k * (baseState.ox + baseState.offX),
+      cur.oy - k * (baseState.oy + baseState.offY),
+    );
+    ctx2d.drawImage(base, 0, 0);
+    ctx2d.setTransform(1, 0, 0, 1, 0, 0);
 
     drawLocated(W, H, dpr);
 
@@ -467,7 +447,10 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
       if (!c) continue;
       topList.appendChild(
         h("button", { type: "button", class: "nbr", onClick: () => go(`#/alerts/${fips}`) },
-          h("span", { class: "nbr__name" }, `${c.name}, ${c.state}`),
+          /* .nbr__text is what carries min-width:0; without it the name here
+             could not shrink, so a long "County, ST" ran under the figure. */
+          h("span", { class: "nbr__text" },
+            h("span", { class: "nbr__name" }, `${c.name}, ${c.state}`)),
           h("span", { class: "nbr__right" },
             h("span", { class: "nbr__dist" },
               m.diverging ? `${v > 0 ? "+" : ""}${v}` : String(v)),
@@ -641,7 +624,14 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   });
   const clearPointer = (e) => {
     active.delete(e.pointerId);
-    if (active.size < 2) { pinchStart = null; drawPickSoon(); }
+    if (active.size < 2) {
+      const wasPinching = !!pinchStart;
+      pinchStart = null;
+      // The buffer is left scaled and soft by a pinch; retrace it sharp. A
+      // plain tap never scaled it, so it does not need this.
+      if (wasPinching) draw();
+      drawPickSoon();
+    }
   };
   canvas.addEventListener("pointerup", clearPointer);
   canvas.addEventListener("pointercancel", clearPointer);

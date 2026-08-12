@@ -399,9 +399,12 @@ async function countyView({ fips, days }, { go, data }) {
               type: "button", class: "nbr",
               onClick: () => go(`#/alerts/${n.fips}/${win}`),
             },
-            h("span", null,
+            /* Title over subtitle. Inline, this row had no shrinkable child,
+               so "Sequatchie County, TN · 21 mi" pushed the "mi" onto its own
+               line and shoved the badge out of alignment. */
+            h("span", { class: "nbr__text" },
               h("span", { class: "nbr__name" }, `${n.name}, ${n.state}`),
-              h("span", { class: "nbr__dist" }, ` · ${n.mi} mi`)),
+              h("span", { class: "nbr__sub" }, `${n.mi} mi`)),
             h("span", { class: "nbr__right" },
               cnt ? badge(`${cnt}`, sevOf(near, n.fips)) : badge("none", "neutral"),
               h("span", { "aria-hidden": "true" }, "›")));
@@ -445,10 +448,10 @@ async function countyView({ fips, days }, { go, data }) {
      feature must not have. */
   wrap.appendChild(
     h("button", { type: "button", class: "nbr", onClick: () => go("#/emerging") },
-      h("span", null,
+      h("span", { class: "nbr__text" },
         h("span", { class: "nbr__name" }, "Early warning"),
-        h("span", { class: "nbr__dist" },
-          " · drugs showing up elsewhere, not local")),
+        h("span", { class: "nbr__sub nbr__sub--wrap" },
+          "drugs showing up elsewhere, not local")),
       h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")))
   );
 
