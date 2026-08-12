@@ -53,6 +53,7 @@ export async function render() {
     jumpNav([
       { id: "sec-rights", label: "A positive screen" },
       { id: "sec-panels", label: "What's on the test" },
+      { id: "sec-windows", label: "How long it stays" },
       { id: "sec-misreads", label: "When it's wrong" },
       { id: "sec-cannabis", label: "Cannabis" },
       { id: "sec-medication", label: "Your medication" },
@@ -86,6 +87,35 @@ export async function render() {
     section(g.panels.headline, g.panels.blurb,
       frag(g.panels.items.map(item)),
       SRC.add(g.panels.sources))));
+
+  /* ---- how long it stays ----
+     One bubble per drug rather than a table. A table forces a horizontal
+     scroll on a phone and invites reading a single number out of its
+     conditions, which is the whole failure mode here - these windows are
+     meaningless without the study and the cutoff attached. */
+  const w = g.windows;
+  wrap.appendChild(anchored("sec-windows",
+    section(w.headline, w.blurb,
+      h("p", { class: "leadin" }, w.lead),
+
+      h("div", { class: "card" },
+        h("h3", null, w.method.title),
+        h("p", null, w.method.body),
+        SRC.add(w.method.sources)),
+
+      frag(w.rows.map((r) =>
+        h("div", { class: "card" },
+          h("h3", null, r.drug),
+          h("p", null, r.urine),
+          r.note ? h("p", { class: "sec__note" }, r.note) : null))),
+
+      /* The absence, stated as content. A reader who came looking for MDMA
+         deserves to know it is missing on purpose rather than concluding the
+         page is half-finished. */
+      callout("info", w.gaps.title,
+        h("ul", null, w.gaps.items.map((t) => h("li", null, t)))),
+
+      SRC.add(w.sources))));
 
   /* ---- misreads ---- */
   wrap.appendChild(anchored("sec-misreads",

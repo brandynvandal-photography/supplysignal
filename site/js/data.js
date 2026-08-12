@@ -311,6 +311,19 @@ export async function supervision() {
   return load("supervision", null);
 }
 
+/* How long one drug stays detectable, for its own page.
+ *
+ * Indexed out of the same bundle the supervision page uses rather than kept in
+ * a second file, so there is one place to correct a window and no way for the
+ * two surfaces to drift apart. Returns null when we have no verified figure -
+ * which is most drugs, and the view says so rather than inventing a range. */
+export async function detectionFor(id) {
+  const s = await load("supervision", null);
+  const rows = s?.windows?.rows || [];
+  const row = rows.find((r) => (r.ids || []).includes(id));
+  return row ? { ...row, note: row.note, perDrugNote: s.windows.perDrugNote } : null;
+}
+
 /* Articles, keyed by substance.
  *
  * Bundled and indexed here rather than fetched per drug, for the same reason

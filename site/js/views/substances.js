@@ -698,8 +698,8 @@ async function detailView(id, subs, combos, { go }) {
      front - see data.reagentsFor. This is the only view that renders them, and
      loading them for all 302 was costing the Drugs list 111KB before it could
      paint. Attached to a local copy so the cached bundle stays untouched. */
-  const [rg, plantMatrix] = await Promise.all([
-    data.reagentsFor(id), data.isPlantOrFungal(id),
+  const [rg, plantMatrix, detect] = await Promise.all([
+    data.reagentsFor(id), data.isPlantOrFungal(id), data.detectionFor(id),
   ]);
   const s = rg ? { ...base, reagentResults: rg } : base;
 
@@ -919,6 +919,27 @@ async function detailView(id, subs, combos, { go }) {
   const timed = s.roas.filter((r) => r.duration);
   if (timed.length) {
     wrap.appendChild(section("How long it lasts", null, timed.map((r) => durationTable(r))));
+
+  /* How long it stays DETECTABLE, which is a different question from how long
+     it lasts and is the one somebody on probation is actually asking. Placed
+     immediately after the duration table because the two get confused, and the
+     heading has to do the work of separating them.
+
+     Only rendered where we have a verified figure. Most drugs have none, and
+     an empty section would read as "we checked and it is short". */
+  if (detect) {
+    wrap.appendChild(
+      section("How long it stays detectable", "On a urine test — a different question from how long the effects last",
+        h("div", { class: "card" },
+          h("p", null, detect.urine),
+          detect.note ? h("p", { class: "sec__note" }, detect.note) : null,
+          h("p", { class: "sec__note" }, detect.perDrugNote)),
+        h("a", { class: "bigptr", href: "#/supervision" },
+          h("span", { class: "bigptr__hd" }, "If you are being tested"),
+          h("span", { class: "bigptr__sub" },
+            "What a positive screen actually is, how to contest one, and what "
+            + "they cannot make you stop taking."))));
+  }
   }
 
   /* ---- tolerance / addiction ---- */

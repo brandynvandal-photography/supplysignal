@@ -53,6 +53,173 @@
       }
     ]
   },
+  "windows": {
+    "headline": "How long it stays in you",
+    "blurb": "Urine, because that is what almost every test uses. Every figure carries the study it came from — a window without its conditions is not a fact.",
+    "lead": "Three things decide the answer far more than the drug does: how much and how long you have been using, what threshold the lab set, and which machine they ran. The same drug can give wildly different answers on all three.",
+    "method": {
+      "title": "The method matters more than most people are told",
+      "body": "Eighteen people were given one 0.4 mg dose of buprenorphine. On the immunoassay it was detectable for a mean of 9 hours. On LC-MS/MS, from the identical dose in the same people, a mean of 76 hours. Its metabolite was still positive in every single person when the study ended at 96 hours. Same drug, same dose, same bodies — the machine set the window.",
+      "sources": [
+        {
+          "name": "Kronstrand et al., J Anal Toxicol 2008 (N=18)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/19007507/"
+        }
+      ]
+    },
+    "rows": [
+      {
+        "drug": "Fentanyl",
+        "urine": "Roughly half a day to 5½ days for fentanyl itself; its metabolite norfentanyl ran 2.7 to 10.7 days. A separate group of 12 people entering treatment averaged 7.3 days for fentanyl and 13.3 for norfentanyl — one person was still positive at 19 and 26 days.",
+        "note": "Far longer than the two to four days people expect from short-acting opioids. If you are being tested after switching off fentanyl, this is the number to know.",
+        "ids": [
+          "fentanyl"
+        ]
+      },
+      {
+        "drug": "Heroin and morphine",
+        "urine": "The heroin-specific marker (6-MAM) is gone fast — often within 8 hours. Morphine itself is 1 to 3 days for occasional use; in 52 chronic users the average was 4.95 days and the longest 11.3 days at a sensitive cutoff.",
+        "ids": [
+          "heroin",
+          "morphine",
+          "codeine"
+        ]
+      },
+      {
+        "drug": "Oxycodone and hydrocodone",
+        "urine": "1 to 3 days for both.",
+        "ids": [
+          "oxycodone",
+          "hydrocodone",
+          "oxymorphone",
+          "hydromorphone"
+        ]
+      },
+      {
+        "drug": "Methadone",
+        "urine": "1 to 14 days. Many methadone assays detect only the parent drug and not its metabolite EDDP — which is why EDDP testing is what distinguishes actually taking it from a sample it was added to.",
+        "ids": [
+          "methadone"
+        ]
+      },
+      {
+        "drug": "Buprenorphine",
+        "urine": "4 to 24 hours by immunoassay; 23 to 96 hours by mass spectrometry. See above — the difference is the machine, not you.",
+        "ids": [
+          "buprenorphine"
+        ]
+      },
+      {
+        "drug": "Benzodiazepines",
+        "urine": "Short-acting ones around 3 days. Long-acting, in chronic use, up to 30 days. Alprazolam runs 1 to 5 days and clonazepam 1 to 12.",
+        "note": "But see the section above: alprazolam, lorazepam and clonazepam frequently do not show up at all on a standard screen, whatever the window.",
+        "ids": [
+          "alprazolam",
+          "clonazepam",
+          "diazepam",
+          "lorazepam",
+          "etizolam",
+          "bromazolam",
+          "flualprazolam",
+          "temazepam",
+          "oxazepam"
+        ]
+      },
+      {
+        "drug": "Cocaine",
+        "urine": "Measured as its metabolite. In 18 chronic users during monitored cessation the average last positive was 57.5 hours, with the longest at 147 hours — a little over 6 days.",
+        "ids": [
+          "cocaine"
+        ]
+      },
+      {
+        "drug": "Methamphetamine and amphetamine",
+        "urine": "Highly cutoff-dependent. In controlled dosing, dropping to the lower of two common thresholds extended detection by up to 24 hours for methamphetamine and up to 34 hours overall.",
+        "note": "Prescribed amphetamine can sometimes be distinguished from illicit by testing which mirror-image form is present, but we could not verify any specific threshold a lab uses to make that call — do not assume it will be done.",
+        "ids": [
+          "methamphetamine",
+          "amphetamine"
+        ]
+      },
+      {
+        "drug": "Cannabis",
+        "urine": "The widest range of anything here, and the most cutoff-dependent. The same frequent users in one study were positive for 17, 22 or 27 days depending purely on which of three thresholds was applied. In 60 people on a closed unit, grouped by starting concentration, the average last positive was 4.3, 9.7 or 15.4 days.",
+        "note": "Published maximums are floors, not ceilings — several of these studies ended while people were still testing positive.",
+        "ids": [
+          "cannabis",
+          "thc"
+        ]
+      },
+      {
+        "drug": "Ketamine",
+        "urine": "Its metabolite norketamine was detectable up to 14 days by the most sensitive method in one hospital study, and ketamine itself up to 11 days. One child in that study never tested positive at all across 16 days.",
+        "ids": [
+          "ketamine"
+        ]
+      },
+      {
+        "drug": "Alcohol (EtG)",
+        "urine": "40 to 130 hours to fall below a common cutoff, median 78, in 32 people in detox. But see hand sanitizer above — EtG at these thresholds does not distinguish drinking from incidental exposure.",
+        "ids": [
+          "alcohol"
+        ]
+      },
+      {
+        "drug": "Xylazine",
+        "urine": "Roughly half a day to 5 days in urine. Not on any routine panel, so it will only be found if someone specifically looks.",
+        "ids": [
+          "xylazine"
+        ]
+      },
+      {
+        "drug": "Gabapentin",
+        "urine": "1 to 2 days. Not on the federal panel.",
+        "ids": [
+          "gabapentin",
+          "pregabalin"
+        ]
+      }
+    ],
+    "gaps": {
+      "title": "What we could not verify, and are not going to guess",
+      "items": [
+        "MDMA. We found no controlled-dosing source we could actually read, in any matrix. Rather than repeat a number off a rehab marketing page, there is nothing here.",
+        "Blood, saliva and hair windows for most of these drugs. Urine is well studied; the others largely are not, and the tables that circulate for them are mostly unsourced.",
+        "Kratom, and most novel benzodiazepines. No commercial cutoffs we could confirm at source."
+      ]
+    },
+    "sources": [
+      {
+        "name": "Bird et al., Am J Addict 2025 — fentanyl and xylazine urine windows",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40018853/"
+      },
+      {
+        "name": "Huhn et al., Drug Alcohol Depend 2020 — fentanyl in treatment entry",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/32650192/"
+      },
+      {
+        "name": "Preston et al., J Anal Toxicol 2002 — cocaine during cessation",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/12422991/"
+      },
+      {
+        "name": "Oyler et al., Clin Chem 2002 — methamphetamine controlled dosing",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/12324487/"
+      },
+      {
+        "name": "Adamowicz & Kala, J Anal Toxicol 2005 — ketamine",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/16105264/"
+      },
+      {
+        "name": "Helander et al., Alcohol Alcohol 2009 — urinary EtG",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/18971292/"
+      },
+      {
+        "name": "ARUP Consult — drug half-lives and urine detection windows",
+        "url": "https://arupconsult.com/content/drug-half-lives-and-urine-detection-windows"
+      }
+    ],
+    "perDrugNote": "Urine, and only as a range — how much you used, for how long, which threshold the lab set and which machine they ran all move this more than the drug does."
+  },
   "misreads": {
     "headline": "When the test is wrong",
     "blurb": "Both directions happen, and both are documented.",
