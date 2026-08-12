@@ -270,6 +270,17 @@ a { color: var(--brand); }
 
 /* --------------------------------------------------------------- header */
 
+/* Jump targets clear the sticky header.
+   scrollIntoView({block:"start"}) puts the element's top edge at the viewport's
+   top edge - which is UNDERNEATH the sticky bar, so every chip landed with the
+   heading hidden and the body text at the top of the screen. It looked like the
+   chip had scrolled too far. This is what scroll-margin-top is for; the bar is
+   about 60px plus the notch inset, and the extra breathing room means the
+   heading arrives with air above it rather than jammed under the frosting. */
+[id^="sec-"], [id^="grp-"] {
+  scroll-margin-top: calc(60px + env(safe-area-inset-top) + 14px);
+}
+
 .topbar {
   position: sticky; top: 0; z-index: 40;
   background: transparent;
