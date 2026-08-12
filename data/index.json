@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11T23:53:10.916Z",
+  "generated": "2026-08-12T02:37:03.221Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -1913,26 +1913,159 @@
       "sev": null,
       "t": "2026-08-11T23:53:10.916Z"
     },
+    "16077": {
+      "n": "Power County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.215Z"
+    },
+    "16079": {
+      "n": "Shoshone County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.215Z"
+    },
+    "16081": {
+      "n": "Teton County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.216Z"
+    },
+    "16083": {
+      "n": "Twin Falls County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.216Z"
+    },
+    "16085": {
+      "n": "Valley County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.217Z"
+    },
+    "16087": {
+      "n": "Washington County",
+      "s": "ID",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.217Z"
+    },
+    "17001": {
+      "n": "Adams County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.217Z"
+    },
+    "17003": {
+      "n": "Alexander County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.218Z"
+    },
+    "17005": {
+      "n": "Bond County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.218Z"
+    },
+    "17007": {
+      "n": "Boone County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.218Z"
+    },
+    "17009": {
+      "n": "Brown County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.219Z"
+    },
+    "17011": {
+      "n": "Bureau County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.219Z"
+    },
+    "17013": {
+      "n": "Calhoun County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.219Z"
+    },
+    "17015": {
+      "n": "Carroll County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.219Z"
+    },
+    "17017": {
+      "n": "Cass County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.220Z"
+    },
+    "17019": {
+      "n": "Champaign County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.220Z"
+    },
+    "17021": {
+      "n": "Christian County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.220Z"
+    },
+    "17023": {
+      "n": "Clark County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.221Z"
+    },
+    "17025": {
+      "n": "Clay County",
+      "s": "IL",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T02:37:03.221Z"
+    },
     "24510": {
       "n": "Baltimore city",
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T23:53:10.908Z"
+      "t": "2026-08-12T02:37:03.214Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T23:53:10.907Z"
+      "t": "2026-08-12T02:37:03.214Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-11T23:53:10.906Z"
+      "t": "2026-08-12T02:37:03.213Z"
     },
     "01001": {
       "n": "Autauga County",
