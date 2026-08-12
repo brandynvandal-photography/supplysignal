@@ -37,6 +37,22 @@ import * as data from "../data.js";
 
 let SRC = null;
 
+/* Percentages, lifted out of the prose.
+ *
+ * The whole argument of the "two things that work" block is the distance
+ * between two numbers - 91% of staff call local impact helpful, 9% of
+ * constituents include it - and both were sitting in body text at body weight,
+ * where the eye slides straight past them. The figures ARE the point.
+ *
+ * Built as text nodes and elements rather than innerHTML: the CSP has no
+ * unsafe-inline, and more to the point this content is data, so it must never
+ * be able to inject markup. */
+function withFigures(text) {
+  const parts = String(text).split(/(\d[\d,.]*\s?%)/g);
+  return frag(parts.map((t, i) =>
+    i % 2 ? h("b", { class: "pct" }, t) : t));
+}
+
 /* A titled item with a body, the shape most of this file's content takes.
  *
  * Its own .card, not a row inside one .list. A grouped list says "these are
@@ -47,7 +63,7 @@ let SRC = null;
 function item(it) {
   return h("div", { class: "card" },
     h("h3", null, it.t),
-    h("p", null, it.d),
+    h("p", null, withFigures(it.d)),
     it.sources ? SRC.add(it.sources) : null);
 }
 
@@ -55,7 +71,7 @@ function item(it) {
 function statRow(it) {
   return h("div", { class: "card statcard" },
     h("p", { class: "stat__n" }, it.t),
-    h("p", null, it.d));
+    h("p", null, withFigures(it.d)));
 }
 
 function orgRow(o) {
@@ -144,7 +160,7 @@ export async function render(route, { go }) {
     h("div", { id: "sec-money" },
       section(g.money.headline, g.money.blurb,
         h("div", { class: "card" },
-          g.money.body.map((t) => h("p", null, t)),
+          g.money.body.map((t) => h("p", null, withFigures(t))),
           SRC.add(g.money.sources)))));
 
   /* ---- being heard ---- */

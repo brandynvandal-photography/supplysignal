@@ -634,6 +634,16 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em;
   color: var(--brand); margin: 0 0 2px;
 }
+/* A percentage inside a sentence, given the weight the sentence is spending
+   it on. Not the brand colour - these sit two and three to a paragraph and
+   tinting them all would read as a link. Weight and full-contrast ink is
+   enough to make the eye stop, and tabular figures keep 9% and 91% from
+   wobbling against each other. */
+.pct {
+  font-weight: 700; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
 /* Who an organization answers to, said before what it does. For this audience
    "led by people who use drugs" is not a badge, it is the thing that decides
    whether the organization asks for what they actually need. */
