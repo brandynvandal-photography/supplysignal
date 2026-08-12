@@ -1378,9 +1378,19 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
 .list > .nbr:active { background: color-mix(in srgb, var(--ink) 7%, transparent); }
 .list > .nbr:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
 .list > .nbr:focus-visible { border-radius: 0; }
-/* An empty state inside a list container should not inherit the group frame. */
+/* An empty state or a grid of tiles inside a list container is not a grouped
+   list, so it must not inherit the group frame.
+
+   box-shadow has to be in here explicitly. Dropping the background, border and
+   radius was not enough on its own: the shared depth rule further down still
+   applied the two-layer shadow to every .list, and with the radius now zeroed
+   it painted as a hard-cornered rectangle around the whole grid. That shadow -
+   a frame with nothing inside it - is the "squared box in the background"
+   behind the drug categories. Reset it here rather than removing .list from
+   the depth rule, which real grouped lists still need. */
 .list:has(> .empty), .list:has(> .classgrid) {
   background: none; border: 0; border-radius: 0; overflow: visible;
+  box-shadow: none;
 }
 
 /* Chevrons in a native list are lighter and smaller than the label. */

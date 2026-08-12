@@ -314,6 +314,50 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     return tx > 0 || ty > 0 || tx + base.width * k < W || ty + base.height * k < H;
   }
 
+  /* The located county, drawn as its own persistent layer. It cannot ride on
+     `state.hover`: hover is cleared the moment the pointer leaves the canvas,
+     so "here is your county" would vanish on the first mouse move. */
+  function drawLocated(W, H, dpr) {
+    if (!state.located) return;
+    const co = mesh.counties.find((x) => x.fips === state.located);
+    if (!co) return;
+    const { unit, ox, oy } = transform(W, H, dpr);
+
+    tracePath(ctx2d, co, unit, ox, oy);
+    ctx2d.save();
+    ctx2d.strokeStyle = "rgba(255,255,255,.95)";
+    ctx2d.lineWidth = dpr * 3.5;
+    ctx2d.stroke();
+    ctx2d.strokeStyle = "#2d6a5f";
+    ctx2d.lineWidth = dpr * 2;
+    ctx2d.stroke();
+
+    /* A pin above the county, with the name. Color is never the only signal -
+       the label says which county this is in words. */
+    const cx = co.cx * unit + ox, cy = co.cy * unit + oy;
+    const label = state.locatedLabel || "Your county";
+    ctx2d.font = `${dpr * 13}px -apple-system, "Segoe UI", Roboto, sans-serif`;
+    const w = ctx2d.measureText(label).width + dpr * 18;
+    const hgt = dpr * 26, bx = cx - w / 2, by = cy - dpr * 44;
+
+    ctx2d.beginPath();
+    ctx2d.roundRect(bx, by, w, hgt, dpr * 13);
+    ctx2d.fillStyle = "#2d6a5f";
+    ctx2d.fill();
+    ctx2d.beginPath();                       // stem down to the county
+    ctx2d.moveTo(cx, by + hgt);
+    ctx2d.lineTo(cx, cy - dpr * 4);
+    ctx2d.strokeStyle = "#2d6a5f";
+    ctx2d.lineWidth = dpr * 2;
+    ctx2d.stroke();
+
+    ctx2d.fillStyle = "#ffffff";
+    ctx2d.textAlign = "center";
+    ctx2d.textBaseline = "middle";
+    ctx2d.fillText(label, cx, by + hgt / 2 + dpr * 0.5);
+    ctx2d.restore();
+  }
+
   function draw(target) {
     const dpr = sizeCanvas();
 
