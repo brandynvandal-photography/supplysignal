@@ -39,7 +39,12 @@ export async function render(route, { go }) {
     return wrap;
   }
 
-  wrap.appendChild(h("p", { class: "sec__note" }, e.intro));
+  wrap.appendChild(
+    h("p", { class: "sec__note" },
+      "Things worth knowing before the night you need them — a few minutes of " +
+      "practice, how to sit with someone having a hard time, free courses, and " +
+      "how to handle consent and repair when substances are in the room.")
+  );
 
   const consent = await consentBlock();
 
@@ -78,17 +83,21 @@ export async function render(route, { go }) {
       await sittingBlock())
   );
 
-  /* Does training gate naloxone? Answered up front, because the honest answer
-     is "no, but" - and someone who believes they need a certificate to help
-     may hesitate at the worst possible moment. */
-  wrap.appendChild(
+  /* The courses had no heading of their own, so three top-level disclosures
+     floated between "Being the calm person" and the next section and read as
+     belonging to it. A heading restores the page's rhythm - every other block
+     here opens on one - and gives e.intro somewhere it is actually true. */
+  wrap.appendChild(section("Free courses", null,
+    h("p", { class: "sec__note" }, e.intro),
+
+    /* Does training gate naloxone? Answered up front, because the honest
+       answer is "no, but" - and someone who believes they need a certificate
+       to help may hesitate at the worst possible moment. */
     callout("info", e.why.title,
       h("p", null, e.why.body),
-      h("p", { class: "sec__note" }, e.why.note))
-  );
+      h("p", { class: "sec__note" }, e.why.note)),
 
-  for (const g of e.groups) {
-    wrap.appendChild(
+    frag(e.groups.map((g) =>
       disclosure(`sec-${g.id}`, g.title, { open: g.id === "naloxone" },
         h("p", { class: "sec__note" }, g.blurb),
         frag(g.items.map((it) =>
@@ -97,9 +106,8 @@ export async function render(route, { go }) {
             h("p", { class: "card__meta" },
               it.cost, it.time ? ` · ${it.time}` : null),
             h("p", null, it.what),
-            h("div", { class: "sources" }, extLink(it.url, "Open"))))))
-    );
-  }
+            h("div", { class: "sources" }, extLink(it.url, "Open")))))))) 
+  ));
 
   /* After the courses, before "teach someone else". Someone who opened Learn
      to find a naloxone class should not be met by a section about hurting

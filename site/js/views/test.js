@@ -46,6 +46,12 @@ export async function render() {
     ])
   );
 
+  /* The page had no section headings at all, so eight top-level disclosures
+     floated in a row and nothing told a reader where one idea ended and the
+     next began. Three headings, in the order the questions actually arrive:
+     what a test can tell me, which one do I get, how do I run it. */
+  wrap.appendChild(section("What a test can tell you", null));
+
   wrap.appendChild(
     disclosure("sec-limits", "What testing can and cannot tell you", null,
       h("div", { class: "card" },
@@ -100,6 +106,8 @@ export async function render() {
   /* Grouped, because this page reached ten top-level dropdowns and a wall of
      ten closed rows is not navigable. The order of the groups is the order of
      the questions: which test, then how to use it, then the fine print. */
+  wrap.appendChild(section("Getting hold of one", null));
+
   wrap.appendChild(
     group("grp-choose", "Choosing a test",
       "Which tool answers which question, where to buy it, and whether it is legal where you are.", [
@@ -220,6 +228,8 @@ export async function render() {
     ),
     ])
   );
+
+  wrap.appendChild(section("Using it", null));
 
   wrap.appendChild(
     disclosure("sec-strips", "Test strips", null,
