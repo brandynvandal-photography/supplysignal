@@ -138,7 +138,7 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
 
   const resetBtn = h("button", {
     type: "button", class: "linkbtn",
-    onClick: () => { state.zoom = 1; state.panX = 0; state.panY = 0; draw(); drawPickSoon(); },
+    onClick: () => { state.zoom = 1; state.panX = 0; state.panY = 0; draw(); },
   }, "Reset view");
 
   host.appendChild(
@@ -674,7 +674,6 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
       // The buffer is left scaled and soft by a pinch; retrace it sharp. A
       // plain tap never scaled it, so it does not need this.
       if (wasPinching) draw();
-      drawPickSoon();
     }
   };
   canvas.addEventListener("pointerup", clearPointer);
@@ -697,7 +696,7 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
       lastW = canvas.width; lastH = canvas.height;
       centerOnFocus();
     }
-    scheduleDraw(); drawPickSoon();
+    scheduleDraw();
   });
   ro.observe(stage);
 
@@ -731,7 +730,6 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     if (canvas.width !== beforeW || canvas.height !== beforeH) {
       centerOnFocus();
       draw();
-      drawPickSoon();
     }
     /* Keep looking until the host is genuinely laid out. Two frames was not
        enough: countyView starts this with a bare import().then(), so it can
