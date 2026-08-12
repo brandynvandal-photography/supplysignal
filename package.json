@@ -1,15 +1,28 @@
 {
-  "name": "supplysignal",
+  "name": "supply-check",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "County-level drug supply alerts aggregated from public sources",
+  "description": "County-level drug supply alerts, drug checking, and harm reduction support",
   "scripts": {
     "ingest": "node src/ingest.mjs",
     "dry": "DRY_RUN=1 node src/ingest.mjs",
     "age": "node src/age.mjs",
-    "test": "node test/pipeline.test.mjs && node test/locate.test.mjs",
-    "build:shapes": "node scripts/build-shapes.mjs"
+    "test": "node test/pipeline.test.mjs && node test/locate.test.mjs && node test/projection.test.mjs && node test/hittest.test.mjs && node test/seen.test.mjs && node test/taxonomy.test.mjs && node test/copy.test.mjs && node test/privacy.test.mjs",
+    "test:privacy": "node test/privacy.test.mjs",
+    "build:shapes": "node scripts/build-shapes.mjs",
+    "build:gazetteer": "node scripts/build-gazetteer.mjs",
+    "build:adjacency": "node scripts/build-adjacency.mjs",
+    "build:substances": "node scripts/build-substances.mjs",
+    "build:combos": "node scripts/build-combos.mjs",
+    "build:reference": "npm run build:substances && npm run build:combos && npm run build:regional && npm run build:mortality",
+    "build:regional": "node scripts/build-regional.mjs",
+    "build:mortality": "node scripts/build-mortality.mjs",
+    "build:places": "node scripts/build-places.mjs",
+    "dev": "node scripts/dev-server.mjs",
+    "build:emerging": "node scripts/build-emerging.mjs",
+    "build:reagents": "node scripts/build-reagents.mjs",
+    "check:links": "node scripts/check-links.mjs"
   },
   "dependencies": {
     "fast-xml-parser": "^5.0.0"

@@ -1,0 +1,84 @@
+{
+ "note": "HAND-WRITTEN. Peer support for someone having a hard time on a drug — NOT overdose response. The boundary between the two is the most important thing in this file and is stated first, in a stop callout, because sitting with someone who actually needs an ambulance is how a survivable night becomes a death. Zendo's four principles are used with attribution; Fireside's number verified 2026-08-11.",
+ "lastVerified": "2026-08-11",
+
+ "headline": "Sitting with someone having a hard time",
+ "intro": "Most difficult experiences do not need a hospital. They need one calm person who stays. This is what that person actually does.",
+
+ "notThis": {
+  "title": "First: is this a hard time, or an emergency?",
+  "body": "Stop reading and call 911 if breathing is slow, stopped, or sounds like snoring or gurgling; if they cannot be woken; if their skin is blue or grey; if they have a seizure that does not stop, or a second one; if their body is very hot to touch and they are confused; or if there is chest pain.",
+  "detail": "None of what follows applies to any of that. Sitting with someone is for fear, confusion, panic and overwhelm — not for a body that is failing."
+ },
+
+ "principles": {
+  "title": "The four principles",
+  "credit": "From the Zendo Project, who have used this model with over 1,900 people at festivals and events since 2012.",
+  "items": [
+   {
+    "name": "Create a safe space",
+    "what": "Somewhere quieter and dimmer than where they are now, with fewer people. Ask before you move them or touch them. Sit at their level rather than standing over them. Deal with the obvious physical things — water, a blanket, somewhere to sit down, a route to a bathroom."
+   },
+   {
+    "name": "Sit, don't guide",
+    "what": "You are not steering the experience. Words often get in the way, so use fewer than feels natural. Do not analyse what is happening to them or explain what it means. Listen, and let silence be allowed."
+   },
+   {
+    "name": "Talk through, not down",
+    "what": "Do not try to pull someone out of what they are feeling — help them go through it. \"Tell me about it\" beats \"you're fine\". Reassurance that dismisses the experience tends to make someone feel more alone in it, not less."
+   },
+   {
+    "name": "Difficult is not the same as bad",
+    "what": "Frightening and painful experiences are not automatically harmful ones, and the way somebody is met while it happens changes how it lands afterwards. Panic in the room makes it worse; steadiness makes it survivable."
+   }
+  ],
+  "sources": [
+   { "name": "Zendo Project — working with difficult psychedelic experiences", "url": "https://zendoproject.org/bulletin/understanding-and-working-with-difficult-psychedelic-experiences/" },
+   { "name": "MAPS — the four principles", "url": "https://maps.org/news/bulletin/beyond-the-festival-how-zendo-projects-four-principles-can-provide-guidance-in-a-time-of-change/" }
+  ]
+ },
+
+ "doing": {
+  "title": "What that looks like in practice",
+  "items": [
+   { "t": "Say who you are, more than once.", "b": "Time and identity get slippery. \"I'm Sam, we're at my place, you took something and it's making you feel strange, I'm staying with you\" — repeated calmly whenever they need it — does more work than anything clever." },
+   { "t": "Give the feeling a shape and an end.", "b": "\"This is the drug, and it will pass\" is true, orienting, and worth saying often. If you know roughly how long the substance lasts, saying so helps." },
+   { "t": "Breathe with them, don't instruct them.", "b": "Sit close and slow your own breathing. People match it without being told. \"Breathe!\" as a command mostly reads as alarm." },
+   { "t": "Offer, never impose.", "b": "Water, a different room, a blanket, the lights lower, going outside. Ask; accept no. Someone who has lost their footing needs to be the one still making choices." },
+   { "t": "Keep your own face calm.", "b": "In an altered state people read expressions far more than sentences. If you look frightened, they will believe there is something to be frightened of." },
+   { "t": "Stay until it is over, and a while after.", "b": "The tail is where people are left alone. It is also when they are most likely to want to talk." }
+  ]
+ },
+
+ "dont": {
+  "title": "What makes it worse",
+  "items": [
+   { "t": "Don't argue with what they are seeing or feeling.", "b": "You cannot win, and trying makes you an opponent instead of an anchor." },
+   { "t": "Don't crowd them.", "b": "A ring of concerned faces reads as an audience or a threat. One or two people, maximum." },
+   { "t": "Don't give them more drugs to fix it.", "b": "Including alcohol and including a benzodiazepine that is not theirs. It adds an unknown to a situation that already has too many." },
+   { "t": "Don't threaten them with hospital or police to get compliance.", "b": "It escalates fear at the exact moment fear is the problem — and it teaches them not to tell anyone next time." },
+   { "t": "Don't leave them alone to \"sleep it off\".", "b": "This is the single most common way a hard time turns into an emergency nobody witnessed." },
+   { "t": "Don't make it about how worried you were.", "b": "That conversation is legitimate, and it belongs to a later day." }
+  ]
+ },
+
+ "overamping": {
+  "title": "If it's a stimulant, not a psychedelic",
+  "body": "Overamping — too much stimulant — looks different: racing heart, chest tightness, overheating, paranoia, jaw clenching, hours without sleep. The sitting principles still apply, and a few physical things matter more: get them somewhere cool, keep water going in small amounts rather than large, and get them off their feet.",
+  "warn": "Overheating is the part that becomes medical. A body that is very hot, with confusion, is an emergency — not something to sit through."
+ },
+
+ "lines": [
+  { "name": "Fireside Project", "num": "(623) 737-7433", "tel": "6237377433",
+    "what": "Free peer support by phone or text, during or after a psychedelic experience. Anonymous. You can hand them the phone." },
+  { "name": "Never Use Alone", "num": "1-800-484-3731", "tel": "18004843731",
+    "what": "Stays on the line and sends help if someone stops responding. For opioids, not psychedelics." },
+  { "name": "Poison Control", "num": "1-800-222-1222", "tel": "18002221222",
+    "what": "Free, 24/7, confidential. They answer \"is this dangerous\" questions without involving police." }
+ ],
+
+ "after": {
+  "title": "Afterwards",
+  "body": "Let them sleep, and check on them the next day. A difficult experience someone was accompanied through often settles into something they can make sense of; the same experience gone through alone tends not to. If they want to talk about it, listening is still the whole job — you do not need to interpret it for them."
+ }
+}

@@ -1,0 +1,112 @@
+{
+ "note": "Session-only condition lens. Selections are NEVER stored - see the module comment in substances.js. Each caution's source was live-verified 2026-08-10 (they are the same label/guidance URLs as rx.json). Conditions appear here ONLY when every caution under them is sourced; that is why this list is short.",
+ "conditions": [
+  {
+   "id": "heart",
+   "label": "Heart condition or high blood pressure",
+   "items": [
+    {
+     "text": "Methadone carries a boxed warning for life-threatening heart rhythm changes (QT prolongation). Other QT-prolonging drugs add to it.",
+     "sources": [
+      {
+       "name": "Methadose label (DailyMed)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=808a9d0b-720b-4034-a862-5122ff514608"
+      }
+     ]
+    },
+    {
+     "text": "Stimulants raise heart rate and blood pressure while they act - that is their mechanism, not a side effect. A heart condition changes what a normal-for-others amount does to you.",
+     "sources": [
+      {
+       "name": "See stimulant class pages and their cited labels",
+       "url": "#/substances/class/stimulants"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "seizures",
+   "label": "Seizure history",
+   "items": [
+    {
+     "text": "Tramadol lowers the seizure threshold - its label carries a dedicated seizure warning - and the risk rises further combined with SSRIs or SNRIs.",
+     "sources": [
+      {
+       "name": "Tramadol label (DailyMed)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9f0e33bd-65f8-446a-886f-e7e16a142ce5"
+      }
+     ]
+    },
+    {
+     "text": "Stopping benzodiazepines abruptly after regular use can itself cause seizures - one of the few cases where quitting suddenly is more dangerous than tapering.",
+     "sources": [
+      {
+       "name": "FDA benzodiazepine class boxed warning",
+       "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requiring-boxed-warning-updated-improve-safe-use-benzodiazepine-drug-class"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "antidepressants",
+   "label": "Taking antidepressants",
+   "items": [
+    {
+     "text": "SSRI and SNRI labels list amphetamines (including MDMA) among serotonin-syndrome risks. MAOIs are the serious one: contraindicated with serotonergic drugs, with documented severe reactions.",
+     "sources": [
+      {
+       "name": "Zoloft label (class labeling)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fda754f6-d0f3-4dce-a17a-927d64f912f7"
+      }
+     ]
+    },
+    {
+     "text": "SSRIs also blunt most of MDMA's effect - which people sometimes answer by taking more. The blunting is documented; taking more is the danger.",
+     "sources": [
+      {
+       "name": "Controlled human study",
+       "url": "https://pubmed.ncbi.nlm.nih.gov/10731626/"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hivmeds",
+   "label": "On HIV treatment with a booster",
+   "items": [
+    {
+     "text": "Ritonavir and cobicistat block the enzyme that clears fentanyl, several benzos, and others - raising their levels. Documented deaths exist with MDMA. Check your exact pair on the Liverpool checker; PrEP alone is not a booster.",
+     "sources": [
+      {
+       "name": "Norvir label",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2849298e-de6e-47bb-8194-56e075b33fc3"
+      },
+      {
+       "name": "Liverpool interaction checker",
+       "url": "https://www.hiv-druginteractions.org/checker"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "moud",
+   "label": "On methadone, bupe, or naltrexone",
+   "items": [
+    {
+     "text": "Each has its own section under \"On prescribed medication?\" below - naltrexone especially: tolerance drops during treatment, and opioid use after a missed dose carries heightened overdose risk per its label.",
+     "sources": [
+      {
+       "name": "Vivitrol label (DailyMed)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cd11c435-b0f0-4bb9-ae78-60f101f3703f"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notCovered": "Pregnancy, liver and kidney disease, diabetes, asthma, and mental health conditions are real factors we have not yet sourced to this app's standard - their absence here is a gap in this page, never evidence of safety."
+}

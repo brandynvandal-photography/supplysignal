@@ -1,0 +1,78 @@
+{
+ "note": "HAND-WRITTEN. Explains the MECHANICS of an unregulated supply — why potency varies, why adulterants appear, why the same source is not the same product. Deliberately contains NOTHING that helps anyone buy: no marketplaces, no vendor guidance, no sourcing, no advice on avoiding detection while purchasing. That line is the difference between harm reduction and a buying guide.",
+ "lastVerified": "2026-08-11",
+ "headline": "Why the supply is like this",
+ "intro": "Most harm reduction advice is a list of rules. This is the reason behind them — because the rules make more sense, and stick better, once you know what is actually happening to the drugs before they reach you.",
+ "blocks": [
+  {
+   "title": "Enforcement pushes drugs toward stronger, smaller forms",
+   "body": "This has a name: the Iron Law of Prohibition. When a supply is squeezed, the economics favour whatever is most compact — a trafficker faces roughly the same penalty for a small package as a large one, so potency per unit of volume goes up. That is the path the US market has taken: prescription pills to heroin, heroin to fentanyl, and now fentanyl to nitazenes. Each step is smaller, stronger, and harder to dose.",
+   "sotu": "It also explains why cracking down on one substance so reliably produces a stronger replacement, rather than less supply.",
+   "sources": [
+    {
+     "name": "Beletsky & Davis — Prohibition’s Iron Law, revisited (Int J Drug Policy, 2017)",
+     "url": "https://doi.org/10.1016/j.drugpo.2017.05.050"
+    }
+   ]
+  },
+  {
+   "title": "Potency is an accident of mixing, not a recipe",
+   "body": "Fentanyl is active in microgram amounts. Mixing micrograms evenly through a kilogram of powder is an industrial process, and this is not an industrial process. What reaches you was cut and re-cut by people without equipment to do it evenly, so two bags off the same batch can differ, and so can two ends of the same bag.",
+   "sotu": "This is the whole reason “start with much less than usual” is the first rule, and why testing a dissolved portion of everything beats testing a pinch.",
+   "sources": [
+    {
+     "name": "NIDA — Fentanyl",
+     "url": "https://nida.nih.gov/research-topics/fentanyl"
+    }
+   ]
+  },
+  {
+   "title": "Adulterants are added for reasons that have nothing to do with you",
+   "body": "Xylazine lengthens a short fentanyl high, which makes a supply feel more like heroin and reduces how often someone needs to buy. Levamisole and lidocaine bulk out cocaine and mimic its numbing. Caffeine and diphenhydramine are cheap filler. None of these are chosen for effect on the person taking them — they are chosen for cost, weight, and how the product behaves in a market.",
+   "sotu": "Which is why the adulterant in your supply can change without anything about your source changing.",
+   "sources": [
+    {
+     "name": "DEA — Fentanyl",
+     "url": "https://www.dea.gov/factsheets/fentanyl"
+    }
+   ]
+  },
+  {
+   "title": "A trusted source is not a quality control system",
+   "body": "The person selling to you is usually near the end of a long chain and did not make what they are selling. They can be completely honest with you and still not know what is in it — most people at that end of the chain are using the same supply themselves. Trust tells you about a person. It tells you nothing about a batch.",
+   "sotu": "This is the single most common way people are caught out: the supply changed, the source did not.",
+   "sources": []
+  },
+  {
+   "title": "Ratings and “lab tested” claims are not verification",
+   "body": "Buying through a screen adds review scores, vendor histories and sometimes a photographed lab report — the visual furniture of a regulated market. None of it is verification. A rating measures whether previous orders arrived and matched a description, which is a delivery record, not a chemical one. A lab report can be real and still describe a different batch than the one in your hand, or belong to someone else entirely, or be edited.",
+   "sotu": "Every earlier point on this page still applies: the person selling is rarely the person who made it, potency still varies within a batch, and nobody in the chain tested what you received.",
+   "sources": []
+  },
+  {
+   "title": "Counterfeit pills are the sharpest version of this",
+   "body": "A pressed pill looks finished and identical to the next one, which is exactly what makes it dangerous — it carries the visual signals of a regulated product with none of the process behind them. Pill presses do not distribute a microgram-scale drug evenly, so within a single batch one pill can hold a survivable amount and the next several times that.",
+   "sotu": "An imprint, a colour, and a shape can all be copied. None of them are evidence of what is inside.",
+   "sources": [
+    {
+     "name": "DEA — Fentanyl",
+     "url": "https://www.dea.gov/factsheets/fentanyl"
+    }
+   ]
+  },
+  {
+   "title": "Distance does not change the chemistry",
+   "body": "It is easy to believe a supply that arrives in the post is cleaner than one bought in person — better presented, more anonymous, further from anyone you might blame. The adulterants that matter get added early, near production, long before anything is packaged or listed. Where the last handover happened does not change what is in the powder.",
+   "sotu": "Which is why a sample you did not test yourself is an unknown regardless of how it reached you.",
+   "sources": []
+  }
+ ],
+ "close": {
+  "title": "What follows from all of this",
+  "body": "None of it is a reason to despair, and none of it makes anything safe. It is the reasoning behind four things that measurably lower the odds: assume a new batch is stronger than the last one, test what you can, take much less than you plan to at first, and do not be alone. Those are not rules handed down. They are what the mechanics above actually imply."
+ },
+ "scope": {
+  "title": "What this page deliberately leaves out",
+  "body": "Nothing here explains where to buy, which sellers to use, or how to avoid being caught doing it. That is not squeamishness — it is that none of it would make anyone safer. Every risk on this page comes from what is in the drugs, and no purchasing decision changes that. What changes it is testing, dose, and not being alone."
+ }
+}

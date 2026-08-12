@@ -1,0 +1,781 @@
+{
+  "generated": "2026-08-11T02:01:58.590Z",
+  "globalLinks": [
+    {
+      "name": "EU Early Warning System on new substances",
+      "author": "European Union Drugs Agency",
+      "url": "https://www.euda.europa.eu/publications/topic-overviews/catalogue-page/topic-overview-eu-early-warning-system-nps_en",
+      "note": "Monitors over a thousand new substances across Europe. New synthetic opioids often appear in European data around when they reach North America - a second continent's tripwire."
+    },
+    {
+      "name": "UNODC Early Warning Advisory",
+      "author": "United Nations Office on Drugs and Crime",
+      "url": "https://www.unodc.org/LSS/Home/NPS",
+      "note": "The global registry of newly identified substances."
+    }
+  ],
+  "sources": [
+    {
+      "id": "hc",
+      "name": "Drug Analysis Service",
+      "author": "Health Canada",
+      "url": "https://health-infobase.canada.ca/drug-analysis-service/drug-notification-map.html",
+      "scope": "Canada, national",
+      "note": "Substances identified in seizures submitted to Canada's national drug lab. Seizure data does not describe what is circulating in any US community."
+    },
+    {
+      "id": "cfsre",
+      "name": "NPS Discovery public alerts",
+      "author": "Center for Forensic Science Research & Education",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts",
+      "scope": "United States, national",
+      "note": "Expert alerts on newly identified substances. National in scope, not local."
+    }
+  ],
+  "firstDetections": [
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Etodezitramide",
+      "date": "2026-07-10",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Methylclonazepam",
+      "date": "2026-06-11",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Flunitrazepam",
+      "date": "2026-05-22",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "3-hydroxy desalkylgidazepam",
+      "date": "2026-03-24",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Tetracaine",
+      "date": "2026-03-19",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Nifoxipam",
+      "date": "2026-03-03",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "3-methyl rolicyclidine",
+      "date": "2026-01-14",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Deoxymethoxetamine",
+      "date": "2026-01-13",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "2F-NENDCK (2-Fluoro-2-OXO-PCE)",
+      "date": "2025-12-01",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Mamdpa",
+      "date": "2025-12-01",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Ethylflualprazolam",
+      "date": "2025-11-10",
+      "mentions": 5
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Meclonazepam",
+      "date": "2025-11-05",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Chlorphine",
+      "date": "2025-07-30",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N,n-dimethylamino etonitazene",
+      "date": "2025-07-25",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "SR 17018",
+      "date": "2025-07-15",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-propionitrile chlorphine",
+      "date": "2025-07-15",
+      "mentions": 9
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Phenazepam",
+      "date": "2025-07-04",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Phenazolam",
+      "date": "2025-06-30",
+      "mentions": 13
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Nicotine",
+      "date": "2025-06-30",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Bretazenil",
+      "date": "2025-03-12",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Rilmazafone",
+      "date": "2025-03-12",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Protodesnitazene",
+      "date": "2025-03-11",
+      "mentions": 7
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-pyrrolidino metonitazene",
+      "date": "2025-03-11",
+      "mentions": 4
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Ethylbromazolam",
+      "date": "2025-03-10",
+      "mentions": 12
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "AB-MDMSBA",
+      "date": "2025-01-30",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-pyrrolidino isotonitazene",
+      "date": "2024-12-20",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Heptanoyl fentanyl",
+      "date": "2024-12-11",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-desethyl protonitazene",
+      "date": "2024-11-25",
+      "mentions": 6
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-isopropylbenzylamine",
+      "date": "2024-10-23",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Dipyanone",
+      "date": "2024-06-25",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Procaine",
+      "date": "2024-06-25",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Primidone",
+      "date": "2024-05-30",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Tianeptine",
+      "date": "2024-05-28",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "2,4-dinitrophenol",
+      "date": "2024-05-13",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "5-ADB",
+      "date": "2024-05-07",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "6-acetylmorphine",
+      "date": "2024-04-10",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "2C-T-2",
+      "date": "2024-04-03",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "2C-T-7",
+      "date": "2024-04-03",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Medetomidine",
+      "date": "2024-03-05",
+      "mentions": 22
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Ketamine",
+      "date": "2024-02-07",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Methylfentanyl",
+      "date": "2023-11-10",
+      "mentions": 13
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-propionyl fluoro norfentanyl",
+      "date": "2023-10-04",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Theophylline",
+      "date": "2023-08-04",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Acetylfentanyl",
+      "date": "2023-05-05",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-pyrrolidino protonitazene",
+      "date": "2023-05-04",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Etomidate",
+      "date": "2023-04-03",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-desethyl isotonitazene",
+      "date": "2023-03-23",
+      "mentions": 8
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Heroin",
+      "date": "2023-03-13",
+      "mentions": 6
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Furanyl UF-17",
+      "date": "2023-02-13",
+      "mentions": 4
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "MDMA",
+      "date": "2023-01-24",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Pyrazolam",
+      "date": "2022-09-29",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "T-boc-norfentanyl",
+      "date": "2022-08-15",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Flutriafol",
+      "date": "2022-06-21",
+      "mentions": 8
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Alprazolam",
+      "date": "2022-06-21",
+      "mentions": 8
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Nitrazolam",
+      "date": "2022-06-09",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N,n-dimethylpentylone",
+      "date": "2022-06-08",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "α-PiHP",
+      "date": "2022-06-08",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Chlorodiazepam",
+      "date": "2022-05-20",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-(1,4-dimethylpentyl)-3,4-dimethoxyamphetamine",
+      "date": "2022-05-20",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Cyproheptadine",
+      "date": "2022-05-20",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Melatonin",
+      "date": "2022-05-20",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Promethazine",
+      "date": "2022-05-20",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Amantadine",
+      "date": "2022-05-20",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Benzocaine",
+      "date": "2022-05-20",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Phenacetin",
+      "date": "2022-05-05",
+      "mentions": 4
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Desalkylgidazepam",
+      "date": "2022-04-25",
+      "mentions": 17
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Butonitazene",
+      "date": "2022-04-19",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Fluclotizolam",
+      "date": "2022-04-07",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "3-hydroxy phenazepam",
+      "date": "2022-04-01",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Norfludiazepam",
+      "date": "2022-02-25",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Para-fluorofentanyl",
+      "date": "2022-02-17",
+      "mentions": 27
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Methamphetamine",
+      "date": "2022-01-28",
+      "mentions": 10
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Flualprazolam",
+      "date": "2022-01-20",
+      "mentions": 4
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Lidocaine",
+      "date": "2021-12-09",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Tiletamine",
+      "date": "2021-12-09",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Bromazolam",
+      "date": "2021-12-09",
+      "mentions": 31
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Dimethylsulphone",
+      "date": "2021-12-09",
+      "mentions": 27
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Deschloroetizolam",
+      "date": "2021-12-02",
+      "mentions": 5
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Protonitazene",
+      "date": "2021-12-02",
+      "mentions": 9
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Etizolam",
+      "date": "2021-12-02",
+      "mentions": 10
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Metonitazene",
+      "date": "2021-11-26",
+      "mentions": 4
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Diphenhydramine",
+      "date": "2021-11-26",
+      "mentions": 10
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Bromofentanyl",
+      "date": "2021-11-22",
+      "mentions": 11
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Carfentanil",
+      "date": "2021-11-22",
+      "mentions": 5
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Xylazine",
+      "date": "2021-11-22",
+      "mentions": 17
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-pyrrolidino etonitazene",
+      "date": "2021-11-16",
+      "mentions": 4
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Flubromazepam",
+      "date": "2021-11-09",
+      "mentions": 11
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Cocaine",
+      "date": "2021-11-09",
+      "mentions": 9
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Clonazolam",
+      "date": "2021-11-08",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Acetaminophen",
+      "date": "2021-11-08",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Etodesnitazene",
+      "date": "2021-10-29",
+      "mentions": 3
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Fentanyl",
+      "date": "2021-10-29",
+      "mentions": 84
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Adinazolam",
+      "date": "2021-10-12",
+      "mentions": 7
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Ibuprofen",
+      "date": "2021-10-12",
+      "mentions": 2
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Caffeine",
+      "date": "2021-10-12",
+      "mentions": 99
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "W-19",
+      "date": "2021-10-05",
+      "mentions": 1
+    }
+  ],
+  "alerts": [
+    {
+      "kind": "alert",
+      "source": "cfsre",
+      "title": "Emerging Synthetic Opioid Threats: Carfentanil in Counterfeit Tablets and Powders in the United States",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts/emerging-synthetic-opioid-threats-carfentanil-in-counterfeit-tablets-and-powders-in-the-united-states",
+      "date": "2026-04-23"
+    },
+    {
+      "kind": "alert",
+      "source": "cfsre",
+      "title": "Synthetic Cannabinoid Detections Surge Among Fatal Overdoses of Inmates in Jails & Correctional Facilities",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts/synthetic-cannabinoid-detections-surge-among-fatal-overdoses-of-inmates-in-jails-correctional-facilities",
+      "date": "2026-03-25"
+    },
+    {
+      "kind": "alert",
+      "source": "cfsre",
+      "title": "Emerging Global Synthetic Opioid Threats: Benzimidazol-2-ones – The Orphines",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts/emerging-global-synthetic-opioid-threats-benzimidazol-2-ones-the-orphines",
+      "date": "2026-01-30"
+    },
+    {
+      "kind": "alert",
+      "source": "cfsre",
+      "title": "Increase in Fatal Overdoses Linked to Novel Synthetic Opioid N-Propionitrile Chlorphine (Cychlorphine)",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts/increase-in-fatal-overdoses-linked-to-novel-synthetic-opioid-n-propionitrile-chlorphine-cychlorphine",
+      "date": "2026-01-30"
+    },
+    {
+      "kind": "alert",
+      "source": "cfsre",
+      "title": "Novel Benzodiazepine Phenazolam Increasing In Detections and Prevalence Among U.S. Recreational Drug Markets",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts/novel-benzodiazepine-phenazolam-increasing-in-detections-and-prevalence-among-u-s-recreational-drug-markets",
+      "date": "2025-12-19"
+    },
+    {
+      "kind": "alert",
+      "source": "cfsre",
+      "title": "New Synthetic Cathinone N-Isopropyl Butylone Exhibiting Increased Identifications In Forensic Samples in The U.S.",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts/new-synthetic-cathinone-n-isopropyl-butylone-exhibiting-increased-identifications-in-forensic-samples-in-the-u-s",
+      "date": "2025-11-28"
+    },
+    {
+      "kind": "alert",
+      "source": "cfsre",
+      "title": "An Update on the Presence of BTMPS in the Drug Supply and the Discovery of Tetramethylfentanyl-Related Substances",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts/an-update-on-the-presence-of-btmps-in-the-drug-supply-and-the-discovery-of-tetramethylfentanyl-related-substances",
+      "date": "2025-05-20"
+    },
+    {
+      "kind": "alert",
+      "source": "cfsre",
+      "title": "Emerging Global Synthetic Opioid Threat: Increasing Reports of Nitazene Toxicity",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts/emerging-global-synthetic-opioid-threat-increasing-reports-of-nitazene-toxicity",
+      "date": "2025-01-06"
+    },
+    {
+      "kind": "alert",
+      "source": "cfsre",
+      "title": "ortho-Methylfentanyl Proliferating Across North America As Newest Synthetic Opioid Identified in Fatal Drug Overdoses",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts/ortho-methylfentanyl-proliferating-across-north-america-as-newest-synthetic-opioid-identified-in-fatal-drug-overdoses",
+      "date": "2024-12-03"
+    },
+    {
+      "kind": "alert",
+      "source": "cfsre",
+      "title": "Colombo Plan Bulletin: Trends in Toxic Adulterants in Street Drugs in the United States",
+      "url": "https://www.cfsre.org/nps-discovery/public-alerts/colombo-plan-bulletin-trends-in-toxic-adulterants-in-street-drugs-in-the-united-states",
+      "date": "2024-08-08"
+    }
+  ]
+}

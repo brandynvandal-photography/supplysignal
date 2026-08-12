@@ -1,0 +1,103 @@
+name: refresh
+
+# The reference data - substances, combinations, reagents, early warning,
+# regional and mortality - is rebuilt from upstream sources. Until this
+# workflow existed, every one of those bundles only updated when someone ran
+# a script by hand, which meant the "hourly" app was quietly serving a
+# reference section frozen on whatever day it was last built.
+#
+# Weekly, not hourly, and deliberately: these sources move slowly (wiki edits,
+# quarterly forensic reports), and hammering a volunteer-run API for data that
+# changes monthly is rude. Alerts stay hourly in ingest.yml - that is the part
+# that is actually time-critical.
+
+on:
+  schedule:
+    - cron: '23 5 * * MON'   # Monday, off the hour
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+
+      # Each step continues on failure. One upstream being down must not stop
+      # the other five from updating - a partial refresh beats none, and the
+      # summary at the end says which ones fell through.
+      - name: Substances (PsychonautWiki + openFDA)
+        id: subs
+        continue-on-error: true
+        run: npm run build:substances
+
+      - name: Combination matrix (TripSit)
+        id: combos
+        continue-on-error: true
+        run: npm run build:combos
+
+      - name: Reagent reactions (PsychonautWiki)
+        id: reagents
+        continue-on-error: true
+        run: npm run build:reagents
+
+      - name: Early warning (Health Canada + CFSRE)
+        id: emerging
+        continue-on-error: true
+        run: npm run build:emerging
+
+      - name: Regional drug checking (UNC)
+        id: regional
+        continue-on-error: true
+        run: npm run build:regional
+
+      - name: Overdose mortality (CDC)
+        id: mortality
+        continue-on-error: true
+        run: npm run build:mortality
+
+      # THE GATE. Rebuilt data that fails the suite never reaches a reader:
+      # the taxonomy tests catch a substance falling out of a browse class, and
+      # the copy tests catch upstream text arriving in the wrong register.
+      - name: Test before publishing
+        run: npm test
+
+      - name: Commit
+        run: |
+          git config user.name  "supplysignal-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "reference data unchanged"
+          else
+            git commit -m "refresh: reference data $(date -u +%FT%TZ)"
+            git push
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Reference refresh"
+            echo ""
+            echo "| source | result |"
+            echo "|---|---|"
+            echo "| substances | ${{ steps.subs.outcome }} |"
+            echo "| combos | ${{ steps.combos.outcome }} |"
+            echo "| reagents | ${{ steps.reagents.outcome }} |"
+            echo "| emerging | ${{ steps.emerging.outcome }} |"
+            echo "| regional | ${{ steps.regional.outcome }} |"
+            echo "| mortality | ${{ steps.mortality.outcome }} |"
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,1824 @@
+/* Supply Check design system.
+   No external requests anywhere - no font CDN, no analytics, no icon service.
+   Someone checking this page may have real reasons not to want the lookup
+   logged by a third party, and a system font stack renders instantly on the
+   old cheap Android phones this has to work on. */
+
+/* ---------------------------------------------------------------- tokens */
+
+:root {
+  color-scheme: light dark;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Both palettes are declared ONCE here, then mapped onto the active tokens
+     below. The theme toggle used to be broken because the dark values lived
+     inside @media (prefers-color-scheme: dark): setting data-theme="light"
+     changed color-scheme and nothing else, so on a dark-mode OS the button
+     appeared to do nothing. Mapping instead of redeclaring also means the two
+     themes cannot drift apart. */
+
+  /* Light — warm, open, unhurried. Deliberately not clinical: someone opening
+     this may already feel watched or judged, and a cold emergency-dashboard
+     blue is the wrong first impression. */
+  --l-bg: #faf6f0;        --l-surface: #ffffff;   --l-surface-2: #f3ede4;
+  --l-ink: #2b2620;       --l-ink-2: #5e564c;     --l-ink-3: #766d62;
+  --l-line: #ece4d8;      --l-line-2: #ddd2c2;    --l-edge: #8d8377;
+  --l-brand: #2d6a5f;     --l-brand-ink: #ffffff; --l-brand-soft: #e3efea;
+  --l-brand-hover: #235448;
+  --l-critical: #b3301c;  --l-critical-soft: #fbeae5;
+  --l-elevated: #8a5410;  --l-elevated-soft: #fbf0df;
+  --l-ok: #2a6b45;        --l-ok-soft: #e6f2ea;
+  --l-shadow: 0 1px 2px rgba(70,55,40,.04), 0 6px 24px rgba(70,55,40,.06);
+  --l-shadow-lg: 0 12px 40px rgba(70,55,40,.14);
+
+  /* Dark — warm charcoal, not blue-black. Lamplight rather than a control
+     room; this gets opened at 3am more than at noon. */
+  --d-bg: #17150f;        --d-surface: #211e18;   --d-surface-2: #2b2720;
+  --d-ink: #f2ece2;       --d-ink-2: #c0b6a8;     --d-ink-3: #948a7e;
+  --d-line: #39332b;      --d-line-2: #4a4238;    --d-edge: #6f6558;
+  --d-brand: #7fcbb8;     --d-brand-ink: #12271f; --d-brand-soft: #1b322c;
+  --d-brand-hover: #9adbc9;
+  --d-critical: #ff8a72;  --d-critical-soft: #33201b;
+  --d-elevated: #f2b063;  --d-elevated-soft: #312516;
+  --d-ok: #74c994;        --d-ok-soft: #152a1e;
+  --d-shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.28);
+  --d-shadow-lg: 0 12px 40px rgba(0,0,0,.45);
+
+  /* Active tokens. Light is the default. Severity keeps full contrast in both
+     themes - a calm interface must never make a warning easier to miss.
+     Every pair is verified at WCAG AA or better - and this comment was once
+     false: --l-ink-3 shipped at #8a8076, which computes to 3.59:1 on the page
+     background, under the 4.5:1 floor for the 13-15px text it carries (the
+     Never Use Alone description, "not a recommendation" on dose ranges, strip
+     cross-reactivity notes). It is now #766d62 at 4.72:1. Re-measure after
+     touching any of these; do not re-assert it. */
+  --bg: var(--l-bg);                 --surface: var(--l-surface);
+  --surface-2: var(--l-surface-2);   --ink: var(--l-ink);
+  --ink-2: var(--l-ink-2);           --ink-3: var(--l-ink-3);
+  --line: var(--l-line);             --line-2: var(--l-line-2);
+  --edge: var(--l-edge);
+  --brand: var(--l-brand);           --brand-ink: var(--l-brand-ink);
+  --brand-soft: var(--l-brand-soft); --brand-hover: var(--l-brand-hover);
+  --critical: var(--l-critical);     --critical-soft: var(--l-critical-soft);
+  --elevated: var(--l-elevated);     --elevated-soft: var(--l-elevated-soft);
+  --advisory: var(--l-brand);        --advisory-soft: var(--l-brand-soft);
+  --ok: var(--l-ok);                 --ok-soft: var(--l-ok-soft);
+  --shadow: var(--l-shadow);         --shadow-lg: var(--l-shadow-lg);
+
+  /* Translucency. Transparency is what this app promises its readers, so it
+     is also how it looks: surfaces sit lightly over the page rather than
+     boxing content in. Alpha is kept high enough that every text pair still
+     clears WCAG AA once composited over the page background - verified, not
+     assumed. Backdrop blur is reserved for the two elements content actually
+     scrolls beneath; blurring every chip would cost far more than it shows on
+     the cheap phones this has to run on. */
+  --glass: color-mix(in srgb, var(--surface) 55%, transparent);
+  --glass-strong: color-mix(in srgb, var(--surface) 78%, transparent);
+  --glass-line: color-mix(in srgb, var(--line-2) 45%, transparent);
+
+  /* --edge is for the boundary of anything TAPPABLE; --glass-line is for
+     decorative containers.
+     The distinction is WCAG 1.4.11: a control has to be identifiable, and a
+     translucent card measured 1.06:1 fill and 1.27:1 border against the page -
+     meaning nothing on screen told a low-vision reader where the tap target
+     was. --edge is the lightest colour that still clears 3:1 (measured 3.20
+     dark, 3.46 light), so tappable rows are findable while every static
+     surface keeps the airy feel. */
+
+  --radius: 18px;
+  --radius-sm: 13px;
+  --radius-pill: 999px;
+
+  --tap: 44px;              /* WCAG 2.5.5 minimum target */
+  --wrap: 820px;
+  --nav-h: 64px;
+
+  /* Spacing scale. Generous on purpose - the room between things is most of
+     what makes an interface feel calm rather than crowded. */
+  --sp-1: 6px;  --sp-2: 12px;  --sp-3: 20px;  --sp-4: 32px;  --sp-5: 48px;
+
+  /* Motion vocabulary.
+     One easing curve for everything, and it is deliberately NOT a snappy
+     material curve: no overshoot, no bounce, a long tail so things come to
+     rest rather than arriving. That is the difference between "modern app"
+     and "floating" - the same distance travelled, decelerating for longer.
+
+     Durations are split by purpose, because the calm has to be free:
+       --t-tap    feedback under a finger. Must stay fast or the app feels
+                  broken; 120ms is below the threshold where people perceive
+                  lag.
+       --t-ease   surfaces opening and settling.
+       --t-drift  ambient only. Nothing a reader waits on ever uses this. */
+  --ease-float: cubic-bezier(.22, .61, .36, 1);
+  --t-tap: .12s;
+  --t-ease: .34s;
+  --t-drift: 1.1s;
+}
+
+/* One dark mapping, applied by OS preference or by explicit choice. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]),
+  :root[data-theme="dark"] { --theme-dark: 1; }
+}
+:root[data-theme="dark"] { color-scheme: dark; }
+:root[data-theme="light"] { color-scheme: light; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: var(--d-bg);                 --surface: var(--d-surface);
+    --surface-2: var(--d-surface-2);   --ink: var(--d-ink);
+    --ink-2: var(--d-ink-2);           --ink-3: var(--d-ink-3);
+    --line: var(--d-line);             --line-2: var(--d-line-2);
+    --edge: var(--d-edge);
+    --brand: var(--d-brand);           --brand-ink: var(--d-brand-ink);
+    --brand-soft: var(--d-brand-soft); --brand-hover: var(--d-brand-hover);
+    --critical: var(--d-critical);     --critical-soft: var(--d-critical-soft);
+    --elevated: var(--d-elevated);     --elevated-soft: var(--d-elevated-soft);
+    --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
+    --ok: var(--d-ok);                 --ok-soft: var(--d-ok-soft);
+    --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
+    --glass: color-mix(in srgb, var(--surface) 62%, transparent);
+    --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: var(--d-bg);                 --surface: var(--d-surface);
+  --surface-2: var(--d-surface-2);   --ink: var(--d-ink);
+  --ink-2: var(--d-ink-2);           --ink-3: var(--d-ink-3);
+  --line: var(--d-line);             --line-2: var(--d-line-2);
+  --edge: var(--d-edge);
+  --brand: var(--d-brand);           --brand-ink: var(--d-brand-ink);
+  --brand-soft: var(--d-brand-soft); --brand-hover: var(--d-brand-hover);
+  --critical: var(--d-critical);     --critical-soft: var(--d-critical-soft);
+  --elevated: var(--d-elevated);     --elevated-soft: var(--d-elevated-soft);
+  --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
+  --ok: var(--d-ok);                 --ok-soft: var(--d-ok-soft);
+  --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
+  --glass: color-mix(in srgb, var(--surface) 62%, transparent);
+  --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
+}
+
+/* ------------------------------------------------------------- baseline */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  /* Reads as an app rather than a web page on a phone: no grey tap flash, no
+     rubber-band chaining to the page behind, no accidental text selection when
+     someone is just trying to scroll or tap a tab. */
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: contain;
+  background-image:
+    radial-gradient(120% 70% at 50% -10%,
+      color-mix(in srgb, var(--brand) 7%, transparent) 0%, transparent 60%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  /* rem, not px, so the OS / browser text-size setting actually applies.
+     A hardcoded 17px silently overrode anyone who had enlarged their type -
+     which is a real accessibility failure dressed up as a design decision. */
+  font-size: 1.0625rem;         /* 17px at default, scales with the user */
+  line-height: 1.65;            /* open leading; text should not feel packed */
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+h1, h2, h3, h4 { line-height: 1.25; margin: 0; font-weight: 650; letter-spacing: -.015em; }
+h1 { font-size: 1.85rem; margin-bottom: .2em; }
+h2 { font-size: 1.32rem; }
+h3 { font-size: 1.08rem; }
+p { margin: 0 0 .8em; max-width: 68ch; }   /* comfortable measure */
+p:last-child { margin-bottom: 0; }
+a { color: var(--brand); }
+
+:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip {
+  position: absolute; left: 8px; top: -60px; z-index: 100;
+  background: var(--brand); color: var(--brand-ink);
+  padding: 12px 18px; border-radius: var(--radius-sm); font-weight: 600;
+  transition: top .15s;
+}
+.skip:focus { top: 8px; }
+
+.wrap {
+  width: 100%; max-width: var(--wrap); margin: 0 auto;
+  /* Horizontal ONLY, set per-side. A `padding` shorthand here also zeroed top
+     and bottom, and because `.wrap` is a class it outranked the `main` element
+     rule that supplies the vertical rhythm - so every page sat flush against
+     the header. Respects the notch on both platforms. */
+  padding-left: max(var(--sp-3), env(safe-area-inset-left));
+  padding-right: max(var(--sp-3), env(safe-area-inset-right));
+}
+
+/* Chrome is not selectable; content is. Long-pressing a tab should not pop a
+   selection handle. */
+.nav, .topbar, .chip, .btn, .iconbtn { -webkit-user-select: none; user-select: none; }
+
+/* --------------------------------------------------------------- header */
+
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  background: transparent;
+  border-bottom: 1px solid var(--glass-line);
+}
+
+/* The frosted layer is a pseudo-element, NOT the bar itself.
+   backdrop-filter creates a containing block for fixed-position descendants,
+   and the nav lives inside this header for the desktop layout - putting the
+   filter on .topbar re-anchored the mobile bottom nav to the header and threw
+   it to the top of the screen. Filtering a child cannot capture siblings. */
+.topbar::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+}
+.topbar .wrap { display: flex; align-items: center; gap: 14px; min-height: 66px; }
+
+.brand {
+  display: flex; align-items: center; gap: 9px;
+  background: none; border: 0; padding: 8px 4px; margin-left: -4px; min-height: var(--tap);
+  cursor: pointer; color: inherit; font: inherit;
+}
+/* The mark: a ripple beacon. The core dot is the original identity; the two
+   rings are a signal spreading quietly outward - listening for what is moving
+   through an area, never sounding an alarm. Drawn inline (no icon service),
+   colored by currentColor so it takes --brand in both themes.
+
+   The rings breathe outward on a 7s cycle - calm-breathing pace, deliberately
+   slower than any notification pulse, because breath is what this app exists
+   to protect. Frozen (reduced motion, print, screenshot) it is still a
+   complete logo: rings simply hold at their resting opacity. */
+.brand__logo { flex: none; color: var(--brand); display: block; }
+.brand__ring--outer { opacity: .35; }
+.brand__ring--inner { opacity: .6; }
+.brand__ring, .brand__core { transform-origin: 16px 16px; }
+@media (prefers-reduced-motion: no-preference) {
+  .brand__core { animation: corebreathe 7s ease-in-out infinite; }
+  .brand__ring--inner { animation: ripple 7s ease-in-out infinite; }
+  .brand__ring--outer { animation: ripple 7s ease-in-out 1.1s infinite; }
+  @keyframes corebreathe {
+    0%, 100% { transform: scale(.94); }
+    50%      { transform: scale(1.08); }
+  }
+  @keyframes ripple {
+    0%, 100% { transform: scale(.88); opacity: .18; }
+    45%      { transform: scale(1);   opacity: .7; }
+  }
+}
+/* nowrap: at in-between widths the flex row squeezed the name and "Supply"
+   stacked on top of "Check". A wordmark never wraps - the row must yield
+   instead. min-width:0 on nothing here; the nav is what compresses. */
+/* Capped like the tab bar, and for the same reason. The wordmark is chrome:
+   at 200% Dynamic Type it grew until the HEADER overflowed, which expanded the
+   document, which widened the fixed bottom bar and pushed Emergency off screen.
+   Chrome that scales without limit takes the whole layout with it. */
+.brand__name {
+  font-weight: 700; font-size: 1.16rem; letter-spacing: -.02em; white-space: nowrap;
+}
+/* Only where space is genuinely scarce. On a desktop window there is room for
+   the whole wordmark and clipping it just looks broken. */
+@media (max-width: 879px) {
+  .brand__name {
+    font-size: min(1.16rem, 21px);
+    overflow: hidden; text-overflow: ellipsis; min-width: 0;
+  }
+  .topbar .wrap { min-width: 0; }
+  .brand { min-width: 0; }
+}
+
+.topbar__spacer { margin-left: auto; }
+
+.iconbtn {
+  min-width: var(--tap); min-height: var(--tap);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid transparent; border-radius: var(--radius-sm);
+  color: var(--ink-2); cursor: pointer; font-size: 1.15rem;
+}
+.iconbtn:hover { background: var(--surface-2); color: var(--ink); }
+
+.langpick {
+  font: inherit; font-size: .86rem; font-weight: 600;
+  min-height: var(--tap); padding: 0 8px; cursor: pointer;
+  color: var(--ink-2); background: var(--surface);
+  border: 1px solid var(--line-2); border-radius: var(--radius-sm);
+  max-width: 9.5rem;
+}
+.langpick:hover { color: var(--ink); border-color: var(--brand); }
+
+/* ----------------------------------------------------------------- nav */
+
+.nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 45;
+  display: flex;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  border-top: 1px solid var(--glass-line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav a {
+  flex: 1; min-height: var(--nav-h);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; padding: 10px 4px; text-decoration: none; color: var(--ink-3);
+  font-size: .74rem; font-weight: 600; letter-spacing: .005em;
+  position: relative;
+}
+.nav a .ico {
+  font-size: 1.15rem; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 26px; border-radius: var(--radius-pill);
+  transition: background .2s ease, color .2s ease;
+}
+/* The active tab gets a soft lozenge behind the icon rather than a hard
+   color flip - it reads as a resting place instead of a selection. */
+.nav a[aria-current="page"] { color: var(--brand); }
+.nav a[aria-current="page"] .ico {
+  background: color-mix(in srgb, var(--brand) 15%, transparent);
+}
+
+main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)); }
+
+/* 880, not 720. The header row holds the wordmark (which never wraps), five
+   tabs, and two icon buttons; after Help became Emergency it overflowed
+   sideways between 720 and ~860. Tablets keep the bottom bar - which is
+   where thumbs are on a tablet anyway. */
+@media (min-width: 880px) {
+  .nav {
+    position: static; border-top: 0; background: none;
+    padding: 0; margin-left: auto; width: auto;
+  }
+  .nav { gap: 4px; }
+  .nav a {
+    flex: none; flex-direction: row; gap: 9px; min-height: var(--tap);
+    padding: 0 var(--sp-2); border-radius: var(--radius-pill); font-size: .93rem;
+  }
+  .nav a:hover { background: var(--glass-strong); color: var(--ink); }
+  .nav a[aria-current="page"] { background: var(--brand-soft); color: var(--brand); }
+  .nav a .ico { font-size: 1.02rem; width: auto; height: auto; background: none; }
+  .nav a[aria-current="page"] .ico { background: none; }
+  main { padding-bottom: var(--sp-5); }
+  .topbar__spacer { display: none; }
+}
+
+/* -------------------------------------------------------------- search */
+
+.search { position: relative; margin-bottom: 18px; }
+.search__row { display: flex; gap: 8px; }
+
+.input {
+  flex: 1; min-width: 0; font: inherit; font-size: 1rem;
+  padding: 14px var(--sp-3); color: var(--ink);
+  background: var(--glass-strong); border: 1px solid var(--glass-line);
+  border-radius: var(--radius); min-height: var(--tap);
+}
+.input::placeholder { color: var(--ink-3); }
+.input:focus-visible { border-color: var(--brand); outline-offset: 0; }
+
+.listbox {
+  position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 6px);
+  background: var(--surface); border: 1px solid var(--line-2);
+  border-radius: var(--radius); box-shadow: var(--shadow-lg);
+  max-height: min(58vh, 380px); overflow-y: auto; padding: 5px;
+}
+.listbox:empty { display: none; }
+.listbox button {
+  display: flex; align-items: center; gap: 9px; width: 100%; text-align: left;
+  background: none; border: 0; cursor: pointer; font: inherit; color: var(--ink);
+  padding: 13px var(--sp-2); border-radius: var(--radius-sm); min-height: var(--tap);
+}
+.listbox button:hover,
+.listbox button[aria-selected="true"] { background: var(--brand-soft); }
+.listbox .st { color: var(--ink-3); font-size: .88rem; }
+.listbox .cnt {
+  margin-left: auto; font-size: .76rem; font-weight: 700;
+  padding: 2px 9px; border-radius: var(--radius-pill);
+  background: var(--critical-soft); color: var(--critical); white-space: nowrap;
+}
+
+/* --------------------------------------------------------------- chips */
+
+.chips { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.chip {
+  font: inherit; font-size: .87rem; font-weight: 600;
+  padding: 8px 14px; min-height: var(--tap);
+  border-radius: var(--radius-pill); cursor: pointer;
+  border: 1px solid var(--glass-line); background: var(--glass); color: var(--ink-2);
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: background .18s, border-color .18s, color .18s;
+}
+.chip:hover {
+  border-color: color-mix(in srgb, var(--brand) 45%, transparent);
+  background: var(--glass-strong); color: var(--brand);
+}
+.chip[aria-pressed="true"], .chip[aria-current="true"] {
+  background: var(--brand); border-color: var(--brand); color: var(--brand-ink);
+}
+
+/* The List/Map switch is a mode control, not part of the heading block, so it
+   gets real separation from the title beneath it. */
+.viewtoggle { margin-bottom: var(--sp-4); }
+
+/* ------------------------------------------------------- microinteractions
+   Small, physical feedback on touch. Every transition here is switched off by
+   the prefers-reduced-motion rule above, so this is additive comfort and never
+   a requirement for understanding state. */
+
+.btn, .chip, .nbr, .iconbtn, .listbox button, .hotline a {
+  transition: transform .12s ease, background-color .18s ease,
+              border-color .18s ease, box-shadow .18s ease, color .18s ease;
+}
+/* Press: a small, immediate give. Reads as a physical control rather than a
+   link, which is most of what makes a web app feel native. */
+.btn:active, .chip:active, .iconbtn:active { transform: scale(.96); }
+.nbr:active, .listbox button:active, .hotline a:active { transform: scale(.985); }
+
+.nbr:hover, .hotline a:hover { box-shadow: var(--shadow); }
+
+/* Disclosures open with a soft fade rather than a jump. */
+@media (prefers-reduced-motion: no-preference) {
+  details.disc[open] > .disc__body,
+  details.acc[open] > .acc__body { animation: settle .22s ease both; }
+  @keyframes settle {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: none; }
+  }
+}
+
+/* --------------------------------------------------------------- button */
+
+.btn {
+  font: inherit; font-weight: 650; font-size: .95rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: var(--tap); padding: 0 18px; cursor: pointer;
+  border-radius: var(--radius); border: 1.5px solid transparent;
+  background: var(--brand); color: var(--brand-ink); text-decoration: none;
+}
+.btn:hover:not(:disabled) { background: var(--brand-hover); }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn--ghost { background: var(--surface); border-color: var(--line-2); color: var(--ink); }
+.btn--ghost:hover:not(:disabled) { background: var(--surface-2); border-color: var(--brand); }
+/* var(--tap), not 38px. These are the jump-nav chips on the emergency page,
+   the time-window switch, and "free naloxone by mail" - exactly what a shaking
+   hand reaches for. Lightness comes from padding and weight, never from making
+   the target smaller than the brief's own 44px floor. */
+.btn--sm { min-height: var(--tap); padding: 0 13px; font-size: .87rem; }
+.btn--block { width: 100%; }
+
+/* ---------------------------------------------------------------- card */
+
+.card {
+  background: var(--glass-strong); border: 1px solid var(--glass-line);
+  border-radius: var(--radius);
+  /* Layered soft depth. Deliberately NOT full neomorphism: that style relies
+     on low-contrast embossing and cannot meet WCAG, so we take the softness
+     and keep the contrast. */
+  box-shadow: var(--shadow), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+  padding: var(--sp-3) var(--sp-4); margin-bottom: 14px;
+}
+/* Severity reads as a soft edge rather than a warning stripe. The badge and
+   its word still carry the signal at full contrast. */
+.card--critical { border-left: 4px solid var(--critical); }
+.card--elevated { border-left: 4px solid var(--elevated); }
+.card--advisory { border-left: 4px solid var(--advisory); }
+
+.card__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 9px; }
+.card h3 { margin: 0 0 7px; font-size: 1.1rem; }
+.card__meta { color: var(--ink-3); font-size: .84rem; }
+
+/* Severity is never signalled by color alone - each badge carries a shape
+   glyph and the word itself, so it survives greyscale and color blindness. */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: .78rem; font-weight: 700; letter-spacing: .01em;
+  padding: 5px 11px; border-radius: var(--radius-pill); white-space: nowrap;
+}
+/* Severity keeps the uppercase treatment. Everything else reads as normal
+   language - the shouty styling was most of what made this feel like a
+   readout instead of a page written for a person. */
+.badge--critical, .badge--elevated {
+  text-transform: uppercase; letter-spacing: .05em; font-size: .72rem; font-weight: 800;
+}
+.badge--critical { background: var(--critical-soft); color: var(--critical); }
+.badge--elevated { background: var(--elevated-soft); color: var(--elevated); }
+.badge--advisory { background: var(--advisory-soft); color: var(--advisory); }
+.badge--ok       { background: var(--ok-soft); color: var(--ok); }
+.badge--neutral  { background: var(--surface-2); color: var(--ink-2); }
+
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.tag {
+  font-size: .78rem; font-weight: 650; padding: 4px 10px;
+  border-radius: var(--radius-pill); background: var(--surface-2); color: var(--ink-2);
+}
+
+.sources { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 12px;
+           padding-top: 11px; border-top: 1px solid var(--line); }
+/* Citation links are the most-tapped small target in the app - they are how
+   somebody checks whether a claim is real - and they were 22px tall. WCAG
+   2.5.8's inline exception does not apply: these sit in a flex row of their
+   own, not inside a sentence. Padded to a 44px target while the text stays
+   the same size, so nothing about the layout shouts. */
+.sources a {
+  font-size: .85rem; color: var(--brand); text-decoration: none; font-weight: 600;
+  display: inline-flex; align-items: center; min-height: var(--tap);
+  padding: 4px 2px;
+}
+.sources a:hover { text-decoration: underline; }
+
+/* ------------------------------------------------------------- section */
+
+.sec { margin: var(--sp-5) 0 var(--sp-2); }
+.sec__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin-bottom: 4px; }
+.sec__head h2 { margin: 0; }
+.sec__note { color: var(--ink-3); font-size: .88rem; }
+
+.county-head { margin-bottom: var(--sp-2); }
+.county-head h1 { margin-bottom: 4px; }
+.county-head .mono {
+  font-size: .86rem; color: var(--ink-3); letter-spacing: 0;
+}
+
+/* ------------------------------------------------------------- kind line */
+
+/* Quiet on purpose. It sits below everything, carries no action, and must
+   never compete with a warning for attention. */
+/* At the top of the page now, so it is deliberately quieter than it was as a
+   footer note: one line, small, and it must never push the content someone
+   came for below the fold. */
+#kindbar { margin: 0 0 var(--sp-3); }
+#kindbar.is-hidden { display: none; }
+
+/* Cross-fade, never a scroll. Nothing travels across the screen - movement in
+   the periphery is what draws a bystander's eye, and this app is used where
+   someone else may be in the room.
+   The bar reserves its own height so a longer line arriving does not shove the
+   page content down mid-read. */
+/* Reserve the height of the LONGEST line, not the current one. A short line
+   following a wrapped one would otherwise let the whole page jump up mid-read
+   - measured 62px vs 39px at 375px. Short lines simply centre in the space.
+   The wrap is wide enough on desktop that nothing wraps, so the reservation
+   drops back down there. */
+#kindbar > div {
+  min-height: 62px;
+  display: flex; align-items: center; justify-content: center;
+}
+@media (min-width: 600px) { #kindbar > div { min-height: 42px; } }
+#kindbar .kind { transition: opacity .6s ease; }
+#kindbar .kind--out { opacity: 0; }
+#kindbar .kind--in { opacity: 0; transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* The JS already declines to cycle; this makes the intent unmissable if the
+     two ever drift apart. */
+  #kindbar .kind { transition: none; }
+}
+#kindbar .kind {
+  margin: 0 auto;
+  padding: 7px var(--sp-3);
+  font-size: .92rem;
+}
+
+.kind {
+  /* A bubble now, not a footnote - made deliberately more visible at the
+     user's request. Still the quietest voice on any page BY COLOR: it gets
+     size and a soft brand-tinted surface, never a severity hue, so a warning
+     above it always wins the eye first.
+     max-width:none overrides the global 68ch measure on <p>; width is set
+     here and centering by margin auto (the 68ch version sat 64px off-center
+     against every other block). */
+  max-width: none;
+  width: fit-content;
+  margin: var(--sp-5) auto 0;
+  /* Sized like a spoken aside, not an announcement - the bubble shape does
+     the work of making it feel addressed to you; it does not also need bulk.
+     (First bubble version was 1.12rem with sp-3/sp-4 padding: too big.) */
+  padding: 10px var(--sp-3);
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--brand) 12%, var(--surface)) 0%,
+    color-mix(in srgb, var(--brand) 4%, var(--surface)) 100%);
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  font-size: .98rem;
+  line-height: 1.5;
+  text-align: center;
+  text-wrap: balance;
+}
+/* Emoji ignore `color`, so they are toned down with opacity instead - they
+   should read as a soft frame, not as a warning glyph. */
+.kind__deco {
+  opacity: .8;
+  font-size: 1.05em;
+  padding: 0 .45em;
+}
+
+/* ------------------------------------------------------- first detections */
+
+/* A name and a date, nothing that could be read as a rate. */
+.firstdet {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
+  padding: 14px 2px; border-bottom: 1px solid var(--glass-line);
+}
+.firstdet:last-child { border-bottom: 0; }
+.firstdet__name { font-weight: 600; }
+.firstdet__when { color: var(--ink-2); font-size: .88rem; }
+
+/* ------------------------------------------------------ substance classes */
+
+/* auto-fit rather than a fixed column count, so this is one rule for phone,
+   tablet and desktop instead of three breakpoints that drift apart. */
+.classgrid {
+  display: grid; gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+}
+.classcard {
+  display: flex; flex-direction: column; gap: 3px;
+  background: var(--glass); border: 1px solid var(--edge);
+  border-radius: var(--radius); padding: var(--sp-3) var(--sp-3);
+  min-height: var(--tap); cursor: pointer;
+  font: inherit; color: inherit; text-align: left;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+.classcard:hover { background: var(--glass-strong); border-color: var(--line-2); }
+.classcard:active { transform: scale(.985); }
+/* No severity colour anywhere here. These are subject areas, not a ranking of
+   danger, and tinting them would read as one. */
+.classcard__label { font-weight: 650; font-size: 1.02rem; }
+.classcard__hint { color: var(--ink-2); font-size: .88rem; line-height: 1.45; }
+.classcard__n { color: var(--ink-3); font-size: .8rem; margin-top: 2px; }
+
+.backlink {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: 0; padding: 8px 0; margin-bottom: var(--sp-1);
+  min-height: var(--tap);
+  /* --brand, NOT --brand-ink. `--brand-ink` is the colour for text sitting ON
+     a brand-filled surface (white on sage, near-black on mint); used against
+     the page it measured 1.16:1 in dark mode - invisible. */
+  font: inherit; font-size: .92rem; color: var(--brand); cursor: pointer;
+}
+.backlink:hover { text-decoration: underline; }
+
+/* ------------------------------------------------ new since last visit */
+
+/* The deliberate non-ticker. Static, local, and no louder than a sentence.
+   It marks recency, it is not a warning - severity styling stays reserved for
+   the cards themselves, so this must never out-shout one. */
+.fresh {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--glass); border: 1px solid var(--glass-line);
+  border-radius: var(--radius); padding: var(--sp-3);
+  margin: var(--sp-3) 0 var(--sp-2);
+}
+.fresh p { margin: 0; font-size: .95rem; }
+.fresh strong { color: var(--ink); font-weight: 600; }
+/* Decorative only. The sentence carries the whole meaning, so this survives
+   greyscale, color blindness, and a screen reader by not mattering. */
+.fresh__dot {
+  flex: none; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--brand); margin-top: .52em;
+}
+.fresh__where { color: var(--ink-2); }
+
+/* ------------------------------------------------------- neighbor list */
+
+.nbr {
+  display: flex; align-items: center; gap: 11px; width: 100%;
+  background: var(--glass); border: 1px solid var(--edge);
+  border-radius: var(--radius); padding: 16px var(--sp-3); margin-bottom: 8px;
+  cursor: pointer; font: inherit; color: inherit; text-align: left;
+  min-height: var(--tap);
+}
+.nbr:hover { border-color: var(--brand); background: var(--surface-2); }
+.nbr__name { font-weight: 650; }
+.nbr__dist { color: var(--ink-3); font-size: .84rem; }
+.nbr__right { margin-left: auto; display: flex; align-items: center; gap: 9px; }
+
+/* ---------------------------------------------------------- callout box */
+
+.callout {
+  border-radius: var(--radius); padding: var(--sp-3) var(--sp-4); margin: 0 0 14px;
+  border: 1px solid var(--line); background: var(--surface-2);
+}
+.callout--warn { background: var(--elevated-soft); border-color: color-mix(in srgb, var(--elevated) 30%, transparent); }
+.callout--stop { background: var(--critical-soft); border-color: color-mix(in srgb, var(--critical) 30%, transparent); }
+.callout--info { background: var(--brand-soft); border-color: color-mix(in srgb, var(--brand) 28%, transparent); }
+.callout h3 { margin: 0 0 6px; font-size: 1rem; }
+.callout p { font-size: .95rem; }
+.callout__hd { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.callout__hd h3 { margin: 0; }
+
+/* ----------------------------------------------------------- empty/skel */
+
+.empty {
+  background: var(--surface); border: 1px dashed var(--line-2);
+  border-radius: var(--radius); padding: 22px; color: var(--ink-2);
+}
+.empty h3 { color: var(--ink); margin-bottom: 8px; }
+.empty p { font-size: .95rem; }
+
+.skel { display: grid; gap: 12px; }
+.skel__row {
+  height: 92px; border-radius: var(--radius);
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 37%, var(--surface) 63%);
+  background-size: 400% 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .skel__row { animation: shimmer 1.4s ease infinite; }
+  @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+}
+
+.status { font-size: .9rem; color: var(--ink-2); margin: 10px 0 0; min-height: 1.4em; }
+.status--err { color: var(--critical); font-weight: 600; }
+
+/* ------------------------------------------------------------ accordion */
+
+details.acc {
+  background: var(--glass); border: 1px solid var(--glass-line);
+  border-radius: var(--radius); margin-bottom: 10px; overflow: hidden;
+}
+details.acc > summary {
+  cursor: pointer; padding: var(--sp-3) var(--sp-4); font-weight: 650; list-style: none;
+  display: flex; align-items: center; gap: 10px; min-height: var(--tap);
+}
+details.acc > summary::-webkit-details-marker { display: none; }
+details.acc > summary::after {
+  content: "\203A"; margin-left: auto; font-size: 1.4rem; color: var(--ink-3);
+  transform: rotate(90deg); transition: transform .18s;
+}
+details.acc[open] > summary::after { transform: rotate(-90deg); }
+details.acc > summary:hover { background: var(--surface-2); }
+.acc__body { padding: 0 var(--sp-4) var(--sp-4); }
+.acc__body > :first-child { margin-top: 0; }
+
+/* ---------------------------------------------------------------- steps */
+
+ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+ol.steps > li {
+  counter-increment: s; position: relative;
+  padding: 0 0 18px 46px; margin: 0;
+}
+ol.steps > li::before {
+  content: counter(s); position: absolute; left: 0; top: -1px;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--brand); color: var(--brand-ink);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: .92rem;
+}
+ol.steps > li::after {
+  content: ""; position: absolute; left: 14.5px; top: 34px; bottom: 4px;
+  width: 2px; background: var(--line);
+}
+ol.steps > li:last-child { padding-bottom: 0; }
+ol.steps > li:last-child::after { display: none; }
+ol.steps h4 { margin: 4px 0 5px; font-size: 1rem; }
+ol.steps p { font-size: .95rem; color: var(--ink-2); }
+
+/* ---------------------------------------------------------------- table */
+
+.tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch;
+             border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+table.data { border-collapse: collapse; width: 100%; font-size: .92rem; min-width: 520px; }
+table.data th, table.data td {
+  text-align: left; padding: 13px var(--sp-3); border-bottom: 1px solid var(--line); vertical-align: top;
+}
+table.data thead th {
+  position: sticky; top: 0; background: var(--surface-2);
+  font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-2);
+}
+table.data tbody tr:last-child td { border-bottom: 0; }
+table.data th[scope="row"] { font-weight: 650; }
+
+/* The swatch is decorative; the color name beside it carries the meaning. */
+.swatch {
+  display: inline-block; width: 15px; height: 15px; border-radius: 4px;
+  border: 1px solid var(--line-2); margin-right: 7px; vertical-align: -2px; flex: none;
+}
+.colorcell { display: flex; align-items: flex-start; }
+
+/* --------------------------------------------------------------- footer */
+
+.foot { border-top: 1px solid var(--line); background: var(--surface); margin-top: 34px; padding: 20px 0 26px; }
+.foot p { font-size: .8rem; color: var(--ink-3); line-height: 1.7; }
+.foot strong { color: var(--ink-2); }
+
+/* Emergency numbers must stay reachable on every screen. */
+.hotline { display: grid; gap: 8px; margin: 12px 0; }
+/* Wraps rather than overflows.
+   At 200% text (iOS Dynamic Type's upper range, and WCAG 1.4.4's requirement)
+   the label and the number could not both fit on one line, and because the
+   number is white-space:nowrap the row forced itself to 540px inside a 375px
+   screen - measured. The crisis-line list is the last thing in this app that
+   may break at large text: someone with low vision needs to reach these
+   numbers. The number now drops beneath the label instead. */
+.hotline a {
+  display: flex; align-items: center; gap: 12px; text-decoration: none;
+  flex-wrap: wrap;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 13px 15px; color: var(--ink);
+  min-height: var(--tap);
+}
+/* The label must be allowed to shrink, or flex refuses to wrap at all. */
+.hotline a > span:first-child { flex: 1 1 12ch; min-width: 0; }
+.hotline a:hover { border-color: var(--brand); background: var(--surface-2); }
+.hotline .num { margin-left: auto; font-weight: 750; color: var(--brand); white-space: nowrap; flex: none; }
+.hotline .lbl { font-weight: 650; }
+.hotline .sub { display: block; font-size: .83rem; color: var(--ink-3); font-weight: 400; }
+
+/* ------------------------------------------------------- content typography */
+
+.card ul, .acc__body ul, .callout ul { margin: 8px 0; padding-left: 22px; }
+.card li, .acc__body li, .callout li { margin-bottom: 6px; font-size: .95rem; }
+.card h3, .acc__body h3 { margin: 16px 0 7px; font-size: 1.02rem; }
+.card > h3:first-child, .acc__body > h3:first-child { margin-top: 0; }
+.acc__body h4 { margin: 18px 0 8px; font-size: .98rem; }
+.acc__body h5 { margin: 0 0 4px; font-size: .93rem; }
+
+.twocol { display: grid; gap: 18px; }
+@media (min-width: 620px) { .twocol { grid-template-columns: 1fr 1fr; gap: 26px; } }
+
+.cellnote { display: block; margin-top: 4px; font-size: .84rem; color: var(--ink-3); }
+
+ol.steps--tight > li { padding-bottom: 12px; }
+ol.steps--tight > li h4 { margin-top: 2px; }
+
+/* ------------------------------------------------------- strip result cards
+   "One line = positive" is inverted from every test strip most people have
+   used, and misreading it is the failure that kills someone. It gets the
+   largest, plainest treatment on the page - drawn, counted, and named. */
+
+.readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+@media (max-width: 520px) { .readout { grid-template-columns: 1fr; } }
+
+.readout__card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 16px 14px; text-align: center;
+}
+.readout__card--critical { border-color: var(--critical); border-width: 2px; }
+/* --ok variant retired: a green NEGATIVE was the one green light the Test
+   page swears it never gives. Negative renders neutral now. */
+
+.readout__lines {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; height: 42px; margin-bottom: 8px;
+}
+.readout__line { display: block; width: 46px; height: 7px; border-radius: 2px; background: var(--critical); }
+.readout__card--neutral .readout__line { background: var(--ink-3); }
+
+.readout__n { font-family: var(--font-mono); font-size: .82rem; color: var(--ink-3); }
+.readout__verdict { font-size: 1.12rem; font-weight: 800; letter-spacing: .02em; margin: 3px 0 2px; }
+.readout__verdict--critical { color: var(--critical); }
+
+.readout__verdict--neutral { color: var(--ink-2); }
+.readout__meaning { font-size: .87rem; color: var(--ink-2); }
+
+.readbar {
+  display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 10px 0 14px;
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  background: var(--surface-2); font-size: .9rem;
+}
+
+/* ------------------------------------------------------------------ limits */
+
+.limit {
+  border-left: 3px solid var(--line-2); padding: 2px 0 2px 13px; margin: 0 0 13px;
+}
+.limit--critical { border-left-color: var(--critical); }
+.limit h5 { font-weight: 700; }
+.limit--critical h5 { color: var(--critical); }
+.limit p { font-size: .93rem; margin-bottom: 5px; }
+.limit__nuance { color: var(--ink-3); font-size: .88rem !important; }
+
+details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--line)); }
+
+/* ----------------------------------------------------------- color swatches
+   These are literal reagent colors, not theme colors, so they are fixed in
+   both light and dark mode. They are decorative only - every swatch is paired
+   with the color written out in words. */
+
+.swatch--black  { background: #14181b; }
+.swatch--purple { background: #6b2d8f; }
+.swatch--blue   { background: #1d5fbf; }
+.swatch--green  { background: #2e8b45; }
+.swatch--olive  { background: #6b7028; }
+.swatch--orange { background: #e2711d; }
+.swatch--yellow { background: #edc531; }
+.swatch--red    { background: #c62b1f; }
+.swatch--brown  { background: #7a4a2b; }
+.swatch--pink   { background: #e58ba8; }
+.swatch--none   { background: repeating-linear-gradient(45deg, #d8dede 0 4px, #f2f5f5 4px 8px); }
+
+/* -------------------------------------------------------- combination check */
+
+.mixslots { display: grid; gap: 10px; margin-bottom: 12px; }
+.mixslot { display: flex; gap: 8px; align-items: end; }
+.mixslot label { display: block; flex: 1; min-width: 0; }
+.mixlabel { display: block; font-size: .86rem; font-weight: 650; color: var(--ink-2); margin-bottom: 6px; }
+.mixslot select { width: 100%; }
+.mixslot__x { flex: none; font-size: 1.3rem; line-height: 1; }
+.mixpairs__h { font-size: .95rem; margin: 18px 0 8px; color: var(--ink-2); }
+
+.tag--danger { background: var(--critical-soft); color: var(--critical); font-weight: 700; }
+
+.quote {
+  border-left: 3px solid var(--line-2); padding-left: 13px;
+  font-size: .9rem; color: var(--ink-2);
+}
+
+table.data caption {
+  text-align: left; padding: 10px 13px; font-weight: 650; font-size: .9rem;
+  color: var(--ink-2); border-bottom: 1px solid var(--line);
+}
+
+/* License condition for PsychonautWiki (CC BY-SA) and TripSit (link-back
+   plus source note). Styled quietly, but always present. */
+.foot-attr {
+  margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line);
+  font-size: .84rem; color: var(--ink-3);
+}
+.foot-attr h3 { font-size: .84rem; text-transform: uppercase; letter-spacing: .06em;
+                color: var(--ink-3); margin: 0 0 8px; }
+.foot-attr ul { margin: 0; padding-left: 18px; }
+.foot-attr li { margin-bottom: 5px; }
+.foot-attr a { color: var(--brand); }
+
+/* ------------------------------------------------------------- rate pills
+   Prevalence figures. The number and its wording carry the meaning; color
+   only reinforces it, so these still read correctly in greyscale. */
+
+.rate {
+  display: inline-block; font-weight: 750; font-size: .92rem;
+  padding: 2px 9px; border-radius: var(--radius-pill); white-space: nowrap;
+}
+.rate--high    { background: var(--critical-soft); color: var(--critical); }
+.rate--low     { background: var(--elevated-soft); color: var(--elevated); }
+.rate--verylow { background: var(--surface-2); color: var(--ink-2); }
+.rate--none    { background: var(--ok-soft); color: var(--ok); }
+
+/* ------------------------------------------------------------- disclosure */
+
+/* Floating bubbles, not stacked rows.
+   These were full-width sections divided by hairlines - which reads as a
+   squared-off list pinned to the page edges, and it was the one thing making
+   the content pages look unlike Alerts (which has no disclosures at all, so
+   everything on it floats). Each section is now its own rounded surface
+   sitting ON the page rather than ruled off from it. */
+details.disc {
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  overflow: hidden;                 /* clips the summary's hover fill to the radius */
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+}
+details.disc > summary {
+  cursor: pointer; list-style: none; padding: var(--sp-3) var(--sp-4);
+  display: flex; align-items: center; gap: 11px; min-height: var(--tap);
+}
+details.disc > summary:hover { background: var(--glass-strong); }
+details.disc > summary::-webkit-details-marker { display: none; }
+details.disc > summary h2 { margin: 0; font-size: 1.16rem; }
+details.disc > summary::after {
+  content: "+"; margin-left: auto; flex: none;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--surface-2); color: var(--ink-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.15rem; font-weight: 600; line-height: 1;
+}
+details.disc[open] > summary::after { content: "\2212"; background: var(--brand); color: var(--brand-ink); }
+details.disc > summary:hover h2 { color: var(--brand); }
+.disc__body { padding: var(--sp-1) var(--sp-4) var(--sp-4); }
+.disc__body > .sec:first-child { margin-top: 0; }
+
+/* A section kept open because it is needed in an emergency reads differently. */
+details.disc--urgent > summary h2 { color: var(--critical); }
+
+/* ---------------------------------------------------------------- jump nav */
+
+.jump {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
+  margin: 4px 0 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line);
+}
+.jump__label {
+  font-size: .78rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--ink-3);
+}
+
+/* ------------------------------------------------------------------ filter */
+
+.filter { margin: 0 0 16px; }
+.filter__row { display: flex; gap: 8px; align-items: center; }
+.filter__count { font-size: .86rem; color: var(--ink-3); margin-top: 8px; min-height: 1.3em; }
+tr[hidden], details[hidden] { display: none !important; }
+.nomatch { color: var(--ink-3); font-size: .92rem; padding: 10px 2px; }
+
+/* -------------------------------------------------------- step illustrations
+   The drawings use fixed ink colors so they read identically in both themes,
+   which means they need a light plate behind them in dark mode rather than
+   being inverted - inverting medical diagrams makes them harder to parse. */
+
+/* The illustrated-step rules lived here. Removed with the drawings on
+   2026-08-10; the steps are text only now. See .attic/od-illustrations. */
+
+/* ------------------------------------------------------------------- map */
+
+.map { margin-top: 16px; }
+.map__controls { margin-bottom: 8px; }
+.map__stage {
+  position: relative; width: 100%; margin: 12px 0 10px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface); overflow: hidden;
+}
+.map__canvas { display: block; width: 100%; touch-action: none; cursor: grab; }
+.map__canvas:active { cursor: grabbing; }
+
+.map__tip {
+  position: absolute; pointer-events: none; transform: translate(12px, -34px);
+  background: var(--ink); color: var(--bg);
+  padding: 6px 10px; border-radius: var(--radius-sm);
+  font-size: .84rem; font-weight: 600; white-space: nowrap; z-index: 5;
+  box-shadow: var(--shadow);
+}
+
+.map__legend { margin-bottom: 10px; }
+.map__scale { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.map__swatch { display: inline-flex; align-items: center; gap: 7px; font-size: .85rem; color: var(--ink-2); }
+.map__chip { width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--line-2); }
+.map__ramp { display: inline-flex; gap: 2px; }
+.map__ramp .map__chip { width: 22px; border-radius: 2px; }
+.map__ramp .map__chip:first-child { border-radius: 4px 2px 2px 4px; }
+.map__ramp .map__chip:last-child { border-radius: 2px 4px 4px 2px; }
+.map__note { font-size: .82rem; color: var(--ink-3); margin-top: 8px; }
+.map__help { font-size: .86rem; color: var(--ink-3); margin: 0 0 16px; }
+.map__toph { font-size: 1rem; margin: 18px 0 10px; }
+
+.linkbtn {
+  background: none; border: 0; padding: 0; font: inherit; color: var(--brand);
+  text-decoration: underline; cursor: pointer;
+}
+
+/* ------------------------------------------------------ regional fingerprints */
+
+.regrow { margin: 0 0 15px; }
+.regrow__head { display: flex; align-items: baseline; gap: 10px; }
+.regrow__name { font-weight: 650; font-size: .96rem; }
+.regrow__pct {
+  margin-left: auto; font-family: var(--font-mono); font-size: .85rem;
+  font-weight: 700; color: var(--brand);
+}
+.regbar {
+  height: 7px; border-radius: 4px; background: var(--surface-2);
+  margin: 6px 0 5px; overflow: hidden;
+}
+.regbar__fill { display: block; height: 100%; background: var(--brand); border-radius: 4px; }
+.regrow__desc { font-size: .88rem; color: var(--ink-2); margin: 0; }
+
+/* Windows high-contrast: keep structural borders visible. */
+@media (forced-colors: active) {
+  .card, .nbr, .callout, .empty, details.acc, .hotline a { border: 1px solid CanvasText; }
+  .badge { border: 1px solid CanvasText; }
+}
+
+/* ------------------------------------------------------------ lead-in copy */
+
+/* The plain-language "what is this" paragraph. Slightly larger than body text
+   and unboxed, so it reads as the opening sentence of the page rather than as
+   one more card competing with the warnings below it. */
+.leadin {
+  margin: var(--sp-3) 0 var(--sp-4);
+  padding-left: var(--sp-3);
+  border-left: 2px solid var(--brand);
+}
+.leadin p { margin: 0; font-size: 1.05rem; line-height: 1.65; color: var(--ink); }
+
+/* ------------------------------------------------------------ list rhythm */
+
+/* Measured, not eyeballed. Three gaps in the substance page were collapsing to
+   zero, which is what made dense sections feel cramped no matter how generous
+   the spacing scale is:
+     .chips -> list           was 0px
+     h3.sec__note -> list     was 0px below, 14px above
+     list -> trailing caveat  was 10px, same as the gap between list items */
+
+/* A filter or summary row governs the list beneath it; it must not sit flush
+   against it, or the two read as one undifferentiated block. */
+.chips + .acc,
+.chips + .disc,
+.chips + .classgrid,
+.chips + .nbr { margin-top: var(--sp-3); }
+
+/* A short label introducing a list belongs to what FOLLOWS it. With 14px above
+   and nothing below, it attached itself to the block above instead. */
+h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
+
+/* A caveat after a list has to detach from it. At 10px it was indistinguishable
+   from the gap between two list items, so it read as another row. */
+.acc + .sec__note,
+.disc + .sec__note { margin-top: var(--sp-3); }
+
+/* ============================================================ iOS shaping ==
+
+   Native-app conventions borrowed on purpose, and only where they read as
+   good app design on Android and the web too. This is ONE build for all three
+   platforms, so nothing here is Cupertino cosplay: no system blue, no SF
+   Symbols, no platform sniffing. The warm palette stays exactly as it is.
+
+   What is adopted is the STRUCTURE that makes an iOS app feel like an app:
+   grouped inset lists instead of floating cards, a segmented control instead
+   of loose pills, a heavy large title, and hairline separators that stop
+   short of the leading edge. */
+
+/* ---- grouped inset list --------------------------------------------------
+   Every row used to be its own floating card with its own border and an 8px
+   gap. Twenty of them read as twenty objects. Grouped, they read as one list
+   with twenty rows - which is what they are, and it is why Settings.app can
+   show a long list without feeling like clutter. */
+.list {
+  background: var(--glass);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius);
+  overflow: hidden;                /* clips the child corners to the group */
+}
+.list > .nbr {
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  background: transparent;
+}
+/* Hairline between rows, inset from the leading edge so it aligns under the
+   label rather than cutting the full width - the detail that most separates a
+   native list from a table. */
+.list > .nbr + .nbr { border-top: 1px solid var(--glass-line); }
+.list > .nbr + .nbr::before {
+  content: ""; position: absolute; left: 0; top: -1px; width: 15px; height: 1px;
+  background: var(--glass);
+}
+.list > .nbr { position: relative; }
+/* Pressed, not hovered. Touch has no hover, and a whole-row tint is the native
+   feedback. */
+.list > .nbr:active { background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.list > .nbr:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.list > .nbr:focus-visible { border-radius: 0; }
+/* An empty state inside a list container should not inherit the group frame. */
+.list:has(> .empty), .list:has(> .classgrid) {
+  background: none; border: 0; border-radius: 0; overflow: visible;
+}
+
+/* Chevrons in a native list are lighter and smaller than the label. */
+.nbr__right [aria-hidden="true"] {
+  color: var(--ink-3);
+  font-size: 1.15em;
+  margin-left: 2px;
+}
+
+/* ---- segmented control ---------------------------------------------------
+   The List/Map switch was two loose pills, which reads as two buttons that
+   happen to sit together. A segmented control reads as one control with two
+   states, which is what it is. */
+.viewtoggle {
+  display: inline-flex;
+  gap: 0;
+  padding: 2px;
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  border-radius: 11px;
+}
+.viewtoggle .chip {
+  border: 0;
+  background: transparent;
+  border-radius: 9px;
+  padding: 7px 15px;
+  font-size: .95rem;
+  font-weight: 550;
+  box-shadow: none;
+}
+.viewtoggle .chip[aria-pressed="true"] {
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(0,0,0,.14), 0 0 0 .5px rgba(0,0,0,.05);
+  color: var(--ink);
+}
+
+/* ---- large title ---------------------------------------------------------
+   iOS large titles are heavier and tighter than a web h1, and they sit close
+   to the content they head. */
+#view > div > h1,
+.county-head h1 {
+  font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.12;
+}
+
+/* ---- native list row: title over subtitle -------------------------------- */
+
+/* min-width:0 is what actually lets the subtitle ellipsis. Without it the flex
+   child refuses to shrink below its content and the text wraps instead. */
+.nbr__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
+.nbr__sub {
+  color: var(--ink-2);
+  font-size: .85rem;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nbr__right { flex: none; }
+/* Accessory badges are secondary to the label they qualify. At full size they
+   pulled the eye before the substance name did. */
+.list > .nbr .badge { font-size: .68rem; padding: 3px 8px; }
+
+/* ---- overdose steps: action first, reason second ------------------------- */
+
+/* The instruction is the thing someone is scanning for, so it carries the
+   weight. The reason sits under it, still full contrast - a caveat that stops
+   a mistake is not decoration and must not be greyed into invisibility. */
+.step__do {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: .35em;
+}
+.step__why {
+  font-size: .93rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------ signature */
+
+/* The dot breathes.
+ *
+ * One deliberate, memorable element; everything around it stays quiet. A slow
+ * 7-second cycle - calm-breathing pace, not a pulse and not a notification -
+ * because breath is literally what this app exists to protect. It reads as
+ * "the app is alive and unhurried", never as an alert.
+ *
+ * Honors prefers-reduced-motion by never starting. */
+/* (superseded: the mark is now the ripple beacon defined with .brand__logo) */
+
+/* First-open arrival. A statement, not a dialog: nothing to dismiss, nothing
+   gated behind it, gone by itself on every later visit. */
+.welcome {
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-3);
+  margin-bottom: var(--sp-4);
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--brand) 10%, transparent),
+    color-mix(in srgb, var(--brand) 3%, transparent) 60%,
+    transparent);
+  border-left: 3px solid var(--brand);
+  border-radius: var(--radius);
+}
+.welcome h2 { margin: 0 0 6px; font-size: 1.25rem; letter-spacing: -0.01em; }
+.welcome p { margin: 0; color: var(--ink-2); max-width: 58ch; }
+
+/* ------------------------------------------------- list row breathing room */
+
+/* From a real-window screenshot: the "none" badge and the chevron sat almost
+   touching, with the chevron riding the group's right edge. The row's
+   accessory cluster gets explicit flex gaps instead of relying on inline
+   spacing, and one step more padding all around. */
+.nbr { padding: 16px var(--sp-3); }
+.nbr__right { display: flex; align-items: center; gap: 10px; }
+
+/* The section intro note was glued to the list it introduces. */
+.sec__note + .list, p + .list { margin-top: var(--sp-2); }
+
+/* A lone row outside a group (e.g. the Early warning link) keeps clear of
+   whatever sits above it. */
+.list + .nbr, .sec + .nbr { margin-top: var(--sp-3); }
+
+/* --------------------------------------------- open-section breathing room */
+
+/* From a real-window screenshot: the xylazine callout sat tight under step 6,
+   and the collapsed sections started right against the open response block. */
+.disc__body > .steps + .callout { margin-top: var(--sp-4); }
+.disc__body > .callout:last-child { margin-bottom: var(--sp-2); }
+details.disc[open] { margin-bottom: var(--sp-3); }
+
+/* ------------------------------------------------------------------ print */
+
+/* Outreach workers photocopy. A county page or the overdose steps handed out
+   on paper serves the person with no smartphone - the reader every digital
+   product silently drops. Ink-friendly, chrome stripped, links written out. */
+@media print {
+  .topbar, .nav, .search, .viewtoggle, .chips, .iconbtn, .backlink,
+  .kind, .skip, button.btn { display: none !important; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+  main { padding: 0; max-width: none; }
+  .card, .nbr, .callout, .list, details.acc, details.disc {
+    background: #fff; border: 1px solid #999; box-shadow: none;
+    break-inside: avoid;
+  }
+  /* Collapsed sections print their content - paper cannot be tapped. */
+  details > *:not(summary) { display: block !important; }
+  details summary { list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  /* A link on paper is only useful if you can read where it goes. */
+  .sources a[href^="http"]::after, .hotline a[href^="tel"]::after {
+    content: " (" attr(href) ")"; font-size: .85em; color: #333;
+  }
+  .sev, .badge { border: 1px solid #000; color: #000; background: #fff; }
+}
+
+/* A heading inside a grouped .list (the map's ranked counties) was inheriting
+   row chrome and looked broken. It is a label, not a row. */
+.list > .map__toph {
+  margin: 0; padding: 14px 18px 2px;
+  font-size: .9rem; font-weight: 650; color: var(--ink-2);
+  border: 0;
+}
+
+/* ------------------------------------------------------- detail stat tiles */
+
+.stattiles {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+  margin: var(--sp-3) 0;
+}
+.stattile {
+  display: flex; flex-direction: column; gap: 1px;
+  background: var(--glass); border: 1px solid var(--glass-line);
+  border-radius: var(--radius-sm); padding: 9px 14px;
+}
+.stattile__label { font-size: .74rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+.stattile__v { font-weight: 650; font-size: 1.02rem; }
+.stattiles__roa { color: var(--ink-3); font-size: .82rem; }
+
+/* ------------------------------------------------------- reagent reactions */
+
+.reagtable { width: 100%; border-collapse: collapse; }
+.reagtable th { text-align: left; padding: 8px 12px 8px 0; font-weight: 650; white-space: nowrap; vertical-align: top; }
+.reagtable td { padding: 8px 0; }
+.reagtable tr + tr th, .reagtable tr + tr td { border-top: 1px solid var(--glass-line); }
+/* The word always accompanies the swatch - color is never the only signal,
+   and reagent colors are exactly where a color-blind reader is most at risk
+   of being failed. */
+.swatch {
+  display: inline-block; width: 11px; height: 11px; border-radius: 3px;
+  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  margin: 0 5px 0 8px; vertical-align: baseline;
+}
+.reagtable td .swatch:first-child, .reagtable td span.swatch { margin-left: 0; }
+.swatch__sep { color: var(--ink-3); margin: 0 2px 0 7px; }
+.reag__none { color: var(--ink-2); font-style: italic; }
+
+/* -------------------------------------------------------- condition lens */
+
+.lens__item { padding: 8px 0; }
+.lens__item + .lens__item { border-top: 1px solid var(--glass-line); }
+
+/* Reagent swatch colors. Classes, not inline styles - the CSP (no
+   unsafe-inline) strips style attributes, which produced a table of empty
+   squares until this was caught by screenshot. */
+.swatch--yellow { background: #d4b106; } .swatch--green { background: #3f7d4e; }
+.swatch--blue { background: #2f5f98; }   .swatch--purple, .swatch--violet { background: #6b4d9e; }
+.swatch--black { background: #26221c; }  .swatch--brown { background: #7a5230; }
+.swatch--orange { background: #c67117; } .swatch--red { background: #b3301c; }
+.swatch--pink { background: #c76b8f; }   .swatch--gray { background: #8a8076; }
+.swatch--white { background: #eee6d8; }  .swatch--olive { background: #6f7d3f; }
+
+/* "Near me" result: the county and the map offered side by side. */
+.locate__pick { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+
+/* The map embedded in a county page: shorter than the full-screen version, so
+   the county's own alerts stay above the fold on a phone. */
+.map--inline { margin-bottom: var(--sp-3); }
+.map--inline .map__stage { height: clamp(220px, 38vh, 340px); }
+
+/* "Someone you love" — helps / backfires. The mark is decorative: each row's
+   heading text carries its own meaning, and the two groups have their own
+   headings above them, so this survives greyscale and a screen reader. */
+/* Thirteen stacked items at 10px padding read as one dense wall - and these
+   are meant to be considered one at a time, not skimmed. Each gets room, and
+   the heading gets room from its own explanation. */
+.lovedrow { padding: var(--sp-3) 0; }
+.lovedrow:first-of-type { padding-top: var(--sp-2); }
+.lovedrow + .lovedrow { border-top: 1px solid var(--glass-line); }
+.lovedrow h4 { margin: 0 0 8px; display: flex; gap: 10px; align-items: baseline; line-height: 1.35; }
+.lovedrow p { margin: 0; color: var(--ink-2); line-height: 1.6; }
+/* "What helps" / "What backfires" separate two lists that mean opposite
+   things - they need to read as a break, not another row. */
+#sec-loved h3 { margin-top: var(--sp-4); margin-bottom: var(--sp-1); }
+.lovedrow__mark { flex: none; font-weight: 700; }
+.lovedrow--do .lovedrow__mark { color: var(--ok); }
+.lovedrow--dont .lovedrow__mark { color: var(--critical); }
+
+/* ------------------------------------------------ grouped support sections */
+
+/* Nested disclosures. The child must not look like its parent, or the
+   hierarchy disappears and the page reads as a flat list again - so children
+   are inset, lighter, and separated by hairlines rather than each carrying
+   the parent's full surface. */
+.groupnote { margin: 0 0 var(--sp-2); }
+.groupkids { display: flex; flex-direction: column; }
+/* A group parent's body must not add its own bottom padding on top of the
+   last child's - that stacked to ~37px of dead space inside the border, which
+   read as a broken frame. The blurb above the children keeps a little air; the
+   children own the bottom. */
+details.disc:has(> .disc__body > .groupkids) > .disc__body { padding-bottom: 0; }
+.groupkids > details.disc:last-child > .disc__body { padding-bottom: var(--sp-3); }
+
+details.disc .groupkids > details.disc {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+details.disc .groupkids > details.disc > summary:hover { background: none; }
+details.disc .groupkids > details.disc + details.disc {
+  border-top: 1px solid var(--glass-line);
+}
+details.disc .groupkids > details.disc > summary {
+  padding: 14px 0;
+  min-height: var(--tap);
+}
+/* The parent bubble already supplies the inset; children add none. */
+details.disc .groupkids > details.disc > .disc__body { padding: 0 0 var(--sp-3); }
+/* A nested heading is a row label, not a page heading. */
+details.disc .groupkids > details.disc > summary h2 {
+  font-size: 1.02rem;
+  font-weight: 620;
+  letter-spacing: 0;
+}
+/* "If they are not ready" — the one place this section stops instructing and
+   just reassures. Given room on both sides so it lands as a pause rather than
+   another item in a list. */
+.lovedhard { margin: var(--sp-2) 0 var(--sp-3); }
+.lovedhard p { margin: 0; }
+
+.foot__links { margin-top: var(--sp-2); }
+.foot__links a {
+  color: var(--brand);
+  display: inline-flex; align-items: center; min-height: var(--tap); padding: 4px 0;
+}
+.aboutlink { margin-top: var(--sp-4); }
+
+/* Comparison table: four columns of prose need a wider measure than the
+   default data table, and each cell needs to stay readable when it wraps. */
+.cmp td, .cmp th { vertical-align: top; }
+.cmp { min-width: 620px; }
+.cmp .cellnote { display: block; margin-top: 5px; }
+
+/* --------------------------------------------------- emergency tab accent */
+
+/* The one tab that is not a peer of the others. Filled rather than tinted so
+   it is findable by shape and weight, not only by hue - someone who cannot
+   distinguish the red still sees the one solid tab in the bar.
+   Uses --critical, the same token every other emergency signal in the app
+   uses, so this cannot drift away from the severity palette. */
+.nav a[data-tab="help"] .ico {
+  background: var(--critical);
+  color: var(--bg);
+  border-radius: 50%;
+  width: 26px; height: 26px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.nav a[data-tab="help"] { color: var(--critical); font-weight: 600; }
+.nav a[data-tab="help"][aria-current="page"] {
+  background: var(--critical-soft);
+  color: var(--critical);
+}
+.nav a[data-tab="help"][aria-current="page"] .ico {
+  background: var(--critical);
+  color: var(--bg);
+}
+
+/* ============================================================== sanctuary ==
+
+   A pass toward stillness rather than sleekness. Every rule here is either
+   opacity or transform - the two properties a browser can animate on the
+   compositor without touching layout or paint - so none of it costs a frame
+   on the cheap phones this has to run on. Nothing delays content: the page is
+   readable at the first paint and these only change how it arrives.
+
+   All of it is inside prefers-reduced-motion: no-preference. Someone who has
+   asked for stillness gets stillness, not a gentler version of motion. */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Content arrives by settling, not sliding in. 4px, once - far enough to
+     read as "came to rest", short enough that nobody waits for it. */
+  #view > * {
+    animation: arrive var(--t-ease) var(--ease-float) both;
+  }
+  @keyframes arrive {
+    from { opacity: 0; transform: translate3d(0, 5px, 0); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Surfaces lift toward the finger rather than depressing away from it.
+     Cards do not move at all - only the things you can actually press. */
+  .nbr, .classcard, .chip, .btn {
+    transition:
+      transform var(--t-tap) var(--ease-float),
+      box-shadow var(--t-ease) var(--ease-float),
+      background-color var(--t-ease) var(--ease-float),
+      border-color var(--t-ease) var(--ease-float);
+  }
+  .nbr:hover, .classcard:hover { transform: translate3d(0, -1px, 0); }
+  .nbr:active, .classcard:active { transform: translate3d(0, 0, 0) scale(.995); }
+
+  /* The page's ambient wash drifts, very slowly and very slightly. This is the
+     "floating through space" of it: nothing on the page moves, but the light
+     behind it is not quite still. 40 seconds a cycle and a 2% translation -
+     below the threshold where peripheral vision registers movement, which
+     matters because a bystander must not notice this screen. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(38% 30% at 22% 18%,
+        color-mix(in srgb, var(--brand) 9%, transparent) 0%, transparent 70%),
+      radial-gradient(34% 26% at 78% 72%,
+        color-mix(in srgb, var(--brand) 6%, transparent) 0%, transparent 70%);
+    animation: drift 40s var(--ease-float) infinite alternate;
+    will-change: transform;
+  }
+  @keyframes drift {
+    from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+    to   { transform: translate3d(1.5%, 1%, 0) scale(1.04); }
+  }
+
+  /* Disclosures unfold on the float curve instead of snapping open. */
+  details.acc[open] > .acc__body,
+  details.disc[open] > .disc__body {
+    animation: settle var(--t-ease) var(--ease-float) both;
+  }
+}
+
+/* Depth, which reads as float even when nothing is moving: a tight contact
+   shadow plus a wide soft one. A single blurred shadow reads as a sticker;
+   two layers read as an object with air under it. */
+.card, .classcard, .list, details.disc {
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+/* Softer corners throughout - the single biggest lever on whether a surface
+   reads as a panel or a pebble. Tap targets keep their --edge boundary at
+   3:1; nothing here touches contrast. */
+:root { --radius: 22px; --radius-sm: 15px; }
+
+/* The mix checker's decoder line sits flush with the top of its card. */
+.mixnote { margin-top: 0; }
+
+/* ================================================================ practice ==
+
+   Drawn in the DOM rather than shipped as images: it has to recolor with the
+   theme, scale with the OS text size, and carry a real text alternative. An
+   image of a test strip would do none of those. */
+
+.strip {
+  display: flex; align-items: stretch;
+  width: 100%; max-width: 260px; height: 74px;
+  margin: 0 auto var(--sp-3);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  background: #f4efe6;                 /* the strip itself, not a theme surface */
+}
+.strip__window {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; gap: 11px;
+  padding: 0 18px;
+}
+/* The lines are the information. They keep a fixed dark value in both themes
+   because a real strip does - and because "how many lines" must not depend on
+   the reader's theme. */
+.strip__line { display: block; height: 7px; border-radius: 2px; background: #6a2f6a; }
+.strip__line--test { opacity: .75; }
+.strip__handle {
+  flex: none; width: 46px;
+  background: repeating-linear-gradient(90deg, #cfc4b2 0 4px, #c3b8a6 4px 8px);
+  border-left: 1px solid var(--edge);
+}
+
+.practice__pos { color: var(--ink-3); font-size: .82rem; margin-bottom: 6px; }
+.practice__scene { margin-bottom: var(--sp-2); }
+.practice__scene p { margin: 0; }
+.practice__ask { font-weight: 620; margin-bottom: var(--sp-2); }
+.practice__options { display: flex; flex-direction: column; gap: 8px; margin-bottom: var(--sp-2); }
+.practice__options.chips { flex-direction: row; flex-wrap: wrap; }
+/* An answer button is a choice, not a row that navigates - square the chevron
+   affordance off so it does not read as "this goes somewhere". */
+.practice__opt { border-radius: var(--radius-sm); }
+.practice__feedback:empty { display: none; }
+.practice__feedback { margin-top: var(--sp-2); }
+
+/* -------------------------------------------------- combination checker fit */
+
+/* Measured from a real window: the result callout sat flush under the "add
+   another substance" button, and the pair-by-pair accordion sat flush under
+   the callout, so a three-part answer read as one undifferentiated block. The
+   answer needs to separate from the controls that produced it. */
+.mixout { margin-top: var(--sp-3); }
+.mixout > .callout { margin-bottom: var(--sp-3); }
+.mixout > .card + .card,
+.mixout > details.acc { margin-top: var(--sp-2); }
+.mixout .mixpairs__h { margin: var(--sp-3) 0 var(--sp-1); }
+
+/* The supplement list is a separate idea from the checker above it. */
+.mixsupp { margin-top: var(--sp-4); }
+
+/* ------------------------------------------------------ interior breathing */
+
+/* Nothing sits against an edge. The airy feel is mostly interior space, and
+   these were the places content still touched a border:
+     - a card's first/last child inheriting its own margin on top of the
+       card's padding, or losing it and going flush;
+     - nested surfaces (a card inside a callout inside a disclosure) stacking
+       three sets of padding, then a table or list going edge-to-edge anyway. */
+.card > :first-child, .callout > :first-child,
+.acc__body > :first-child, .disc__body > :first-child { margin-top: 0; }
+.card > :last-child, .callout > :last-child,
+.acc__body > :last-child, .disc__body > :last-child { margin-bottom: 0; }
+
+/* A table inside a card was flush to the card's edge on both sides because
+   .tablewrap scrolls. Give it the same inset as the text above it. */
+.card > .tablewrap, .acc__body > .tablewrap { padding: 2px 0; }
+
+/* Lists inside a surface: the bullet itself was riding the padding edge. */
+.card ul, .acc__body ul, .callout ul, .disc__body ul { padding-left: 24px; }
+
+/* Grouped list rows keep the group's own inset rather than sitting flush to
+   the container's rounded corner. */
+.list > .nbr:first-child { padding-top: var(--sp-3); }
+.list > .nbr:last-child { padding-bottom: var(--sp-3); }
+
+/* The one pointer Emergency keeps to naloxone sourcing. */
+.naloxptr { margin: var(--sp-3) 0; }
+
+/* ---------------------------------------------------- programmatic focus */
+
+/* Headings are focused after navigation so a screen reader announces the new
+   view (see focusView in app.js). They are NOT interactive, so they must not
+   paint a focus ring - a green box around the page title on every route
+   change looks like a bug and is one. Screen reader announcement is
+   unaffected: it comes from focus, not from the outline. */
+#view h1[tabindex="-1"]:focus,
+#view h1[tabindex="-1"]:focus-visible,
+#view h2[tabindex="-1"]:focus,
+#view h2[tabindex="-1"]:focus-visible,
+#main[tabindex="-1"]:focus,
+#main[tabindex="-1"]:focus-visible { outline: none; box-shadow: none; }
+
+/* ------------------------------------------------ strip readout breathing */
+
+/* The three result cards ran their text to the card edge, so the longest
+   meaning line ("Not detected - can't rule out everything") wrapped hard
+   against both sides. */
+.readout__card { padding: var(--sp-3) var(--sp-3) 22px; }
+.readout__meaning { max-width: 22ch; margin-left: auto; margin-right: auto; }
+.readout__verdict { margin-top: 4px; }
+
+/* The naloxone pointer sat as a bare line between two heavy sections and read
+   as orphaned. Given a surface of its own it becomes a deliberate hand-off. */
+.naloxptr {
+  margin: var(--sp-3) 0 var(--sp-4);
+  padding: 14px var(--sp-3);
+  background: var(--glass);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius);
+}
+.naloxptr a {
+  color: var(--brand); font-weight: 600;
+  display: inline-flex; align-items: center; min-height: var(--tap);
+}
+
+/* ================================================================== iOS ==
+
+   Written against Apple's current material language rather than a generic
+   "glassmorphism" look. Three things separate real iOS glass from a blurred
+   div, and the app already had the first; the rest are here.
+
+   1. MATERIAL, not opacity. Glass on iOS both blurs AND saturates what is
+      behind it, so color bleeds through rather than washing out. A plain
+      blur reads as frosted plastic.
+   2. CONCENTRIC RADII. A rounded thing inside another rounded thing must use
+      a SMALLER radius, offset by the padding between them, or the corners
+      look wrong in a way people feel without being able to name.
+   3. IT MUST SURVIVE HAVING NO BLUR. backdrop-filter is unavailable in Low
+      Power Mode, in some WebViews, and to anyone with reduced transparency
+      turned on - so every glass surface keeps a solid fallback that still
+      meets contrast. */
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  /* Saturation is what makes it read as glass rather than fog. */
+  .topbar::before, .nav {
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+}
+
+/* Reduced transparency is an accessibility setting, not a preference for a
+   different look: someone who turns it on needs opaque surfaces. */
+@media (prefers-reduced-transparency: reduce) {
+  .topbar::before, .nav { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .nav { background: var(--surface); }
+  :root { --glass: var(--surface); --glass-strong: var(--surface); }
+}
+
+/* Concentric corners. A card sits inside the page at --radius; anything
+   nested inside a card is inset by its padding, so its radius must come down
+   by the same amount to stay visually parallel. */
+.card .card, .card .callout, .callout .card,
+.acc__body .card, .disc__body .card { border-radius: calc(var(--radius) - 8px); }
+
+/* iOS momentum and rubber-banding, without the page itself bouncing. */
+html, body { overscroll-behavior-y: none; }
+.tablewrap, .listbox { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+
+/* Home-screen standalone: the status bar is translucent black, so the header
+   has to clear it itself. Without this the wordmark sits under the clock. */
+@media (display-mode: standalone) {
+  .topbar { padding-top: env(safe-area-inset-top); }
+  .nav { padding-bottom: max(env(safe-area-inset-bottom), 8px); }
+}
+
+/* Text selection and callouts: an installed app should not offer to "Look Up"
+   a heading on long-press, but text a reader may want to copy - a phone
+   number, a substance name - must stay selectable. */
+.topbar, .nav, .chip, .btn, summary, .practice__opt {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.card, .callout, p, li, td, th, .hotline { -webkit-user-select: text; user-select: text; }
+
+/* Dynamic Type: iOS lets people scale text far past browser defaults. Cap the
+   two places a very large size would break layout rather than reflow it. */
+.strip { max-width: min(260px, 100%); }
+.readout__card { min-width: 0; }
+
+/* ------------------------------------------- tab bar under Dynamic Type */
+
+/* The bottom bar is chrome, not content, and it is the one thing that must
+   never become unreachable: Emergency has to stay on screen at every text
+   size. Six tabs at 200% text needed ~700px in a 375px window - measured.
+
+   iOS handles this by capping tab-bar label size rather than letting the bar
+   break or scroll, so that is what happens here: labels scale with the
+   reader's setting up to a ceiling, then truncate. Every tab keeps its icon,
+   its accessible name, and its position. Nothing is hidden and nothing
+   scrolls out of thumb reach.
+
+   The clamp ceiling is in px on purpose - this is the one place where NOT
+   scaling indefinitely is the accessible behaviour. */
+/* SCOPED TO THE PHONE BAR. These caps exist because six tabs cannot fit a
+   375px screen at 200% Dynamic Type - a constraint that simply does not exist
+   on a desktop window. Left unscoped they also beat the desktop rules further
+   up the file (later, equal specificity), shrinking desktop tabs to 11.5px and
+   truncating the wordmark on a 1440px screen. Scope the fix to where the
+   problem is. */
+@media (max-width: 879px) {
+  /* min(), not clamp(). clamp(MIN, pref, MAX) returns MIN when MIN exceeds
+     MAX - and a rem-based min DOES exceed a px max once the root scales, so
+     the cap silently inverted. min() cannot do that. */
+  .nav a { font-size: min(.72rem, 13px); min-width: 0; }
+  .nav .ico { flex: none; font-size: min(1rem, 20px); }
+  .nav__label { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Last-resort containment: if six labels still cannot fit, the BAR scrolls
+     rather than the page. A horizontally scrolling document breaks every
+     screen; a bar that scrolls a few pixels does not. */
+  .nav { overflow-x: auto; scrollbar-width: none; }
+  .nav::-webkit-scrollbar { display: none; }
+}

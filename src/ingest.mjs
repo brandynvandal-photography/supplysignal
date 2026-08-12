@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * SupplySignal ingest. Runs hourly under GitHub Actions.
+ * Supply Check ingest. Runs hourly under GitHub Actions.
  *
  *   fetch -> gate1 -> prefilter/score -> gate2 -> LLM escalate (ambiguous only)
  *         -> geotag -> dedupe/cluster -> write JSON + RSS -> commit
@@ -18,6 +18,7 @@ import { buildIndex, geotag } from "./geotag.mjs";
 import { cluster } from "./dedupe.mjs";
 import {
   readJson, writeJson, writeCounty, writeIndex, writeCountyFeed, appendReview, writeRunLog,
+  writeAlertsBundle,
 } from "./store.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -212,6 +213,20 @@ async function main() {
 
   if (!DRY_RUN) {
     await writeIndex(ROOT, indexEntries);
+
+    // The bundle the site reads. Written after the per-county files so it
+    // reflects this run, including counties untouched by it.
+    const bundle = await writeAlertsBundle(ROOT, {
+      windowDays: settings.recency.windowDays,
+      coverage: {
+        lastScan: new Date().toISOString(),
+        sourcesChecked: sources.feeds.filter((f) => f.enabled).length + 1,
+        sourcesFailed: [...new Set(stats.sourcesFailed)],
+        countiesScanned: scoped.length,
+      },
+    });
+    stats.bundle = bundle;
+
     await writeJson(p("data/.cache.json"), cache);
     await writeJson(p("data/.rotation.json"), rotation);
     if (review.length) await appendReview(ROOT, review.map((r) => ({

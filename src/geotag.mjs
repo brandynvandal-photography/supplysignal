@@ -13,7 +13,10 @@ export function buildIndex(countiesJson) {
   for (const c of countiesJson.counties) {
     const bare = c.name
       .toLowerCase()
-      .replace(/\s+(county|parish|borough|census area|municipality|city and borough|city)$/,"")
+      .replace(
+        /\s+(city and borough|census area|municipality|municipio|district|parish|borough|island|county|city)$/,
+        ""
+      )
       .trim();
     if (!byName.has(bare)) byName.set(bare, []);
     byName.get(bare).push(c);

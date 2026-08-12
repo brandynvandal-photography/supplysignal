@@ -1,0 +1,1128 @@
+{
+ "generated": "2026-08-09",
+ "reviewNote": "Guidance here changes. Re-verify against DanceSafe, LAPPA, and manufacturer instructions before each release. Conflicts between sources are recorded rather than resolved.",
+ "framing": {
+  "headline": "Testing finds red flags. It never gives a green light.",
+  "canBullets": [
+   "Tell you something you did not expect is present",
+   "Tell you the substance may not be what it was sold as",
+   "Give you information to decide how much to take, or whether to take it"
+  ],
+  "cannotBullets": [
+   "Tell you how strong it is",
+   "Tell you how pure it is",
+   "Confirm what is in it",
+   "Tell you everything that is in it",
+   "Make anything safe"
+  ],
+  "ruleInRuleOut": "A test can rule a substance IN. It cannot rule every other substance OUT.",
+  "sources": [
+   {
+    "name": "DanceSafe — Drug checking",
+    "url": "https://dancesafe.org/drug-checking/"
+   },
+   {
+    "name": "Crew — Drug testing and checking",
+    "url": "https://www.crew.scot/drugs-information/what-you-need-to-know/drug-testing-and-checking/"
+   }
+  ]
+ },
+ "prevalence": {
+  "headline": "How often fentanyl actually turns up",
+  "why": "You will hear that fentanyl is in everything. That is true of some things and not others, and the difference matters — if you are told everything is contaminated and your supply keeps testing clean, you stop believing the warnings that are real. Here is what drug-checking programs actually find.",
+  "rows": [
+   {
+    "what": "Sold as heroin or another opioid",
+    "rate": "85–98%",
+    "level": "high",
+    "note": "Assume it is fentanyl."
+   },
+   {
+    "what": "Counterfeit or non-pharmacy pills",
+    "rate": "Assume yes",
+    "level": "high",
+    "note": "The bigger danger is that the amount varies wildly from pill to pill in the same batch."
+   },
+   {
+    "what": "Powder cocaine",
+    "rate": "about 6–15%",
+    "level": "low",
+    "note": "Not zero, and worth testing — but not most."
+   },
+   {
+    "what": "Powder methamphetamine",
+    "rate": "about 6–13%",
+    "level": "low",
+    "note": ""
+   },
+   {
+    "what": "Crack cocaine",
+    "rate": "under 2%",
+    "level": "verylow",
+    "note": "One study of 53 samples found none."
+   },
+   {
+    "what": "Crystal methamphetamine",
+    "rate": "under 1%",
+    "level": "verylow",
+    "note": ""
+   },
+   {
+    "what": "Cannabis",
+    "rate": "No confirmed cases",
+    "level": "none",
+    "note": "Repeated investigations of alarming reports have not produced a single laboratory-confirmed case."
+   }
+  ],
+  "coUse": "You will also see that fentanyl appears alongside cocaine or meth in a huge share of overdose deaths. That is true, but it mostly reflects people using both — deliberately or at different times — not stimulants being secretly cut. The supply figures above and the death figures cannot both be explained by contamination. In one San Francisco study of overdoses, about 43% of people had not intended to take an opioid; the majority had.",
+  "regional": "These are national averages and they move. What is in the supply where you are can look nothing like the country as a whole, and it changes within months. Local drug-checking data beats any national number.",
+  "bottomLine": "The reason to test is not that everything is contaminated — it is that you cannot tell by looking. Testing is the only way to know what you are actually holding, and knowing changes what you can do about it.",
+  "sources": [
+   {
+    "name": "Russell et al. — fentanyl in stimulant samples, 25 states",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10688611/"
+   },
+   {
+    "name": "Nguyen et al. — intent in non-fatal overdose, J Urban Health",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11052958/"
+   },
+   {
+    "name": "UNC Street Drug Analysis Lab — The Year in Drugs",
+    "url": "https://www.opioiddata.org/the-year-in-drugs-2025/"
+   },
+   {
+    "name": "National Harm Reduction Coalition — fentanyl",
+    "url": "https://harmreduction.org/issues/fentanyl/"
+   }
+  ]
+ },
+ "strips": [
+  {
+   "id": "fentanyl",
+   "name": "Fentanyl test strips",
+   "short": "FTS",
+   "detects": "Fentanyl and many — not all — of its analogues",
+   "readingIsInverted": true,
+   "reading": {
+    "positive": "ONE line",
+    "negative": "TWO lines",
+    "invalid": "No lines, or only a line on the end you dipped",
+    "explain": "This is backwards from a pregnancy test, and it is the single most misread part of drug checking. The strip works by competition: fentanyl in the sample blocks the test line from forming. The drug being present makes a line disappear.",
+    "faintLine": "A second line can be very faint and still counts as negative. A faint line may also appear and then fade — wait the full three minutes before deciding."
+   },
+   "procedure": [
+    "Dissolve the drug in water. How much water depends on the drug and the brand of strip — see below.",
+    "Dip the wavy end (not the colored handle) into the solution — commonly about 15 seconds, but check your brand. Do not go past the dotted line.",
+    "Lay the strip flat on a dry surface.",
+    "Read at the time your instructions give — commonly 3 minutes. Do not read after 10 minutes; a strip left too long can change."
+   ],
+   "dilution": {
+    "why": "These strips were designed for urine. In water, some substances react with the antibody at high concentration and produce a FALSE POSITIVE. That is the only reason methamphetamine and MDMA are told to use more water — they cross-react. Cocaine and heroin do not, so they tolerate a stronger solution.",
+    "crossReact": [
+     {
+      "substance": "Diphenhydramine (Benadryl, a common cut)",
+      "threshold": "1 mg/mL and above"
+     },
+     {
+      "substance": "Methamphetamine",
+      "threshold": "1.5 mg/mL and above"
+     },
+     {
+      "substance": "MDMA",
+      "threshold": "2 mg/mL and above"
+     },
+     {
+      "substance": "Lidocaine (a common cocaine cut)",
+      "threshold": "about 2.5 mg/mL"
+     },
+     {
+      "substance": "Cocaine, alprazolam, gabapentin, buprenorphine",
+      "threshold": "no false positives found at tested concentrations"
+     }
+    ],
+    "conflict": "Published protocols disagree by as much as ten times — CDC, DanceSafe's website, DanceSafe's own printed brochure, and state health departments all give different water volumes. This is not sloppiness: the requirement genuinely differs by strip brand. BTNX 1.0 strips cross-react with meth and MDMA; DanceSafe/WHPM strips were found not to at the same concentration.",
+    "guidance": [
+     "Follow the instructions that came with YOUR strips. Brands differ.",
+     "If you do not have them, use MORE water rather than less. Too little water causes false positives on stimulants; only extreme over-dilution risks a false negative.",
+     "If a stimulant tests positive, retest with about ten times more water before you act on it. In one street-sample study this corrected every false positive."
+    ],
+    "commonAmounts": [
+     {
+      "form": "Powder or crystal",
+      "amount": "About 1 teaspoon (5 mL) of water per 10 mg"
+     },
+     {
+      "form": "Methamphetamine or MDMA",
+      "amount": "Double the water"
+     },
+     {
+      "form": "A pill (pharmaceutical or counterfeit)",
+      "amount": "Crush the whole tablet into about 4 tablespoons. Undissolved binder is normal."
+     },
+     {
+      "form": "Blotter",
+      "amount": "A small corner, soaked in 1 teaspoon for 10 minutes"
+     },
+     {
+      "form": "Cooker or injection residue",
+      "amount": "About 1 mL of clean water into the cooker, after preparing the shot and before drawing it up"
+     }
+    ],
+    "recovery": "Testing does not destroy the drug — the water can be evaporated off afterwards."
+   },
+   "limits": [
+    {
+     "title": "It does not mix evenly",
+     "body": "Fentanyl mixed into another drug is not distributed evenly. One side of a bag can hold none and the other a fatal amount. The strongest protection is to dissolve everything you intend to take, test that solution, and then take it. Second best: crush the whole batch to a fine powder and mix it thoroughly before taking a test portion.",
+     "nuance": "One study of 352 subsamples from street opioid batches found most distributed around an average rather than in dramatic hot spots. That study looked at batches where fentanyl was the main drug — the hot-spot risk is greatest when fentanyl is a contaminant in something else, and in pressed pills."
+    },
+    {
+     "title": "It misses some analogues",
+     "body": "In a study of 251 synthetic opioids, 13 compounds were missed by both major brands. Each brand has its own blind spots — roughly 52 for DanceSafe/WHPM strips and 28 for BTNX, in different chemical directions.",
+     "nuance": "Carfentanil is genuinely disputed. One study found strips failed to detect it below very high concentrations; another found it detected across all lots; a third detected it in real street samples. Treat carfentanil detection as unreliable rather than assured."
+    },
+    {
+     "title": "It does not detect nitazenes at all",
+     "body": "No fentanyl test strip detects nitazenes. All three nitazenes tested were missed by both brands. A negative fentanyl strip does not rule out a synthetic opioid.",
+     "severity": "critical"
+    },
+    {
+     "title": "Sensitivity varies between batches",
+     "body": "Labels claim 10–20 ng/mL, but independent testing has found real-world thresholds as poor as 200 ng/mL, and one study found 2017 lots hit 20 ng/mL while 2021 lots of the same product only reached 200 ng/mL. Lot-to-lot variation is documented and real."
+    },
+    {
+     "severity": "critical",
+     "title": "The strip you buy today may be weaker than the one a study tested",
+     "body": "Comparing BTNX lots, 2017 strips detected fentanyl at 20 ng/mL while 2021 lots needed 200 ng/mL — a tenfold loss of sensitivity. Cross-reactivity moved the same way: false positives from diphenhydramine started at 100 mg/mL in the old lots and as low as 0.5 mg/mL in the new ones.",
+     "nuance": "This is why an accuracy number from a 2018 paper may not describe the strip in your hand in 2026, and why dilution matters more than brand loyalty. The 20 ng/mL figure printed on the box is a URINE cutoff — for checking a substance the practical floor is nearer 200 ng/mL.",
+     "sources": [
+      {
+       "name": "Halifax et al. 2024 — five BTNX lots",
+       "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10795297/"
+      }
+     ]
+    }
+   ],
+   "accuracy": "Tested against 210 forensic samples, BTNX strips gave a 3.7% false-negative rate and a 9.6% false-positive rate — so roughly 96% sensitivity and 90% specificity, with a detection limit of 0.100 µg/mL. Good, not perfect, and the limits below are the reason a negative still needs care.",
+   "sources": [
+    {
+     "name": "Green et al. 2020 — 210 forensic samples",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/31951925/"
+    },
+    {
+     "name": "DanceSafe FTS instructions (V19)",
+     "url": "https://dancesafe.org/wp-content/uploads/2025/09/DS_Instructions_FTS_V19_Summer25-1.pdf"
+    },
+    {
+     "name": "CDC — Fentanyl (overdose prevention)",
+     "url": "https://www.cdc.gov/overdose-prevention/about/fentanyl.html"
+    },
+    {
+     "name": "Lockwood et al. — cross-reactivity",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7941948/"
+    },
+    {
+     "name": "Assessment of 251 synthetic opioids",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+    },
+    {
+     "name": "Ontario Drug Checking Community — FTS performance",
+     "url": "https://drugchecking.community/wp-content/uploads/dlm_uploads/2026/01/Fentanyl-test-strip-performance-assessment-v1_ODCC-1.pdf"
+    }
+   ]
+  },
+  {
+   "id": "xylazine",
+   "name": "Xylazine test strips",
+   "short": "XTS",
+   "detects": "Xylazine (\"tranq\"), a veterinary sedative found in the fentanyl supply — heavily in some regions, rarely in others",
+   "readingIsInverted": true,
+   "reading": {
+    "positive": "ONE line",
+    "negative": "TWO lines",
+    "invalid": "No lines, or only a line on the dipped end",
+    "explain": "Same competitive format as fentanyl strips — one line means detected."
+   },
+   "procedure": [
+    "About 10 mg of drug — a match head, or a grain of rice — in 1 teaspoon (5 mL) of water. Mix well.",
+    "Dip for 15 seconds.",
+    "Wait 5 minutes — longer than a fentanyl strip.",
+    "Read within 10 minutes."
+   ],
+   "limits": [
+    {
+     "title": "A negative result means much less here",
+     "body": "In a study of 333 fentanyl-positive street samples, xylazine strips caught only 49% of the samples that actually contained xylazine — 34 of 69. Most samples held less than 1% xylazine by weight, which is below what the strip can see. Roughly half of xylazine-positive samples read negative.",
+     "severity": "critical"
+    },
+    {
+     "title": "False positives on older strips",
+     "body": "Version 1.0 strips cross-react with lidocaine, methamphetamine, ketamine, and diphenhydramine. The manufacturer says version 2.0 removed the lidocaine cross-reactivity, which matters because lidocaine is a standard cocaine cut. Independent evaluation of those claims is still pending — treat them as manufacturer statements, not verified fact."
+    },
+    {
+     "title": "Naloxone does not reverse xylazine",
+     "body": "Xylazine is not an opioid. Naloxone will not reverse it — but almost all xylazine in the supply arrives alongside fentanyl, so you should still give naloxone. Watch breathing: if breathing improves, the naloxone worked, even if the person stays sedated."
+    }
+   ],
+   "sources": [
+    {
+     "name": "NYC Health — xylazine strip instructions",
+     "url": "https://www.nyc.gov/assets/doh/downloads/pdf/basas/xylazine-test-strips-instructions.pdf"
+    },
+    {
+     "name": "Community drug checking study, Los Angeles",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12236865/"
+    }
+   ],
+   "accuracy": "A 2022 evaluation got 20 of 20 xylazine-positive samples right — but on strips that were not commercially available. Across seven brands you can actually buy, detection limits vary by more than double, with BTNX among the weaker ones. Levamisole, a common cocaine adulterant, causes false positives from 0.5 mg/mL."
+  },
+  {
+   "id": "benzodiazepine",
+   "name": "Benzodiazepine test strips",
+   "short": "BTS",
+   "detects": "Benzodiazepines as a class — not which one",
+   "readingIsInverted": true,
+   "reading": {
+    "positive": "ONE line",
+    "negative": "TWO lines",
+    "invalid": "No lines, or only a line on the dipped end"
+   },
+   "limits": [
+    {
+     "title": "Etizolam is the major gap",
+     "body": "Etizolam has a different ring structure that the antibody does not bind well, and it is one of the most common benzodiazepines found in the unregulated supply. Validation work reports high sensitivity only when etizolam samples are excluded from the count.",
+     "severity": "critical"
+    },
+    {
+     "title": "Bromazolam IS detected",
+     "body": "Bromazolam — currently the most prevalent novel benzodiazepine in several unregulated supplies — is detected, because it shares the chemical core the antibody targets."
+    },
+    {
+     "title": "Each new benzodiazepine is a coin flip",
+     "body": "Detection depends on chemical structure. A newly emerging benzodiazepine may or may not be caught, and there is no way to know until someone tests it specifically."
+    },
+    {
+     "title": "A negative result can itself be informative",
+     "body": "If a pill sold as pharmaceutical alprazolam tests negative for benzodiazepines, that is a strong sign it is counterfeit."
+    }
+   ],
+   "sources": [
+    {
+     "name": "Benzodiazepine strip validation (2025)",
+     "url": "https://www.sciencedirect.com/science/article/pii/S0376871625000845"
+    },
+    {
+     "name": "Substance Drug Checking — benzodiazepine strips",
+     "url": "https://substance.uvic.ca/blog/benzodiazepine-strips/"
+    }
+   ],
+   "accuracy": "On community drug-checking samples, benzodiazepine strips reached 98% sensitivity and 83% specificity — but only after etizolam-positive samples were removed from the analysis. A positive result was right about 56% of the time; a negative was right about 99% of the time."
+  },
+  {
+   "id": "nitazene",
+   "name": "Nitazene test strips",
+   "short": "NTS",
+   "detects": "Some nitazenes — a family of synthetic opioids that fentanyl strips miss entirely",
+   "readingIsInverted": true,
+   "reading": {
+    "positive": "ONE line",
+    "negative": "TWO lines",
+    "invalid": "No lines, or only a line on the dipped end"
+   },
+   "limits": [
+    {
+     "severity": "critical",
+     "title": "Nearly a third of real positives were missed",
+     "body": "In the only real-world evaluation, BTNX strips missed 29% of nitazene-positive street samples, and caffeine at 11–34% of a sample produced false positives. Readers also reported a very faint negative line on samples both with and without nitazenes, making results hard to call.",
+     "nuance": "Use them where nitazenes are circulating — a positive is real information. Do not treat a negative as clearance, and check the brand: performance between brands is not comparable.",
+     "sources": [
+      {
+       "name": "Ontario Drug Checking Community 2026 — 100 street samples",
+       "url": "https://drugchecking.community/wp-content/uploads/dlm_uploads/2026/01/Nitazene-test-strip-performance-assessment-v1_ODCC.pdf"
+      }
+     ]
+    },
+    {
+     "title": "Far less sensitive than fentanyl strips",
+     "body": "Cutoffs run 10 to 100 times higher than a fentanyl strip. One widely sold strip has a 2000 ng/mL cutoff against 10–20 ng/mL for fentanyl strips."
+    },
+    {
+     "title": "Structural blind spots",
+     "body": "In lab evaluation, 24 of 33 nitazene analogues cross-reacted and 9 were undetectable. Analogues missing a particular chemical group are not detected at all."
+    },
+    {
+     "title": "Still worth using if nitazenes are in your area",
+     "body": "Nitazene-involved overdose deaths in the US rose from 27 in 2020 to 409 in 2024. Naloxone does work on nitazenes, though multiple doses may be needed."
+    }
+   ],
+   "sources": [
+    {
+     "name": "Lab evaluation of nitazene strips",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11350930/"
+    }
+   ],
+   "accuracy": "Lab results looked strong; real street samples did not. Against 100 samples checked by mass spectrometry, BTNX nitazene strips were 71% sensitive and 76% specific — a 29% false-negative rate. One other brand (Trimedic) was 11% sensitive, missing 89% of positives; that product does not work."
+  }
+ ],
+ "reagentIntro": {
+  "cannotDetectFentanyl": "No reagent detects fentanyl. Do not trust any liquid sold as able to. Fentanyl is active in microgram amounts — far below what a color change can show. Reagents and fentanyl strips answer different questions, and you need both.",
+  "masking": [
+   "Not every drug reacts with every reagent",
+   "A darker color hides a lighter one",
+   "A very small amount of something may produce no visible change at all"
+  ],
+  "mixtures": "Genuine mixtures blend like mixing two colors of paint. If you can see visually different crystals, separate them and test each one."
+ },
+ "reagents": [
+  {
+   "id": "marquis",
+   "name": "Marquis",
+   "base": "Formaldehyde in concentrated sulfuric acid",
+   "useFor": "The broad first test. Start here.",
+   "reactions": [
+    {
+     "substance": "MDMA / MDA",
+     "color": "Black, often purple or brown tinted",
+     "key": "black",
+     "note": "Near-instant"
+    },
+    {
+     "substance": "Amphetamine / methamphetamine",
+     "color": "Orange to brown",
+     "key": "orange"
+    },
+    {
+     "substance": "Heroin / morphine",
+     "color": "Deep purplish red",
+     "key": "purple"
+    },
+    {
+     "substance": "Codeine",
+     "color": "Very dark purple",
+     "key": "purple"
+    },
+    {
+     "substance": "DXM",
+     "color": "Gray to black — but DELAYED 15–30 seconds, often smoking",
+     "key": "black",
+     "note": "The timing, not the final color, is what separates DXM from MDMA"
+    },
+    {
+     "substance": "2C-B",
+     "color": "Yellow turning green",
+     "key": "green"
+    },
+    {
+     "substance": "Cathinones",
+     "color": "Yellow, or no change",
+     "key": "yellow"
+    },
+    {
+     "substance": "Mescaline",
+     "color": "Strong orange",
+     "key": "orange"
+    },
+    {
+     "substance": "Cocaine",
+     "color": "Disputed — no reaction, or light pink to deep peach",
+     "key": "pink",
+     "note": "Bright orange or red here may mean an amphetamine is present instead"
+    },
+    {
+     "substance": "Ketamine, sugar, caffeine",
+     "color": "No reaction",
+     "key": "none"
+    }
+   ],
+   "caveats": [
+    "Cocaine is disputed. Older forensic sources say no reaction; DanceSafe updated in 2023 to expect anything from no reaction to a deep peach or light pink. Bright orange or red on cocaine may mean an amphetamine is present."
+   ]
+  },
+  {
+   "id": "mecke",
+   "name": "Mecke",
+   "base": "Selenous acid in concentrated sulfuric acid",
+   "useFor": "Classically the opiate reagent",
+   "reactions": [
+    {
+     "substance": "Heroin",
+     "color": "Deep blue-green",
+     "key": "blue"
+    },
+    {
+     "substance": "Morphine / codeine",
+     "color": "Very dark blue-green",
+     "key": "blue"
+    },
+    {
+     "substance": "Opium",
+     "color": "Olive black",
+     "key": "olive"
+    },
+    {
+     "substance": "Oxycodone",
+     "color": "Moderate olive",
+     "key": "olive"
+    },
+    {
+     "substance": "MDMA",
+     "color": "Blue-green shifting to brown-black",
+     "key": "black"
+    },
+    {
+     "substance": "2C-B",
+     "color": "Olive brown",
+     "key": "olive"
+    },
+    {
+     "substance": "PMA / PMMA",
+     "color": "Pale olive green",
+     "key": "olive"
+    },
+    {
+     "substance": "Sugar",
+     "color": "Bright greenish yellow",
+     "key": "yellow"
+    },
+    {
+     "substance": "Cocaine, ketamine",
+     "color": "No change",
+     "key": "none"
+    }
+   ],
+   "caveats": [
+    "DanceSafe marks Mecke as unvalidated for MDMA/MDA even though it is widely sold as an MDMA reagent."
+   ]
+  },
+  {
+   "id": "simons",
+   "name": "Simon's",
+   "base": "Two-part: sodium nitroprusside with acetaldehyde, then sodium carbonate. Aqueous and alkaline, not an acid.",
+   "useFor": "The only common reagent that separates MDMA from MDA, and methamphetamine from amphetamine. Always a second test, never a first.",
+   "twoPart": true,
+   "reactions": [
+    {
+     "substance": "MDMA",
+     "color": "Bright blue, near-instant",
+     "key": "blue"
+    },
+    {
+     "substance": "Methamphetamine",
+     "color": "Blue",
+     "key": "blue"
+    },
+    {
+     "substance": "Amphetamine",
+     "color": "No reaction",
+     "key": "none"
+    },
+    {
+     "substance": "Methylone, butylone",
+     "color": "Blue",
+     "key": "blue"
+    },
+    {
+     "substance": "Cocaine, ketamine, LSD, heroin, DXM",
+     "color": "No reaction",
+     "key": "none"
+    }
+   ],
+   "caveats": [
+    "The textbook rule that MDA gives no reaction is no longer reliable. Since about 2021 MDA-like substances may produce a muddy gray-green. Both outcomes are now expected, and older charts still teach the old rule.",
+    "Listed as inconsistent for 2C-B — do not use it to characterise 2C-x compounds.",
+    "Both parts go onto the SAME sample. Using them on two separate samples is a common and invalidating mistake."
+   ]
+  },
+  {
+   "id": "mandelin",
+   "name": "Mandelin",
+   "base": "Ammonium metavanadate in concentrated sulfuric acid",
+   "useFor": "Cross-check reagent; ketamine and cocaine",
+   "reactions": [
+    {
+     "substance": "Ketamine",
+     "color": "Deep reddish orange",
+     "key": "orange"
+    },
+    {
+     "substance": "Cocaine",
+     "color": "Deep orange-yellow",
+     "key": "orange"
+    },
+    {
+     "substance": "MDMA / MDA",
+     "color": "Bluish black",
+     "key": "black"
+    },
+    {
+     "substance": "Methamphetamine",
+     "color": "Dark yellow-green",
+     "key": "green"
+    },
+    {
+     "substance": "Amphetamine",
+     "color": "Moderate blue-green",
+     "key": "blue"
+    },
+    {
+     "substance": "Heroin",
+     "color": "Moderate reddish brown",
+     "key": "brown"
+    },
+    {
+     "substance": "Psilocybin",
+     "color": "Green",
+     "key": "green"
+    },
+    {
+     "substance": "Mescaline",
+     "color": "Dark yellowish brown",
+     "key": "brown"
+    }
+   ],
+   "caveats": [
+    "Sources disagree on whether to carry it at all. One vendor discontinued it for short shelf life and false positives; another still recommends it for PMA/PMMA screening. DanceSafe marks it unvalidated for MDMA/MDA.",
+    "It starts light orange and turns cloudy yellow after 3–4 weeks. That is normal — shake before use."
+   ]
+  },
+  {
+   "id": "froehde",
+   "name": "Froehde",
+   "base": "Molybdic acid in hot concentrated sulfuric acid",
+   "useFor": "Confirmatory third data point; strong on opioids and MDMA",
+   "reactions": [
+    {
+     "substance": "MDMA / MDA",
+     "color": "Blue-tinted black",
+     "key": "black"
+    },
+    {
+     "substance": "Heroin",
+     "color": "Deep purplish red turning green",
+     "key": "purple"
+    },
+    {
+     "substance": "Morphine",
+     "color": "Deep purplish red turning slate",
+     "key": "purple"
+    },
+    {
+     "substance": "Codeine",
+     "color": "Very dark green turning red-brown",
+     "key": "green"
+    },
+    {
+     "substance": "Oxycodone",
+     "color": "Strong yellow shifting blue-green",
+     "key": "yellow"
+    },
+    {
+     "substance": "Hydromorphone",
+     "color": "Blue turning purple",
+     "key": "blue"
+    },
+    {
+     "substance": "2C-B",
+     "color": "Yellow turning green",
+     "key": "green"
+    },
+    {
+     "substance": "Cocaine, ketamine",
+     "color": "No change",
+     "key": "none"
+    }
+   ],
+   "caveats": [
+    "Sources conflict on amphetamines: one sequences Froehde as a step for meth/amphetamine, another states no color change. Do not rely on a specific Froehde-amphetamine color."
+   ]
+  },
+  {
+   "id": "liebermann",
+   "name": "Liebermann",
+   "base": "Potassium or sodium nitrite in concentrated sulfuric acid",
+   "useFor": "Secondary reagent for cocaine and ketamine; responds to levamisole",
+   "reactions": [
+    {
+     "substance": "Cocaine",
+     "color": "Light yellow to orange — a range is accepted",
+     "key": "yellow"
+    },
+    {
+     "substance": "Ketamine",
+     "color": "Very pale yellow, sometimes nearly invisible",
+     "key": "yellow"
+    },
+    {
+     "substance": "MDMA",
+     "color": "Intense brown to black",
+     "key": "black"
+    },
+    {
+     "substance": "Amphetamine",
+     "color": "Orange to red",
+     "key": "orange"
+    },
+    {
+     "substance": "Methamphetamine",
+     "color": "Red",
+     "key": "red"
+    },
+    {
+     "substance": "Cathinones / mephedrone",
+     "color": "Bright yellow",
+     "key": "yellow"
+    },
+    {
+     "substance": "Morphine",
+     "color": "Black",
+     "key": "black"
+    },
+    {
+     "substance": "Heroin",
+     "color": "Purple or black",
+     "key": "purple"
+    },
+    {
+     "substance": "Alprazolam",
+     "color": "No reaction",
+     "key": "none"
+    }
+   ],
+   "caveats": [
+    "Liebermann alone cannot separate cocaine from a cathinone — both land in the yellow range."
+   ]
+  },
+  {
+   "id": "ehrlich",
+   "name": "Ehrlich's",
+   "base": "p-DMAB in ethanol with concentrated hydrochloric acid",
+   "useFor": "The indole reagent, and the single most important LSD test. Use only for LSD, psilocybin, and DMT.",
+   "reactions": [
+    {
+     "substance": "LSD and all lysergamides",
+     "color": "Purple",
+     "key": "purple"
+    },
+    {
+     "substance": "Psilocybin",
+     "color": "Purple, but often muddy or hard to see",
+     "key": "purple"
+    },
+    {
+     "substance": "Pyridoxine (vitamin B6)",
+     "color": "Pink",
+     "key": "pink"
+    },
+    {
+     "substance": "Natural opium",
+     "color": "Positive, via tryptophan — a genuine false-positive trap",
+     "key": "purple"
+    },
+    {
+     "substance": "MDMA, cocaine, ketamine, heroin, meth",
+     "color": "No reaction",
+     "key": "none"
+    }
+   ],
+   "caveats": [
+    "CRITICAL: 25I-NBOMe and other NBOMes, 2C-x, and DOx compounds give NO reaction. A negative result on blotter does not mean nothing is there — it is fully consistent with an NBOMe, which is exactly what gets substituted for LSD and is far more dangerous. Ehrlich's rules an indole in; it cannot rule a substituted phenethylamine out. Always pair with Marquis or Froehde.",
+    "Slow reagent — can take up to 5 minutes, and stays readable for up to an hour."
+   ],
+   "criticalCaveat": true
+  },
+  {
+   "id": "morris",
+   "name": "Morris",
+   "base": "Two-part modified cobalt thiocyanate",
+   "useFor": "The ketamine and cocaine reagent — the only common reagent giving a strong distinctive ketamine result",
+   "twoPart": true,
+   "reactions": [
+    {
+     "substance": "Cocaine",
+     "color": "Bright blue",
+     "key": "blue"
+    },
+    {
+     "substance": "Ketamine",
+     "color": "Violet to purple; shade varies",
+     "key": "purple"
+    },
+    {
+     "substance": "No reaction baseline",
+     "color": "Sea foam green",
+     "key": "green",
+     "note": "Know this color — too small a sample lets the green tint muddy a real result"
+    },
+    {
+     "substance": "PCP, 3-MeO-PCP, MXE, ephenidine, diphenidine",
+     "color": "No reaction",
+     "key": "none"
+    }
+   ],
+   "caveats": [
+    "Use DOUBLE the normal sample size. Stir both bottles and the sample together with a toothpick for 20 seconds. The reading window is about 5 minutes — much longer than other reagents.",
+    "Not very sensitive: detection limits are around 1.25 mg.",
+    "A \"not ketamine\" result does not identify what it actually is. Several newer dissociatives are uncharacterised."
+   ]
+  }
+ ],
+ "procedure": [
+  {
+   "title": "Use a pinhead of sample",
+   "body": "Finely crushed. Blotter: a tiny corner. Liquids: one drop. Morris: double. For low-dose pressed pills use MORE — a 150 mg pill may hold only 10 mg of active drug."
+  },
+  {
+   "title": "Never test the whole pill, and never in the bag",
+   "body": "Use a white, clean, dry, non-porous surface — ceramic or hard plastic. These reagents are concentrated acids and will destroy a plastic bag. Testing the whole pill destroys the dose and gives an unreadable smear. Pill and blotter dyes distort colors: orange pills throw orange specks, blue pills read muddy brown, and blotter dye is easily mistaken for a purple Ehrlich's positive."
+  },
+  {
+   "title": "One drop, and never touch the sample with the bottle",
+   "body": "Touching the tip to the sample contaminates the entire bottle. Hold the cap upside down while you work — setting it down, or on the wrong bottle, is a common mistake. For two-part reagents, both drops go on the SAME sample."
+  },
+  {
+   "title": "Watch from the moment the drop lands",
+   "body": "Intermediate colors carry information — that is how Marquis separates MDMA from DXM. Read within roughly the first minute and disregard later drift from air and moisture. Sources give anywhere from 40 seconds to 3 minutes, so there is no single correct number. Ehrlich's, Hofmann, and Morris are the slow exceptions at about 5 minutes."
+  },
+  {
+   "title": "Use several reagents, with a fresh sample each time",
+   "body": "Never drop a second reagent onto an already-tested spot. Re-cap before opening the next bottle. One reagent narrows it down; several together tell you much more, because each one rules out something different."
+  },
+  {
+   "title": "Run a blank next to it",
+   "body": "Put a drop of the reagent alone beside your test spot. Reagents are tinted and darken with age, so a blank tells you what \"no reaction\" looks like today. Use neutral daylight. If unsure, retest with a larger sample."
+  },
+  {
+   "title": "Clean up",
+   "body": "Neutralise with baking soda, wash with soap and water, and dry before the next test."
+  }
+ ],
+ "safety": {
+  "ppe": "Wear gloves and eye protection. Marquis, Mecke, Mandelin, Froehde, Liebermann and Hofmann are concentrated sulfuric acid; Ehrlich's is hydrochloric acid in ethanol. They damage skin and eyes. Work in a ventilated area — DXM on Marquis often smokes.",
+  "firstAid": [
+   "Skin: wash with water immediately.",
+   "Eyes: flood with water for at least 10 minutes, holding the eye open.",
+   "Swallowed: rinse the mouth, do NOT induce vomiting, drink water, get medical help immediately."
+  ],
+  "storage": "Keep upright, lid secured, away from heat and light. Refrigerated they last 1–2 years; at room temperature that roughly halves. Let them warm up before opening, since condensation and cold change how they react.",
+  "expiry": "Marquis and Mecke darken as they age. A reagent is expired when it is too dark to read a reaction clearly. Dark green or black means contamination — discard it.",
+  "validate": "Test a drop on sugar. If you cannot see a clear reaction, the reagent may no longer be accurate.",
+  "disposal": "Neutralise the spent drop with baking soda and rinse the surface with plenty of water. Take unused or expired reagent to a household hazardous waste facility. Never pour concentrated acid neat down a drain, and never mix reagents together."
+ },
+ "legal": {
+  "headline": "Test strips are legal in most, but not all, states",
+  "body": "As of the most recent 50-state review, fentanyl test strips are not subject to paraphernalia penalties in 47 states plus DC. Xylazine strips are covered in only 34 states plus DC, and reagent kits in fewer still — so the strip that is legal for one drug may not be for another. In several states legality depends on who holds it or how it is used.",
+  "stale": "Lists circulating online are out of date. Idaho changed in July 2024 and Indiana in 2025, so the commonly repeated five-state list is wrong. Iowa and Texas remain states where possession of drug-checking equipment may still be criminal.",
+  "advice": "Check your own state's current law. Nothing here is legal advice.",
+  "source": {
+   "name": "LAPPA — Drug Checking Equipment 50-State Summary (Sept 2025)",
+   "url": "https://legislativeanalysis.org/wp-content/uploads/2025/09/Drug-Checking-Equipment-50-State-Summary.pdf"
+  }
+ },
+ "labs": {
+  "intro": "Only a laboratory can confirm what is actually in a sample. These programs accept mailed samples.",
+  "note": "DrugsData.org paused accepting new samples in April 2024 and does not expect to resume before 2027. Its historical archive is still worth searching, but do not mail samples there.",
+  "options": [
+   {
+    "name": "UNC Street Drug Analysis Lab",
+    "url": "https://www.opioiddata.org/",
+    "detail": "Free mail-in GC-MS, nationwide US"
+   },
+   {
+    "name": "Transparency Testing",
+    "url": "https://dancesafe.org/dancesafextransparency/",
+    "detail": "Mail-in FTIR, LC-MS and NMR; quantitative"
+   },
+   {
+    "name": "WEDINOS",
+    "url": "https://wedinos.wales/sample-testing/",
+    "detail": "Free anonymous postal testing (Public Health Wales); does not report purity or dose"
+   },
+   {
+    "name": "Find a service near you",
+    "url": "https://harmreduction.org/resource-center/harm-reduction-near-you/",
+    "detail": "Most in-person drug checking runs through syringe service programs"
+   }
+  ],
+  "how": {
+   "title": "What a lab does that a strip cannot",
+   "intro": "A strip answers one yes/no question about one substance. These identify everything in a sample, and some of them say how much.",
+   "methods": [
+    {
+     "name": "FTIR — infrared spectroscopy",
+     "what": "Shines infrared light through the sample and reads which wavelengths it absorbs. Every compound has a distinct absorption pattern, so the machine matches that pattern against a library.",
+     "good": "Seconds to run, no sample destroyed, and it is what most in-person drug checking services actually use — you can often watch it happen and ask questions.",
+     "limits": "It reads the BULK of a sample. Anything under roughly 5% by weight can be invisible to it, which means it routinely misses fentanyl at street concentrations. That is why services run FTIR and a fentanyl strip together, not one instead of the other."
+    },
+    {
+     "name": "GC-MS — gas chromatography–mass spectrometry",
+     "what": "Separates a mixture into its individual components, then weighs each one's molecular fragments to identify it. The chromatography does the separating; the mass spectrometry does the identifying.",
+     "good": "The reference standard. It finds trace components an FTIR cannot see, including fentanyl analogues and adulterants present in tiny amounts, and it names them specifically rather than by family.",
+     "limits": "Needs a laboratory, trained staff, and days rather than seconds. This is what mail-in programs use, and the wait is the trade-off for the detail."
+    },
+    {
+     "name": "LC-MS and NMR",
+     "what": "Liquid chromatography–mass spectrometry handles compounds that GC cannot vaporise. NMR reads how atomic nuclei behave in a magnetic field and can determine structure and quantity.",
+     "good": "Together these give quantitative answers — not just what is present, but how much. That is the only way to know a percentage rather than a yes.",
+     "limits": "The most expensive and least available. Only a handful of programs offer it."
+    }
+   ],
+   "bottom": "Nothing here is instant, and none of it tells you about the batch you did not send. What a lab result changes is what you know about your supply in general — and, through published results, what everyone else in your area knows too."
+  }
+ },
+ "companion": [
+  "Start low and go slow — especially with a new batch, or after any time away from using.",
+  "Never use alone. If nobody can be there, call Never Use Alone at 1-800-484-3731.",
+  "Carry naloxone, and make sure whoever is with you knows where it is.",
+  "Fentanyl and nitazenes are opioids — naloxone works on both. It may take more than one dose."
+ ],
+ "stripBrandNote": {
+  "title": "Read the instructions that came with your strips",
+  "body": "Strips are not interchangeable. Dip time, how long to wait before reading, how long the result stays valid, and how much water to use all change between brands — and sometimes between lots from the same brand. The steps here are the common pattern, not a substitute for the insert in your packet.",
+  "detail": "If you have no insert, look up your exact brand before you dilute. Reading a strip too early or too late is one of the easiest ways to get an answer that is wrong in the direction that hurts you."
+ },
+ "storage": {
+  "headline": "Storing your supplies",
+  "intro": "Every one of these degrades, and a degraded test does not announce itself — it just gives you a wrong answer in the same confident colors.",
+  "items": [
+   {
+    "what": "Reagents",
+    "how": "Fridge if you can, dark and cool if you cannot. Keep them in the box they came in.",
+    "why": "Light and heat break them down. Reagents darken with age — a Marquis that has gone brown on its own will read as a reaction that never happened. This is why running a blank drop beside your test matters: it shows you what the bottle looks like today.",
+    "life": "Roughly a year refrigerated, much less if warm. Replace them if the color has drifted."
+   },
+   {
+    "what": "Test strips",
+    "how": "Room temperature, sealed in their pouch until the moment you use one. Not the glovebox, not the bathroom.",
+    "why": "Humidity is the enemy — the pouch is sealed for a reason, and a strip that has taken on moisture can fail in either direction. Heat cycling in a car does the same.",
+    "life": "Check the printed expiry. An expired strip is not a maybe."
+   },
+   {
+    "what": "Naloxone",
+    "how": "Room temperature, out of direct light, somewhere you can reach it in the dark and someone else can find it.",
+    "why": "It tolerates ordinary conditions well but not extremes. A car in summer or a freezing porch is genuinely too much. Nasal spray works fine after freezing IF it has fully thawed — but if you only have one dose, do not rely on that.",
+    "life": "Expiry dates are conservative. Expired naloxone loses potency over time but is far better than none — if it is what you have, use it and call 911."
+   },
+   {
+    "what": "Anything shared or hidden",
+    "how": "Somewhere another person can find it without you telling them where.",
+    "why": "Naloxone in a locked box in your room helps nobody if you are the one who is not breathing. Whoever is around needs to know it exists and be able to reach it."
+   }
+  ],
+  "sources": [
+   {
+    "name": "DanceSafe — reagent testing kit instructions",
+    "url": "https://dancesafe.org/wp-content/uploads/2024/05/DS_Instructions_Reagents_v17Spring24.pdf"
+   },
+   {
+    "name": "FDA — naloxone nasal spray label (storage section)",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cd11c435-b0f0-4bb9-ae78-60f101f3703f"
+   }
+  ]
+ },
+ "compare": {
+  "headline": "Which test tells you what",
+  "intro": "No single tool answers every question, and the differences between them are not small. This is the short version; each tool has its own section below with the detail and the sources.",
+  "note": "“Confidence” is about how much weight a NEGATIVE deserves. Every one of these is more trustworthy saying yes than saying no — and lab performance is consistently better than performance on real street samples, so the field numbers are the ones used here.",
+  "rows": [
+   {
+    "tool": "Fentanyl strips",
+    "finds": "Fentanyl and many of its analogues",
+    "misses": "Nitazenes entirely. Some analogues. Uneven mixing in a bag.",
+    "negative": "Fairly strong — about 96% sensitivity against 210 forensic samples. But sensitivity varies tenfold between manufacturing lots, so dilute properly.",
+    "confidence": "high"
+   },
+   {
+    "tool": "Xylazine strips",
+    "finds": "Xylazine (“tranq”)",
+    "misses": "Medetomidine, which is now replacing xylazine in some places and does not cross-react.",
+    "negative": "Weak. A negative rules out xylazine, not sedation — medetomidine does not cross-react. Levamisole causes false positives.",
+    "confidence": "low"
+   },
+   {
+    "tool": "Benzodiazepine strips",
+    "finds": "Benzodiazepines as a class — never which one",
+    "misses": "Etizolam, the major gap. Each newly appearing benzo is a coin flip.",
+    "negative": "Moderate. 98% sensitive only once etizolam samples are excluded; a positive is right about 56% of the time.",
+    "confidence": "medium"
+   },
+   {
+    "tool": "Nitazene strips",
+    "finds": "Some nitazenes — the family fentanyl strips miss",
+    "misses": "Structural blind spots; far less sensitive than fentanyl strips.",
+    "negative": "Weak — 29% of real positives were missed in the only street-sample study, and one brand missed 89%. A positive means something; a negative does not.",
+    "confidence": "low"
+   },
+   {
+    "tool": "Reagents",
+    "finds": "What the BULK of a sample mostly is",
+    "misses": "Anything present in small amounts — including fentanyl at street concentrations. Colors can mask each other in a mixture.",
+    "negative": "Different question entirely. Reagents identify the main substance; they do not screen for contaminants.",
+    "confidence": "n/a"
+   },
+   {
+    "tool": "Send it to a lab",
+    "finds": "Everything present, and how much",
+    "misses": "Nothing technical — the limit is time and access.",
+    "negative": "Strongest available. The trade-off is days of turnaround and, for most people, going through a local program.",
+    "confidence": "high"
+   }
+  ]
+ },
+ "buying": {
+  "headline": "Buying it over the counter",
+  "lastVerified": "2026-08-11",
+  "intro": "Some of this is genuinely on a pharmacy shelf now. But the same shelf carries a product that looks almost identical and answers a completely different question — so it is worth knowing exactly what to pick up. And buying is not the only option — a local program will usually give you the same things free.",
+  "trap": {
+   "title": "Most “fentanyl test strips” sold in stores test a person, not a drug",
+   "body": "A urine drug screen tells you whether someone has already taken something. It cannot tell you what is in a bag. Both are strips in a pouch, both are immunoassays, and they sit in the same aisle under nearly the same words.",
+   "tell": "How to tell them apart: a substance-checking kit comes with a micro-scoop and a small measuring cup, because you dissolve a sample in water. A urine screen mentions urine, a dip card or cassette, a panel count, or “CLIA waived”. If it costs more and includes a mail-in lab envelope, it is a urine screen.",
+   "examples": "Verified in August 2026: Walmart’s entire “fentanyl strips” category — all 23 results — was urine screens. CVS sells both, with the urine kit at roughly twice the price of the real thing, and its own listing text mixed up which drug it tests for."
+  },
+  "items": [
+   {
+    "what": "Naloxone (Narcan, RiVive, Rextovy)",
+    "where": "Pharmacy shelf, no prescription, nationwide",
+    "price": "About $35 for a two-dose Narcan carton at CVS",
+    "note": "Over the counter since 2023, with a third brand approved in June 2026. Free is often possible — see Learn for programs that mail it after a short course.",
+    "verified": true
+   },
+   {
+    "what": "Fentanyl test strips",
+    "where": "CVS, in stores and online, in 37 states",
+    "price": "About $10 for 10 strips with scoops and a cup",
+    "note": "Look for “DrugCheck” or any pack that includes micro-scoops. Cheaper per strip from DanceSafe or Amazon (roughly $1.50–$2 each). CVS’s own listing notes it is restricted in some states.",
+    "verified": true
+   },
+   {
+    "what": "Xylazine, benzodiazepine and nitazene strips",
+    "where": "Not on any pharmacy shelf we could confirm — online, or free from a harm reduction program",
+    "price": "Xylazine strips $1.69 each from Grassroots Harm Reduction, $1.99 from DanceSafe — or free from a local program",
+    "note": "Benzodiazepine strips are not sold by DanceSafe; Grassroots and local programs are the routes. Nitazene strips run about $3.",
+    "verified": true,
+    "links": [
+     {
+      "name": "Grassroots Harm Reduction",
+      "url": "https://grassrootsharmreduction.org/"
+     },
+     {
+      "name": "Find a program near you",
+      "url": "https://harmreduction.org/resource-center/harm-reduction-near-you/"
+     }
+    ]
+   },
+   {
+    "what": "Reagent kits",
+    "where": "Online — DanceSafe, Bunk Police — or free through some harm reduction programs",
+    "price": "About $20 for a single-reagent kit, $89–119 for a set; sometimes free through a program",
+    "note": "No retail chain sells these. A local program may have kits on hand or test with you.",
+    "verified": true,
+    "links": [
+     {
+      "name": "Grassroots Harm Reduction",
+      "url": "https://grassrootsharmreduction.org/"
+     },
+     {
+      "name": "DanceSafe",
+      "url": "https://dancesafe.org/shop/"
+     },
+     {
+      "name": "Bunk Police",
+      "url": "https://bunkpolice.com/collections/all"
+     }
+    ]
+   },
+   {
+    "what": "Free, from a harm reduction program",
+    "where": "Local programs and peer-run networks — no purchase at all",
+    "price": "Free",
+    "note": "This is usually the only route for xylazine, benzodiazepine and nitazene strips, and it costs nothing. Programs stock up through Grassroots Harm Reduction, a buyers’ club open to any organization giving supplies away free — so if you run or want to start a program, that is where supply comes from. If you are looking for yourself, start with the locator.",
+    "verified": true,
+    "links": [
+     {
+      "name": "Find a program near you",
+      "url": "https://harmreduction.org/resource-center/harm-reduction-near-you/"
+     },
+     {
+      "name": "NEXT Distro — supplies by mail",
+      "url": "https://nextdistro.org/"
+     },
+     {
+      "name": "Grassroots Harm Reduction (for programs)",
+      "url": "https://grassrootsharmreduction.org/"
+     }
+    ]
+   }
+  ],
+  "legal": {
+   "title": "Whether you can buy them depends on your state",
+   "body": "Drug-checking equipment is fully legal to sell, give away and possess in 20 states. Thirteen more allow it only for specific drugs — usually fentanyl strips. In Indiana, Iowa, North Dakota, Puerto Rico and Texas, possessing it arguably remains a crime. Massachusetts and Michigan allow possession and free distribution but not sale.",
+   "note": "These laws are actively changing, and the best national survey available is already around two years old. Availability varies by store and by state and cannot be verified nationally — if a chain near you does not carry it, a local harm reduction program can.",
+   "sources": [
+    {
+     "name": "Network for Public Health Law — 50-state survey",
+     "url": "https://www.networkforphl.org/wp-content/uploads/2025/01/2024-50-State-DCE-Fact-Sheet.pdf"
+    },
+    {
+     "name": "LAPPA — fentanyl test strip state map",
+     "url": "https://legislativeanalysis.org/knowledge-lab-state-maps/fentanyl-tests-strips/"
+    }
+   ]
+  },
+  "sources": [
+   {
+    "name": "FDA — first OTC naloxone approval",
+    "url": "https://www.fda.gov/news-events/press-announcements/fda-approves-first-over-counter-naloxone-nasal-spray"
+   },
+   {
+    "name": "FDA — third OTC naloxone, June 2026",
+    "url": "https://www.fda.gov/news-events/press-announcements/fda-broadens-access-over-counter-naloxone-nasal-spray-opioid-overdose"
+   },
+   {
+    "name": "CVS Health — test strips in 37 states",
+    "url": "https://www.cvshealth.com/news/community/prevention-efforts-help-support-safer-communities.html"
+   },
+   {
+    "name": "DanceSafe shop",
+    "url": "https://dancesafe.org/shop/"
+   },
+   {
+    "name": "Grassroots Harm Reduction",
+    "url": "https://grassrootsharmreduction.org/"
+   }
+  ],
+  "storefronts": {
+   "title": "Where to buy from a legitimate source",
+   "intro": "These are the sellers worth trusting: harm reduction organizations that publish what their products do and do not detect, rather than marketplaces where accuracy claims are written by whoever is selling.",
+   "shops": [
+    {
+     "name": "Grassroots Harm Reduction",
+     "url": "https://grassrootsharmreduction.org/store/",
+     "carries": "Fentanyl strips $1.49 · xylazine strips $1.69 · reagents · purity kits · drug info cards",
+     "why": "Run by DanceSafe’s founder, and the cheapest per-strip source we found. All proceeds are redistributed to independent peer-run harm reduction groups. Organizations can register for buyers’ club pricing; anyone can buy at the listed price."
+    },
+    {
+     "name": "DanceSafe",
+     "url": "https://dancesafe.org/shop/",
+     "carries": "Fentanyl strips $1.99 · xylazine $1.99 · nitazene $3.00 · reagent kits from $20",
+     "why": "The original nonprofit in this space. Their instructions state plainly what reagents cannot tell you, which is rarer than it should be."
+    },
+    {
+     "name": "Bunk Police",
+     "url": "https://bunkpolice.com/collections/all",
+     "carries": "Reagent kits and multi-reagent sets",
+     "why": "Long-running reagent supplier; kits come with substance-specific color charts."
+    },
+    {
+     "name": "NEXT Distro",
+     "url": "https://nextdistro.org/",
+     "carries": "Naloxone and fentanyl strips, by mail",
+     "why": "Free rather than for sale, where your state allows it. Usually requires a short online training first."
+    }
+   ],
+   "avoid": {
+    "title": "What to be careful of on a marketplace",
+    "body": "Amazon and similar carry real strips alongside listings advertising “99% accurate” with no study behind the number, and urine screens named to look like drug-checking strips. If a listing will not tell you which analogues it misses, it is selling confidence rather than information."
+   }
+  }
+ }
+}

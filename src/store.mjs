@@ -3,9 +3,10 @@
  * commits IS the new-alert detection, and history is a free audit trail.
  */
 
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { gzipSync } from "node:zlib";
 
 const DISCLAIMER =
   "Aggregated from public reporting and not independently verified. " +
@@ -77,7 +78,7 @@ export async function writeCountyFeed(root, county, clusters, siteUrl) {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>SupplySignal — ${esc(county.name)}, ${esc(county.state)}</title>
+    <title>Supply Check — ${esc(county.name)}, ${esc(county.state)}</title>
     <link>${siteUrl}/#/${county.fips}</link>
     <description>${esc(DISCLAIMER)}</description>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
@@ -88,6 +89,63 @@ ${items}
   const p = path.join(root, "feeds", `${county.fips}.xml`);
   await mkdir(path.dirname(p), { recursive: true });
   await writeFile(p, xml, "utf8");
+}
+
+/**
+ * One national bundle of every live cluster, which is what the site actually
+ * reads.
+ *
+ * The per-county files above still exist - they are a clean API surface and
+ * they drive the RSS feeds - but the browser must never request one. Fetching
+ * `data/counties/47065.json` writes "this IP looked up Hamilton County" into
+ * the host's access log, and on a static host the operator cannot turn that
+ * logging off. Shipping one identical bundle to everyone means the log shows
+ * only that somebody opened the site. See PRIVACY.md §1.
+ */
+export async function writeAlertsBundle(root, { windowDays, coverage }) {
+  const dir = path.join(root, "data", "counties");
+  if (!existsSync(dir)) return { clusters: 0, bytes: 0 };
+
+  const cutoff = Date.now() - windowDays * 86400000;
+  const clusters = [];
+
+  for (const file of await readdir(dir)) {
+    if (!file.endsWith(".json")) continue;
+    const doc = await readJson(path.join(dir, file), null);
+    if (!doc?.clusters) continue;
+    for (const c of doc.clusters) {
+      if (Date.parse(c.eventDate) >= cutoff) clusters.push(c);
+    }
+  }
+
+  const rank = { critical: 0, elevated: 1, advisory: 2 };
+  clusters.sort(
+    (a, b) =>
+      rank[a.severity] - rank[b.severity] || String(b.eventDate).localeCompare(a.eventDate)
+  );
+
+  const payload = {
+    generated: new Date().toISOString(),
+    windowDays,
+    disclaimer: DISCLAIMER,
+    coverage,
+    clusters,
+  };
+
+  const p = path.join(root, "data", "alerts.json");
+  await writeJson(p, payload);
+
+  // Guardrail: the privacy design tolerates a big bundle, but not an unbounded
+  // one. If this trips, shard by REGION (multi-state groups) - never by county,
+  // which would put the leak straight back.
+  const gz = gzipSync(Buffer.from(JSON.stringify(payload))).length;
+  if (gz > 600 * 1024) {
+    console.warn(
+      `[bundle] alerts.json is ${(gz / 1024).toFixed(0)} KB gzipped, over the ` +
+      `600 KB threshold. Shard by region - see PRIVACY.md §1.`
+    );
+  }
+  return { clusters: clusters.length, bytes: gz };
 }
 
 export async function appendReview(root, items) {

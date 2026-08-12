@@ -1,0 +1,140 @@
+/* "What is characteristic of this part of the country."
+ *
+ * Rendered from data/regional.json (UNC, CC0) in two places: on a county page,
+ * scoped to that county's Census region, and on the Substances page as the
+ * whole picture.
+ *
+ * The reason this earns space in a county-level tool is the finding itself.
+ * Only 20 of 90 routinely-detected substances appear everywhere at similar
+ * rates; the rest cluster regionally, some almost entirely in one region. That
+ * is the evidence behind the whole premise of this app - a national number is
+ * wrong nearly everywhere, and what is next door matters more than what is
+ * average.
+ */
+
+import { h, frag, section, callout, extLink, badge } from "./ui.js";
+import * as data from "./data.js";
+
+/** Substances most concentrated in `region`, strongest signal first. */
+function topFor(doc, region, limit = 10) {
+  const i = doc.regions.indexOf(region);
+  if (i < 0) return [];
+  return doc.substances
+    .filter((s) => s.group === region)
+    .map((s) => ({ ...s, pct: Math.round(s.share[i] * 100), rate: s.rate[i] }))
+    .sort((a, b) => b.pct - a.pct)
+    .slice(0, limit);
+}
+
+function substanceRow(s) {
+  return h("div", { class: "regrow" },
+    h("div", { class: "regrow__head" },
+      h("span", { class: "regrow__name" }, s.name),
+      h("span", { class: "regrow__pct" }, `${s.pct}%`)),
+    // The bar restates the number visually; the number is always present, so
+    // the bar is reinforcement rather than the only signal.
+    h("div", { class: "regbar", role: "presentation" },
+      h("i", { class: "regbar__fill", "data-w": String(s.pct) })),
+    s.desc ? h("p", { class: "regrow__desc" }, s.desc) : null);
+}
+
+function paintBars(root) {
+  // CSS forbids inline styles under our CSP, so widths are applied here.
+  root.querySelectorAll(".regbar__fill").forEach((el) => {
+    el.style.width = `${Math.max(2, Number(el.dataset.w) || 0)}%`;
+  });
+}
+
+/**
+ * County-scoped block. `state` is a postal code.
+ * Returns null when the state has no Census region (the territories), rather
+ * than guessing one.
+ */
+export async function regionalForState(state, countyName) {
+  const doc = await data.regional();
+  if (!doc?.substances?.length) return null;
+
+  const region = doc.stateRegion?.[state];
+  if (!region) return null;
+
+  const top = topFor(doc, region, 8);
+  if (!top.length) return null;
+
+  const node = h("details", { class: "acc" },
+    h("summary", null,
+      h("span", null, `Characteristic of the ${region}`),
+      badge(`${top.length}`, "neutral")),
+    h("div", { class: "acc__body" },
+      h("p", { class: "sec__note" },
+        `Substances that drug checking finds far more often in the ${region} than ` +
+        `elsewhere. This is a regional pattern, not a report about ${countyName} — ` +
+        `it is context for what a local result might mean.`),
+      top.map(substanceRow),
+      h("p", { class: "sec__note" }, doc.caveat),
+      h("div", { class: "sources" },
+        h("span", { class: "card__meta" }, "Source:"),
+        extLink(doc.source.url, doc.source.attribution))));
+
+  paintBars(node);
+  return node;
+}
+
+/** Full picture, for the Substances page. */
+export async function regionalOverview() {
+  const doc = await data.regional();
+  if (!doc?.substances?.length) return null;
+
+  const wrap = h("div");
+
+  wrap.appendChild(
+    callout("info", doc.headline,
+      h("p", null, doc.summary))
+  );
+
+  const counts = doc.groupCounts || {};
+  wrap.appendChild(
+    h("div", { class: "chips" },
+      [...doc.regions, "Ubiquitous"].map((r) =>
+        h("span", { class: "tag" }, `${counts[r] || 0} ${r}`)))
+  );
+
+  for (const region of doc.regions) {
+    const top = topFor(doc, region, 6);
+    if (!top.length) continue;
+    const block = h("details", { class: "acc" },
+      h("summary", null,
+        h("span", null, region),
+        badge(`${counts[region] || 0} substances`, "neutral")),
+      h("div", { class: "acc__body" }, top.map(substanceRow)));
+    paintBars(block);
+    wrap.appendChild(block);
+  }
+
+  const ubiq = doc.substances.filter((s) => s.group === "Ubiquitous");
+  if (ubiq.length) {
+    wrap.appendChild(
+      h("details", { class: "acc" },
+        h("summary", null,
+          h("span", null, "Everywhere"),
+          badge(`${ubiq.length}`, "neutral")),
+        h("div", { class: "acc__body" },
+          h("p", { class: "sec__note" },
+            "These saturate the supply nationwide — no region holds more than a " +
+            "third of their signal. Fentanyl and methamphetamine are in this group."),
+          h("div", { class: "tags" },
+            ubiq.map((s) => h("span", { class: "tag" }, s.name)))))
+    );
+  }
+
+  wrap.appendChild(
+    h("p", { class: "sec__note" }, doc.caveat)
+  );
+  wrap.appendChild(
+    h("div", { class: "sources" },
+      h("span", { class: "card__meta" }, `${doc.period} ·`),
+      extLink(doc.source.url, doc.source.attribution),
+      h("span", { class: "card__meta" }, doc.source.license))
+  );
+
+  return section("Drugs are regional", "Only 20 of 90 substances turn up everywhere", wrap);
+}

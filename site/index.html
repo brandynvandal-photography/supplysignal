@@ -2,397 +2,104 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SupplySignal — county drug supply alerts</title>
-<meta name="description" content="County-level drug supply alerts aggregated from public health department reporting and local news.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Public+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{--paper:#EEF1EF;--card:#fff;--ink:#101F1E;--muted:#5C6B68;--line:#D5DCD9;
-        --petrol:#135E66;--petrol-dark:#0C3F45;--flare:#E8490F;--amber:#B4780A}
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Public Sans',system-ui,sans-serif;
-       display:flex;flex-direction:column;min-height:100vh}
-  .wrap{max-width:760px;margin:0 auto;padding:0 20px;width:100%}
-  header{background:var(--petrol-dark);color:#EAF2F1}
-  header .wrap{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;padding:18px 20px}
-  .brand{display:flex;align-items:center;gap:10px;cursor:pointer}
-  .dot{width:10px;height:10px;border-radius:50%;background:var(--flare)}
-  @media (prefers-reduced-motion:no-preference){
-    .dot{animation:pulse 2.2s ease-in-out infinite}
-    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,73,15,.45)}55%{box-shadow:0 0 0 7px rgba(232,73,15,0)}}
-  }
-  .name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;letter-spacing:.04em;
-        text-transform:uppercase;line-height:1}
-  .tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:#9FBCBB}
-  main{flex:1;padding:26px 0 40px}
-  label{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:20px;margin-bottom:10px}
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  .searchbar{position:relative}
-  .row{display:flex;gap:8px}
-  #q{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:6px;background:var(--card);
-     color:var(--ink);font:inherit;font-size:15px;padding:12px 14px}
-  #q:focus-visible{outline:2px solid var(--petrol);outline-offset:1px;border-color:var(--petrol)}
-  .btn{border:none;border-radius:6px;cursor:pointer;background:var(--petrol);color:#fff;
-       font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;letter-spacing:.04em;
-       text-transform:uppercase;padding:0 16px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
-  .btn:hover:not(:disabled){background:var(--petrol-dark)}
-  .btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-  .btn:disabled{opacity:.55;cursor:default}
-  .btn.ghost{background:transparent;color:var(--petrol);border:1.5px solid var(--petrol);
-             font-size:14px;padding:6px 12px;text-decoration:none}
-  .btn.ghost:hover:not(:disabled){background:#E6EFF0}
+<!-- Closed origin. This is load-bearing: it stops a future contributor from
+     casually reintroducing a font CDN or analytics tag, because the browser
+     will refuse the request rather than quietly leaking a reader's IP.
+     (frame-ancestors and X-Frame-Options cannot be set from a meta tag - see
+     PRIVACY.md for the header-based hardening to apply if the host allows it.) -->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'none';
+  script-src 'self';
+  style-src 'self';
+  img-src 'self' data:;
+  connect-src 'self';
+  font-src 'self';
+  base-uri 'none';
+  form-action 'none';
+  manifest-src 'self';
+  worker-src 'self'">
+<meta name="referrer" content="no-referrer">
 
-  #results{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);background:var(--card);
-           border:1.5px solid var(--line);border-radius:6px;max-height:300px;overflow-y:auto;
-           box-shadow:0 6px 20px rgba(16,31,30,.12)}
-  #results:empty{display:none}
-  #results button{display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;
-        font:inherit;font-size:15px;padding:11px 14px;border-bottom:1px solid var(--line);color:var(--ink)}
-  #results button:last-child{border-bottom:none}
-  #results button:hover,#results button[aria-selected=true]{background:#E6EFF0}
-  #results .st{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-left:6px}
+<title>Supply Check — drug supply alerts and harm reduction</title>
+<meta name="description" content="County-level drug supply alerts, drug-checking results, and how to test a supply. Harm reduction information, not medical advice.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#faf6f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17150f" media="(prefers-color-scheme: dark)">
 
-  .seg{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;align-items:center}
-  .seg button{font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:6px 12px;border-radius:999px;
-        border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
-  .seg button[aria-pressed=true]{border-color:var(--petrol);color:var(--petrol);background:#E6EFF0}
-  .seg button:focus-visible{outline:2px solid var(--petrol);outline-offset:1px}
-
-  .meta{margin-top:30px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;
-        border-bottom:2px solid var(--ink);padding-bottom:10px}
-  .meta h2{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:23px;margin:0;letter-spacing:.02em}
-  .mono{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.07em;color:var(--muted)}
-  .meta .actions{margin-left:auto;display:flex;gap:6px}
-
-  ul.cards{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:12px}
-  .card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--petrol);
-        border-radius:6px;padding:16px 18px 14px}
-  .card.critical{border-left-color:var(--flare)} .card.elevated{border-left-color:var(--amber)}
-  .sev{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;padding:3px 8px;border-radius:3px}
-  .sev.critical{color:var(--flare);background:#FCEDE6}
-  .sev.elevated{color:var(--amber);background:#FAF3E2}
-  .sev.advisory{color:var(--petrol);background:#E6EFF0}
-  .card h3{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:21px;line-height:1.15;margin:8px 0 6px}
-  .sub{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.07em;color:var(--petrol);
-       text-transform:uppercase;margin:0 0 8px}
-  .card p{margin:0 0 10px;font-size:14.5px;line-height:1.5}
-  .srcs{display:flex;flex-wrap:wrap;gap:10px}
-  .srcs a{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--petrol);
-          text-decoration:none;border-bottom:1px solid currentColor}
-  .empty{margin-top:26px;border-top:1.5px solid var(--line);padding-top:20px;color:var(--muted);
-         font-size:14.5px;line-height:1.55;max-width:58ch}
-  .empty strong{font-family:'Barlow Condensed',sans-serif;font-size:20px;color:var(--ink);display:block;margin-bottom:8px}
-  .status{margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);min-height:1em}
-  .status.err{color:var(--flare)}
-  footer{border-top:1.5px solid var(--line);background:#E4E9E7;padding:16px 0 20px}
-  footer p{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--muted);
-           line-height:1.7;margin:0}
-</style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<!-- Installs to the home screen and runs chrome-free on both platforms, so the
+     same build is the web app, the iOS app and the Android app. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Supply Check">
+<link rel="stylesheet" href="css/app.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%232d6a5f' stroke-width='2'/><circle cx='16' cy='16' r='8.5' fill='none' stroke='%232d6a5f' stroke-width='2.4' opacity='.55'/><circle cx='16' cy='16' r='4.5' fill='%232d6a5f'/></svg>">
 </head>
 <body>
-<header>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
   <div class="wrap">
-    <div class="brand" id="home" role="link" tabindex="0"><span class="dot"></span><span class="name">SupplySignal</span></div>
-    <span class="tag" id="tagline">LOADING COUNTY INDEX…</span>
+    <button class="brand" id="home" aria-label="Supply Check home">
+      <svg class="brand__logo" aria-hidden="true" viewBox="0 0 32 32" width="24" height="24">
+        <circle class="brand__ring brand__ring--outer" cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <circle class="brand__ring brand__ring--inner" cx="16" cy="16" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <circle class="brand__core" cx="16" cy="16" r="4.2" fill="currentColor"/>
+      </svg>
+      <span class="brand__name">Supply Check</span>
+    </button>
+
+    <!-- On wide screens this sits in the header row; on phones the stylesheet
+         pins it to the bottom of the viewport, within thumb reach. -->
+    <nav class="nav" aria-label="Sections">
+      <a href="#/alerts"     data-tab="alerts"><span class="ico" aria-hidden="true">◉</span>Alerts</a>
+      <a href="#/test"       data-tab="test"><span class="ico" aria-hidden="true">◈</span>Test</a>
+      <a href="#/substances" data-tab="substances"><span class="ico" aria-hidden="true">◐</span>Substances</a>
+      <a href="#/learn"      data-tab="learn"><span class="ico" aria-hidden="true">◇</span>Learn</a>
+      <a href="#/support"    data-tab="support"><span class="ico" aria-hidden="true">❋</span>Support</a>
+      <a href="#/help"       data-tab="help"><span class="ico" aria-hidden="true">✚</span>Emergency</a>
+    </nav>
+
+    <span class="topbar__spacer"></span>
+
+    <button class="iconbtn" id="theme" aria-label="Switch color theme" title="Switch color theme">
+      <span aria-hidden="true">◐</span>
+    </button>
+
+    <!-- The threat is often in the same room. One tap wipes local traces,
+         drops this page out of the back button, and leaves. -->
+    <button class="iconbtn" id="exit" aria-label="Quick exit — leave this site now and clear local traces"
+            title="Quick exit">
+      <span aria-hidden="true">✕</span>
+    </button>
   </div>
 </header>
 
-<main class="wrap">
-  <label for="q">Find published supply alerts by county</label>
-  <div class="searchbar">
-    <div class="row">
-      <input id="q" type="text" autocomplete="off" role="combobox" aria-expanded="false"
-             aria-controls="results" aria-autocomplete="list"
-             placeholder="Search any county — e.g. Hamilton, Multnomah, Orleans">
-      <button class="btn" id="locate" title="Detect your county from your device location">
-        <span aria-hidden="true">◎</span> Near me
-      </button>
+<main id="main" class="wrap" tabindex="-1">
+  <!-- Filled once at boot and left alone. Outside #view, which the router
+       clears on every navigation, so it does not flicker or re-pick. -->
+  <div id="kindbar"></div>
+  <div id="view" aria-live="polite" aria-busy="true">
+    <div class="skel" aria-hidden="true">
+      <div class="skel__row"></div><div class="skel__row"></div><div class="skel__row"></div>
     </div>
-    <div id="results" role="listbox" aria-label="County matches"></div>
   </div>
-  <p class="status" id="status"></p>
-
-  <div class="seg" role="group" aria-label="Time window">
-    <button data-days="30">Last 30 days</button>
-    <button data-days="90" aria-pressed="true">Last 90 days</button>
-    <button data-days="365">Last 12 months</button>
-  </div>
-
-  <div id="out"></div>
 </main>
 
-<footer><div class="wrap">
-  <p>AGGREGATED FROM PUBLIC SOURCES · NOT INDEPENDENTLY VERIFIED · ABSENCE OF ALERTS &ne; SAFE SUPPLY</p>
-  <p>OVERDOSE IS A MEDICAL EMERGENCY — CALL 911 · POISON CONTROL 1-800-222-1222 · NEVER USE ALONE 1-800-484-3731 · SAMHSA 1-800-662-4357</p>
-</div></footer>
+<footer class="foot">
+  <div class="wrap">
+    <p id="foot-disclaimer"></p>
+    <p id="foot-crisis"></p>
+    <p id="foot-meta"></p>
+    <p class="foot__links"><a href="#/about">About this site</a></p>
+  </div>
+</footer>
 
-<script type="module">
-import { findCountyFips } from "../src/locate.mjs";
-
-const DATA = "../data";
-let COUNTIES = null, INDEX = null, BY_FIPS = new Map(), SHAPES = null;
-let DAYS = 90, CURRENT = null, HILITE = -1, MATCHES = [];
-
-const $ = (s) => document.querySelector(s);
-const out = $("#out"), results = $("#results"), q = $("#q"), status = $("#status");
-
-const esc = (s) => String(s ?? "").replace(/[&<>"]/g,
-  (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-
-const rel = (iso) => {
-  const d = Math.floor((Date.now() - Date.parse(iso)) / 864e5);
-  if (Number.isNaN(d)) return String(iso);
-  return d <= 0 ? "today" : d === 1 ? "1 day ago" : d < 31 ? `${d} days ago`
-       : `${Math.floor(d / 30)} month${d < 60 ? "" : "s"} ago`;
-};
-
-const say = (msg, isErr = false) => {
-  status.textContent = msg || "";
-  status.className = "status" + (isErr ? " err" : "");
-};
-
-/* ---------------------------------------------------------------- routing
-   Every view is addressable: #/47065 and #/47065/30 (window in days).
-   Back and forward work, and any county view is a shareable link. */
-
-function readUrl() {
-  const m = location.hash.match(/^#\/(\d{5})(?:\/(\d+))?/);
-  if (!m) return { fips: null, days: 90 };
-  return { fips: m[1], days: Number(m[2]) || 90 };
-}
-
-function writeUrl(fips, days, replace = false) {
-  const hash = fips ? `#/${fips}${days !== 90 ? "/" + days : ""}` : "#/";
-  if (location.hash === hash) return;
-  if (replace) history.replaceState(null, "", hash);
-  else history.pushState(null, "", hash);
-}
-
-async function route() {
-  const { fips, days } = readUrl();
-  DAYS = [30, 90, 365].includes(days) ? days : 90;
-  document.querySelectorAll(".seg button").forEach((b) =>
-    b.setAttribute("aria-pressed", String(Number(b.dataset.days) === DAYS)));
-  CURRENT = fips;
-  if (!fips) { q.value = ""; return renderIdle(); }
-  const c = BY_FIPS.get(fips);
-  if (c) q.value = c.name + ", " + c.state;
-  await renderCounty(fips);
-}
-
-function go(fips, days) {
-  writeUrl(fips, days === undefined ? DAYS : days, false);
-  route();
-}
-
-/* ------------------------------------------------------------------ boot */
-
-async function boot() {
-  try {
-    COUNTIES = await (await fetch(DATA + "/counties.json")).json();
-    BY_FIPS = new Map(COUNTIES.counties.map((c) => [c.fips, c]));
-  } catch {
-    out.innerHTML = '<div class="empty"><strong>County index unavailable.</strong>' +
-      " The data files haven't been published yet, or the site is served from an" +
-      " unexpected path.</div>";
-    return;
-  }
-  try { INDEX = await (await fetch(DATA + "/index.json")).json(); }
-  catch { INDEX = { counties: {} }; }
-
-  const scanned = Object.keys(INDEX.counties || {}).length;
-  $("#tagline").textContent =
-    COUNTIES.counties.length.toLocaleString() + " COUNTIES · " +
-    scanned.toLocaleString() + " SCANNED · UPDATED " +
-    (INDEX.generated ? rel(INDEX.generated).toUpperCase() : "—");
-
-  route();
-}
-
-function renderIdle() {
-  out.innerHTML = '<div class="empty"><strong>No county selected.</strong> Search for any of the ' +
-    COUNTIES.counties.length.toLocaleString() + " US counties, or use <em>Near me</em> to detect " +
-    "yours. Alerts come from health department advisories, local news, and drug-checking results, " +
-    "grouped so one incident appears once. Nothing older than the selected window is shown.</div>";
-}
-
-/* ---------------------------------------------------------------- search */
-
-function search(term) {
-  const t = term.trim().toLowerCase();
-  if (t.length < 2) return [];
-  const starts = [], contains = [];
-  for (const c of COUNTIES.counties) {
-    const name = c.name.toLowerCase();
-    const full = name + ", " + c.state.toLowerCase();
-    if (name.startsWith(t) || full.startsWith(t)) starts.push(c);
-    else if (name.includes(t)) contains.push(c);
-    if (starts.length > 40) break;
-  }
-  return starts.concat(contains).slice(0, 12);
-}
-
-function renderMatches(list) {
-  MATCHES = list;
-  HILITE = -1;
-  q.setAttribute("aria-expanded", String(list.length > 0));
-  results.innerHTML = list.map((c, i) => {
-    const hit = INDEX.counties && INDEX.counties[c.fips];
-    const badge = hit && hit.c
-      ? ' <span class="st">' + hit.c + " alert" + (hit.c > 1 ? "s" : "") + "</span>"
-      : "";
-    return '<button role="option" data-fips="' + c.fips + '" data-i="' + i + '">' +
-      esc(c.name) + '<span class="st">' + esc(c.state) + "</span>" + badge + "</button>";
-  }).join("");
-}
-
-q.addEventListener("input", () => renderMatches(search(q.value)));
-q.addEventListener("focus", () => { if (q.value.trim().length >= 2) renderMatches(search(q.value)); });
-
-q.addEventListener("keydown", (e) => {
-  if (!MATCHES.length) return;
-  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-    e.preventDefault();
-    HILITE = (HILITE + (e.key === "ArrowDown" ? 1 : -1) + MATCHES.length) % MATCHES.length;
-    Array.from(results.children).forEach((b, i) =>
-      b.setAttribute("aria-selected", String(i === HILITE)));
-    if (results.children[HILITE]) results.children[HILITE].scrollIntoView({ block: "nearest" });
-  } else if (e.key === "Enter") {
-    e.preventDefault();
-    const pick = MATCHES[HILITE >= 0 ? HILITE : 0];
-    if (pick) { renderMatches([]); go(pick.fips); }
-  } else if (e.key === "Escape") {
-    renderMatches([]);
-  }
-});
-
-results.addEventListener("click", (e) => {
-  const b = e.target.closest("button[data-fips]");
-  if (!b) return;
-  renderMatches([]);
-  go(b.dataset.fips);
-});
-
-document.addEventListener("click", (e) => {
-  if (!e.target.closest(".searchbar")) renderMatches([]);
-});
-
-/* -------------------------------------------------------------- near me
-   Coordinates are matched against county boundaries in the browser. No
-   geocoding service is contacted, so the location never leaves the device. */
-
-$("#locate").addEventListener("click", async () => {
-  if (!navigator.geolocation) {
-    return say("This browser can't share location. Search by name instead.", true);
-  }
-  const btn = $("#locate");
-  btn.disabled = true;
-  say("Requesting location…");
-
-  let pos;
-  try {
-    pos = await new Promise((res, rej) =>
-      navigator.geolocation.getCurrentPosition(res, rej, {
-        enableHighAccuracy: false, timeout: 15000, maximumAge: 300000,
-      }));
-  } catch (err) {
-    btn.disabled = false;
-    return say(
-      err.code === 1 ? "Location permission denied. Search by name instead."
-      : err.code === 3 ? "Location timed out. Try again, or search by name."
-      : "Couldn't get a location fix. Search by name instead.", true);
-  }
-
-  try {
-    if (!SHAPES) {
-      say("Matching your coordinates to a county…");
-      SHAPES = await (await fetch(DATA + "/county-shapes.json")).json();
-    }
-    const fips = findCountyFips(SHAPES, pos.coords.latitude, pos.coords.longitude);
-    btn.disabled = false;
-    if (!fips || !BY_FIPS.has(fips)) {
-      return say("That location isn't inside a US county. Search by name instead.", true);
-    }
-    const c = BY_FIPS.get(fips);
-    say("Detected " + c.name + ", " + c.state + ". Your coordinates stayed on this device.");
-    go(fips);
-  } catch {
-    btn.disabled = false;
-    say("Couldn't load county boundaries. Search by name instead.", true);
-  }
-});
-
-/* -------------------------------------------------------------- windows */
-
-document.querySelectorAll(".seg button").forEach((b) =>
-  b.addEventListener("click", () => go(CURRENT, Number(b.dataset.days))));
-
-$("#home").addEventListener("click", () => go(null, 90));
-$("#home").addEventListener("keydown", (e) => { if (e.key === "Enter") go(null, 90); });
-window.addEventListener("hashchange", route);
-
-/* --------------------------------------------------------------- render */
-
-async function renderCounty(fips) {
-  const c = BY_FIPS.get(fips);
-  if (!c) return renderIdle();
-  out.innerHTML = '<div class="empty mono">LOADING ' + esc(c.name).toUpperCase() + "…</div>";
-
-  let doc = null;
-  try { doc = await (await fetch(DATA + "/counties/" + fips + ".json")).json(); } catch {}
-
-  const cutoff = Date.now() - DAYS * 864e5;
-  const clusters = ((doc && doc.clusters) || []).filter((k) => Date.parse(k.eventDate) >= cutoff);
-  const cov = doc && doc.coverage;
-
-  const head = '<div class="meta">' +
-    "<h2>" + esc(c.name).toUpperCase() + ", " + esc(c.state) + "</h2>" +
-    '<span class="mono">FIPS ' + esc(fips) + " · " +
-      (cov && cov.lastScan ? "SCANNED " + rel(cov.lastScan).toUpperCase() : "NOT YET SCANNED") +
-    "</span>" +
-    '<span class="actions">' +
-      '<button class="btn ghost" id="share">Copy link</button>' +
-      '<a class="btn ghost" href="../feeds/' + esc(fips) + '.xml">RSS</a>' +
-    "</span></div>";
-
-  if (!clusters.length) {
-    const failed = cov && cov.sourcesFailed && cov.sourcesFailed.length
-      ? "<br><br>Note: " + cov.sourcesFailed.length +
-        " source(s) failed on the last run, so this view may be incomplete."
-      : "";
-    out.innerHTML = head + '<div class="empty"><strong>Nothing published in this window.</strong>' +
-      " No alerts in public reporting is not the same as a safe supply — many changes are never" +
-      " publicly announced, and coverage lags reality. Treat this as an absence of data." +
-      failed + "</div>";
-  } else {
-    out.innerHTML = head + '<ul class="cards">' + clusters.map((k) =>
-      '<li class="card ' + esc(k.severity) + '">' +
-        '<span class="sev ' + esc(k.severity) + '">' + esc(k.severity).toUpperCase() + "</span>" +
-        '<span class="mono"> ' + esc(rel(k.eventDate)) + " · " + k.sourceCount +
-          " SOURCE" + (k.sourceCount > 1 ? "S" : "") + "</span>" +
-        "<h3>" + esc(k.headline) + "</h3>" +
-        (k.substances && k.substances.length
-          ? '<p class="sub">SUBSTANCE — ' + esc(k.substances.join(", ")) + "</p>" : "") +
-        "<p>" + esc(k.summary) + "</p>" +
-        '<div class="srcs">' + (k.sources || []).map((s) =>
-          '<a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' +
-          esc(s.name) + " ↗</a>").join("") + "</div>" +
-      "</li>").join("") + "</ul>";
-  }
-
-  const share = document.getElementById("share");
-  if (share) share.addEventListener("click", async (e) => {
-    const url = location.href;
-    try {
-      if (navigator.share) await navigator.share({ title: "SupplySignal — " + c.name + ", " + c.state, url });
-      else { await navigator.clipboard.writeText(url); e.target.textContent = "Copied"; }
-    } catch {}
-  });
-}
-
-boot();
-</script>
+<script type="module" src="js/app.js"></script>
 </body>
 </html>

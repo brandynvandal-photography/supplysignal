@@ -36,6 +36,12 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: node src/ingest.mjs
 
+      # Data that fails the suite never reaches a reader. The classifier that
+      # once published "West Nile Virus" as a meth alert is exactly what this
+      # catches - a bad ingest is worse than a stale one.
+      - name: Test before publishing
+        run: npm test
+
       - name: Commit results
         run: |
           git config user.name  "supplysignal-bot"

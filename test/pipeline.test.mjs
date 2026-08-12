@@ -73,6 +73,32 @@ t("garbage window falls back to default", () => {
 });
 
 console.log("\nCLASSIFIER");
+
+// Regression: the first live run published a West Nile Virus advisory as an
+// elevated methamphetamine alert, because "meth" is a substring of "methods".
+// Vocabulary matching must be on word boundaries.
+t("substance terms do not match inside longer words", () => {
+  const c = classifyDeterministic({
+    title: "First Case of West Nile Virus Reported in North Dakota",
+    body:
+      "The Department of Health and Human Services has confirmed the first human " +
+      "case of West Nile virus this year. Prevention methods include repellent.",
+    trust: 1,
+  }, vocab);
+  assert.equal(c.verdict, "drop");
+  assert.equal(c.reason, "prefilter");
+});
+
+t("real substance mentions still match", () => {
+  const c = classifyDeterministic({
+    title: "Health alert: meth supply contaminated in Multnomah County",
+    body: "Officials confirmed fentanyl detected in samples sold as meth.",
+    trust: 1,
+  }, vocab);
+  assert.equal(c.verdict, "score");
+  assert.ok(c.substances.includes("meth"), "should still detect the word meth");
+});
+
 t("official spike advisory scores as publish/critical", () => {
   const c = classifyDeterministic({
     title: "Health Alert: overdose spike in Hamilton County",

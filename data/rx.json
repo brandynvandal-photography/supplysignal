@@ -1,0 +1,269 @@
+{
+ "note": "HAND-CURATED, every claim live-verified against the cited source on lastVerified date. Confidence is stated per claim; 'no reliable source' entries are deliberate - an honest gap beats an invented severity. FDA's 2016/2017 Drug Safety Communication pages have rotted (404); claims anchor to DailyMed labels, live FDA pages, and SAMHSA TIP 63 instead.",
+ "lastVerified": "2026-08-10",
+ "intro": "If you take prescribed medication and also use other drugs, the prescription changes the math. None of this is a reason to stop a medication - stopping methadone or bupe abruptly is its own danger. It is a reason to know which combinations carry documented risk.",
+ "meds": [
+  {
+   "id": "methadone",
+   "name": "Methadone",
+   "items": [
+    {
+     "with": "Benzos, alcohol, other opioids, any depressant",
+     "claim": "Boxed warning: profound sedation, respiratory depression, coma, death. This is the label's strongest warning, not fine print.",
+     "confidence": "high",
+     "sources": [
+      {
+       "name": "Methadose label (DailyMed)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=808a9d0b-720b-4034-a862-5122ff514608"
+      }
+     ]
+    },
+    {
+     "with": "Using benzos while on methadone treatment",
+     "claim": "Federal guidance says treatment should not be withheld or stopped over benzodiazepine use - it should be managed. If a program threatens to cut you off, that is not what the guidance says.",
+     "confidence": "moderate-high",
+     "sources": [
+      {
+       "name": "SAMHSA TIP 63",
+       "url": "https://library.samhsa.gov/product/tip-63-medications-opioid-use-disorder/pep21-02-01-002"
+      }
+     ]
+    },
+    {
+     "with": "Other QT-prolonging drugs",
+     "claim": "Methadone carries a boxed warning for life-threatening heart rhythm changes (QT prolongation); the risk adds up with other drugs that do the same.",
+     "confidence": "high",
+     "sources": [
+      {
+       "name": "Methadose label (DailyMed)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=808a9d0b-720b-4034-a862-5122ff514608"
+      }
+     ]
+    },
+    {
+     "with": "Ritonavir- or cobicistat-boosted HIV meds",
+     "claim": "Boosters can change methadone levels - worth a per-pair check.",
+     "confidence": "moderate-high",
+     "sources": [
+      {
+       "name": "Norvir label",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2849298e-de6e-47bb-8194-56e075b33fc3"
+      },
+      {
+       "name": "Liverpool interaction checker",
+       "url": "https://www.hiv-druginteractions.org/checker"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "buprenorphine",
+   "name": "Buprenorphine (Suboxone, Subutex)",
+   "items": [
+    {
+     "with": "Benzos, alcohol, depressants",
+     "claim": "Label warning: serious risk including death, especially with injection or misuse. Same rule as methadone: this is managed, not a reason to lose treatment.",
+     "confidence": "high",
+     "sources": [
+      {
+       "name": "Suboxone label (DailyMed)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8a5edcf9-828c-4f97-b671-268ab13a8ecd"
+      },
+      {
+       "name": "SAMHSA TIP 63",
+       "url": "https://library.samhsa.gov/product/tip-63-medications-opioid-use-disorder/pep21-02-01-002"
+      }
+     ]
+    },
+    {
+     "with": "Starting bupe soon after fentanyl",
+     "claim": "Precipitated withdrawal risk is real and highest within 24-48 hours of fentanyl use - in one study of 1,679 people, 22% had severe withdrawal starting under 24 hours. This is observational evidence, not a trial.",
+     "confidence": "moderate",
+     "sources": [
+      {
+       "name": "Study (PubMed 34816821)",
+       "url": "https://pubmed.ncbi.nlm.nih.gov/34816821/"
+      }
+     ]
+    },
+    {
+     "with": "Using fentanyl or heroin on top of bupe",
+     "claim": "Higher bupe doses blunt other opioids' effects. That is pharmacology, not protection - it is not overdose-proof.",
+     "confidence": "moderate",
+     "sources": [
+      {
+       "name": "SAMHSA TIP 63",
+       "url": "https://library.samhsa.gov/product/tip-63-medications-opioid-use-disorder/pep21-02-01-002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "naltrexone",
+   "name": "Naltrexone (Vivitrol)",
+   "items": [
+    {
+     "with": "Opioids after a missed dose or stopping",
+     "claim": "The label warns of heightened overdose vulnerability: tolerance drops during treatment, and trying to push through the blockade with a large amount can be fatal.",
+     "confidence": "high",
+     "sources": [
+      {
+       "name": "Vivitrol label (DailyMed)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cd11c435-b0f0-4bb9-ae78-60f101f3703f"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "antidepressants",
+   "name": "Antidepressants (SSRIs / SNRIs)",
+   "items": [
+    {
+     "with": "MDMA and amphetamines",
+     "claim": "Labels list amphetamines among drugs with serotonin syndrome risk. Separately, a controlled human study found SSRIs blunt most of MDMA's effect - which people sometimes chase with more. Neither fact makes the mix predictable.",
+     "confidence": "high (label) / moderate-high (blunting)",
+     "sources": [
+      {
+       "name": "Zoloft label (class labeling)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fda754f6-d0f3-4dce-a17a-927d64f912f7"
+      },
+      {
+       "name": "Human study (PubMed 10731626)",
+       "url": "https://pubmed.ncbi.nlm.nih.gov/10731626/"
+      }
+     ]
+    },
+    {
+     "with": "MAOIs + MDMA",
+     "claim": "Contraindicated on every label, with documented severe reactions - this is the serotonergic combination with the worst record.",
+     "confidence": "high",
+     "sources": [
+      {
+       "name": "Case report (PubMed 2884326)",
+       "url": "https://pubmed.ncbi.nlm.nih.gov/2884326/"
+      }
+     ]
+    },
+    {
+     "with": "Prescribed tramadol + anything serotonergic",
+     "claim": "Tramadol's label carries both a serotonin syndrome warning and a seizure warning, and both risks rise when combined with SSRIs/SNRIs.",
+     "confidence": "high",
+     "sources": [
+      {
+       "name": "Tramadol label (DailyMed)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9f0e33bd-65f8-446a-886f-e7e16a142ce5"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "benzo-rx",
+   "name": "Prescribed benzodiazepines",
+   "items": [
+    {
+     "with": "Illicit opioids or alcohol",
+     "claim": "Class-wide boxed warning: combined use risks profound sedation, respiratory depression, coma, death.",
+     "confidence": "high",
+     "sources": [
+      {
+       "name": "FDA benzodiazepine boxed warning (2020)",
+       "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requiring-boxed-warning-updated-improve-safe-use-benzodiazepine-drug-class"
+      }
+     ]
+    },
+    {
+     "with": "Ritonavir/cobicistat HIV boosters",
+     "claim": "Oral midazolam and triazolam are contraindicated with boosters, and some other benzo levels rise. Check the specific pair.",
+     "confidence": "high",
+     "sources": [
+      {
+       "name": "Norvir label",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2849298e-de6e-47bb-8194-56e075b33fc3"
+      },
+      {
+       "name": "Liverpool checker",
+       "url": "https://www.hiv-druginteractions.org/checker"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hiv",
+   "name": "HIV meds with boosters (ritonavir, cobicistat)",
+   "items": [
+    {
+     "with": "Fentanyl",
+     "claim": "Boosters block the enzyme that clears fentanyl, raising exposure and respiratory-depression risk.",
+     "confidence": "high",
+     "sources": [
+      {
+       "name": "Norvir label",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2849298e-de6e-47bb-8194-56e075b33fc3"
+      },
+      {
+       "name": "Liverpool: ARVs and recreational drugs",
+       "url": "https://www.hiv-druginteractions.org/prescribing_resources/hiv-ts-recreational"
+      }
+     ]
+    },
+    {
+     "with": "MDMA, GHB, methamphetamine",
+     "claim": "Documented deaths and near-deaths with ritonavir - one MDMA fatality showed roughly ten times the expected blood level. Case reports, not rates; the mechanism is strong.",
+     "confidence": "moderate-high",
+     "sources": [
+      {
+       "name": "MDMA fatality (PubMed 9848354)",
+       "url": "https://pubmed.ncbi.nlm.nih.gov/9848354/"
+      },
+      {
+       "name": "GHB case (PubMed 10527300)",
+       "url": "https://pubmed.ncbi.nlm.nih.gov/10527300/"
+      },
+      {
+       "name": "Meth case (PubMed 10846588)",
+       "url": "https://pubmed.ncbi.nlm.nih.gov/10846588/"
+      }
+     ]
+    },
+    {
+     "with": "Ketamine, cocaine, and the rest",
+     "claim": "Use the Liverpool checker for the specific pair - it is the specialist resource, kept current, and free.",
+     "confidence": "link-out",
+     "sources": [
+      {
+       "name": "Liverpool interaction checker",
+       "url": "https://www.hiv-druginteractions.org/checker"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "prep",
+   "name": "PrEP",
+   "items": [
+    {
+     "with": "Recreational drugs generally",
+     "claim": "PrEP itself is not a booster - its label lists no recreational-drug interactions. The interaction concern belongs to boosted treatment regimens, not PrEP. That is 'none listed', not 'proven none'.",
+     "confidence": "moderate",
+     "sources": [
+      {
+       "name": "Truvada label (DailyMed)",
+       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=54e82b13-a037-49ed-b4b3-030b37c0ecdd"
+      },
+      {
+       "name": "Liverpool checker",
+       "url": "https://www.hiv-druginteractions.org/checker"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "unresolved": "Combinations we could not find reliable evidence for, stated so nobody mistakes silence for safety: methadone + stimulants (severity), SSRIs + cocaine, naltrexone + stimulants, buprenorphine + stimulants, and how often SSRI + MDMA actually causes serotonin syndrome (the label states the risk; the frequency is unknown)."
+}

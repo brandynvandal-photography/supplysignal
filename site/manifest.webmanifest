@@ -1,0 +1,30 @@
+{
+  "name": "Supply Check \u2014 drug supply alerts and harm reduction",
+  "short_name": "Supply Check",
+  "description": "County-level drug supply alerts, drug checking, substance information, and support. Harm reduction information, not medical advice.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#faf6f0",
+  "theme_color": "#faf6f0",
+  "categories": [
+    "health",
+    "medical",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

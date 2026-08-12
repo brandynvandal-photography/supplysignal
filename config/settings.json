@@ -23,7 +23,7 @@
     "coldRotationPerRun": 19,
     "maxWatchedPerRun": 120,
     "requestDelayMs": 1500,
-    "userAgent": "SupplySignal/1.0 (public health alert aggregator; +https://github.com/OWNER/supplysignal)"
+    "userAgent": "SupplyCheck/1.0 (public health alert aggregator; +https://github.com/OWNER/supplysignal)"
   },
   "dedupe": {
     "clusterWindowDays": 7,

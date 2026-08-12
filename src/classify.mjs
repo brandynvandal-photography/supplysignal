@@ -11,7 +11,32 @@
  */
 
 const norm = (s) => (s || "").toLowerCase().replace(/\s+/g, " ");
-const hits = (text, list) => list.filter((w) => text.includes(w));
+
+/**
+ * Vocabulary matching, on WORD BOUNDARIES.
+ *
+ * A plain `text.includes(w)` looks harmless and is not. "meth" matches inside
+ * "prevention methods", which is how a North Dakota West Nile Virus advisory
+ * got published as an elevated methamphetamine supply alert on the first real
+ * run: substance("meth" in "methods") + event("confirmed") + a trusted health
+ * department source scored 0.81 and sailed through.
+ *
+ * Publishing noise like that is worse than publishing nothing. People stop
+ * believing the alerts that are real.
+ */
+const RE_CACHE = new Map();
+
+function termRe(term) {
+  let re = RE_CACHE.get(term);
+  if (!re) {
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    re = new RegExp(`\\b${escaped}\\b`, "i");
+    RE_CACHE.set(term, re);
+  }
+  return re;
+}
+
+const hits = (text, list) => list.filter((w) => termRe(w).test(text));
 
 export function classifyDeterministic(item, vocab) {
   const text = norm(`${item.title} ${item.body || ""}`);

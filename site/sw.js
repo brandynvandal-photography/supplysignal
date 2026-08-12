@@ -1,0 +1,92 @@
+/* Offline.
+ *
+ * The overdose-response steps are needed most in exactly the situations where
+ * a connection is least reliable. Until this file existed, the "app" was a
+ * bookmark that white-screened offline - and app.js already cleared caches in
+ * Quick Exit as though a service worker existed. Now one does.
+ *
+ * Privacy rules this file must keep:
+ *   - Same-origin only. Nothing else is ever requested (CSP enforces it),
+ *     so nothing else is ever cached.
+ *   - Cache names are versioned and unrevealing. The cache holds the same
+ *     byte-identical bundle every visitor gets - it cannot say what anyone
+ *     looked AT, only that the app was installed.
+ *   - Quick Exit calls caches.delete() from the page; nothing here resists it.
+ *
+ * Strategy: precache the shell on install; then stale-while-revalidate for
+ * everything same-origin. The reader always gets an instant (possibly
+ * day-old) copy while a fresh one is fetched behind it - right for data that
+ * updates hourly and must never block an emergency lookup on the network.
+ */
+
+const VERSION = "sc-v1";
+
+/* The minimum set that makes every screen renderable offline. Data files are
+   picked up on first use by the runtime cache. */
+const SHELL = [
+  "./",
+  "./index.html",
+  "./css/app.css",
+  "./js/app.js",
+];
+
+self.addEventListener("install", (e) => {
+  e.waitUntil(
+    caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener("activate", (e) => {
+  e.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+/* What may be written to the device.
+ *
+ * The header above claims this cache "cannot say what anyone looked AT". That
+ * was only incidentally true: the handler cached every same-origin GET, so any
+ * URL containing a county or a substance would have been written into Cache
+ * Storage and left there, readable on a seized device until Quick Exit ran.
+ *
+ * An allowlist makes the claim structural instead of lucky. Everything the app
+ * legitimately needs is byte-identical for every reader - the shell, the
+ * national data bundles, the locale files. Nothing per-county is cacheable,
+ * and `/feeds/` is called out because those files are the one per-county path
+ * that exists on this origin at all. */
+const CACHEABLE = /^\.?\/?(index\.html|css\/|js\/|img\/|data\/[^/]+\.json$|manifest\.webmanifest)/;
+
+function mayCache(url) {
+  const path = url.pathname.replace(/^.*\/site\//, "");
+  if (path === "" || path === "/") return true;          // the shell itself
+  if (/(^|\/)feeds\//.test(url.pathname)) return false;  // per-county: never
+  if (/(^|\/)data\/counties\//.test(url.pathname)) return false;
+  return CACHEABLE.test(path);
+}
+
+self.addEventListener("fetch", (e) => {
+  const url = new URL(e.request.url);
+  if (e.request.method !== "GET" || url.origin !== location.origin) return;
+
+  e.respondWith(
+    caches.open(VERSION).then(async (cache) => {
+      const cacheOk = mayCache(url);
+      const cached = cacheOk ? await cache.match(e.request) : null;
+      const refresh = fetch(e.request)
+        .then((res) => {
+          if (res.ok && cacheOk) cache.put(e.request, res.clone());
+          return res;
+        })
+        .catch(() => null);
+
+      /* Serve cache instantly when there is one; fall back to the network
+         while populating the cache when there is not. A navigation with
+         neither gets the shell, so deep links still open offline. */
+      return cached
+        || (await refresh)
+        || (e.request.mode === "navigate" ? cache.match("./index.html") : Response.error());
+    })
+  );
+});

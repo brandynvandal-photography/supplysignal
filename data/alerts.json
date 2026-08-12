@@ -1,0 +1,14 @@
+{
+  "generated": "2026-08-10T14:46:31.044Z",
+  "windowDays": 365,
+  "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
+  "coverage": {
+    "lastScan": "2026-08-10T14:46:31.035Z",
+    "sourcesChecked": 25,
+    "sourcesFailed": [
+      "la-ldh"
+    ],
+    "countiesScanned": 22
+  },
+  "clusters": []
+}

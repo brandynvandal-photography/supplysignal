@@ -1,63 +1,365 @@
 {
-  "_comment": "trust: 1 = official health authority, 2 = established news, 3 = aggregator. Add state feeds here; no code change needed. Verify each URL before enabling.",
-  "feeds": [
-    {
-      "id": "cdc-han",
-      "name": "CDC Health Alert Network",
-      "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
-      "kind": "rss",
-      "trust": 1,
-      "scope": { "level": "national" },
-      "enabled": true
-    },
-    {
-      "id": "cdc-newsroom",
-      "name": "CDC Newsroom",
-      "url": "https://tools.cdc.gov/api/v2/resources/media/316422.rss",
-      "kind": "rss",
-      "trust": 1,
-      "scope": { "level": "national" },
-      "enabled": true
-    },
-    {
-      "id": "tn-doh",
-      "name": "Tennessee Department of Health",
-      "url": "https://www.tn.gov/health/news.rss",
-      "kind": "rss",
-      "trust": 1,
-      "scope": { "level": "state", "state": "TN" },
-      "enabled": false
-    },
-    {
-      "id": "or-oha",
-      "name": "Oregon Health Authority",
-      "url": "https://www.oregon.gov/oha/news/RSS/newsroom.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": { "level": "state", "state": "OR" },
-      "enabled": false
-    },
-    {
-      "id": "md-mdh",
-      "name": "Maryland Department of Health",
-      "url": "https://health.maryland.gov/newsroom/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": { "level": "state", "state": "MD" },
-      "enabled": false
-    }
-  ],
-  "googleNews": {
-    "enabled": true,
-    "template": "https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en",
-    "windowOperator": "when:30d",
-    "trust": 2,
-    "minIntervalMs": 1500
+ "_comment": "trust: 1 = official health authority, 2 = established news, 3 = aggregator. Every feed below was fetched and confirmed to return valid RSS/Atom with a 2026-dated item on 2026-08-09. Re-verify before trusting: state sites migrate CMS platforms often and feeds die silently. See _retired for URLs that were shipped but are dead.",
+ "_retired": [
+  {
+   "id": "tn-doh",
+   "url": "https://www.tn.gov/health/news.rss",
+   "died": "HTTP 404 as of 2026-08-09. www.tn.gov/health.feed returns valid Atom but is a page-tree index, not news."
   },
-  "gdelt": {
-    "enabled": true,
-    "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc",
-    "trust": 3,
-    "minIntervalMs": 2000
+  {
+   "id": "or-oha",
+   "url": "https://www.oregon.gov/oha/news/RSS/newsroom.xml",
+   "died": "HTTP 404 as of 2026-08-09, SharePoint error page."
+  },
+  {
+   "id": "md-mdh",
+   "url": "https://health.maryland.gov/newsroom/rss.xml",
+   "died": "HTTP 404 as of 2026-08-09, SharePoint error page."
+  },
+  {
+   "id": "sc-dph",
+   "url": "https://dph.sc.gov/rss.xml",
+   "died": "Valid RSS but abandoned - newest item 2025-03-05."
+  },
+  {
+   "id": "vt-doh",
+   "url": "https://www.healthvermont.gov/taxonomy/term/126/feed",
+   "died": "Valid RSS but abandoned - newest item 2024-07-25."
+  },
+  {
+   "id": "tx-dshs",
+   "url": "https://www.dshs.texas.gov/rss.xml",
+   "died": "Valid RSS but abandoned - newest item 2023-01-05."
   }
+ ],
+ "_wafNote": "Florida, Louisiana and Delaware sit behind Cloudflare/WAF and return 403 if hit twice in quick succession. Keep polling.requestDelayMs at or above 1500 and send the configured user agent. Arkansas, Massachusetts and New Hampshire block automated requests entirely - they may still have feeds, but they cannot be verified without a real browser.",
+ "feeds": [
+  {
+   "id": "cdc-han",
+   "name": "CDC Health Alert Network",
+   "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "national"
+   },
+   "enabled": true
+  },
+  {
+   "id": "cdc-newsroom",
+   "name": "CDC Newsroom",
+   "url": "https://tools.cdc.gov/api/v2/resources/media/316422.rss",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "national"
+   },
+   "enabled": true
+  },
+  {
+   "id": "az-adhs-blog",
+   "name": "Arizona DHS Director's Blog",
+   "url": "https://directorsblog.health.azdhs.gov/feed/",
+   "kind": "rss",
+   "trust": 2,
+   "scope": {
+    "level": "state",
+    "state": "AZ"
+   },
+   "enabled": true
+  },
+  {
+   "id": "dc-doh",
+   "name": "DC Health",
+   "url": "https://dchealth.dc.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "DC"
+   },
+   "enabled": true
+  },
+  {
+   "id": "de-dhss",
+   "name": "Delaware Health and Social Services",
+   "url": "https://news.delaware.gov/category/dhss/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "DE"
+   },
+   "enabled": true,
+   "maxItems": 60
+  },
+  {
+   "id": "fl-doh",
+   "name": "Florida Department of Health",
+   "url": "https://www.floridahealth.gov/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "FL"
+   },
+   "enabled": true
+  },
+  {
+   "id": "ga-dph",
+   "name": "Georgia Department of Public Health",
+   "url": "https://dph.georgia.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "GA"
+   },
+   "enabled": true
+  },
+  {
+   "id": "hi-doh",
+   "name": "Hawaii Department of Health",
+   "url": "https://health.hawaii.gov/news/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "HI"
+   },
+   "enabled": true
+  },
+  {
+   "id": "id-dhw",
+   "name": "Idaho Department of Health and Welfare",
+   "url": "https://healthandwelfare.idaho.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "ID"
+   },
+   "enabled": true
+  },
+  {
+   "id": "ks-kdhe",
+   "name": "Kansas Department of Health and Environment",
+   "url": "https://www.kdhe.ks.gov/RSSFeed.aspx?ModID=1&CID=All-0",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "KS"
+   },
+   "enabled": true,
+   "_note": "Unusually high signal - real advisories rather than press releases."
+  },
+  {
+   "id": "la-ldh",
+   "name": "Louisiana Department of Health",
+   "url": "https://ldh.la.gov/news/rss",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "LA"
+   },
+   "enabled": true
+  },
+  {
+   "id": "me-dhhs",
+   "name": "Maine Department of Health and Human Services",
+   "url": "https://www.maine.gov/dhhs/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "ME"
+   },
+   "enabled": true
+  },
+  {
+   "id": "mn-mdh",
+   "name": "Minnesota Department of Health",
+   "url": "https://www.health.state.mn.us/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "MN"
+   },
+   "enabled": true
+  },
+  {
+   "id": "ms-msdh",
+   "name": "Mississippi State Department of Health",
+   "url": "https://msdh.ms.gov/msdhsite/rssFeed.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "MS"
+   },
+   "enabled": true
+  },
+  {
+   "id": "mt-dphhs",
+   "name": "Montana DPHHS",
+   "url": "https://dphhs.mt.gov/News/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "MT"
+   },
+   "enabled": true
+  },
+  {
+   "id": "nc-dhhs",
+   "name": "North Carolina DHHS",
+   "url": "https://www.ncdhhs.gov/news/feed",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "NC"
+   },
+   "enabled": true
+  },
+  {
+   "id": "nd-hhs",
+   "name": "North Dakota Health and Human Services",
+   "url": "https://www.hhs.nd.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "ND"
+   },
+   "enabled": true
+  },
+  {
+   "id": "ri-doh",
+   "name": "Rhode Island Department of Health",
+   "url": "https://health.ri.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "RI"
+   },
+   "enabled": true
+  },
+  {
+   "id": "ut-dhhs",
+   "name": "Utah Department of Health and Human Services",
+   "url": "https://dhhs.utah.gov/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "UT"
+   },
+   "enabled": true
+  },
+  {
+   "id": "va-vdh",
+   "name": "Virginia Department of Health",
+   "url": "https://www.vdh.virginia.gov/news/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "VA"
+   },
+   "enabled": true
+  },
+  {
+   "id": "wa-doh",
+   "name": "Washington State Department of Health",
+   "url": "https://doh.wa.gov/newsroom/rss",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "WA"
+   },
+   "enabled": true
+  },
+  {
+   "id": "wi-dhs",
+   "name": "Wisconsin Department of Health Services",
+   "url": "https://www.dhs.wisconsin.gov/news/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "WI"
+   },
+   "enabled": true
+  },
+  {
+   "id": "wv-oeps",
+   "name": "WV Office of Epidemiology and Prevention Services",
+   "url": "https://oeps.wv.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "WV"
+   },
+   "enabled": true,
+   "_note": "Epidemiology/HAN-style content - directly relevant."
+  },
+  {
+   "id": "wy-doh",
+   "name": "Wyoming Department of Health",
+   "url": "https://health.wyo.gov/news/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "WY"
+   },
+   "enabled": true
+  },
+  {
+   "id": "grassroots-hr",
+   "name": "Grassroots Harm Reduction",
+   "url": "https://grassrootsharmreduction.org/feed/",
+   "kind": "rss",
+   "trust": 2,
+   "scope": {
+    "level": "national"
+   },
+   "enabled": true,
+   "_note": "Community org, verified 2026-08-10. Socials are their primary channel; this feed is the machine-readable mirror - socials stay a human discovery layer, never a machine source."
+  },
+  {
+   "id": "rebel-hr",
+   "name": "Rebel Harm Reduction",
+   "url": "https://rebelharmreduction.org/feed/",
+   "kind": "rss",
+   "trust": 2,
+   "scope": {
+    "level": "state",
+    "state": "NY"
+   },
+   "enabled": true,
+   "_note": "NYC community drug checking. 406s a bare UA - needs the browser UA the ingest already sends. Verified 2026-08-10."
+  }
+ ],
+ "googleNews": {
+  "enabled": true,
+  "template": "https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en",
+  "windowOperator": "when:30d",
+  "trust": 2,
+  "minIntervalMs": 1500
+ },
+ "gdelt": {
+  "enabled": true,
+  "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc",
+  "trust": 3,
+  "minIntervalMs": 2000
+ }
 }
