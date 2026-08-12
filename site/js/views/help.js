@@ -267,9 +267,17 @@ export async function render() {
      overdose response to what-to-tell-EMS, which is the sequence somebody
      actually reads mid-crisis. Last is where a "next time, before it happens"
      thought belongs. */
+  /* .bigptr, the same cross-page pointer Support and Learn use. These were
+     underlined text links in a note-sized box, so they sat narrower than every
+     disclosure above them and read as footnotes rather than as the two doors
+     they are. The arrow is supplied by the class - it was being typed into the
+     string, which is why it survived the previous restyle. */
   wrap.appendChild(
-    h("p", { class: "sec__note naloxptr" },
-      h("a", { href: "#/learn" }, "No naloxone yet? Where to get it free, and how to use it →"))
+    h("a", { class: "bigptr", href: "#/learn" },
+      h("span", { class: "bigptr__hd" }, "No naloxone yet?"),
+      h("span", { class: "bigptr__sub" },
+        "Where to get it free, and how to use it — worth doing before the night "
+        + "you need it."))
   );
 
   /* Same reasoning as the naloxone pointer, and the same position: this is a
@@ -277,9 +285,11 @@ export async function render() {
      Someone reading this page while a body is failing needs the steps, not a
      link about next week. */
   wrap.appendChild(
-    h("p", { class: "sec__note naloxptr" },
-      h("a", { href: "#/after" },
-        "It’s over and they’re breathing. What now? →"))
+    h("a", { class: "bigptr", href: "#/after" },
+      h("span", { class: "bigptr__hd" }, "It’s over and they’re breathing"),
+      h("span", { class: "bigptr__sub" },
+        "What happens next — for them, and for you, because being the person "
+        + "in the room costs something too."))
   );
 
   const support = supportBlock();

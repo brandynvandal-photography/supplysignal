@@ -2060,7 +2060,6 @@ details.disc .groupkids > details.disc > summary h2 {
 .list > .nbr:last-child { padding-bottom: var(--sp-3); }
 
 /* The one pointer Emergency keeps to naloxone sourcing. */
-.naloxptr { margin: var(--sp-3) 0; }
 
 /* ---------------------------------------------------- programmatic focus */
 
@@ -2145,21 +2144,6 @@ details.disc .groupkids > details.disc > summary h2 {
 .rescard__caution { color: var(--ink-2); }
 /* An absence, stated. Reads as content rather than as an error. */
 .gapnote { margin-top: var(--sp-3); }
-
-.naloxptr {
-  margin: var(--sp-3) 0 var(--sp-4);
-  padding: 14px var(--sp-3);
-  background: var(--glass);
-  border: 1px solid var(--glass-line);
-  border-radius: var(--radius);
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
-}
-.naloxptr a {
-  color: var(--brand); font-weight: 600;
-  display: inline-flex; align-items: center; min-height: var(--tap);
-}
 
 /* ================================================================== iOS ==
 
