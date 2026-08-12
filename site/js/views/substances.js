@@ -166,14 +166,14 @@ async function indexView(subs, combosP, { go }) {
   const mixSlot = h("div", { class: "checkerslot" });
   wrap.appendChild(mixSlot);
 
-  wrap.appendChild(
-    group("grp-yours", "Does your situation change the picture?",
-      "Prescribed medication and health conditions both change what a combination does.", [
-        await rxBlock(),
-        await conditionLens(),
-      ],
-      ["Prescribed medication", "Health conditions"])
-  );
+  /* Built here, rendered inside the checker below - see the note in
+     mixChecker for why it belongs with the result rather than after it. */
+  const yoursGroup = group("grp-yours", "Does your situation change the picture?",
+    "Prescribed medication and health conditions both change what a combination does.", [
+      await rxBlock(),
+      await conditionLens(),
+    ],
+    ["Prescribed medication", "Health conditions"]);
 
   /* Regional patterns come AFTER the search box. Someone who arrived knowing
      what they took needs the lookup first; "what is common in this region" is
@@ -194,12 +194,12 @@ async function indexView(subs, combosP, { go }) {
      silent on purpose: a missing combination checker is a smaller harm than
      an error banner on a page that is otherwise entirely usable. */
   combosP.then((combos) => {
-    const checker = mixChecker(combos);
+    const checker = mixChecker(combos, yoursGroup);
     if (checker) mixSlot.replaceChildren(checker);
-    else mixSlot.remove();
+    else mixSlot.replaceChildren(yoursGroup);
     attrSlot.replaceChildren(attributionBlock(subs, combos, uncAttr));
   }).catch(() => {
-    mixSlot.remove();
+    mixSlot.replaceChildren(yoursGroup);
     attrSlot.replaceChildren(attributionBlock(subs, null, uncAttr));
   });
 
@@ -468,7 +468,7 @@ const DEPRESSANTS = new Set([
  * stacking warning below covers what the pairs cannot say. */
 const MAX_MIX = 4;
 
-function mixChecker(combos) {
+function mixChecker(combos, yours) {
   if (!combos?.matrix) return null;
 
   const cats = combos.categories || [];
@@ -633,6 +633,13 @@ function mixChecker(combos) {
       rows,
       h("div", { class: "chips" }, addBtn),
       out),
+    /* Directly under the result. This used to sit outside the section, which
+       looked adjacent on an empty page and was a screenful away the moment a
+       combination produced results - moving out of sight exactly when it
+       started to matter. Whether someone is on methadone, or pregnant, or has
+       a heart condition, changes what a "Dangerous" verdict means for them,
+       so it belongs with the verdict. */
+    yours || null,
     supplementBlock(combos));
 }
 

@@ -39,7 +39,7 @@ export async function render() {
     jumpNav([
       { id: "sec-reading", label: "Reading a strip" },
       { id: "sec-prevalence", label: "What's out there" },
-      { id: "grp-choose", label: "Choosing a test" },
+      { id: "sec-compare", label: "Which one to get" },
       { id: "sec-strips", label: "Test strips" },
       { id: "grp-reagents", label: "Reagents" },
       { id: "sec-storage", label: "Storing supplies" },
@@ -103,14 +103,17 @@ export async function render() {
     );
   }
 
-  /* Grouped, because this page reached ten top-level dropdowns and a wall of
-     ten closed rows is not navigable. The order of the groups is the order of
-     the questions: which test, then how to use it, then the fine print. */
-  wrap.appendChild(section("Getting hold of one", null));
+  /* One level, not two. This was a section called "Getting hold of one"
+     wrapping a single tile called "Choosing a test" - a heading over one
+     child, with the two names disagreeing, over content that is really about
+     choosing, buying, legality AND labs. The heading now does the grouping
+     itself and the five sections sit directly under it, which also matches
+     how the other two blocks on this page are built. */
+  wrap.appendChild(section("Which one to get",
+    "Which tool answers which question, where to buy it, whether it is legal where you are, and how to get a lab to check."));
 
   wrap.appendChild(
-    group("grp-choose", "Choosing a test",
-      "Which tool answers which question, where to buy it, and whether it is legal where you are.", [
+    frag([
       /* The at-a-glance comparison leads: someone deciding WHICH test to use
          cannot answer that from four separate sections read in sequence - the
          differences only become visible side by side. */
