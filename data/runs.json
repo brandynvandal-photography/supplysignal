@@ -1,6 +1,34 @@
 {
   "runs": [
     {
+      "started": "2026-08-12T10:16:15.445Z",
+      "fetched": 2304,
+      "notModified": 13,
+      "dropped": {
+        "prefilter": 273,
+        "outside_window": 2029,
+        "foreign_year": 1
+      },
+      "published": 0,
+      "escalated": 1,
+      "reviewed": 1,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "google-news"
+      ],
+      "finished": "2026-08-12T10:16:33.131Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 0,
+        "bytes": 304
+      }
+    },
+    {
       "started": "2026-08-12T08:25:21.619Z",
       "fetched": 2378,
       "notModified": 13,

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-12T08:26:41.850Z",
+  "generated": "2026-08-12T10:16:33.131Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -2051,21 +2051,21 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-12T08:26:41.840Z"
+      "t": "2026-08-12T10:16:33.121Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-12T08:26:41.840Z"
+      "t": "2026-08-12T10:16:33.121Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-12T08:26:41.838Z"
+      "t": "2026-08-12T10:16:33.119Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -2604,112 +2604,112 @@
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.129Z"
+      "t": "2026-08-12T10:16:33.122Z"
     },
     "02110": {
       "n": "Juneau City and Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.129Z"
+      "t": "2026-08-12T10:16:33.122Z"
     },
     "02122": {
       "n": "Kenai Peninsula Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.130Z"
+      "t": "2026-08-12T10:16:33.123Z"
     },
     "02130": {
       "n": "Ketchikan Gateway Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.130Z"
+      "t": "2026-08-12T10:16:33.123Z"
     },
     "02150": {
       "n": "Kodiak Island Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.130Z"
+      "t": "2026-08-12T10:16:33.124Z"
     },
     "02164": {
       "n": "Lake and Peninsula Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.131Z"
+      "t": "2026-08-12T10:16:33.125Z"
     },
     "02170": {
       "n": "Matanuska-Susitna Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.131Z"
+      "t": "2026-08-12T10:16:33.125Z"
     },
     "02180": {
       "n": "Nome Census Area",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.132Z"
+      "t": "2026-08-12T10:16:33.126Z"
     },
     "02185": {
       "n": "North Slope Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.132Z"
+      "t": "2026-08-12T10:16:33.126Z"
     },
     "02188": {
       "n": "Northwest Arctic Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.132Z"
+      "t": "2026-08-12T10:16:33.127Z"
     },
     "02195": {
       "n": "Petersburg Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.133Z"
+      "t": "2026-08-12T10:16:33.127Z"
     },
     "02198": {
       "n": "Prince of Wales-Hyder Census Area",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.133Z"
+      "t": "2026-08-12T10:16:33.128Z"
     },
     "02220": {
       "n": "Sitka City and Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.133Z"
+      "t": "2026-08-12T10:16:33.128Z"
     },
     "02230": {
       "n": "Skagway Municipality",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.133Z"
+      "t": "2026-08-12T10:16:33.128Z"
     },
     "02240": {
       "n": "Southeast Fairbanks Census Area",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.134Z"
+      "t": "2026-08-12T10:16:33.129Z"
     },
     "02261": {
       "n": "Valdez-Cordova Census Area",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.134Z"
+      "t": "2026-08-12T10:16:33.129Z"
     },
     "02270": {
       "n": "Wade Hampton Census Area",
@@ -2723,14 +2723,14 @@
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.135Z"
+      "t": "2026-08-12T10:16:33.130Z"
     },
     "02282": {
       "n": "Yakutat City and Borough",
       "s": "AK",
       "c": 0,
       "sev": null,
-      "t": "2026-08-10T09:43:42.135Z"
+      "t": "2026-08-12T10:16:33.130Z"
     },
     "02290": {
       "n": "Yukon-Koyukuk Census Area",
@@ -4278,6 +4278,13 @@
       "c": 0,
       "sev": null,
       "t": "2026-08-11T04:36:04.109Z"
+    },
+    "02158": {
+      "n": "Kusilvak Census Area",
+      "s": "AK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-12T10:16:33.124Z"
     }
   }
 }

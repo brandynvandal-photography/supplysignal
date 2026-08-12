@@ -4,11 +4,12 @@
   "state": "MD",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-12T08:26:41.840Z",
+    "lastScan": "2026-08-12T10:16:33.121Z",
     "windowDays": 365,
     "sourcesChecked": 27,
     "sourcesFailed": [
-      "la-ldh"
+      "la-ldh",
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
