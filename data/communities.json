@@ -478,6 +478,37 @@
       }
     },
     {
+      "id": "family",
+      "title": "If you love someone who uses",
+      "blurb": "Groups that will not tell you to cut them off. Free, online, and they do not ask anyone to be abstinent.",
+      "items": [
+        {
+          "name": "Friends & Family — Harm Reduction Works",
+          "url": "https://meet.harmreduction.works/",
+          "hours": "Sundays 6:30pm Eastern, every week.",
+          "what": "A peer-run meeting built by people who use drugs, as a deliberate alternative to the abstinence-only groups. Free, online, and you can dial in by phone instead of using the app. There is a Parents and Guardians meeting on Mondays at 7pm Eastern.",
+          "caution": "Open the calendar rather than saving a meeting link — the links change."
+        },
+        {
+          "name": "Invitation to Change — CMC:Foundation for Change",
+          "url": "https://itc.cmcffc.org/group-directory",
+          "hours": "Several weekly groups, including a national one Tuesdays 12pm Eastern.",
+          "what": "Free peer-led groups for anyone helping someone who uses. Built around staying connected to the person rather than issuing ultimatums. Their own framing is that Al-Anon is often the only thing offered and does not teach evidence-based strategies.",
+          "caution": "The group finder sometimes hangs on “Loading” and drops you to a newsletter box — that does not mean nothing is running. Separate paid “Family Mondays” sessions cost $15; the groups themselves are free."
+        },
+        {
+          "name": "Partnership to End Addiction helpline",
+          "num": "855-378-4373",
+          "tel": "8553784373",
+          "url": "https://drugfree.org/",
+          "hours": "Monday–Friday, 10am–8pm Eastern. Text CONNECT to 55753.",
+          "what": "Free coaching for families. Harm reduction inclusive in their own words — they will talk about using more safely or cutting back, not only about stopping.",
+          "caution": "In their own words they are not affiliated with any treatment provider and will not refer to programs they have not vetted — which is worth knowing, because most “helplines” you find by searching are paid referral services."
+        }
+      ],
+      "gap": "No organization in the US runs a staffed phone line for families wanting harm reduction guidance. The two groups above meet on a schedule; there is nothing for a parent awake at 2am. We looked hard for one."
+    },
+    {
       "id": "grief",
       "title": "If someone died",
       "blurb": "Overdose grief is its own thing. People bring casseroles when someone dies of anything else.",

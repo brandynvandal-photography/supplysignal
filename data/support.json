@@ -541,9 +541,9 @@
         },
         {
           "name": "Brave",
-          "what": "Peer-built overdose detection technology, including a button and app that summon help if you stop responding while using alone.",
-          "cost": "Free",
-          "delivery": "App and devices",
+          "what": "Peer-built overdose detection hardware — a button you press when you are about to use alone, and sensors for bathrooms and private rooms, both wired to a responder who checks on you. Sold to organizations rather than individuals, so this is one to ask your local program about.",
+          "cost": "Devices are purchased, not free — configuration fee on a first order.",
+          "delivery": "Devices, installed by a program or building",
           "url": "https://www.brave.coop/"
         },
         {
