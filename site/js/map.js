@@ -533,13 +533,23 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   });
 
   canvas.addEventListener("pointermove", async (e) => {
+    /* Two fingers down means this is a pinch, and the pinch handler below owns
+       it. Without this both handlers ran on the same events: the map panned
+       toward whichever finger moved more WHILE it zoomed, which is most of
+       what made pinching feel like it was fighting back. */
+    if (active.size >= 2) return;
+
     if (state.dragging && last) {
       const dx = e.clientX - last[0], dy = e.clientY - last[1];
       last = [e.clientX, e.clientY];
       moved += Math.abs(dx) + Math.abs(dy);
       state.panX += dx;
       state.panY += dy;
-      draw();
+      /* rAF-throttled, not a synchronous repaint per event. pointermove fires
+         at up to 120Hz on a phone and draw() repaints the whole canvas, so the
+         old code queued far more full repaints than the display could show and
+         the gesture ran behind the finger. */
+      scheduleDraw();
       return;
     }
 
@@ -605,8 +615,28 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     state.dragging = false;
     const [a, b] = [...active.values()];
     const dist = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+    const mid = { x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2 };
     if (!pinchStart) { pinchStart = { dist, zoom: state.zoom }; return; }
+
+    /* Zoom about the midpoint between the fingers, so the map stays put under
+       them. It used to scale about the canvas centre, which slides whatever
+       you are looking at off toward an edge as you zoom - you then chase it
+       with a drag, and that chase is what reads as clunky. */
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const r = canvas.getBoundingClientRect();
+    const px = (mid.x - r.left) * dpr, py = (mid.y - r.top) * dpr;
+
+    const before = transform(canvas.width, canvas.height, dpr);
+    const wx = (px - before.ox) / before.unit;
+    const wy = (py - before.oy) / before.unit;
+
     state.zoom = Math.max(1, Math.min(12, pinchStart.zoom * (dist / pinchStart.dist)));
+
+    const after = transform(canvas.width, canvas.height, dpr);
+    // Shift pan so (wx, wy) lands back under the fingers.
+    state.panX += (px - (wx * after.unit + after.ox)) / dpr;
+    state.panY += (py - (wy * after.unit + after.oy)) / dpr;
+
     scheduleDraw();
   });
   const clearPointer = (e) => {

@@ -265,6 +265,18 @@ function applyStrings() {
   /* Says the app clears itself. Without this, the X reads as the ONLY way to
      clear anything - which was true until storage became session-only, and
      leaves someone who forgets to press it worrying for no reason. */
+  /* Early access. On a site whose whole claim is that its facts are checked,
+     saying "checked is not the same as right" is the honest version of that
+     claim - and it gives somebody who spots a dangerous error a way to say so.
+     Every page, because an error could be on any of them. */
+  const early = document.getElementById("foot-early");
+  if (early) {
+    clear(early).append(
+      h("strong", null, t("app.earlyTitle")), " ", t("app.earlyBody"), " ",
+      h("a", { href: `mailto:${t("app.earlyContact")}` }, t("app.earlyContact"))
+    );
+  }
+
   const priv = document.getElementById("foot-privacy");
   if (priv) priv.textContent = t("footer.privacy");
 

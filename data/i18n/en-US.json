@@ -9,7 +9,10 @@
     "quickExit": "Leave now — jumps to a weather site and removes this page from your back button",
     "language": "Language",
     "loadFailed": "This section could not load.",
-    "loadFailedHint": "Check your connection and try again."
+    "loadFailedHint": "Check your connection and try again.",
+    "earlyTitle": "Early access — tell us if something here is wrong",
+    "earlyBody": "This is new, and some of it will be wrong. Every clinical claim is checked against a source before it goes in, and that still is not the same as being right. If you spot something inaccurate — especially anything that could get somebody hurt — please say so.",
+    "earlyContact": "hello@nightlight.help"
   },
   "nav": {
     "alerts": "Alerts",

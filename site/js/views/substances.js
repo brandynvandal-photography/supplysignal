@@ -680,7 +680,9 @@ async function detailView(id, subs, combos, { go }) {
      front - see data.reagentsFor. This is the only view that renders them, and
      loading them for all 302 was costing the Drugs list 111KB before it could
      paint. Attached to a local copy so the cached bundle stays untouched. */
-  const rg = await data.reagentsFor(id);
+  const [rg, plantMatrix] = await Promise.all([
+    data.reagentsFor(id), data.isPlantOrFungal(id),
+  ]);
   const s = rg ? { ...base, reagentResults: rg } : base;
 
   const wrap = h("div");
@@ -797,6 +799,36 @@ async function detailView(id, subs, combos, { go }) {
   }
 
   /* ---- expected reagent reactions ---- */
+  /* Plant and fungal material gets an explanation instead of a color table.
+     The table used to render here from PsychonautWiki's per-COMPOUND colors,
+     which describe an isolated molecule rather than the bud or mushroom
+     somebody is holding - and it appeared under the heading "expected reagent
+     reactions", promising a result the chemistry cannot give. Every claim
+     below was read at source; see scripts/build-reagents.mjs. */
+  if (plantMatrix) {
+    wrap.appendChild(
+      callout("warn", "A reagent can’t tell you what this is",
+        h("p", null,
+          "Reagent colors are worked out on powders and crystals. DanceSafe puts it " +
+          "plainly: plant matter and fungi are difficult, if not impossible, to test " +
+          "with at-home tools."),
+        /^psilocyb/.test(id)
+          ? h("p", null,
+              "Ehrlich’s turns purple for indoles in general — ordinary supermarket " +
+              "mushrooms can do it, and so can death cap. Drug checkers in New Zealand " +
+              "also got no reaction at all from confirmed psilocybin mushrooms, and a " +
+              "reaction on the cap but not the stem of the same one. A purple result " +
+              "does not tell you the species, and no result does not mean it is clean.")
+          : h("p", null,
+              "The blue that stands for THC in the cannabis reagent has been recorded " +
+              "coming from ordinary thyme and oregano, and no spot test detects synthetic " +
+              "cannabinoids at all."),
+        h("p", { class: "sec__note" },
+          "A lab service is the only way to identify this material or measure its strength. " +
+          "Where to send it is on the Test page."))
+    );
+  }
+
   if (s.reagentResults?.length) {
     /* Class-based, never an inline style attribute - the CSP has no
        unsafe-inline, so a style attr silently renders nothing (found by

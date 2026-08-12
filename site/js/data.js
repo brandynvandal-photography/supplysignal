@@ -385,6 +385,13 @@ export async function reagentsFor(id) {
   return r.reagents?.[id] || null;
 }
 
+/** Is this a plant or fungal material, where a reagent color table would be
+ *  misleading? See the note in scripts/build-reagents.mjs. */
+export async function isPlantOrFungal(id) {
+  const r = await load("reagents", { plantOrFungal: [] });
+  return (r.plantOrFungal || []).includes(id);
+}
+
 /** Combination risk matrix. Bundled, so checking a pair makes no request. */
 export async function combos() {
   return load("combos", { matrix: null, categories: [], definitions: [], drugs: [] });

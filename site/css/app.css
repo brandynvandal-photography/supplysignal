@@ -556,9 +556,13 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .card--elevated { border-left: 4px solid var(--elevated); }
 .card--advisory { border-left: 4px solid var(--advisory); }
 
-.card__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 9px; }
-.card h3 { margin: 0 0 7px; font-size: 1.1rem; }
-.card__meta { color: var(--ink-3); font-size: .84rem; }
+.card__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 11px; }
+.card h3 { margin: 0 0 10px; font-size: 1.1rem; }
+/* Its own breathing room above and below, not just the heading's bottom
+   margin. This is the line that answers "what am I looking at". */
+.card__meta { color: var(--ink-3); font-size: .84rem; line-height: 1.5; margin: 8px 0; }
+.card__meta:first-child { margin-top: 0; }
+.card__meta:last-child { margin-bottom: 0; }
 
 /* Severity is never signalled by color alone - each badge carries a shape
    glyph and the word itself, so it survives greyscale and color blindness. */
@@ -604,7 +608,10 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .sec { margin: var(--sp-5) 0 var(--sp-2); }
 .sec__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin-bottom: 4px; }
 .sec__head h2 { margin: 0; }
-.sec__note { color: var(--ink-3); font-size: .88rem; }
+.sec__note { color: var(--ink-3); font-size: .88rem; line-height: 1.55; }
+/* Only when STACKED. Inside .sec__head it sits beside the heading as a flex
+   sibling and must not gain a top margin there. */
+h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 10px; }
 
 .county-head { margin-bottom: var(--sp-2); }
 .county-head h1 { margin-bottom: 4px; }
@@ -729,7 +736,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    hover that both lifts and lightens. Same trade the disclosures already make,
    and they are tappable too. */
 .classcard {
-  display: flex; flex-direction: column; gap: 3px;
+  display: flex; flex-direction: column; gap: 6px;
   background: var(--glass); border: 1px solid var(--glass-line);
   border-radius: var(--radius); padding: var(--sp-3) var(--sp-3);
   min-height: var(--tap); cursor: pointer;
@@ -747,8 +754,11 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 /* No severity colour anywhere here. These are subject areas, not a ranking of
    danger, and tinting them would read as one. */
 .classcard__label { font-weight: 650; font-size: 1.02rem; }
-.classcard__hint { color: var(--ink-2); font-size: .88rem; line-height: 1.45; }
-.classcard__n { color: var(--ink-3); font-size: .8rem; margin-top: 2px; }
+/* A caption needs room on BOTH sides to read as a caption. At 3px from the
+   heading and 5px from the count it was just the middle line of a paragraph;
+   the eye could not tell which part was the answer to "what is this". */
+.classcard__hint { color: var(--ink-2); font-size: .88rem; line-height: 1.5; }
+.classcard__n { color: var(--ink-3); font-size: .8rem; margin-top: 6px; }
 
 .backlink {
   display: inline-flex; align-items: center; gap: 6px;
@@ -955,7 +965,7 @@ table.data th[scope="row"] { font-weight: 650; }
 .twocol { display: grid; gap: 18px; }
 @media (min-width: 620px) { .twocol { grid-template-columns: 1fr 1fr; gap: 26px; } }
 
-.cellnote { display: block; margin-top: 4px; font-size: .84rem; color: var(--ink-3); }
+.cellnote { display: block; margin-top: 7px; font-size: .84rem; line-height: 1.45; color: var(--ink-3); }
 
 ol.steps--tight > li { padding-bottom: 12px; }
 ol.steps--tight > li h4 { margin-top: 2px; }
@@ -1341,9 +1351,12 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
    show a long list without feeling like clutter. */
 .list {
   background: var(--glass);
-  border: 1px solid var(--edge);
+  border: 1px solid var(--glass-line);
   border-radius: var(--radius);
   overflow: hidden;                /* clips the child corners to the group */
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
 }
 .list > .nbr {
   border: 0;
@@ -2100,3 +2113,15 @@ html, body { overscroll-behavior-y: none; }
    is an absence rather than content - but still a full paragraph, because
    burying it as small print would make it look like an error message. */
 .leadin--none { color: var(--ink-2); }
+
+/* Early-access notice. Sits above the rest of the footer and carries a left
+   rule so it reads as a standing caveat rather than another line of small
+   print - someone should be able to find it without hunting, and it should not
+   look like a dismissed banner either. */
+#foot-early {
+  margin: 0 0 14px; padding: 12px 0 12px 14px;
+  border-left: 3px solid var(--elevated);
+  color: var(--ink-2); font-size: min(.9rem, 15px); line-height: 1.6;
+}
+#foot-early strong { color: var(--ink); display: block; margin-bottom: 3px; }
+#foot-early a { font-weight: 600; }
