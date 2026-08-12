@@ -78,7 +78,7 @@ export async function writeCountyFeed(root, county, clusters, siteUrl) {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>Supply Check — ${esc(county.name)}, ${esc(county.state)}</title>
+    <title>Nightlight — ${esc(county.name)}, ${esc(county.state)}</title>
     <link>${siteUrl}/#/${county.fips}</link>
     <description>${esc(DISCLAIMER)}</description>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>

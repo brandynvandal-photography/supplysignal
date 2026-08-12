@@ -22,7 +22,7 @@ const SRC =
   "https://opioiddatalab.github.io/dataviz/regional/regional_drugs_infographic.html";
 
 const res = await fetch(SRC, {
-  headers: { "user-agent": "SupplyCheck/1.0 (public health harm reduction)" },
+  headers: { "user-agent": "Nightlight/1.0 (public health harm reduction)" },
 });
 if (!res.ok) throw new Error(`UNC infographic: HTTP ${res.status}`);
 const html = await res.text();

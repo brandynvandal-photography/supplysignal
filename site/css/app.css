@@ -1,4 +1,4 @@
-/* Supply Check design system.
+/* Nightlight design system.
    No external requests anywhere - no font CDN, no analytics, no icon service.
    Someone checking this page may have real reasons not to want the lookup
    logged by a third party, and a system font stack renders instantly on the
@@ -28,6 +28,12 @@
   --l-line: #ece4d8;      --l-line-2: #ddd2c2;    --l-edge: #8d8377;
   --l-brand: #2d6a5f;     --l-brand-ink: #ffffff; --l-brand-soft: #e3efea;
   --l-brand-hover: #235448;
+  /* The mark's own color, and the ONLY thing that uses it. It is deliberately
+     not --brand: --brand also feeds --advisory, and --elevated is already
+     amber, so warming the brand globally would collapse two severity levels
+     into the same color. A calm interface may never make one warning look
+     like another. The logo carries the name; links stay teal. */
+  --l-glow: #b8720f;
   --l-critical: #b3301c;  --l-critical-soft: #fbeae5;
   --l-elevated: #8a5410;  --l-elevated-soft: #fbf0df;
   --l-ok: #2a6b45;        --l-ok-soft: #e6f2ea;
@@ -41,6 +47,7 @@
   --d-line: #39332b;      --d-line-2: #4a4238;    --d-edge: #6f6558;
   --d-brand: #7fcbb8;     --d-brand-ink: #12271f; --d-brand-soft: #1b322c;
   --d-brand-hover: #9adbc9;
+  --d-glow: #ffc978;      /* lamp gold - see --l-glow */
   --d-critical: #ff8a72;  --d-critical-soft: #33201b;
   --d-elevated: #f2b063;  --d-elevated-soft: #312516;
   --d-ok: #74c994;        --d-ok-soft: #152a1e;
@@ -62,6 +69,7 @@
   --edge: var(--l-edge);
   --brand: var(--l-brand);           --brand-ink: var(--l-brand-ink);
   --brand-soft: var(--l-brand-soft); --brand-hover: var(--l-brand-hover);
+  --glow: var(--l-glow);
   --critical: var(--l-critical);     --critical-soft: var(--l-critical-soft);
   --elevated: var(--l-elevated);     --elevated-soft: var(--l-elevated-soft);
   --advisory: var(--l-brand);        --advisory-soft: var(--l-brand-soft);
@@ -138,6 +146,7 @@
     --edge: var(--d-edge);
     --brand: var(--d-brand);           --brand-ink: var(--d-brand-ink);
     --brand-soft: var(--d-brand-soft); --brand-hover: var(--d-brand-hover);
+    --glow: var(--d-glow);
     --critical: var(--d-critical);     --critical-soft: var(--d-critical-soft);
     --elevated: var(--d-elevated);     --elevated-soft: var(--d-elevated-soft);
     --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
@@ -156,6 +165,7 @@
   --edge: var(--d-edge);
   --brand: var(--d-brand);           --brand-ink: var(--d-brand-ink);
   --brand-soft: var(--d-brand-soft); --brand-hover: var(--d-brand-hover);
+  --glow: var(--d-glow);
   --critical: var(--d-critical);     --critical-soft: var(--d-critical-soft);
   --elevated: var(--d-elevated);     --elevated-soft: var(--d-elevated-soft);
   --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
@@ -271,30 +281,50 @@ a { color: var(--brand); }
   background: none; border: 0; padding: 8px 4px; margin-left: -4px; min-height: var(--tap);
   cursor: pointer; color: inherit; font: inherit;
 }
-/* The mark: a ripple beacon. The core dot is the original identity; the two
-   rings are a signal spreading quietly outward - listening for what is moving
-   through an area, never sounding an alarm. Drawn inline (no icon service),
-   colored by currentColor so it takes --brand in both themes.
+/* The mark: a small light, left on. A warm core inside a soft halo, with two
+   rings of light spreading quietly outward into the dark.
+
+   This was very nearly a lighthouse, and it should not be. A lighthouse is a
+   warning-off structure - it tells ships where NOT to go - and this app never
+   tells anyone not to use. It is also unreadable at 24px (tower taper,
+   gallery, lantern room), and its beam is engineered to be seen from miles
+   away, which is precisely the wrong instinct for an app that gets opened
+   with other people in the room. Concentric light survives any size and stays
+   quiet. The name carries the lighthouse; the mark carries the light.
+
+   Warmth comes from --glow, not --brand: see the token for why that
+   separation is load-bearing. Drawn inline, no icon service.
 
    The rings breathe outward on a 7s cycle - calm-breathing pace, deliberately
    slower than any notification pulse, because breath is what this app exists
    to protect. Frozen (reduced motion, print, screenshot) it is still a
    complete logo: rings simply hold at their resting opacity. */
-.brand__logo { flex: none; color: var(--brand); display: block; }
-.brand__ring--outer { opacity: .35; }
-.brand__ring--inner { opacity: .6; }
-.brand__ring, .brand__core { transform-origin: 16px 16px; }
+.brand__logo { flex: none; color: var(--glow); display: block; }
+.brand__ring--outer { opacity: .3; }
+.brand__ring--inner { opacity: .55; }
+/* The halo is what makes it read as a light source rather than a target: a
+   soft bloom the core sits inside, the way a nightlight bleeds into the wall
+   around it. Low alpha so it never becomes a second ring. */
+.brand__halo { opacity: .22; }
+.brand__ring, .brand__core, .brand__halo { transform-origin: 16px 16px; }
 @media (prefers-reduced-motion: no-preference) {
   .brand__core { animation: corebreathe 7s ease-in-out infinite; }
+  .brand__halo { animation: haloglow 7s ease-in-out infinite; }
   .brand__ring--inner { animation: ripple 7s ease-in-out infinite; }
   .brand__ring--outer { animation: ripple 7s ease-in-out 1.1s infinite; }
   @keyframes corebreathe {
     0%, 100% { transform: scale(.94); }
     50%      { transform: scale(1.08); }
   }
+  /* The halo swells slightly WIDER and later than the core, so the light
+     looks like it is spilling outward rather than the whole mark zooming. */
+  @keyframes haloglow {
+    0%, 100% { transform: scale(.9);  opacity: .14; }
+    55%      { transform: scale(1.12); opacity: .3; }
+  }
   @keyframes ripple {
-    0%, 100% { transform: scale(.88); opacity: .18; }
-    45%      { transform: scale(1);   opacity: .7; }
+    0%, 100% { transform: scale(.88); opacity: .16; }
+    45%      { transform: scale(1);   opacity: .62; }
   }
 }
 /* nowrap: at in-between widths the flex row squeezed the name and "Supply"
@@ -1022,6 +1052,23 @@ details.disc > summary:hover h2 { color: var(--brand); }
 .disc__body { padding: var(--sp-1) var(--sp-4) var(--sp-4); }
 .disc__body > .sec:first-child { margin-top: 0; }
 
+/* A group tile says what is inside it while it is still closed.
+   min-width:0 so a long preview ellipsizes instead of shoving the +/- off. */
+.disc__sum { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.disc__preview {
+  font-size: min(.86rem, 15px); color: var(--ink-3); line-height: 1.35;
+}
+.disc__sep { margin: 0 6px; opacity: .6; }
+/* Opening the tile reveals the same headings a few pixels below, so the
+   preview would just be saying it twice. It fades out instead of vanishing,
+   which keeps the summary from jumping height as it goes. */
+details.disc--group[open] > summary .disc__preview {
+  opacity: 0; height: 0; overflow: hidden;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .disc__preview { transition: opacity var(--t-ease) var(--ease-float); }
+}
+
 /* A section kept open because it is needed in an emergency reads differently. */
 details.disc--urgent > summary h2 { color: var(--critical); }
 
@@ -1711,6 +1758,40 @@ details.disc .groupkids > details.disc > summary h2 {
 
 /* The naloxone pointer sat as a bare line between two heavy sections and read
    as orphaned. Given a surface of its own it becomes a deliberate hand-off. */
+/* A pointer that is a destination rather than a footnote: used where a whole
+   page hangs off another page. Bubble, like everything else - no square
+   edges, and it floats rather than sitting in a box. */
+.bigptr {
+  display: block; text-decoration: none;
+  margin: var(--sp-3) 0 var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.bigptr__hd {
+  display: block; font-weight: 700; color: var(--brand);
+  font-size: 1.05rem; margin-bottom: 4px;
+}
+/* The arrow is on the pseudo-element so it is never read aloud as a word. */
+.bigptr__hd::after { content: " →"; }
+.bigptr__sub { display: block; color: var(--ink-2); font-size: min(.94rem, 16px); }
+@media (prefers-reduced-motion: no-preference) {
+  .bigptr { transition: transform var(--t-ease) var(--ease-float); }
+  .bigptr:hover { transform: translateY(-1px); }
+}
+
+/* Directory entries. The policy badge sits on the title row, because whether
+   a line can send police is part of the line's identity, not a detail. */
+.rescard__num { font-weight: 700; font-size: 1.05rem; margin: 6px 0 2px; }
+.rescard__num a { text-decoration: none; }
+.rescard__caution { color: var(--ink-2); }
+/* An absence, stated. Reads as content rather than as an error. */
+.gapnote { margin-top: var(--sp-3); }
+
 .naloxptr {
   margin: var(--sp-3) 0 var(--sp-4);
   padding: 14px var(--sp-3);

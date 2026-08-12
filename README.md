@@ -1,4 +1,4 @@
-# Supply Check
+# Nightlight
 
 County-level drug supply alerts, drug-checking guidance, and substance and
 combination information. Built for overdose prevention, for anyone — people who

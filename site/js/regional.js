@@ -79,6 +79,26 @@ export async function regionalForState(state, countyName) {
   return node;
 }
 
+/**
+ * The regional dataset's provenance, as one entry for a "Where this comes
+ * from" list. Returns null if the bundle is missing, so the list simply omits
+ * it rather than showing a source for data that never loaded.
+ *
+ * Kept here, next to the view that renders the data, so the two cannot drift -
+ * an attribution living in another file is an attribution nobody updates.
+ */
+export async function uncAttribution() {
+  const doc = await data.regional();
+  if (!doc?.source) return null;
+  return {
+    url: doc.source.url,
+    source: doc.source.attribution,
+    license: doc.source.license,
+    period: doc.period,
+    note: doc.caveat,
+  };
+}
+
 /** Full picture, for the Substances page. */
 export async function regionalOverview() {
   const doc = await data.regional();
@@ -126,15 +146,14 @@ export async function regionalOverview() {
     );
   }
 
-  wrap.appendChild(
-    h("p", { class: "sec__note" }, doc.caveat)
-  );
-  wrap.appendChild(
-    h("div", { class: "sources" },
-      h("span", { class: "card__meta" }, `${doc.period} ·`),
-      extLink(doc.source.url, doc.source.attribution),
-      h("span", { class: "card__meta" }, doc.source.license))
-  );
+  /* The sampling caveat, the date range, the attribution and the licence used
+     to sit here as a footer under the region tiles. They are source
+     information, and source information belongs in one place - "Where this
+     comes from" at the foot of the page - rather than repeated as a slab of
+     grey metadata in the middle of the reading. See uncAttribution() below,
+     which the Substances page folds into that list.
 
+     The short subtitle stays. "Only 20 of 90 substances turn up everywhere" is
+     the finding itself, not provenance, and it costs one line. */
   return section("Drugs are regional", "Only 20 of 90 substances turn up everywhere", wrap);
 }

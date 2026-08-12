@@ -1,8 +1,8 @@
 {
   "_note": "US English — the source of truth. To add a language, copy this file to data/i18n/<code>.json, translate the values (never the keys), and add the locale to LOCALES in site/js/i18n.js. Anything you leave out falls back to this file, so a partial translation is safe to ship.",
   "app": {
-    "name": "Supply Check",
-    "title": "Supply Check — drug supply alerts and harm reduction",
+    "name": "Nightlight",
+    "title": "Nightlight — drug supply alerts and harm reduction",
     "description": "County-level drug supply alerts, drug-checking results, and how to test a supply. Harm reduction information, not medical advice.",
     "skipToContent": "Skip to content",
     "themeToggle": "Switch color theme",
@@ -22,7 +22,7 @@
   },
   "footer": {
     "disclaimerLead": "This is information, not medical advice.",
-    "disclaimerBody": "Supply Check reports what public sources published. It does not verify, advise, or clear any substance as safe. No test, and no absence of alerts, makes a supply safe.",
+    "disclaimerBody": "Nightlight reports what public sources published. It does not verify, advise, or clear any substance as safe. No test, and no absence of alerts, makes a supply safe.",
     "emergency": "Overdose is a medical emergency — call",
     "poisonControl": "Poison Control",
     "neverUseAlone": "Never Use Alone",

@@ -33,6 +33,19 @@ const RISK = {
 };
 
 export async function render(route, ctx) {
+  /* Warm the index page's bundles before the gate below, not after it.
+     Everything the index needs is independent of the substance list, so there
+     is no reason for it to queue behind a 250KB parse.
+
+     Guarded on the route: a detail or class page does not use any of these,
+     and speculatively pulling four bundles someone will not look at is how a
+     "fast" app spends a metered connection on nothing. */
+  const warmIndex = !route.id;
+  const pre = warmIndex
+    ? [data.rx(), data.conditions(), data.market(), data.regional(), import("../regional.js")]
+    : [];
+  pre.forEach((p) => p.catch(() => {}));
+
   const [subs, combos] = await Promise.all([data.substances(), data.combos()]);
   if (!subs?.substances?.length) {
     return empty("The substance reference didn’t load with this copy of the app.",
@@ -47,6 +60,15 @@ export async function render(route, ctx) {
 /* ================================================================ index == */
 
 async function indexView(subs, combos, { go }) {
+  /* Bundles were started in render() above - see the note there. Nothing is
+     awaited here; data.js shares one in-flight promise per bundle, so the
+     awaits further down find the work already done and the page order is
+     unchanged. Without this the requests went out in a staircase, each one
+     waiting for the section above it to render. On localhost that is
+     invisible. On a phone it is one round trip per step. */
+  const regionalMod = import("../regional.js");
+  regionalMod.catch(() => {});
+
   const wrap = h("div");
   wrap.appendChild(h("h1", null, "Substances"));
   { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
@@ -126,7 +148,8 @@ async function indexView(subs, combos, { go }) {
       "Prescribed medication and health conditions both change what a combination does.", [
         await rxBlock(),
         await conditionLens(),
-      ])
+      ],
+      ["Prescribed medication", "Health conditions"])
   );
 
   /* Regional patterns come AFTER the search box. Someone who arrived knowing
@@ -134,13 +157,13 @@ async function indexView(subs, combos, { go }) {
      context they can already get from Alerts by searching or tapping Near me,
      so leading with it here made the page repeat itself before answering the
      question it exists to answer. */
-  const { regionalOverview } = await import("../regional.js");
+  const { regionalOverview, uncAttribution } = await regionalMod;
   const regional = await regionalOverview();
   if (regional) wrap.appendChild(regional);
 
   wrap.appendChild(await marketBlock());
 
-  wrap.appendChild(attributionBlock(subs, combos));
+  wrap.appendChild(attributionBlock(subs, combos, await uncAttribution()));
   return wrap;
 }
 
@@ -850,7 +873,10 @@ function durationTable(r) {
 /* Attribution is a license condition for both PsychonautWiki (CC BY-SA) and
    TripSit (link-back plus a source note on every page showing their data).
    It renders on the index and on every detail page. Do not remove it. */
-function attributionBlock(subs, combos) {
+/* `unc` is the regional dataset's provenance, moved here out of the middle of
+   the page. Passing it in rather than fetching it keeps this function
+   synchronous and keeps every source in one list. */
+function attributionBlock(subs, combos, unc = null) {
   return h("div", { class: "foot-attr" },
     h("h3", null, "Where this comes from"),
     h("ul", null,
@@ -864,6 +890,11 @@ function attributionBlock(subs, combos) {
             extLink(combos.attribution.factsheets, "TripSit"),
             " — combination risk data. ",
             extLink(combos.attribution.comboChart, "Combination chart"))
+        : null,
+      unc
+        ? h("li", null,
+            extLink(unc.url, unc.source), " — ", unc.license,
+            h("span", { class: "sec__note" }, ` ${unc.period}. ${unc.note}`))
         : null));
 }
 

@@ -22,7 +22,7 @@
   worker-src 'self'">
 <meta name="referrer" content="no-referrer">
 
-<title>Supply Check — drug supply alerts and harm reduction</title>
+<title>Nightlight — drug supply alerts and harm reduction</title>
 <meta name="description" content="County-level drug supply alerts, drug-checking results, and how to test a supply. Harm reduction information, not medical advice.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#faf6f0" media="(prefers-color-scheme: light)">
@@ -31,13 +31,17 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="img/icon-180.png">
 <!-- Installs to the home screen and runs chrome-free on both platforms, so the
-     same build is the web app, the iOS app and the Android app. -->
+     same build is the web app, the iOS app and the Android app.
+     The home-screen title is the ONE place the name is read by someone who may
+     not be the reader - it stays innocuous by design. -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Supply Check">
+<meta name="apple-mobile-web-app-title" content="Nightlight">
 <link rel="stylesheet" href="css/app.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%232d6a5f' stroke-width='2'/><circle cx='16' cy='16' r='8.5' fill='none' stroke='%232d6a5f' stroke-width='2.4' opacity='.55'/><circle cx='16' cy='16' r='4.5' fill='%232d6a5f'/></svg>">
+<!-- Favicon mirrors the header mark: halo + core in --l-glow. No animation and
+     no halo alpha subtleties survive at 16px, so it is drawn flat. -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23b8720f' stroke-width='2' opacity='.4'/><circle cx='16' cy='16' r='8.5' fill='none' stroke='%23b8720f' stroke-width='2.4' opacity='.65'/><circle cx='16' cy='16' r='7' fill='%23b8720f' opacity='.25'/><circle cx='16' cy='16' r='4.5' fill='%23b8720f'/></svg>">
 </head>
 <body>
 
@@ -45,13 +49,15 @@
 
 <header class="topbar">
   <div class="wrap">
-    <button class="brand" id="home" aria-label="Supply Check home">
+    <button class="brand" id="home" aria-label="Nightlight home">
       <svg class="brand__logo" aria-hidden="true" viewBox="0 0 32 32" width="24" height="24">
         <circle class="brand__ring brand__ring--outer" cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/>
         <circle class="brand__ring brand__ring--inner" cx="16" cy="16" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <!-- Halo before core, so the core sits inside the bloom. -->
+        <circle class="brand__halo" cx="16" cy="16" r="7" fill="currentColor"/>
         <circle class="brand__core" cx="16" cy="16" r="4.2" fill="currentColor"/>
       </svg>
-      <span class="brand__name">Supply Check</span>
+      <span class="brand__name">Nightlight</span>
     </button>
 
     <!-- On wide screens this sits in the header row; on phones the stylesheet

@@ -27,7 +27,7 @@ const RAW = "https://raw.githubusercontent.com/TripSit/drugs/main";
 
 const get = async (file) => {
   const res = await fetch(`${RAW}/${file}`, {
-    headers: { "user-agent": "SupplyCheck/1.0 (public health harm reduction)" },
+    headers: { "user-agent": "Nightlight/1.0 (public health harm reduction)" },
   });
   if (!res.ok) throw new Error(`${file}: HTTP ${res.status}`);
   return res.json();

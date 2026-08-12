@@ -267,6 +267,13 @@ export async function sitting() {
   return load("sitting", null);
 }
 
+/** What happens after an overdose, and who to call if the default help
+ *  does not fit you. Bundled like everything else - opening the directory
+ *  makes no request that reveals which group anyone belongs to. */
+export async function after() {
+  return load("after", null);
+}
+
 /** Why an unregulated supply behaves the way it does. */
 export async function market() {
   return load("market", null);

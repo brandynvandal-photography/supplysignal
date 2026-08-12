@@ -280,11 +280,39 @@ export function englishOnlyNotice() {
  * A parent wrapping a single child is a click that buys nothing, so in that
  * case the child is handed straight back.
  */
-export function group(id, title, blurb, children) {
+/**
+ * A parent tile holding two or more related sections.
+ *
+ * `preview` is not decoration. A collapsed group used to show its title and
+ * nothing else - the blurb lives in the body, which is exactly the part that
+ * is hidden - so "Does your situation change the picture?" gave a reader no
+ * way to know whether what they wanted was inside without opening it. A tile
+ * that hides its own contents is a tile people scroll past. The preview lists
+ * what is underneath, on the summary, where it survives being closed.
+ */
+export function group(id, title, blurb, children, preview = null) {
   const kids = (children || []).filter(Boolean);
   if (!kids.length) return h("span");
   if (kids.length === 1) return kids[0];
-  return disclosure(id, title, null,
-    blurb ? h("p", { class: "sec__note groupnote" }, blurb) : null,
-    h("div", { class: "groupkids" }, kids));
+
+  const items = (preview || []).filter(Boolean);
+
+  return h("details", { class: "disc disc--group", id },
+    h("summary", null,
+      /* Title and preview stack in a column; the summary itself stays a row so
+         the +/- keeps its place at the far right. */
+      h("div", { class: "disc__sum" },
+        h("h2", null, title),
+        /* aria-hidden: the list is a visual affordance that repeats headings
+           the screen reader will reach anyway once the group is open.
+           Announcing it here would read every child title twice. */
+        items.length
+          ? h("span", { class: "disc__preview", "aria-hidden": "true" },
+              items.map((label, i) =>
+                frag(i ? h("span", { class: "disc__sep" }, "·") : null,
+                     h("span", { class: "disc__previtem" }, label))))
+          : null)),
+    h("div", { class: "disc__body" },
+      blurb ? h("p", { class: "sec__note groupnote" }, blurb) : null,
+      h("div", { class: "groupkids" }, kids)));
 }

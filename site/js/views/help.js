@@ -264,6 +264,16 @@ export async function render() {
       h("a", { href: "#/learn" }, "No naloxone yet? Where to get it free, and how to use it →"))
   );
 
+  /* Same reasoning as the naloxone pointer, and the same position: this is a
+     morning-after thought, and it must never sit above the overdose steps.
+     Someone reading this page while a body is failing needs the steps, not a
+     link about next week. */
+  wrap.appendChild(
+    h("p", { class: "sec__note naloxptr" },
+      h("a", { href: "#/after" },
+        "It’s over and they’re breathing. What now? →"))
+  );
+
   const support = supportBlock();
   if (support) wrap.appendChild(support);
 
@@ -309,7 +319,7 @@ function supportBlock() {
   return disclosure("sec-support-project", "Supporting this project", null,
     h("div", { class: "card" },
       h("p", null,
-        "Supply Check is free and always will be. Donations are handled by ",
+        "Nightlight is free and always will be. Donations are handled by ",
         h("strong", null, DONATE.org), ", not by this site."),
       h("p", null,
         "Worth knowing before you click: this site cannot see whether you donate, " +
@@ -400,7 +410,7 @@ return (
     disclosure("sec-about", "What this site is", null,
       h("div", { class: "card" },
         h("p", null,
-          "Supply Check collects what public sources — health departments, local news, " +
+          "Nightlight collects what public sources — health departments, local news, " +
           "and drug-checking labs — have already published about drug supply in each " +
           "county, and puts it in one place."),
         h("p", null,

@@ -20,6 +20,11 @@ import * as data from "../data.js";
 import { practiceBlock } from "../practice.js";
 
 export async function render(route, { go }) {
+  /* Started together, awaited later - see the note in views/substances.js.
+     This page renders practice, then sitting, then the course list, and each
+     block used to be the first thing that asked for its own data. */
+  [data.practice(), data.sitting()].forEach((p) => p.catch(() => {}));
+
   const e = await data.education();
   const wrap = h("div");
 

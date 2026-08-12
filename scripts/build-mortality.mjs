@@ -20,7 +20,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 const API = "https://data.cdc.gov/resource/gb4e-yj24.json";
-const UA = "SupplyCheck/1.0 (public health harm reduction)";
+const UA = "Nightlight/1.0 (public health harm reduction)";
 
 const q = async (params) => {
   const url = `${API}?${new URLSearchParams(params)}`;

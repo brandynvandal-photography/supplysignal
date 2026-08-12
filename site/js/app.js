@@ -98,6 +98,10 @@ const VIEWS = {
   learn:      () => import("./views/learn.js"),
   about:      () => import("./views/about.js"),
   help:       () => import("./views/help.js"),
+  /* Not a tab. Reached from Support and from the foot of Emergency - the two
+     places someone is standing when the question occurs to them. The tab bar
+     is already at six on a 375px screen and a seventh would truncate them all. */
+  after:      () => import("./views/after.js"),
 };
 
 let token = 0;

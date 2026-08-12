@@ -1,6 +1,6 @@
 {
-  "name": "Supply Check \u2014 drug supply alerts and harm reduction",
-  "short_name": "Supply Check",
+  "name": "Nightlight \u2014 drug supply alerts and harm reduction",
+  "short_name": "Nightlight",
   "description": "County-level drug supply alerts, drug checking, substance information, and support. Harm reduction information, not medical advice.",
   "start_url": "./",
   "scope": "./",

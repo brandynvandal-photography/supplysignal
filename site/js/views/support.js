@@ -23,6 +23,9 @@ import * as data from "../data.js";
 import { saferUseBlock } from "./help.js";
 
 export async function render() {
+  /* Started together, awaited later - see the note in views/substances.js. */
+  data.checking().catch(() => {});
+
   const g = await data.support();
   if (!g) {
     return empty("This section could not load.", "Check your connection and try again.");
@@ -47,6 +50,19 @@ export async function render() {
       { id: "sec-trauma", label: "Trauma" },
       { id: "grp-loved", label: "Someone you love" },
     ])
+  );
+
+  /* Two doors into the After page, high on Support because the people who
+     need it are usually looking for something else when they realise it
+     exists. It is a link rather than a nested section: the content is long,
+     it serves three different readers, and burying it inside a page about
+     treatment would misfile it as a treatment step. */
+  wrap.appendChild(
+    h("a", { class: "bigptr", href: "#/after" },
+      h("span", { class: "bigptr__hd" }, "After an overdose"),
+      h("span", { class: "bigptr__sub" },
+        "What happens next for whoever it happened to, and for whoever was in " +
+        "the room — plus support for people the usual help isn’t built for."))
   );
 
   /* ---- what is underneath ---- */

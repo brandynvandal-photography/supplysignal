@@ -68,6 +68,6 @@ const server = createServer(async (req, res) => {
 // Bind loopback only. Without an explicit host Node listens on 0.0.0.0, which
 // would expose the whole project tree to anyone on the same network.
 server.listen(PORT, "127.0.0.1", () => {
-  console.log(`Supply Check dev server → http://localhost:${PORT}/site/`);
+  console.log(`Nightlight dev server → http://localhost:${PORT}/site/`);
   console.log("All responses are no-store, so a plain reload always shows the latest build.");
 });

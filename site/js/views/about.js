@@ -21,7 +21,7 @@ import { privacyBlock } from "./help.js";
 export async function render(route, { go }) {
   const wrap = h("div");
 
-  wrap.appendChild(h("h1", null, "About Supply Check"));
+  wrap.appendChild(h("h1", null, "About Nightlight"));
 
   wrap.appendChild(
     callout("info", "What this is",
@@ -122,7 +122,7 @@ function aboutBlock2() {
   return frag(
     h("div", { class: "card" },
       h("p", null,
-        "Supply Check reads public feeds — state and county health departments, " +
+        "Nightlight reads public feeds — state and county health departments, " +
         "the CDC, local news, and forensic drug-checking labs — and reorganizes what " +
         "they publish by county, alongside every county that borders it."),
       h("p", null,

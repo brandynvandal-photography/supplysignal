@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Supply Check ingest. Runs hourly under GitHub Actions.
+ * Nightlight ingest. Runs hourly under GitHub Actions.
  *
  *   fetch -> gate1 -> prefilter/score -> gate2 -> LLM escalate (ambiguous only)
  *         -> geotag -> dedupe/cluster -> write JSON + RSS -> commit
