@@ -37,7 +37,7 @@ import * as data from "../data.js";
 
 let SRC = null;
 
-/* Percentages, lifted out of the prose.
+/* Percentages and dollar amounts, lifted out of the prose.
  *
  * The whole argument of the "two things that work" block is the distance
  * between two numbers - 91% of staff call local impact helpful, 9% of
@@ -48,9 +48,10 @@ let SRC = null;
  * unsafe-inline, and more to the point this content is data, so it must never
  * be able to inject markup. */
 function withFigures(text) {
-  const parts = String(text).split(/(\d[\d,.]*\s?%)/g);
+  const parts = String(text).split(
+    /(\$[\d,.]+(?:\s(?:trillion|billion|million|thousand))?|\d[\d,.]*\s?%)/g);
   return frag(parts.map((t, i) =>
-    i % 2 ? h("b", { class: "pct" }, t) : t));
+    i % 2 ? h("b", { class: "fig" }, t) : t));
 }
 
 /* A titled item with a body, the shape most of this file's content takes.
