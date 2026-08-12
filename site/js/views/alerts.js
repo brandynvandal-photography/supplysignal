@@ -429,7 +429,7 @@ async function countyView({ fips, days }, { go, data }) {
       h("span", null,
         h("span", { class: "nbr__name" }, "Early warning"),
         h("span", { class: "nbr__dist" },
-          " · substances showing up elsewhere, not local")),
+          " · drugs showing up elsewhere, not local")),
       h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")))
   );
 

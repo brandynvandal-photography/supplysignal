@@ -333,7 +333,6 @@ export async function substances() {
     load("adulterants", { substances: [], attribution: [] }),
     load("descriptions", { descriptions: {} }),
     load("name-warnings", { warnings: {} }),
-    load("reagents", { reagents: {} }),
   ]);
 
   const have = new Set((base.substances || []).map((s) => s.id));
@@ -350,8 +349,6 @@ export async function substances() {
        probably not this. */
     const w = nameWarn.warnings?.[s.id];
     if (w) out = { ...out, nameWarning: w, aliases: [...(out.aliases || []), ...w.names] };
-    const rg = reag.reagents?.[s.id];
-    if (rg) out = { ...out, reagentResults: rg };
     return out;
   });
 
@@ -361,6 +358,20 @@ export async function substances() {
     attribution: [...(base.attribution || []), ...(extra.attribution || [])],
     adulterantsReviewed: extra.reviewed || null,
   };
+}
+
+/**
+ * Reagent colors for ONE drug, loaded on demand.
+ *
+ * This used to be merged into substances() for all 302 at once, which meant
+ * 111KB had to arrive before the Drugs list could paint - on a page that never
+ * shows a reagent color. Only the detail view does. The bundle is still a
+ * single national file fetched whole, so nothing here reveals which drug was
+ * looked up; it is simply not on the critical path any more.
+ */
+export async function reagentsFor(id) {
+  const r = await load("reagents", { reagents: {} });
+  return r.reagents?.[id] || null;
 }
 
 /** Combination risk matrix. Bundled, so checking a pair makes no request. */

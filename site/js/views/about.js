@@ -133,7 +133,7 @@ function aboutBlock2() {
       h("h3", null, "What it is not"),
       h("ul", null,
         li("Not medical advice.", "It is a reference. It cannot examine anyone, and it does not know your situation."),
-        li("Not a safety check.", "Nothing here verifies a substance or clears it. No test, and no absence of alerts, makes anything safe."),
+        li("Not a safety check.", "Nothing here verifies a drug or clears it. No test, and no absence of alerts, makes anything safe."),
         li("Not a complete picture.", "Most changes in a local drug supply are never publicly announced. An empty county page means nobody published — not that nothing is happening."),
         li("Not a treatment service.", "It points at services run by other people. It does not provide care, and it never requires you to want treatment to be useful.")),
 

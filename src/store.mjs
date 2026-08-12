@@ -124,10 +124,21 @@ export async function writeAlertsBundle(root, { windowDays, coverage }) {
       rank[a.severity] - rank[b.severity] || String(b.eventDate).localeCompare(a.eventDate)
   );
 
+  /* How many counties the gazetteer knows about. It lives here, in a bundle
+     every screen already loads, purely so the footer does not have to pull
+     counties.json - 172KB - on every page view to render one number. Counted
+     rather than hardcoded, so it cannot drift from the gazetteer. */
+  let countyCount = 0;
+  try {
+    const gaz = await readJson(path.join(root, "data", "counties.json"), null);
+    countyCount = gaz?.counties?.length || 0;
+  } catch { /* footer falls back to loading the gazetteer itself */ }
+
   const payload = {
     generated: new Date().toISOString(),
     windowDays,
     disclaimer: DISCLAIMER,
+    countyCount,
     coverage,
     clusters,
   };

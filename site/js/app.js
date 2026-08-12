@@ -262,10 +262,14 @@ function applyStrings() {
 /** Counts change with locale (digit grouping), so this re-runs on switch. */
 async function renderFooterMeta() {
   const a = await data.alerts();
-  const g = await data.counties();
+  /* The count is carried in alerts.json (which every screen already loads) so
+     this line does not cost a 172KB gazetteer fetch on five of the six tabs.
+     The fallback keeps working on an older bundle generated before the field
+     existed - and on Alerts, where counties.json is loaded for search anyway. */
   const n = (a.clusters || []).length;
+  const counties = a.countyCount || (await data.counties()).counties.length;
   document.getElementById("foot-meta").textContent =
-    t("footer.counties", { counties: i18n.num(g.counties.length) }) + " · " +
+    t("footer.counties", { counties: i18n.num(counties) }) + " · " +
     t(n === 1 ? "footer.activeAlert" : "footer.activeAlerts", { count: i18n.num(n) }) + " · " +
     (a.generated
       ? t("footer.updated", { date: new Date(a.generated).toISOString().slice(0, 10) })
@@ -340,5 +344,14 @@ async function renderFooterMeta() {
   }
   if (first) first = false;
 
-  await renderFooterMeta();
+  /* The footer meta needs counties.json - 172KB - to render one number: how
+     many counties exist. It is below the fold on every screen and nobody has
+     ever come here for it, so it must never compete for bandwidth with the
+     view someone actually asked for. Deferred to idle; on a page that needs
+     counties.json anyway (Alerts search) this costs nothing, and on the other
+     five it stops a sixth of a megabyte from racing the content.
+
+     Not awaited: boot is finished either way. */
+  const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
+  idle(() => { renderFooterMeta().catch(() => {}); });
 })();

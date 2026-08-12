@@ -23,7 +23,7 @@
   },
   "footer": {
     "disclaimerLead": "This is information, not medical advice.",
-    "disclaimerBody": "Nightlight reports what public sources published. It does not verify, advise, or clear any substance as safe. No test, and no absence of alerts, makes a supply safe.",
+    "disclaimerBody": "Nightlight reports what public sources published. It does not verify, advise, or clear any drug as safe. No test, and no absence of alerts, makes a supply safe.",
     "emergency": "Overdose is a medical emergency — call",
     "poisonControl": "Poison Control",
     "neverUseAlone": "Never Use Alone",
@@ -114,7 +114,7 @@
   "common": {
     "sources": "Sources:",
     "readMore": "Read more",
-    "allSubstances": "All substances",
+    "allSubstances": "All drugs",
     "jumpTo": "Jump to",
     "startHere": "start here",
     "noMatch": "No match.",

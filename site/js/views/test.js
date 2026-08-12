@@ -300,8 +300,8 @@ function reagentFilter(reagents) {
 
   const input = h("input", {
     class: "input", type: "search", autocomplete: "off", spellcheck: "false",
-    "aria-label": "Filter reagents by substance",
-    placeholder: "Filter by substance — cocaine, MDMA, heroin…",
+    "aria-label": "Filter reagents by drug",
+    placeholder: "Filter by drug — cocaine, MDMA, heroin…",
   });
   const count = h("p", { class: "filter__count", role: "status" });
   const nomatch = h("p", { class: "nomatch", hidden: true },
@@ -445,7 +445,7 @@ function dilutionBlock(d) {
       h("table", { class: "data" },
         h("caption", { class: "sr-only" }, "Substances that cause false positives, and at what concentration"),
         h("thead", null, h("tr", null,
-          h("th", { scope: "col" }, "Substance"),
+          h("th", { scope: "col" }, "Drug"),
           h("th", { scope: "col" }, "False positive at"))),
         h("tbody", null, d.crossReact.map((c) =>
           h("tr", null,
@@ -485,7 +485,7 @@ function reagentCard(r) {
         h("table", { class: "data" },
           h("caption", { class: "sr-only" }, `${r.name} reagent color reactions`),
           h("thead", null, h("tr", null,
-            h("th", { scope: "col" }, "Substance"),
+            h("th", { scope: "col" }, "Drug"),
             h("th", { scope: "col" }, "Reaction"))),
           h("tbody", null, r.reactions.map((x) =>
             h("tr", null,

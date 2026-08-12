@@ -124,7 +124,7 @@ export async function regionalOverview() {
     const block = h("details", { class: "acc" },
       h("summary", null,
         h("span", null, region),
-        badge(`${counts[region] || 0} substances`, "neutral")),
+        badge(`${counts[region] || 0} drugs`, "neutral")),
       h("div", { class: "acc__body" }, top.map(substanceRow)));
     paintBars(block);
     wrap.appendChild(block);
@@ -153,7 +153,7 @@ export async function regionalOverview() {
      grey metadata in the middle of the reading. See uncAttribution() below,
      which the Substances page folds into that list.
 
-     The short subtitle stays. "Only 20 of 90 substances turn up everywhere" is
+     The short subtitle stays. "Only 20 of 90 drugs turn up everywhere" is
      the finding itself, not provenance, and it costs one line. */
-  return section("Drugs are regional", "Only 20 of 90 substances turn up everywhere", wrap);
+  return section("Drugs are regional", "Only 20 of 90 drugs turn up everywhere", wrap);
 }

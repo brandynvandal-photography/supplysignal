@@ -380,7 +380,7 @@ export function privacyBlock() {
         h("p", null,
           "Nothing that identifies you, and nothing about what you looked at."),
         h("ul", null,
-          li("Your searches never leave your device.", "Every county, substance, and alert is already downloaded with the page, so choosing one makes no new request. The server cannot see which county or drug you picked."),
+          li("Your searches never leave your device.", "Every county, drug, and alert is already downloaded with the page, so choosing one makes no new request. The server cannot see which county or drug you picked."),
           li("No third parties.", "No analytics, no fonts, no maps, no trackers. This page contacts nothing but the server it came from."),
           li("Your location stays on your device.", "“Near me” matches your coordinates to a county in your browser. No location service is contacted."),
           /* This copy has been wrong twice, both times by lagging behind the
@@ -418,7 +418,7 @@ return (
           "county, and puts it in one place."),
         h("p", null,
           h("strong", null, "It is not medical advice, and it is not a safety check. "),
-          "Nothing here verifies a substance, clears it, or says it is safe to take. " +
+          "Nothing here verifies a drug, clears it, or says it is safe to take. " +
           "An absence of alerts means nobody published anything — not that a supply is clean.")))
   );
 

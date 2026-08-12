@@ -76,9 +76,9 @@ const payload = {
   groupCounts: counts,
   headline: "There is no single American drug supply. There are at least four.",
   summary:
-    "Of 90 substances detected routinely in mail-in drug checking, only 20 turn " +
+    "Of 90 drugs detected routinely in mail-in drug checking, only 20 turn " +
     "up everywhere at similar rates. The other 70 are concentrated — some 80 to " +
-    "90 percent confined to a single region. A substance is counted as regional " +
+    "90 percent confined to a single region. A drug is counted as regional " +
     "when one region holds at least 35% of its national signal.",
   caveat:
     "This is not a random sample of the US drug supply. It is what reaches harm " +

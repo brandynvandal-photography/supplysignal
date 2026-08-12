@@ -43,23 +43,33 @@ export async function render(route, ctx) {
   const warmIndex = !route.id;
   const pre = warmIndex
     ? [data.rx(), data.conditions(), data.market(), data.regional(), import("../regional.js")]
-    : [];
+    /* A detail page is the ONLY thing that renders reagent colors, so it is
+       the only route that pays for that bundle - started here so it arrives
+       alongside the drug list instead of after it. A class page renders
+       neither and warms nothing. */
+    : route.id !== "class" ? [data.reagentsFor(route.id)] : [];
   pre.forEach((p) => p.catch(() => {}));
 
-  const [subs, combos] = await Promise.all([data.substances(), data.combos()]);
+  /* Started together; only the index gets to skip waiting on combos. */
+  const combosP = data.combos();
+  combosP.catch(() => {});
+
+  const subs = await data.substances();
   if (!subs?.substances?.length) {
-    return empty("The substance reference didn’t load with this copy of the app.",
+    return empty("The drug reference didn’t load with this copy of the app.",
       "Try reloading. If it keeps happening, this copy is incomplete.");
   }
 
   if (route.id === "class") return classView(route.sub, subs, ctx);
-  if (route.id) return detailView(route.id, subs, combos, ctx);
-  return indexView(subs, combos, ctx);
+  /* The detail page genuinely needs the matrix to render interactions, so it
+     still waits. The index does not - see the note at mixSlot. */
+  if (route.id) return detailView(route.id, subs, await combosP, ctx);
+  return indexView(subs, combosP, ctx);
 }
 
 /* ================================================================ index == */
 
-async function indexView(subs, combos, { go }) {
+async function indexView(subs, combosP, { go }) {
   /* Bundles were started in render() above - see the note there. Nothing is
      awaited here; data.js shares one in-flight promise per bundle, so the
      awaits further down find the work already done and the page order is
@@ -70,14 +80,14 @@ async function indexView(subs, combos, { go }) {
   regionalMod.catch(() => {});
 
   const wrap = h("div");
-  wrap.appendChild(h("h1", null, "Substances"));
+  wrap.appendChild(h("h1", null, "Drugs"));
   { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
 
   /* ---- search ---- */
   const input = h("input", {
     class: "input", type: "text", autocomplete: "off", spellcheck: "false",
-    "aria-label": "Search substances",
-    placeholder: "Search a substance — fentanyl, xylazine, MDMA…",
+    "aria-label": "Search drugs",
+    placeholder: "Search a drug — fentanyl, xylazine, MDMA…",
   });
   const list = h("div", { class: "list" });
 
@@ -95,7 +105,7 @@ async function indexView(subs, combos, { go }) {
         },
         h("span", { class: "classcard__label" }, c.label),
         h("span", { class: "classcard__hint" }, c.hint),
-        h("span", { class: "classcard__n" }, `${n} substances`));
+        h("span", { class: "classcard__n" }, `${n} drugs`));
     }));
 
   const paint = (term) => {
@@ -115,7 +125,7 @@ async function indexView(subs, combos, { go }) {
 
     if (!hits.length) {
       list.appendChild(empty("No match.",
-        "Try another name, or browse by class. Not every substance has published dose data."));
+        "Try another name, or browse by class. Not every drug has published dose data."));
       return;
     }
     for (const s of hits) list.appendChild(row(s, go));
@@ -124,7 +134,7 @@ async function indexView(subs, combos, { go }) {
   input.addEventListener("input", () => paint(input.value));
 
   wrap.appendChild(
-    section("Find a substance", `${subs.substances.length} with published data`,
+    section("Find a drug", `${subs.substances.length} with published data`,
       h("div", { class: "search" }, h("div", { class: "search__row" }, input)),
       list)
   );
@@ -141,7 +151,20 @@ async function indexView(subs, combos, { go }) {
      something you read on the way in, both are "does my situation change
      this", and as siblings they made a six-block page out of a four-block
      one. */
-  wrap.appendChild(mixChecker(combos));
+  /* The checker fills in when its data lands, rather than holding the whole
+     page hostage to it.
+
+     combos.json is 165KB and NOTHING above this line needs it - the search,
+     the class grid and the counts all come from the drug list. Awaiting it
+     before the first paint meant the page someone came for waited on a
+     feature they may never touch. The container is appended in place now and
+     populated a moment later, so the layout order is unchanged and nothing
+     jumps except this one block appearing.
+
+     Reserved height, so the sections below do not shift downward when it
+     arrives - see .mixslot. */
+  const mixSlot = h("div", { class: "mixslot" });
+  wrap.appendChild(mixSlot);
 
   wrap.appendChild(
     group("grp-yours", "Does your situation change the picture?",
@@ -160,10 +183,26 @@ async function indexView(subs, combos, { go }) {
   const { regionalOverview, uncAttribution } = await regionalMod;
   const regional = await regionalOverview();
   if (regional) wrap.appendChild(regional);
+  const uncAttr = await uncAttribution();
 
   wrap.appendChild(await marketBlock());
 
-  wrap.appendChild(attributionBlock(subs, combos, await uncAttribution()));
+  const attrSlot = h("div");
+  wrap.appendChild(attrSlot);
+
+  /* Both consumers of combos, filled together once it lands. Failure is
+     silent on purpose: a missing combination checker is a smaller harm than
+     an error banner on a page that is otherwise entirely usable. */
+  combosP.then((combos) => {
+    const checker = mixChecker(combos);
+    if (checker) mixSlot.replaceChildren(checker);
+    else mixSlot.remove();
+    attrSlot.replaceChildren(attributionBlock(subs, combos, uncAttr));
+  }).catch(() => {
+    mixSlot.remove();
+    attrSlot.replaceChildren(attributionBlock(subs, null, uncAttr));
+  });
+
   return wrap;
 }
 
@@ -363,7 +402,7 @@ function classView(slug, subs, { go }) {
     h("div", { class: "county-head" },
       h("h1", null, info.label),
       h("p", { class: "classcard__hint" }, info.hint),
-      h("p", { class: "classcard__n" }, `${members.length} substances`))
+      h("p", { class: "classcard__n" }, `${members.length} drugs`))
   );
 
   /* Filter within the class. At 90 entries, psychedelics is still a wall of
@@ -398,8 +437,8 @@ function classView(slug, subs, { go }) {
      implying these boxes are exclusive. */
   wrap.appendChild(
     h("p", { class: "sec__note" },
-      "Some substances belong to more than one class and appear in each. " +
-      "Effects vary by person, dose, and what a substance is actually mixed with.")
+      "Some drugs belong to more than one class and appear in each. " +
+      "Effects vary by person, dose, and what a drug is actually mixed with.")
   );
 
   return wrap;
@@ -440,7 +479,7 @@ function mixChecker(combos) {
   const addBtn = h("button", {
     type: "button", class: "btn btn--ghost btn--sm",
     onClick: () => { addSlot(); check(); },
-  }, "+ Add another substance");
+  }, "+ Add another drug");
 
   function makeSelect(i) {
     const sel = h("select", { class: "input", "aria-label": `Substance ${i + 1}` },
@@ -461,7 +500,7 @@ function mixChecker(combos) {
       i > 1
         ? h("button", {
             type: "button", class: "iconbtn mixslot__x",
-            "aria-label": `Remove substance ${i + 1}`,
+            "aria-label": `Remove drug ${i + 1}`,
             onClick: () => {
               const at = slots.indexOf(sel);
               if (at > -1) slots.splice(at, 1);
@@ -528,7 +567,7 @@ function mixChecker(combos) {
           unique.length > 2
             ? h("p", { class: "sec__note" },
                 `${results.length} pairs checked. There is no data anywhere on how ` +
-                `three or more substances behave together, so this is the worst ` +
+                `three or more drugs behave together, so this is the worst ` +
                 `single pair — treat it as a floor, not the whole picture.`)
             : null,
           definitionFor(combos, worst))
@@ -626,15 +665,22 @@ const prettyCat = (c) =>
 
 /* =============================================================== detail == */
 
-function detailView(id, subs, combos, { go }) {
-  const s = subs.substances.find((x) => x.id === id);
-  if (!s) return empty("Not found.", "That substance isn’t in the dataset.");
+async function detailView(id, subs, combos, { go }) {
+  const base = subs.substances.find((x) => x.id === id);
+  if (!base) return empty("Not found.", "That drug isn’t in the dataset.");
+
+  /* Reagent colors are fetched here rather than merged into every drug up
+     front - see data.reagentsFor. This is the only view that renders them, and
+     loading them for all 302 was costing the Drugs list 111KB before it could
+     paint. Attached to a local copy so the cached bundle stays untouched. */
+  const rg = await data.reagentsFor(id);
+  const s = rg ? { ...base, reagentResults: rg } : base;
 
   const wrap = h("div");
 
   wrap.appendChild(
     h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/substances") },
-      "‹ All substances")
+      "‹ All drugs")
   );
 
   wrap.appendChild(h("div", { class: "county-head" },
@@ -755,9 +801,9 @@ function detailView(id, subs, combos, { go }) {
 
     wrap.appendChild(
       section("Expected reagent reactions", "From PsychonautWiki",
-        callout("warn", "This identifies the main substance — it cannot find what is mixed in",
+        callout("warn", "This identifies the main drug — it cannot find what is mixed in",
           h("p", null,
-            "These are the colors a reagent gives with this substance on its own. " +
+            "These are the colors a reagent gives with this drug on its own. " +
             "The expected reaction failing to appear is strong information — walk away. " +
             "The expected color appearing is weak information: it tells you the bulk of " +
             "the sample, not what else is in there."),
@@ -766,7 +812,7 @@ function detailView(id, subs, combos, { go }) {
             "active in microgram amounts, far below the amount a color change can show, " +
             "so a cut sample gives you the color of the main drug either way. " +
             (isOpioidish
-              ? "The colors below are what this substance does as pure material in a lab — they are not a way to detect it in a mix. "
+              ? "The colors below are what this drug does as pure material in a lab — they are not a way to detect it in a mix. "
               : "") +
             "Fentanyl strips answer that question; reagents answer this one. See the " +
             "Test section for each reagent’s limits.")),
@@ -788,7 +834,7 @@ function detailView(id, subs, combos, { go }) {
     wrap.appendChild(
       section("Dose", "Ranges reported by PsychonautWiki — not a recommendation",
         callout("warn", "A street supply is not a measured dose",
-          h("p", null, "These ranges assume a pure, correctly identified substance. " +
+          h("p", null, "These ranges assume a pure, correctly identified drug. " +
             "Anything from an unregulated supply may be a different drug, a different " +
             "strength, or unevenly mixed. Start far below the low end.")),
         dosed.map((r) => doseTable(r)))

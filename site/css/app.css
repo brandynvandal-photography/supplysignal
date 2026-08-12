@@ -1069,6 +1069,13 @@ details.disc > summary:hover h2 { color: var(--brand); }
 .disc__body { padding: var(--sp-1) var(--sp-4) var(--sp-4); }
 .disc__body > .sec:first-child { margin-top: 0; }
 
+/* The combination checker arrives a moment after the rest of the page (see
+   mixSlot in views/substances.js). Reserving its height means the sections
+   below do not jump downward when it lands - a shift under someone's thumb is
+   how a fast page still feels broken. Collapses to nothing if it never comes. */
+.mixslot { min-height: 200px; }
+.mixslot:empty { min-height: 0; }
+
 /* A group tile says what is inside it while it is still closed.
    min-width:0 so a long preview ellipsizes instead of shoving the +/- off. */
 .disc__sum { display: flex; flex-direction: column; gap: 3px; min-width: 0; }

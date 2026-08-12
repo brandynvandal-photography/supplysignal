@@ -52,10 +52,10 @@ export async function render(route, { go }) {
       h("p", null,
         "Everything below is ", h("strong", null, "national"),
         " — from Canada’s drug-testing lab and from a US forensic science center. " +
-        "None of it says whether any of these substances are in your county."),
+        "None of it says whether any of these drugs are in your county."),
       h("p", null,
         "New adulterants tend to show up in lab testing somewhere before they are " +
-        "reported everywhere. This page exists so a substance is not new to you the " +
+        "reported everywhere. This page exists so a drug is not new to you the " +
         "first time it reaches you."))
   );
 
@@ -103,7 +103,7 @@ export async function render(route, { go }) {
       section("First detections", "Canada, national",
         h("p", { class: "sec__note" },
           "Substances Canada’s national lab identified for the first time in a sample " +
-          "submitted to it. A first detection means a substance exists and has been " +
+          "submitted to it. A first detection means a drug exists and has been " +
           "confirmed somewhere — not that it is common, and not that it is here."),
         list)
     );
