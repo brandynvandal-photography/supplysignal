@@ -2010,3 +2010,20 @@ html, body { overscroll-behavior-y: none; }
   .nav { overflow-x: auto; scrollbar-width: none; }
   .nav::-webkit-scrollbar { display: none; }
 }
+
+/* County overdose statistics, under the map. Quiet by design: this is a count
+   of people, and someone reading it may have been at one of them. The number
+   is large enough to be the answer, never large enough to be a headline. */
+.mort { margin-top: var(--sp-3); }
+.mort__n {
+  font-size: 2.1rem; font-weight: 700; line-height: 1.05;
+  margin: 2px 0 2px; letter-spacing: -.02em;
+}
+.mort__unit { color: var(--ink-2); margin: 0 0 10px; font-size: min(.96rem, 16px); }
+.mort__trend { font-weight: 650; margin: 0 0 10px; }
+/* Direction is carried by the WORD ("Down from", "Up from") and by the arrow;
+   colour only reinforces it. Down is not styled as good news - a provisional
+   count that revises upward often falls before it rises. */
+.mort__trend--down { color: var(--ok); }
+.mort__trend--up { color: var(--critical); }
+.mort__trend--flat { color: var(--ink-2); }

@@ -23,7 +23,7 @@ export async function render(route, { go }) {
   /* Started together, awaited later - see the note in views/substances.js.
      This page renders practice, then sitting, then the course list, and each
      block used to be the first thing that asked for its own data. */
-  [data.practice(), data.sitting()].forEach((p) => p.catch(() => {}));
+  [data.practice(), data.sitting(), data.consent()].forEach((p) => p.catch(() => {}));
 
   const e = await data.education();
   const wrap = h("div");
@@ -41,6 +41,8 @@ export async function render(route, { go }) {
 
   wrap.appendChild(h("p", { class: "sec__note" }, e.intro));
 
+  const consent = await consentBlock();
+
   wrap.appendChild(
     jumpNav([
       { id: "sec-practice", label: "Practice" },
@@ -49,6 +51,10 @@ export async function render(route, { go }) {
          look like the chip did nothing. Label matches the section heading. */
       { id: "sec-sitting", label: "Being the calm person" },
       ...e.groups.map((g) => ({ id: `sec-${g.id}`, label: g.title })),
+      /* Only when the bundle actually loaded - a chip pointing at a section
+         that is not on the page is worse than no chip. */
+      ...(consent ? [{ id: "sec-consent", label: "Consent" },
+                     { id: "sec-repair", label: "After you hurt someone" }] : []),
     ])
   );
 
@@ -94,6 +100,11 @@ export async function render(route, { go }) {
             h("div", { class: "sources" }, extLink(it.url, "Open"))))))
     );
   }
+
+  /* After the courses, before "teach someone else". Someone who opened Learn
+     to find a naloxone class should not be met by a section about hurting
+     people; someone who came looking for this will use the jump chip. */
+  if (consent) wrap.appendChild(consent);
 
   wrap.appendChild(
     section("Teach someone else", null,
@@ -174,4 +185,124 @@ async function sittingBlock() {
       h("p", null, s.after.body),
 
       h("p", { class: "sec__note" }, `Links checked ${s.lastVerified}.`)));
+}
+
+/* Consent, and repairing harm you caused.
+ *
+ * This is the hardest register on the site to get right, and the failure mode
+ * is not inaccuracy - it is sounding like a lecture. Someone who has hurt
+ * another person already knows. A page that arrives to tell them they are bad
+ * gets closed, and then nothing changes, which serves nobody least of all the
+ * person they hurt.
+ *
+ * So the rules here are narrower than usual:
+ *
+ *   - NO MORALISING. Nothing implies that using drugs makes a person dangerous
+ *     to others. The overwhelming majority of people who use drugs never harm
+ *     anyone, and implying otherwise is both false and the oldest slur aimed
+ *     at this audience.
+ *   - HARM IS DESCRIBED CONCRETELY. "Respect people" teaches nothing. What
+ *     teaches is naming the specific acts - dosing someone without telling
+ *     them, pushing past a no, treating a very intoxicated person as
+ *     available.
+ *   - ACCOUNTABILITY WITHOUT SELF-DESTRUCTION. Shame reliably produces
+ *     defensiveness and hiding rather than changed behaviour, so a page that
+ *     induces it works against its own purpose. The aim is a person who can
+ *     stay in the room long enough to actually repair something.
+ *   - THE HARMED PERSON'S NEEDS COME FIRST, including when what they need is
+ *     for the person who hurt them to stay away. An apology delivered for the
+ *     apologiser's relief is another thing done TO someone.
+ *
+ * Renders only the parts present in the bundle, so it can ship in pieces
+ * rather than waiting for all of it to be verified.
+ */
+async function consentBlock() {
+  const c = await data.consent();
+  if (!c) return null;
+
+  const row = (x) => h("div", { class: "lovedrow" },
+    h("h4", null, x.t), h("p", null, x.b));
+
+  const src = (list) => (list?.length
+    ? h("div", { class: "sources" }, list.map((x) => extLink(x.url, x.name)))
+    : null);
+
+  const blocks = [];
+
+  if (c.consent) {
+    const s = c.consent;
+    blocks.push(
+      disclosure("sec-consent", s.title, { open: false },
+        s.intro ? h("p", { class: "sec__note" }, s.intro) : null,
+        /* The hard line first, before any nuance about grey areas. */
+        s.callout
+          ? callout("stop", s.callout.title, h("p", null, s.callout.body),
+              s.callout.detail ? h("p", null, s.callout.detail) : null)
+          : null,
+        s.items ? frag(s.items.map(row)) : null,
+        s.after
+          ? frag(h("h3", null, s.after.title),
+                 ...(s.after.body || []).map((p) => h("p", null, p)))
+          : null,
+        src(s.sources))
+    );
+  }
+
+  if (c.repair) {
+    const r = c.repair;
+    blocks.push(
+      disclosure("sec-repair", r.title, { open: false },
+        r.intro ? h("p", { class: "sec__note" }, r.intro) : null,
+
+        /* Credited in the body, not just in a source row. This framework is
+           somebody's work and the attribution is part of the content. */
+        r.framework
+          ? frag(
+              h("h3", null, r.framework.title),
+              r.framework.credit
+                ? h("p", { class: "sec__note" }, r.framework.credit)
+                : null,
+              frag((r.framework.parts || []).map((p) =>
+                h("div", { class: "card" },
+                  h("h4", null, p.name),
+                  h("p", null, p.what)))))
+          : null,
+
+        r.apology
+          ? frag(
+              h("h3", null, r.apology.title),
+              r.apology.helps
+                ? h("div", { class: "card" },
+                    h("h4", null, "What helps"),
+                    h("ul", null, r.apology.helps.map((x) => h("li", null, x))))
+                : null,
+              r.apology.hurts
+                ? h("div", { class: "card" },
+                    h("h4", null, "What makes it worse"),
+                    h("ul", null, r.apology.hurts.map((x) => h("li", null, x))))
+                : null)
+          : null,
+
+        /* The caution that an apology can itself be a second harm. It sits
+           after the how-to on purpose: someone has to know what repair looks
+           like before they can understand why doing it at the wrong moment
+           lands as pressure. */
+        r.caution
+          ? callout("warn", r.caution.title,
+              h("p", null, r.caution.body),
+              r.caution.detail ? h("p", null, r.caution.detail) : null)
+          : null,
+
+        r.shame
+          ? frag(h("h3", null, r.shame.title),
+                 ...(r.shame.body || []).map((p) => h("p", null, p)))
+          : null,
+
+        src(r.sources))
+    );
+  }
+
+  if (!blocks.length) return null;
+
+  return section(c.headline, c.blurb, ...blocks);
 }

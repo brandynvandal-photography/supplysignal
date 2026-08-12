@@ -290,6 +290,12 @@ export async function practice() {
   return load("practice", null);
 }
 
+/** Consent in using settings, and repairing harm you caused. Bundled like
+ *  everything else - nobody's interest in this page reaches a server. */
+export async function consent() {
+  return load("consent", null);
+}
+
 /** Training and courses. */
 export async function education() {
   return load("education", null);

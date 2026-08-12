@@ -335,6 +335,18 @@ async function countyView({ fips, days }, { go, data }) {
     mountMap(mapHost, { go, focus: fips, focusLabel: `${c.name}, ${c.state}`, compact: true })
   ).catch(() => { mapHost.remove(); });   // canvas is never the only route
 
+  /* Numbers for this county, directly under the map. The mortality data was
+     already bundled and drawn as map SHADING, which tells you "darker than
+     next door" and nothing else - a reader could not learn whether their own
+     county was getting better or worse. Appended asynchronously so a slow or
+     missing bundle never delays the alerts underneath. */
+  const statsHost = h("div");
+  wrap.appendChild(statsHost);
+  data.mortality().then((m) => {
+    const block = mortalityBlock(m, c);
+    if (block) statsHost.replaceChildren(block);
+  }).catch(() => {});
+
   wrap.appendChild(
     h("div", { class: "chips", role: "group", "aria-label": "Time window" },
       WINDOWS.map((w) =>
@@ -567,5 +579,84 @@ function card(k, showCounty = false) {
           k.sourceCount > 1
             ? h("span", { class: "card__meta" }, `${k.sourceCount} sources reported this`)
             : null)
+      : null);
+}
+
+/* Overdose deaths in this county, and which way the number is moving.
+ *
+ * Four things this must not do, each of which is easy to do by accident:
+ *
+ *   - IMPLY PRECISION IT DOES NOT HAVE. These are provisional counts that lag
+ *     by months and get revised UPWARD as investigations close. A falling
+ *     recent number may simply be incomplete, so the direction is described
+ *     rather than celebrated.
+ *   - TREAT SUPPRESSED AS ZERO. Counts of 1 to 9 are withheld for privacy.
+ *     "No data" here means "we are not told", never "nobody died", and a
+ *     county that reads as empty must not look like a safe one.
+ *   - MAKE A CHANGE SOUND LIKE A TREND. One year against one year, in a place
+ *     with small numbers, moves a lot on chance alone. Percentages on tiny
+ *     counts are the classic way to mislead with true figures, so the raw
+ *     counts are always shown beside any change.
+ *   - READ AS A SCOREBOARD. Every one of these is a person, and somebody
+ *     opening this page may have been at one of them. Plain, quiet, no
+ *     celebration when the arrow points down.
+ */
+function mortalityBlock(m, county) {
+  const rec = m?.counties?.[county.fips];
+  const asOf = m?.asOf ? String(m.asOf).slice(0, 10) : null;
+
+  if (!rec || typeof rec.n !== "number") {
+    return h("div", { class: "card mort" },
+      h("h3", null, "Overdose deaths here"),
+      h("p", { class: "sec__note" },
+        "Not published for this county. Counts between 1 and 9 are withheld to protect " +
+        "privacy, so no number is not the same as no deaths."));
+  }
+
+  const now = rec.n;
+  const prior = typeof rec.p === "number" ? rec.p : null;
+  const diff = prior === null ? null : now - prior;
+
+  /* Direction is a word first. An arrow alone is decoration a screen reader
+     cannot use, and a colour alone would be the only carrier of meaning. */
+  let trend = null;
+  if (diff !== null) {
+    const pct = prior > 0 ? Math.round(Math.abs(diff) / prior * 100) : null;
+    const word = diff === 0 ? "About the same as" : diff < 0 ? "Down from" : "Up from";
+    trend = h("p", { class: `mort__trend mort__trend--${diff < 0 ? "down" : diff > 0 ? "up" : "flat"}` },
+      h("span", { "aria-hidden": "true" }, diff === 0 ? "→ " : diff < 0 ? "↓ " : "↑ "),
+      `${word} ${prior} the year before`,
+      pct !== null && diff !== 0 ? ` (${pct}%)` : "");
+  }
+
+  return h("div", { class: "card mort" },
+    h("h3", null, "Overdose deaths here"),
+    h("p", { class: "mort__n" }, `${now}`),
+    h("p", { class: "mort__unit" },
+      `in the 12 months to ${asOf || "the latest published date"}, in ${county.name}`),
+    trend,
+    /* The caveats are not small print. A provisional count that revises upward
+       is the difference between "it is improving" and "we do not know yet". */
+    h("p", { class: "sec__note" },
+      "Provisional CDC counts. They lag by months and are revised upward as investigations " +
+      "close, so the most recent figure is usually an undercount. Deaths are counted where " +
+      "they happened, which is not always where the person lived."),
+    prior !== null && (now < 20 || prior < 20)
+      ? h("p", { class: "sec__note" },
+          "Small numbers move a lot year to year on chance alone. Treat one year against " +
+          "one year as a hint, not a trend.")
+      : null,
+
+    /* A big "0" is the one number on this page that can be read as a clean
+       bill of health, and this app does not issue those anywhere else - "no
+       alerts does not mean a safe supply" is in the footer of every screen.
+       Zero deaths recorded HERE is not zero risk here: the count is by place
+       of death rather than of residence, and the supply that killed somebody
+       one county over is the same supply. */
+    now === 0
+      ? h("p", { class: "sec__note" },
+          "No deaths recorded here does not mean no risk here. Someone from this county who " +
+          "died in a hospital elsewhere is counted there, and the supply does not stop at the " +
+          "county line — the bordering counties below are part of your picture.")
       : null);
 }
