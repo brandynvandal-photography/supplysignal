@@ -1,0 +1,365 @@
+{
+  "note": "Hand-curated, not generated. Fifty deliberate mappings beat any amount of clever text matching, because these are the words and questions people actually type. Edit freely; nothing downstream is generated from it.",
+  "verified": "2026-08-12",
+  "slang": {
+    "tranq": "xylazine",
+    "tranq dope": "xylazine",
+    "sleep cut": "xylazine",
+    "rhino tranq": "medetomidine",
+    "mede": "medetomidine",
+    "dex": "medetomidine",
+    "molly": "mdma",
+    "mandy": "mdma",
+    "rolls": "mdma",
+    "ecstasy": "mdma",
+    "blues": "fentanyl",
+    "m30": "fentanyl",
+    "m30s": "fentanyl",
+    "percs": "oxycodone",
+    "fenty": "fentanyl",
+    "fent": "fentanyl",
+    "china white": "fentanyl",
+    "gear": "heroin",
+    "dope": "heroin",
+    "h": "heroin",
+    "boy": "heroin",
+    "tina": "methamphetamine",
+    "crystal": "methamphetamine",
+    "shard": "methamphetamine",
+    "girl": "cocaine",
+    "coke": "cocaine",
+    "crack": "cocaine",
+    "k": "ketamine",
+    "special k": "ketamine",
+    "ket": "ketamine",
+    "g": "ghb",
+    "gbl": "ghb",
+    "liquid ecstasy": "ghb",
+    "xanax": "alprazolam",
+    "xannies": "alprazolam",
+    "bars": "alprazolam",
+    "benzos": "alprazolam",
+    "pins": "clonazepam",
+    "klonopin": "clonazepam",
+    "subs": "buprenorphine",
+    "suboxone": "buprenorphine",
+    "bupe": "buprenorphine",
+    "methadone clinic": "methadone",
+    "done": "methadone",
+    "weed": "cannabis",
+    "pot": "cannabis",
+    "bud": "cannabis",
+    "thc": "cannabis",
+    "acid": "lsd",
+    "tabs": "lsd",
+    "shrooms": "psilocybin-mushrooms",
+    "boomers": "psilocybin-mushrooms",
+    "nangs": "nitrous-oxide",
+    "whippits": "nitrous-oxide",
+    "poppers": "amyl-nitrite",
+    "gabby": "gabapentin",
+    "nitazene": "nitazenes",
+    "iso": "nitazenes",
+    "narcan": "naloxone",
+    "nally": "naloxone"
+  },
+  "intents": [
+    {
+      "q": [
+        "will i get arrested if i call 911",
+        "can i get in trouble for calling 911",
+        "good samaritan",
+        "911 and the law",
+        "police overdose",
+        "call 911 arrested"
+      ],
+      "label": "If you call 911, what happens to you",
+      "route": "#/policy",
+      "anchor": "sec-calling",
+      "why": "The most consequential question on the site, and the one people are most afraid to ask."
+    },
+    {
+      "q": [
+        "how long does it stay in your system",
+        "how long does weed stay in your system",
+        "detection window",
+        "how long to pass a drug test",
+        "drug test how long",
+        "how long is it detectable",
+        "urine test how long"
+      ],
+      "label": "How long it stays detectable",
+      "route": "#/supervision",
+      "anchor": "sec-windows"
+    },
+    {
+      "q": [
+        "failed drug test",
+        "positive drug test",
+        "false positive",
+        "contest a drug test",
+        "drug test wrong",
+        "dispute drug test"
+      ],
+      "label": "A positive screen is not a result yet",
+      "route": "#/supervision",
+      "anchor": "sec-rights"
+    },
+    {
+      "q": [
+        "probation",
+        "parole",
+        "violation",
+        "po drug test",
+        "supervision"
+      ],
+      "label": "Drug testing, probation and parole",
+      "route": "#/supervision"
+    },
+    {
+      "q": [
+        "can they make me stop methadone",
+        "methadone probation",
+        "suboxone probation",
+        "court ordered off methadone",
+        "ada methadone"
+      ],
+      "label": "They cannot make you stop your medication",
+      "route": "#/supervision",
+      "anchor": "sec-medication"
+    },
+    {
+      "q": [
+        "free naloxone",
+        "where to get narcan",
+        "naloxone near me",
+        "get narcan free",
+        "naloxone by mail"
+      ],
+      "label": "Where to get naloxone free",
+      "route": "#/learn"
+    },
+    {
+      "q": [
+        "overdose",
+        "someone is overdosing",
+        "not breathing",
+        "od",
+        "how to use narcan",
+        "what to do overdose"
+      ],
+      "label": "If someone is overdosing right now",
+      "route": "#/help"
+    },
+    {
+      "q": [
+        "recovery position",
+        "roll them on their side",
+        "choking on vomit"
+      ],
+      "label": "Overdose response",
+      "route": "#/help",
+      "anchor": "sec-response"
+    },
+    {
+      "q": [
+        "fentanyl test strips",
+        "test strips",
+        "how to test my drugs",
+        "check my drugs",
+        "reagent",
+        "drug checking"
+      ],
+      "label": "Testing your supply",
+      "route": "#/test"
+    },
+    {
+      "q": [
+        "are test strips legal",
+        "test strip legal",
+        "paraphernalia"
+      ],
+      "label": "Where the law actually stands",
+      "route": "#/policy",
+      "anchor": "sec-law"
+    },
+    {
+      "q": [
+        "drink spiked",
+        "spiked my drink",
+        "drink test strips",
+        "roofied",
+        "date rape drug"
+      ],
+      "label": "Drink spiking, honestly",
+      "route": "#/sex",
+      "anchor": "sec-spiking"
+    },
+    {
+      "q": [
+        "prep",
+        "pep",
+        "hiv exposure",
+        "hiv prevention",
+        "post exposure"
+      ],
+      "label": "PrEP, PEP and testing",
+      "route": "#/sex",
+      "anchor": "sec-prep"
+    },
+    {
+      "q": [
+        "morning after pill",
+        "plan b",
+        "emergency contraception",
+        "ella",
+        "copper iud"
+      ],
+      "label": "Emergency contraception",
+      "route": "#/sex",
+      "anchor": "sec-ec"
+    },
+    {
+      "q": [
+        "poppers viagra",
+        "poppers and viagra",
+        "erection pills poppers"
+      ],
+      "label": "The combinations that put people in hospital",
+      "route": "#/sex",
+      "anchor": "sec-interactions"
+    },
+    {
+      "q": [
+        "consent",
+        "he didnt stop",
+        "she didnt stop",
+        "too high to consent",
+        "did i consent"
+      ],
+      "label": "Consent and making things right",
+      "route": "#/learn",
+      "anchor": "sec-consent"
+    },
+    {
+      "q": [
+        "i hurt someone",
+        "i crossed a line",
+        "made a mistake",
+        "apologize",
+        "repair harm"
+      ],
+      "label": "After you have hurt someone",
+      "route": "#/learn",
+      "anchor": "sec-repair"
+    },
+    {
+      "q": [
+        "someone died",
+        "grief",
+        "lost someone",
+        "my friend died"
+      ],
+      "label": "If someone died",
+      "route": "#/support",
+      "anchor": "sec-communities"
+    },
+    {
+      "q": [
+        "getting out of jail",
+        "leaving prison",
+        "reentry",
+        "just got out",
+        "tolerance after jail"
+      ],
+      "label": "Coming out is the most dangerous time",
+      "route": "#/supervision",
+      "anchor": "sec-reentry"
+    },
+    {
+      "q": [
+        "treatment",
+        "rehab",
+        "detox",
+        "want to stop",
+        "quit",
+        "methadone clinic near me",
+        "suboxone doctor"
+      ],
+      "label": "Finding help",
+      "route": "#/support",
+      "anchor": "grp-help"
+    },
+    {
+      "q": [
+        "i love someone who uses",
+        "my son uses",
+        "my daughter uses",
+        "family support",
+        "my partner uses",
+        "al anon alternative"
+      ],
+      "label": "If you love someone who uses",
+      "route": "#/support",
+      "anchor": "sec-communities"
+    },
+    {
+      "q": [
+        "safe supply",
+        "what is in my drugs",
+        "adulterants",
+        "cuts",
+        "whats in the supply"
+      ],
+      "label": "Drugs",
+      "route": "#/substances"
+    },
+    {
+      "q": [
+        "using alone",
+        "never use alone",
+        "alone hotline",
+        "spotting"
+      ],
+      "label": "Numbers that answer 24/7",
+      "route": "#/help",
+      "anchor": "sec-lines"
+    },
+    {
+      "q": [
+        "syringe program",
+        "needle exchange",
+        "clean needles",
+        "works",
+        "ssp"
+      ],
+      "label": "Getting supplies",
+      "route": "#/support",
+      "anchor": "grp-now"
+    },
+    {
+      "q": [
+        "who do i contact",
+        "contact my representative",
+        "write to congress",
+        "advocacy",
+        "get involved",
+        "donate"
+      ],
+      "label": "Making yourself heard",
+      "route": "#/policy",
+      "anchor": "sec-voice"
+    },
+    {
+      "q": [
+        "is this app private",
+        "do you track me",
+        "privacy",
+        "what do you know about me"
+      ],
+      "label": "What it knows about you",
+      "route": "#/about",
+      "anchor": "sec-privacy"
+    }
+  ]
+}

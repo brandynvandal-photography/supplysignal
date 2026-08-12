@@ -1,0 +1,133 @@
+/* Search has to find what people actually type.
+ *
+ * This is the test that decides whether search feels good, and it is written
+ * as queries rather than as unit assertions on the matcher: the matcher being
+ * correct is not the same as somebody in a bad moment finding the page that
+ * helps them. Each case below is a phrasing a real person would type.
+ *
+ * It runs against the shipped index, so a regenerated index that loses a
+ * destination fails here rather than silently returning nothing.
+ */
+
+import { readFile } from "node:fs/promises";
+
+const idx = JSON.parse(await readFile("data/search.json", "utf8"));
+const intents = JSON.parse(await readFile("data/search-intents.json", "utf8"));
+
+const norm = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+
+function within(a, b, max) {
+  if (Math.abs(a.length - b.length) > max) return false;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i]; let best = i;
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      if (cur[j] < best) best = cur[j];
+    }
+    if (best > max) return false;
+    prev = cur;
+  }
+  return prev[b.length] <= max;
+}
+
+/* Mirrors search.js. Kept deliberately in sync by hand rather than imported,
+   because search.js is a browser module and importing it here would drag in
+   fetch and the whole data layer for no benefit. */
+function search(term, limit = 10) {
+  const q = norm(term);
+  if (q.length < 2) return [];
+  const out = []; const taken = new Set();
+  const push = (r) => {
+    const k = `${r.label}|${r.route}${r.anchor || ""}`;
+    if (!taken.has(k)) { taken.add(k); out.push(r); }
+  };
+  for (const it of intents.intents || []) {
+    if ((it.q || []).some((p) => { const np = norm(p);
+      return np === q || q.includes(np) || (q.includes(" ") && np.includes(q)); })) {
+      push({ kind: "Answer", label: it.label, route: it.route, anchor: it.anchor });
+    }
+  }
+  const slangId = (intents.slang || {})[q];
+  if (slangId) {
+    const d = idx.drugs.find((x) => x.i === slangId);
+    if (d) push({ kind: "Drug", label: d.n, route: `#/substances/${d.i}` });
+  }
+  const starts = [], contains = [];
+  for (const d of idx.drugs) {
+    const n = norm(d.n);
+    const res = { kind: "Drug", label: d.n, route: `#/substances/${d.i}` };
+    if (n === q) { push(res); continue; }
+    if (n.startsWith(q)) { starts.push(res); continue; }
+    if ((d.a || []).some((a) => norm(a) === q || norm(a).startsWith(q))) { starts.push(res); continue; }
+    if (n.includes(q)) contains.push(res);
+  }
+  starts.forEach(push);
+  const dS = [], dW = [], dI = [];
+  for (const e of idx.entries) {
+    const t = norm(e.t);
+    const r = { kind: e.k, label: e.t, route: e.r, anchor: e.a };
+    if (t.startsWith(q)) dS.push(r); else if (t.includes(` ${q}`)) dW.push(r); else if (t.includes(q)) dI.push(r);
+  }
+  dS.forEach(push); dW.forEach(push); contains.forEach(push); dI.forEach(push);
+  if (!out.length && q.length >= 4) {
+    const max = q.length > 7 ? 2 : 1;
+    for (const d of idx.drugs) {
+      if (within(q, norm(d.n), max) || (d.a || []).some((a) => within(q, norm(a), max))) {
+        push({ kind: "Drug", label: d.n, route: `#/substances/${d.i}` });
+      }
+    }
+    if (!out.length) for (const e of idx.entries) if (within(q, norm(e.t), max)) push({ kind: e.k, label: e.t, route: e.r, anchor: e.a });
+  }
+  return out.slice(0, limit);
+}
+
+/* [query, route the FIRST result must go to] */
+const CASES = [
+  // The questions people are most afraid to ask.
+  ["will i get arrested if i call 911", "#/policy"],
+  ["good samaritan", "#/policy"],
+  ["how long does weed stay in your system", "#/supervision"],
+  ["failed drug test", "#/supervision"],
+  ["can they make me stop methadone", "#/supervision"],
+  ["just got out", "#/supervision"],
+  // Street names for the supply, not the drug.
+  ["tranq", "#/substances/xylazine"],
+  ["blues", "#/substances/fentanyl"],
+  ["molly", "#/substances/mdma"],
+  ["tina", "#/substances/methamphetamine"],
+  ["bars", "#/substances/alprazolam"],
+  ["narcan", "#/substances/naloxone"],
+  // Ordinary drug lookups.
+  ["fentanyl", "#/substances/fentanyl"],
+  ["xylazine", "#/substances/xylazine"],
+  // Content that is not a drug.
+  ["free naloxone", "#/learn"],
+  ["someone is overdosing", "#/help"],
+  ["drink spiked", "#/sex"],
+  ["morning after pill", "#/sex"],
+  ["prep", "#/sex"],
+  ["i hurt someone", "#/learn"],
+  ["i love someone who uses", "#/support"],
+  ["needle exchange", "#/support"],
+  ["privacy", "#/about"],
+  // Typos - the fuzzy rescue.
+  ["fentanol", "#/substances/fentanyl"],
+  ["xanex", "#/substances/alprazolam"],
+];
+
+let pass = 0;
+const fails = [];
+for (const [q, want] of CASES) {
+  const r = search(q);
+  if (!r.length) { fails.push(`"${q}" → nothing found (wanted ${want})`); continue; }
+  const got = r[0].route;
+  if (got === want || got.startsWith(want)) pass++;
+  else fails.push(`"${q}" → ${got} (wanted ${want}); top result "${r[0].label}"`);
+}
+
+console.log("SEARCH\n");
+for (const f of fails) console.log("  not ok " + f);
+if (!fails.length) console.log(`  ok   all ${pass} realistic queries reach the right page`);
+console.log(`\n${pass} passed, ${fails.length} failed`);
+if (fails.length) process.exit(1);

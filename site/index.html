@@ -22,8 +22,18 @@
   worker-src 'self'">
 <meta name="referrer" content="no-referrer">
 
-<title>Nightlight — drug supply alerts and harm reduction</title>
-<meta name="description" content="County-level drug supply alerts, drug-checking results, and how to test a supply. Harm reduction information, not medical advice.">
+<!-- Just the name.
+     The title is read by people who are not the reader: it sits in the browser
+     tab, in the tab switcher, in history, in a shared screen, and in whatever
+     the phone shows when it is handed to somebody. "Drug supply alerts and
+     harm reduction" in any of those places outs the person holding it, and the
+     threat is often in the same room.
+
+     The home-screen title has been innocuous by design since launch (see
+     apple-mobile-web-app-title below). This was the same decision left half
+     made. There is no SEO cost to pay for it either - the page is noindex. -->
+<title>Nightlight</title>
+<meta name="description" content="Nightlight.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#faf6f0" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#17150f" media="(prefers-color-scheme: dark)">
@@ -73,6 +83,13 @@
 
     <span class="topbar__spacer"></span>
 
+    <!-- Search lives in the header rather than the tab bar: the bar is already
+         six wide at 375px and a seventh truncates them all. -->
+    <button class="iconbtn" id="searchbtn" aria-label="Search" title="Search"
+            aria-expanded="false" aria-controls="searchpanel">
+      <span aria-hidden="true">⌕</span>
+    </button>
+
     <button class="iconbtn" id="theme" aria-label="Switch color theme" title="Switch color theme">
       <span aria-hidden="true">◐</span>
     </button>
@@ -85,6 +102,18 @@
     </button>
   </div>
 </header>
+
+<!-- Collapsed until asked for. Outside #view so a search survives navigation
+     and does not flicker on every route change. -->
+<div id="searchpanel" class="searchpanel" hidden>
+  <div class="wrap">
+    <input id="searchinput" class="input" type="text" autocomplete="off" spellcheck="false"
+           role="combobox" aria-expanded="false" aria-controls="searchresults"
+           aria-label="Search Nightlight"
+           placeholder="Search — a drug, a street name, or a question">
+    <div id="searchresults" class="searchresults" role="listbox" aria-label="Results"></div>
+  </div>
+</div>
 
 <main id="main" class="wrap" tabindex="-1">
   <!-- Filled once at boot and left alone. Outside #view, which the router

@@ -1,7 +1,7 @@
 {
-  "name": "Nightlight \u2014 drug supply alerts and harm reduction",
+  "name": "Nightlight",
   "short_name": "Nightlight",
-  "description": "County-level drug supply alerts, drug checking, substance information, and support. Harm reduction information, not medical advice.",
+  "description": "Nightlight.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

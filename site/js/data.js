@@ -306,6 +306,16 @@ export async function policy() {
   return load("policy", null);
 }
 
+/* Search. Two files: a generated index of destinations and drugs, and a
+   hand-curated map of slang and question phrasings. Both are bundled - see
+   the note at the top of search.js for why there is no endpoint. */
+export async function searchIndex() {
+  return load("search", { entries: [], drugs: [] });
+}
+export async function searchIntents() {
+  return load("search-intents", { slang: {}, intents: [] });
+}
+
 /** Sex, barriers, PrEP and PEP, and being out. */
 export async function sex() {
   return load("sex", null);

@@ -459,3 +459,92 @@ function mountBackToTop() {
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
   idle(() => { renderFooterMeta().catch(() => {}); });
 })();
+
+/* ---- search -------------------------------------------------------------
+ *
+ * Wired here rather than in a view because it belongs to the app rather than
+ * to any page. Everything runs on the device - see the note at the top of
+ * search.js for why there is no endpoint.
+ *
+ * Session-only, like everything else: the input is cleared when the panel
+ * closes and nothing is written anywhere. No query history, because a list of
+ * what someone searched is exactly the artifact this app exists not to create.
+ */
+{
+  const btn = document.getElementById("searchbtn");
+  const panel = document.getElementById("searchpanel");
+  const input = document.getElementById("searchinput");
+  const results = document.getElementById("searchresults");
+  let mod = null;
+
+  const close = () => {
+    panel.hidden = true;
+    btn.setAttribute("aria-expanded", "false");
+    input.setAttribute("aria-expanded", "false");
+    input.value = "";
+    clear(results);
+  };
+
+  const open = async () => {
+    panel.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+    input.focus();
+    if (!mod) {
+      mod = await import("./search.js");
+      mod.prefetch();
+    }
+  };
+
+  btn.addEventListener("click", () => (panel.hidden ? open() : close()));
+
+  /* Escape closes from anywhere in the panel, which is the behaviour a
+     keyboard user expects and the quickest way out on a phone keyboard. */
+  panel.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { close(); btn.focus(); }
+  });
+
+  let seq = 0;
+  input.addEventListener("input", async () => {
+    const mine = ++seq;
+    const q = input.value;
+    if (!mod) mod = await import("./search.js");
+    const rs = await mod.search(q);
+    if (mine !== seq) return;              // a newer keystroke won
+
+    clear(results);
+    input.setAttribute("aria-expanded", String(rs.length > 0));
+    if (!q.trim()) return;
+
+    if (!rs.length) {
+      results.appendChild(
+        h("p", { class: "sec__note" },
+          "Nothing matched. Try a drug name, a street name, or what you are " +
+          "trying to find out."));
+      return;
+    }
+
+    for (const r of rs) {
+      const href = r.anchor ? `${r.route}` : r.route;
+      const a = h("a", { class: "sresult", href, role: "option" },
+        h("span", { class: "sresult__kind" }, r.kind),
+        h("span", { class: "sresult__label" }, r.label),
+        r.why ? h("span", { class: "sresult__why" }, r.why) : null);
+      a.addEventListener("click", () => {
+        const anchor = r.anchor;
+        close();
+        if (anchor) {
+          setTimeout(() => {
+            const el = document.getElementById(anchor);
+            if (!el) return;
+            el.open = true;
+            for (let p = el.parentElement; p; p = p.parentElement) {
+              if (p.tagName === "DETAILS") p.open = true;
+            }
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 260);
+        }
+      });
+      results.appendChild(a);
+    }
+  });
+}

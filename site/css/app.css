@@ -587,6 +587,35 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 }
 @media (max-width: 560px) { .letter { padding: var(--sp-3); } }
 
+/* ---- search -------------------------------------------------------------
+   Collapsed by default, full width when open, and pinned under the header so
+   the results list is the only thing competing for attention while it is up. */
+.searchpanel {
+  position: sticky; top: 0; z-index: 39;
+  padding: var(--sp-3) 0 var(--sp-2);
+  background: var(--surface);
+  border-bottom: 1px solid var(--glass-line);
+}
+.searchresults { margin-top: var(--sp-2); display: flex; flex-direction: column; gap: 8px; }
+.searchresults:empty { display: none; }
+
+/* A result is a destination, so it says what KIND of thing it is before it
+   says the name - "Drug" and "Answer" and "Support" mean different actions,
+   and a list of bare titles makes the reader work that out for themselves. */
+.sresult {
+  display: block; text-decoration: none; color: inherit;
+  background: var(--glass); border: 1px solid var(--glass-line);
+  border-radius: var(--radius); padding: 12px var(--sp-3);
+  min-height: var(--tap);
+}
+.sresult:hover, .sresult:focus-visible { background: var(--glass-strong); border-color: var(--line-2); }
+.sresult__kind {
+  display: block; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-3); margin-bottom: 3px;
+}
+.sresult__label { display: block; font-weight: 620; }
+.sresult__why { display: block; color: var(--ink-2); font-size: .86rem; margin-top: 3px; }
+
 /* ---- policy page ---------------------------------------------------------
    Sub-heading rhythm, copied from #sec-loved rather than invented. The global
    reset sets every heading to margin:0, so an h3 introducing a block inside a
