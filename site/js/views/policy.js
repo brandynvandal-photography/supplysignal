@@ -21,6 +21,13 @@
  *
  * Content lives in data/policy.json so it can be re-verified and edited
  * without touching code, and so check-links.mjs sweeps every URL in it.
+ *
+ * FORMATTING, which is not optional and applies to any new page added here:
+ * nothing sits bare on the background. Prose goes in .card, row lists go in
+ * .list, and asides go in callout() - the same three surfaces every other view
+ * uses. A new page that invents its own layout reads as a different app, and
+ * the reader has to re-learn where to look on the one screen where they can
+ * least afford to.
  */
 
 import {
@@ -105,7 +112,7 @@ export async function render(route, { go }) {
     h("div", { id: "sec-calling" },
     section(c.headline, null,
       h("p", { class: "leadin" }, c.lead),
-      ...c.body.map((t) => h("p", null, t)),
+      h("div", { class: "card" }, c.body.map((t) => h("p", null, t))),
 
       callout("warn", c.limits.headline,
         ...c.limits.items.map((i) =>
@@ -128,8 +135,9 @@ export async function render(route, { go }) {
   wrap.appendChild(
     h("div", { id: "sec-money" },
       section(g.money.headline, g.money.blurb,
-        ...g.money.body.map((t) => h("p", null, t)),
-        SRC.add(g.money.sources))));
+        h("div", { class: "card" },
+          g.money.body.map((t) => h("p", null, t)),
+          SRC.add(g.money.sources)))));
 
   /* ---- being heard ---- */
   const v = g.voice;
@@ -145,8 +153,9 @@ export async function render(route, { go }) {
       h("p", { class: "sec__note" }, v.gap.note),
 
       h("h3", null, v.who.headline),
-      ...v.who.body.map((t) => h("p", null, t)),
-      h("p", { class: "org__links" }, v.who.links.map((l) => extLink(l.url, l.name))),
+      h("div", { class: "card" },
+        v.who.body.map((t) => h("p", null, t)),
+        h("p", { class: "org__links" }, v.who.links.map((l) => extLink(l.url, l.name)))),
       /* Said plainly rather than buried. Every other page in this app can
          promise nothing leaves the device; this one cannot, because the whole
          point is reaching someone outside it. */
@@ -165,9 +174,10 @@ export async function render(route, { go }) {
           h("div", { class: "list" }, grp.items.map(orgRow)))),
 
       h("h3", null, o.giving.headline),
-      ...o.giving.body.map((t) => h("p", null, t)),
-      h("p", { class: "org__links" },
-        o.giving.links.map((l) => extLink(l.url, l.name))))));
+      h("div", { class: "card" },
+        o.giving.body.map((t) => h("p", null, t)),
+        h("p", { class: "org__links" },
+          o.giving.links.map((l) => extLink(l.url, l.name)))))));
 
   const foot = SRC.render();
   if (foot) wrap.appendChild(foot);

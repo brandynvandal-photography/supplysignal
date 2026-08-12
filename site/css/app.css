@@ -568,21 +568,27 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
      look also means the two moments where the app speaks TO the reader rather
      than about a substance are recognisably the same voice. */
   padding: var(--sp-3);
-  margin-bottom: var(--sp-4);
   background: linear-gradient(135deg,
     color-mix(in srgb, var(--brand) 10%, transparent),
     color-mix(in srgb, var(--brand) 3%, transparent) 60%,
     transparent);
   border-left: 3px solid var(--brand);
   border-radius: var(--radius);
+  /* --sp-5, not --sp-4. This block runs to three paragraphs where the Alerts
+     welcome runs to two lines, so it needs more air under it before the jump
+     nav or the two read as one stack. */
+  margin-bottom: var(--sp-5);
 }
-.letter p { margin: 0 0 14px; line-height: 1.65; max-width: 58ch; color: var(--ink-2); }
+/* A notch under body size. At full size three paragraphs of this fill the
+   whole first screen and the page reads as an essay someone has to get
+   through before they are allowed to look for help. */
+.letter p { margin: 0 0 13px; font-size: .95rem; line-height: 1.62; max-width: 58ch; color: var(--ink-2); }
 .letter p:last-child { margin-bottom: 0; }
 /* The opening line carries the offer, so it takes the weight and the full ink
    colour - matching the h2 on the Alerts note. */
 .letter__open {
-  color: var(--ink); font-size: 1.25rem; font-weight: 650;
-  letter-spacing: -0.01em; line-height: 1.3; margin-bottom: 12px;
+  color: var(--ink); font-size: 1.18rem; font-weight: 650;
+  letter-spacing: -0.01em; line-height: 1.32; margin-bottom: 13px;
 }
 /* Set apart, but quiet. Bold made it read as terms attached to the offer. */
 .letter__close {
@@ -592,6 +598,35 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 @media (max-width: 560px) { .letter { padding: var(--sp-3); } }
 
 /* ---- policy page ---------------------------------------------------------
+   Sub-heading rhythm, copied from #sec-loved rather than invented. The global
+   reset sets every heading to margin:0, so an h3 introducing a block inside a
+   section sits flush against whatever precedes it - which is what made this
+   page read as a wall. --sp-4 above, --sp-1 below: the heading belongs to the
+   block under it, not to the paragraph above it.
+
+   .list needs its own bottom margin here for the same reason. Elsewhere it is
+   the last thing in its section; on this page a list is repeatedly followed by
+   another heading. */
+#sec-calling h3, #sec-voice h3, #sec-orgs h3 {
+  margin-top: var(--sp-4); margin-bottom: var(--sp-1);
+}
+/* ...but NOT the h3 that titles a row inside a list. Those are the row's own
+   label, and giving them a section heading's 32px blew every list apart. */
+#sec-calling .lovedrow h3,
+#sec-voice .lovedrow h3,
+#sec-orgs .lovedrow h3 { margin-top: 0; margin-bottom: 3px; }
+/* Nor the heading of a callout or a card, which already carry their own. */
+#sec-calling .callout h3, #sec-voice .callout h3, #sec-orgs .callout h3,
+#sec-calling .card h3, #sec-voice .card h3, #sec-orgs .card h3 {
+  margin-top: 0;
+}
+#sec-calling .list, #sec-law .list, #sec-voice .list, #sec-orgs .list {
+  margin-bottom: var(--sp-2);
+}
+/* A note explaining the list above it should sit with that list, not float
+   equidistant between two blocks. */
+.list + .sec__note { margin-top: var(--sp-2); margin-bottom: var(--sp-3); }
+
    A figure and the thing it belongs to. The number leads because the whole
    point of that block is that the ranking is counterintuitive - a phone call
    outscores a paid lobbyist's visit, and a form email is 36 points below the
