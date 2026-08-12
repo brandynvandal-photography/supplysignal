@@ -70,9 +70,15 @@ export async function search(term, limit = 10) {
   const out = [];
   const taken = new Set();
 
+  /* Deduped on the LABEL alone, not on label+route.
+     The same title legitimately appears in more than one data file - "Never
+     Use Alone" is in the hotlines, the communities directory and the sitting
+     guide - and three identical rows pointing at three pages reads as a bug
+     even though each is technically a different destination. First match wins,
+     which given the ordering above means the highest-ranked one does. */
   const push = (r) => {
-    const key = `${r.label}|${r.route}${r.anchor || ""}`;
-    if (taken.has(key)) return;
+    const key = norm(r.label);
+    if (!key || taken.has(key)) return;
     taken.add(key);
     out.push(r);
   };

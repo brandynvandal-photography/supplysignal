@@ -87,7 +87,15 @@
          six wide at 375px and a seventh truncates them all. -->
     <button class="iconbtn" id="searchbtn" aria-label="Search" title="Search"
             aria-expanded="false" aria-controls="searchpanel">
-      <span aria-hidden="true">⌕</span>
+      <!-- SVG rather than the ⌕ glyph, which renders thin and small at any
+           font-size and differs wildly across platforms. This is the same
+           approach as the brand mark and it scales cleanly. -->
+      <svg class="iconbtn__svg" aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"
+           fill="none" stroke="currentColor" stroke-width="2.1"
+           stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="10.5" cy="10.5" r="6.5"/>
+        <path d="M15.4 15.4 L21 21"/>
+      </svg>
     </button>
 
     <button class="iconbtn" id="theme" aria-label="Switch color theme" title="Switch color theme">

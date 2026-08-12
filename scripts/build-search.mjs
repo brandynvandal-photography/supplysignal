@@ -79,6 +79,11 @@ function walk(node, page, topKey, depth = 0) {
   if (typeof node !== "object") return;
 
   for (const [k, v] of Object.entries(node)) {
+    /* Citations are not destinations. A `sources` array is full of `name`
+       fields - "FDA — first OTC naloxone approval" - which match TITLE_KEYS
+       and would otherwise fill a search for "naloxone" with references
+       instead of places to go. Same for the attribution blocks. */
+    if (k === "sources" || k === "attribution" || k === "source") continue;
     if (typeof v === "string" && TITLE_KEYS.has(k)) {
       add(v, page.route, page.kind, anchorFor(page.file, topKey));
     } else if (typeof v === "object") {

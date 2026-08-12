@@ -39,8 +39,8 @@ function search(term, limit = 10) {
   if (q.length < 2) return [];
   const out = []; const taken = new Set();
   const push = (r) => {
-    const k = `${r.label}|${r.route}${r.anchor || ""}`;
-    if (!taken.has(k)) { taken.add(k); out.push(r); }
+    const k = norm(r.label);
+    if (k && !taken.has(k)) { taken.add(k); out.push(r); }
   };
   for (const it of intents.intents || []) {
     if ((it.q || []).some((p) => { const np = norm(p);

@@ -89,7 +89,7 @@ async function indexView(subs, combosP, { go }) {
   wrap.appendChild(
     jumpNav([
       { id: "sec-find", label: "Find a drug" },
-      { id: "sec-checker", label: "Mixing two things" },
+      { id: "sec-checker", label: "Combination checker" },
       { id: "grp-yours", label: "Your situation" },
       { id: "sec-market", label: "In your region" },
     ]));

@@ -460,6 +460,74 @@ function mountBackToTop() {
   idle(() => { renderFooterMeta().catch(() => {}); });
 })();
 
+
+/* Land on the SECTION, not just the page.
+ *
+ * An id is used when the index has one, but most destinations do not have one:
+ * section ids are assigned in the view code, while the index is built from the
+ * data files, so they cannot all be known ahead of time. The fallback is to
+ * find the heading whose text IS the result label - which works regardless,
+ * because the label came from that heading in the first place.
+ *
+ * Polled rather than fired once on a timer: views render asynchronously and
+ * several await a bundle first, so a fixed delay either fires too early or
+ * makes every result feel slow.
+ */
+function reveal(anchor, label) {
+  const want = String(label || "").trim().toLowerCase();
+  let tries = 0;
+
+  const findByText = () => {
+    const nodes = document.querySelectorAll(
+      "#view h1, #view h2, #view h3, #view h4, #view summary");
+    for (const n of nodes) {
+      if (n.textContent.trim().toLowerCase() === want) return n;
+    }
+    return null;
+  };
+
+  const tick = () => {
+    const el = (anchor && document.getElementById(anchor)) || findByText();
+    if (el) {
+      /* Open the target and every disclosure above it - landing on something
+         still collapsed looks exactly like the result did nothing. */
+      if (el.tagName === "DETAILS") el.open = true;
+      for (let p = el; p; p = p.parentElement) {
+        if (p.tagName === "DETAILS") p.open = true;
+      }
+      /* Scroll the heading's own block, so the heading is what arrives at the
+         top rather than the middle of the text under it. */
+      const target = el.tagName === "SUMMARY" ? el.parentElement : el;
+      /* Instant, not smooth, when the target is a long way down.
+         A smooth scroll across eleven thousand pixels either takes seconds or
+         gets abandoned partway, and either way the reader is left watching the
+         page move instead of reading the thing they asked for. Smooth is only
+         worth it when the distance is short enough to be legible as motion. */
+      const far = Math.abs(target.getBoundingClientRect().top) > window.innerHeight * 2;
+      target.scrollIntoView({ behavior: far ? "auto" : "smooth", block: "start" });
+
+      /* Then settle. Content above the target can still be arriving - a
+         disclosure opening, a deferred block filling in - and each of those
+         pushes the heading further down AFTER we have scrolled to it. Landing
+         600px short of the thing you asked for reads as the search being
+         wrong. Re-checks a few times and corrects only if it actually drifted. */
+      let settles = 0;
+      const settle = () => {
+        const top = target.getBoundingClientRect().top;
+        if (Math.abs(top) > 90) target.scrollIntoView({ behavior: "auto", block: "start" });
+        if (settles++ < 5) setTimeout(settle, 180);
+      };
+      setTimeout(settle, 180);
+      return;
+    }
+    /* ~6s of polling. A view that fetches its own bundle on a slow connection
+       can take several seconds, and giving up early means the result silently
+       does nothing - the worst outcome, because it looks like a broken link. */
+    if (tries++ < 50) setTimeout(tick, 120);
+  };
+  setTimeout(tick, 60);
+}
+
 /* ---- search -------------------------------------------------------------
  *
  * Wired here rather than in a view because it belongs to the app rather than
@@ -530,19 +598,9 @@ function mountBackToTop() {
         h("span", { class: "sresult__label" }, r.label),
         r.why ? h("span", { class: "sresult__why" }, r.why) : null);
       a.addEventListener("click", () => {
-        const anchor = r.anchor;
+        const { anchor, label } = r;
         close();
-        if (anchor) {
-          setTimeout(() => {
-            const el = document.getElementById(anchor);
-            if (!el) return;
-            el.open = true;
-            for (let p = el.parentElement; p; p = p.parentElement) {
-              if (p.tagName === "DETAILS") p.open = true;
-            }
-            el.scrollIntoView({ behavior: "smooth", block: "start" });
-          }, 260);
-        }
+        reveal(anchor, label);
       });
       results.appendChild(a);
     }
