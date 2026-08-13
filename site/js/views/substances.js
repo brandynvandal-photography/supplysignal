@@ -12,7 +12,7 @@
 
 import {
   h, frag, clear, section, callout, badge, extLink, empty, englishOnlyNotice, group,
-  jumpNav,
+  jumpNav, disclosure,
 } from "../ui.js";
 import * as data from "../data.js";
 import { CLASSES, classInfo, groupAll } from "../taxonomy.js";
@@ -931,13 +931,25 @@ async function detailView(id, subs, combos, { go }) {
   /* ---- dose ---- */
   const dosed = s.roas.filter((r) => r.dose);
   if (dosed.length) {
+    /* CLOSED BY DEFAULT, and the caveat sits outside it.
+       Route-of-administration dose tables are the part of this page that reads
+       worst out of context - three taps from launch, they are the first thing
+       an App Store reviewer meets under guideline 1.4.3, and they are what a
+       screenshot of this app would be cropped to by anyone arguing it promotes
+       use. Nothing is deleted: the ranges are defensible, sourced, and the
+       reason somebody came here.
+       What changes is the order. The warning that these numbers assume a pure,
+       correctly identified drug is now unavoidable - you read it before you can
+       open the table, rather than above a table already on screen. That is a
+       better reading order for a person as well as for a reviewer. */
     wrap.appendChild(
       section("Dose", "Ranges reported by PsychonautWiki — not a recommendation",
         callout("warn", "A street supply is not a measured dose",
           h("p", null, "These ranges assume a pure, correctly identified drug. " +
             "Anything from an unregulated supply may be a different drug, a different " +
             "strength, or unevenly mixed. Start far below the low end.")),
-        dosed.map((r) => doseTable(r)))
+        disclosure("sec-dose", "Show reported dose ranges", { open: false },
+          dosed.map((r) => doseTable(r))))
     );
   }
 

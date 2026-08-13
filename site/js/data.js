@@ -316,6 +316,34 @@ export async function searchIntents() {
   return load("search-intents", { slang: {}, intents: [] });
 }
 
+/* Which counties the scanner has actually reached.
+ *
+ * data/index.json is one entry per county the ingest has ever scanned, with
+ * the timestamp of that scan. It has been generated since the pipeline was
+ * written and nothing has ever read it.
+ *
+ * It matters because "no alerts" and "not looked at yet" are different facts
+ * and the app was showing the first for both. A full sweep takes weeks - the
+ * rotation is 19 cold counties a run - so for most of the country the honest
+ * answer is that nobody has checked, and a page that says "nothing published
+ * here" when nothing was ever looked for is making a claim it cannot support.
+ *
+ * National, byte-identical for every reader, ~6KB, and it never carries a
+ * per-county request. Same privacy shape as every other bundle here.
+ */
+let scannedFips = null;
+
+export async function scanned() {
+  const doc = await load("index", { counties: {} });
+  if (!scannedFips) scannedFips = new Set(Object.keys(doc.counties || doc || {}));
+  return scannedFips;
+}
+
+/** Has the scanner ever reached this county? */
+export async function wasScanned(fips) {
+  return (await scanned()).has(String(fips));
+}
+
 /** Sleep loss, stimulant psychosis, and coming down. */
 export async function stimulants() {
   return load("stimulants", null);

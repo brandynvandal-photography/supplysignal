@@ -382,7 +382,7 @@ async function countyView({ fips, days }, { go, data }) {
     section(`In ${c.name}`, `${mine.length} in the last ${labelFor(win)}`,
       mine.length
         ? frag(mine.map((k) => card(k)))
-        : notHere(c, near.length, win))
+        : notHere(c, near.length, win, await data.wasScanned(fips)))
   );
 
   /* ---- bordering counties ---- */
@@ -524,15 +524,35 @@ function sevOf(list, fips) {
  * absence of reporting, not evidence of a safe supply, and it must never be
  * allowed to read as reassurance.
  */
-function notHere(c, nearCount, win) {
+function notHere(c, nearCount, win, everScanned) {
+  const nearLine = nearCount
+    ? h("p", null, `There ${nearCount === 1 ? "is" : "are"} ${nearCount} alert${nearCount === 1 ? "" : "s"} in bordering counties — see below.`)
+    : null;
+
+  /* Two different facts, and the app used to show the first for both.
+     A full sweep of the country takes weeks at 19 cold counties a run, so for
+     most of the map nobody has looked yet - and "nothing published here" is a
+     claim the app cannot support about a county it has never scanned. Saying
+     so is the same rule the rest of this file already keeps: no information is
+     not no risk, and the reader is owed the difference. */
+  if (!everScanned) {
+    return callout("warn", `We have not scanned ${c.name} yet`,
+      h("p", null,
+        "This county has not come up in the rotation. A full pass over every " +
+        "county in the country takes weeks, so this is a gap in our coverage " +
+        "rather than a statement about the supply here."),
+      h("p", null,
+        "Bordering counties are worth checking, and so is anything a local " +
+        "health department publishes directly."),
+      nearLine);
+  }
+
   return callout("warn", `Nothing published for ${c.name} in the last ${labelFor(win)}`,
     h("p", null,
       "This does not mean the supply here is safe. Most changes in a local drug " +
       "supply are never publicly announced, and reporting runs behind reality by " +
       "weeks. Treat this as “no information”, not “no risk”."),
-    nearCount
-      ? h("p", null, `There ${nearCount === 1 ? "is" : "are"} ${nearCount} alert${nearCount === 1 ? "" : "s"} in bordering counties — see below.`)
-      : null);
+    nearLine);
 }
 
 /**
