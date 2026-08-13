@@ -132,7 +132,12 @@
   <!-- Filled once at boot and left alone. Outside #view, which the router
        clears on every navigation, so it does not flicker or re-pick. -->
   <div id="kindbar"></div>
-  <div id="view" aria-live="polite" aria-busy="true">
+  <!-- No aria-live here. It was announcing the whole document on every
+     navigation - focusView() has already moved focus to the new h1, so
+     the reader is told where they are twice, the second time by having
+     the entire page read at them. aria-busy stays; the genuine live
+     regions are the scoped role="status" nodes inside the views. -->
+  <div id="view" aria-busy="true">
     <div class="skel" aria-hidden="true">
       <div class="skel__row"></div><div class="skel__row"></div><div class="skel__row"></div>
     </div>

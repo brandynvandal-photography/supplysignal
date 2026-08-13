@@ -39,6 +39,10 @@
   # `ignore` skips the build when the command exits 0. So: diff the paths that
   # ARE served, and exit 0 when none of them moved.
   #
+  # NOTE: publish = "." means the whole repo is uploaded. Skipping a build is
+  # not the same as a path being private - see the 404 block below, which is
+  # what actually keeps server-side files off the web.
+  #
   # CACHED_COMMIT_REF is empty on a first build and on a cleared cache - build
   # in that case rather than risk skipping a real deploy.
   ignore = "if [ -z \"$CACHED_COMMIT_REF\" ]; then exit 1; fi; git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- data site feeds index.html manifest.webmanifest netlify.toml _headers _redirects"
@@ -51,6 +55,91 @@
   to = "/site/"
   status = 301
   force = false
+
+# Everything that is not the app, 404'd.
+#
+# publish = "." uploads the entire repository, which is what the app needs -
+# site/ loads ../data/*.json, so the two have to stay siblings. The cost is
+# that every other directory ships too, and they were reachable:
+#
+#   /review/pending.json  200  - UNREVIEWED classifier output. The first item
+#                                named a real person and their drug test
+#                                result. README.md promises no PII is ever
+#                                stored or displayed; this was both.
+#   /src/store.mjs        200  - ingest internals
+#   /config/settings.json 200  - feed configuration
+#   /package.json         200  - dependency inventory
+#   /scripts/*.mjs        200  - build tooling
+#
+# force = true is required. Netlify serves a matching static file BEFORE
+# consulting redirects unless the rule forces, and every one of these paths is
+# a real file on disk.
+#
+# This is a denylist, which is weaker than an allowlist - a new top-level
+# directory ships public by default. A true allowlist is not expressible here
+# (a forced /* catch-all would swallow /site and /data too), so the rule is:
+# ANY new top-level path must be added here unless it is meant to be public.
+[[redirects]]
+  from = "/review/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/src/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/config/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/test/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/archive/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/node_modules/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package.json"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package-lock.json"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# The project's own documentation. Not secret, but it is not the product, and
+# README.md names internal paths and failure modes worth not advertising.
+[[redirects]]
+  from = "/*.md"
+  to = "/404.html"
+  status = 404
+  force = true
 
 [[headers]]
   for = "/*"
