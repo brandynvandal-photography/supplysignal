@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-13T10:19:57.453Z",
+  "updated": "2026-08-13T13:40:11.332Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -474,6 +474,28 @@
         "criticalMarkers": [],
         "elevatedMarkers": [],
         "score": 8.5
+      }
+    },
+    {
+      "title": "Fatal Pill Trap: Two Charged With Murder In Hillsborough County Fentanyl Overdoses - AOL.com",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE56YVk2TkVCZ2xjRlNnNVVqcGd1Ml9IVXFnUmJfT2pqeXo2YUJObFhTMUlRQS1wUF9FbEZsXzJKR0J4dFhCVlFSRzRZLTdiSE0wTUdPN3d2V0lIZFlBQkJ4NHZBNTRBUTg4R2R0VUx3bnBELXFDdFA1SjhLdw?oc=5",
+      "source": "AOL.com",
+      "published": "2026-08-06T07:00:00.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "fentanyl"
+        ],
+        "events": [
+          "overdoses",
+          "fatal"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "fatal"
+        ],
+        "elevatedMarkers": [],
+        "score": 6
       }
     }
   ]
