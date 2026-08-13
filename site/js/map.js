@@ -25,8 +25,78 @@ import { buildMesh as buildMeshFrom, hitTest } from "./mesh.js";
 
 let MESH = null;
 
+/* Load the precomputed mesh, or build it here as a fallback.
+ *
+ * Building it in the browser cost 3.9s of pinned main thread on a desktop
+ * after a 1.06s parse of county-shapes.json - measured, and several times
+ * worse on a phone. Nothing in that work depends on anything the browser
+ * knows, so scripts/build-mesh.mjs does it once and ships the answer:
+ * county-mesh.bin (172KB of packed Float32 rings) plus a 41KB index.
+ *
+ * The index holds only what cannot be recovered from the blob - fips and ring
+ * lengths. Offsets accumulate here, and centroid, size and bbox are one pass
+ * over 22k points, which is about a millisecond and saves 300KB of JSON.
+ *
+ * The fallback is deliberate. If the artifact is missing or a rebuild was
+ * forgotten, the map is slow rather than broken, which is the right failure
+ * mode for a build product. */
+async function loadPrecomputedMesh() {
+  const [idx, buf] = await Promise.all([
+    fetch("../data/county-mesh.json", { credentials: "omit" }).then((r) => (r.ok ? r.json() : null)),
+    fetch("../data/county-mesh.bin", { credentials: "omit" }).then((r) => (r.ok ? r.arrayBuffer() : null)),
+  ]);
+  if (!idx || !buf) return null;
+
+  const all = new Float32Array(buf);
+  if (all.length !== idx.floats) return null;      // stale pair; rebuild below
+
+  let at = 0;
+  const counties = [];
+  for (const entry of idx.counties) {
+    const fips = entry[0];
+    const rings = [];
+    let bx0 = Infinity, by0 = Infinity, bx1 = -Infinity, by1 = -Infinity;
+
+    for (let k = 1; k < entry.length; k++) {
+      const len = entry[k];
+      const ring = all.subarray(at, at + len);     // a view, not a copy
+      at += len;
+      for (let i = 0; i < ring.length; i += 2) {
+        const x = ring[i], y = ring[i + 1];
+        if (x < bx0) bx0 = x; if (x > bx1) bx1 = x;
+        if (y < by0) by0 = y; if (y > by1) by1 = y;
+      }
+      rings.push(ring);
+    }
+    if (!rings.length) continue;
+
+    let big = rings[0];
+    for (const r of rings) if (r.length > big.length) big = r;
+    let cx = 0, cy = 0, n = 0;
+    for (let i = 0; i < big.length; i += 2) { cx += big[i]; cy += big[i + 1]; n++; }
+
+    counties.push({
+      fips, rings, cx: cx / n, cy: cy / n,
+      size: Math.max(bx1 - bx0, by1 - by0),
+      bb: [bx0, by0, bx1, by1],
+    });
+  }
+
+  return {
+    counties,
+    width: idx.width,
+    height: idx.height,
+    mainlandCenter: idx.mainlandCenter,
+  };
+}
+
 async function buildMesh() {
   if (MESH) return MESH;
+  try {
+    MESH = await loadPrecomputedMesh();
+    if (MESH) return MESH;
+  } catch { /* fall through to building it the slow way */ }
+
   const shapes = await data.shapes();
   const g = await data.counties();
   MESH = buildMeshFrom(shapes, g.counties);
