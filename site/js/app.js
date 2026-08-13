@@ -474,7 +474,7 @@ function mountBackToTop() {
  * several await a bundle first, so a fixed delay either fires too early or
  * makes every result feel slow.
  */
-function reveal(anchor, label) {
+function reveal(anchor, label, wantRoute) {
   const want = String(label || "").trim().toLowerCase();
   let tries = 0;
 
@@ -499,6 +499,13 @@ function reveal(anchor, label) {
   };
 
   const tick = () => {
+    /* Stop if the reader has gone somewhere else. Six seconds of polling is
+       long enough to tap another tab, and findByText matches on heading TEXT -
+       search.json has 13 titles that appear under more than one route, so this
+       would force-open and scroll to a same-named heading on the wrong page.
+       Compared through routeIdentity so the alerts filter chips, which change
+       the hash without changing the destination, do not cancel a real reveal. */
+    if (wantRoute && routeIdentity(location.hash) !== routeIdentity(wantRoute)) return;
     const el = toHeading((anchor && document.getElementById(anchor)) || findByText());
     if (el) {
       /* Open the target and every disclosure above it - landing on something
@@ -626,9 +633,12 @@ document.addEventListener("click", (e) => {
         h("span", { class: "sresult__label" }, r.label),
         r.why ? h("span", { class: "sresult__why" }, r.why) : null);
       a.addEventListener("click", () => {
-        const { anchor, label } = r;
+        const { anchor, label, route } = r;
         close();
-        reveal(anchor, label);
+        /* Pass the DESTINATION, not the current hash. reveal() runs from this
+           handler BEFORE the hash changes, so capturing location.hash here
+           would abort the very navigation it exists to follow. */
+        reveal(anchor, label, route);
       });
       results.appendChild(a);
     }

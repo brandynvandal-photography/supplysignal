@@ -341,7 +341,12 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     const hgt = dpr * 26, bx = cx - w / 2, by = cy - dpr * 44;
 
     ctx2d.beginPath();
-    ctx2d.roundRect(bx, by, w, hgt, dpr * 13);
+    /* roundRect is Safari 16.4 (March 2023) - newer than anything else this
+       file assumes, on a project that targets old phones. It THROWS rather
+       than degrading, which on the focused-map route takes the whole view
+       down. A square badge says the same thing. */
+    if (ctx2d.roundRect) ctx2d.roundRect(bx, by, w, hgt, dpr * 13);
+    else ctx2d.rect(bx, by, w, hgt);
     ctx2d.fillStyle = "#2d6a5f";
     ctx2d.fill();
     ctx2d.beginPath();                       // stem down to the county
@@ -398,14 +403,23 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     }
   }
 
+  let refreshToken = 0;
+
   async function refresh() {
+    const mine = ++refreshToken;
     const m = METRICS[state.metric];
     hint.textContent = m.hint;
     for (const b of metricChips.children) {
       b.setAttribute("aria-pressed", String(b.textContent === m.label));
     }
 
-    values = await m.values();
+    const got = await m.values();
+    /* A newer metric tap won while this one was fetching. Without this, the
+       slow metric's values land under the fast metric's label - the legend,
+       the ramp, the top ten and the tooltip all describe the wrong thing, and
+       a tooltip renders an alert count as "+3 vs last year". */
+    if (mine !== refreshToken) return;
+    values = got;
     const nums = [...values.values()].map(Math.abs).sort((a, b) => a - b);
     scale = nums.length ? Math.max(1, nums[Math.floor(nums.length * 0.95)]) : 1;
 
@@ -428,7 +442,23 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     }
 
     renderLegend(m);
-    if (!compact) await renderTop(m);
+    if (!compact) {
+      await renderTop(m);
+      if (mine !== refreshToken) return;
+    }
+
+    /* 29. The label described one metric forever. The chips change what the
+       shading means, so the description has to change with them - and in
+       compact mode there IS no ranked list below the map, so promising one
+       sent a screen reader user looking for something that is not there. */
+    canvas.setAttribute("aria-label", compact
+      ? `Map of US counties shaded by ${m.label.toLowerCase()}, centered on this county. `
+        + "Everything it shows is also on this page as text: the figures above, "
+        + "the bordering counties below, and the search box to open any county."
+      : `Map of US counties shaded by ${m.label.toLowerCase()}. The ranked list `
+        + "below this map gives the same information as text, and the search box "
+        + "opens any county directly.");
+
     draw();
     /* Center and zoom on the located county. Runs after the first draw so the
        canvas has real dimensions - transform() needs them, and before the

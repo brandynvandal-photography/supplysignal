@@ -29,6 +29,11 @@ export async function render(route, ctx) {
 async function mapView({ go, data }, focus = null) {
   const focusCounty = focus ? await data.county(focus) : null;
   const wrap = h("div");
+  /* An h1, because this route had none. focusView() looks for h1 then h2 and
+     was falling through to the #main landmark, so a screen reader user landed
+     on the map with no page title and an outline that started at level 3.
+     Translated rather than hardcoded, like every other heading here. */
+  wrap.appendChild(h("h1", null, t("alerts.heading")));
   wrap.appendChild(viewToggle("map", go));
   wrap.appendChild(await searchBar({ go, data }));
 

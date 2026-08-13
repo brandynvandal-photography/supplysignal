@@ -67,7 +67,7 @@ export async function render() {
       { id: "grp-help", label: "Finding help" },
       { id: "grp-now", label: "Staying safer now" },
       { id: "sec-trauma", label: "Trauma" },
-      { id: "grp-loved", label: "Someone you love" },
+      { id: "sec-loved", label: "Someone you love" },
       { id: "sec-communities", label: "Finding your people" },
     ])
   );
@@ -130,12 +130,12 @@ export async function render() {
       ])
   );
 
-  wrap.appendChild(
-    group("grp-loved", "When it’s someone else",
-      "For the person who loves someone who uses.", [
-        lovedBlock(g),
-      ])
-  );
+  /* Not a group(). With one child, group() returns that child and throws away
+     the id, the title and the blurb - so the "Someone you love" jump chip
+     pointed at an element that never existed and did nothing when tapped, and
+     two reader-facing strings had never once rendered. The block carries its
+     own heading, so it goes in directly and the chip points at sec-loved. */
+  wrap.appendChild(lovedBlock(g));
 
   /* The culturally-specific directory. Last of the sections because it is the
      one people arrive looking for by name rather than stumble into - and

@@ -77,14 +77,23 @@ export async function render(route, { go }) {
      somebody else in the room, with a hard boundary at the top about when to
      stop doing it and call an ambulance instead. Different act, different
      stakes, so it gets a heading and a line saying which is which. */
-  wrap.appendChild(
-    section("Being the calm person", null,
-      h("p", { class: "sec__note" },
-        "The exercises above are for you. This is for somebody else — what to " +
-        "do when a person near you is frightened, overwhelmed, or having a bad " +
-        "time on something, and nobody is quite sure whether it is an emergency."),
-      await sittingBlock())
-  );
+  /* Heading and intro only if the block itself loaded. They used to render
+     unconditionally around the await, so a reader offline or with a missing
+     bundle got "Being the calm person" and a paragraph promising help, over an
+     empty span. A visibly empty section is worse than an absent one. */
+  {
+    const sitting = await sittingBlock();
+    if (sitting) {
+      wrap.appendChild(
+        section("Being the calm person", null,
+          h("p", { class: "sec__note" },
+            "The exercises above are for you. This is for somebody else — what to " +
+            "do when a person near you is frightened, overwhelmed, or having a bad " +
+            "time on something, and nobody is quite sure whether it is an emergency."),
+          sitting)
+      );
+    }
+  }
 
   /* The courses had no heading of their own, so three top-level disclosures
      floated between "Being the calm person" and the next section and read as

@@ -919,6 +919,7 @@ async function detailView(id, subs, combos, { go }) {
   const timed = s.roas.filter((r) => r.duration);
   if (timed.length) {
     wrap.appendChild(section("How long it lasts", null, timed.map((r) => durationTable(r))));
+  }
 
   /* How long it stays DETECTABLE, which is a different question from how long
      it lasts and is the one somebody on probation is actually asking. Placed
@@ -939,7 +940,6 @@ async function detailView(id, subs, combos, { go }) {
           h("span", { class: "bigptr__sub" },
             "What a positive screen actually is, how to contest one, and what "
             + "they cannot make you stop taking."))));
-  }
   }
 
   /* ---- tolerance / addiction ---- */

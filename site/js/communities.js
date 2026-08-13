@@ -58,7 +58,7 @@ export async function communitiesBlock({ open = false } = {}) {
 }
 
 function groupBlock(g) {
-  return h("details", { class: "acc" },
+  return h("details", { class: "acc", id: `grp-${g.id}` },
     h("summary", null,
       h("span", null, g.title),
       badge(String((g.items || []).length), "neutral")),

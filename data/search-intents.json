@@ -262,7 +262,7 @@
       ],
       "label": "If someone died",
       "route": "#/support",
-      "anchor": "sec-communities"
+      "anchor": "grp-grief"
     },
     {
       "q": [
@@ -299,9 +299,9 @@
         "my partner uses",
         "al anon alternative"
       ],
-      "label": "If you love someone who uses",
+      "label": "When it’s someone you love",
       "route": "#/support",
-      "anchor": "sec-communities"
+      "anchor": "sec-loved"
     },
     {
       "q": [
@@ -311,8 +311,9 @@
         "cuts",
         "whats in the supply"
       ],
-      "label": "Drugs",
-      "route": "#/substances"
+      "label": "Why the supply is like this",
+      "route": "#/substances",
+      "anchor": "sec-market"
     },
     {
       "q": [
