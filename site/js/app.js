@@ -152,6 +152,11 @@ const VIEWS = {
      places someone is standing when the question occurs to them. The tab bar
      is already at six on a 375px screen and a seventh would truncate them all. */
   after:      () => import("./views/after.js"),
+  /* Also not a tab. Reached from Staying up, from the nightlife block on Sex,
+     and from Learn, because the three audiences for it arrive by different
+     doors: someone dancing, someone outside in a heat wave, and someone whose
+     medication has quietly stopped them sweating. */
+  heat:       () => import("./views/heat.js"),
 };
 
 let token = 0;

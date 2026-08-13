@@ -159,7 +159,7 @@
     ],
     "emergency": {
       "title": "When it stops being a psychological emergency and becomes a medical one",
-      "body": "Get help immediately for: a temperature around 104°F or higher, confusion or unconsciousness, chest pain, a seizure, or a stroke sign. Overheating is what actually kills people in this situation. Cool them — wet cloth under the arms, behind the knees, on the forehead, air moving — and call 911."
+      "body": "Get help immediately for: a temperature you would call dangerous, confusion or unconsciousness, chest pain, a seizure, or a stroke sign. Overheating is what actually kills people in this situation. Call 911, and cool them while you wait — cold water over as much skin as you can get to, re-wet constantly, with air moving over it. Not a cloth on the forehead. See Heat and water for the whole sequence."
     },
     "sources": [
       {
@@ -231,11 +231,15 @@
       },
       {
         "t": "Water is not an antidote",
-        "d": "Drink to thirst, not on a schedule, and not more than about a liter an hour counting everything. Stimulants and MDMA both lower the body's sodium, and people die every year from drinking too much water believing it will fix a bad experience. Eat something — food is what keeps your electrolytes where they should be.",
+        "d": "Drink to thirst, not on a schedule, and not more than about two to three cups an hour counting everything. Stimulants and MDMA both stop your body clearing water properly, and people die every year from drinking too much of it believing it will fix a bad experience. Eat something — food is what keeps your electrolytes where they should be.",
         "sources": [
           {
-            "name": "DanceSafe — heatstroke and hydration",
-            "url": "https://dancesafe.org/heatstroke/"
+            "name": "Hew-Butler et al. — 3rd International Exercise-Associated Hyponatremia Consensus (2015)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26102445/"
+          },
+          {
+            "name": "Atila et al., JAMA Netw Open 2024 — MDMA and hyponatremia",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11568463/"
           }
         ]
       }

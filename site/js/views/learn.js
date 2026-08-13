@@ -55,6 +55,7 @@ export async function render(route, { go }) {
                      { id: "sec-repair", label: "After you hurt someone" }] : []),
       { id: "sec-stimulants", label: "Staying up" },
       { id: "sec-sex", label: "Sex and being out" },
+      { id: "sec-heat", label: "Heat and water" },
       { id: "sec-policy", label: "The law" },
     ])
   );
@@ -149,6 +150,24 @@ export async function render(route, { go }) {
           h("span", { class: "bigptr__sub" },
             "Including an honest answer about drink test strips, which mostly "
             + "do not work.")))));
+
+  /* Heat sits on Learn as well as on Staying up, because the people it kills
+     are not all at a party. Somebody in a heat wave with nowhere cool to go
+     needs the same five minutes of reading and would never open a page about
+     stimulants to find it. */
+  wrap.appendChild(
+    h("div", { id: "sec-heat" },
+      section("Heat, and water", null,
+        h("p", { class: "sec__note" },
+          "Overheating kills more people at events than anything else does, and "
+          + "the advice everybody repeats about drinking water is the part that "
+          + "goes wrong."),
+        h("a", { class: "bigptr", href: "#/heat" },
+          h("span", { class: "bigptr__hd" }, "Heat, and water"),
+          h("span", { class: "bigptr__sub" },
+            "How to tell when hot has become dangerous, how to cool somebody down "
+            + "with what is in the room, and why drinking too much water kills "
+            + "people who thought they were being careful.")))));
 
   /* Policy sits at the foot of Learn rather than in the tab bar. The bar is
      already six wide at 375px and a seventh would truncate them all - and

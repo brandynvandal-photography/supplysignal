@@ -1,6 +1,6 @@
 {
   "note": "Hand-curated, not generated. Fifty deliberate mappings beat any amount of clever text matching, because these are the words and questions people actually type. Edit freely; nothing downstream is generated from it.",
-  "verified": "2026-08-12",
+  "verified": "2026-08-13",
   "slang": {
     "tranq": "xylazine",
     "tranq dope": "xylazine",
@@ -433,12 +433,72 @@
       "q": [
         "overamping",
         "too much stimulant",
-        "overheating",
-        "heat stroke"
+        "too much speed",
+        "took too much meth"
       ],
       "label": "Helping somebody who is in it",
       "route": "#/stimulants",
       "anchor": "sec-helping"
+    },
+    {
+      "q": [
+        "heat stroke",
+        "heatstroke",
+        "heat exhaustion",
+        "overheating",
+        "too hot",
+        "overheated",
+        "someone is overheating",
+        "hyperthermia",
+        "body temperature too high"
+      ],
+      "label": "Spotting heat exhaustion and heat stroke",
+      "route": "#/heat",
+      "anchor": "sec-spot",
+      "why": "Overheating is the thing that actually kills people at events, and the word most likely to be typed in a hurry is the plainest one."
+    },
+    {
+      "q": [
+        "how to cool someone down",
+        "cooling someone down",
+        "they are burning up",
+        "what to do heat stroke",
+        "how to help someone overheating"
+      ],
+      "label": "Cooling someone down with what is in the room",
+      "route": "#/heat",
+      "anchor": "sec-cool"
+    },
+    {
+      "q": [
+        "drank too much water",
+        "too much water",
+        "water intoxication",
+        "hyponatremia",
+        "low sodium",
+        "water poisoning",
+        "can you drink too much water",
+        "overhydration",
+        "drinking water on molly",
+        "how much water on mdma"
+      ],
+      "label": "Drinking too much water",
+      "route": "#/heat",
+      "anchor": "sec-water",
+      "why": "'Drink water' is the most repeated piece of party advice there is, and taken literally it kills people."
+    },
+    {
+      "q": [
+        "how much water should i drink",
+        "electrolytes",
+        "dehydrated",
+        "dehydration",
+        "not drinking enough water",
+        "staying hydrated"
+      ],
+      "label": "How much to drink, and what else you need",
+      "route": "#/heat",
+      "anchor": "sec-prevent"
     }
   ]
 }

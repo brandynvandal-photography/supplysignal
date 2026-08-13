@@ -243,12 +243,12 @@
     "items": [
       {
         "t": "Overheating, and over-drinking",
-        "d": "Dancing in a hot room you can lose about a pint of water an hour, and stimulants make heatstroke more likely. Aim for roughly 3 to 4 cups — about a liter — an hour if you are exerting, and no more, because drinking too much water kills people at events every year, especially on MDMA. Eat something; food is what keeps your electrolytes where they should be.",
-        "note": "Heat exhaustion looks like a panic attack. Heat stroke is different: no sweating, hot dry skin, a throbbing head, temperature above 103°F. That one is an ambulance.",
+        "d": "Dancing in a hot room you can lose about a pint of water an hour, and stimulants make overheating more likely. Two to three cups an hour — about half a liter — is the ceiling while you are actually dancing, not a target, because drinking too much water kills people at events every year and MDMA is the reason it happens so often. Eat something; food is what keeps your electrolytes where they should be.",
+        "note": "Heat stroke is not the one where they stop sweating — that is the heatwave kind. Somebody having one on a dancefloor is usually still pouring sweat. What tells you is that they stop making sense.",
         "sources": [
           {
-            "name": "DanceSafe — heat stroke",
-            "url": "https://dancesafe.org/heatstroke/"
+            "name": "NATA position statement — exertional heat illnesses (2015)",
+            "url": "https://www.nata.org/sites/default/files/externalheatillnesses.pdf"
           }
         ]
       },

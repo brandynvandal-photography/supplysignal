@@ -79,7 +79,17 @@ export async function search(term, limit = 10) {
   const push = (r) => {
     const key = norm(r.label);
     if (!key || taken.has(key)) return;
+    /* Second rule, complementary to the first: two DIFFERENT labels that land
+       on the same heading are a duplicate from the reader's side, however
+       different they look in the index - "Heat exhaustion" and "Spotting heat
+       exhaustion and heat stroke" both scroll to sec-spot. Only applied when
+       there is an anchor. Entries with no anchor land on the top of a page and
+       are genuinely separate destinations; collapsing those would leave a
+       search for a drug class showing one row for all of Drugs. */
+    const dest = r.anchor ? `${r.route}#${r.anchor}` : null;
+    if (dest && taken.has(dest)) return;
     taken.add(key);
+    if (dest) taken.add(dest);
     out.push(r);
   };
 

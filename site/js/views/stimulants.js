@@ -92,6 +92,17 @@ export async function render() {
       h("p", null, g.helping.emergency.body)),
   }));
 
+  /* Heat has its own page rather than a section here, because the people it
+     kills are not all on a stimulant. This is the door for the ones who are. */
+  wrap.appendChild(
+    h("a", { class: "bigptr", href: "#/heat" },
+      h("span", { class: "bigptr__hd" }, "Heat, and water"),
+      h("span", { class: "bigptr__sub" },
+        "Overheating is the thing most likely to kill somebody in this state. "
+        + "How to tell when hot has become dangerous, how to cool them down with "
+        + "what is in the room, and why giving them water to drink can be the "
+        + "wrong move.")));
+
   wrap.appendChild(block("sec-calling", g.calling));
   wrap.appendChild(block("sec-coming", g.coming));
 

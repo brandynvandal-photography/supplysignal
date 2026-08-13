@@ -84,6 +84,17 @@ export async function render() {
 
   wrap.appendChild(block("sec-out", g.out));
 
+  /* The nightlife block above says overheating and over-drinking in three
+     sentences, which is the right length for somebody skimming before they go
+     out and the wrong length for somebody using it on the night. */
+  wrap.appendChild(
+    h("a", { class: "bigptr", href: "#/heat" },
+      h("span", { class: "bigptr__hd" }, "Heat, and water"),
+      h("span", { class: "bigptr__sub" },
+        "The long version: spotting heat stroke when they are still sweating, "
+        + "cooling somebody down with what is in the room, and how much water is "
+        + "too much.")));
+
   wrap.appendChild(
     h("p", { class: "sec__note" },
       `Checked ${g.verified}. Guidance and access rules change — anything here ` +

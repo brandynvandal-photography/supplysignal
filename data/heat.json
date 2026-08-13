@@ -1,0 +1,283 @@
+{
+  "note": "Heat illness and water. Three rules if you edit this. (1) The sweating myth is load-bearing: NHS, CDC's traveller page and DanceSafe all say heat stroke means hot dry skin, which describes the heatwave kind, not the dancing kind. NATA's position statement and StatPearls both say exertional heat stroke patients are usually still sweating. If somebody reinstates 'no sweating' here they will teach a reader to rule out the thing that is killing the person in front of them. (2) Ice packs to neck, armpits and groin are near-worthless — 0.028 C/min against the 0.155 that counts as adequate. Most first aid still leads with them. Do not put them back at the top. (3) The fluid ceiling is ~500 mL/h, not the liter this site used to say and most party advice still says; a liter an hour is the whole excretory capacity of a healthy person doing nothing, and MDMA lowers it. See PRIVACY.md rules on denominators — every figure here carries one.",
+  "verified": "2026-08-13",
+  "headline": "Heat, and water",
+  "blurb": "How to tell when hot has become dangerous, how to cool somebody down with what is actually in the room, and why drinking too much water kills people who thought they were being careful.",
+  "spot": {
+    "headline": "Telling the difference",
+    "lead": "Heat exhaustion, drinking too much water and simply being very high on a stimulant share most of their early signs. You are not going to separate them from a symptom list, and neither would a doctor without a blood test. What you are looking for is the one change that decides what you do.",
+    "stages": [
+      {
+        "t": "Too hot",
+        "d": "Sweating hard, tired, thirsty, a headache starting, cramp in the legs or stomach. They are still making sense. Out of the heat now and it goes no further."
+      },
+      {
+        "t": "Heat exhaustion",
+        "d": "Weak, dizzy, sick, clammy, maybe vomiting, heart going fast. Still lucid — they know where they are and who you are. This is the last rung you can handle yourself."
+      },
+      {
+        "t": "Heat stroke",
+        "d": "They stop making sense. Confused, slurring, staggering, unusually aggressive or oddly calm, seizing, or unconscious. This is an ambulance, now."
+      }
+    ],
+    "body": [
+      "The line between the second rung and the third is not temperature. It is whether they are still thinking straight. Emergency medicine uses the same test: heat stroke is diagnosed on confusion or worse, not on how hot somebody feels to the touch.",
+      "Almost every first-aid page you will read says heat stroke means hot, dry skin and no sweating. That describes the kind that happens to an elderly person in a heatwave. The kind that happens to somebody who has been dancing is a different thing, and most people having one are still pouring sweat. If you wait for somebody to stop sweating, you will wait through the entire emergency.",
+      "The real threshold is a core temperature around 104°F, and you cannot measure it. Core temperature means a rectal reading. On somebody who has been dancing, an oral thermometer reads roughly 1 to 3°F low and a forehead or armpit one can be off by 2 to 4°F — so a reading of 101°F is entirely compatible with a core of 104. A normal-looking number rules nothing out. Do not spend the time."
+    ],
+    "emergency": {
+      "title": "Call 911 when they stop making sense",
+      "body": "Confusion, slurred speech, staggering, unusual aggression, a seizure, or unconsciousness — in somebody who has been hot, or drinking a lot of water, or both. You do not have to work out which one it is to make the call. It is the same trigger for both. Start cooling while somebody else dials.",
+      "detail": "Somebody can seem to come round and then get much worse within minutes. Getting better for a moment is not getting better."
+    },
+    "sources": [
+      {
+        "name": "NATA position statement — exertional heat illnesses (2015)",
+        "url": "https://www.nata.org/sites/default/files/externalheatillnesses.pdf"
+      },
+      {
+        "name": "StatPearls — heat stroke",
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK537135/"
+      },
+      {
+        "name": "Ganio et al., J Athl Train 2009 — validity of non-rectal temperature",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2657027/"
+      }
+    ]
+  },
+  "cool": {
+    "headline": "Cooling somebody down",
+    "lead": "With what is in the room. Speed matters more than technique — the harm tracks how long they spend above 104°F, and the target every guideline agrees on is to have them cooled within half an hour of going down.",
+    "steps": [
+      {
+        "t": "Get them out of the heat",
+        "d": "Outside, a stairwell, a bathroom, anywhere cooler and away from the crowd. Somebody else calls 911 while you do this. Cooling does not wait for the ambulance to be called, and it does not wait for it to arrive."
+      },
+      {
+        "t": "Get the clothes off",
+        "d": "As much as the situation allows. Clothing is the insulation you are working against."
+      },
+      {
+        "t": "Cold water on as much skin as you can, and keep it coming",
+        "d": "A shower, a hose, a bathtub, a sink and a soaked shirt, jugs from behind the bar, ice tipped into water. Not one cold cloth on the forehead — as much surface area as possible, re-wet the moment it stops feeling cold.",
+        "note": "This is the whole job. Everything else on this list is a detail next to getting a lot of cold water onto a lot of skin."
+      },
+      {
+        "t": "Move air over the wet skin",
+        "d": "Fan them with a tray, a piece of card, a jacket. Water plus moving air pulls heat out considerably faster than either does alone. Fanning somebody who is dry achieves close to nothing."
+      },
+      {
+        "t": "If you have ice, put it in the right places",
+        "d": "Cheeks, palms and the soles of the feet. This is the opposite of what most first aid says, and the measurements are not close: ice packs on the neck, armpits and groin move core temperature at about a fifth of the rate that counts as adequate — barely better than doing nothing. Ice is a supplement to soaking them. It is never the plan.",
+        "note": "If somebody hands you cold packs and nothing else, keep soaking and fanning anyway."
+      },
+      {
+        "t": "Keep going 10 to 15 minutes, then hand over",
+        "d": "You have no way to measure when they have cooled enough, so use the clock instead. Do not stop early because they seem better — that is the point at which people stop, and it is too soon.",
+        "note": "Cooling somebody too much is not a realistic risk in fifteen minutes with a bucket. Not cooling them enough is the one that happens."
+      }
+    ],
+    "never": {
+      "title": "What not to do",
+      "items": [
+        "Do not give acetaminophen, ibuprofen or aspirin. This is not a fever and they do nothing for it — the body's thermostat is not what has gone wrong. They can make the liver damage and the bleeding problems worse.",
+        "Do not hold somebody down. Straining against being held generates heat, and it is one of the reliable ways to make overheating worse in somebody on a stimulant. Clear the space around them instead.",
+        "Do not pour drink into somebody who is confused, drowsy or being sick. They can inhale it — and if too much water is the actual problem, you are making it worse.",
+        "Do not treat drinking as cooling. Fluids do not bring core temperature down.",
+        "Do not delay cooling to take a temperature you cannot take accurately."
+      ]
+    },
+    "sources": [
+      {
+        "name": "McDermott et al., J Athl Train 2009 — cooling rates compared",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2629045/"
+      },
+      {
+        "name": "DeMartini et al., Med Sci Sports Exerc 2015 — 274 consecutive patients, no deaths",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/24983342/"
+      },
+      {
+        "name": "BC Emergency Health Services — hyperthermia guideline",
+        "url": "https://handbook.bcehs.ca/clinical-practice-guidelines/i-environmental-emergencies/i02-hyperthermia/"
+      }
+    ]
+  },
+  "water": {
+    "headline": "The other way this goes wrong",
+    "lead": "\"Drink water\" is the most repeated piece of advice at any event, and the version people act on — drink constantly, drink more if you feel bad — is the version that has killed them.",
+    "body": [
+      "Your kidneys can only get rid of so much water: somewhere around a liter an hour at the absolute best, in a healthy person with nothing else going on. Stimulants and MDMA stop your body clearing it properly. Drink past what you can pass and the sodium in your blood dilutes, cells swell, and the cells with nowhere to swell into are the ones in your skull.",
+      "In four pooled trials, 96 healthy adults were given an ordinary dose of MDMA in a lab — sitting still, air conditioned, drinking as much or as little as they wanted. Among those left to drink freely, 37% became hyponatremic. Among the 15 whose fluids were limited, none did. Nobody in that study was dancing, and nobody was in a hot room."
+    ],
+    "items": [
+      {
+        "t": "What it looks like",
+        "d": "The early signs are the heat exhaustion signs — headache, nausea, vomiting, dizziness, confusion. Three things belong to this one and not to heat: they look puffy, especially the fingers and the face, and rings or shoes feel tight; they have gained weight rather than lost it after hours of exertion; and they have not urinated in a long time despite drinking steadily.",
+        "note": "The most useful thing you have is not a sign, it is the story. If somebody has been drinking water for hours, say that to the medics out loud. It is what makes a clinician check their sodium instead of treating them for something else."
+      },
+      {
+        "t": "What to do",
+        "d": "Stop the fluids. All of them, including sports drinks. If they are fully awake and not being sick, salty food is the right thing — salt without water is exactly what they need. Sit them somewhere cool and stay with them."
+      },
+      {
+        "t": "It can arrive hours later",
+        "d": "Symptoms can start within 24 hours of leaving, in somebody who seemed fine on the way out. Do not let them go home alone to sleep it off. Tell them, and tell whoever they are with, what to watch for."
+      }
+    ],
+    "emergency": {
+      "title": "This one is also 911",
+      "body": "A seizure, confusion or drowsiness, vomiting with a bad headache, trouble breathing, or frothy spit. It is the same trigger as heat stroke — they stop making sense. The difference is what you do next: cool them, but do not give them anything to drink."
+    },
+    "note": "Being honest about the size of this: overheating kills more people at events than over-drinking does. What makes water intoxication worth its own section is that it kills people who believed they were doing the careful thing.",
+    "sources": [
+      {
+        "name": "Hew-Butler et al. — 3rd International Exercise-Associated Hyponatremia Consensus (2015)",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26102445/"
+      },
+      {
+        "name": "Atila et al., JAMA Netw Open 2024 — MDMA and hyponatremia, 4 pooled trials",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11568463/"
+      },
+      {
+        "name": "Rosenson et al., J Emerg Med 2007 — MDMA hyponatremia case series",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/17084942/"
+      }
+    ]
+  },
+  "prevent": {
+    "headline": "Staying ahead of it",
+    "items": [
+      {
+        "t": "Two to three cups an hour, not four",
+        "d": "About half a liter an hour while you are actually dancing, and less when you are not. That is lower than most party advice, including the number this site used to give. A liter an hour is the entire amount a healthy person's kidneys can clear while doing nothing at all — it was never a safety ceiling, it was an estimate of how much a dancer sweats — and MDMA lowers what you can clear.",
+        "note": "People have become seriously ill at intakes as low as about two cups an hour. There is no volume that is guaranteed safe; there is only less risk."
+      },
+      {
+        "t": "Thirst is a better guide than a schedule",
+        "d": "Drink when you are thirsty. The advice to get ahead of thirst came out of workplaces and endurance sport, and in dance settings it is the specific instruction that has put people in hospital — the case reports keep quoting \"stay ahead of thirst\" back from the people who followed it. Losing up to about 3% of your body weight in fluid does you no harm.",
+        "sources": [
+          {
+            "name": "Hew-Butler et al. — EAH consensus, drinking behavior",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26102445/"
+          }
+        ]
+      },
+      {
+        "t": "Electrolyte drinks do less than they sound like they do",
+        "d": "Every sports drink is more dilute than your blood, so it still adds free water faster than it adds salt. Better than the same volume of plain water, but it does not buy permission to drink more, and it will not prevent this. Volume is what hurts you. Eat something salty instead — food is what keeps your electrolytes where they should be."
+      },
+      {
+        "t": "Get off the floor before you need to",
+        "d": "In a study that measured real clubs — 29°C and 90% humidity among the dancers — an hour of dancing raised core temperature by 1.8°C, and four hours without a break modelled out to 39.1°C. Twenty minutes somewhere cooler, before anything is wrong, does more for you than anything you can drink.",
+        "sources": [
+          {
+            "name": "McNeill & Parsons — Heat stress in night-clubs (1996)",
+            "url": "https://www.dancingmango.com/blog/wp-content/uploads/2008/11/night-clubs.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "risk": {
+    "headline": "Who it hits hardest",
+    "items": [
+      {
+        "t": "The first few days in it",
+        "d": "This is the best-evidenced item on the page and the one nobody mentions. Your body adapts to heat over about one to two weeks, and it loses that adaptation within days of not being in it. OSHA's figures on heat deaths at work: more than 70% happen in somebody's first week, and close to half on their first day, or their first day back after time away.",
+        "note": "It is not about being fit or being used to hard work. It is about how recently your body was last doing this in this heat.",
+        "sources": [
+          {
+            "name": "OSHA — protecting new and returning workers",
+            "url": "https://www.osha.gov/heat-exposure/protecting-new-workers"
+          },
+          {
+            "name": "Daanen et al., Sports Med 2018 — how fast heat acclimatization decays",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5775394/"
+          }
+        ]
+      },
+      {
+        "t": "Not being able to go somewhere cooler",
+        "d": "The single largest risk factor is having nowhere to get out of it. Across Las Vegas and Los Angeles, researchers estimated that half of all deaths among people experiencing homelessness in Clark County were attributable to temperature — a figure they described as orders of magnitude above the general population. In Maricopa County, Arizona, 208 of the 430 heat deaths recorded in 2025 were among people who were unhoused.",
+        "note": "Of the indoor heat deaths in that county, 94% of the homes had air conditioning. In 72% of those, it was not running — broken, or shut off because of the bill.",
+        "sources": [
+          {
+            "name": "Lin et al., Am J Epidemiol 2024 — temperature-attributable mortality among people experiencing homelessness",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38844692/"
+          },
+          {
+            "name": "Maricopa County — heat-associated deaths report, 2025",
+            "url": "https://www.maricopa.gov/ArchiveCenter/ViewFile/Item/6510"
+          }
+        ]
+      },
+      {
+        "t": "Using drugs in a heat wave",
+        "d": "Of the 430 heat deaths in Maricopa County in 2025, 236 involved substances, and 194 of those involved a stimulant. That is a count of who died, not a rate — it cannot tell you how much more likely it is. The one study that measured the risk properly, across the 2021 heat dome in British Columbia, found substance use disorder raised the odds of dying by about a quarter. Real, but smaller than you might expect, and much smaller than being poor, which roughly doubled them.",
+        "note": "Stimulants raise the heat your body makes and how long you stay in it. Both matter more in a heat wave than on a dancefloor, because a heat wave lasts days.",
+        "sources": [
+          {
+            "name": "McLean et al., Environ Res Health 2024 — deaths in the 2021 BC heat dome",
+            "url": "https://iopscience.iop.org/article/10.1088/2752-5309/ad5eac"
+          }
+        ]
+      },
+      {
+        "t": "Medication, with a caveat about how sure anyone is",
+        "d": "The standard warning list is longer than the evidence for it. When researchers pooled 35 heat-stress experiments, only strong anticholinergics and non-selective beta blockers actually raised core temperature; antidepressants, antihistamines and antipsychotics did not. But the real-world data disagrees with the lab: among older adults, heat waves plus antipsychotics, loop diuretics or anticholinergics meant clearly more heat hospitalizations, and during the BC heat dome, people with schizophrenia taking antipsychotics had roughly 2.4 times the odds of dying.",
+        "note": "The one with a warning printed on the label is topiramate, sold as Topamax and used for seizures and migraine: it can reduce sweating, most often in children. Do not stop a prescribed medication over this. Take the heat more seriously instead.",
+        "sources": [
+          {
+            "name": "Hospers et al., eClinicalMedicine 2024 — meta-analysis of 35 heat-stress trials",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11541675/"
+          },
+          {
+            "name": "Layton et al., PLoS One 2020 — medications and heat hospitalization in 9,721 people",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7728169/"
+          },
+          {
+            "name": "Chen et al., Sci Rep 2025 — antipsychotics and death in the BC heat dome",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12494884/"
+          },
+          {
+            "name": "FDA label — topiramate, decreased sweating",
+            "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=21628112-0c47-11df-95b3-498d55d89593"
+          }
+        ]
+      },
+      {
+        "t": "Alcohol, and what is actually wrong with it",
+        "d": "Not what you have been told. A review of eight studies found alcohol did not reduce sweating and did not raise core temperature — the dehydration only showed up at the highest doses tested. The link between drinking and dying in heat waves is real and well documented; what has never been studied is the obvious explanation, which is that drinking changes whether you notice you are in trouble and whether you do anything about it.",
+        "note": "Worth saying plainly: this is a gap in the research, not a finding. Treat alcohol in heat as a reason to have somebody watching out for you rather than as something that dries you out.",
+        "sources": [
+          {
+            "name": "Morris et al., Environ Health 2024 — alcohol and thermoregulation, scoping review",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11391823/"
+          }
+        ]
+      },
+      {
+        "t": "Smaller bodies have less room for error",
+        "d": "Less total body water means a given surplus moves your sodium further. In the MDMA case reports the skew is stark — in one poison-center series of 73 people with hyponatremia, 55 were women, and women had about four times the odds of it. Some of that is body size and some is how much people drink, but it is not nothing.",
+        "note": "This is not a reason for anyone else to relax. It means the margin is narrower if you are small, not that it is wide if you are not.",
+        "sources": [
+          {
+            "name": "Rosenson et al., J Emerg Med 2007",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17084942/"
+          }
+        ]
+      },
+      {
+        "t": "Hours, not doses",
+        "d": "In 488 runners tested at the end of a marathon, 13% were hyponatremic. The things that predicted it were gaining weight during the race and being out there more than four hours — not sex, and not what they drank. Time spent in it is the exposure.",
+        "sources": [
+          {
+            "name": "Almond et al., N Engl J Med 2005 — hyponatremia among marathon runners",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15829535/"
+          }
+        ]
+      }
+    ],
+    "lead": "Two of the things on this list are much better established than the advice you will have heard, and two are much weaker. Both are worth knowing, because acting on the weak ones instead of the strong ones is how people get caught out."
+  }
+}

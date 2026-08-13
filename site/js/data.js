@@ -321,6 +321,11 @@ export async function stimulants() {
   return load("stimulants", null);
 }
 
+/** Heat illness and water. */
+export async function heat() {
+  return load("heat", null);
+}
+
 /** Sex, barriers, PrEP and PEP, and being out. */
 export async function sex() {
   return load("sex", null);
