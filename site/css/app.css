@@ -1954,6 +1954,74 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 .swatch--pink { background: #c76b8f; }   .swatch--gray { background: #8a8076; }
 .swatch--white { background: #eee6d8; }  .swatch--olive { background: #6f7d3f; }
 
+/* ------------------------------------------------- reagent reaction scale
+
+   A reagent result is an ORDERED sequence: ["yellow","black"] means the drop
+   turns yellow and then goes black. The old rendering was dots joined by an
+   arrow, which is accurate but reads as two unrelated facts rather than one
+   reaction with a direction.
+
+   This is a band per colour, in order, left to right.
+
+   CRISP EDGES, NOT A BLEND, and that is a correctness decision rather than a
+   style one. A smooth gradient between yellow and black paints a wide olive
+   middle that the reaction never produces. On a page somebody uses to decide
+   whether a pill matches a reference photo, inventing an intermediate colour
+   is inventing evidence. Equal bands with hard boundaries say "yellow, then
+   black" and nothing more.
+
+   Reuses the swatch colours above - one source for both, so a dot and a band
+   can never disagree. The colour WORDS stay next to it: this is reinforcement
+   and never the only signal. */
+.reagbar {
+  display: flex; width: 100%; max-width: 168px; height: 14px;
+  border-radius: 999px; overflow: hidden;
+  border: 1px solid var(--glass-line);
+  flex: none;
+}
+.reagbar > span { flex: 1 1 0; min-width: 0; }
+/* A single-colour result is one full band, which is exactly right. */
+
+/* A hairline between bands, so two similar colours never merge into one and a
+   three-stage reaction always reads as three stages. */
+.reagbar > span + span { box-shadow: inset 1px 0 0 var(--glass-line); }
+
+/* Black and white have to be re-stated for the BAND, and this is a legibility
+   bug rather than a preference.
+
+   The swatch palette was built for 10px dots sitting on a card. Stretched to a
+   168px band, "black" (#26221c) is within a few points of the dark theme's
+   card (#211e18) and the band vanishes - verified by screenshot: Marquis,
+   Liebermann and Froehde rendered as empty outlines, and Mecke and Mandelin
+   lost their third stage entirely. White has the same problem on light.
+
+   So the band uses a value that stays legibly black or white against the
+   surface it is actually on, rather than against the one the dots were
+   designed for. The colour WORD is unchanged either way - it is what carries
+   the meaning, and this only has to look like what it says. */
+.reagbar > .swatch--black { background: #0a0908; }
+.reagbar > .swatch--white { background: #fdfaf4; box-shadow: inset 0 0 0 1px var(--line-2); }
+.reagbar > .swatch--white + span, .reagbar > span + .swatch--white {
+  box-shadow: inset 1px 0 0 var(--line-2);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .reagbar > .swatch--black { background: #000; }
+  :root:not([data-theme="light"]) .reagbar > .swatch--white { background: #f4ece0; }
+}
+:root[data-theme="dark"] .reagbar > .swatch--black { background: #000; }
+:root[data-theme="dark"] .reagbar > .swatch--white { background: #f4ece0; }
+
+/* The row: bar, then the words, then the reagent name stays the row label. */
+.reagrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.reagrow__words { font-size: .9rem; color: var(--ink-2); }
+/* Separates the two sequences in the 22 results that carry a `to`. Its own
+   line, because "settling to" between two bars on one line reads as a fourth
+   colour band. */
+.reag__settles {
+  display: block; font-size: .82rem; color: var(--ink-3);
+  margin: 4px 0 2px; font-style: italic;
+}
+
 /* "Near me" result: the county and the map offered side by side. */
 
 /* The map embedded in a county page: shorter than the full-screen version, so

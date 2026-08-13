@@ -333,8 +333,7 @@ export async function render() {
           h("h3", null, "Do both — they are not alternatives"),
           h("p", null,
             "Get staff moving and call 911. Lollapalooza tells attendees to do "
-            + "both; Reading and Leeds say find staff first and call 999 if you "
-            + "cannot. At a small event there may be no on-site medical at all, "
+            + "both. At a small event there may be no on-site medical at all, "
             + "and then 911 is the whole answer."),
           h("p", { class: "sec__note" },
             "Note where you are before you call — the nearest numbered pole, "
@@ -346,9 +345,8 @@ export async function render() {
           h("p", null,
             "They can treat faster when they know, and on-site care is free at "
             + "most big events where an ambulance is not. Lollapalooza, "
-            + "Insomniac's festivals, Okeechobee, Reading and Leeds all publish "
-            + "in writing that you will not get in trouble for seeking medical "
-            + "help."),
+            + "Insomniac's festivals and Okeechobee all publish in writing that "
+            + "you will not get in trouble for seeking medical help."),
           h("p", { class: "sec__note" },
             "Read that as narrowly as it is written. Most large US festivals "
             + "publish nothing like it, and several publish the opposite — "

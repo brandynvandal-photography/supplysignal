@@ -858,12 +858,23 @@ async function detailView(id, subs, combos, { go }) {
        present; the swatch is reinforcement. */
     const KNOWN = new Set(["yellow","green","blue","purple","black","brown",
       "orange","red","pink","gray","white","violet","olive"]);
-    const dot = (c) => h("span", {
-      class: `swatch${KNOWN.has(c) ? ` swatch--${c}` : ""}`,
-      "aria-hidden": "true",
-    });
-    const seq = (colors) => frag(colors.map((c, i) => frag(
-      i ? h("span", { class: "swatch__sep", "aria-hidden": "true" }, "→") : null, dot(c), c)));
+    /* The reaction as one bar with a band per stage, in order, plus the words.
+       A reagent result is a SEQUENCE - ["yellow","black"] is one reaction with
+       a direction, not two facts - and dots joined by an arrow read as the
+       latter. Bands are crisp rather than blended on purpose: see .reagbar in
+       app.css, a smooth gradient would paint an olive middle the reaction
+       never produces.
+
+       The bar is aria-hidden and the words carry the meaning, so nothing is
+       conveyed by colour alone and a screen reader reads "yellow, then black"
+       rather than a row of empty spans. */
+    const bar = (colors) => h("span", { class: "reagbar", "aria-hidden": "true" },
+      colors.map((c) => h("span", { class: KNOWN.has(c) ? `swatch--${c}` : "" })));
+
+    const seq = (colors) => h("span", { class: "reagrow" },
+      bar(colors),
+      h("span", { class: "reagrow__words" },
+        colors.map((c, i) => frag(i ? ", then " : null, c))));
 
     /* This callout used to say flatly "reagents do not detect fentanyl" - on
        the fentanyl page, directly above a table of fentanyl's own reagent
@@ -901,8 +912,19 @@ async function detailView(id, subs, combos, { go }) {
                 h("tr", null,
                   h("th", { scope: "row" }, r.reagent),
                   h("td", null,
-                    r.none ? h("span", { class: "reag__none" }, "No reaction expected")
-                           : seq(r.to ? [...r.colors, ...r.to] : r.colors))))))))
+                    /* `to` is a SECOND sequence - what the reaction settles
+                       into - not a continuation of the first. Concatenating
+                       them produced strings like "brown, then green, then
+                       brown, then brown, then green" on MDMA/Gallic. All 22
+                       entries carrying a `to` were mangled the same way; the
+                       old arrow rendering hid it by reading as one long chain.
+                       Two sequences, shown as two. */
+                    r.none
+                      ? h("span", { class: "reag__none" }, "No reaction expected")
+                      : frag(
+                          seq(r.colors),
+                          r.to ? h("span", { class: "reag__settles" }, "settling to") : null,
+                          r.to ? seq(r.to) : null))))))))
     );
   }
 
