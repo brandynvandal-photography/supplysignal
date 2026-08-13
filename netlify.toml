@@ -45,7 +45,18 @@
   #
   # CACHED_COMMIT_REF is empty on a first build and on a cleared cache - build
   # in that case rather than risk skipping a real deploy.
-  ignore = "if [ -z \"$CACHED_COMMIT_REF\" ]; then exit 1; fi; git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- data site feeds index.html manifest.webmanifest netlify.toml _headers _redirects"
+  # See scripts/deploy-needed.mjs. The old one-liner here diffed the served
+  # paths and skipped when none moved - correct, but it almost never fired,
+  # because every ingest run rewrites timestamps (index.json's "generated" and
+  # 42 "t" fields, lastScan on each county) whether or not it found anything.
+  # A run publishing zero alerts still produced a commit and still paid for a
+  # full production deploy. That is what exhausted the build credits on
+  # 2026-08-13 and froze the site on an 02:18 deploy for a day.
+  #
+  # The script does the same diff, then looks INSIDE the changed JSON and
+  # skips only when the sole difference is a clock reading or scan bookkeeping
+  # nothing renders. Every failure mode builds.
+  ignore = "node scripts/deploy-needed.mjs"
 
 # Fast path to the app. index.html at the root does this too, in HTML and JS,
 # and it stays as the fallback for anyone who fetches the file directly.
