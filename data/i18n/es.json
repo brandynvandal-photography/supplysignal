@@ -11,7 +11,7 @@
     "loadFailedHint": "Revisa tu conexión e inténtalo de nuevo.",
     "name": "Nightlight",
     "earlyTitle": "Acceso anticipado — avísanos si algo aquí está mal",
-    "earlyBody": "Esto es nuevo y algo será incorrecto. Cada afirmación clínica se verifica con una fuente antes de publicarse, y eso todavía no es lo mismo que estar en lo cierto. Si ves algo inexacto — sobre todo algo que pueda hacerle daño a alguien — dínoslo.",
+    "earlyBody": "Esto es nuevo y algo puede ser incorrecto. Cada afirmación clínica se verifica con una fuente antes de publicarse, y eso todavía no es lo mismo que estar en lo cierto. Si ves algo inexacto — sobre todo algo que pueda hacerle daño a alguien — dínoslo.",
     "earlyContact": "hello@nightlight.help",
     "earlyBanner": "Acceso anticipado — algo de esto puede ser incorrecto.",
     "earlyBannerCta": "Avísanos"
