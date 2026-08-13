@@ -297,6 +297,18 @@ function applyStrings() {
      saying "checked is not the same as right" is the honest version of that
      claim - and it gives somebody who spots a dangerous error a way to say so.
      Every page, because an error could be on any of them. */
+  /* The sticky banner. Short by design - it is 26px of permanent chrome on a
+     375px screen, so it carries the warning and the ask and nothing else. The
+     full explanation of what "checked against a source" means stays in the
+     footer, where there is room for it. */
+  const bannerNote = document.getElementById("early-note");
+  if (bannerNote) bannerNote.textContent = t("app.earlyBanner");
+  const bannerLink = document.getElementById("early-link");
+  if (bannerLink) {
+    bannerLink.textContent = t("app.earlyBannerCta");
+    bannerLink.href = `mailto:${t("app.earlyContact")}`;
+  }
+
   const early = document.getElementById("foot-early");
   if (early) {
     clear(early).append(

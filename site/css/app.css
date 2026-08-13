@@ -123,16 +123,23 @@
   --wrap: 820px;
   --nav-h: 64px;            /* bottom tab bar */
 
-  /* The sticky top bar's real height, measured at both breakpoints - it is 67px
-     at 375px and at 1280px, because its height comes from the logo row rather
-     than from the layout. THREE things depend on this and every one of them
-     used to carry its own guess:
+  /* The early-access banner rides inside the sticky bar, so it is part of the
+     sticky height and everything below has to know about it. Kept deliberately
+     small: this is permanent chrome on a 375px screen, and every pixel here is
+     a pixel of the thing somebody actually came for. */
+  --banner-h: 27px;       /* 26px row + its 1px rule */
+
+  /* The sticky top bar's real height. The menu row is 67px at both breakpoints
+     - its height comes from the logo row, not the layout - plus the banner
+     above it. THREE things depend on this and every one of them used to carry
+     its own guess:
        - the search panel, which pins directly beneath it;
        - scroll-margin-top on every jump target, so a heading arrives below the
          bar instead of behind it;
        - the same for headings themselves, which is where search results land.
-     If the bar's height changes, change it here and nowhere else. */
-  --bar-h: 67px;
+     If either row's height changes, change it here and nowhere else. */
+  --bar-row-h: 67px;
+  --bar-h: calc(var(--bar-row-h) + var(--banner-h));
 
   /* Spacing scale. Generous on purpose - the room between things is most of
      what makes an interface feel calm rather than crowded. */
@@ -344,6 +351,52 @@ a { color: var(--brand); }
      made this rule look like the authority when it was not. */
   will-change: backdrop-filter;
 }
+/* The early-access banner.
+
+   Thin and quiet but not ignorable: one line, small, in the warning colour the
+   app already uses for "pay attention, nothing is on fire". Deliberately NOT
+   --critical, which on this app means a positive fentanyl result and an
+   overdose in progress - spending that red on a disclaimer would cost it
+   meaning where it matters.
+
+   Not dismissible. It is a statement about how much to trust everything under
+   it, and a reader who dismissed it on day one would carry that trust into a
+   page that changed since. It is also why the height is fixed: scroll-margin
+   and the search panel both key off --bar-h, and a collapsible banner would
+   make that number a lie every time somebody closed it. */
+.earlybar {
+  background: color-mix(in srgb, var(--elevated) 16%, var(--surface));
+  border-bottom: 1px solid color-mix(in srgb, var(--elevated) 28%, transparent);
+  font-size: .72rem; line-height: 1;
+}
+/* (0,3,0), so it beats `.topbar .wrap` no matter where either sits in the
+   file. The banner IS inside .topbar, so that rule matches it too and would
+   otherwise stretch this row to the menu row's 66px - which it did, making the
+   header 134px tall and every scroll-margin off by 41. Do not lower this to
+   two classes and rely on ordering. */
+.topbar .earlybar .wrap {
+  min-height: calc(var(--banner-h) - 1px);   /* the border is the other 1px */
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding-top: 0; padding-bottom: 0;
+}
+.earlybar span { color: var(--ink-2); }
+/* The link is the point of the banner, so it carries the weight. */
+.earlybar a {
+  color: var(--elevated); font-weight: 700; text-decoration: underline;
+  text-underline-offset: 2px; white-space: nowrap;
+}
+.earlybar a:hover { color: var(--ink); }
+
+/* At 375px the sentence and the link stop fitting on one line together. The
+   sentence truncates rather than wrapping, because a two-line banner is no
+   longer thin - and the link, which is the actionable half, never shrinks. */
+@media (max-width: 430px) {
+  .earlybar span {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+  }
+  .earlybar .wrap { gap: 6px; justify-content: space-between; }
+}
+
 .topbar .wrap { display: flex; align-items: center; gap: 14px; min-height: 66px; }
 
 .brand {
@@ -650,6 +703,12 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   background: var(--surface);
   border-bottom: 1px solid var(--glass-line);
 }
+/* Full width of the centred .wrap. .input carries `flex: 1` for the county
+   search, which lives in a flex row - this panel's wrap is a plain block, so
+   the flex property did nothing and the field collapsed to an input's default
+   intrinsic width. */
+#searchpanel .input { width: 100%; display: block; }
+
 .searchresults { margin-top: var(--sp-2); display: flex; flex-direction: column; gap: 8px; }
 .searchresults:empty { display: none; }
 

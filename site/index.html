@@ -58,6 +58,15 @@
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="topbar">
+  <!-- Early access notice. INSIDE the topbar on purpose: the bar is the sticky
+       element, so a child rides with it and there is only one sticky box to
+       reason about. Height is part of --bar-h - see the token. -->
+  <div class="earlybar">
+    <div class="wrap">
+      <span id="early-note"></span>
+      <a id="early-link" href="#"></a>
+    </div>
+  </div>
   <div class="wrap">
     <button class="brand" id="home" aria-label="Nightlight home">
       <svg class="brand__logo" aria-hidden="true" viewBox="0 0 32 32" width="24" height="24">
@@ -118,7 +127,7 @@
     <input id="searchinput" class="input" type="text" autocomplete="off" spellcheck="false"
            role="combobox" aria-expanded="false" aria-controls="searchresults"
            aria-label="Search Nightlight"
-           placeholder="Search — a drug, a street name, or a question">
+           placeholder="A drug, a street name, or a question">
     <div id="searchresults" class="searchresults" role="listbox" aria-label="Results"></div>
     <!-- A SIBLING of the listbox, not a child: clear(results) wipes children on
          every keystroke, so a status message living inside it could never be

@@ -12,7 +12,9 @@
     "name": "Nightlight",
     "earlyTitle": "Acceso anticipado — avísanos si algo aquí está mal",
     "earlyBody": "Esto es nuevo y algo será incorrecto. Cada afirmación clínica se verifica con una fuente antes de publicarse, y eso todavía no es lo mismo que estar en lo cierto. Si ves algo inexacto — sobre todo algo que pueda hacerle daño a alguien — dínoslo.",
-    "earlyContact": "hello@nightlight.help"
+    "earlyContact": "hello@nightlight.help",
+    "earlyBanner": "Acceso anticipado — algo de esto será incorrecto.",
+    "earlyBannerCta": "Avísanos"
   },
   "nav": {
     "alerts": "Alertas",
