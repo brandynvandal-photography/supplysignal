@@ -568,6 +568,7 @@ document.addEventListener("click", (e) => {
   const panel = document.getElementById("searchpanel");
   const input = document.getElementById("searchinput");
   const results = document.getElementById("searchresults");
+  const status = document.getElementById("searchstatus");
   let mod = null;
 
   const close = () => {
@@ -576,6 +577,7 @@ document.addEventListener("click", (e) => {
     input.setAttribute("aria-expanded", "false");
     input.value = "";
     clear(results);
+    status.textContent = "";
   };
 
   const open = async () => {
@@ -606,15 +608,16 @@ document.addEventListener("click", (e) => {
 
     clear(results);
     input.setAttribute("aria-expanded", String(rs.length > 0));
-    if (!q.trim()) return;
+    if (!q.trim()) { status.textContent = ""; return; }
 
     if (!rs.length) {
-      results.appendChild(
-        h("p", { class: "sec__note" },
-          "Nothing matched. Try a drug name, a street name, or what you are " +
-          "trying to find out."));
+      /* Into the live region, which survives the next clear(). */
+      status.textContent =
+        "Nothing matched. Try a drug name, a street name, or what you are " +
+        "trying to find out.";
       return;
     }
+    status.textContent = "";
 
     for (const r of rs) {
       const href = r.anchor ? `${r.route}` : r.route;

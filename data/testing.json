@@ -833,8 +833,8 @@
   },
   "legal": {
     "headline": "Test strips are legal in most, but not all, states",
-    "body": "As of the most recent 50-state review, fentanyl test strips are not subject to paraphernalia penalties in 47 states plus DC. Xylazine strips are covered in only 34 states plus DC, and reagent kits in fewer still — so the strip that is legal for one drug may not be for another. In several states legality depends on who holds it or how it is used.",
-    "stale": "Lists circulating online are out of date. Idaho changed in July 2024 and Indiana in 2025, so the commonly repeated five-state list is wrong. Iowa and Texas remain states where possession of drug-checking equipment may still be criminal.",
+    "body": "As of July 2026, fentanyl test strips sit outside paraphernalia law in 47 states plus DC and four territories. Xylazine strips are covered in 36 states plus DC — Ohio and Florida joined after the earlier count — and reagent kits in fewer still, so the strip that is legal for one drug may not be for another. In several states it depends on who is holding it or what it is used for.",
+    "stale": "Lists circulating online are out of date. Idaho changed in July 2024 and Indiana in 2025, so the commonly repeated five-state list is wrong. As of July 2026 the three remaining states where possessing drug-checking equipment may still be criminal are Iowa, North Dakota and Texas.",
     "advice": "Check your own state's current law. Nothing here is legal advice.",
     "source": {
       "name": "LAPPA — Drug Checking Equipment 50-State Summary (Sept 2025)",
@@ -842,13 +842,13 @@
     }
   },
   "labs": {
-    "intro": "Only a laboratory can confirm what is actually in a sample. These programs accept mailed samples.",
+    "intro": "Only a laboratory can confirm what is actually in a sample. Most of these take samples through a harm reduction program rather than from individuals — check each one before you post anything.",
     "note": "DrugsData.org paused accepting new samples in April 2024 and does not expect to resume before 2027. Its historical archive is still worth searching, but do not mail samples there.",
     "options": [
       {
         "name": "UNC Street Drug Analysis Lab",
         "url": "https://www.opioiddata.org/",
-        "detail": "Free mail-in GC-MS, nationwide US"
+        "detail": "GC-MS, nationwide US — submitted through a harm reduction program, not by individuals. Free kits for US harm reduction organizations, and free in North Carolina and for drug user unions."
       },
       {
         "name": "Transparency Testing",
@@ -1078,8 +1078,8 @@
     ],
     "legal": {
       "title": "Whether you can buy them depends on your state",
-      "body": "Drug-checking equipment is fully legal to sell, give away and possess in 20 states. Thirteen more allow it only for specific drugs — usually fentanyl strips. In Indiana, Iowa, North Dakota, Puerto Rico and Texas, possessing it arguably remains a crime. Massachusetts and Michigan allow possession and free distribution but not sale.",
-      "note": "These laws are actively changing, and the best national survey available is already around two years old. Availability varies by store and by state and cannot be verified nationally — if a chain near you does not carry it, a local harm reduction program can.",
+      "body": "Drug-checking equipment is fully legal to sell, give away and possess in 20 states. Thirteen more allow it only for specific drugs — usually fentanyl strips. In Iowa, North Dakota and Texas, possessing it arguably remains a crime. Puerto Rico is unknown rather than clear — the July 2026 review covers four of five territories without naming which. Massachusetts and Michigan allow possession and free distribution but not sale.",
+      "note": "These laws are actively changing. The counts above are from a July 2026 review; anything you read elsewhere without a date on it is probably older. Availability varies by store and by state and cannot be verified nationally — if a chain near you does not carry it, a local harm reduction program can.",
       "sources": [
         {
           "name": "Network for Public Health Law — 50-state survey",

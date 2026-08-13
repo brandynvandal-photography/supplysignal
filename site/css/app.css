@@ -592,6 +592,13 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 }
 @media (max-width: 560px) { .letter { padding: var(--sp-3); } }
 
+/* Hours and dispatch on a crisis line row. Dispatch takes the warning colour
+   because it is the one thing on that row that can go badly wrong for the
+   person dialling - it is not a caveat, it is the answer to "will they send
+   police". */
+.hotline .sub--hours { color: var(--ink-2); }
+.hotline .sub--dispatch { color: var(--elevated); }
+
 /* ---- search -------------------------------------------------------------
    Collapsed by default, full width when open, and pinned under the header so
    the results list is the only thing competing for attention while it is up. */

@@ -218,7 +218,16 @@ function renderGetting(x) {
                        ...(l.url && !l.phone ? { target: "_blank", rel: "noopener noreferrer", referrerpolicy: "no-referrer" } : {}) },
                 h("span", null,
                   h("span", { class: "lbl" }, l.name),
-                  l.who ? h("span", { class: "sub" }, l.who) : null),
+                  l.who ? h("span", { class: "sub" }, l.who) : null,
+                  /* Hours, but only where a line is NOT round-the-clock.
+                     Most of this list is 24/7 and says so in `who`, so silence
+                     was reading as always-on - which sent a trans reader to a
+                     number that does not answer on a Saturday night. */
+                  l.hours ? h("span", { class: "sub sub--hours" }, l.hours) : null,
+                  /* Who can send police is not a footnote. An unmarked entry
+                     next to Trans Lifeline's stated no-dispatch policy reads
+                     as vetted rather than undocumented, which is backwards. */
+                  l.dispatch ? h("span", { class: "sub sub--dispatch" }, l.dispatch) : null),
                 h("span", { class: "num" }, l.phone || "Open")))))
       : null
   );

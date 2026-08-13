@@ -4,7 +4,11 @@ on:
   schedule:
     # Hourly at :07 — offset off the top of the hour, where Actions queues are
     # most congested. Scheduled runs are best-effort; 10–30 min drift is normal.
-    - cron: '7 * * * *'
+    # Every 3 hours, not hourly. Each ingest that finds a change commits, and
+    # every commit is a Netlify build against the plan's allowance. Alert
+    # sources publish on the order of days, not minutes - hourly polling was
+    # paying for 24 builds a day to catch changes that arrive far more slowly.
+    - cron: '7 */3 * * *'
   workflow_dispatch:
 
 permissions:

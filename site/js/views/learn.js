@@ -204,8 +204,16 @@ async function sittingBlock() {
       h("p", { class: "sec__note" }, s.intro),
 
       /* Before anything else. */
+      /* A list, not a sentence. This was six conditions chained by five
+         semicolons into one 59-word paragraph - and the file's own note calls
+         it the most important thing in it. Prose makes a frightened reader
+         hunt for the verb; a list lets them scan for the one that matches.
+         Guarded so an older bundle without `signs` still renders. */
       callout("stop", s.notThis.title,
         h("p", null, s.notThis.body),
+        s.notThis.signs?.length
+          ? h("ul", null, s.notThis.signs.map((t) => h("li", null, t)))
+          : null,
         h("p", null, s.notThis.detail)),
 
       h("h3", null, s.principles.title),
