@@ -315,10 +315,10 @@
     "items": [
       {
         "t": "Technical violations are the bulk of it",
-        "d": "Nationwide, 45% of state prison admissions are due to violations of probation or parole — and technical violations alone, things like a missed appointment with a supervision officer or a failed drug test, account for nearly a quarter of every admission to state prison. Not a new offence. A quarter.",
+        "d": "In 2021, 44% of state prison admissions came from violations of probation or parole — and technical violations alone, things like a missed appointment with a supervision officer or a failed drug test, account for nearly a quarter of every admission to state prison. Not a new offence. A quarter.",
         "sources": [
           {
-            "name": "CSG Justice Center — Confined and Costly (50-state collection begun 2019)",
+            "name": "CSG Justice Center — Confined and Costly (2021 admissions data)",
             "url": "https://csgjusticecenter.org/publications/confined-costly/"
           }
         ]
@@ -339,7 +339,7 @@
     "headline": "Coming out is the most dangerous time",
     "body": [
       "Tolerance falls fast during any break in use, and jail or prison is a break in use. The dose that was normal before is not normal now.",
-      "In a study following 30,237 people released from Washington State prisons, the risk of fatal overdose in the first two weeks after release was 129 times that of the general population. A later North Carolina study found overdose deaths among people recently released at 46.6 times the expected rate.",
+      "In a study following 30,237 people released from Washington State prisons, the risk of fatal overdose in the first two weeks after release was 129 times that of the general population. A later North Carolina study, covering 2016 to 2018, found overdose deaths in the first two weeks after release at 46.6 times the expected rate.",
       "If you are getting out, or someone you love is: have naloxone in hand on day one, do not use alone, and start far lower than you used to."
     ],
     "sources": [
@@ -349,7 +349,7 @@
       },
       {
         "name": "Ranapurwala et al., Am J Public Health 2022",
-        "url": "https://pubmed.ncbi.nlm.nih.gov/35319958/"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/35080937/"
       }
     ]
   },
@@ -358,7 +358,7 @@
     "body": [
       "Hair testing has problems the government's own proposed rule concedes.",
       "It cannot see recent use at all — drugs do not appear in hair for 5 to 7 days after they are taken. And the first centimetre of hair does not represent the last month: because of the time it takes hair to reach the surface, it represents roughly one to two months ago.",
-      "The federal proposal will not let a hair result stand alone. An agency choosing to test hair must also collect another specimen type, and the rule cites litigation warning that action taken on a hair test alone may be legally vulnerable."
+      "A federal proposal published in September 2020 — still not finalized six years later, so it binds nobody today — would not let a hair result stand alone. An agency choosing to test hair must also collect another specimen type, and the rule cites litigation warning that action taken on a hair test alone may be legally vulnerable."
     ],
     "bias": {
       "title": "It is not the same test for everyone",

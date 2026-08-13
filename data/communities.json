@@ -329,7 +329,7 @@
     {
       "id": "reentry",
       "title": "Leaving jail or prison",
-      "blurb": "This is the most dangerous window in the whole app. Tolerance drops fast inside, and the amount that was normal before can kill you on the first day out — the risk of a fatal opioid overdose in the first two weeks after release has been measured at about 40 times the general population's. Almost nothing is built for this moment, so most of what follows is a general line that will take your call rather than a reentry service, because reentry services with phone numbers largely do not exist.",
+      "blurb": "This is the most dangerous window in the whole app. Tolerance drops fast inside, and the amount that was normal before can kill you on the first day out — the risk of a fatal opioid overdose in the first two weeks after release has been measured at about 40 times the general population's — that is the first two weeks after release, from a North Carolina study following 229,274 people. Almost nothing is built for this moment, so most of what follows is a general line that will take your call rather than a reentry service, because reentry services with phone numbers largely do not exist.",
       "items": [
         {
           "name": "Never Use Alone",
@@ -425,7 +425,13 @@
         "title": "Before you count on naloxone at release — and a warning",
         "body": "Only about a quarter of US prisons hand out naloxone when you leave, so ask well before your date rather than assuming. California is the strongest: kits are offered to everyone leaving state prison unless they decline, with no ID or diagnosis needed. Washington and Maryland have programs with conditions attached — Washington requires a documented opioid use disorder, and Maryland's law covers sentenced people but not pretrial releases. Ask your counselor, and if the answer is no, order from NEXT Distro above.",
         "detail": "The warning: in several states, getting naloxone or staying on methadone or buprenorphine runs through your supervising officer, which turns asking for help into a disclosure. Washington distributes community kits through supervision officers. New York relays participation in medication treatment to parole. In Connecticut, being revived with naloxone inside triggers a drug test and can bring disciplinary action, reclassification, or a report recording your name and number. In Pennsylvania, an overdose reversal in community corrections is logged into a police information network under your parole number. None of that is a reason not to carry naloxone — it is a reason to know who finds out, so you are deciding with the facts.",
-        "checked": "Checked 2026-08-12. State programs and policies change; treat this as a starting point for a question, not a settled answer."
+        "checked": "Checked 2026-08-12. State programs and policies change; treat this as a starting point for a question, not a settled answer.",
+        "sources": [
+          {
+            "name": "Ranapurwala et al., Am J Public Health 2018 (N=229,274)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30024795/"
+          }
+        ]
       },
       "gap": "There is no national reentry helpline, no national peer line staffed by people who have been inside, no national program handing out naloxone at release, no national emergency housing line unless you are a veteran, and no national reentry legal helpline. 988 lists twelve populations it has tailored support for and formerly incarcerated people are not one of them. If you are on supervision and required to abstain while still using, we could not find a single organization anywhere in the country offering guidance you can phone for. These are absences we verified, not things you failed to find."
     },

@@ -168,13 +168,27 @@
       },
       {
         "t": "The one thing everybody agrees on about body weight",
-        "d": "Whether the pills work less well at higher body weights is genuinely contested — the FDA label for one carries a warning, the European regulator reviewed the same evidence and removed theirs, and the study behind the numbers people quote was small. What is not contested: the copper IUD's effectiveness does not vary with body weight.",
+        "d": "Whether the pills work less well at higher body weights is genuinely contested — one US label mentions it only as a subgroup buried in its clinical studies rather than as a warning, and the European regulator reviewed the same evidence back in 2014 and deleted its weight statements outright, and the study behind the numbers people quote was small. What is not contested: the copper IUD's effectiveness does not vary with body weight.",
         "note": "If levonorgestrel is what you can get today, take it. Taking it beats not taking it."
       },
       {
         "t": "Two things that stop it working",
         "d": "Do not take two different kinds of morning-after pill within five days of each other — they can cancel each other out. And enzyme-inducing medicines reduce it: rifampin, St John's wort, carbamazepine, phenytoin, topiramate and some HIV medicines.",
         "note": "There is no evidence that recreational drugs affect it either way, because nobody has studied it. The documented risk is prescribed medicines and St John's wort, which is sold over the counter."
+      }
+    ],
+    "sources": [
+      {
+        "name": "EMA — levonorgestrel and ulipristal remain suitable regardless of bodyweight (2014)",
+        "url": "https://www.ema.europa.eu/en/news/levonorgestrel-and-ulipristal-remain-suitable-emergency-contraceptives-all-women-regardless-bodyweight"
+      },
+      {
+        "name": "FDA — Plan B One-Step information",
+        "url": "https://www.fda.gov/drugs/postmarket-drug-safety-information-patients-and-providers/plan-b-one-step-15-mg-levonorgestrel-information"
+      },
+      {
+        "name": "ACOG — emergency contraception FAQ",
+        "url": "https://www.acog.org/womens-health/faqs/emergency-contraception"
       }
     ]
   },
