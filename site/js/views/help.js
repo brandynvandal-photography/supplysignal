@@ -94,6 +94,7 @@ export async function render() {
   wrap.appendChild(
     jumpNav([
       { id: "sec-lines", label: "Hotlines" },
+      { id: "sec-collapse", label: "Collapsed, cause unknown" },
       { id: "sec-festival", label: "At a festival" },
       { id: "sec-response", label: "Overdose response" },
       { id: "sec-ems", label: "When help arrives" },
@@ -163,6 +164,126 @@ export async function render() {
         "Too much of a stimulant, or days without sleep. What actually helps, "
         + "and the point where it stops being psychological and becomes "
         + "medical.")));
+
+  /* ---- collapsed, cause unknown ----
+
+     This page already checks breathing before responsiveness, for
+     medetomidine: alpha-2 sedatives can leave somebody impossible to wake with
+     their breathing intact. The differential below arrives at the same rule
+     from the other direction. Ketamine is the case that breaks the standard
+     "really high versus overdosing" model, because a deep k-hole is
+     unresponsive BY DEFINITION - the emergency-medicine definition of the
+     dissociative state is a person whose eyes may be open and who does not
+     respond, with breathing and airway reflexes preserved. So responsiveness
+     cannot separate "will come out of this" from "is dying". Breathing can.
+     That is the whole section; everything else is downstream of it. */
+  wrap.appendChild(
+    h("div", { id: "sec-collapse" },
+      section("If they have collapsed and you do not know why", null,
+        h("p", { class: "leadin" },
+          "You will often not know what happened, and you do not need to. "
+          + "One check decides what you do."),
+
+        h("div", { class: "card" },
+          h("h3", null, "Watch their breathing, not whether they answer you"),
+          h("p", null,
+            "Whether somebody responds is the usual test, and it fails on "
+            + "ketamine: a deep k-hole means a person whose eyes may be open, "
+            + "who does not react to anything, and whose breathing is "
+            + "completely normal. That is the drug working, not an emergency. "
+            + "Sedatives now mixed into the opioid supply do the same thing "
+            + "from the other side. Breathing is the one sign that separates "
+            + "somebody who will come out of this from somebody who will not.")),
+
+        h("div", { class: "statgrid" },
+          h("div", { class: "card statcard" },
+            h("p", { class: "stat__n" }, "Not breathing, or gasping"),
+            h("p", null,
+              "Slow deep gasps that sound like snoring are not breathing — they "
+              + "happen in about half of cardiac arrests and are the most "
+              + "common reason one gets missed. In as many as 4 in 10 arrests "
+              + "the caller was never talked through CPR because they said the "
+              + "person was breathing. Start CPR. Do not put them on their "
+              + "side.")),
+          h("div", { class: "card statcard" },
+            h("p", { class: "stat__n" }, "Slow, shallow, or going blue"),
+            h("p", null,
+              "Four to six breaths a minute is the classic opioid picture; "
+              + "under about seven is the line harm reduction uses. Blue or "
+              + "gray lips and fingertips, ashen or gray skin on darker "
+              + "skin tones. On their side, naloxone, ambulance.")),
+          h("div", { class: "card statcard" },
+            h("p", { class: "stat__n" }, "Breathing normally"),
+            h("p", null,
+              "This is the group that holds a k-hole, a faint, the minutes "
+              + "after a seizure, GHB, heat, too much water, a knock on the "
+              + "head, low blood sugar. On their side, stay, and keep watching "
+              + "the chest. It can change."))),
+
+        h("div", { class: "card" },
+          h("h3", null, "What you genuinely cannot tell apart"),
+          h("p", null,
+            "Saying this plainly is more useful than a list of symptoms, "
+            + "because these pairs are not separable without a hospital and "
+            + "the safe move is the same either way."),
+          h("ul", null,
+            h("li", null,
+              h("strong", null, "GHB and an opioid overdose. "),
+              "Identical in the first ten minutes — deep unresponsiveness, "
+              + "snoring, slow breathing, vomiting. The signs that tell them "
+              + "apart only show up afterwards. Treat it as an opioid."),
+            h("li", null,
+              h("strong", null, "A k-hole and a mixed-depressant overdose. "),
+              "Both unresponsive, both possibly with the eyes open, and "
+              + "ketamine is almost always taken with something else. "
+              + "Breathing decides."),
+            h("li", null,
+              h("strong", null, "Heat stroke and a stimulant running too hot. "),
+              "Often the same person. Do not try — hot and confused means cool "
+              + "them, either way."),
+            h("li", null,
+              h("strong", null, "Heat stroke and too much water. "),
+              "Both are confusion and collapse in a hot room. This is the one "
+              + "pair where guessing wrong is dangerous, so do not give plain "
+              + "water to either."),
+            h("li", null,
+              h("strong", null, "The minutes after a seizure and being high. "),
+              "Afterwards people spit, drool, wipe their nose and talk "
+              + "nonsense for five to thirty minutes. It looks exactly like "
+              + "intoxication."),
+            h("li", null,
+              h("strong", null, "A hard fall and the drugs. "),
+              "Of people who were intoxicated and seemed only mildly hurt, "
+              + "about 8 in 100 had a bleed on the brain, and the standard "
+              + "screening rules missed a fifth to a third of them. If they "
+              + "hit their head, that is an ambulance regardless."))),
+
+        callout("info", "Right regardless of what caused it",
+          h("ul", null,
+            h("li", null, "On their side, unless they are gasping or hit their head."),
+            h("li", null, "Never face-up if they might vomit — which is always."),
+            h("li", null,
+              "Nothing by mouth for anybody who is not fully awake. No water, "
+              + "no food, no sugar, no more of anything."),
+            h("li", null,
+              "Do not hold them down, sit on them, or leave anybody face-down. "
+              + "Fighting a restraint makes overheating worse."),
+            h("li", null, "Do not leave, and do not let them sleep it off."),
+            h("li", null, "Cool anybody who is hot and not making sense."))),
+
+        h("div", { class: "card" },
+          h("h3", null, "Naloxone when you are not sure"),
+          h("p", null,
+            "Give it whenever the breathing is bad and you cannot rule opioids "
+            + "out — including when you think it is GHB, ketamine or alcohol. "
+            + "It does nothing at all to somebody with no opioids in them; the "
+            + "label on the box says so."),
+          h("p", { class: "sec__note" },
+            "Breathing is the target, not waking up. Somebody who breathes but "
+            + "stays under is naloxone working — do not keep dosing to chase "
+            + "consciousness. And waking up is the middle of this, not the "
+            + "end: naloxone wears off in thirty to forty-five minutes and "
+            + "most opioids last longer.")))));
 
   /* ---- at a festival or a big event ----
      Placed directly under the 911 instruction because it CHANGES that
