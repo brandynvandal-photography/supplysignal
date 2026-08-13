@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-13T07:49:23.664Z",
+  "updated": "2026-08-13T10:19:57.453Z",
   "items": [
     {
       "title": "Report: Former Florida Democrat Candidate Andrew Gillum Back in Jail After Testing Positive for Meth - breitbart.com",
@@ -432,6 +432,48 @@
         ],
         "elevatedMarkers": [],
         "score": 8
+      }
+    },
+    {
+      "title": "Hillsborough County Sheriff To Detail Murder Charges In Separate Fentanyl Overdose Deaths - AOL.com",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQaHRHcl9aZ00tTDNvMWpRbTdfMnhhcC1hYlIwMkRyclRJc0MxU3RRdW5nNXJPNFRXWElYUGd5STJsbl9LNlRLWjJINEVaLXlFY01BaXlJNmV2U25BQVNMckJzbnF3UnFUaVNaRFpQT1g3N1ZJd0ZBaHJCaEdwdU9PSzZKQWo1QVBjS0lCV1pB?oc=5",
+      "source": "AOL.com",
+      "published": "2026-08-12T08:35:15.000Z",
+      "confidence": 0.46153846153846156,
+      "audit": {
+        "substances": [
+          "fentanyl"
+        ],
+        "events": [
+          "overdose",
+          "deaths"
+        ],
+        "negatives": [],
+        "criticalMarkers": [
+          "deaths"
+        ],
+        "elevatedMarkers": [],
+        "score": 6
+      }
+    },
+    {
+      "title": "‘Rhino Tranq:’ Lancaster County doctor warning others about this fentanyl contaminate - AOL.com",
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOemdJa0FTWkpMSU9LYnpPNVAtQnluYzgteUtiVmYtakRhNHFzVjdoekh2N2d2VVhVU0JxRWctY0VxN2ZESy1QOWh6U0pZU1JoMXdlZHBDbTJFRVhwSmpWWmVBakF2UDRzTHlrNE1YMjJ0ZjVXa3JzZlFhdnBtZjJBTEJsdDRtUQ?oc=5",
+      "source": "AOL.com",
+      "published": "2026-08-12T01:08:15.000Z",
+      "confidence": 0.6538461538461539,
+      "audit": {
+        "substances": [
+          "fentanyl",
+          "tranq"
+        ],
+        "events": [
+          "warning"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [],
+        "score": 8.5
       }
     }
   ]

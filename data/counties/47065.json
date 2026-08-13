@@ -4,11 +4,10 @@
   "state": "TN",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-13T07:49:23.562Z",
+    "lastScan": "2026-08-13T10:19:57.301Z",
     "windowDays": 365,
     "sourcesChecked": 27,
     "sourcesFailed": [
-      "hi-doh",
       "la-ldh"
     ],
     "scanned": true,
