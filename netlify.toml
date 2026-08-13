@@ -134,9 +134,39 @@
   force = true
 
 # The project's own documentation. Not secret, but it is not the product, and
-# README.md names internal paths and failure modes worth not advertising.
+# README.md names internal paths, feed ids and failure modes worth not
+# advertising. Every reference to these in the codebase is a code comment, not
+# a link, so nothing user-facing depends on them being reachable.
+#
+# Listed one by one rather than as "/*.md": Netlify's splat matches path
+# segments, so that pattern did NOT match /README.md - verified live, it kept
+# returning 200 while every other rule worked.
 [[redirects]]
-  from = "/*.md"
+  from = "/README.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/PRIVACY.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/EVIDENCE.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/DESIGN-BRIEF.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/OUTREACH.md"
   to = "/404.html"
   status = 404
   force = true

@@ -42,13 +42,14 @@ const blocked = new Set();
 for (const m of toml.matchAll(/from\s*=\s*"\/([^"*]*)\*?"[\s\S]{0,120}?status\s*=\s*404/g)) {
   blocked.add(m[1].replace(/\/$/, ""));
 }
-/* The wildcard doc rule covers every top-level .md file. */
-const blocksMarkdown = /from\s*=\s*"\/\*\.md"[\s\S]{0,120}?status\s*=\s*404/.test(toml);
+/* Markdown is blocked file by file, not by wildcard: Netlify's splat matches
+   path segments, so "/*.md" never matched /README.md. Verified live - it kept
+   returning 200 while every other rule worked. So each doc must appear by
+   name, and this test checks for exactly that rather than for the pattern. */
 
 const fails = [];
 for (const entry of readdirSync(".")) {
   if (IGNORED.has(entry) || PUBLIC.has(entry)) continue;
-  if (entry.endsWith(".md") && blocksMarkdown) continue;
   const isDir = statSync(entry).isDirectory();
   if (!blocked.has(entry)) {
     fails.push(
