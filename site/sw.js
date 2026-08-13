@@ -25,7 +25,18 @@
    Changing it drops the previous cache on activate, and skipWaiting +
    clients.claim below make that take effect on this visit rather than the
    next one. */
-const VERSION = "nl-v2";
+/* The suffix is a hash of every JS, CSS and index.html file under site/ -
+   exactly the set where serving a stale copy is a BUG rather than merely old
+   data. test/sw.test.mjs recomputes it and fails if this string is out of
+   date, printing the value to paste in.
+
+   That test exists because relying on the instruction above did not work.
+   Near me was fixed, deployed, and STILL broken for anyone who had opened the
+   app before: stale-while-revalidate served the cached alerts.js first, and
+   that copy still imported the old src/locate.mjs path that the /src/* 404
+   rule had killed. Verified in the live cache - cachedImportsOldPath: true.
+   A comment saying "remember to bump this" is not a mechanism. */
+const VERSION = "nl-f3c1d90a";
 
 /* The minimum set that makes every screen renderable offline. Data files are
    picked up on first use by the runtime cache. */
