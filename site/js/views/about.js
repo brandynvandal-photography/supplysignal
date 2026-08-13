@@ -64,14 +64,14 @@ export async function render(route, { go }) {
     disclosure("sec-updates", "How often it updates", null,
       h("div", { class: "card" },
         h("ul", null,
-          li("Alerts: every hour.",
-            "An automated job reads health-department and local-news feeds, groups what it finds by county, and publishes. Most hours it finds nothing, which is normal."),
+          li("Alerts: every three hours.",
+            "An automated job reads health-department and local-news feeds, groups what it finds by county, and publishes. Most runs it finds nothing, which is normal."),
           li("Overdose data: monthly.",
             "CDC provisional counts, which lag reality by several months and are revised."),
           li("Substance reference: weekly.",
             "Doses, durations, interactions and reagent reactions are rebuilt from their upstream sources."),
           li("Hand-checked directories: manually, and dated.",
-            "Programs and phone numbers are verified by a person and stamped with the date. An automated check flags dead links weekly, but a link that still loads can still be out of date.")),
+            "Programs and phone numbers are verified by a person and stamped with the date. An automated check flags dead links nightly, but a link that still loads can still be out of date.")),
         h("p", { class: "sec__note" },
           "Every published item carries its own date. If something looks stale, it probably is — " +
           "reporting on a local drug supply is patchy everywhere in the country.")))

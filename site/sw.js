@@ -62,7 +62,16 @@ self.addEventListener("activate", (e) => {
  * national data bundles, the locale files. Nothing per-county is cacheable,
  * and `/feeds/` is called out because those files are the one per-county path
  * that exists on this origin at all. */
-const CACHEABLE = /^\.?\/?(index\.html|css\/|js\/|img\/|data\/[^/]+\.json$|manifest\.webmanifest)/;
+/* The i18n group is not decoration. The comment above has always claimed the
+   locale files are covered, and the pattern could not match them: `[^/]+`
+   stops at the directory separator, so data/i18n/en-US.json was never
+   cacheable. Mostly latent, because the boot sweep wipes the cache anyway -
+   but setLocale() re-fetches, so switching language offline mid-session failed
+   both the target locale AND the en-US fallback, leaving `strings` empty and
+   re-rendering the whole interface as raw dot-paths: "nav.help",
+   "alerts.heading". Still one file per language, still identical for every
+   reader, so nothing about the allowlist's guarantee changes. */
+const CACHEABLE = /^\.?\/?(index\.html|css\/|js\/|img\/|data\/(i18n\/)?[^/]+\.json$|manifest\.webmanifest)/;
 
 function mayCache(url) {
   const path = url.pathname.replace(/^.*\/site\//, "");

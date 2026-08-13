@@ -79,6 +79,74 @@ check("referrer policy is no-referrer", () =>
     : "missing <meta name=referrer content=no-referrer>"
 );
 
+/* Every directive, not three of them.
+ *
+ * This block asserted default-src, script-src and connect-src, and left
+ * style-src, img-src, font-src, base-uri, form-action, manifest-src and
+ * worker-src completely unguarded - all seven could be widened to * and the
+ * suite still passed 18/18. That was verified, not assumed.
+ *
+ * The scan below for external subresources only reads HTML tags, so it cannot
+ * see an <img> created in JavaScript with an absolute src. The CSP is the only
+ * thing that stops that, which is exactly why the directives need asserting
+ * rather than trusting.
+ */
+function directives(doc) {
+  /* Only the double quote terminates the value. CSP directive values are FULL
+     of single quotes - 'none', 'self', 'sha256-...' - so a [^"'] class stops
+     dead at the first one and returns nothing but the first directive's name.
+     That is what this helper did on its first outing, and it reported
+     form-action missing from a CSP that declares it. */
+  const m = doc.match(/http-equiv=["']Content-Security-Policy["'][^>]*content="([^"]+)"/i);
+  if (!m) return null;
+  const out = {};
+  for (const part of m[1].split(";")) {
+    const [name, ...values] = part.trim().split(/\s+/);
+    if (name) out[name] = values;
+  }
+  return out;
+}
+
+const SELF_ONLY = ["style-src", "font-src", "manifest-src", "worker-src", "connect-src"];
+for (const d of SELF_ONLY) {
+  check(`CSP ${d} is self only`, () => {
+    const map = directives(html);
+    const v = map?.[d];
+    if (!v) return `${d} is not declared, so it falls back to default-src - declare it explicitly`;
+    const bad = v.filter((x) => x !== "'self'");
+    return bad.length ? `${d} allows more than 'self': ${bad.join(" ")}` : null;
+  });
+}
+
+check("CSP img-src allows only self and data:", () => {
+  const v = directives(html)?.["img-src"];
+  if (!v) return "img-src is not declared";
+  const bad = v.filter((x) => x !== "'self'" && x !== "data:");
+  return bad.length ? `img-src allows a remote origin: ${bad.join(" ")}` : null;
+});
+
+for (const d of ["base-uri", "form-action"]) {
+  check(`CSP ${d} is 'none'`, () => {
+    const v = directives(html)?.[d];
+    if (!v) return `${d} is not declared - it does NOT inherit from default-src`;
+    return v.join(" ") === "'none'" ? null : `${d} should be 'none', got: ${v.join(" ")}`;
+  });
+}
+
+/* The root redirect page is served at / - the netlify redirect is force=false,
+   so the real file wins and the redirect never fires. It carries an inline
+   script and needs its own CSP; site/index.html's does not reach it. */
+check("the root redirect page carries its own CSP", () => {
+  const root = read(path.join(ROOT, "index.html"));
+  const map = directives(root);
+  if (!map) return "index.html at the repo root has no CSP meta, and it is served at /";
+  if (!/^'none'$/.test((map["default-src"] || []).join(" "))) return "root CSP default-src must be 'none'";
+  const script = (map["script-src"] || []).join(" ");
+  if (/unsafe-inline|unsafe-eval/.test(script)) return `root script-src is weakened: ${script}`;
+  if (!/sha256-/.test(script)) return "root page's inline script must be allowed by hash, not by unsafe-inline";
+  return null;
+});
+
 /* ------------------------------------------ 2. no external subresources */
 
 // Links out to a news story are fine and expected. Loading a font, script,

@@ -172,12 +172,16 @@ export async function render(route, { go }) {
             + "who decide it.")))));
 
   wrap.appendChild(
+    /* In a card, not bare. Every other paragraph on this page sits on a
+       surface, and unwrapped prose here read as a caption to the block above
+       it rather than as its own point. */
     section("Teach someone else", null,
-      h("p", null,
-        "The person most likely to be there when you overdose is someone who uses with " +
-        "you, or lives with you. Training one other person doubles the chance that " +
-        "somebody in the room knows what to do — and it is the one preparation that " +
-        "works even when you are the one who cannot act."))
+      h("div", { class: "card" },
+        h("p", null,
+          "The person most likely to be there when you overdose is someone who uses with " +
+          "you, or lives with you. Training one other person doubles the chance that " +
+          "somebody in the room knows what to do — and it is the one preparation that " +
+          "works even when you are the one who cannot act.")))
   );
 
   wrap.appendChild(
@@ -391,6 +395,10 @@ async function consentBlock() {
   }
 
   if (!blocks.length) return null;
+
+  if (c.lastVerified) {
+    blocks.push(h("p", { class: "sec__note" }, `Checked ${c.lastVerified}.`));
+  }
 
   return section(c.headline, c.blurb, ...blocks);
 }

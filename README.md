@@ -184,16 +184,15 @@ These hold regardless of budget:
 
 ## Not done yet
 
-- **CDC provisional overdose data** (`scripts/` job pending). Verified working:
-  `data.cdc.gov` dataset `gb4e-yj24` is county-level with FIPS and 12-month
-  rolling counts; `8hzs-zshh` breaks out 12 substances including xylazine,
-  bromazolam and nitazenes. Public domain, no key. Ingest server-side and add to
-  the bundle — do **not** fetch it from the browser despite its CORS support.
-- **CFSRE NPS Discovery mirror** — the best emerging-adulterant source, but
-  PDF-only with no CORS, so it needs a scheduled extract job.
-- **Spanish translation.** Puerto Rico's 78 municipios are now covered and this
-  is English-only. The UI strings are centralised enough to make this tractable
-  and it is the highest-value accessibility work remaining.
+- **Substance-level overdose deaths.** `scripts/build-mortality.mjs` ships the
+  county trend from `data.cdc.gov` dataset `gb4e-yj24`. Dataset `8hzs-zshh`
+  breaks the same deaths out by 12 substances including xylazine, bromazolam and
+  nitazenes, and is not ingested yet. Public domain, no key. Server-side only —
+  do **not** fetch it from the browser despite its CORS support.
+- **Spanish beyond the shell.** `data/i18n/es.json` covers the chrome: nav,
+  severity labels, alerts, footer. Page content — every `data/*.json` file — is
+  still English-only, and that is where the words that matter are. Puerto Rico's
+  78 municipios are covered by the data and not by the language.
 - **Send the emails** in [OUTREACH.md](OUTREACH.md). UNC's dataset is current
   and covers 42 states — it is the biggest single upgrade available.
 

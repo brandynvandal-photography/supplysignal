@@ -24,10 +24,10 @@
  *     papers.
  *   - EVERY CITATION GOES TO THE FOOT. Claims carry their sources, but a
  *     reader who is frightened should not have to wade through a row of grey
- *     links between every two paragraphs. See sourceSink below.
+ *     links between every two paragraphs. See sourceSink() in ui.js.
  */
 
-import { h, frag, callout, extLink, disclosure, jumpNav } from "../ui.js";
+import { h, frag, callout, disclosure, jumpNav, sourceSink } from "../ui.js";
 import * as data from "../data.js";
 
 export async function render(route, { go }) {
@@ -45,12 +45,15 @@ export async function render(route, { go }) {
     return wrap;
   }
 
-  wrap.appendChild(h("p", { class: "sec__note" }, d.intro));
-
+  /* Jump nav directly under the title, blurb after it, same as every other
+     page. Someone who already knows which half of this page is theirs should
+     not have to read the opener to find out where it is. */
   const jumps = [];
   if (d.survivor) jumps.push({ id: "sec-survivor", label: "If it was you" });
   if (d.witness) jumps.push({ id: "sec-witness", label: "If you were there" });
   if (jumps.length > 1) wrap.appendChild(jumpNav(jumps));
+
+  wrap.appendChild(h("p", { class: "sec__note" }, d.intro));
 
   const src = sourceSink();
 
@@ -74,6 +77,13 @@ export async function render(route, { go }) {
   /* Every citation on the page, once, at the foot. */
   const sources = src.render();
   if (sources) wrap.appendChild(sources);
+
+  if (d.lastVerified) {
+    wrap.appendChild(
+      h("p", { class: "sec__note" },
+        `Checked ${d.lastVerified}. The risk figures come from published `
+        + `studies and do not change quickly; the links can.`));
+  }
 
   void go; void route;
   return wrap;
@@ -178,19 +188,3 @@ function witnessBlock(w, src) {
  * taps to get help - and moving them to a footer would break the page's
  * actual job. Only sources move.
  */
-function sourceSink() {
-  const seen = new Map();          // url -> {name, url}, dedup across blocks
-  return {
-    add(list) {
-      for (const s of list || []) if (s?.url && !seen.has(s.url)) seen.set(s.url, s);
-      return null;                 // returns null so it can sit inline in a tree
-    },
-    render() {
-      if (!seen.size) return null;
-      return h("div", { class: "foot-attr" },
-        h("h3", null, "Where this comes from"),
-        h("ul", null,
-          [...seen.values()].map((s) => h("li", null, extLink(s.url, s.name)))));
-    },
-  };
-}

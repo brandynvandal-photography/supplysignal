@@ -387,15 +387,6 @@ a { color: var(--brand); }
 #searchbtn { color: var(--ink); }
 .iconbtn__svg { display: block; }
 
-.langpick {
-  font: inherit; font-size: .86rem; font-weight: 600;
-  min-height: var(--tap); padding: 0 8px; cursor: pointer;
-  color: var(--ink-2); background: var(--surface);
-  border: 1px solid var(--line-2); border-radius: var(--radius-sm);
-  max-width: 9.5rem;
-}
-.langpick:hover { color: var(--ink); border-color: var(--brand); }
-
 /* ----------------------------------------------------------------- nav */
 
 .nav {
@@ -553,7 +544,6 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    hand reaches for. Lightness comes from padding and weight, never from making
    the target smaller than the brief's own 44px floor. */
 .btn--sm { min-height: var(--tap); padding: 0 13px; font-size: .87rem; }
-.btn--block { width: 100%; }
 
 /* ---------------------------------------------------------------- card */
 
@@ -577,9 +567,6 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    measure that stops around 62 characters, because the failure mode of a full
    width paragraph on a laptop is that the eye loses its place returning to the
    next line. */
-/* --sp-5, not the shared --sp-4: this runs to three paragraphs where the
-   Alerts welcome runs to two lines, so it needs more air under it. */
-.letter { margin-bottom: var(--sp-5); }
 /* A notch under body size. At full size three paragraphs of this fill the
    whole first screen and the page reads as an essay someone has to get
    through before they are allowed to look for help. */
@@ -590,7 +577,6 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   border-top: 1px solid color-mix(in srgb, var(--brand) 22%, transparent);
   padding-top: 13px; margin-top: 16px;
 }
-@media (max-width: 560px) { .letter { padding: var(--sp-3); } }
 
 /* Hours and dispatch on a crisis line row. Dispatch takes the warning colour
    because it is the one thing on that row that can go badly wrong for the
@@ -1207,17 +1193,10 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
    both light and dark mode. They are decorative only - every swatch is paired
    with the color written out in words. */
 
-.swatch--black  { background: #14181b; }
-.swatch--purple { background: #6b2d8f; }
-.swatch--blue   { background: #1d5fbf; }
-.swatch--green  { background: #2e8b45; }
-.swatch--olive  { background: #6b7028; }
-.swatch--orange { background: #e2711d; }
-.swatch--yellow { background: #edc531; }
-.swatch--red    { background: #c62b1f; }
-.swatch--brown  { background: #7a4a2b; }
-.swatch--pink   { background: #e58ba8; }
-.swatch--none   { background: repeating-linear-gradient(45deg, #d8dede 0 4px, #f2f5f5 4px 8px); }
+/* Only --none lives here. Every other colour is declared once, in the
+   reagent palette near the foot of this file - a second set here shadowed it
+   for years and nothing rendered from these lines. */
+.swatch--none { background: repeating-linear-gradient(45deg, #d8dede 0 4px, #f2f5f5 4px 8px); }
 
 /* -------------------------------------------------------- combination check */
 
@@ -1630,7 +1609,6 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
    wrap to a second line instead. */
 .nbr__sub--wrap { white-space: normal; }
 
-.nbr__right { flex: none; }
 /* Accessory badges are secondary to the label they qualify. At full size they
    pulled the eye before the substance name did. */
 .list > .nbr .badge { font-size: .68rem; padding: 3px 8px; }
@@ -1710,7 +1688,6 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
    touching, with the chevron riding the group's right edge. The row's
    accessory cluster gets explicit flex gaps instead of relying on inline
    spacing, and one step more padding all around. */
-.nbr { padding: 16px var(--sp-3); }
 /* Badges may wrap and may shrink. They were flex:none, so two of them held
    their full width at any screen size and took it out of the name instead. */
 .nbr__right {
@@ -1755,7 +1732,7 @@ details.disc[open] { margin-bottom: var(--sp-3); }
   .sources a[href^="http"]::after, .hotline a[href^="tel"]::after {
     content: " (" attr(href) ")"; font-size: .85em; color: #333;
   }
-  .sev, .badge { border: 1px solid #000; color: #000; background: #fff; }
+  .badge { border: 1px solid #000; color: #000; background: #fff; }
 }
 
 /* A heading inside a grouped .list (the map's ranked counties) was inheriting
@@ -1836,7 +1813,6 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 .swatch--white { background: #eee6d8; }  .swatch--olive { background: #6f7d3f; }
 
 /* "Near me" result: the county and the map offered side by side. */
-.locate__pick { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 
 /* The map embedded in a county page: shorter than the full-screen version, so
    the county's own alerts stay above the fold on a phone. */
@@ -1912,7 +1888,6 @@ details.disc .groupkids > details.disc > summary h2 {
   color: var(--brand);
   display: inline-flex; align-items: center; min-height: var(--tap); padding: 4px 0;
 }
-.aboutlink { margin-top: var(--sp-4); }
 
 /* Comparison table: four columns of prose need a wider measure than the
    default data table, and each cell needs to stay readable when it wraps. */
@@ -2112,8 +2087,6 @@ details.disc .groupkids > details.disc > summary h2 {
    the container's rounded corner. */
 .list > .nbr:first-child { padding-top: var(--sp-3); }
 .list > .nbr:last-child { padding-bottom: var(--sp-3); }
-
-/* The one pointer Emergency keeps to naloxone sourcing. */
 
 /* ---------------------------------------------------- programmatic focus */
 

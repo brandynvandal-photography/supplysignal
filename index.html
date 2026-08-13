@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <title>Nightlight</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!-- This page IS served, at /. The redirect in netlify.toml is force = false,
+     so a real file at that path wins and the redirect never fires - verified
+     live, 200 and 601 bytes. It therefore needs its own CSP: site/index.html's
+     meta does not reach here.
+
+     The inline script is hashed rather than removed, because it does the one
+     thing <meta refresh> cannot - carry a #/fips deep link across the hop.
+     Those links are in RSS feeds and shared messages. If the script body
+     changes by even a byte, update this hash or the redirect silently stops
+     working for anyone with JavaScript enabled. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-0HMS1yxofqGxPxMVFqXWTiyBbNG2TQBlwqsG1+niUss='; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
 <meta http-equiv="refresh" content="0; url=./site/">
 <link rel="canonical" href="./site/">
 <script>

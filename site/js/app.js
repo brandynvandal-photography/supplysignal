@@ -627,7 +627,9 @@ document.addEventListener("click", (e) => {
     status.textContent = "";
 
     for (const r of rs) {
-      const href = r.anchor ? `${r.route}` : r.route;
+      /* Both branches were identical. The anchor is applied by reveal()
+         after navigation rather than through the URL - see the note there. */
+      const href = r.route;
       const a = h("a", { class: "sresult", href, role: "option" },
         h("span", { class: "sresult__kind" }, r.kind),
         h("span", { class: "sresult__label" }, r.label),

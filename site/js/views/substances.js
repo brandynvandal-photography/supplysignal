@@ -263,6 +263,10 @@ async function marketBlock() {
       m.scope
         ? h("p", { class: "sec__note" },
             h("strong", null, m.scope.title + " "), m.scope.body)
+        : null,
+
+      m.lastVerified
+        ? h("p", { class: "sec__note" }, `Checked ${m.lastVerified}.`)
         : null));
 }
 

@@ -65,9 +65,13 @@ export async function render() {
   wrap.appendChild(h("p", { class: "sec__note" }, g.blurb));
 
   /* Said once, at the top, so nobody reads the page hoping for something it
-     will not give them. */
+     will not give them - and worn as an opener, not a callout. This is a
+     scope note that warns of nothing, and a filled info panel spent a severity
+     treatment on it while making the real callouts further down worth less.
+     Same soft wash as the Test framing and the Support letter. */
   wrap.appendChild(
-    callout("info", "What this page does not cover",
+    h("div", { class: "intro" },
+      h("h2", null, "What this page does not cover"),
       h("p", null,
         "Nothing here is about beating a test. This is about what a test can " +
         "and cannot see, what to do when it says something wrong, and what the " +

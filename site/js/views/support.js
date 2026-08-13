@@ -410,13 +410,6 @@ function sourceRow(sources) {
   return SRC.add(sources);
 }
 
-function unusedSourceRow(sources) {
-  if (!sources?.length) return null;
-  return h("div", { class: "sources" },
-    h("span", { class: "card__meta" }, "Sources:"),
-    sources.map((s) => extLink(s.url, s.name)));
-}
-
 /* Where to get a sample actually checked. Hand-verified directory (see
    data/checking.json) - the fastest-rotting data in the app, which is why
    every entry carries a lastVerified date and the section shows it. */

@@ -70,11 +70,34 @@ build**, by GitHub Actions, and committed as static JSON.
   news site or health department never learns a reader arrived from here.
 - No query strings are used for anything user-selected.
 
-## 4. Nothing is stored unless asked for
+## 4. Nothing survives the session
 
-No cookies. No localStorage, sessionStorage, or IndexedDB writes in the default
-path - not even "last county viewed". Anything persistent is opt-in, and
-everything opt-in is wiped by the Quick Exit control.
+No cookies. No localStorage. No IndexedDB. Nothing is written to disk, and
+nothing outlives the tab.
+
+`sessionStorage` is used, and it is worth being exact about what is in it,
+because "we store nothing" would be a lie:
+
+| Key | Written when | Holds |
+| --- | --- | --- |
+| `sc.seen` | every boot, automatically | an ISO timestamp of this visit, so the welcome card does not reappear on every navigation and so "new since you last looked" has something to measure against |
+| `ss.theme` | you pick a theme | `light` or `dark` |
+| `ss.lang` | never, currently | a language code. `setLocale()` exists; nothing calls it, because there is deliberately no language switcher - the locale comes from the browser |
+
+None of these records a county, a substance, a page, or a search. The visit
+stamp is a clock reading; it does not say what was read. There is deliberately
+no "last county viewed", because that single key is the one that would put a
+county in a place someone else could find.
+
+They are cleared two ways: by the Quick Exit control, and by a `pagehide` wipe
+when the tab closes or navigates away. `sessionStorage` is already per-tab and
+dies with the tab regardless - the explicit wipes exist because a shared or
+seized device is a realistic threat here and "the browser will get to it
+eventually" is not good enough.
+
+The boot sweep in `app.js` is a separate mechanism and clears **Cache Storage**,
+not `sessionStorage` - a session that was force-quit can leave cached responses
+behind, and those are wiped before the service worker can serve one.
 
 ## 5. Quick Exit
 
@@ -117,8 +140,14 @@ node test/privacy.test.mjs
 
 The test suite fails the build if any file under `site/` references an external
 origin, if the CSP is missing or weakened, or if a storage API is called outside
-the opt-in module. Reviewing a diff is not a reliable way to catch a
-reintroduced tracker; a test is.
+the three modules listed in §4. Reviewing a diff is not a reliable way to catch
+a reintroduced tracker; a test is.
 
 Manually, in DevTools → Network, with the site loaded: select a county, search a
 substance, open an interaction warning. The request count must not increase.
+
+---
+
+*Last reviewed against the shipping code on 2026-08-13. This document is a
+claim about behaviour, so it goes stale the way code does. If you change what
+is fetched, what is stored, or the CSP, this file is part of the change.*

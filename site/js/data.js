@@ -397,7 +397,7 @@ export async function support() {
  * so this file can never quietly shadow the real dose data for something like
  * a benzodiazepine that is both prescribed and used as an adulterant. */
 export async function substances() {
-  const [base, extra, desc, nameWarn, reag] = await Promise.all([
+  const [base, extra, desc, nameWarn] = await Promise.all([
     load("substances", { generated: null, substances: [], warnings: {} }),
     load("adulterants", { substances: [], attribution: [] }),
     load("descriptions", { descriptions: {} }),
