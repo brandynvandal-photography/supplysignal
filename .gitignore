@@ -1,3 +1,8 @@
 node_modules/
 .DS_Store
 *.log
+
+# The readable review queue. Flagged headlines name real people alongside a
+# drug, and URL slugs carry the same names - see appendReview in src/store.mjs.
+# Only review/seen.json (SHA-256 of URLs, nothing else) is ever committed.
+review/pending.json

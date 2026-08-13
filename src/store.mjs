@@ -6,6 +6,7 @@
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { gzipSync } from "node:zlib";
 
 const DISCLAIMER =
@@ -159,12 +160,46 @@ export async function writeAlertsBundle(root, { windowDays, coverage }) {
   return { clusters: clusters.length, bytes: gz };
 }
 
+/* The review queue, split in two on purpose.
+ *
+ * It used to be one committed file holding the headline and URL of everything
+ * flagged for a human. Those headlines name real people alongside a drug -
+ * "X back in jail after testing positive for meth", "coroner: Y died of a
+ * cocaine and heroin overdose" - and URL slugs carry the same names. The file
+ * was tracked in a public repo, which made this app a searchable archive of
+ * individuals and their drug use. That is the exact thing PRIVACY.md 7 forbids
+ * in the pipeline, arriving through the back door of a maintenance artifact.
+ *
+ * So:
+ *   review/seen.json     COMMITTED. SHA-256 of each URL, nothing else. Enough
+ *                        to stop the same item being re-flagged every run,
+ *                        and it names nobody.
+ *   review/pending.json  LOCAL ONLY, gitignored. The readable queue, for a
+ *                        maintainer triaging on their own machine.
+ *
+ * Do not commit pending.json. test/privacy.test.mjs fails the build if it
+ * reappears, or if anything tracked under review/ grows a title field. */
+function urlKey(url) {
+  return createHash("sha256").update(String(url)).digest("hex").slice(0, 16);
+}
+
 export async function appendReview(root, items) {
-  const p = path.join(root, "review", "pending.json");
-  const prev = await readJson(p, { items: [] });
-  const seen = new Set(prev.items.map((i) => i.url));
-  const merged = [...prev.items, ...items.filter((i) => !seen.has(i.url))].slice(-500);
-  await writeJson(p, { updated: new Date().toISOString(), items: merged });
+  const ledgerPath = path.join(root, "review", "seen.json");
+  const ledger = await readJson(ledgerPath, { keys: [] });
+  const known = new Set(ledger.keys || []);
+
+  const fresh = items.filter((i) => i.url && !known.has(urlKey(i.url)));
+  if (!fresh.length) return;
+
+  for (const i of fresh) known.add(urlKey(i.url));
+  await writeJson(ledgerPath, { keys: [...known].slice(-2000) });
+
+  /* The readable copy, for whoever is triaging locally. Never committed. */
+  const localPath = path.join(root, "review", "pending.json");
+  const prev = await readJson(localPath, { items: [] });
+  const seenUrls = new Set(prev.items.map((i) => i.url));
+  const merged = [...prev.items, ...fresh.filter((i) => !seenUrls.has(i.url))].slice(-500);
+  await writeJson(localPath, { updated: new Date().toISOString(), items: merged });
 }
 
 export async function writeRunLog(root, log) {

@@ -50,7 +50,9 @@ jobs:
         run: |
           git config user.name  "supplysignal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/ feeds/ review/
+          # review/seen.json only - review/pending.json names real people
+          # and is gitignored. See appendReview in src/store.mjs.
+          git add data/ feeds/ review/seen.json
           if git diff --staged --quiet; then
             echo "no changes"
           else

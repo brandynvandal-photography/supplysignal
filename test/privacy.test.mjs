@@ -432,6 +432,52 @@ check("page title stays innocuous", () => {
   return null;
 });
 
+/* No individual is ever named in anything this repo publishes.
+
+   PRIVACY.md 7 forbids names in the pipeline, and the ingest honours it for
+   everything a reader sees. The review queue went around it: an append-only
+   file of flagged headlines - "X back in jail after testing positive", "Y died
+   of a cocaine and heroin overdose" - committed to a public repo, with the
+   same names again in the URL slugs. A maintenance artifact had quietly become
+   a searchable archive of individuals and their drug use.
+
+   Only review/seen.json ships now: SHA-256 of each URL, truncated, nothing
+   else. This test fails if the readable queue comes back, if anything tracked
+   under review/ grows a human-readable field, or if the ledger stops being
+   pure hex. */
+check("the review queue publishes no names", () => {
+  /* Tracked files, not the filesystem. A maintainer triaging locally is
+     SUPPOSED to have review/pending.json sitting there - the rule is that it
+     never gets committed, so ask git rather than the disk. */
+  let tracked;
+  try {
+    tracked = execFileSync("git", ["ls-files", "review/"], { cwd: ROOT, encoding: "utf8" })
+      .split("\n").map((s) => s.trim()).filter(Boolean);
+  } catch { return null; }             // not a git checkout; nothing to judge
+
+  for (const rel of tracked) {
+    const name = rel.split("/").pop();
+    if (name === "pending.json") {
+      return "review/pending.json is tracked by git - it names real people";
+    }
+    if (name !== "seen.json") {
+      return `git tracks review/${name} - only seen.json may ship`;
+    }
+  }
+
+  const f = path.join(ROOT, "review", "seen.json");
+  let doc;
+  try { doc = JSON.parse(read(f)); } catch { return "review/seen.json is missing or not valid JSON"; }
+
+  const keys = Object.keys(doc);
+  if (keys.length !== 1 || keys[0] !== "keys") {
+    return `review/seen.json must hold only "keys", found: ${keys.join(", ")}`;
+  }
+  const bad = (doc.keys || []).find((k) => !/^[0-9a-f]+$/.test(String(k)));
+  if (bad) return `review/seen.json holds a non-hash entry: ${String(bad).slice(0, 40)}`;
+  return null;
+});
+
 /* -------------------------------------------------------------- report */
 
 for (const f of failures) console.log(`  FAIL ${f}`);
