@@ -66,9 +66,9 @@
     "nicotine": "The drug in tobacco and vapes. It is a stimulant, it builds dependence fast, and concentrated vape liquid is genuinely dangerous to swallow — especially around children.",
     "clonazepam": "A benzodiazepine, prescribed as Klonopin for seizures and panic. Long-acting. Like the rest of its family it stacks with opioids and alcohol, and stopping suddenly after regular use can cause seizures.",
     "lorazepam": "A benzodiazepine, prescribed as Ativan for anxiety and seizures. Shorter-acting than diazepam. Same two rules as the rest of the family: it stacks dangerously with opioids and alcohol, and coming off it needs to be gradual.",
-    "zolpidem": "A sleeping tablet, prescribed as Ambien. Not a benzodiazepine but it acts on the same system and carries the same danger next to opioids and alcohol. It is well known for people doing things while apparently awake and having no memory of it.",
-    "zopiclone": "A sleeping tablet, sold as Imovane or Zimovane. Like zolpidem it is not a benzodiazepine but behaves like one, including how badly it mixes with opioids and alcohol. Often leaves a metallic taste.",
-    "eszopiclone": "A sleeping tablet, prescribed as Lunesta. Closely related to zopiclone and carries the same warning about mixing with opioids or alcohol.",
+    "zolpidem": "A sleeping pill, prescribed as Ambien. Not a benzodiazepine but it acts on the same system and carries the same danger next to opioids and alcohol. It is well known for people doing things while apparently awake and having no memory of it.",
+    "zopiclone": "A sleeping pill, sold as Imovane or Zimovane. Like zolpidem it is not a benzodiazepine but behaves like one, including how badly it mixes with opioids and alcohol. Often leaves a metallic taste.",
+    "eszopiclone": "A sleeping pill, prescribed as Lunesta. Closely related to zopiclone and carries the same warning about mixing with opioids or alcohol.",
     "etizolam": "A benzodiazepine-type drug prescribed in a few countries and sold widely online everywhere else. It is often what is actually in a pill sold as Xanax. Strength varies enormously batch to batch, which is what makes it dangerous alongside opioids.",
     "flualprazolam": "A designer benzodiazepine, never a medicine anywhere. It turns up pressed into counterfeit Xanax and is considerably stronger than alprazolam, so a pill that looks familiar can be far more sedating than expected.",
     "flubromazolam": "A designer benzodiazepine, never approved as a medicine. Very strong in very small amounts and long-lasting, which is a bad combination when nobody knows how much is in a pill.",
@@ -81,6 +81,6 @@
     "psilocin": "What your body turns psilocybin into, and the part that actually does something. It is also what is measured when mushrooms are tested.",
     "datura": "A plant — jimsonweed or thornapple — containing deliriants. This is not a psychedelic: people experience convincing hallucinations they cannot tell from real, often with no memory afterwards. The amount varies wildly between plants and even between parts of the same plant, and the gap between an active and a poisonous dose is small.",
     "ayahuasca": "A brew from South America combining a DMT-containing plant with an MAOI plant, traditionally used in ceremony. The MAOI is what makes it last hours rather than minutes, and it is also the part that reacts dangerously with many antidepressants and with some foods.",
-    "changa": "DMT absorbed onto a herb blend that includes an MAOI, made to be smoked. It lasts longer than smoked DMT alone, and the MAOI brings the same medication interactions ayahuasca has."
+    "changa": "DMT absorbed onto an herb blend that includes an MAOI, made to be smoked. It lasts longer than smoked DMT alone, and the MAOI brings the same medication interactions ayahuasca has."
   }
 }

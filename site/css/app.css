@@ -701,7 +701,10 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .card--advisory { border-left: 4px solid var(--advisory); }
 
 .card__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 11px; }
-.card h3 { margin: 0 0 10px; font-size: 1.1rem; }
+/* (removed) .card h3 { margin: 0 0 10px } was completely defeated by the
+   later .card h3, .acc__body h3 rule, which other sections depend on - three
+   of them cancel its 16px top margin by name, which is the proof. Deleting the
+   dead one rather than scoping the live one, so nothing moves. */
 /* Its own breathing room above and below, not just the heading's bottom
    margin. This is the line that answers "what am I looking at". */
 .card__meta { color: var(--ink-3); font-size: .84rem; line-height: 1.5; margin: 8px 0; }
@@ -1148,6 +1151,13 @@ ol.steps--tight > li h4 { margin-top: 2px; }
 .readout__card {
   background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 16px 14px; text-align: center;
+}
+/* Repeated BELOW the base rule, because the phone block above it is written
+   earlier in the file and loses on source order at equal specificity. The
+   result was a strip legend rendering centered against a left-flush drawing -
+   the one visible defect among several dead declarations in that block. */
+@media (max-width: 520px) {
+  .readout__card { text-align: left; }
 }
 .readout__card--critical { border-color: var(--critical); border-width: 2px; }
 /* --ok variant retired: a green NEGATIVE was the one green light the Test
@@ -1907,7 +1917,10 @@ details.disc .groupkids > details.disc > summary h2 {
 /* Comparison table: four columns of prose need a wider measure than the
    default data table, and each cell needs to stay readable when it wraps. */
 .cmp td, .cmp th { vertical-align: top; }
-.cmp { min-width: 620px; }
+/* (removed) .cmp min-width: 620px never applied - table.data.cmp above is
+   more specific, and 520px is the value that was actually wanted. Raising the
+   surviving rule to 620 would widen the app's only wide table on the strength
+   of a declaration that has never rendered once. */
 .cmp .cellnote { display: block; margin-top: 5px; }
 
 /* --------------------------------------------------- emergency tab accent */

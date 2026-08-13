@@ -35,7 +35,7 @@
       },
       {
         "t": "Xylazine is on nothing routine",
-        "d": "Absent from both federal panels. A dedicated xylazine immunoassay exists but is labelled for forensic use, not clinical. If somebody wants to know whether xylazine is involved, it has to be asked for specifically."
+        "d": "Absent from both federal panels. A dedicated xylazine immunoassay exists but is labeled for forensic use, not clinical. If somebody wants to know whether xylazine is involved, it has to be asked for specifically."
       },
       {
         "t": "Methadone and buprenorphine need their own assays",
@@ -315,7 +315,7 @@
     "items": [
       {
         "t": "Technical violations are the bulk of it",
-        "d": "In 2021, 44% of state prison admissions came from violations of probation or parole — and technical violations alone, things like a missed appointment with a supervision officer or a failed drug test, account for nearly a quarter of every admission to state prison. Not a new offence. A quarter.",
+        "d": "In 2021, 44% of state prison admissions came from violations of probation or parole — and technical violations alone, things like a missed appointment with a supervision officer or a failed drug test, account for nearly a quarter of every admission to state prison. Not a new offense. A quarter.",
         "sources": [
           {
             "name": "CSG Justice Center — Confined and Costly (2021 admissions data)",
@@ -357,7 +357,7 @@
     "headline": "If they use a hair test",
     "body": [
       "Hair testing has problems the government's own proposed rule concedes.",
-      "It cannot see recent use at all — drugs do not appear in hair for 5 to 7 days after they are taken. And the first centimetre of hair does not represent the last month: because of the time it takes hair to reach the surface, it represents roughly one to two months ago.",
+      "It cannot see recent use at all — drugs do not appear in hair for 5 to 7 days after they are taken. And the first centimeter of hair does not represent the last month: because of the time it takes hair to reach the surface, it represents roughly one to two months ago.",
       "A federal proposal published in September 2020 — still not finalized six years later, so it binds nobody today — would not let a hair result stand alone. An agency choosing to test hair must also collect another specimen type, and the rule cites litigation warning that action taken on a hair test alone may be legally vulnerable."
     ],
     "bias": {

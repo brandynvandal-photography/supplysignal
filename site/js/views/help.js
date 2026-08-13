@@ -108,7 +108,7 @@ export async function render() {
        the 911 decision. The nuance is real and still lives in "911 and the
        law", one tap away in the jump nav. It does not belong inside the
        instruction. */
-    /* The same opener every other tab uses, in the urgent colour. It was a
+    /* The same opener every other tab uses, in the urgent color. It was a
        filled "stop" callout, which is right for a warning interrupting a page
        but wrong for the thing a page opens with - this tab IS the emergency,
        so the panel was shouting the same volume as its own contents and
@@ -193,7 +193,7 @@ export async function render() {
           li("Selling, sharing, or “possession with intent”.", "In many states, splitting drugs with someone can be charged as distribution."),
           li("Existing warrants.", "A Good Samaritan law does not stop an arrest on a warrant that already existed."),
           li("Probation and parole violations.", "Only some states protect these. If you are under supervision, this is the detail that matters most, and you should check your own state."),
-          li("Anything else found at the scene.", "Weapons, other offences, or a drug-induced homicide charge in states that have one."),
+          li("Anything else found at the scene.", "Weapons, other offenses, or a drug-induced homicide charge in states that have one."),
           li("In some states, immunity is not what you get.", "Some laws only give you a defense to raise in court after being charged, which is not the same as not being charged.")),
         callout("info", "None of this is a reason not to call",
           h("p", null,

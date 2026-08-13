@@ -76,7 +76,7 @@ export async function render() {
   wrap.appendChild(
     h("div", { id: "sec-interactions" },
       section(g.interactions.headline, null,
-        callout("stop", "These are the ones that land people in hospital",
+        callout("stop", "These are the ones that land people in the hospital",
           h("p", null,
             "Not a general warning about mixing. Three specific combinations, "
             + "each with a documented mechanism.")),

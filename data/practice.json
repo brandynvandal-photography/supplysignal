@@ -67,7 +67,7 @@
      },
      {
       "id": "call",
-      "label": "Call 911 straight away"
+      "label": "Call 911 right away"
      },
      {
       "id": "naloxone",
@@ -94,7 +94,7 @@
      },
      {
       "id": "wait",
-      "label": "Wait a few minutes to see if they come round"
+      "label": "Wait a few minutes to see if they come to"
      },
      {
       "id": "coffee",

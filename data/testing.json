@@ -552,7 +552,7 @@
       ],
       "caveats": [
         "The textbook rule that MDA gives no reaction is no longer reliable. Since about 2021 MDA-like substances may produce a muddy gray-green. Both outcomes are now expected, and older charts still teach the old rule.",
-        "Listed as inconsistent for 2C-B — do not use it to characterise 2C-x compounds.",
+        "Listed as inconsistent for 2C-B — do not use it to characterize 2C-x compounds.",
         "Both parts go onto the SAME sample. Using them on two separate samples is a common and invalidating mistake."
       ]
     },
@@ -785,7 +785,7 @@
       "caveats": [
         "Use DOUBLE the normal sample size. Stir both bottles and the sample together with a toothpick for 20 seconds. The reading window is about 5 minutes — much longer than other reagents.",
         "Not very sensitive: detection limits are around 1.25 mg.",
-        "A \"not ketamine\" result does not identify what it actually is. Several newer dissociatives are uncharacterised."
+        "A \"not ketamine\" result does not identify what it actually is. Several newer dissociatives are uncharacterized."
       ]
     }
   ],
@@ -884,7 +884,7 @@
         },
         {
           "name": "LC-MS and NMR",
-          "what": "Liquid chromatography–mass spectrometry handles compounds that GC cannot vaporise. NMR reads how atomic nuclei behave in a magnetic field and can determine structure and quantity.",
+          "what": "Liquid chromatography–mass spectrometry handles compounds that GC cannot vaporize. NMR reads how atomic nuclei behave in a magnetic field and can determine structure and quantity.",
           "good": "Together these give quantitative answers — not just what is present, but how much. That is the only way to know a percentage rather than a yes.",
           "limits": "The most expensive and least available. Only a handful of programs offer it."
         }

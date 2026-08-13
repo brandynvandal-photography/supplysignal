@@ -30,7 +30,7 @@
           "when": "First 30 to 90 minutes, as the naloxone wears off"
         },
         {
-          "sign": "Breathing that stays bad after you have come round",
+          "sign": "Breathing that stays bad after you have come to",
           "what": "Short of breath when the drug has clearly worn off, sometimes coughing up pink frothy spit. Fluid in the lungs is a known thing after an opioid overdose.",
           "when": "Usually within about two hours"
         },
@@ -113,7 +113,7 @@
       "items": [
         {
           "t": "If you woke up furious, that is not a character flaw",
-          "b": "Being brought back with naloxone can drop you straight into withdrawal, and people often come round sick, exposed, and surrounded by an audience. Anger in that moment is one of the most normal reactions there is."
+          "b": "Being brought back with naloxone can drop you straight into withdrawal, and people often come to sick, exposed, and surrounded by an audience. Anger in that moment is one of the most normal reactions there is."
         },
         {
           "t": "You may be treated differently now",

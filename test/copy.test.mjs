@@ -62,16 +62,37 @@ const BRITISH = [
   ["anaesthetic", "anesthetic"], ["anaesthesia", "anesthesia"], ["haemorrhage", "hemorrhage"],
   ["oesophag", "esophag"], ["paediatric", "pediatric"], ["diarrhoea", "diarrhea"],
   ["foetal", "fetal"], ["oedema", "edema"], ["anaemia", "anemia"],
+  ["gonorrhoea", "gonorrhea"], ["immunise", "immunize"], ["immunises", "immunizes"],
+  ["offence", "offense"], ["offences", "offenses"], ["centimetre", "centimeter"],
+  ["grovelling", "groveling"], ["characterise", "characterize"],
+  ["uncharacterised", "uncharacterized"], ["vaporise", "vaporize"],
+  ["paracetamol", "acetaminophen"], ["noradrenaline", "norepinephrine"],
+  ["counsellor", "counselor"], ["randomised", "randomized"],
+  ["licence", "license"], ["litre", "liter"], ["litres", "liters"],
 ];
 
 /* Hand-written content files. The first version of this test scanned only
    site/js and therefore sailed past "An anaesthetic used in hospitals" sitting
    in descriptions.json. Reader-facing prose lives in both places. */
-const CONTENT = ["descriptions.json", "adulterants.json", "testing.json", "support.json",
-                 "after.json", "consent.json", "communities.json", "sitting.json", "market.json", "education.json",
-                 "checking.json", "rx.json", "conditions.json", "practice.json"]
-  .map((f) => path.join(ROOT, "data", f))
-  .filter((f) => { try { readFileSync(f); return true; } catch { return false; } });
+/* Globbed, not enumerated.
+ *
+ * This was a hardcoded list of 14 filenames, and it is why the test passed
+ * today with fifteen British spellings shipped: sex.json, supervision.json and
+ * stimulants.json were simply never opened. Seven of those fifteen were words
+ * ALREADY on the list above. An allowlist that has to be updated by hand every
+ * time content is added will always drift behind the content.
+ *
+ * Excluded files are generated upstream or geographic - their prose is not
+ * ours to spell, and place names legitimately contain "Centre" and "Grey". */
+const GENERATED = new Set([
+  "substances.json", "combos.json", "reagents.json", "alerts.json", "emerging.json",
+  "mortality.json", "regional.json", "places.json", "places-rural.json",
+  "counties.json", "county-shapes.json", "adjacency.json", "index.json",
+  "runs.json", "search.json", "gazetteer.json",
+]);
+const CONTENT = readdirSync(path.join(ROOT, "data"))
+  .filter((f) => f.endsWith(".json") && !GENERATED.has(f))
+  .map((f) => path.join(ROOT, "data", f));
 
 check("no British spellings in reader-facing strings", () => {
   const bad = [];

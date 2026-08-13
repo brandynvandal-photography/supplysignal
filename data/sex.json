@@ -2,13 +2,13 @@
   "note": "Hand-curated. Written for people who are going to be out, using, and having sex, because that is what happens. Nothing here is conditional on stopping any of it.",
   "verified": "2026-08-12",
   "headline": "Sex, and being out",
-  "blurb": "Barriers, PrEP and PEP, emergency contraception, the drug interactions that actually put people in hospital, and an honest answer about drink testing.",
+  "blurb": "Barriers, PrEP and PEP, emergency contraception, the drug interactions that actually put people in the hospital, and an honest answer about drink testing.",
   "framing": {
     "headline": "Why this page is not a list of precautions",
     "body": [
       "The usual nightlife advice — watch your drink, don't go out alone, don't wear that — has a measured effect, and it is not the one intended.",
       "In a review of research on preventing sexual harm in nightlife, people who were given victim-focused prevention tips went on to blame victims MORE than people given tips aimed at potential perpetrators. Only 8 of 35 studies evaluated whether an intervention worked at all.",
-      "So this page is built the other way round: what you can do for other people, what actually reduces risk, and what to do afterwards."
+      "So this page is built the other way around: what you can do for other people, what actually reduces risk, and what to do afterwards."
     ],
     "sources": [
       {
@@ -38,8 +38,8 @@
       },
       {
         "t": "Drink test strips and coasters mostly do not work",
-        "d": "Detection coasters showed 0% sensitivity for ketamine in laboratory testing, and their “GHB” reagent turned out to be bromocresol green — a pH indicator that responds to any drink above about pH 5.5, not to GHB. Consumer kits tested at 37.5% and 69% sensitivity. In the strongest test, 236 drinks collected from real venues were clean by mass spectrometry across 39 drugs, and the colour kits called up to 97% of them positive.",
-        "note": "Massachusetts' health department reviewed these and recommended against buying and distributing them. California, meanwhile, requires bars to offer them — and in the same law immunises everyone against a wrong result. A state mandate is not an efficacy finding.",
+        "d": "Detection coasters showed 0% sensitivity for ketamine in laboratory testing, and their “GHB” reagent turned out to be bromocresol green — a pH indicator that responds to any drink above about pH 5.5, not to GHB. Consumer kits tested at 37.5% and 69% sensitivity. In the strongest test, 236 drinks collected from real venues were clean by mass spectrometry across 39 drugs, and the color kits called up to 97% of them positive.",
+        "note": "Massachusetts' health department reviewed these and recommended against buying and distributing them. California, meanwhile, requires bars to offer them — and in the same law immunizes everyone against a wrong result. A state mandate is not an efficacy finding.",
         "sources": [
           {
             "name": "Germain et al., Forensic Sci Int 2023",
@@ -149,7 +149,7 @@
       },
       {
         "t": "Testing, and how often",
-        "d": "Anyone sharing injecting equipment: HIV at least once a year. Men who have sex with men: syphilis, chlamydia and gonorrhoea at least yearly at every site of contact regardless of condom use, and every 3 to 6 months with multiple partners — including if you are on PrEP. Free and low-cost testing is findable at gettested.cdc.gov.",
+        "d": "Anyone sharing injecting equipment: HIV at least once a year. Men who have sex with men: syphilis, chlamydia and gonorrhea at least yearly at every site of contact regardless of condom use, and every 3 to 6 months with multiple partners — including if you are on PrEP. Free and low-cost testing is findable at gettested.cdc.gov.",
         "sources": [
           {
             "name": "CDC — STI testing",
@@ -193,12 +193,12 @@
     ]
   },
   "interactions": {
-    "headline": "The combinations that put people in hospital",
+    "headline": "The combinations that put people in the hospital",
     "items": [
       {
         "t": "Poppers and erection pills",
         "d": "Both drop blood pressure, and together they can drop it catastrophically. The FDA labels contraindicate nitrites outright. After tadalafil (Cialis) allow at least 48 hours. After sildenafil (Viagra) the label says the safe interval is unknown, even at 24 hours.",
-        "note": "Swallowing poppers rather than inhaling can be fatal — it turns blood brown and starves it of oxygen. Blue or grey lips with breathlessness after someone drank from a small bottle is a 911 call.",
+        "note": "Swallowing poppers rather than inhaling can be fatal — it turns blood brown and starves it of oxygen. Blue or gray lips with breathlessness after someone drank from a small bottle is a 911 call.",
         "sources": [
           {
             "name": "DailyMed — VIAGRA label",

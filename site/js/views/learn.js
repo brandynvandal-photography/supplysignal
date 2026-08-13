@@ -143,7 +143,7 @@ export async function render(route, { go }) {
       section("Sex, and being out", null,
         h("p", { class: "sec__note" },
           "Barriers, PrEP and PEP, emergency contraception, and the mixes that "
-          + "actually put people in hospital."),
+          + "actually put people in the hospital."),
         h("a", { class: "bigptr", href: "#/sex" },
           h("span", { class: "bigptr__hd" }, "Sex, and being out"),
           h("span", { class: "bigptr__sub" },
@@ -307,7 +307,7 @@ async function consentBlock() {
     blocks.push(
       disclosure("sec-consent", s.title, { open: false },
         s.intro ? h("p", { class: "sec__note" }, s.intro) : null,
-        /* The hard line first, before any nuance about grey areas. */
+        /* The hard line first, before any nuance about gray areas. */
         s.callout
           ? callout("stop", s.callout.title, h("p", null, s.callout.body),
               s.callout.detail ? h("p", null, s.callout.detail) : null)
