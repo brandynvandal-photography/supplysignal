@@ -223,7 +223,17 @@ export function jumpNav(items) {
               for (let p = el.parentElement; p; p = p.parentElement) {
                 if (p.tagName === "DETAILS") p.open = true;
               }
-              el.scrollIntoView({ behavior: "smooth", block: "start" });
+              /* Scroll the HEADING, not the wrapper - the same resolution
+                 reveal() does for search results, so a chip and a result for
+                 the same section land in exactly the same place. Scrolling the
+                 wrapper happened to work while its first child was always the
+                 heading; it stopped being true the moment a section opened
+                 with a lead paragraph. */
+              const head = /^H[1-4]$/.test(el.tagName) || el.tagName === "SUMMARY"
+                ? el
+                : el.querySelector("h1, h2, h3, h4, summary") || el;
+              const target = head.tagName === "SUMMARY" ? head.parentElement : head;
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
               const s = el.querySelector("summary");
               if (s) s.focus({ preventScroll: true });
             },

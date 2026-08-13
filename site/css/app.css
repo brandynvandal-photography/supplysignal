@@ -113,7 +113,18 @@
 
   --tap: 44px;              /* WCAG 2.5.5 minimum target */
   --wrap: 820px;
-  --nav-h: 64px;
+  --nav-h: 64px;            /* bottom tab bar */
+
+  /* The sticky top bar's real height, measured at both breakpoints - it is 67px
+     at 375px and at 1280px, because its height comes from the logo row rather
+     than from the layout. THREE things depend on this and every one of them
+     used to carry its own guess:
+       - the search panel, which pins directly beneath it;
+       - scroll-margin-top on every jump target, so a heading arrives below the
+         bar instead of behind it;
+       - the same for headings themselves, which is where search results land.
+     If the bar's height changes, change it here and nowhere else. */
+  --bar-h: 67px;
 
   /* Spacing scale. Generous on purpose - the room between things is most of
      what makes an interface feel calm rather than crowded. */
@@ -277,8 +288,13 @@ a { color: var(--brand); }
    chip had scrolled too far. This is what scroll-margin-top is for; the bar is
    about 60px plus the notch inset, and the extra breathing room means the
    heading arrives with air above it rather than jammed under the frosting. */
-[id^="sec-"], [id^="grp-"] {
-  scroll-margin-top: calc(60px + env(safe-area-inset-top) + 14px);
+/* Also every <details>, not only the ones carrying a sec- id: reveal() can
+   reach a disclosure through its summary TEXT rather than an id, and then
+   scrolls the details itself. Nine of them across test.js, support.js and
+   emerging.js have no id at all, so those landed behind the bar. */
+[id^="sec-"], [id^="grp-"],
+#view h1, #view h2, #view h3, #view h4, #view summary, #view details {
+  scroll-margin-top: calc(var(--bar-h) + env(safe-area-inset-top) + 14px);
 }
 
 .topbar {
@@ -589,7 +605,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    Collapsed by default, full width when open, and pinned under the header so
    the results list is the only thing competing for attention while it is up. */
 .searchpanel {
-  position: sticky; top: 0; z-index: 39;
+  position: sticky; top: var(--bar-h); z-index: 39;
   padding: var(--sp-3) 0 var(--sp-2);
   background: var(--surface);
   border-bottom: 1px solid var(--glass-line);
