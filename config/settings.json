@@ -7,8 +7,11 @@
     "dropForeignYears": true
   },
   "classifier": {
-    "publishFloor": 0.70,
-    "escalateBand": [0.35, 0.70],
+    "publishFloor": 0.7,
+    "escalateBand": [
+      0.35,
+      0.7
+    ],
     "reviewFloor": 0.35
   },
   "llm": {
@@ -20,10 +23,11 @@
     "note": "Escalation only. Items scoring inside escalateBand get one cheap structured call. No web search tool is ever used - that is the expensive part."
   },
   "polling": {
-    "coldRotationPerRun": 19,
+    "coldRotationPerRun": 200,
     "maxWatchedPerRun": 120,
     "requestDelayMs": 1500,
-    "userAgent": "Nightlight/1.0 (public health alert aggregator; +https://nightlight.help)"
+    "userAgent": "Nightlight/1.0 (public health alert aggregator; +https://nightlight.help)",
+    "_coldRotationNote": "200, raised from 19 on 2026-08-13. Measured rather than guessed: 10 real Google News county queries at the configured 1500ms spacing all returned 200 with a mean fetch of 0.35s, so a cold county costs about 1.85s. 200 is roughly 6.2 minutes of the run against a 20-minute workflow timeout - the previous 19 used 72 seconds of it. That turns a 21-day sweep of 3,231 counties into about 2 days, which matters now that the app tells a reader outright when their county has not been scanned yet. Raise further only after checking two things: the run stays well inside timeout-minutes in ingest.yml, and sourcesFailed in data/runs.json is not picking up google-news, which is what a rate limit looks like here."
   },
   "dedupe": {
     "clusterWindowDays": 7,

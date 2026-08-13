@@ -77,18 +77,37 @@ async function main() {
   for (let i = 0; i < per; i++) {
     cold.push(all[(rotation.cursor + i) % all.length]);
   }
-  rotation.cursor = (rotation.cursor + per) % all.length;
 
   const scoped = [...watched, ...cold.filter((c) => !watchlist.counties.includes(c.fips))];
+
+  /* Which counties this run actually reached.
+   *
+   * The loop below BREAKS on a rate limit, and the cursor used to advance by
+   * `per` before the loop ran - so anything after the break was skipped and
+   * the cursor moved past it anyway. Those counties would not come round again
+   * for a full sweep. At 19 a run that was rare enough to go unnoticed; at the
+   * volumes this now runs it would not be, and it got worse when the app
+   * started reading data/index.json to tell a reader whether their county has
+   * been scanned. A county marked scanned but never fetched makes that message
+   * say "nothing published here" about a place nobody looked at, which is the
+   * exact claim the index was added to stop making.
+   *
+   * So: record what was reached, advance the cursor by that, and let the index
+   * below key off the same set. */
+  const reached = new Set();
 
   for (const county of scoped) {
     try {
       const r = await fetchCountyNews(county, sources, settings);
       raw.push(...r.items);
       stats.fetched += r.items.length;
+      reached.add(county.fips);
     } catch (e) {
       console.error(`[news:${county.fips}] ${e.message}`);
       if (e.rateLimited) { stats.sourcesFailed.push("google-news"); break; }
+      /* A single feed failing is not the same as never having looked - the
+         county WAS polled, the source just did not answer. */
+      reached.add(county.fips);
     }
     if (watchlist.counties.includes(county.fips)) {
       try {
@@ -183,11 +202,16 @@ async function main() {
      #/fips fragment across, so https://nightlight.help/#/47065 lands correctly
      and stays readable in a feed reader. */
   const siteUrl = process.env.SITE_URL || "https://nightlight.help";
+  /* Advance only past the cold counties this run actually got to. If a rate
+     limit cut the run short, the rest come round on the next one. */
+  const coldReached = cold.filter((c) => reached.has(c.fips)).length;
+  rotation.cursor = (rotation.cursor + coldReached) % all.length;
+
   const indexEntries = await readJson(p("data/index.json"), { counties: {} }).then(
     (i) => i.counties || {}
   );
 
-  const touched = new Set([...byCounty.keys(), ...scoped.map((c) => c.fips)]);
+  const touched = new Set([...byCounty.keys(), ...reached]);
   let totalNew = 0;
 
   for (const fips of touched) {
@@ -199,7 +223,7 @@ async function main() {
       windowDays: settings.recency.windowDays,
       sourcesChecked: sources.feeds.filter((f) => f.enabled).length + 1,
       sourcesFailed: [...new Set(stats.sourcesFailed)],
-      scanned: scoped.some((c) => c.fips === fips),
+      scanned: reached.has(fips),
     };
     if (!DRY_RUN) {
       const { newIds } = await writeCounty(ROOT, county, cs, coverage);
