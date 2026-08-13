@@ -91,12 +91,53 @@ window.addEventListener("pagehide", () => {
    browser's own history and HTTP cache are outside our reach - the Help view
    says so rather than implying a guarantee we cannot make. */
 
+/* Quick Exit behaves differently in a native shell, and the difference is not
+   cosmetic - it is the one control somebody uses because a person walked into
+   the room.
+
+   ON THE WEB, replacing location with a neutral site IS the exit: the tab
+   becomes a weather page and Nightlight is gone from the screen and from Back.
+
+   IN A WKWEBVIEW that is worse than doing nothing. Capacitor intercepts an
+   external navigation and hands it to the system browser, so tapping Exit
+   opens Safari IN FRONT of the app - and Nightlight is still running behind
+   it, still on screen the moment Safari is dismissed, and still showing a drug
+   page in the app switcher. The control that exists to hide the app would
+   announce it.
+
+   So on native: wipe, reset the visible screen to something innocuous FIRST
+   (so the app-switcher snapshot is not a drug page), then ask the platform to
+   background the app. The app-switcher card is why the reset has to happen
+   before the background call, not after.
+
+   `exitApp` is Capacitor's own API and does not violate the "no third-party
+   requests" rule - nothing is fetched. If the plugin is absent the code falls
+   through to the web path, which is wrong-but-harmless rather than broken. */
+function isNative() {
+  return Boolean(globalThis.Capacitor?.isNativePlatform?.());
+}
+
 document.getElementById("exit").addEventListener("click", () => {
   try { localStorage.clear(); } catch {}
   try { sessionStorage.clear(); } catch {}
   try {
     if (window.caches?.keys) caches.keys().then((ks) => ks.forEach((k) => caches.delete(k)));
   } catch {}
+
+  if (isNative()) {
+    /* Neutral screen before backgrounding, so the app-switcher thumbnail is
+       Heat and water - a real page about drinking water in the heat, which
+       reads as nothing in particular to somebody glancing at a phone. */
+    try {
+      history.replaceState(null, "", "#/heat");
+      route();
+    } catch {}
+
+    const app = globalThis.Capacitor?.Plugins?.App;
+    if (app?.exitApp) { try { app.exitApp(); return; } catch {} }
+    if (app?.minimizeApp) { try { app.minimizeApp(); return; } catch {} }
+    return;                       // wiped and neutralised; nothing else to do
+  }
 
   // Overwrite the current entry so Back does not land here again.
   try { history.replaceState(null, "", "#"); } catch {}

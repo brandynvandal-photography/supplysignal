@@ -6,3 +6,9 @@ node_modules/
 # drug, and URL slugs carry the same names - see appendReview in src/store.mjs.
 # Only review/seen.json (SHA-256 of URLs, nothing else) is ever committed.
 review/pending.json
+
+# Build output of scripts/build-app.mjs — the web root a Capacitor build ships.
+# It is a full copy of site/ plus data/, so committing it would double the
+# repo and double every Netlify deploy for no benefit. Rebuild it, do not
+# track it.
+www/

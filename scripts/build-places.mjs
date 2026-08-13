@@ -19,7 +19,7 @@
 //   node scripts/build-places.mjs 2024_Gaz_place_national.txt
 
 import { readFileSync, writeFileSync } from "node:fs";
-import { findCountyFips } from "../src/locate.mjs";
+import { findCountyFips } from "../site/js/locate.js";
 
 const SRC = process.argv[2];
 const POP_SRC = process.argv[3]; // optional GeoNames cities1000.txt

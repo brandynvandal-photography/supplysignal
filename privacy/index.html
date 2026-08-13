@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Privacy — Nightlight</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!-- Served at /privacy/. publish = "." uploads the repo root, and no 404 rule
+     in netlify.toml covers this path.
+
+     THIS PAGE MUST STAY REACHABLE AND INDEXABLE. App Store Connect will not
+     accept a submission without a working privacy policy URL, and a reviewer
+     will open it. It is deliberately NOT noindex, unlike the app itself.
+
+     Self-contained on purpose: no stylesheet fetch, no font, no script, so it
+     renders identically to a reviewer, to a caseworker, and to somebody on a
+     dying phone. Its own CSP, because site/index.html's meta does not reach
+     here and the parent 404 rules do not apply. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Nightlight collects no personal data. What that means, precisely.">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 42rem; margin: 0 auto; padding: 2rem 1.25rem 4rem;
+    background: #faf6f0; color: #2b2620;
+  }
+  h1 { font-size: 1.7rem; line-height: 1.2; margin: 0 0 .25rem; letter-spacing: -.02em; }
+  h2 { font-size: 1.1rem; margin: 2rem 0 .5rem; letter-spacing: -.01em; }
+  .sub { color: #5e564c; margin: 0 0 2rem; }
+  p, li { color: #2b2620; }
+  li { margin-bottom: .4rem; }
+  a { color: #2d6a5f; }
+  table { border-collapse: collapse; width: 100%; margin: .75rem 0; font-size: .95rem; }
+  th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid #e3ded5; vertical-align: top; }
+  th { color: #5e564c; font-weight: 650; }
+  code { font-size: .92em; background: #f3ede4; padding: .1em .35em; border-radius: 4px; }
+  .foot { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #e3ded5; color: #5e564c; font-size: .92rem; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #17150f; color: #f2ece2; }
+    .sub, th, .foot { color: #c0b6a8; }
+    p, li { color: #f2ece2; }
+    a { color: #7fcbb8; }
+    th, td, .foot { border-color: #332f27; }
+    code { background: #2b2720; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Privacy</h1>
+<p class="sub">Nightlight. Last updated 13 August 2026.</p>
+
+<p>Nightlight is a free, non-commercial harm-reduction reference. It is operated by
+Brandyn Vandal and can be reached at <a href="mailto:hello@nightlight.help">hello@nightlight.help</a>.</p>
+
+<p><strong>Nightlight collects no personal information. It has no accounts, no sign-in,
+no analytics, no advertising, no trackers, and no third-party services of any kind.</strong>
+Nothing you do in the app is transmitted anywhere, and nothing is sold or shared, because
+nothing is gathered in the first place.</p>
+
+<p>The rest of this page explains why that is structurally true rather than a promise,
+because the people this is built for can be arrested, evicted, fired, deported, or lose
+custody because of what they look up.</p>
+
+<h2>The lookup never touches the network</h2>
+
+<p>The obvious way to build this app would be to request data for your county when you
+select it. That would put a record of your county, timestamped against your IP address,
+in a server log. Instead every dataset is downloaded in full, identically for every user,
+and every search runs on your device against that local copy.</p>
+
+<p>Selecting a county, searching a substance, or opening an interaction warning generates
+<strong>no network request at all</strong>. A server log, a network capture, and a subpoena
+to the host would all reveal the same thing: that someone opened the app.</p>
+
+<h2>What is stored on your device</h2>
+
+<p>No cookies. No local storage. Nothing is written to disk and nothing survives the
+session. Three values are held in per-session memory:</p>
+
+<table>
+  <tr><th>Key</th><th>Holds</th><th>Why</th></tr>
+  <tr><td><code>sc.seen</code></td><td>A timestamp of this visit</td><td>So the welcome card does not reappear on every screen</td></tr>
+  <tr><td><code>ss.theme</code></td><td><code>light</code> or <code>dark</code></td><td>Only if you use the theme toggle</td></tr>
+  <tr><td><code>ss.lang</code></td><td>A language code</td><td>Currently unused; the language comes from your device</td></tr>
+</table>
+
+<p>None of these records a county, a substance, a page, or a search. There is deliberately
+no "last county viewed", because that single value is the one that would put a county
+somewhere another person could find it. All three are cleared when you leave, when the tab
+or app closes, and by the Quick Exit control.</p>
+
+<h2>Location</h2>
+
+<p>The "Near me" feature is optional and only ever runs when you tap it. If you allow it,
+your device's coordinates are compared against boundary data <strong>already on your
+device</strong> to work out which county you are in. No geocoding service is contacted,
+no coordinate is transmitted, and the coordinate is not stored. You can use the entire app
+without ever granting location access.</p>
+
+<h2>No third parties</h2>
+
+<p>The app loads no fonts, no analytics, no CDN, no map tiles, no embedded media and no
+error reporting. This is enforced by a Content-Security-Policy that permits the app's own
+origin and nothing else, so a future change cannot quietly reintroduce a tracker — the
+browser would block it.</p>
+
+<p>Outbound links to health departments, crisis lines and research sources are ordinary
+links. Opening one takes you to that organisation, which has its own privacy practices.
+Every such link is marked <code>no-referrer</code>, so the site you arrive at is not told
+you came from Nightlight.</p>
+
+<h2>Quick Exit</h2>
+
+<p>A control in the header clears what is held, drops the app from the back history, and
+leaves for a neutral site. Two things it cannot do, stated plainly rather than implied
+away: entries already written to your browser or device history before you used it, and
+your browser's own cache, are outside the app's reach. Private browsing helps.</p>
+
+<h2>Children</h2>
+
+<p>Nightlight is not directed to children and is rated for adults. It collects no
+information from anyone, including children.</p>
+
+<h2>Medical disclaimer</h2>
+
+<p>Nightlight reports what public sources have published. It does not verify, advise, or
+clear any drug as safe, and it is not medical advice. Overdose is a medical emergency —
+call 911.</p>
+
+<h2>Changes</h2>
+
+<p>If this policy changes, the date at the top changes with it. Because the app collects
+nothing, there is no stored data for a future change to apply retroactively.</p>
+
+<div class="foot">
+  Questions, corrections, or a privacy concern:
+  <a href="mailto:hello@nightlight.help">hello@nightlight.help</a><br>
+  <a href="/">Nightlight</a> · <a href="/support/">Support</a>
+</div>
+
+</body>
+</html>

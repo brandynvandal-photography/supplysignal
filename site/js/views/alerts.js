@@ -294,7 +294,7 @@ async function searchBar({ go, data }) {
     try {
       say("Matching coordinates to a county on this device…");
       const [{ findCountyFips }, shapes] = await Promise.all([
-        import("../../../src/locate.mjs"),
+        import("../locate.js"),
         data.shapes(),
       ]);
       const fips = findCountyFips(shapes, pos.coords.latitude, pos.coords.longitude);

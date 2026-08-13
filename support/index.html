@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Support — Nightlight</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!-- Served at /support/. App Store Connect requires a Support URL and a
+     reviewer will open it, so this page must stay reachable and indexable.
+
+     Self-contained, same reasoning as /privacy/: no stylesheet fetch, no font,
+     no script, its own CSP. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Help with Nightlight, and how to report something that is wrong.">
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 42rem; margin: 0 auto; padding: 2rem 1.25rem 4rem;
+    background: #faf6f0; color: #2b2620;
+  }
+  h1 { font-size: 1.7rem; line-height: 1.2; margin: 0 0 .25rem; letter-spacing: -.02em; }
+  h2 { font-size: 1.1rem; margin: 2rem 0 .5rem; letter-spacing: -.01em; }
+  .sub { color: #5e564c; margin: 0 0 2rem; }
+  li { margin-bottom: .4rem; }
+  a { color: #2d6a5f; }
+  .box {
+    border-left: 3px solid #8a5410; background: #fbf0df;
+    padding: .9rem 1rem; margin: 1.25rem 0; border-radius: 0 8px 8px 0;
+  }
+  .box p { margin: 0; }
+  .urgent { border-left-color: #b3301c; background: #fbeae5; }
+  .foot { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #e3ded5; color: #5e564c; font-size: .92rem; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #17150f; color: #f2ece2; }
+    .sub, .foot { color: #c0b6a8; }
+    a { color: #7fcbb8; }
+    .box { background: #241d12; border-left-color: #f2b063; }
+    .urgent { background: #33201b; border-left-color: #ff8a72; }
+    .foot { border-color: #332f27; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Support</h1>
+<p class="sub">Nightlight</p>
+
+<div class="box urgent">
+  <p><strong>If this is an emergency, do not email.</strong> Overdose is a medical
+  emergency — call 911. Poison Control is 1-800-222-1222. Never Use Alone is
+  1-800-484-3731 and will stay on the line with you.</p>
+</div>
+
+<p>Nightlight is a free, non-commercial reference for people who use drugs: county-level
+supply alerts, how to test a supply, what to do during an overdose, heat and dehydration,
+drug testing and supervision, and how to find help. It sells nothing and asks for nothing.</p>
+
+<h2>Getting help with the app</h2>
+
+<p>Email <a href="mailto:hello@nightlight.help">hello@nightlight.help</a>. It is a small
+project, so a reply may take a few days.</p>
+
+<h2>Reporting something that is wrong</h2>
+
+<p>This is the most useful thing you can send. Every clinical claim is checked against a
+source before it goes in, and that still is not the same as being right. If something is
+inaccurate — especially anything that could get somebody hurt — please say so.</p>
+
+<p>Helpful to include:</p>
+<ul>
+  <li>Which screen, and the wording you saw</li>
+  <li>What you believe is correct</li>
+  <li>A source, if you have one</li>
+</ul>
+
+<div class="box">
+  <p><strong>Please do not include your own drug use, your location, or anyone else's,
+  in a report.</strong> Email is not private, it is not encrypted in transit by default,
+  and it is not covered by the protections built into the app. Describe the page, not
+  yourself.</p>
+</div>
+
+<h2>Common questions</h2>
+
+<p><strong>There are no alerts for my county.</strong> That is normal and it is the common
+case. Most scans find nothing. An empty county means nothing has been publicly reported
+recently — not that the supply is safe. No test and no absence of alerts makes a supply safe.</p>
+
+<p><strong>Does it work offline?</strong> The app keeps working during a session once it
+has loaded. Emergency guidance is designed to be readable without a connection.</p>
+
+<p><strong>What do you do with my data?</strong> Nothing is collected. See
+<a href="/privacy/">the privacy page</a> for why that is structural rather than a promise.</p>
+
+<p><strong>Is this medical advice?</strong> No. Nightlight reports what public sources have
+published. It does not verify, advise, or clear any drug as safe.</p>
+
+<h2>Accessibility</h2>
+
+<p>Nightlight is built to work with VoiceOver and other screen readers, at large text
+sizes, and in both light and dark themes. If something is unusable for you, that is a bug
+worth reporting — please email and say what you were trying to do.</p>
+
+<div class="foot">
+  <a href="mailto:hello@nightlight.help">hello@nightlight.help</a><br>
+  <a href="/">Nightlight</a> · <a href="/privacy/">Privacy</a>
+</div>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { findCountyFips } from "../src/locate.mjs";
+import { findCountyFips } from "../site/js/locate.js";
 const shapes = JSON.parse(readFileSync(new URL("../data/county-shapes.json", import.meta.url),"utf8"));
 const counties = JSON.parse(readFileSync(new URL("../data/counties.json", import.meta.url),"utf8"));
 const byFips = new Map(counties.counties.map(c=>[c.fips,c]));

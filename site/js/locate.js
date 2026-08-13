@@ -1,3 +1,21 @@
+/* Point-in-polygon county lookup, on the device.
+ *
+ * MOVED FROM src/ ON PURPOSE. It used to live at src/locate.mjs and the Alerts
+ * view reached it with import("../../../src/locate.mjs") - three levels up and
+ * out of the served directory. That worked until netlify.toml started 404ing
+ * /src/* with force = true to keep server-side files off the web, and from
+ * that moment "Near me" was dead in production: the dynamic import 404'd, the
+ * catch swallowed it, and the button just stopped doing anything.
+ *
+ * It lives under site/ now because it is client code. Nothing outside site/
+ * may be imported by the browser - the 404 rules are the privacy boundary and
+ * they are not going to move. The build-time users (test/locate.test.mjs,
+ * scripts/build-places.mjs) import it from here, so there is one copy.
+ *
+ * Also a prerequisite for packaging: a Capacitor bundle contains site/ and
+ * nothing above it, so a file outside site/ could never have shipped at all.
+ */
+
 /**
  * Resolve a latitude/longitude to a county FIPS code entirely client-side.
  *

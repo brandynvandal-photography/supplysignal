@@ -35,6 +35,7 @@
      like another. The logo carries the name; links stay teal. */
   --l-glow: #b8720f;
   --l-critical: #b3301c;  --l-critical-soft: #fbeae5;
+  --l-critical-ink: #ffffff;   /* on --l-critical: 6.26:1 */
   --l-elevated: #8a5410;  --l-elevated-soft: #fbf0df;
   --l-ok: #2a6b45;        --l-ok-soft: #e6f2ea;
   --l-shadow: 0 1px 2px rgba(70,55,40,.04), 0 6px 24px rgba(70,55,40,.06);
@@ -49,6 +50,7 @@
   --d-brand-hover: #9adbc9;
   --d-glow: #ffc978;      /* lamp gold - see --l-glow */
   --d-critical: #ff8a72;  --d-critical-soft: #33201b;
+  --d-critical-ink: #17150f;   /* on --d-critical: 7.94:1 */
   --d-elevated: #f2b063;  --d-elevated-soft: #312516;
   --d-ok: #74c994;        --d-ok-soft: #152a1e;
   --d-shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.28);
@@ -79,6 +81,7 @@
   --brand-soft: var(--l-brand-soft); --brand-hover: var(--l-brand-hover);
   --glow: var(--l-glow);
   --critical: var(--l-critical);     --critical-soft: var(--l-critical-soft);
+  --critical-ink: var(--l-critical-ink);
   --elevated: var(--l-elevated);     --elevated-soft: var(--l-elevated-soft);
   --advisory: var(--l-brand);        --advisory-soft: var(--l-brand-soft);
   --ok: var(--l-ok);                 --ok-soft: var(--l-ok-soft);
@@ -185,6 +188,7 @@
     --brand-soft: var(--d-brand-soft); --brand-hover: var(--d-brand-hover);
     --glow: var(--d-glow);
     --critical: var(--d-critical);     --critical-soft: var(--d-critical-soft);
+    --critical-ink: var(--d-critical-ink);
     --elevated: var(--d-elevated);     --elevated-soft: var(--d-elevated-soft);
     --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
     --ok: var(--d-ok);                 --ok-soft: var(--d-ok-soft);
@@ -205,6 +209,7 @@
   --brand-soft: var(--d-brand-soft); --brand-hover: var(--d-brand-hover);
   --glow: var(--d-glow);
   --critical: var(--d-critical);     --critical-soft: var(--d-critical-soft);
+    --critical-ink: var(--d-critical-ink);
   --elevated: var(--d-elevated);     --elevated-soft: var(--d-elevated-soft);
   --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
   --ok: var(--d-ok);                 --ok-soft: var(--d-ok-soft);
@@ -655,7 +660,10 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   display: flex; align-items: center; justify-content: center;
   width: 100%; min-height: 54px; margin-top: 14px;
   border-radius: var(--radius); text-decoration: none;
-  background: var(--critical); color: #fff;
+  background: var(--critical); color: var(--critical-ink);
+  /* NOT a literal #fff. White on the dark theme's --critical (#ff8a72) is
+     2.30:1 - the worst contrast in the app, on the one control somebody taps
+     without reading. The paired token is 6.26:1 light and 7.94:1 dark. */
   font-size: 1.12rem; font-weight: 750; letter-spacing: .01em;
 }
 .callbtn:hover { filter: brightness(1.06); }

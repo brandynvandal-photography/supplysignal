@@ -31,11 +31,20 @@ const PUBLIC = new Set([
   "index.html",            // redirects into site/
   "404.html",              // the page the 404 rules point at
   "netlify.toml",          // read by the platform, not served meaningfully
+
+  /* Required by App Store Connect, which will not accept a submission without
+     a working privacy policy URL and a support URL, and a reviewer opens both.
+     These two are the ONLY pages in the repo that are deliberately indexable -
+     the app itself is noindex, because a search result for it outs the reader.
+     Self-contained: their own CSP, no stylesheet, no font, no script. */
+  "privacy",
+  "support",
 ]);
 
 /* Never checked in, or unreachable by the platform regardless. */
 const IGNORED = new Set([
   ".git", ".github", ".claude", ".attic", ".gitignore", ".DS_Store", "node_modules",
+  "www",   // build output of scripts/build-app.mjs, gitignored, never deployed
 ]);
 
 const blocked = new Set();

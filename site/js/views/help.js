@@ -91,17 +91,6 @@ export async function render() {
   wrap.appendChild(h("h1", null, "Emergency"));
   { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
 
-  wrap.appendChild(
-    jumpNav([
-      { id: "sec-lines", label: "Hotlines" },
-      { id: "sec-collapse", label: "Collapsed, cause unknown" },
-      { id: "sec-festival", label: "At a festival" },
-      { id: "sec-response", label: "Overdose response" },
-      { id: "sec-ems", label: "When help arrives" },
-      { id: "sec-law", label: "911 and the law" },
-      { id: "sec-police", label: "If police come" },
-    ])
-  );
 
   wrap.appendChild(
     /* Instruction only. This used to spend four of its six lines on Good
@@ -127,6 +116,23 @@ export async function render() {
          accidental dial. An accidental 911 call is recoverable. A missed one
          is not. */
       h("a", { class: "callbtn", href: "tel:911" }, "Call 911"))
+  );
+
+  /* The jump nav renders AFTER the emergency opener, not before it.
+     Seven chips wrap to ~200px at 375px, which pushed the Call 911 button
+     below the fold on the one screen somebody opens without reading. Every
+     other page keeps h1 -> jumpNav -> blurb; this page is the exception
+     because its first block is an action, not an introduction. */
+  wrap.appendChild(
+    jumpNav([
+      { id: "sec-lines", label: "Hotlines" },
+      { id: "sec-collapse", label: "Collapsed, cause unknown" },
+      { id: "sec-festival", label: "At a festival" },
+      { id: "sec-response", label: "Overdose response" },
+      { id: "sec-ems", label: "When help arrives" },
+      { id: "sec-law", label: "911 and the law" },
+      { id: "sec-police", label: "If police come" },
+    ])
   );
 
 
