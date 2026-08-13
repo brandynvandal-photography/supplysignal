@@ -2,7 +2,6 @@
   "_note": "Español. NEEDS NATIVE-SPEAKER REVIEW before this is promoted anywhere. Interface strings only — the overdose response steps, the testing guide and the substance data are still English and fall back to en-US. Do not translate safety-critical instructions without review by a qualified speaker; see README.",
   "_reviewed": false,
   "app": {
-    "title": "Nightlight — alertas sobre el suministro de drogas y reducción de daños",
     "description": "Alertas sobre el suministro de drogas por condado, resultados de análisis y cómo analizar una sustancia. Información de reducción de daños, no consejo médico.",
     "skipToContent": "Ir al contenido",
     "themeToggle": "Cambiar el tema de color",

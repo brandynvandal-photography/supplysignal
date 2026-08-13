@@ -118,7 +118,10 @@ export async function render() {
           h("div", { class: "card" },
             h("p", null, g.cost.body),
             h("p", null, h("strong", null, g.cost.note)))),
-      ])
+      ],
+      /* The preview list. Without it this collapses to a title and a chevron,
+         which is the failure ui.js:293 documents. */
+      ["Treatment options", "Getting services", "Peer support", "If you cannot pay"])
   );
 
   wrap.appendChild(
@@ -127,7 +130,8 @@ export async function render() {
         sectionOrPending("sec-supplies", "Getting supplies", g.supplies, renderSupplies),
         await checkingBlock(),
         saferUseBlock(),
-      ])
+      ],
+      ["Getting supplies", "Getting your supply checked", "If you are going to use"])
   );
 
   /* Not a group(). With one child, group() returns that child and throws away

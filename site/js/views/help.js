@@ -88,12 +88,13 @@ const STEPS = [
 export async function render() {
   const wrap = h("div");
 
-  wrap.appendChild(h("h1", null, "Get help"));
+  wrap.appendChild(h("h1", null, "Emergency"));
   { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
 
   wrap.appendChild(
     jumpNav([
       { id: "sec-lines", label: "Hotlines" },
+      { id: "sec-festival", label: "At a festival" },
       { id: "sec-response", label: "Overdose response" },
       { id: "sec-ems", label: "When help arrives" },
       { id: "sec-law", label: "911 and the law" },
@@ -118,7 +119,13 @@ export async function render() {
       h("h2", null, "If someone is overdosing right now"),
       h("p", null, "Call 911. Give naloxone if you have it. Stay with them."),
       h("p", null,
-        "You do not have to say what they took — only that someone is not breathing."))
+        "You do not have to say what they took — only that someone is not breathing."),
+      /* The most important action on the site was prose. The nearest tel: link
+         sat below the fold, in a list. Two taps now: SOS, then this.
+         The cost is real - a full-width red button raises the odds of an
+         accidental dial. An accidental 911 call is recoverable. A missed one
+         is not. */
+      h("a", { class: "callbtn", href: "tel:911" }, "Call 911"))
   );
 
 
@@ -134,6 +141,130 @@ export async function render() {
               h("span", { class: "sub" }, l.sub)),
             h("span", { class: "num" }, l.num)))))
   );
+
+  /* The red tab covered exactly one emergency. There was no route from here to
+     the heat page or the stimulant page, and heat's own copy carries a "call
+     911 when they stop making sense" callout this tab never led to. Somebody
+     whose friend is burning up and confused taps SOS, reads six naloxone
+     steps, and leaves. Below the numbers, above the overdose steps - the
+     numbers stay first. */
+  wrap.appendChild(
+    h("a", { class: "bigptr", href: "#/heat", "data-reveal": "sec-spot" },
+      h("span", { class: "bigptr__hd" }, "If they are burning up, or confused"),
+      h("span", { class: "bigptr__sub" },
+        "Overheating and drinking too much water both end in the same place — "
+        + "somebody who stops making sense. How to tell, and how to cool them "
+        + "down with what is in the room.")));
+
+  wrap.appendChild(
+    h("a", { class: "bigptr", href: "#/stimulants", "data-reveal": "sec-helping" },
+      h("span", { class: "bigptr__hd" }, "If they are panicking, or seeing things"),
+      h("span", { class: "bigptr__sub" },
+        "Too much of a stimulant, or days without sleep. What actually helps, "
+        + "and the point where it stops being psychological and becomes "
+        + "medical.")));
+
+  /* ---- at a festival or a big event ----
+     Placed directly under the 911 instruction because it CHANGES that
+     instruction, and below it because it does not replace it.
+
+     What is deliberately NOT here: the "arms crossed in an X above your head"
+     signal and the phone-torch signal. Both circulate widely and neither is
+     taught by any festival, promoter, event-medical provider or crowd-safety
+     standard that could be found - the only source making the X claim is a
+     security shop's blog with no citation. Worse, the X already means
+     something else in exactly this setting: "X-ing up" is straight-edge and
+     underage drink marking, and in lifeguarding the same gesture means a
+     swimmer is missing and presumed submerged. A signal only works if the
+     person receiving it was trained on it, and nobody trains festival security
+     on this one. Somebody standing in a crowd making an X at nobody, while
+     their friend deteriorates, is the failure mode. Do not add it back without
+     a real source. */
+  wrap.appendChild(
+    h("div", { id: "sec-festival" },
+      section("At a festival or a big event", null,
+        h("div", { class: "card" },
+          h("h3", null, "The nearest radio beats the nearest phone"),
+          h("p", null,
+            "On-site medics are already inside the perimeter, and aid stations "
+            + "at a well-run event are sited so nobody is more than about a "
+            + "five-minute walk away. Look for a medical tent, a medic, or any "
+            + "staff member with a radio — vendors and ticket staff included. "
+            + "They are supposed to know where the aid stations are."),
+          h("p", { class: "sec__note" },
+            "Send a specific person and tell them to come back. \"Somebody call "
+            + "for help\" in a crowd is how nobody does.")),
+        h("div", { class: "card" },
+          h("h3", null, "Near the front, the barrier crew is already looking"),
+          h("p", null,
+            "The staff in the pit between the barrier and the stage are there "
+            + "to spot people in trouble and lift them out, and the event "
+            + "safety guidance says their platform exists so they can see over "
+            + "the crowd to do it. If you are anywhere near the front, they are "
+            + "the closest help there is and they are already facing you.")),
+        h("div", { class: "card" },
+          h("h3", null, "Do both — they are not alternatives"),
+          h("p", null,
+            "Get staff moving and call 911. Lollapalooza tells attendees to do "
+            + "both; Reading and Leeds say find staff first and call 999 if you "
+            + "cannot. At a small event there may be no on-site medical at all, "
+            + "and then 911 is the whole answer."),
+          h("p", { class: "sec__note" },
+            "Note where you are before you call — the nearest numbered pole, "
+            + "stage, bar or vendor. Some festivals number their light poles "
+            + "for exactly this. It is the difference between help arriving and "
+            + "help searching.")),
+        h("div", { class: "card" },
+          h("h3", null, "Tell the event's medics what they took"),
+          h("p", null,
+            "They can treat faster when they know, and on-site care is free at "
+            + "most big events where an ambulance is not. Lollapalooza, "
+            + "Insomniac's festivals, Okeechobee, Reading and Leeds all publish "
+            + "in writing that you will not get in trouble for seeking medical "
+            + "help."),
+          h("p", { class: "sec__note" },
+            "Read that as narrowly as it is written. Most large US festivals "
+            + "publish nothing like it, and several publish the opposite — "
+            + "Coachella and Burning Man both say in their own rules that you "
+            + "can be removed or arrested. Even where the promise exists it is "
+            + "the medical team's, and on the same page Insomniac says police "
+            + "work inside its events and narcotics laws are enforced.")),
+        h("div", { class: "card" },
+          h("h3", null, "What the promise does and does not cover"),
+          h("p", null,
+            "Your state's Good Samaritan law can stop the police arresting you "
+            + "for what they find because you asked for help. Nothing in it "
+            + "stops the festival throwing you out — those laws are written "
+            + "against the state, and a ticket is a revocable license."),
+          h("p", { class: "sec__note" },
+            "It is also scene-limited. At Ultra in 2025 a woman died after "
+            + "being taken to a medical tent; the partner who carried her in "
+            + "was charged a year later, on evidence from a separate "
+            + "investigation. None of which is a reason not to go and get help "
+            + "— it is a reason to know what the promise is worth.")),
+        h("div", { class: "card" },
+          h("h3", null, "The disclosure nobody warns you about"),
+          h("p", null,
+            "If you are on somebody else's insurance — a parent's plan covers "
+            + "you until 26 — an ambulance ride and an emergency room visit "
+            + "generate an explanation of benefits, and it is mailed to "
+            + "whoever holds the policy. That is the most likely way a night "
+            + "like this gets disclosed, and it has nothing to do with "
+            + "police."),
+          h("p", { class: "sec__note" },
+            "Naloxone is allowed into many festivals now, but door staff do "
+            + "not always recognize it. Keep it in the pharmacy packaging.")),
+        h("div", { class: "card" },
+          h("h3", null, "A 911 call is a different conversation"),
+          h("p", null,
+            "That amnesty is the event's, not the state's. On the phone, "
+            + "describe what you can see — not breathing, not waking up — give "
+            + "the location, and ask for medics. Naming a drug on that call is "
+            + "what brings police."),
+          h("p", { class: "sec__note" },
+            "Medics carry naloxone whether or not you say the word. If you are "
+            + "worried they will not, you can ask them to bring it — knowing "
+            + "that asking may bring police too.")))));
 
   /* ---- overdose response. Also open, for the same reason. ---- */
   wrap.appendChild(
@@ -188,7 +319,7 @@ export async function render() {
           "the last, in March 2025. They generally protect someone who calls in good " +
           "faith, stays, and cooperates from charges for simple drug possession and " +
           "paraphernalia."),
-        h("h3", null, "What they usually do NOT cover"),
+        h("h3", null, "What they usually do not cover"),
         h("ul", null,
           li("Selling, sharing, or “possession with intent”.", "In many states, splitting drugs with someone can be charged as distribution."),
           li("Existing warrants.", "A Good Samaritan law does not stop an arrest on a warrant that already existed."),

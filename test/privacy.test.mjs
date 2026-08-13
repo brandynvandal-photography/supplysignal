@@ -403,6 +403,35 @@ check("no analytics or telemetry identifiers", () => {
   return bad.length ? `telemetry reference in: ${bad.join(", ")}` : null;
 });
 
+/* The page title is a privacy control, not a label.
+
+   It is read by people who are not the reader: the tab switcher, browser
+   history, a shared screen, and whatever the phone shows when it is handed to
+   somebody. "Drug supply alerts and harm reduction" in any of those places
+   outs the person holding it, and the threat is often in the same room.
+
+   This has now been undone twice - once in the markup, once by applyStrings()
+   overwriting the markup at boot with a locale string that nothing else
+   consumed. A comment explaining the decision was not enough to keep it, so
+   this is the test instead. */
+check("page title stays innocuous", () => {
+  const m = html.match(/<title>([^<]*)<\/title>/i);
+  if (!m) return "no <title> in site/index.html";
+  if (m[1].trim() !== "Nightlight") return `<title> is "${m[1].trim()}"`;
+
+  const app = read(path.join(ROOT, "site/js/app.js"));
+  if (/document\.title\s*=\s*t\(\s*["']app\.title["']/.test(app)) {
+    return "app.js overwrites the title with app.title at boot";
+  }
+  for (const loc of ["en-US", "es"]) {
+    let doc;
+    try { doc = JSON.parse(read(path.join(ROOT, "data/i18n", `${loc}.json`))); }
+    catch { continue; }                 // locale not shipped yet is not a failure
+    if (doc?.app?.title) return `data/i18n/${loc}.json still defines app.title`;
+  }
+  return null;
+});
+
 /* -------------------------------------------------------------- report */
 
 for (const f of failures) console.log(`  FAIL ${f}`);

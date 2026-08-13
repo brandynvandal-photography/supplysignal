@@ -572,6 +572,20 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    the target smaller than the brief's own 44px floor. */
 .btn--sm { min-height: var(--tap); padding: 0 13px; font-size: .87rem; }
 
+/* The one action on the site that has to be reachable without reading.
+   Full width, in the critical colour, inside the Emergency opener. It is a
+   tel: link rather than a button so it works with no JS and announces as a
+   phone number to a screen reader. */
+.callbtn {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; min-height: 54px; margin-top: 14px;
+  border-radius: var(--radius); text-decoration: none;
+  background: var(--critical); color: #fff;
+  font-size: 1.12rem; font-weight: 750; letter-spacing: .01em;
+}
+.callbtn:hover { filter: brightness(1.06); }
+.callbtn:active { transform: scale(.985); }
+
 /* ---------------------------------------------------------------- card */
 
 .card {

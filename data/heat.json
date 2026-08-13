@@ -1,5 +1,5 @@
 {
-  "note": "Heat illness and water. Three rules if you edit this. (1) The sweating myth is load-bearing: NHS, CDC's traveller page and DanceSafe all say heat stroke means hot dry skin, which describes the heatwave kind, not the dancing kind. NATA's position statement and StatPearls both say exertional heat stroke patients are usually still sweating. If somebody reinstates 'no sweating' here they will teach a reader to rule out the thing that is killing the person in front of them. (2) Ice packs to neck, armpits and groin are near-worthless — 0.028 C/min against the 0.155 that counts as adequate. Most first aid still leads with them. Do not put them back at the top. (3) The fluid ceiling is ~500 mL/h, not the liter this site used to say and most party advice still says; a liter an hour is the whole excretory capacity of a healthy person doing nothing, and MDMA lowers it. See PRIVACY.md rules on denominators — every figure here carries one.",
+  "note": "Heat illness and water. Three rules if you edit this. (1) The sweating myth is load-bearing: NHS, CDC's traveller page and DanceSafe all say heat stroke means hot dry skin, which describes the heat wave kind, not the dancing kind. NATA's position statement and StatPearls both say exertional heat stroke patients are usually still sweating. If somebody reinstates 'no sweating' here they will teach a reader to rule out the thing that is killing the person in front of them. (2) Ice packs to neck, armpits and groin are near-worthless — 0.028 C/min against the 0.155 that counts as adequate. Most first aid still leads with them. Do not put them back at the top. (3) The fluid ceiling is ~500 mL/h, not the liter this site used to say and most party advice still says; a liter an hour is the whole excretory capacity of a healthy person doing nothing, and MDMA lowers it. See PRIVACY.md rules on denominators — every figure here carries one.",
   "verified": "2026-08-13",
   "headline": "Heat, and water",
   "blurb": "How to tell when hot has become dangerous, how to cool somebody down with what is actually in the room, and why drinking too much water swells the brain in people who thought they were being careful.",
@@ -22,7 +22,7 @@
     ],
     "body": [
       "The line between the second rung and the third is not temperature. It is whether they are still thinking straight. Emergency medicine uses the same test: heat stroke is diagnosed on confusion or worse, not on how hot somebody feels to the touch.",
-      "Almost every first-aid page you will read says heat stroke means hot, dry skin and no sweating. That describes the kind that happens to an elderly person in a heatwave. The kind that happens to somebody who has been dancing is a different thing, and most people having one are still pouring sweat. If you wait for somebody to stop sweating, you will wait through the entire emergency.",
+      "Almost every first-aid page you will read says heat stroke means hot, dry skin and no sweating. That describes the kind that happens to an elderly person in a heat wave. The kind that happens to somebody who has been dancing is a different thing, and most people having one are still pouring sweat. If you wait for somebody to stop sweating, you will wait through the entire emergency.",
       "The real threshold is a core temperature around 104°F, and you cannot measure it. Core temperature means a rectal reading. On somebody who has been dancing, an oral thermometer reads roughly 1 to 3°F low and a forehead or armpit one can be off by 2 to 4°F — so a reading of 101°F is entirely compatible with a core of 104. A normal-looking number rules nothing out. Do not spend the time."
     ],
     "emergency": {
@@ -117,7 +117,7 @@
       },
       {
         "t": "What to do",
-        "d": "Stop the fluids. All of them, including sports drinks. If they are fully awake and not being sick, salty food is the right thing — salt without water is exactly what they need. Sit them somewhere cool and stay with them."
+        "d": "Stop the fluids. All of them, including sports drinks. If they are fully awake and not vomiting, salty food is the right thing — salt without water is exactly what they need. Sit them somewhere cool and stay with them."
       },
       {
         "t": "It can arrive hours later",
@@ -154,7 +154,7 @@
       },
       {
         "t": "Thirst is a better guide than a schedule",
-        "d": "Drink when you are thirsty. The advice to get ahead of thirst came out of workplaces and endurance sport, and in dance settings it is the specific instruction that has put people in hospital — the case reports keep quoting \"stay ahead of thirst\" back from the people who followed it. Losing up to about 3% of your body weight in fluid does you no harm.",
+        "d": "Drink when you are thirsty. The advice to get ahead of thirst came out of workplaces and endurance sport, and in dance settings it is the specific instruction that has put people in hospital — in the case reports \"stay ahead of thirst\" keeps coming back from the people who followed it. Losing up to about 3% of your body weight in fluid does you no harm.",
         "sources": [
           {
             "name": "Hew-Butler et al. — EAH consensus, drinking behavior",
@@ -168,7 +168,7 @@
       },
       {
         "t": "Get off the floor before you need to",
-        "d": "In a study that measured real clubs — 29°C and 90% humidity among the dancers — an hour of dancing raised core temperature by 1.8°C, and four hours without a break modelled out to 39.1°C. Twenty minutes somewhere cooler, before anything is wrong, does more for you than anything you can drink.",
+        "d": "In a study that measured real clubs — 29°C and 90% humidity among the dancers — an hour of dancing raised core temperature by 1.8°C, and four hours without a break modeled out to 39.1°C. Twenty minutes somewhere cooler, before anything is wrong, does more for you than anything you can drink.",
         "sources": [
           {
             "name": "McNeill & Parsons — Heat stress in night-clubs (1996)",
@@ -199,7 +199,7 @@
       {
         "t": "Not being able to go somewhere cooler",
         "d": "The single largest risk factor is having nowhere to get out of it. Across Las Vegas and Los Angeles, researchers estimated that half of all deaths among people experiencing homelessness in Clark County were attributable to temperature — a figure they described as orders of magnitude above the general population. In Maricopa County, Arizona, 208 of the 430 heat deaths recorded in 2025 were among people who were unhoused.",
-        "note": "Of the indoor heat deaths in that county, 94% of the homes had air conditioning. In 72% of those, it was not running — broken, or shut off because of the bill.",
+        "note": "Of the indoor heat deaths in that county, 94% happened in homes that had air conditioning. In 72% of those, it was not running — broken, or shut off because of the bill.",
         "sources": [
           {
             "name": "Lin et al., Am J Epidemiol 2024 — temperature-attributable mortality among people experiencing homelessness",

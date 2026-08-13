@@ -108,7 +108,7 @@
         "negative": "TWO lines",
         "invalid": "No lines, or only a line on the end you dipped",
         "explain": "This is backwards from a pregnancy test, and it is the single most misread part of drug checking. The strip works by competition: fentanyl in the sample blocks the test line from forming. The drug being present makes a line disappear.",
-        "faintLine": "A second line can be very faint and still counts as negative. A faint line may also appear and then fade — wait the full three minutes before deciding."
+        "faintLine": "A second line can be very faint and still count as negative. A faint line may also appear and then fade — wait the full three minutes before deciding."
       },
       "procedure": [
         "Dissolve the drug in water. How much water depends on the drug and the brand of strip — see below.",
@@ -117,7 +117,7 @@
         "Read at the time your instructions give — commonly 3 minutes. Do not read after 10 minutes; a strip left too long can change."
       ],
       "dilution": {
-        "why": "These strips were designed for urine. In water, some substances react with the antibody at high concentration and produce a FALSE POSITIVE. That is the only reason methamphetamine and MDMA are told to use more water — they cross-react. Cocaine and heroin do not, so they tolerate a stronger solution.",
+        "why": "These strips were designed for urine. In water, some substances react with the antibody at high concentration and produce a FALSE POSITIVE. That is the only reason you are told to use more water for methamphetamine and MDMA — they cross-react. Cocaine and heroin do not, so they tolerate a stronger solution.",
         "crossReact": [
           {
             "substance": "Diphenhydramine (Benadryl, a common cut)",
@@ -203,7 +203,7 @@
           ]
         }
       ],
-      "accuracy": "Tested against 210 forensic samples, BTNX strips gave a 3.7% false-negative rate and a 9.6% false-positive rate — so roughly 96% sensitivity and 90% specificity, with a detection limit of 0.100 µg/mL. Good, not perfect, and the limits below are the reason a negative still needs care.",
+      "accuracy": "Tested against 210 forensic samples, BTNX strips gave a 3.7% false-negative rate and a 9.6% false-positive rate — so roughly 96% sensitivity and 90% specificity, with a detection limit of 100 ng/mL. Good, not perfect, and the limits below are the reason a negative still needs care.",
       "sources": [
         {
           "name": "Green et al. 2020 — 210 forensic samples",
@@ -816,7 +816,7 @@
     },
     {
       "title": "Clean up",
-      "body": "Neutralise with baking soda, wash with soap and water, and dry before the next test."
+      "body": "Neutralize with baking soda, wash with soap and water, and dry before the next test."
     }
   ],
   "safety": {
@@ -829,11 +829,11 @@
     "storage": "Keep upright, lid secured, away from heat and light. Refrigerated they last 1–2 years; at room temperature that roughly halves. Let them warm up before opening, since condensation and cold change how they react.",
     "expiry": "Marquis and Mecke darken as they age. A reagent is expired when it is too dark to read a reaction clearly. Dark green or black means contamination — discard it.",
     "validate": "Test a drop on sugar. If you cannot see a clear reaction, the reagent may no longer be accurate.",
-    "disposal": "Neutralise the spent drop with baking soda and rinse the surface with plenty of water. Take unused or expired reagent to a household hazardous waste facility. Never pour concentrated acid neat down a drain, and never mix reagents together."
+    "disposal": "Neutralize the spent drop with baking soda and rinse the surface with plenty of water. Take unused or expired reagent to a household hazardous waste facility. Never pour concentrated acid neat down a drain, and never mix reagents together."
   },
   "legal": {
     "headline": "Test strips are legal in most, but not all, states",
-    "body": "As of July 2026, fentanyl test strips sit outside paraphernalia law in 47 states plus DC and four territories. Xylazine strips are covered in 36 states plus DC — Ohio and Florida joined after the earlier count — and reagent kits in fewer still, so the strip that is legal for one drug may not be for another. In several states it depends on who is holding it or what it is used for.",
+    "body": "As of July 2026, fentanyl test strips sit outside paraphernalia law in 47 states plus DC and four territories. The same carve-out covers xylazine strips in 36 states plus DC — Ohio and Florida joined after the earlier count — and reagent kits in fewer still, so the strip that is legal for one drug may not be for another. In several states it depends on who is holding it or what it is used for.",
     "stale": "Lists circulating online are out of date. Idaho changed in July 2024 and Indiana in 2025, so the commonly repeated five-state list is wrong. As of July 2026 the three remaining states where possessing drug-checking equipment may still be criminal are Iowa, North Dakota and Texas.",
     "advice": "Check your own state's current law. Nothing here is legal advice.",
     "source": {
@@ -1078,7 +1078,7 @@
     ],
     "legal": {
       "title": "Whether you can buy them depends on your state",
-      "body": "Drug-checking equipment is fully legal to sell, give away and possess in 20 states. Thirteen more allow it only for specific drugs — usually fentanyl strips. In Iowa, North Dakota and Texas, possessing it arguably remains a crime. Puerto Rico is unknown rather than clear — the July 2026 review covers four of five territories without naming which. Massachusetts and Michigan allow possession and free distribution but not sale.",
+      "body": "Drug-checking equipment is fully legal to sell, give away and possess in 20 states. Thirteen more allow it only for specific drugs — usually fentanyl strips. In Iowa, North Dakota and Texas, possessing it arguably remains a crime. Puerto Rico's status is unknown rather than clear — the July 2026 review covers four of five territories without naming which ones. Massachusetts and Michigan allow possession and free distribution but not sale.",
       "note": "These laws are actively changing. The counts above are from a July 2026 review; anything you read elsewhere without a date on it is probably older. Availability varies by store and by state and cannot be verified nationally — if a chain near you does not carry it, a local harm reduction program can.",
       "sources": [
         {

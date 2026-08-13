@@ -33,7 +33,7 @@
       },
       {
         "name": "Methadone",
-        "what": "A full agonist, long acting, and the most studied of the three. It works for many people that buprenorphine does not.",
+        "what": "A full agonist, long acting, and the most studied of the three. It works for many people for whom buprenorphine does not.",
         "how": "Only through a licensed opioid treatment program — that restriction is federal law, not a medical judgment about you. Find one through SAMHSA's directory below.",
         "note": "Take-home rules loosened permanently in 2024: up to 7 days of take-homes in the first two weeks, up to 14 through the first month, and up to 28 days after that, based on your clinician's judgment rather than a fixed checklist. The old requirement to have used opioids for a year before being admitted is gone.",
         "sources": [
@@ -138,7 +138,7 @@
         "name": "988 Suicide & Crisis Lifeline",
         "who": "Call, text or chat 988 · Spanish: press 2 · ASL videophone available",
         "phone": "988",
-        "dispatch": "They may send emergency services. Across nearly two million calls that happened in about 2 in 100 — but in about half of the calls where the counselor judged someone to be at imminent risk, and roughly half of those were without the person's agreement."
+        "dispatch": "They may send emergency services. Across nearly two million calls, that happened in about 2 in 100 — but in about half of the calls where the counselor judged someone to be at imminent risk. Roughly half of those dispatches were without the person's agreement."
       },
       {
         "name": "Never Use Alone",
@@ -400,7 +400,7 @@
     "paid": [
       {
         "name": "Naloxone over the counter",
-        "what": "Narcan 4mg and RiVive 3mg are available without a prescription at pharmacies nationwide. Worth knowing as a fallback, but check the free routes first — you should not have to pay for this.",
+        "what": "Narcan 4 mg and RiVive 3 mg are available without a prescription at pharmacies nationwide. Worth knowing as a fallback, but check the free routes first — you should not have to pay for this.",
         "cost": "Paid",
         "delivery": "Pharmacy"
       },
@@ -517,14 +517,14 @@
         "Federal grant funds can no longer be used to buy fentanyl or xylazine test strips as of April 2026, so state-funded strip programs are the most likely of any listing here to disappear."
       ]
     },
-    "legalNote": "Fentanyl test strips are legal in most states but not all, and xylazine strips are covered in fewer. Ordering by mail does not change your state's law. See the legality section under Test before you order.",
+    "legalNote": "Fentanyl test strips are legal in most states but not all, and xylazine strips are covered in fewer. Ordering by mail does not change your state's law. See the legality section on the Test tab before you order.",
     "grassroots": {
       "intro": "Programs run by and for people who use drugs. These often reach people the formal system turns away, ask for no ID and no story, and tend to know what is actually circulating locally weeks before any official alert does. Several also stay stocked when state programs run dry.",
       "items": [
         {
           "name": "Grassroots Harm Reduction",
           "url": "https://grassrootsharmreduction.org/",
-          "note": "A national network supporting local peer-run programs. Often the fastest route to free supplies where no storefront carries them — and they answer on social media when a website would be too slow."
+          "what": "A national network supporting local peer-run programs. Often the fastest route to free supplies where no storefront carries them — and they answer on social media when a website would be too slow."
         },
         {
           "name": "National Survivors Union",
@@ -556,7 +556,7 @@
         },
         {
           "name": "Remedy Alliance / For The People",
-          "what": "Supplies naloxone in bulk at cost to harm reduction programs — much of the free naloxone handed out at a syringe program in the US passes through here. Not resident-facing: if you run or volunteer with a program, this is where the supply comes from.",
+          "what": "Supplies naloxone in bulk at cost to harm reduction programs — much of the free naloxone handed out at a syringe program in the US passes through here. Not for individuals: if you run or volunteer with a program, this is where the supply comes from.",
           "cost": "For programs",
           "delivery": "Bulk, to organizations",
           "url": "https://remedyallianceftp.org/"

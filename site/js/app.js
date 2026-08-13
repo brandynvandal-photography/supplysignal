@@ -250,7 +250,12 @@ document.getElementById("home").addEventListener("click", () => go("#/alerts"));
    adds no signal a server did not have. */
 
 function applyStrings() {
-  document.title = t("app.title");
+  /* app.name, NOT app.title. index.html ships a bare "Nightlight" behind a
+     comment explaining that the title is read by people who are not the
+     reader - the tab switcher, history, a handed-over phone - and this line
+     was overwriting it with "drug supply alerts and harm reduction" on every
+     boot. The decision had been made twice and shipped neither time. */
+  document.title = t("app.name");
 
   const skip = document.querySelector(".skip");
   if (skip) skip.textContent = t("app.skipToContent");
