@@ -1,6 +1,34 @@
 {
   "runs": [
     {
+      "started": "2026-08-13T02:37:57.142Z",
+      "fetched": 2338,
+      "notModified": 14,
+      "dropped": {
+        "prefilter": 317,
+        "outside_window": 2017,
+        "foreign_year": 1,
+        "low_confidence": 1
+      },
+      "published": 0,
+      "escalated": 2,
+      "reviewed": 2,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh"
+      ],
+      "finished": "2026-08-13T02:39:21.355Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 0,
+        "bytes": 296
+      }
+    },
+    {
       "started": "2026-08-12T23:52:24.177Z",
       "fetched": 2345,
       "notModified": 13,
