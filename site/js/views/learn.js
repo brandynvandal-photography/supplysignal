@@ -159,15 +159,15 @@ export async function render(route, { go }) {
     h("div", { id: "sec-heat" },
       section("Heat, and water", null,
         h("p", { class: "sec__note" },
-          "Overheating kills more people at events than anything else does, and "
+          "More people die of overheating at events than of anything else, and "
           + "the advice everybody repeats about drinking water is the part that "
           + "goes wrong."),
         h("a", { class: "bigptr", href: "#/heat" },
           h("span", { class: "bigptr__hd" }, "Heat, and water"),
           h("span", { class: "bigptr__sub" },
             "How to tell when hot has become dangerous, how to cool somebody down "
-            + "with what is in the room, and why drinking too much water kills "
-            + "people who thought they were being careful.")))));
+            + "with what is in the room, and why too much plain water swells "
+            + "the brain of somebody who thought they were being careful.")))));
 
   /* Policy sits at the foot of Learn rather than in the tab bar. The bar is
      already six wide at 375px and a seventh would truncate them all - and

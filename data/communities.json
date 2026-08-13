@@ -329,7 +329,7 @@
     {
       "id": "reentry",
       "title": "Leaving jail or prison",
-      "blurb": "This is the most dangerous window in the whole app. Tolerance drops fast inside, and the amount that was normal before can kill you on the first day out — the risk of a fatal opioid overdose in the first two weeks after release has been measured at about 40 times the general population's — that is the first two weeks after release, from a North Carolina study following 229,274 people. Almost nothing is built for this moment, so most of what follows is a general line that will take your call rather than a reentry service, because reentry services with phone numbers largely do not exist.",
+      "blurb": "This is the most dangerous window in the whole app. Tolerance drops fast inside, and the amount that was normal before is now enough to stop your breathing on the first day out — the risk of a fatal opioid overdose in the first two weeks after release has been measured at about 40 times the general population's — that is the first two weeks after release, from a North Carolina study following 229,274 people. Almost nothing is built for this moment, so most of what follows is a general line that will take your call rather than a reentry service, because reentry services with phone numbers largely do not exist.",
       "items": [
         {
           "name": "Never Use Alone",
@@ -338,7 +338,7 @@
           "url": "https://neverusealone.com/",
           "hours": "24/7",
           "what": "You give an address, stay on the line while you use, and if you stop responding for more than 30 seconds they send EMS to that address as an unresponsive person.",
-          "note": "If you use in the first days out, this is the single most useful number here. Lost tolerance and using alone is the combination that kills people in this window."
+          "note": "If you use in the first days out, this is the single most useful number here. Lost tolerance means a dose that used to be normal for you can stop your breathing, and alone in a room there is no one to notice it happening."
         },
         {
           "name": "SAMHSA National Helpline",

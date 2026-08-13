@@ -173,7 +173,7 @@
       "limits": [
         {
           "title": "It does not mix evenly",
-          "body": "Fentanyl mixed into another drug is not distributed evenly. One side of a bag can hold none and the other a fatal amount. The strongest protection is to dissolve everything you intend to take, test that solution, and then take it. Second best: crush the whole batch to a fine powder and mix it thoroughly before taking a test portion.",
+          "body": "Fentanyl mixed into another drug is not distributed evenly. One side of a bag can hold none and the other enough to stop someone breathing. The strongest protection is to dissolve everything you intend to take, test that solution, and then take it. Second best: crush the whole batch to a fine powder and mix it thoroughly before taking a test portion.",
           "nuance": "One study of 352 subsamples from street opioid batches found most distributed around an average rather than in dramatic hot spots. That study looked at batches where fentanyl was the main drug — the hot-spot risk is greatest when fentanyl is a contaminant in something else, and in pressed pills."
         },
         {
@@ -375,7 +375,7 @@
     "pureSampleNote": {
       "q": "But doesn’t pure fentanyl react with a reagent?",
       "a": "In a forensic lab, yes — reference-grade fentanyl does produce a color change. It is irrelevant to anyone holding a bag. Drug checking in Los Angeles found consumer fentanyl averaged 10% fentanyl by weight, pills averaged 1.4%, and 42.5% of samples sold as fentanyl were under 5%. What you have is mostly filler, which is exactly the case reagents cannot read.",
-      "b": "DanceSafe scraped a public lab database and found that fentanyl-adulterated oxycodone gives the same reagent colors as clean oxycodone — the pills that killed people looked correct. That is why the rule stays flat: reagents look for red flags, never green lights.",
+      "b": "DanceSafe scraped a public lab database and found that fentanyl-adulterated oxycodone gives the same reagent colors as clean oxycodone — the pills that came back from overdose deaths looked correct. That is why the rule stays flat: reagents look for red flags, never green lights.",
       "sources": [
         {
           "name": "DanceSafe — drug checking",

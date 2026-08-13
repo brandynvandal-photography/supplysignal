@@ -108,9 +108,9 @@
     "right": "Naloxone, and call 911.",
     "explain": "Snoring or gurgling breathing is an obstructed airway, not sleep. If you are alone and naloxone is in your hand, give it first, then call — with two people, one calls while the other doses.",
     "onWrong": {
-     "wait": "Waiting is the thing that kills people here. Lack of oxygen is what causes the damage, and it is happening while you wait.",
+     "wait": "Waiting is the thing that does the damage here. Lack of oxygen is what causes it, and it is happening while you wait.",
      "coffee": "These do not work and they waste the minutes that do. Cold water and walking cannot make someone breathe.",
-     "sleep": "Leaving someone in this state is how an overdose becomes a death. Snoring here is the airway, not sleep."
+     "sleep": "Leaving someone in this state is how the airway closes the rest of the way and the breathing stops, with nobody in the room. Snoring here is the airway, not sleep."
     }
    },
    {
@@ -136,7 +136,7 @@
     "explain": "Judge by their chest, not their eyes. Someone can stay asleep after a reversal that already worked — that is the sedative, not a failed dose. Naloxone wears off in 30–90 minutes and most opioids last longer, so they can go under again.",
     "onWrong": {
      "more": "Understandable, but stacking doses to force someone awake can throw them into hard withdrawal for no gain. If breathing improved, it worked.",
-     "leave": "This is the most common fatal mistake after a successful reversal. Naloxone wears off before the drug does."
+     "leave": "This is the most common fatal mistake after a successful reversal. Naloxone wears off before the drug does, and if you have gone, no one is there when their breathing drops again."
     }
    },
    {

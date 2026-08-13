@@ -83,8 +83,12 @@ export async function render() {
      is more dangerous than none. It does not get hidden behind a click. */
   const fts = g.strips.find((s) => s.id === "fentanyl");
   wrap.appendChild(
+    /* Open, but not toned urgent. disc--urgent only paints the summary in
+       --critical, which on THIS page is the colour of a positive fentanyl
+       result - spending it on a default-open explainer where nothing is wrong
+       made the real result cards below mean slightly less. */
     disclosure("sec-reading", "Reading a test strip",
-      { open: true, tone: "urgent" },
+      { open: true },
       h("div", { class: "readout" },
         resultCard("1", "line", "POSITIVE", "Drug detected", "critical"),
         /* Neutral, not green. A green NEGATIVE card under the headline

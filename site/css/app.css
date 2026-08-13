@@ -24,7 +24,7 @@
      this may already feel watched or judged, and a cold emergency-dashboard
      blue is the wrong first impression. */
   --l-bg: #faf6f0;        --l-surface: #ffffff;   --l-surface-2: #f3ede4;
-  --l-ink: #2b2620;       --l-ink-2: #5e564c;     --l-ink-3: #766d62;
+  --l-ink: #2b2620;       --l-ink-2: #5e564c;     --l-ink-3: #685f52;
   --l-line: #ece4d8;      --l-line-2: #ddd2c2;    --l-edge: #8d8377;
   --l-brand: #2d6a5f;     --l-brand-ink: #ffffff; --l-brand-soft: #e3efea;
   --l-brand-hover: #235448;
@@ -43,7 +43,7 @@
   /* Dark — warm charcoal, not blue-black. Lamplight rather than a control
      room; this gets opened at 3am more than at noon. */
   --d-bg: #17150f;        --d-surface: #211e18;   --d-surface-2: #2b2720;
-  --d-ink: #f2ece2;       --d-ink-2: #c0b6a8;     --d-ink-3: #948a7e;
+  --d-ink: #f2ece2;       --d-ink-2: #c0b6a8;     --d-ink-3: #a0968a;
   --d-line: #39332b;      --d-line-2: #4a4238;    --d-edge: #6f6558;
   --d-brand: #7fcbb8;     --d-brand-ink: #12271f; --d-brand-soft: #1b322c;
   --d-brand-hover: #9adbc9;
@@ -56,12 +56,20 @@
 
   /* Active tokens. Light is the default. Severity keeps full contrast in both
      themes - a calm interface must never make a warning easier to miss.
-     Every pair is verified at WCAG AA or better - and this comment was once
-     false: --l-ink-3 shipped at #8a8076, which computes to 3.59:1 on the page
-     background, under the 4.5:1 floor for the 13-15px text it carries (the
-     Never Use Alone description, "not a recommendation" on dose ranges, strip
-     cross-reactivity notes). It is now #766d62 at 4.72:1. Re-measure after
-     touching any of these; do not re-assert it. */
+     This comment has now been wrong TWICE, which is the argument for the
+     instruction at the end of it. First --l-ink-3 shipped at #8a8076 (3.59:1
+     on the page background). It was corrected to #766d62 and re-measured
+     against --bg only - 4.72:1, which passes. But the same ink also sits on
+     --surface-2, which backs .callout, .nbr:hover, sticky table headers and
+     acc summary:hover, and there it computed 4.36:1. Under the floor again,
+     in the tier that carries the caveats and the "not a recommendation"
+     strings. Measured against EVERY surface it lands on, not just the page:
+       --l-ink-3 #685f52 -> 5.39 on surface-2, 5.83 on bg, 6.27 on white
+       --d-ink-3 #a0968a -> 5.11 on surface-2, 6.28 on bg, 5.72 on surface
+     --ink-2 stays clearly above at 6.20 and 7.43 on surface-2, so the two
+     tiers still read as different weights rather than collapsing together.
+     Re-measure against every surface after touching any of these. Do not
+     re-assert this comment without doing the arithmetic. */
   --bg: var(--l-bg);                 --surface: var(--l-surface);
   --surface-2: var(--l-surface-2);   --ink: var(--l-ink);
   --ink-2: var(--l-ink-2);           --ink-3: var(--l-ink-3);
@@ -96,7 +104,7 @@
 
      82%, following the tab bar rather than the header, because it is the more
      opaque of the two and both sit over scrolling content. */
-  --bar-tint: color-mix(in srgb, var(--surface) 82%, transparent);
+  --bar-tint: color-mix(in srgb, var(--surface) 90%, transparent);
 
   /* --edge is for the boundary of anything TAPPABLE; --glass-line is for
      decorative containers.
@@ -176,7 +184,7 @@
     --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
     --glass: color-mix(in srgb, var(--surface) 62%, transparent);
     --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
-    --bar-tint: color-mix(in srgb, var(--surface) 82%, transparent);
+    --bar-tint: color-mix(in srgb, var(--surface) 90%, transparent);
   }
 }
 
@@ -196,7 +204,7 @@
   --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
   --glass: color-mix(in srgb, var(--surface) 62%, transparent);
   --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
-  --bar-tint: color-mix(in srgb, var(--surface) 82%, transparent);
+  --bar-tint: color-mix(in srgb, var(--surface) 90%, transparent);
 }
 
 /* ------------------------------------------------------------- baseline */
@@ -417,7 +425,7 @@ a { color: var(--brand); }
 .nav a {
   flex: 1; min-height: var(--nav-h);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 5px; padding: 10px 4px; text-decoration: none; color: var(--ink-3);
+  gap: 5px; padding: 10px 4px; text-decoration: none; color: var(--ink-2);
   font-size: .74rem; font-weight: 600; letter-spacing: .005em;
   position: relative;
 }
@@ -490,7 +498,10 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .listbox .cnt {
   margin-left: auto; font-size: .76rem; font-weight: 700;
   padding: 2px 9px; border-radius: var(--radius-pill);
-  background: var(--critical-soft); color: var(--critical); white-space: nowrap;
+  /* Neutral, not critical: alerts.js builds this count from a severity-blind
+     tally, so painting it red claimed a severity the number does not carry -
+     an advisory-only county got the same red as two critical clusters. */
+  background: var(--surface-2); color: var(--ink-2); white-space: nowrap;
 }
 
 /* --------------------------------------------------------------- chips */
@@ -593,13 +604,6 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   border-top: 1px solid color-mix(in srgb, var(--brand) 22%, transparent);
   padding-top: 13px; margin-top: 16px;
 }
-
-/* Hours and dispatch on a crisis line row. Dispatch takes the warning colour
-   because it is the one thing on that row that can go badly wrong for the
-   person dialling - it is not a caveat, it is the answer to "will they send
-   police". */
-.hotline .sub--hours { color: var(--ink-2); }
-.hotline .sub--dispatch { color: var(--elevated); }
 
 /* ---- search -------------------------------------------------------------
    Collapsed by default, full width when open, and pinned under the header so
@@ -713,6 +717,11 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .card__meta:first-child { margin-top: 0; }
 .card__meta:last-child { margin-bottom: 0; }
 
+/* A time window a reader has to act inside, as opposed to a timestamp. Same
+   treatment as .firstdet__when, which is the same idea on the Alerts page. */
+.card__when { color: var(--ink-2); font-size: .88rem; line-height: 1.5; margin: 8px 0; }
+.card__when:last-child { margin-bottom: 0; }
+
 /* Severity is never signalled by color alone - each badge carries a shape
    glyph and the word itself, so it survives greyscale and color blindness. */
 .badge {
@@ -757,7 +766,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .sec { margin: var(--sp-5) 0 var(--sp-2); }
 .sec__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin-bottom: 4px; }
 .sec__head h2 { margin: 0; }
-.sec__note { color: var(--ink-3); font-size: .88rem; line-height: 1.55; }
+.sec__note { color: var(--ink-2); font-size: .88rem; line-height: 1.55; }
 /* Only when STACKED. Inside .sec__head it sits beside the heading as a flex
    sibling and must not gain a top margin there. */
 h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 10px; }
@@ -1114,6 +1123,20 @@ table.data th[scope="row"] { font-weight: 650; }
 .hotline .lbl { font-weight: 650; }
 .hotline .sub { display: block; font-size: .83rem; color: var(--ink-3); font-weight: 400; }
 
+/* Hours and dispatch on a crisis line row. Dispatch takes the warning colour
+   because it is the one thing on that row that can go badly wrong for the
+   person dialling - it is not a caveat, it is the answer to "will they send
+   police".
+
+   THESE MUST STAY BELOW .hotline .sub. Both selectors are (0,2,0) and the
+   element carries both classes, so specificity ties and source order decides.
+   They used to sit 500 lines earlier, which meant .hotline .sub won and all
+   six dispatch warnings rendered in the same muted ink as everything else -
+   verified in the browser at #948a7e, identical to a plain sub. The warning
+   has never been visible. Do not move these up. */
+.hotline .sub--hours { color: var(--ink-2); }
+.hotline .sub--dispatch { color: var(--elevated); }
+
 /* ------------------------------------------------------- content typography */
 
 .card ul, .acc__body ul, .callout ul { margin: 8px 0; padding-left: 22px; }
@@ -1200,7 +1223,7 @@ ol.steps--tight > li h4 { margin-top: 2px; }
 .limit h5 { font-weight: 700; }
 .limit--critical h5 { color: var(--critical); }
 .limit p { font-size: .93rem; margin-bottom: 5px; }
-.limit__nuance { color: var(--ink-3); font-size: .88rem !important; }
+.limit__nuance { color: var(--ink-2); font-size: .88rem !important; }
 
 details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--line)); }
 

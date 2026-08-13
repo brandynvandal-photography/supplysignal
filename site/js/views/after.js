@@ -112,7 +112,10 @@ function survivorBlock(s, src) {
             h("div", { class: "card" },
               h("h4", null, w.sign),
               h("p", null, w.what),
-              w.when ? h("p", { class: "card__meta" }, w.when) : null))),
+              /* card__when, not card__meta. These strings are the window you
+                 have - "treatment inside six hours is what protects the limb" -
+                 and card__meta is the timestamp tier. */
+              w.when ? h("p", { class: "card__when" }, w.when) : null))),
           s.watch.note ? h("p", { class: "sec__note" }, s.watch.note) : null,
           src.add(s.watch.sources))
       : null,

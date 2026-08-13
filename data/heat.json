@@ -2,7 +2,7 @@
   "note": "Heat illness and water. Three rules if you edit this. (1) The sweating myth is load-bearing: NHS, CDC's traveller page and DanceSafe all say heat stroke means hot dry skin, which describes the heatwave kind, not the dancing kind. NATA's position statement and StatPearls both say exertional heat stroke patients are usually still sweating. If somebody reinstates 'no sweating' here they will teach a reader to rule out the thing that is killing the person in front of them. (2) Ice packs to neck, armpits and groin are near-worthless — 0.028 C/min against the 0.155 that counts as adequate. Most first aid still leads with them. Do not put them back at the top. (3) The fluid ceiling is ~500 mL/h, not the liter this site used to say and most party advice still says; a liter an hour is the whole excretory capacity of a healthy person doing nothing, and MDMA lowers it. See PRIVACY.md rules on denominators — every figure here carries one.",
   "verified": "2026-08-13",
   "headline": "Heat, and water",
-  "blurb": "How to tell when hot has become dangerous, how to cool somebody down with what is actually in the room, and why drinking too much water kills people who thought they were being careful.",
+  "blurb": "How to tell when hot has become dangerous, how to cool somebody down with what is actually in the room, and why drinking too much water swells the brain in people who thought they were being careful.",
   "spot": {
     "headline": "Telling the difference",
     "lead": "Heat exhaustion, drinking too much water and simply being very high on a stimulant share most of their early signs. You are not going to separate them from a symptom list, and neither would a doctor without a blood test. What you are looking for is the one change that decides what you do.",
@@ -104,7 +104,7 @@
   },
   "water": {
     "headline": "The other way this goes wrong",
-    "lead": "\"Drink water\" is the most repeated piece of advice at any event, and the version people act on — drink constantly, drink more if you feel bad — is the version that has killed them.",
+    "lead": "\"Drink water\" is the most repeated piece of advice at any event, and the version people act on — drink constantly, drink more if you feel bad — is the version that has put them in intensive care.",
     "body": [
       "Your kidneys can only get rid of so much water: somewhere around a liter an hour at the absolute best, in a healthy person with nothing else going on. Stimulants and MDMA stop your body clearing it properly. Drink past what you can pass and the sodium in your blood dilutes, cells swell, and the cells with nowhere to swell into are the ones in your skull.",
       "In four pooled trials, 96 healthy adults were given an ordinary dose of MDMA in a lab — sitting still, air conditioned, drinking as much or as little as they wanted. Among those left to drink freely, 37% became hyponatremic. Among the 15 whose fluids were limited, none did. Nobody in that study was dancing, and nobody was in a hot room."
@@ -128,7 +128,7 @@
       "title": "This one is also 911",
       "body": "A seizure, confusion or drowsiness, vomiting with a bad headache, trouble breathing, or frothy spit. It is the same trigger as heat stroke — they stop making sense. The difference is what you do next: cool them, but do not give them anything to drink."
     },
-    "note": "Being honest about the size of this: overheating kills more people at events than over-drinking does. What makes water intoxication worth its own section is that it kills people who believed they were doing the careful thing.",
+    "note": "Being honest about the size of this: more people die of overheating at events than of over-drinking, by a wide margin. What makes water intoxication worth its own section is that it turns into a 911 emergency in people who believed they were doing the careful thing.",
     "sources": [
       {
         "name": "Hew-Butler et al. — 3rd International Exercise-Associated Hyponatremia Consensus (2015)",

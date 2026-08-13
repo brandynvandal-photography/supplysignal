@@ -247,7 +247,7 @@ export async function render() {
         callout("info", "Calling is still the right call",
           h("p", null,
             "Knowing how to handle the encounter is not a reason to hesitate at the " +
-            "start of one. Help arriving late is what kills people.")),
+            "start of one. The minutes before help arrives are minutes without oxygen, and that is where the damage happens.")),
 
         h("div", { class: "sources" },
           extLink("https://www.aclu.org/know-your-rights/stopped-by-police",
@@ -384,7 +384,7 @@ export function saferUseBlock() {
         h("ul", null,
           li("Don’t use alone.", "If no one can be there, call Never Use Alone (1-800-484-3731) or use an app that will send help if you stop responding."),
           li("Start with much less than usual.", "Potency varies wildly between batches and even within one batch. A tolerance from last month does not apply to a new supply."),
-          li("Coming back after a break?", "Jail, hospital, detox, treatment, or just time away — tolerance falls fast, and the amount you used before the break can kill you after it. The first days back are the most dangerous. Use a fraction, go slow, and do not be alone."),
+          li("Coming back after a break?", "Jail, hospital, detox, treatment, or just time away — tolerance falls fast, and the amount you used before the break is enough to stop your breathing after it. The first days back are the most dangerous. Use a fraction, go slow, and do not be alone."),
           li("Go slow, and wait.", "Take a small amount and wait to feel it before taking more."),
           li("Keep naloxone within reach.", "Not in another room, and make sure whoever is with you knows where it is and how to use it."),
           li("Be careful mixing.", "Opioids with benzodiazepines or alcohol is especially dangerous, because all three slow breathing and the effects stack — naloxone reverses the opioid and does nothing for the rest. The combination found most often in overdose deaths today is actually fentanyl with a stimulant, which mostly reflects how many people use both."),

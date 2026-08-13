@@ -98,7 +98,7 @@ export async function render() {
     h("a", { class: "bigptr", href: "#/heat" },
       h("span", { class: "bigptr__hd" }, "Heat, and water"),
       h("span", { class: "bigptr__sub" },
-        "Overheating is the thing most likely to kill somebody in this state. "
+        "Overheating is the thing most likely to turn this into an emergency, and the fastest to do it. "
         + "How to tell when hot has become dangerous, how to cool them down with "
         + "what is in the room, and why giving them water to drink can be the "
         + "wrong move.")));
