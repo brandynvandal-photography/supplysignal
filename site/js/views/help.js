@@ -126,9 +126,9 @@ export async function render() {
   wrap.appendChild(
     jumpNav([
       { id: "sec-lines", label: "Hotlines" },
+      { id: "sec-response", label: "Overdose response" },
       { id: "sec-collapse", label: "Collapsed, cause unknown" },
       { id: "sec-festival", label: "At a festival" },
-      { id: "sec-response", label: "Overdose response" },
       { id: "sec-ems", label: "When help arrives" },
       { id: "sec-law", label: "911 and the law" },
       { id: "sec-police", label: "If police come" },
@@ -170,6 +170,29 @@ export async function render() {
         "Too much of a stimulant, or days without sleep. What actually helps, "
         + "and the point where it stops being psychological and becomes "
         + "medical.")));
+
+  /* ---- opioid overdose response, immediately after the numbers ----
+     Moved above "Collapsed, cause unknown" and the festival block. The
+     differential reads first if you do not know WHAT you are looking at,
+     which was the old order's argument - but the overwhelmingly common
+     case for this app is somebody who already knows, and making them
+     scroll past two other scenarios to reach the steps is the wrong
+     default for a page that opens on hotlines for exactly that reason. */
+  wrap.appendChild(
+    disclosure("sec-response", "Responding to an opioid overdose",
+      { open: true, tone: "urgent" },
+      h("ol", { class: "steps" }, STEPS.map(step)),
+      callout("warn", "Naloxone does not reverse xylazine, benzodiazepines, or stimulants",
+        h("p", null,
+          "Xylazine (“tranq”) is not an opioid, so naloxone will not lift its sedation. " +
+          "Give naloxone anyway — it reverses the fentanyl, and that is what stops " +
+          "breathing. Watch their breathing rather than whether they wake up: if " +
+          "breathing improves, the naloxone did its job even if they stay drowsy."),
+        /* Regional prevalence used to sit here, inside the always-open overdose
+           response section. Nobody doing rescue breathing needs epidemiology; it
+           diluted the one instruction that matters. It lives on the xylazine
+           page, properly sourced. */))
+  );
 
   /* ---- collapsed, cause unknown ----
 
@@ -391,22 +414,6 @@ export async function render() {
             + "worried they will not, you can ask them to bring it — knowing "
             + "that asking may bring police too.")))));
 
-  /* ---- overdose response. Also open, for the same reason. ---- */
-  wrap.appendChild(
-    disclosure("sec-response", "Responding to an opioid overdose",
-      { open: true, tone: "urgent" },
-      h("ol", { class: "steps" }, STEPS.map(step)),
-      callout("warn", "Naloxone does not reverse xylazine, benzodiazepines, or stimulants",
-        h("p", null,
-          "Xylazine (“tranq”) is not an opioid, so naloxone will not lift its sedation. " +
-          "Give naloxone anyway — it reverses the fentanyl, and that is what stops " +
-          "breathing. Watch their breathing rather than whether they wake up: if " +
-          "breathing improves, the naloxone did its job even if they stay drowsy."),
-        /* Regional prevalence used to sit here, inside the always-open overdose
-           response section. Nobody doing rescue breathing needs epidemiology; it
-           diluted the one instruction that matters. It lives on the xylazine
-           page, properly sourced. */))
-  );
 
   /* ---- what to tell EMS once they arrive ----
      Complements the Good Samaritan framing rather than contradicting it: "you

@@ -102,11 +102,16 @@
       <!-- SVG rather than the ⌕ glyph, which renders thin and small at any
            font-size and differs wildly across platforms. This is the same
            approach as the brand mark and it scales cleanly. -->
-      <svg class="iconbtn__svg" aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"
-           fill="none" stroke="currentColor" stroke-width="2.1"
+      <!-- 24px and a fuller mark, not 22 with a small one. Its neighbours are
+           solid text glyphs - the theme half-circle draws 18px of ink, the
+           exit cross 14px - while this was thin 1.9px strokes covering about
+           15px of a 22px box, so it read as smaller than both while nominally
+           being the largest. The ink now spans 2.5 to 21.5 of the viewBox. -->
+      <svg class="iconbtn__svg" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24"
+           fill="none" stroke="currentColor" stroke-width="2.3"
            stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="10.5" cy="10.5" r="6.5"/>
-        <path d="M15.4 15.4 L21 21"/>
+        <circle cx="10" cy="10" r="7.5"/>
+        <path d="M15.5 15.5 L21.5 21.5"/>
       </svg>
     </button>
 
