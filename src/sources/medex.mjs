@@ -415,9 +415,13 @@ function emit(src, sub, r, b, totals, asOf, lagDays) {
     : ` That is ${pct(r.count, totals.recent)} of them, against ` +
       `${pct(b.count, totals.base)} over the year before that.`;
 
+  /* No time of day. "What is in it tonight" was written picturing someone
+     reading this before going out, which is one reader among many - it lands
+     wrong at eight in the morning, and an alert has no idea when it is being
+     read. "Right now" makes the same point and is true whenever it is read. */
   const lag =
     ` Toxicology runs about ${humanLag(lagDays)} behind, so this describes what has` +
-    ` been in the supply recently rather than what is in it tonight.`;
+    ` been in the supply recently rather than what is in it right now.`;
 
   return {
     title,
