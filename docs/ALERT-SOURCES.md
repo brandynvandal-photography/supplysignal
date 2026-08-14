@@ -323,9 +323,48 @@ The catch: the repo's last commit is **2025-08-26**, a year stale. The live site
 updated daily, but it is a Next.js app with **no public JSON route** — `/api/samples`,
 `/api/results`, `/api/data` and `/data.json` all 404.
 
-**Asking UNC for a machine-readable feed is the highest-value single action on
-this list.** Nothing else here would improve county coverage as much, and it
-costs one email. No draft has been written yet.
+**ASKED, AND ANSWERED: NO. 2026-08-14.** The draft in `docs/OUTREACH.md` was
+sent to `opioiddatalab@unc.edu` and the lab replied the same day. Recorded here
+so nobody sends it again.
+
+> Due to inappropriate use of our data by others, we have recently updated our
+> use policies […] Right now we only provide machine readable datasets to
+> programs we are serving that are directly sending us samples, and they get
+> only their own program's data […] a few bad actors have spoiled it for the
+> rest. We will revisit this in the future.
+
+Their policy is at `https://results.streetsafe.supply/data-use`. Read 2026-08-14,
+it says no data from that site may be reproduced, redistributed, sold,
+sublicensed, incorporated into AI training datasets or visualization dashboards,
+or used for any commercial or research purpose without prior written
+authorization — and separately that "the aggregated North Carolina dataset is
+publicly available for general use; please get in touch with us if you would
+like to use it."
+
+So the door is not bolted, it is a door with a person behind it. The NC file is
+still usable and the invitation to make contact about it is explicit. What is
+gone is the thing that was actually wanted: a current, national, machine-readable
+feed. Tier 3 has no replacement for it — StreetCheck and NYC DOHMH below are
+both worse, and neither is machine-readable either.
+
+**Check before assuming this affects what already ships.** It does not, and it
+was verified rather than assumed on 2026-08-14:
+
+| What | Where it comes from | Licence, checked via the GitHub API |
+|---|---|---|
+| `data/regional.json` | `opioiddatalab/dataviz` — the regional infographic | **CC0-1.0** |
+| the NC sample file above | `opioiddatalab/drugchecking` | **MIT** |
+
+Neither is `results.streetsafe.supply`, which is what the new policy governs,
+and both grants are irrevocable for what was already published. The rendered
+infographic page states no licence at all — only the repository does — so a
+future reader checking the page alone will find nothing and should check the
+repository before concluding anything. `scripts/build-regional.mjs` says CC0 in
+its header and that is correct, if only provable one level up.
+
+The honest position: we are within our rights and we are also the kind of
+downstream user they have just been burned by. Worth telling them what we do
+with it if the relationship is ever worth having.
 
 ### StreetCheck
 

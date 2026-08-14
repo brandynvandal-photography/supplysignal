@@ -13,6 +13,15 @@ actually fetched and checked on the date given.
 
 ## 1. UNC Street Drug Analysis Lab — asking for a machine-readable feed
 
+> **SENT AND ANSWERED — 2026-08-14. The answer is no.** Machine-readable
+> datasets now go only to programs that send them samples, and only that
+> program's own data, after inappropriate use by others. Their policy is at
+> `https://results.streetsafe.supply/data-use`. The full reply, what the policy
+> says, and the licence check confirming that nothing Nightlight already ships
+> is affected, are recorded in `ALERT-SOURCES.md` §4. **Do not send this
+> again.** They said they will revisit it; the newsletter is where that would
+> be announced. The draft below is kept as the record of what was asked.
+
 **To:** opioiddatalab@unc.edu
 **Verified 2026-08-14:** the address is published on streetsafe.supply as the
 lab's own contact. It is an inbox, not an individual.
@@ -92,7 +101,26 @@ current half is not machine-readable. That gap is the whole subject of the email
 
 ---
 
-### Notes before sending
+### What came back
+
+Same day. Recorded in full in `ALERT-SOURCES.md` §4; the substance is that
+machine-readable datasets now go only to programs sending them samples, and
+only their own program's data, because of inappropriate use by others.
+
+Two things worth taking from it, beyond the answer:
+
+- **The email did not cost them anything to answer, and it was answered
+  properly.** Checking what was already public before asking is why the reply
+  is a policy explanation rather than a link to the repository we had already
+  read.
+- **"A few bad actors have spoiled it for the rest" is the whole context for
+  how this project should behave downstream.** Nightlight is inside its rights
+  on everything it already uses — CC0 and MIT, verified — and being inside
+  one's rights is not the same as being the kind of user a lab wants more of.
+  If this relationship is ever worth having, the thing to offer is what the
+  data is used for and how it is characterised to readers.
+
+### Notes from before sending, kept
 
 - **Sign it as yourself.** Say whether you are writing in a public-servant
   capacity or personally; a university lab will read those differently, and

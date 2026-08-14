@@ -4,6 +4,23 @@
 // released CC0 (public domain). Over four years of mail-in drug checking,
 // January 2022 to April 2026.
 //
+// WHERE THE CC0 ACTUALLY IS, because it is not where you will look for it.
+// The rendered page states no licence at all - only a credit line. The grant
+// is on the REPOSITORY, opioiddatalab/dataviz, which the GitHub API reports as
+// CC0-1.0 (re-checked 2026-08-14). Anyone auditing this from the page alone
+// will find nothing and conclude the wrong thing.
+//
+// This matters more than it did. On 2026-08-14 the lab declined a request for
+// a machine-readable feed and published a data-use policy forbidding reuse of
+// anything from results.streetsafe.supply - after, in their words, a few bad
+// actors spoiled it. That policy governs that site. This file is not that
+// site, and CC0 cannot be withdrawn from what was already released. Both were
+// verified rather than assumed; see docs/ALERT-SOURCES.md section 4.
+//
+// If this build ever starts drawing from results.streetsafe.supply, or from
+// anything else of theirs without an explicit licence, it needs their written
+// permission first. Being within our rights is the floor here, not the aim.
+//
 // Its finding is the most useful thing in this app for a county-level tool:
 // of the 90 substances UNC detects routinely, only 20 turn up everywhere at
 // similar rates. The other 70 are regionally concentrated, some 80-90% inside
