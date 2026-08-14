@@ -84,6 +84,22 @@
   status = 200
   force = true
 
+# The App Store support page used to live at /support/, which is now the app's
+# Support tab. The value in App Store Connect should be updated to
+# /app-support/; until it is, and for any reviewer or user holding the old
+# link, this keeps it landing on the page rather than on the app shell.
+#
+# ABOVE the /support rewrite, not below it, and that ordering is the whole
+# rule. Netlify takes the FIRST match, and it normalises a trailing slash - so
+# with this underneath, /support/ matched the /support rewrite and served the
+# app shell. Verified live: the App Store Connect Support URL returned the app
+# instead of the support page, which is a rejection waiting to happen.
+[[redirects]]
+  from = "/support/"
+  to = "/app-support/"
+  status = 301
+  force = true
+
 # ---------------------------------------------------------------- app routes
 #
 # Each tab is a real path, rewritten (200, not a redirect) onto the one HTML
@@ -159,16 +175,6 @@
   from = "/about"
   to = "/site/index.html"
   status = 200
-
-# The App Store support page used to live at /support/, which is now the app's
-# Support tab. The value in App Store Connect should be updated to
-# /app-support/; until it is, and for any reviewer or user holding the old
-# link, this keeps it landing on the page rather than on the app shell.
-[[redirects]]
-  from = "/support/"
-  to = "/app-support/"
-  status = 301
-  force = true
 
 # Everything that is not the app, 404'd.
 #
