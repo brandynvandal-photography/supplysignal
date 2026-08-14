@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-14T10:20:59.797Z",
+  "generated": "2026-08-14T12:21:45.725Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -2065,7 +2065,7 @@
       "s": "IL",
       "c": 1,
       "sev": "elevated",
-      "t": "2026-08-14T07:51:40.634Z"
+      "t": "2026-08-14T12:21:45.678Z"
     },
     "17033": {
       "n": "Crawford County",
@@ -5994,33 +5994,1426 @@
       "sev": null,
       "t": "2026-08-14T10:20:59.795Z"
     },
+    "22119": {
+      "n": "Webster Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.681Z"
+    },
+    "22121": {
+      "n": "West Baton Rouge Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.681Z"
+    },
+    "22123": {
+      "n": "West Carroll Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.681Z"
+    },
+    "22125": {
+      "n": "West Feliciana Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.681Z"
+    },
+    "22127": {
+      "n": "Winn Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.681Z"
+    },
+    "23001": {
+      "n": "Androscoggin County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.682Z"
+    },
+    "23003": {
+      "n": "Aroostook County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.682Z"
+    },
+    "23005": {
+      "n": "Cumberland County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.682Z"
+    },
+    "23007": {
+      "n": "Franklin County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.682Z"
+    },
+    "23009": {
+      "n": "Hancock County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.683Z"
+    },
+    "23011": {
+      "n": "Kennebec County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.683Z"
+    },
+    "23013": {
+      "n": "Knox County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.683Z"
+    },
+    "23015": {
+      "n": "Lincoln County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.683Z"
+    },
+    "23017": {
+      "n": "Oxford County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.683Z"
+    },
+    "23019": {
+      "n": "Penobscot County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.683Z"
+    },
+    "23021": {
+      "n": "Piscataquis County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.684Z"
+    },
+    "23023": {
+      "n": "Sagadahoc County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.684Z"
+    },
+    "23025": {
+      "n": "Somerset County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.684Z"
+    },
+    "23027": {
+      "n": "Waldo County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.684Z"
+    },
+    "23029": {
+      "n": "Washington County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.684Z"
+    },
+    "23031": {
+      "n": "York County",
+      "s": "ME",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.685Z"
+    },
+    "24001": {
+      "n": "Allegany County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.685Z"
+    },
+    "24003": {
+      "n": "Anne Arundel County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.685Z"
+    },
+    "24005": {
+      "n": "Baltimore County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.685Z"
+    },
+    "24009": {
+      "n": "Calvert County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.685Z"
+    },
+    "24011": {
+      "n": "Caroline County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.686Z"
+    },
+    "24013": {
+      "n": "Carroll County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.686Z"
+    },
+    "24015": {
+      "n": "Cecil County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.686Z"
+    },
+    "24017": {
+      "n": "Charles County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.686Z"
+    },
+    "24019": {
+      "n": "Dorchester County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.687Z"
+    },
+    "24021": {
+      "n": "Frederick County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.687Z"
+    },
+    "24023": {
+      "n": "Garrett County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.687Z"
+    },
+    "24025": {
+      "n": "Harford County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.687Z"
+    },
+    "24027": {
+      "n": "Howard County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.687Z"
+    },
+    "24029": {
+      "n": "Kent County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.688Z"
+    },
+    "24031": {
+      "n": "Montgomery County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.688Z"
+    },
+    "24033": {
+      "n": "Prince George's County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.688Z"
+    },
+    "24035": {
+      "n": "Queen Anne's County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.688Z"
+    },
+    "24037": {
+      "n": "St. Mary's County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.688Z"
+    },
+    "24039": {
+      "n": "Somerset County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.689Z"
+    },
+    "24041": {
+      "n": "Talbot County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.689Z"
+    },
+    "24043": {
+      "n": "Washington County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.689Z"
+    },
+    "24045": {
+      "n": "Wicomico County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.689Z"
+    },
+    "24047": {
+      "n": "Worcester County",
+      "s": "MD",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.689Z"
+    },
     "24510": {
       "n": "Baltimore City",
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T10:20:59.726Z"
+      "t": "2026-08-14T12:21:45.680Z"
+    },
+    "25001": {
+      "n": "Barnstable County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.690Z"
+    },
+    "25003": {
+      "n": "Berkshire County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.690Z"
+    },
+    "25005": {
+      "n": "Bristol County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.690Z"
+    },
+    "25007": {
+      "n": "Dukes County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.690Z"
+    },
+    "25009": {
+      "n": "Essex County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.690Z"
+    },
+    "25011": {
+      "n": "Franklin County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.691Z"
+    },
+    "25013": {
+      "n": "Hampden County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.691Z"
+    },
+    "25015": {
+      "n": "Hampshire County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.691Z"
+    },
+    "25017": {
+      "n": "Middlesex County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.691Z"
+    },
+    "25019": {
+      "n": "Nantucket County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.692Z"
+    },
+    "25021": {
+      "n": "Norfolk County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.692Z"
+    },
+    "25023": {
+      "n": "Plymouth County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.692Z"
+    },
+    "25025": {
+      "n": "Suffolk County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.692Z"
+    },
+    "25027": {
+      "n": "Worcester County",
+      "s": "MA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.693Z"
+    },
+    "26001": {
+      "n": "Alcona County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.693Z"
+    },
+    "26003": {
+      "n": "Alger County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.693Z"
+    },
+    "26005": {
+      "n": "Allegan County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.693Z"
+    },
+    "26007": {
+      "n": "Alpena County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.694Z"
+    },
+    "26009": {
+      "n": "Antrim County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.694Z"
+    },
+    "26011": {
+      "n": "Arenac County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.694Z"
+    },
+    "26013": {
+      "n": "Baraga County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.694Z"
+    },
+    "26015": {
+      "n": "Barry County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.694Z"
+    },
+    "26017": {
+      "n": "Bay County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.695Z"
+    },
+    "26019": {
+      "n": "Benzie County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.695Z"
+    },
+    "26021": {
+      "n": "Berrien County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.695Z"
+    },
+    "26023": {
+      "n": "Branch County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.695Z"
+    },
+    "26025": {
+      "n": "Calhoun County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.695Z"
+    },
+    "26027": {
+      "n": "Cass County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.696Z"
+    },
+    "26029": {
+      "n": "Charlevoix County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.696Z"
+    },
+    "26031": {
+      "n": "Cheboygan County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.696Z"
+    },
+    "26033": {
+      "n": "Chippewa County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.696Z"
+    },
+    "26035": {
+      "n": "Clare County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.696Z"
+    },
+    "26037": {
+      "n": "Clinton County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.697Z"
+    },
+    "26039": {
+      "n": "Crawford County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.697Z"
+    },
+    "26041": {
+      "n": "Delta County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.697Z"
+    },
+    "26043": {
+      "n": "Dickinson County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.697Z"
+    },
+    "26045": {
+      "n": "Eaton County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.698Z"
+    },
+    "26047": {
+      "n": "Emmet County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.698Z"
+    },
+    "26049": {
+      "n": "Genesee County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.698Z"
+    },
+    "26051": {
+      "n": "Gladwin County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.698Z"
+    },
+    "26053": {
+      "n": "Gogebic County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.698Z"
+    },
+    "26055": {
+      "n": "Grand Traverse County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.699Z"
+    },
+    "26057": {
+      "n": "Gratiot County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.699Z"
+    },
+    "26059": {
+      "n": "Hillsdale County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.699Z"
+    },
+    "26061": {
+      "n": "Houghton County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.699Z"
+    },
+    "26063": {
+      "n": "Huron County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.699Z"
+    },
+    "26065": {
+      "n": "Ingham County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.700Z"
+    },
+    "26067": {
+      "n": "Ionia County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.700Z"
+    },
+    "26069": {
+      "n": "Iosco County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.700Z"
+    },
+    "26071": {
+      "n": "Iron County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.700Z"
+    },
+    "26073": {
+      "n": "Isabella County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.701Z"
+    },
+    "26075": {
+      "n": "Jackson County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.701Z"
+    },
+    "26077": {
+      "n": "Kalamazoo County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.701Z"
+    },
+    "26079": {
+      "n": "Kalkaska County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.701Z"
+    },
+    "26081": {
+      "n": "Kent County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.701Z"
+    },
+    "26083": {
+      "n": "Keweenaw County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.702Z"
+    },
+    "26085": {
+      "n": "Lake County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.702Z"
+    },
+    "26087": {
+      "n": "Lapeer County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.702Z"
+    },
+    "26089": {
+      "n": "Leelanau County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.702Z"
+    },
+    "26091": {
+      "n": "Lenawee County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.702Z"
+    },
+    "26093": {
+      "n": "Livingston County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.703Z"
+    },
+    "26095": {
+      "n": "Luce County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.703Z"
+    },
+    "26097": {
+      "n": "Mackinac County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.703Z"
+    },
+    "26099": {
+      "n": "Macomb County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.704Z"
+    },
+    "26101": {
+      "n": "Manistee County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.704Z"
+    },
+    "26103": {
+      "n": "Marquette County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.704Z"
+    },
+    "26105": {
+      "n": "Mason County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.704Z"
+    },
+    "26107": {
+      "n": "Mecosta County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.704Z"
+    },
+    "26109": {
+      "n": "Menominee County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.705Z"
+    },
+    "26111": {
+      "n": "Midland County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.705Z"
+    },
+    "26113": {
+      "n": "Missaukee County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.705Z"
+    },
+    "26115": {
+      "n": "Monroe County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.705Z"
+    },
+    "26117": {
+      "n": "Montcalm County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.705Z"
+    },
+    "26119": {
+      "n": "Montmorency County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.706Z"
+    },
+    "26121": {
+      "n": "Muskegon County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.706Z"
+    },
+    "26123": {
+      "n": "Newaygo County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.706Z"
+    },
+    "26125": {
+      "n": "Oakland County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.706Z"
+    },
+    "26127": {
+      "n": "Oceana County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.706Z"
+    },
+    "26129": {
+      "n": "Ogemaw County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.707Z"
+    },
+    "26131": {
+      "n": "Ontonagon County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.707Z"
+    },
+    "26133": {
+      "n": "Osceola County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.707Z"
+    },
+    "26135": {
+      "n": "Oscoda County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.707Z"
+    },
+    "26137": {
+      "n": "Otsego County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.707Z"
+    },
+    "26139": {
+      "n": "Ottawa County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.708Z"
+    },
+    "26141": {
+      "n": "Presque Isle County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.708Z"
+    },
+    "26143": {
+      "n": "Roscommon County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.708Z"
+    },
+    "26145": {
+      "n": "Saginaw County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.708Z"
+    },
+    "26147": {
+      "n": "St. Clair County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.708Z"
+    },
+    "26149": {
+      "n": "St. Joseph County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.708Z"
+    },
+    "26151": {
+      "n": "Sanilac County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.709Z"
+    },
+    "26153": {
+      "n": "Schoolcraft County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.709Z"
+    },
+    "26155": {
+      "n": "Shiawassee County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.709Z"
+    },
+    "26157": {
+      "n": "Tuscola County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.709Z"
+    },
+    "26159": {
+      "n": "Van Buren County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.709Z"
+    },
+    "26161": {
+      "n": "Washtenaw County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.710Z"
+    },
+    "26163": {
+      "n": "Wayne County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.710Z"
+    },
+    "26165": {
+      "n": "Wexford County",
+      "s": "MI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.710Z"
+    },
+    "27001": {
+      "n": "Aitkin County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.710Z"
+    },
+    "27003": {
+      "n": "Anoka County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.710Z"
+    },
+    "27005": {
+      "n": "Becker County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.711Z"
+    },
+    "27007": {
+      "n": "Beltrami County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.711Z"
+    },
+    "27009": {
+      "n": "Benton County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.711Z"
+    },
+    "27011": {
+      "n": "Big Stone County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.711Z"
+    },
+    "27013": {
+      "n": "Blue Earth County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.711Z"
+    },
+    "27015": {
+      "n": "Brown County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.712Z"
+    },
+    "27017": {
+      "n": "Carlton County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.712Z"
+    },
+    "27019": {
+      "n": "Carver County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.712Z"
+    },
+    "27021": {
+      "n": "Cass County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.712Z"
+    },
+    "27023": {
+      "n": "Chippewa County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.713Z"
+    },
+    "27025": {
+      "n": "Chisago County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.713Z"
+    },
+    "27027": {
+      "n": "Clay County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.713Z"
+    },
+    "27029": {
+      "n": "Clearwater County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.713Z"
+    },
+    "27031": {
+      "n": "Cook County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.714Z"
+    },
+    "27033": {
+      "n": "Cottonwood County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.714Z"
+    },
+    "27035": {
+      "n": "Crow Wing County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.714Z"
+    },
+    "27037": {
+      "n": "Dakota County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.714Z"
+    },
+    "27039": {
+      "n": "Dodge County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.714Z"
+    },
+    "27041": {
+      "n": "Douglas County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.715Z"
+    },
+    "27043": {
+      "n": "Faribault County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.715Z"
+    },
+    "27045": {
+      "n": "Fillmore County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.715Z"
+    },
+    "27047": {
+      "n": "Freeborn County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.715Z"
+    },
+    "27049": {
+      "n": "Goodhue County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.716Z"
+    },
+    "27051": {
+      "n": "Grant County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.716Z"
+    },
+    "27053": {
+      "n": "Hennepin County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.716Z"
+    },
+    "27055": {
+      "n": "Houston County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.716Z"
+    },
+    "27057": {
+      "n": "Hubbard County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.717Z"
+    },
+    "27059": {
+      "n": "Isanti County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.717Z"
+    },
+    "27061": {
+      "n": "Itasca County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.717Z"
+    },
+    "27063": {
+      "n": "Jackson County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.717Z"
+    },
+    "27065": {
+      "n": "Kanabec County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.717Z"
+    },
+    "27067": {
+      "n": "Kandiyohi County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.718Z"
+    },
+    "27069": {
+      "n": "Kittson County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.718Z"
+    },
+    "27071": {
+      "n": "Koochiching County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.718Z"
+    },
+    "27073": {
+      "n": "Lac qui Parle County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.718Z"
+    },
+    "27075": {
+      "n": "Lake County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.719Z"
+    },
+    "27077": {
+      "n": "Lake of the Woods County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.719Z"
+    },
+    "27079": {
+      "n": "Le Sueur County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.719Z"
+    },
+    "27081": {
+      "n": "Lincoln County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.719Z"
+    },
+    "27083": {
+      "n": "Lyon County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.720Z"
+    },
+    "27085": {
+      "n": "McLeod County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.720Z"
+    },
+    "27087": {
+      "n": "Mahnomen County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.720Z"
+    },
+    "27089": {
+      "n": "Marshall County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.720Z"
+    },
+    "27091": {
+      "n": "Martin County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.720Z"
+    },
+    "27093": {
+      "n": "Meeker County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.721Z"
+    },
+    "27095": {
+      "n": "Mille Lacs County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.721Z"
+    },
+    "27097": {
+      "n": "Morrison County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.721Z"
+    },
+    "27099": {
+      "n": "Mower County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.721Z"
+    },
+    "27101": {
+      "n": "Murray County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.722Z"
+    },
+    "27103": {
+      "n": "Nicollet County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.722Z"
+    },
+    "27105": {
+      "n": "Nobles County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.722Z"
+    },
+    "27107": {
+      "n": "Norman County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.722Z"
+    },
+    "27109": {
+      "n": "Olmsted County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.723Z"
+    },
+    "27111": {
+      "n": "Otter Tail County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.723Z"
+    },
+    "27113": {
+      "n": "Pennington County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.723Z"
+    },
+    "27115": {
+      "n": "Pine County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T12:21:45.723Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T10:20:59.725Z"
+      "t": "2026-08-14T12:21:45.680Z"
     },
     "42003": {
       "n": "Allegheny County",
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T10:20:59.795Z"
+      "t": "2026-08-14T12:21:45.724Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T10:20:59.724Z"
+      "t": "2026-08-14T12:21:45.679Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -7581,7 +8974,7 @@
       "s": "CA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T10:20:59.796Z"
+      "t": "2026-08-14T12:21:45.725Z"
     },
     "06075": {
       "n": "San Francisco County",
@@ -7623,7 +9016,7 @@
       "s": "CA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T07:51:40.693Z"
+      "t": "2026-08-14T12:21:45.724Z"
     },
     "06087": {
       "n": "Santa Cruz County",

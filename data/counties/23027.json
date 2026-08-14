@@ -1,0 +1,17 @@
+{
+  "fips": "23027",
+  "name": "Waldo County",
+  "state": "ME",
+  "clusters": [],
+  "coverage": {
+    "lastScan": "2026-08-14T12:21:45.684Z",
+    "windowDays": 365,
+    "sourcesChecked": 26,
+    "sourcesFailed": [
+      "la-ldh"
+    ],
+    "scanned": true,
+    "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
+  },
+  "newSinceLastRun": []
+}
