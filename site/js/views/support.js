@@ -126,7 +126,7 @@ export async function render() {
 
   wrap.appendChild(
     group("grp-now", "Staying safer right now",
-      "Supplies, checking what you have, and lowering the odds tonight — no decisions required.", [
+      "Supplies, checking what you have, and lowering the odds — no decisions required.", [
         sectionOrPending("sec-supplies", "Getting supplies", g.supplies, renderSupplies),
         await checkingBlock(),
         saferUseBlock(),

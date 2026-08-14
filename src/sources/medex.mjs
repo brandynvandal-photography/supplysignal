@@ -20,7 +20,7 @@
  * Mortality data is a lagging indicator, and it is only a handful of counties
  * (docs/ALERT-SOURCES.md has the full survey). This can say "medetomidine has
  * been turning up in this county's supply recently". It cannot say "there is a
- * bad batch tonight". Nothing free and public can say that — the one national
+ * bad batch right now". Nothing free and public can say that — the one national
  * real-time spike layer, ODMAP, is restricted to government agencies. So every
  * item this produces carries its lag in the body text, and severity is capped
  * at "elevated": "critical" in this project means an active ongoing spike, and
