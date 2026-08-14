@@ -353,7 +353,7 @@
           "name": "NEXT Distro",
           "url": "https://nextdistro.org/naloxone",
           "what": "Mails free naloxone to all 50 states, DC and Puerto Rico, postage included.",
-          "note": "Order it to wherever you are going before your release date, or have someone meet you with it. Do not plan on getting it on day one."
+          "note": "Order it to wherever you are going before your release date, or have someone meet you with it. Mail rarely lands on day one."
         },
         {
           "name": "211",
@@ -473,7 +473,7 @@
           "tel": "18443631423",
           "url": "https://unitedwedream.org/our-work/deportation-defense/",
           "what": "Report ICE activity and get know-your-rights materials.",
-          "caution": "Not an emergency line. Never use this instead of 911 during an overdose."
+          "caution": "Not an emergency line — it cannot send medical help. During an overdose, 911 or Never Use Alone (1-800-484-3731) can."
         }
       ],
       "law": {

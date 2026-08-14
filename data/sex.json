@@ -94,7 +94,7 @@
       },
       {
         "t": "Internal condoms, and one hard rule",
-        "d": "About 95% with perfect use, around 79% typical. They can be used for anal sex, though the evidence for that specifically is described as unknown. Never use one at the same time as an external condom — the friction tears both."
+        "d": "About 95% with perfect use, around 79% typical. They can be used for anal sex, though the evidence for that specifically is described as unknown. Used at the same time as an external condom, the friction tears both."
       },
       {
         "t": "Dental dams",
@@ -117,7 +117,7 @@
     "items": [
       {
         "t": "PEP is an emergency, and the clock is 72 hours",
-        "d": "If you think you were exposed to HIV — sex, a shared needle, an assault — post-exposure prophylaxis works if started within 72 hours, ideally within 24. It is a 28-day course. Go to an emergency room or urgent care and say you need PEP. Do not wait for test results to start it.",
+        "d": "If you think you were exposed to HIV — sex, a shared needle, an assault — post-exposure prophylaxis works if started within 72 hours, ideally within 24. It is a 28-day course. Go to an emergency room or urgent care and say you need PEP. It is started before any test results come back — the 72-hour clock matters more than the confirmation does.",
         "note": "In twelve states pharmacists can prescribe it directly: Arkansas, California, Colorado, Illinois, Maine, Nevada, New Mexico, New York, North Carolina, Oregon, Utah and Virginia.",
         "sources": [
           {
@@ -173,7 +173,7 @@
       },
       {
         "t": "Two things that stop it working",
-        "d": "Do not take two different kinds of morning-after pill within five days of each other — they can cancel each other out. And enzyme-inducing medicines reduce it: rifampin, St. John's wort, carbamazepine, phenytoin, topiramate and some HIV medicines.",
+        "d": "Two different kinds of morning-after pill within five days of each other can cancel each other out. And enzyme-inducing medicines reduce it: rifampin, St. John's wort, carbamazepine, phenytoin, topiramate and some HIV medicines.",
         "note": "There is no evidence that recreational drugs affect it either way, because nobody has studied it. The documented risk is prescribed medicines and St. John's wort, which is sold over the counter."
       }
     ],
@@ -224,7 +224,7 @@
       {
         "t": "GHB and GBL — the margin is the problem",
         "d": "The dose that gives the effect people want and the dose that stops breathing are only about five times apart, in a drug usually measured by eye from a squeeze bottle. Alcohol narrows that further and was involved in 76% of GHB emergency visits. There is no antidote — treatment is keeping the airway open.",
-        "note": "GBL can be two to three times stronger than GHB by volume, so swapping one for the other at the same amount is an overdose. Measure with a marked oral syringe. Wait at least two hours before redosing. Do not mix it with alcohol, benzos, ketamine or meth. And withdrawal from regular use can start within hours of the last dose and bring on seizures and delirium that need a hospital — do not stop abruptly alone.",
+        "note": "GBL can be two to three times stronger than GHB by volume, so swapping one for the other at the same amount is an overdose. A marked oral syringe measures it; two hours is the usual gap before redosing. Alcohol, benzos, ketamine and meth stack with it — the depressant effects add up, and that combination is where most GHB overdoses come from. Withdrawal from regular use can start within hours of the last dose and bring on seizures and delirium that need a hospital — do not stop abruptly alone.",
         "sources": [
           {
             "name": "Le & Richards, StatPearls — GHB toxicity",
