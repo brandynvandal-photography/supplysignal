@@ -84,21 +84,22 @@
   status = 200
   force = true
 
-# The App Store support page used to live at /support/, which is now the app's
-# Support tab. The value in App Store Connect should be updated to
-# /app-support/; until it is, and for any reviewer or user holding the old
-# link, this keeps it landing on the page rather than on the app shell.
+# WHY THERE IS NO REDIRECT FROM THE OLD /support/ TO /app-support/
 #
-# ABOVE the /support rewrite, not below it, and that ordering is the whole
-# rule. Netlify takes the FIRST match, and it normalises a trailing slash - so
-# with this underneath, /support/ matched the /support rewrite and served the
-# app shell. Verified live: the App Store Connect Support URL returned the app
-# instead of the support page, which is a rejection waiting to happen.
-[[redirects]]
-  from = "/support/"
-  to = "/app-support/"
-  status = 301
-  force = true
+# Because Netlify cannot express one. It normalises a trailing slash, so
+# /support and /support/ are the same path to the redirect engine: a rule for
+# either one catches both. Verified live, twice - first the app shell was
+# served at /support/ where the App Store page belonged, then with the 301
+# ordered above it the App Store page was served at /support where the app's
+# Support TAB belonged. There is no ordering that gives both.
+#
+# So the tab takes /support and the App Store page is at /app-support/ only.
+#
+# THIS MEANS THE SUPPORT URL IN APP STORE CONNECT MUST BE UPDATED TO
+# https://nightlight.help/app-support/ - there is no safety net behind it. An
+# un-updated URL serves the app's Support tab, which is harm-reduction
+# resources rather than help with the app, to a reviewer who asked for the
+# latter.
 
 # ---------------------------------------------------------------- app routes
 #
