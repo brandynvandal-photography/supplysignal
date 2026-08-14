@@ -114,8 +114,19 @@ export async function writeAlertsBundle(root, { windowDays, coverage }) {
     if (!file.endsWith(".json")) continue;
     const doc = await readJson(path.join(dir, file), null);
     if (!doc?.clusters) continue;
+    /* Carry the county name into the bundle.
+     *
+     * A cluster knows its fips and nothing else, which is fine on a county
+     * page where the reader already knows where they are. The national list
+     * has to say WHERE each one is, and the only other ways to answer that
+     * are counties.json (172 KB, on a screen that otherwise needs none of it)
+     * or index.json (only the counties the scanner has touched). The county
+     * file has the answer sitting at its top level, so it costs two short
+     * strings per alert - and only for counties that actually have one. */
     for (const c of doc.clusters) {
-      if (Date.parse(c.eventDate) >= cutoff) clusters.push(c);
+      if (Date.parse(c.eventDate) >= cutoff) {
+        clusters.push({ ...c, n: doc.name, s: doc.state });
+      }
     }
   }
 

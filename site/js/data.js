@@ -221,6 +221,27 @@ export async function alertsFor(fips, days = 90) {
     );
 }
 
+/**
+ * Every alert in the country inside `days`, newest and most severe first.
+ *
+ * Costs nothing beyond the bundle every screen already loads. That is not an
+ * optimisation, it is the privacy design: there is no "national alerts"
+ * request to make, because asking for one county's alerts and asking for all
+ * of them are the same request. Each carries the county name the bundle now
+ * ships (see writeAlertsBundle), so this needs no gazetteer.
+ */
+export async function alertsAll(days = 90) {
+  const a = await alerts();
+  const cutoff = Date.now() - days * 864e5;
+  return (a.clusters || [])
+    .filter((c) => Date.parse(c.eventDate) >= cutoff)
+    .map((c) => (c.n ? { ...c, _county: { name: c.n, state: c.s, fips: c.fips } } : c))
+    .sort(
+      (x, y) =>
+        rank[x.severity] - rank[y.severity] || String(y.eventDate).localeCompare(x.eventDate)
+    );
+}
+
 /** Alerts in bordering counties, each tagged with the county and distance. */
 export async function alertsNearby(fips, days = 90) {
   const nbrs = await neighbors(fips);

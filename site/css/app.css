@@ -1214,7 +1214,30 @@ table.data th[scope="row"] { font-weight: 650; }
 
 /* --------------------------------------------------------------- footer */
 
-.foot { border-top: 1px solid var(--line); background: var(--surface); margin-top: 34px; padding: 20px 0 26px; }
+/* The bottom padding clears the fixed tab bar.
+ *
+ * `main` has always done this - padding-bottom: calc(var(--nav-h) + ...) - but
+ * the footer is a SIBLING of main, not inside it, so it never inherited the
+ * allowance. With 26px against a 64px bar plus the safe-area inset, the last
+ * row of the footer sat underneath the tab bar on every phone: "About this
+ * site" was the last element on the page and was completely covered, measured
+ * at a 45px overlap on a 375x812 viewport. It has presumably been unreachable
+ * on mobile since the tab bar became fixed.
+ *
+ * Reset at the same breakpoint where main resets, because that is where the
+ * bar stops being fixed to the bottom. */
+.foot {
+  border-top: 1px solid var(--line); background: var(--surface); margin-top: 34px;
+  padding: 20px 0 calc(var(--nav-h) + var(--sp-4) + env(safe-area-inset-bottom));
+}
+/* Above 880px the tab bar is not fixed to the bottom, so the allowance above
+   is dead space. This has to live AFTER the rule it resets: the 880px block
+   further up the file comes before .foot is even declared, so the shorthand
+   `padding` there would simply overwrite a longhand set earlier. */
+@media (min-width: 880px) {
+  .foot { padding-bottom: 26px; }
+}
+
 .foot p { font-size: .8rem; color: var(--ink-3); line-height: 1.7; }
 .foot strong { color: var(--ink-2); }
 
@@ -2136,7 +2159,12 @@ details.disc .groupkids > details.disc > summary h2 {
 .lovedhard p { margin: 0; }
 
 .foot__links { margin-top: var(--sp-2); }
-.foot__links a {
+/* :not(.btn), because "About this site" is a pill down here and this rule
+   would otherwise win the cascade against it — (0,2,1) against .btn--ghost's
+   (0,1,0) — and repaint it as brand-coloured text with `padding: 4px 0`,
+   which flattens a pill to a bare label with no sides. Anything else that
+   lands in the footer stays a plain link. */
+.foot__links a:not(.btn) {
   color: var(--brand);
   display: inline-flex; align-items: center; min-height: var(--tap); padding: 4px 0;
 }

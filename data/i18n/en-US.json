@@ -85,7 +85,14 @@
     "locateOutside": "That location isn’t inside a US county. Search by name instead.",
     "locateNoData": "Couldn’t load the map data. Search by name instead.",
     "sessionTitle": "Nothing you do here is saved",
-    "sessionBody": "No account, and nothing kept between visits — close the tab and it is gone. The ✕ in the corner is for when you need to leave this second: it drops this page from your back button and sends you to a weather site."
+    "sessionBody": "No account, and nothing kept between visits — close the tab and it is gone. The ✕ in the corner is for when you need to leave this second: it drops this page from your back button and sends you to a weather site.",
+    "everywhereTitle": "Everywhere else right now",
+    "everywhereIntro": "Every alert published anywhere in the country, newest and most serious first.",
+    "everywhereCount": "{count} published anywhere in the country in the last {window}.",
+    "everywhereSeeAll": "See all {count}",
+    "everywhereNoneTitle": "Nothing published anywhere in the last 90 days",
+    "everywhereNoneBody": "That is a statement about what has been published, not about what is in circulation. Most changes in a local drug supply are never announced by anyone, and the reporting that does happen runs weeks behind. A quiet list here means nobody has said anything — not that nothing is happening.",
+    "everywhereNoneScanned": "{count} counties have been scanned recently, out of 3,231. Most of the country has not been looked at at all."
   },
   "severity": {
     "critical": "Critical",

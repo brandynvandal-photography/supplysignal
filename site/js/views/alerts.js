@@ -105,13 +105,13 @@ async function pickerView(route, { go, data }) {
 
   const a = await data.alerts();
   if (!a.generated) {
-    wrap.appendChild(
-      empty("No scan has run yet.",
-        "Once the hourly job runs, alerts will appear here. Until then this " +
-        "page has nothing to report — which is not the same as nothing happening.")
-    );
+    /* Both strings already existed in the locale file while these sat here in
+       English. Same drift the location callout above had. */
+    wrap.appendChild(empty(t("alerts.noScanTitle"), t("alerts.noScanBody")));
+    return wrap;
   }
 
+  wrap.appendChild(await everywhere({ data }, { limit: NATIONAL_PREVIEW }));
   return wrap;
 }
 
@@ -586,6 +586,80 @@ function freshLine(items, win, c) {
         ` in ${c.name} and bordering counties.`)));
 }
 
+/* ============================================================ everywhere == */
+
+/* How many to show before offering the rest. Enough that a quiet week is the
+   whole picture and the reader never needs to expand, short enough that a bad
+   one does not bury the search box this page exists for. */
+const NATIONAL_PREVIEW = 8;
+const NATIONAL_DAYS = 90;
+
+/**
+ * Everything published anywhere, on the screen someone lands on.
+ *
+ * This costs no request. The alerts bundle is national and every screen
+ * already loads it, which is the same fact the privacy promise rests on:
+ * asking for one county's alerts and asking for all of them are the same
+ * request, so the app cannot learn which county a reader cares about.
+ *
+ * The empty state is the point of the section, and it is the state this will
+ * be in most of the time. "Nothing anywhere" is a more dangerous sentence than
+ * "nothing in your county", because it invites the reader to conclude the
+ * supply is quiet nationally when what it measures is that a couple of hundred
+ * of 3,231 counties have been scanned recently and most local supply changes
+ * are never published by anyone. So what was actually looked at goes on the
+ * screen beside the zero.
+ */
+async function everywhere({ data }, { limit = 0 } = {}) {
+  const all = await data.alertsAll(NATIONAL_DAYS);
+  const cov = await data.coverage();
+  const scannedN = Number(cov.countiesScanned) || 0;
+
+  const head = h("div", { class: "county-head" },
+    h("h2", null, t("alerts.everywhereTitle")),
+    h("p", { class: "sec__note" },
+      all.length
+        ? t("alerts.everywhereCount", { count: all.length, window: labelFor(NATIONAL_DAYS) })
+        : t("alerts.everywhereIntro")));
+
+  if (!all.length) {
+    return h("div", { id: "sec-everywhere" }, head,
+      callout("warn", t("alerts.everywhereNoneTitle"),
+        h("p", null, t("alerts.everywhereNoneBody")),
+        scannedN ? h("p", null, t("alerts.everywhereNoneScanned", { count: scannedN })) : null));
+  }
+
+  const wrap = h("div", { id: "sec-everywhere" }, head,
+    h("div", null, all.slice(0, limit || all.length).map((k) => card(k, true))));
+
+  if (!limit || all.length <= limit) return wrap;
+
+  /* Expands in place rather than routing to a page of its own. A separate
+     page needs an h1, and these cards are h3 because on a county page they
+     sit under a section's h2 - so that page's outline ran h1 straight to h3
+     and the only way to fill the gap was a heading invented to fill it.
+     Expanding here keeps the outline this section already has.
+
+     Focus moves to the first card that appeared, because otherwise the button
+     vanishes from under the pointer and a screen reader is left on a control
+     that no longer exists with no way to tell whether anything happened. */
+  const rest = h("div");
+  const more = h("p", { class: "sec__note" });
+  more.appendChild(h("button", {
+    type: "button", class: "btn btn--ghost",
+    onClick: () => {
+      for (const k of all.slice(limit)) rest.appendChild(card(k, true));
+      more.remove();
+      const first = rest.querySelector("h3");
+      if (first) { first.setAttribute("tabindex", "-1"); first.focus(); }
+    },
+  }, t("alerts.everywhereSeeAll", { count: all.length })));
+
+  wrap.appendChild(rest);
+  wrap.appendChild(more);
+  return wrap;
+}
+
 /* ================================================================= card == */
 
 function card(k, showCounty = false) {
@@ -595,8 +669,15 @@ function card(k, showCounty = false) {
     h("div", { class: "card__top" },
       sevBadge(k.severity),
       isLab ? badge("Lab result", "neutral") : null,
+      /* The distance is only meaningful relative to a county the reader
+         picked. On the national list there is no "here" to be near, so the
+         badge is the place alone rather than a distance from nowhere. */
       showCounty && k._county
-        ? badge(`${k._county.name}, ${k._county.state} · ${k._mi} mi`, "neutral")
+        ? badge(
+            k._mi == null
+              ? `${k._county.name}, ${k._county.state}`
+              : `${k._county.name}, ${k._county.state} · ${k._mi} mi`,
+            "neutral")
         : null,
       h("time", { class: "card__meta", datetime: isoDate(k.eventDate) }, relTime(k.eventDate))),
 
