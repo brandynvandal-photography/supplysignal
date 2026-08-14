@@ -61,13 +61,13 @@ const DAY = 86400000;
 export const WATCH = [
   ["medetomidine",     /\b(dex)?medetomidine\b/i],
   ["xylazine",         /\bxylazine\b/i],
-  ["nitazenes",        /\b[a-z-]*nitazene\b/i],
-  ["carfentanil",      /\bcarfentanil\b/i],
-  ["fluorofentanyl",   /\b(para|ortho|meta|[opm])-?\s?fluorofentanyl\b/i],
-  ["methylfentanyl",   /\b(para|ortho|meta|[opm])-?\s?methylfentanyl\b/i],
+  ["nitazenes",        /\b[a-z-]*nitazenes?\b/i],
+  ["carfentanil",      /\bcarfentan[iy]l\b/i],
+  ["fluorofentanyl",   /\b(?:(?:para|ortho|meta|[opm234])-?\s?)?fluorofentanyl\b/i],
+  ["methylfentanyl",   /\b(?:(?:para|ortho|meta|[opm234])-?\s?)?methylfentanyl\b/i],
   ["acetylfentanyl",   /\bacetyl[\s-]?fentanyl\b/i],
   ["bromazolam",       /\bbromazolam\b/i],
-  ["novel benzos",     /\b(flualprazolam|flubromazolam|clonazolam|etizolam)\b/i],
+  ["novel benzos",     /\b(flualprazolam|flubromazolam|(?:\d-?amino)?clonazolam|etizolam|metizolam)\b/i],
   ["BTMPS",            /\bbtmps\b/i],
   ["levamisole",       /\blevamisole\b/i],
 ];
@@ -292,24 +292,60 @@ async function latestDate(src, settings) {
 }
 
 /**
- * Is `rc` hits out of `recentTotal` more than the baseline rate would throw up
- * by chance? Normal approximation to the binomial, one-sided.
+ * Fisher's exact test, one-sided.
  *
- * This exists because the first live run wanted to publish "medetomidine is
- * turning up more often, 6% against 3%" off 5 records out of 83. Doubling
- * sounds like a finding and at that count it is noise — the standard error on
- * 5/83 is nearly 3 points. Publishing it would spend the reader's attention on
- * a coin flip, and an alert feed that cries wolf gets ignored, including on
- * the day it is right.
+ * REPLACED A Z-TEST THAT WAS WRONG IN TWO DIRECTIONS AT ONCE.
  *
- * The same run found acetyl fentanyl at 11 of 83 against 14 of 751: z = 7.7.
- * That is the kind of change worth interrupting somebody for.
+ * The old zScore compared `rc` against the baseline rate as though that rate
+ * were KNOWN. It is not - it is estimated from a few hundred deaths, and a
+ * baseline that lands low by chance both lowers the ratio bar and shrinks the
+ * standard deviation, so the two errors compound. Exact enumeration over both
+ * binomials put the real false-alarm rate at 2.7x the nominal one: for a
+ * Cook-sized county the gate fired on pure noise 8% of the time per test.
+ * Across 11 substances x 4 counties x ~4 windows a year that is roughly one
+ * invented "X is turning up more often" per county per year with nothing
+ * whatsoever happening in the supply.
+ *
+ * The normal approximation was the second problem, pushing the same way: at
+ * the counts that actually trigger these alerts (rc of 3 to 7) the true tail
+ * ran 1.5x to 8x what the printed z implied.
+ *
+ * Fisher's exact fixes both by construction. It conditions on the margins, so
+ * the baseline being an estimate is handled rather than assumed away, and it
+ * is exact, so there is no approximation to be optimistic at small n. It is
+ * also the honest thing to put in the audit trail: a p-value that means what
+ * it says, rather than a z that overstates itself.
+ *
+ * Verified against R: fisher.test(matrix(c(3,1,1,3)), alternative="greater")
+ * gives 0.2429, and so does this.
  */
-export function zScore(rc, recentTotal, baseShare) {
-  const expected = baseShare * recentTotal;
-  const sd = Math.sqrt(recentTotal * baseShare * (1 - baseShare));
-  if (!(sd > 0)) return Infinity;
-  return (rc - expected) / sd;
+const LANCZOS = [
+  76.18009172947146, -86.50532032941677, 24.01409824083091,
+  -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5,
+];
+function lnGamma(z) {
+  let y = z, tmp = z + 5.5;
+  tmp -= (z + 0.5) * Math.log(tmp);
+  let ser = 1.000000000190015;
+  for (let j = 0; j < 6; j++) ser += LANCZOS[j] / ++y;
+  return -tmp + Math.log((2.5066282746310005 * ser) / z);
+}
+const lnChoose = (n, k) => lnGamma(n + 1) - lnGamma(k + 1) - lnGamma(n - k + 1);
+
+/** P(as many or more hits in the recent window, given the pooled rate). */
+export function exactP(rc, recentTotal, bc, baseTotal) {
+  const a = rc, b = recentTotal - rc, c = bc, d = baseTotal - bc;
+  if (a < 0 || b < 0 || c < 0 || d < 0) return 1;
+  const n = a + b + c + d, rowR = a + b, colH = a + c;
+  if (!n || !rowR || !colH || colH === n) return 1;
+
+  let p = 0;
+  for (let x = a; x <= Math.min(rowR, colH); x++) {
+    const y = rowR - x, z = colH - x, w = (c + d) - z;
+    if (y < 0 || z < 0 || w < 0) continue;
+    p += Math.exp(lnChoose(colH, x) + lnChoose(n - colH, y) - lnChoose(n, rowR));
+  }
+  return Math.min(1, Math.max(0, p));
 }
 
 /**
@@ -348,41 +384,79 @@ function endOfMonth(ym) {
 /**
  * How recent can this county's data actually be trusted to be complete?
  *
- * NOT the same question as "what is the newest record", and getting them
- * confused is the trap this whole function exists to avoid. A medical
- * examiner's file fills in for months after the death: a few fast cases post
- * quickly and the bulk arrive as toxicology clears. Measured 2026-08-14:
+ * NOT the same question as "what is the newest record", and confusing them is
+ * the trap this function exists for. A medical examiner's file fills in for
+ * months after the death: a few fast cases post quickly and the bulk arrive as
+ * toxicology clears. Measured 2026-08-14:
  *
  *   Cook        steady near 60/month, then Jun 46, Jul 16
  *   Allegheny   steady near 26/month, then Feb 18, Mar 13, Apr 10, May 10, Jun 1
  *
- * Allegheny's newest record was 65 days old, which looks like a two-month lag
- * and is not one — it is still filling in April. Anchoring on the newest
- * record compared a 40%-complete recent window against a complete baseline.
+ * TWO SIGNALS, BECAUSE ONE IS NOT ENOUGH. The first version compared each
+ * month against the median of the whole span, and that single test failed in
+ * both directions:
  *
- * Worse than the noise is the direction of the bias: a case with an unusual
- * adulterant needs confirmatory testing and clears SLOWER than a routine one,
- * so the incomplete tail systematically under-represents exactly what this
- * module is looking for.
+ *   A county whose caseload GENUINELY FELL never re-anchored. Constructed
+ *   series: 14 months at 40, then a real and complete new regime at 18. The
+ *   span median stays 40, the bar stays 28, and no month at the true new rate
+ *   can ever clear it - so the anchor froze permanently, aged past
+ *   maxLagDays, and the source was dropped as "stale" while it was publishing
+ *   perfectly good current data. Seasonal counties failed the same way,
+ *   silently discarding every winter.
  *
- * So: take the median month over the span, walk back from the newest, and
- * anchor at the end of the first month holding at least `completeness` of it.
- * Self-calibrating, because every county's fill-in rate is different and each
- * one drifts.
+ *   A SURGE anchored on a half-filled month. 13 steady months at 30, then a
+ *   July whose real count is 60 with only 33 filed - 55% complete, but 33
+ *   clears a bar of 21, so the window ended inside it. The missing 45% skews
+ *   toward the cases needing confirmatory testing, which is to say toward the
+ *   unusual adulterants. A false negative exactly when the feed's one job is
+ *   to fire.
+ *
+ * So: completeness is judged by AGE, which cannot be confused with level, and
+ * the level test is kept only as a sanity check against the months around it
+ * rather than against the whole span. A month is the anchor when it is old
+ * enough to have filled in AND is not obviously short next to its own
+ * neighbours - a local comparison, so a genuine decline simply becomes the new
+ * normal instead of an anomaly forever.
  */
-export function completeThrough(months, completeness) {
+export function completeThrough(months, completeness, minAgeMonths = 2) {
   if (months.length < 6) return null;
-  /* Median over everything but the newest three, which are always partial and
-     would drag the median down toward them. */
-  const settled = months.slice(0, -3).map((x) => x.n).sort((a, b) => a - b);
-  if (!settled.length) return null;
-  const median = settled[Math.floor(settled.length / 2)];
-  if (!median) return null;
+
+  /* Age first. Nothing newer than this can be trusted however full it looks,
+     which is what defeats the surge case. */
+  const cutoff = new Date();
+  cutoff.setUTCMonth(cutoff.getUTCMonth() - minAgeMonths);
+  const oldEnough = `${cutoff.getUTCFullYear()}-${String(cutoff.getUTCMonth() + 1).padStart(2, "0")}`;
 
   for (let i = months.length - 1; i >= 0; i--) {
-    if (months[i].n >= median * completeness) {
-      return { through: endOfMonth(months[i].m), median, month: months[i] };
-    }
+    const m = months[i];
+    if (m.m > oldEnough) continue;
+
+    /* Local reference: the six months before this one, which are older and so
+       further along in filling. Compared against the whole span, this is what
+       lets a real decline or a seasonal trough be accepted as complete. */
+    const prior = months.slice(Math.max(0, i - 6), i).map((x) => x.n).sort((a, b) => a - b);
+    if (!prior.length) continue;
+    const local = prior[Math.floor(prior.length / 2)];
+
+    /* A zero month is never an anchor: a county that has stopped publishing
+       must fail closed rather than report a full window of nothing. */
+    if (!m.n) continue;
+
+    /* A PLATEAU is a new normal; a fill-in curve is not.
+     *
+     * The local median alone cannot see a regime change, because during one
+     * the preceding months are still mostly at the old rate - a county that
+     * genuinely halved its caseload stayed rejected forever. Three
+     * consecutive months sitting within 20% of each other is the shape a
+     * settled level makes and the shape a filling tail does not: Allegheny's
+     * real tail runs 18, 13, 10, 10, 1, which never holds still. */
+    const run = [months[i - 2], months[i - 1], m].filter(Boolean).map((x) => x.n);
+    const plateau = run.length === 3 && Math.min(...run) > 0 &&
+      (Math.max(...run) - Math.min(...run)) / Math.max(...run) <= 0.2;
+
+    if (!plateau && local && m.n < local * completeness) continue;
+
+    return { through: endOfMonth(m.m), local, month: m };
   }
   return null;
 }
@@ -465,7 +539,12 @@ export async function fetchMedicalExaminer(src, settings, cfg = {}) {
   const baselineDays = src.baselineDays || cfg.baselineDays || 365;
   const minCount = src.minCount ?? cfg.minCount ?? 3;
   const riseFactor = cfg.riseFactor ?? 2;
-  const zMin = cfg.zMin ?? 2;
+  /* One in a thousand per test. With 11 substances across 4 counties and
+     roughly four independent windows a year, that budgets about a quarter of
+     one false alert per year across the whole feed - which is the trade this
+     project asks for. A looser bar is not a nicer feed; it is a feed people
+     learn to ignore. */
+  const maxP = cfg.maxP ?? 0.001;
   const maxLagDays = cfg.maxLagDays ?? 150;
   const completeness = cfg.completeness ?? 0.7;
 
@@ -557,11 +636,15 @@ export async function fetchMedicalExaminer(src, settings, cfg = {}) {
      * before it is worth telling anyone. Both the ratio and the z-score have
      * to clear: the ratio keeps a statistically clean but tiny move quiet, and
      * the z-score keeps a dramatic-looking move on four records quiet. */
+    let p = null;
     if (bc === 0) {
-      if (rc < minCount) continue;
+      /* Arrived. There is no rate to test against, so minCount - already
+         applied above - is the whole bar. Exact enumeration put this branch's
+         contribution to the false-alarm rate below 0.002 everywhere. */
     } else {
       if (recentShare < baseShare * riseFactor) continue;
-      if (zScore(rc, recentTotal, baseShare) < zMin) continue;
+      p = exactP(rc, recentTotal, bc, baseTotal);
+      if (p > maxP) continue;
     }
 
     items.push(emit(

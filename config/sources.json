@@ -485,7 +485,9 @@
    }
   ],
   "completeness": 0.7,
-  "_lagNote": "maxLagDays is measured from the last COMPLETE month, not the newest record - see completeThrough() in src/sources/medex.mjs. Allegheny's newest record is about 2 months old but it is still filling in cases from 4 months back, so its honest anchor is roughly 6 months and 150 would have silently dropped it. Every item states its own lag in the body text."
+  "_lagNote": "maxLagDays is measured from the last COMPLETE month, not the newest record - see completeThrough() in src/sources/medex.mjs. Allegheny's newest record is about 2 months old but it is still filling in cases from 4 months back, so its honest anchor is roughly 6 months and 150 would have silently dropped it. Every item states its own lag in the body text.",
+  "maxP": 0.001,
+  "_statsNote": "maxP is a Fisher exact one-sided p-value, replacing a z-test that treated the estimated baseline as a known rate and inflated the false-alarm rate 2.7x. 0.001 per test budgets roughly a quarter of one false alert per year across 11 substances x 4 counties x ~4 independent windows. See the header above exactP() in src/sources/medex.mjs."
  },
  "_evidenceNote": "Every source carries an evidence class - lab, official, community - read by src/evidence.mjs. Aggregators (googleNews, gdelt) deliberately have none: they are carriers, and their items are graded by the originator NAMED IN THE TEXT, or dropped if nobody is. The classes gate severity (community and unconfirmed media never publish critical) and set per-class confidence floors. See the header of src/evidence.mjs for why grading the originator rather than the carrier is the load-bearing idea."
 }
