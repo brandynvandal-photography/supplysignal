@@ -419,7 +419,10 @@ discovery tool, not a source list.
 
 3. **Ask UNC / StreetSafe for a machine-readable feed.** Biggest coverage gain
    for the least work — the best drug-checking data in the country, no public
-   API (§4). One email.
+   API (§4). One email. **A draft is ready in `docs/OUTREACH.md`**, addressed to
+   opioiddatalab@unc.edu (a lab inbox, verified 2026-08-14), with the current
+   state of their published data checked so the message does not ask for
+   something that already exists. Not sent — it needs signing as yourself.
 4. **Verify Milwaukee and Sacramento**, the two counties named in the JAMIA
    survey that have not been checked. If either matches the Cook or Allegheny
    shape it is a config entry, no new code.
