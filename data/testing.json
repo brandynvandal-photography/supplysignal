@@ -1229,8 +1229,8 @@
           },
           "stim": {
             "label": "Meth, MDMA or cocaine",
-            "water": "Use MORE water than above, not less.",
-            "note": "High concentrations of stimulants and common cuts make these strips read positive when no fentanyl is there. The false positive goes away as the sample gets weaker, so a stimulant is tested more dilute than an opioid — the opposite of the instinct to use less water so nothing is missed.",
+            "water": "10 mg into 20 mL — four teaspoons. Four times the usual amount.",
+            "note": "Not just “more water” — this much. The standard 5 mL puts the sample at 2 mg per mL, and this strip reads positive with no fentanyl present at 1.5 mg/mL of methamphetamine, 2 mg/mL of MDMA, and 1 mg/mL of diphenhydramine, which is a common cut. The usual ratio is already at or above all three. Twenty millilitres brings it to 0.5 mg per mL, under every one of them. If it still reads positive, retest at ten times the water before acting on it — in a street-sample study that corrected every false positive.",
             "sources": [
               {
                 "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
@@ -1287,8 +1287,8 @@
           },
           "stim": {
             "label": "Meth, MDMA or cocaine",
-            "water": null,
-            "note": "No change. At this concentration — 10 mg per mL — laboratory testing of the WHPM strip found no false positives from meth, MDMA, lidocaine, levamisole or most other common cuts. That is the reason for the ratio, and it is the one thing that most separates this strip from BTNX's in ordinary use.",
+            "water": "No change — 10 mg per mL, the same as above.",
+            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the single biggest practical difference between the two in ordinary use.",
             "sources": [
               {
                 "name": "Grassroots Harm Reduction — fentanyl test strips",
@@ -1331,8 +1331,8 @@
           },
           "stim": {
             "label": "Meth, MDMA or cocaine",
-            "water": null,
-            "note": "No change. At this concentration — 10 mg per mL — laboratory testing of the WHPM strip found no false positives from meth, MDMA, lidocaine, levamisole or most other common cuts. That is the reason for the ratio, and it is the one thing that most separates this strip from BTNX's in ordinary use.",
+            "water": "No change — 10 mg per mL, the same as above.",
+            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the single biggest practical difference between the two in ordinary use.",
             "sources": [
               {
                 "name": "Grassroots Harm Reduction — fentanyl test strips",
@@ -1385,8 +1385,8 @@
           },
           "stim": {
             "label": "Meth, MDMA or cocaine",
-            "water": null,
-            "note": "No change. At this concentration — 10 mg per mL — laboratory testing of the WHPM strip found no false positives from meth, MDMA, lidocaine, levamisole or most other common cuts. That is the reason for the ratio, and it is the one thing that most separates this strip from BTNX's in ordinary use.",
+            "water": "No change — 10 mg per mL, the same as above.",
+            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the single biggest practical difference between the two in ordinary use.",
             "sources": [
               {
                 "name": "Grassroots Harm Reduction — fentanyl test strips",
