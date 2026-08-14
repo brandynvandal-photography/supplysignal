@@ -135,17 +135,16 @@ const topicsPath = path.join(WWW, "data/topics.json");
 const topics = existsSync(topicsPath) ? JSON.parse(readFileSync(topicsPath, "utf8")) : {};
 if (!existsSync(topicsPath)) fails.push("the bundle has no data/topics.json — every content page is empty offline");
 
-/* Named here because it is genuinely not shipped, so that "missing" and
-   "deliberately absent" are different states rather than the same silence.
-   articles.json has no generator and nothing in site/js calls articlesFor()
-   or articles(); the exports return their fallbacks. If a generator is ever
-   written, take the name out of this list rather than adding a file. */
-const NOT_SHIPPED = new Set(["articles"]);
+/* Nothing is exempt. There was one entry here - articles.json, which had no
+   generator and whose two accessors nothing called - and the honest fix was to
+   delete the accessors rather than to keep a list explaining why a dataset the
+   app asks for is not in the bundle. Adding a name back here should feel like
+   the wrong move, because it is: it means shipping a screen that is blank
+   offline and full on wifi. */
 
 for (const m of dataJs.matchAll(/\bload\(\s*"([a-z0-9-]+)"/g)) {
   const name = m[1];
   checked++;
-  if (NOT_SHIPPED.has(name)) continue;
   if (TOPICS.includes(name)) {
     if (!Object.prototype.hasOwnProperty.call(topics, name)) {
       fails.push(`"${name}" is a topic but is not in the bundled topics.json`);
