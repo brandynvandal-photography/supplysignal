@@ -410,19 +410,27 @@ function prevalenceBlock(p) {
     h("div", { class: "card" },
       h("p", null, p.why),
 
-      h("div", { class: "tablewrap" },
-        h("table", { class: "data" },
-          h("caption", { class: "sr-only" }, "How often fentanyl is found, by what the drug was sold as"),
-          h("thead", null, h("tr", null,
-            h("th", { scope: "col" }, "Sold as"),
-            h("th", { scope: "col" }, "Found to contain fentanyl"))),
-          h("tbody", null, p.rows.map((r) =>
-            h("tr", null,
-              h("th", { scope: "row" }, r.what),
-              h("td", null,
-                // The word carries the meaning; the color only reinforces it.
-                h("span", { class: `rate rate--${r.level}` }, r.rate),
-                r.note ? h("span", { class: "cellnote" }, r.note) : null)))))),
+      /* .reagtable, the same table the reagent sections use, so the two data
+         blocks on this page read as the same kind of thing. No .tablewrap and
+         no .data: those carry a border, a scroll container and sticky header
+         styling that made this a boxed grid sitting inside a card.
+
+         The two-column header does NOT simply get dropped the way the reagent
+         one did. "Drug / Reaction" was redundant with its own rows; "Found to
+         contain fentanyl" is what the number MEANS - "85-98%" of what is a
+         real question - so it becomes a single label line above the table,
+         which reads on one line and survives the stacked layout. The sr-only
+         caption still carries the full sentence for a screen reader. */
+      h("p", { class: "sec__note" }, "Share of samples found to contain fentanyl:"),
+      h("table", { class: "reagtable" },
+        h("caption", { class: "sr-only" }, "How often fentanyl is found, by what the drug was sold as"),
+        h("tbody", null, p.rows.map((r) =>
+          h("tr", null,
+            h("th", { scope: "row" }, r.what),
+            h("td", null,
+              // The word carries the meaning; the color only reinforces it.
+              h("span", { class: `rate rate--${r.level}` }, r.rate),
+              r.note ? h("span", { class: "cellnote" }, r.note) : null))))),
 
       h("h3", null, "Why the death statistics look different"),
       h("p", null, p.coUse),

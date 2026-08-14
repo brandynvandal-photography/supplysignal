@@ -1411,7 +1411,11 @@ table.data caption {
 
 .rate {
   display: inline-block; font-weight: 750; font-size: .92rem;
-  padding: 2px 9px; border-radius: var(--radius-pill); white-space: nowrap;
+  padding: 2px 9px; border-radius: var(--radius-pill);
+  /* Same trap as .badge: most of these are figures ("85-98%") but some are
+     phrases ("No confirmed cases", "Assume yes"), and nowrap sent those out of
+     the card on a narrow screen. */
+  white-space: normal; overflow-wrap: anywhere; max-width: 100%;
 }
 .rate--high    { background: var(--critical-soft); color: var(--critical); }
 .rate--low     { background: var(--elevated-soft); color: var(--elevated); }
