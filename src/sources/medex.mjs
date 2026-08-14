@@ -133,17 +133,40 @@ function niceDate(isoStr) {
   return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
 
-async function getJson(url, settings) {
-  const res = await fetch(url, {
-    headers: {
-      "user-agent": settings.polling.userAgent,
-      accept: "application/json",
-    },
-    signal: AbortSignal.timeout(30000),
-  });
+/**
+ * One request, with a retry, because the first three production runs lost Cook
+ * twice and Santa Clara once to "The operation was aborted due to timeout".
+ *
+ * Not rate limiting - a 429 is handled separately below and none appeared.
+ * Socrata is simply slow from a GitHub Actions runner sometimes, and the
+ * queries here are the expensive kind: a filtered aggregate over a few hundred
+ * thousand rows. 30s was optimistic; Allegheny, whose whole tally runs
+ * server-side and returns a dozen rows, never once timed out.
+ *
+ * The retry matters more than the longer ceiling. These are idempotent reads,
+ * a county that fails goes quiet for the run, and a quiet county is
+ * indistinguishable from one with nothing to report - so a transient failure
+ * here is invisible rather than loud, which is the kind worth spending a
+ * second attempt on.
+ */
+async function getJson(url, settings, attempt = 0) {
+  let res;
+  try {
+    res = await fetch(url, {
+      headers: {
+        "user-agent": settings.polling.userAgent,
+        accept: "application/json",
+      },
+      signal: AbortSignal.timeout(45000),
+    });
+  } catch (e) {
+    if (attempt === 0) return getJson(url, settings, 1);
+    throw e;
+  }
   if (res.status === 429 || res.status === 503) {
     throw Object.assign(new Error(`rate limited`), { rateLimited: true });
   }
+  if (res.status >= 500 && attempt === 0) return getJson(url, settings, 1);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
@@ -475,10 +498,15 @@ export async function fetchMedicalExaminer(src, settings, cfg = {}) {
   const recentFrom = anchor - recentDays * DAY;
   const baseFrom = recentFrom - baselineDays * DAY;
 
+  /* CKAN needs the whole span, because its baseline is derived by subtracting
+     the recent counts from it. Socrata filters client-side, so asking for the
+     full span meant the recent window was transferred twice - and the recent
+     window is the expensive half, being the one with the free text in it.
+     Disjoint ranges: nothing crosses the wire more than once. */
   const fetcher = src.kind === "socrata" ? fetchSocrata : fetchCkanSql;
   const [recentRows, allRows] = await Promise.all([
     fetcher(src, settings, recentFrom, anchor),
-    fetcher(src, settings, baseFrom, anchor),
+    fetcher(src, settings, baseFrom, src.kind === "socrata" ? recentFrom : anchor),
   ]);
 
   /* The baseline is everything since baseFrom MINUS the recent window. For
@@ -486,11 +514,11 @@ export async function fetchMedicalExaminer(src, settings, cfg = {}) {
      no date, so subtract the counts instead. */
   let recentTotal, baseTotal, recentCounts, baseCounts;
   if (src.kind === "socrata") {
-    const baseRows = allRows.filter((r) => Date.parse(r.date) < recentFrom);
+    /* allRows IS the baseline now - the ranges no longer overlap. */
     recentTotal = recentRows.length;
-    baseTotal = baseRows.length;
+    baseTotal = allRows.length;
     recentCounts = tally(recentRows.map((r) => r.text));
-    baseCounts = tally(baseRows.map((r) => r.text));
+    baseCounts = tally(allRows.map((r) => r.text));
   } else {
     const [rT, aT] = await Promise.all([
       ckanTotal(src, settings, recentFrom, anchor),
