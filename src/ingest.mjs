@@ -45,6 +45,9 @@ async function main() {
   const watchlist = await readJson(p("config/watchlist.json"), { counties: [] });
   const cache = await readJson(p("data/.cache.json"), {});
   const rotation = await readJson(p("data/.rotation.json"), { cursor: 0 });
+  /* One statistical look per data state - see the fingerprint block in
+     src/sources/medex.mjs. Internal, like .cache.json and .rotation.json. */
+  const medexState = await readJson(p("data/.medex.json"), {});
 
   settings._states = countiesJson.states;
   buildIndex(countiesJson);
@@ -78,7 +81,7 @@ async function main() {
   if (me?.enabled) {
     for (const src of me.sources.filter((s) => s.enabled)) {
       try {
-        const r = await fetchMedicalExaminer(src, settings, me);
+        const r = await fetchMedicalExaminer(src, settings, me, medexState);
         if (r.skipped) {
           console.error(`[medex:${src.id}] skipped (${r.skipped})`);
           stats.sourcesFailed.push(src.id);
@@ -91,9 +94,15 @@ async function main() {
            and "we have not looked", which data/index.json now reports. */
         meReached.add(src.fips);
         stats.medex = stats.medex || {};
+        if (r.fingerprint) {
+          medexState[src.id] = { fingerprint: r.fingerprint, items: r.items };
+        }
         stats.medex[src.id] = {
           items: r.items.length, latest: r.latest, lagDays: r.lagDays,
           recent: r.recentTotal, baseline: r.baseTotal,
+          /* true = the county's numbers had not moved, so no fresh test was
+             run. Worth seeing in the log: it should be true most runs. */
+          cached: Boolean(r.cached),
         };
       } catch (e) {
         console.error(`[medex:${src.id}] ${e.message}`);
@@ -382,6 +391,7 @@ async function main() {
 
     await writeJson(p("data/.cache.json"), cache);
     await writeJson(p("data/.rotation.json"), rotation);
+    await writeJson(p("data/.medex.json"), medexState);
     if (review.length) await appendReview(ROOT, review.map((r) => ({
       title: r.title, url: r.url, source: r.sourceName,
       published: r.publishedAt, confidence: r.confidence, audit: r.audit,

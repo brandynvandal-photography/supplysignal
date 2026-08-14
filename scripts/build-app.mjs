@@ -51,6 +51,7 @@ const SKIP_IN_DATA = new Set([
   "counties",          // directory: per-county files
   ".cache.json",
   ".rotation.json",
+  ".medex.json",       // one-look-per-data-state cache
   "runs.json",
 ]);
 

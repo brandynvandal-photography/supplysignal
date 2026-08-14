@@ -207,6 +207,31 @@ check("the lag never reads 'about 1 days'", () => {
   return bad.length ? bad.slice(0, 3).join("; ") : null;
 });
 
+/* ------------------------------------------------------ deliberate scoping */
+
+check("levamisole and BTMPS stay off the watchlist", () => {
+  /* Verified absent from all four sources on 2026-08-14 - including Allegheny,
+     which filters by nothing at all - so no denominator change can expose
+     them. A medical examiner measures what killed someone; a cocaine cutting
+     agent at non-lethal concentration is a drug-CHECKING finding. Listing
+     them here only implied a mortality source could see them.
+     If this check fails because someone re-added them, the question to ask is
+     whether a drug-checking source landed - not whether the filter changed. */
+  const ids = WATCH.map(([id]) => id);
+  const bad = ["levamisole", "BTMPS"].filter((x) => ids.includes(x));
+  return bad.length ? `${bad.join(", ")} cannot fire from a mortality source` : null;
+});
+
+check("every enabled source states the denominator its shares are of", () => {
+  /* Cook and San Diego count opioid-involved deaths, Allegheny all accidental
+     overdoses, Santa Clara fentanyl-involved. A share means something
+     different under each, so each alert says which. */
+  const bad = SOURCES.medicalExaminers.sources
+    .filter((s) => s.enabled)
+    .filter((s) => !/deaths$/.test(s.denominator || ""));
+  return bad.length ? bad.map((s) => `${s.id}: ${s.denominator}`).join("; ") : null;
+});
+
 /* ------------------------------------------------------------------ config */
 
 check("every enabled source names its date field and its denominator", () => {

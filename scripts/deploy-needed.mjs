@@ -67,7 +67,8 @@ const VOLATILE = new Set([
    Worth 404ing alongside the other server-side paths at some point; until then
    they must not be worth a deploy on their own. */
 const INTERNAL = new Set([
-  "data/.cache.json", "data/.rotation.json", "data/runs.json",
+  "data/.cache.json", "data/.rotation.json",
+  "data/.medex.json", "data/runs.json",
 ]);
 
 const BUILD = 1;

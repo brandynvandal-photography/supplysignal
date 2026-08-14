@@ -68,9 +68,31 @@ export const WATCH = [
   ["acetylfentanyl",   /\bacetyl[\s-]?fentanyl\b/i],
   ["bromazolam",       /\bbromazolam\b/i],
   ["novel benzos",     /\b(flualprazolam|flubromazolam|(?:\d-?amino)?clonazolam|etizolam|metizolam)\b/i],
-  ["BTMPS",            /\bbtmps\b/i],
-  ["levamisole",       /\blevamisole\b/i],
 ];
+
+/* NOT ON THE WATCHLIST, AND THIS IS THE EVIDENCE FOR IT.
+ *
+ * levamisole and BTMPS were here and produced nothing, anywhere, ever.
+ * Measured across all four sources on 2026-08-14, over 455 days:
+ *
+ *   Cook          0 mentions, opioid-flagged or not
+ *   Allegheny     0 - and Allegheny has NO drug-class filter at all
+ *   Santa Clara   0 for the entire dataset
+ *   San Diego     0 for the entire dataset
+ *
+ * A review flagged these as hidden by the opioid-only filters on Cook and San
+ * Diego, and suggested widening those denominators to expose them. The data
+ * says otherwise: they are absent from the one county that filters nothing,
+ * so no filter is what is hiding them.
+ *
+ * They are absent because of what a medical examiner measures. Toxicology
+ * establishes what killed someone. Levamisole is a cocaine cutting agent
+ * present at concentrations that do not kill, and BTMPS is an industrial
+ * additive nobody screens for on a death panel - both are drug-CHECKING
+ * findings, which is a different instrument answering a different question.
+ * A mortality source cannot see them and listing them here only implied it
+ * could. If drug-checking data ever lands (docs/ALERT-SOURCES.md tier 3),
+ * they belong on its watchlist, not this one. */
 
 /* Display names, for the alert text. Keyed by the canonical id above. */
 export const LABEL = {
@@ -83,8 +105,6 @@ export const LABEL = {
   acetylfentanyl: "Acetyl fentanyl",
   bromazolam: "Bromazolam",
   "novel benzos": "Novel benzodiazepines",
-  BTMPS: "BTMPS",
-  levamisole: "Levamisole",
 };
 
 const iso = (d) => new Date(d).toISOString().slice(0, 19);
@@ -534,7 +554,7 @@ function emit(src, sub, r, b, totals, asOf, lagDays) {
  * watchlist substances that are new or materially more common. Everything
  * else stays quiet, which is most of it most of the time — that is the point.
  */
-export async function fetchMedicalExaminer(src, settings, cfg = {}) {
+export async function fetchMedicalExaminer(src, settings, cfg = {}, state = {}) {
   const recentDays = src.recentDays || cfg.recentDays || 90;
   const baselineDays = src.baselineDays || cfg.baselineDays || 365;
   const minCount = src.minCount ?? cfg.minCount ?? 3;
@@ -618,6 +638,33 @@ export async function fetchMedicalExaminer(src, settings, cfg = {}) {
 
   if (!recentTotal) return { items: [], skipped: "empty_window", latest };
 
+  /* ONE STATISTICAL LOOK PER DATA STATE.
+   *
+   * The ingest runs eight times a day; a county's file changes about weekly.
+   * So the same filling window was being re-tested ten or more times, and
+   * every extra look is another chance for noise to cross the bar. Measured by
+   * Monte Carlo over a Cook-sized county with nothing happening: a single
+   * final look fires 8.0% of the time, but ANY look across twelve fires 11.1%
+   * - a 1.37x inflation on top of the per-test rate, purely from asking
+   * repeatedly.
+   *
+   * So the verdict is cached against a fingerprint of the numbers it was
+   * computed from. Unchanged data returns the SAME items rather than no items:
+   * suppressing them would wipe the county's alert out of the bundle on the
+   * next write. The test is what must not be re-run, not the publication. */
+  const fingerprint = JSON.stringify({
+    latest, recentTotal, baseTotal,
+    counts: [...recentCounts.entries()].sort(),
+    base: [...baseCounts.entries()].sort(),
+  });
+  const prior = state[src.id];
+  if (prior && prior.fingerprint === fingerprint) {
+    return {
+      items: prior.items || [], cached: true,
+      fingerprint, latest, newest, lagDays, recentTotal, baseTotal,
+    };
+  }
+
   const items = [];
   for (const [sub] of WATCH) {
     const rc = recentCounts.get(sub) || 0;
@@ -656,5 +703,5 @@ export async function fetchMedicalExaminer(src, settings, cfg = {}) {
     ));
   }
 
-  return { items, latest, newest, lagDays, recentTotal, baseTotal };
+  return { items, fingerprint, latest, newest, lagDays, recentTotal, baseTotal };
 }
