@@ -336,9 +336,14 @@ async function consentBlock() {
               s.callout.detail ? h("p", null, s.callout.detail) : null)
           : null,
         s.items ? frag(s.items.map(row)) : null,
+        /* .rowbreak: the consent rows separate from EACH OTHER with a
+           hairline, and then this block began with none - so "If you think
+           somebody was drugged" ran straight on from the row above it as
+           though it were the next item in the same list, which it is not. */
         s.after
-          ? frag(h("h3", null, s.after.title),
-                 ...(s.after.body || []).map((p) => h("p", null, p)))
+          ? h("div", { class: "rowbreak" },
+              h("h3", null, s.after.title),
+              ...(s.after.body || []).map((p) => h("p", null, p)))
           : null,
         src(s.sources))
     );

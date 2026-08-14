@@ -2306,6 +2306,15 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 /* Thirteen stacked items at 10px padding read as one dense wall - and these
    are meant to be considered one at a time, not skimmed. Each gets room, and
    the heading gets room from its own explanation. */
+/* A block that follows a list of .lovedrow items but is not one of them.
+   Those rows separate from each other with a hairline; whatever comes after
+   them began with none, so it read as the next item in the same list. */
+.rowbreak {
+  margin-top: var(--sp-4); padding-top: var(--sp-4);
+  border-top: 1px solid var(--glass-line);
+}
+.rowbreak > :first-child { margin-top: 0; }
+
 .lovedrow { padding: var(--sp-3) 0; }
 .lovedrow:first-of-type { padding-top: var(--sp-2); }
 .lovedrow + .lovedrow { border-top: 1px solid var(--glass-line); }

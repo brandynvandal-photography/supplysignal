@@ -515,10 +515,14 @@ function mixChecker(combos, yours) {
     if (slots.length >= MAX_MIX) return;
     const i = slots.length;
     const sel = makeSelect(i);
+    /* Same control as the strip picker on Test: label above, the select
+       wearing a disclosure row, the chevron centred on it by .pick__field.
+       These were the app's only other dropdowns and they were the last two
+       still dressed as search fields. */
     const row = h("div", { class: "mixslot" },
-      h("label", null,
+      h("label", { class: "pick__row" },
         h("span", { class: "mixlabel" }, i === 0 ? "I took" : "and"),
-        sel),
+        h("span", { class: "pick__field" }, sel)),
       i > 1
         ? h("button", {
             type: "button", class: "iconbtn mixslot__x",
