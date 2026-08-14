@@ -120,7 +120,29 @@ export function cluster(alerts, settings) {
       url: m.url,
       published: m.publishedAt,
       trust: m.trust,
+      /* Per-source, so independence can be judged by class later if wanted,
+         and so a bundle reader can see WHAT kind of thing each source was. */
+      evidence: m.evidenceClass || null,
     }));
+
+    /* Evidence classes have to survive this function.
+     *
+     * Everything else here is copied off the members and then `delete
+     * c.members` throws them away - which silently zeroed the evidence gate:
+     * admit() read cluster.members?.map(...) and got undefined for every
+     * production cluster, so `best` fell through to "media" and a medical
+     * examiner's own critical finding came out demoted and labelled a media
+     * report. The unit tests passed because they hand-build clusters that
+     * still have members, a shape this function never returns. */
+    c.evidenceClasses = [...new Set(c.members.map((m) => m.evidenceClass).filter(Boolean))];
+
+    /* The strongest reading BEFORE per-item evidence capping, so admit() can
+       apply the corroboration exception. Without it the cap has already been
+       baked into every member and there is nothing left to promote. */
+    c.rawSeverity = c.members
+      .map((m) => m.rawSeverity || m.severity)
+      .sort((x, y) => rank[x] - rank[y])[0];
+
     delete c.members;
   }
 

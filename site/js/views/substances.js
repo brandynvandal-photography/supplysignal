@@ -767,25 +767,79 @@ async function detailView(id, subs, combos, { go }) {
      imply this is something a person sets out to take. */
   if (s.adulterant) return adulterantBody(wrap, s);
 
-  /* ---- dangerous interactions first ---- */
+  /* ---- dangerous interactions first ----
+   *
+   * This section renders ALWAYS, and that is the fix for the app's worst
+   * failure mode. It used to be gated on `d.length || u.length`, so a drug
+   * whose per-drug record happened to hold only "uncertain" entries showed no
+   * interaction section at all - and pregabalin is one of four such drugs,
+   * while the combination matrix in the very same bundle rates pregabalin x
+   * opioids DANGEROUS, and build-combos.mjs carries an FDA-sourced note
+   * saying the same. The reader most likely to need that warning got a page
+   * with no warning on it. 84 of 298 drugs have no per-drug lists at all and
+   * likewise said nothing.
+   *
+   * Two changes: backfill from the category matrix the page already has in
+   * memory, and when there is genuinely nothing, SAY so - the same way this
+   * file already states a missing description rather than leaving a blank. */
   const d = s.interactions.dangerous;
   const u = s.interactions.unsafe;
-  if (d.length || u.length) {
-    wrap.appendChild(
-      section("Do not mix with", null,
-        d.length
-          ? callout("stop", "Dangerous",
-              h("div", { class: "tags" }, d.map((x) => h("span", { class: "tag tag--danger" }, x))))
-          : null,
-        u.length
-          ? callout("warn", "Unsafe",
-              h("div", { class: "tags" }, u.map((x) => h("span", { class: "tag" }, x))))
-          : null,
-        s.interactions.uncertain.length
-          ? h("p", { class: "sec__note" }, `Uncertain: ${s.interactions.uncertain.join(", ")}`)
-          : null)
-    );
+
+  /* The per-drug lists name individual drugs; the matrix rates CATEGORIES.
+     A drug's categories are already in combos.drugs[].cats. */
+  const catsOf = (id) => (combos?.drugs || []).find((x) => x.id === id)?.cats || [];
+  const RATING = { Dangerous: "dangerous", Unsafe: "unsafe", Caution: "caution" };
+  const fromMatrix = { dangerous: new Set(), unsafe: new Set() };
+  for (const cat of catsOf(s.id)) {
+    const row = combos?.matrix?.[cat];
+    if (!row) continue;
+    for (const [other, cell] of Object.entries(row)) {
+      const band = RATING[cell?.s];
+      if (band === "dangerous") fromMatrix.dangerous.add(other);
+      else if (band === "unsafe") fromMatrix.unsafe.add(other);
+    }
   }
+  /* Do not repeat a category the per-drug list already names. */
+  const seen = new Set([...d, ...u].map((x) => String(x).toLowerCase()));
+  const extraD = [...fromMatrix.dangerous].filter((x) => !seen.has(x.toLowerCase()));
+  const extraU = [...fromMatrix.unsafe].filter((x) => !seen.has(x.toLowerCase()));
+
+  const anything = d.length || u.length || extraD.length || extraU.length ||
+                   s.interactions.uncertain.length;
+
+  wrap.appendChild(
+    section("Do not mix with", null,
+      d.length
+        ? callout("stop", "Dangerous",
+            h("div", { class: "tags" }, d.map((x) => h("span", { class: "tag tag--danger" }, x))))
+        : null,
+      u.length
+        ? callout("warn", "Unsafe",
+            h("div", { class: "tags" }, u.map((x) => h("span", { class: "tag" }, x))))
+        : null,
+      extraD.length
+        ? callout("stop", "Dangerous, by drug class",
+            h("p", { class: "sec__note" },
+              "Rated against whole classes rather than named drugs, so it covers "
+              + "things this page does not list individually."),
+            h("div", { class: "tags" }, extraD.map((x) => h("span", { class: "tag tag--danger" }, x))))
+        : null,
+      extraU.length
+        ? callout("warn", "Unsafe, by drug class",
+            h("div", { class: "tags" }, extraU.map((x) => h("span", { class: "tag" }, x))))
+        : null,
+      s.interactions.uncertain.length
+        ? h("p", { class: "sec__note" }, `Uncertain: ${s.interactions.uncertain.join(", ")}`)
+        : null,
+      /* The stated absence. An empty section here would read as "nothing to
+         worry about", which is the one thing it must never mean. */
+      anything
+        ? null
+        : callout("warn", "We have no interaction data for this one",
+            h("p", null,
+              "That is a gap in what has been published, not a finding that it "
+              + "mixes safely. Anything combined with it is an unknown, and the "
+              + "combination checker will say the same rather than guess."))));
 
   /* ---- FDA boxed warning, where it applies ---- */
   const isOpioid = cls.some((c) => /opioid/i.test(c));

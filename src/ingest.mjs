@@ -209,10 +209,21 @@ async function main() {
     if (scored.confidence < ev.floor) { drop("below_class_floor"); continue; }
 
     const b = band(scored.confidence, settings);
+    /* rawSeverity is the ungraded reading; severity is the graded one.
+     *
+     * Both are needed. Capping in place here made the cluster-level
+     * corroboration rule unreachable: dedupe takes the max of member
+     * severities, so an all-media cluster could never ARRIVE at admit() as
+     * critical, and admit() only ever demotes - so "two independent
+     * publishers may hold critical" could not fire from any real input. The
+     * cap still applies to what publishes; admit() gets to see what the
+     * evidence would have said without it. */
     const merged = {
       ...item, ...scored,
+      rawSeverity: scored.severity,
       severity: ev.ceiling && scored.severity === "critical" && ev.ceiling !== "critical"
         ? ev.ceiling : scored.severity,
+      evidenceCeiling: ev.ceiling,
       evidenceClass: ev.klass,
       originator: ev.originator,
       summary: (item.body || item.title).slice(0, 220),
@@ -239,8 +250,19 @@ async function main() {
           const target = chunk[v.i];
           if (!target) continue;
           const applied = applyLLMVerdict(target, v);
-          if (applied.verdict === "drop") drop("llm_rejected");
-          else publishable.push(applied);
+          if (applied.verdict === "drop") { drop("llm_rejected"); continue; }
+          /* The model may raise severity, and it does not know about evidence
+             classes. Without this, a "critical" verdict on a community or
+             media item walked straight past the ceiling that the whole module
+             exists to enforce - the one production path that could publish a
+             community report as critical. */
+          const RANKS = { critical: 0, elevated: 1, advisory: 2 };
+          applied.rawSeverity = applied.severity;
+          if (target.evidenceCeiling &&
+              RANKS[applied.severity] < RANKS[target.evidenceCeiling]) {
+            applied.severity = target.evidenceCeiling;
+          }
+          publishable.push(applied);
         }
       } catch (e) {
         console.error(`[llm] ${e.message}`);

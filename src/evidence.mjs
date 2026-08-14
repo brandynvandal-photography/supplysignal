@@ -66,20 +66,31 @@
 const ORIGINATORS = [
   ["lab", /\b(medical examiner|coroner|toxicology|crime lab|forensic lab|drug checking|drug-checking|mass spectrometry|spectrometer|FTIR|GC-MS|laboratory (analysis|testing|results)|lab (analysis|results|confirmed))\b/i],
 
-  ["official", /\b((state|county|city|local|district|tribal) (department of )?(public )?health|health department|department of health|health district|health authority|department of public health|DPH|DOH|HHS|CDC|FDA|DEA|poison (control|center)|medical director|health officer|surgeon general|emergency management|office of the (chief )?medical examiner)\b/i],
+  ["official", /\b((state|county|city|local|district|tribal) (department of )?(public )?health|health department|department of health|health district|health authority|department of public health|DPH|DOH|HHS|CDC|FDA|DEA|poison (control|center)|medical director|health officers?|health officials?|public health officials?|surgeon general|emergency management|office of the (chief )?medical examiner)\b/i],
 
   /* Law enforcement and hospitals: they are institutions putting a name to it,
      but what they have is usually a field presumptive test or a clinical
      impression rather than a confirmed analysis, so they grade official and
      the severity cap below keeps them off "critical" on their own. */
-  ["official", /\b(police (department|say|said|warn)|sheriff('s)? (office|department)|state police|task force|hospital|emergency (department|room)|paramedic|EMS|fire department)\b/i],
+  ["official", /\b(police (department|says?|said|warn(s|ed|ing)?)|sheriff('s)? (office|department)|state police|task force|hospital|emergency (department|room)|paramedic|EMS|fire department)\b/i],
 
   ["community", /\b(harm reduction|syringe (services|exchange)|needle exchange|overdose prevention (center|site)|peer (support|network|recovery)|outreach (team|worker)|community (organi[sz]ation|group|coalition)|mutual aid|drug user (union|group)|naloxone distribut)/i],
 ];
 
 /* An item that names one of these is describing an OUTCOME, not a finding
    about a supply. They are not evidence of what is in circulation. */
-const NOT_A_FINDING = /\b(sentenc\w*|convict\w*|indict\w*|arrest(ed)? on|plea[sd]?\b|lawsuit|settlement|trial\b|charged with|fundrais\w*|vigil|memorial|awareness (month|week|day)|ribbon|walk\b|5k|gala)/i;
+const NOT_A_FINDING = new RegExp([
+  /\b(sentenc|convict|indict)\w*/,             // court outcomes
+  /\barrest(ed)? (on|in connection|after)/,
+  /\bplead(ed|s)? (guilty|not guilty)|\bplea (deal|bargain)/,
+  /\blawsuit|\bsettlement\b|\bwrongful death/,
+  /\b(man|woman|men|women|suspect|dealer|resident|\d+ people) charged\b/,
+  /\bfundrais\w*|\bgala\b|\b5k\b|\bbenefit concert/,
+  /\bcandlelight|\bvigil\b|\bvigils\b/,       // \b: not "vigilant"
+  /\bmemorial (service|walk|fund|garden|event)/, // not "Memorial Hospital"
+  /\bawareness (month|week|day|walk|run|event|campaign)\b/,
+  /\bremembrance\b|\bhonou?r(s|ing|ed)? (those|the) (lost|victims|memory)/,
+].map((r) => r.source).join("|"), "i");
 
 /**
  * Severity ceilings by class.
@@ -117,7 +128,13 @@ export function carrierClass(item, sources) {
 }
 
 /** Find the strongest named originator in the item's own words. */
+/* News CMSes emit typographic apostrophes by default, so "Sheriff’s Office"
+   (U+2019) never matched a pattern written with an ASCII quote - and that is
+   most sheriff-attributed supply alerts arriving through an aggregator. */
+const flatten = (s) => String(s || "").replace(/[\u2018\u2019\u02BC]/g, "'");
+
 export function findOriginator(text) {
+  text = flatten(text);
   for (const [klass, re] of ORIGINATORS) {
     const m = re.exec(text);
     if (m) return { klass, matched: m[0] };
@@ -134,13 +151,20 @@ export function findOriginator(text) {
  * cannot be shown to be.
  */
 export function grade(item, scored, sources) {
-  const text = `${item.title || ""} ${item.body || ""}`;
+  const text = flatten(`${item.title || ""} ${item.body || ""}`);
+  const carrier = carrierClass(item, sources);
 
-  if (NOT_A_FINDING.test(text)) {
+  /* Only carriers get the not-a-finding filter.
+   *
+   * It is a heuristic over somebody else's prose, and it was running BEFORE
+   * the structured-source branch - so a health department's own alert saying
+   * "residents should remain vigilant" was dropped by its own wording. A
+   * tagged official or lab feed publishing an item has already decided the
+   * item is about a drug supply; second-guessing that with a word list is how
+   * the strongest sources get thrown away. */
+  if (carrier === "carrier" && NOT_A_FINDING.test(text)) {
     return { verdict: "drop", reason: "not_a_supply_finding" };
   }
-
-  const carrier = carrierClass(item, sources);
 
   /* A structured source IS its own evidence - a medical examiner adapter does
      not need to name a medical examiner in prose to be one. */
@@ -179,12 +203,41 @@ export function grade(item, scored, sources) {
  * outlets running the same wire copy is one source, and treating it as twenty
  * is how a single mistake becomes a consensus.
  */
-export function independence(cluster) {
-  const hosts = new Set();
-  for (const s of cluster.sources || []) {
-    try { hosts.add(new URL(s.url).hostname.replace(/^www\./, "")); } catch { /* unparseable */ }
+/* Aggregators put their OWN hostname on every link they carry, so a URL host
+   is not a publisher identity for them. Google News rewrites every item to
+   news.google.com/rss/articles/... - which made independence() return 1 for
+   any number of outlets arriving that way, i.e. for the highest-volume source
+   in the pipeline. It also cuts the other way: one outlet reaching us through
+   both its own feed and Google News looks like two hosts and one publisher.
+   The publisher name is already parsed off the " - Publisher" title suffix in
+   sources/index.mjs, so use it when the host is an aggregator. */
+const AGGREGATOR_HOSTS = /^(news\.google\.com|gdeltproject\.org|.*\.gdeltproject\.org)$/i;
+
+/* One publisher reaches us two ways: its own RSS feed (host tribune.com) and
+   Google News (host news.google.com, name "Tribune"). Those have to collapse
+   to one identity or a single outlet counts as its own corroboration. Reduce
+   both to letters only, minus the TLD and the common newspaper-domain noise. */
+const slug = (s) =>
+  String(s || "").toLowerCase()
+    .replace(/\.(com|org|net|gov|edu|us|co\.uk|news)$/,"")
+    .replace(/[^a-z0-9]/g, "");
+
+export function publisherOf(source) {
+  let host = null;
+  try { host = new URL(source.url).hostname.replace(/^www\./, ""); } catch { /* unparseable */ }
+  if (!host || AGGREGATOR_HOSTS.test(host)) {
+    return slug(source.name) || slug(host) || null;
   }
-  return hosts.size;
+  return slug(host) || null;
+}
+
+export function independence(cluster) {
+  const publishers = new Set();
+  for (const s of cluster.sources || []) {
+    const p = publisherOf(s);
+    if (p) publishers.add(p);
+  }
+  return publishers.size;
 }
 
 /**
@@ -195,11 +248,19 @@ export function independence(cluster) {
  * independent publishers behind it.
  */
 export function admit(cluster, { minIndependentForCritical = 2 } = {}) {
-  const classes = cluster.members?.map((m) => m.evidenceClass) || [cluster.evidenceClass];
+  /* evidenceClasses is what dedupe leaves behind; members exist only in tests
+     and in callers that grade before clustering. Read the durable one first. */
+  const classes = cluster.evidenceClasses?.length
+    ? cluster.evidenceClasses
+    : (cluster.members?.map((m) => m.evidenceClass).filter(Boolean)
+       || [cluster.evidenceClass].filter(Boolean));
   const best = ["lab", "official", "community", "media"].find((k) => classes.includes(k)) || "media";
   const independent = independence(cluster);
 
-  let severity = cluster.severity;
+  /* Start from the UNCAPPED reading where one survives. The per-item ceiling
+     is a rule about a single story; corroboration is evidence the per-item
+     grade could not see, so this is the one place it may be revisited. */
+  let severity = cluster.rawSeverity || cluster.severity;
   if (severity === "critical" && best !== "lab" && best !== "official") {
     /* The per-item ceiling stops a single story publishing critical. The
        cluster is where corroboration lives, so this is where the exception
@@ -208,6 +269,12 @@ export function admit(cluster, { minIndependentForCritical = 2 } = {}) {
        version applied the ceiling before this check, which made the
        independence rule dead code - caught by its own test. */
     if (independent < minIndependentForCritical) severity = "elevated";
+    /* Corroboration can lift MEDIA, because several outlets independently
+       reporting a thing is itself evidence about the thing. It cannot lift
+       community reports: two harm-reduction groups sharing one street rumour
+       is one rumour, and the module's contract says community never publishes
+       critical. */
+    if (best === "community") severity = "elevated";
   }
   return { severity, evidenceClass: best, independent };
 }
