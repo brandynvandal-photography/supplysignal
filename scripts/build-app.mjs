@@ -81,8 +81,13 @@ async function main() {
   const dataOut = path.join(OUT, "data");
   await mkdir(dataOut, { recursive: true });
   let shipped = 0, skipped = 0;
+  /* Same reasoning as the web deploy: content ships only inside topics.json,
+     so a screen cannot quietly fetch a page-naming file again. */
+  const { TOPICS } = await import("./build-topics.mjs");
+  const topicFiles = new Set(TOPICS.map((t) => `${t}.json`));
+
   for (const entry of await readdir(path.join(ROOT, "data"), { withFileTypes: true })) {
-    if (SKIP_IN_DATA.has(entry.name)) { skipped++; continue; }
+    if (SKIP_IN_DATA.has(entry.name) || topicFiles.has(entry.name)) { skipped++; continue; }
     const from = path.join(ROOT, "data", entry.name);
     await cp(from, path.join(dataOut, entry.name), { recursive: true });
     shipped++;

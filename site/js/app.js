@@ -565,6 +565,12 @@ function mountBackToTop() {
   await i18n.init();
   applyStrings();
 
+  /* Start the one content request immediately, from every screen, so the
+     access log carries the same shape for every reader regardless of what
+     they open. See TOPICS in data.js. Not awaited: nothing on the first paint
+     depends on it, and a slow network must not delay the emergency page. */
+  data.primeTopics?.();
+
   /* Before the first render, so lastRoute below is seeded with the canonical
      URL rather than the one that is about to be replaced. */
   /* A malformed URL must never stop the app from rendering. routes.js no

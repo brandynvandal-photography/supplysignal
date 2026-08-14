@@ -14,10 +14,68 @@ const BASE = "../data";
 const cache = new Map();
 const inflight = new Map();
 
+/**
+ * The datasets that ship as ONE file, because fetching them separately said
+ * out loud what the reader was reading.
+ *
+ * A request for /data/supervision.json is a timestamped record, against an IP,
+ * that this person opened the page about what probation can require of them.
+ * /data/consent.json, /data/after.json and /data/communities.json are worse.
+ * The county and substance lookups were always safe - they run in memory
+ * against national bundles - but the PAGES were not, and PRIVACY.md §1
+ * promises the log shows only that somebody loaded the site.
+ *
+ * So every reader fetches the same single file, unconditionally, before
+ * anything is clicked. Same bytes, same request, no signal. Keep in step with
+ * TOPICS in scripts/build-topics.mjs; test/privacy.test.mjs asserts they match.
+ */
+const TOPICS = new Set([
+  "after", "adulterants", "checking", "communities", "conditions", "consent",
+  "descriptions", "education", "emerging", "heat", "index", "market",
+  "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
+  "sex", "sitting", "stimulants", "supervision", "support", "testing",
+]);
+
+let topicsP = null;
+
+/** The combined content bundle. One request, shared by every caller. */
+function loadTopics() {
+  if (!topicsP) {
+    topicsP = fetch(`${BASE}/topics.json`, { credentials: "omit", cache: "default" })
+      .then((r) => (r.ok ? r.json() : {}))
+      .catch(() => ({}));
+  }
+  return topicsP;
+}
+
+/**
+ * Start the one request at boot, from every screen, whether or not the reader
+ * ever opens a content page.
+ *
+ * Deliberately unconditional. If it were lazy, the PRESENCE of the request
+ * would itself say "this reader opened something" - weaker than naming the
+ * page, but not nothing, and the point is to leave no signal rather than a
+ * quieter one.
+ */
+export function primeTopics() { return loadTopics(); }
+
 /** Fetch-once, share-the-promise. Missing files resolve to a fallback so a
  *  dataset that has not been generated yet degrades instead of blanking. */
 function load(name, fallback) {
   if (cache.has(name)) return Promise.resolve(cache.get(name));
+
+  if (TOPICS.has(name)) {
+    if (!inflight.has(name)) {
+      inflight.set(name, loadTopics().then((b) => {
+        const v = b && Object.prototype.hasOwnProperty.call(b, name) ? b[name] : fallback;
+        cache.set(name, v);
+        inflight.delete(name);
+        return v;
+      }));
+    }
+    return inflight.get(name);
+  }
+
   if (inflight.has(name)) return inflight.get(name);
 
   const p = fetch(`${BASE}/${name}.json`, { credentials: "omit", cache: "default" })

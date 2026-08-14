@@ -812,7 +812,10 @@ async function detailView(id, subs, combos, { go }) {
                    s.interactions.uncertain.length;
 
   wrap.appendChild(
-    section("Do not mix with", null,
+    /* "Dangerous to mix with", not "Do not mix with". The heading names what
+       the section contains rather than issuing an instruction - the reader
+       decides what to do with it. Same rule as the autonomy pass. */
+    section("Dangerous to mix with", null,
       d.length
         ? callout("stop", "Dangerous",
             h("div", { class: "tags" }, d.map((x) => h("span", { class: "tag tag--danger" }, x))))

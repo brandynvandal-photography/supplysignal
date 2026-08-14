@@ -89,6 +89,12 @@ const GENERATED = new Set([
   "mortality.json", "regional.json", "places.json", "places-rural.json",
   "counties.json", "county-shapes.json", "adjacency.json", "index.json",
   "runs.json", "search.json", "gazetteer.json",
+  /* topics.json is a CONCATENATION of the files above and below it, built by
+     scripts/build-topics.mjs. Scanning it would re-check content already
+     exempted at source - it caught a "catalogue" living inside a euda.europa.eu
+     URL in emerging.json, which is generated and excluded for exactly that
+     reason. Each constituent is still checked on its own where it should be. */
+  "topics.json",
 ]);
 const CONTENT = readdirSync(path.join(ROOT, "data"))
   .filter((f) => f.endsWith(".json") && !GENERATED.has(f))

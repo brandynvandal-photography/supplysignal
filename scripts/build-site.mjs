@@ -69,6 +69,18 @@ export const SKIP_IN_DATA = new Set([
   "runs.json",
 ]);
 
+/* The content datasets ship ONLY inside data/topics.json.
+ *
+ * Leaving the individual files deployed would mean a future screen could fetch
+ * one directly and reinstate the exact leak the bundle exists to close - a
+ * request naming the page the reader opened - with nothing failing. They are
+ * kept in the repo, because they are the editable source; they just do not go
+ * out. See scripts/build-topics.mjs. */
+async function topicFiles() {
+  const { TOPICS } = await import("./build-topics.mjs");
+  return new Set(TOPICS.map((t) => `${t}.json`));
+}
+
 async function dirSize(dir) {
   let total = 0;
   for (const e of await readdir(dir, { withFileTypes: true })) {
@@ -99,8 +111,9 @@ async function main() {
     if (entry === "data") {
       const dataOut = path.join(OUT, "data");
       await mkdir(dataOut, { recursive: true });
+      const topics = await topicFiles();
       for (const e of await readdir(from, { withFileTypes: true })) {
-        if (SKIP_IN_DATA.has(e.name)) continue;
+        if (SKIP_IN_DATA.has(e.name) || topics.has(e.name)) continue;
         await cp(path.join(from, e.name), path.join(dataOut, e.name), { recursive: true });
       }
     } else {

@@ -169,24 +169,69 @@ function niceDate(isoStr) {
  * here is invisible rather than loud, which is the kind worth spending a
  * second attempt on.
  */
-async function getJson(url, settings, attempt = 0) {
+/**
+ * Socrata's app token, when one is configured.
+ *
+ * Unauthenticated Socrata requests share a per-IP pool with every other
+ * anonymous caller, and a GitHub Actions runner is a busy, shared address. A
+ * token moves the request into its own much larger bucket. It is an
+ * identifier for THIS APPLICATION, not for any reader - no user data is
+ * involved and nothing about it touches the browser, which is why it can be
+ * added without disturbing the privacy design.
+ *
+ * Optional by construction: absent, every request goes out exactly as before.
+ * CKAN sources (Allegheny) ignore it entirely - it is a Socrata mechanism, so
+ * it cannot help the one source that has been failing most.
+ */
+const SOCRATA_TOKEN = process.env.SOCRATA_APP_TOKEN || "";
+
+/* Retries, and an honest note about what they cannot fix.
+ *
+ * Allegheny's CKAN SQL endpoint fails in BURSTS. Measured 2026-08-14: the
+ * identical query returned 200 twice then 500; minutes later five consecutive
+ * full runs failed every call; minutes after that everything answered again.
+ * Throughout, plain datastore_search on the same resource stayed at 200, so
+ * this is datastore_search_sql on their side, not the query or the network.
+ *
+ * Three attempts with a backoff covers a single bad call. It does NOT cover a
+ * burst lasting a minute, and no reasonable retry budget would - pretending
+ * otherwise would just mean a slower failure. What actually protects the
+ * reader is downstream: the source is skipped, the county goes quiet for that
+ * run, and writeCounty merges rather than replaces, so an alert already
+ * published stays published. sourcesFailed is where this shows up.
+ *
+ * Note also that a Socrata app token cannot help here. Allegheny is CKAN. */
+const MAX_ATTEMPTS = 3;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function getJson(url, settings, attempt = 0, socrata = false) {
   let res;
   try {
     res = await fetch(url, {
       headers: {
         "user-agent": settings.polling.userAgent,
         accept: "application/json",
+        /* Keyed on the SOURCE KIND, not on the URL. Sniffing the hostname sent
+           the token to data.wprdc.org, which is CKAN and has no use for it -
+           handing a credential to a third party for nothing. */
+        ...(socrata && SOCRATA_TOKEN ? { "X-App-Token": SOCRATA_TOKEN } : {}),
       },
       signal: AbortSignal.timeout(45000),
     });
   } catch (e) {
-    if (attempt === 0) return getJson(url, settings, 1);
+    if (attempt + 1 < MAX_ATTEMPTS) {
+      await sleep(600 * (attempt + 1));
+      return getJson(url, settings, attempt + 1, socrata);
+    }
     throw e;
   }
   if (res.status === 429 || res.status === 503) {
     throw Object.assign(new Error(`rate limited`), { rateLimited: true });
   }
-  if (res.status >= 500 && attempt === 0) return getJson(url, settings, 1);
+  if (res.status >= 500 && attempt + 1 < MAX_ATTEMPTS) {
+    await sleep(600 * (attempt + 1));
+    return getJson(url, settings, attempt + 1, socrata);
+  }
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
@@ -222,7 +267,7 @@ async function fetchSocrata(src, settings, since, until) {
     `&$where=${encodeURIComponent(where)}` +
     `&$limit=50000`;
 
-  const rows = await getJson(url, settings);
+  const rows = await getJson(url, settings, 0, true);
   return rows.map((r) => ({
     date: dayOnly(r[src.dateField]),
     text: src.textFields.map((f) => r[f] || "").join(" | "),
@@ -297,7 +342,7 @@ async function latestDate(src, settings) {
     const url =
       `${src.url}?$select=max(${src.dateField})` +
       `&$where=${encodeURIComponent(where)}&$limit=1`;
-    const r = await getJson(url, settings);
+    const r = await getJson(url, settings, 0, true);
     v = Object.values(r?.[0] || {})[0];
   } else {
     const sql =
@@ -380,7 +425,7 @@ async function monthlyCounts(src, settings, since) {
       `${src.url}?$select=${encodeURIComponent(`${monthExpr(src)} AS m, count(*) AS n`)}` +
       `&$where=${encodeURIComponent(where)}` +
       `&$group=${encodeURIComponent(monthExpr(src))}&$limit=200`;
-    const rows = await getJson(url, settings);
+    const rows = await getJson(url, settings, 0, true);
     return rows.map((r) => ({ m: String(r.m).slice(0, 7), n: Number(r.n) || 0 }))
       .sort((a, b) => a.m.localeCompare(b.m));
   }

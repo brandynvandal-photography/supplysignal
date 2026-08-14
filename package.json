@@ -24,7 +24,9 @@
     "build:reagents": "node scripts/build-reagents.mjs",
     "check:links": "node scripts/check-links.mjs",
     "build:app": "node scripts/build-app.mjs",
-    "build:mesh": "node scripts/build-mesh.mjs"
+    "build:mesh": "node scripts/build-mesh.mjs",
+    "build:topics": "node scripts/build-topics.mjs",
+    "build:site": "node scripts/build-site.mjs"
   },
   "dependencies": {
     "fast-xml-parser": "^5.0.0"

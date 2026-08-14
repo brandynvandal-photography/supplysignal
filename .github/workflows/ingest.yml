@@ -38,6 +38,13 @@ jobs:
           # instead of being escalated — the pipeline still runs free.
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
+          # Optional. Socrata throttles anonymous callers by IP, and an Actions
+          # runner is a busy shared address — Cook and Santa Clara both timed
+          # out on real runs. A token moves this application into its own
+          # bucket. It identifies the app, never a reader, and never reaches
+          # the browser. Absent, every request goes out exactly as before.
+          # Free from any Socrata portal, e.g. datacatalog.cookcountyil.gov.
+          SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
         run: node src/ingest.mjs
 
       # Data that fails the suite never reaches a reader. The classifier that

@@ -79,6 +79,9 @@ async function main() {
   const me = sources.medicalExaminers;
   const meReached = new Set();
   if (me?.enabled) {
+    /* Visible in the run log, so a secret that was never set does not look
+       like a source that simply works. */
+    stats.socrataToken = process.env.SOCRATA_APP_TOKEN ? "set" : "absent";
     for (const src of me.sources.filter((s) => s.enabled)) {
       try {
         const r = await fetchMedicalExaminer(src, settings, me, medexState);

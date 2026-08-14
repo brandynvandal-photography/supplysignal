@@ -191,23 +191,70 @@ check("no absolute-URL fetch or import in site scripts", () => {
 
 // The whole design rests on this. A fetch built from a county FIPS or a
 // substance id puts the user's lookup into the host's access log.
+check("the two topic lists agree", () => {
+  /* A name in one and not the other means either a dataset ships twice or a
+     screen fetches a file that is no longer deployed. */
+  const build = readFileSync(path.join(ROOT, "scripts/build-topics.mjs"), "utf8");
+  const dataJs = readFileSync(path.join(ROOT, "site/js/data.js"), "utf8");
+  const grab = (src, marker) => {
+    const i = src.indexOf(marker);
+    const block = src.slice(i, src.indexOf("]", i));
+    return new Set([...block.matchAll(/"([a-z-]+)"/g)].map((m) => m[1]));
+  };
+  const a = grab(build, "export const TOPICS = [");
+  const b = grab(dataJs, "const TOPICS = new Set([");
+  const onlyBuild = [...a].filter((x) => !b.has(x));
+  const onlyData = [...b].filter((x) => !a.has(x));
+  if (onlyBuild.length || onlyData.length) {
+    return `build-topics only: ${onlyBuild.join(",") || "none"}; data.js only: ${onlyData.join(",") || "none"}`;
+  }
+  return a.size ? null : "TOPICS is empty";
+});
+
+check("no page-naming dataset is fetched on its own", () => {
+  /* The leak this closes: /data/supervision.json in an access log is a
+     timestamped record that this IP read the page about what probation can
+     require. Every such dataset must resolve from the combined bundle. */
+  const dataJs = readFileSync(path.join(ROOT, "site/js/data.js"), "utf8");
+  const i = dataJs.indexOf("const TOPICS = new Set([");
+  const topics = new Set([...dataJs.slice(i, dataJs.indexOf("]", i))
+    .matchAll(/"([a-z-]+)"/g)].map((m) => m[1]));
+  /* Exactly one fetch template may interpolate a name, and topics must not
+     reach it - they are served from loadTopics() before that line. */
+  if (!/TOPICS\.has\(name\)/.test(dataJs)) return "load() no longer routes topics to the bundle";
+  const sensitive = ["sex", "supervision", "consent", "after", "communities", "policy"];
+  const missing = sensitive.filter((x) => !topics.has(x));
+  return missing.length ? `not bundled: ${missing.join(", ")}` : null;
+});
+
 check("no data fetch built from a county or substance identifier", () => {
   const bad = [];
   for (const f of byExt(".js")) {
     const js = read(f);
     // fetch(...) whose argument contains a template interpolation or a `+`
     // concatenation is a per-item endpoint by construction.
-    for (const m of js.match(/fetch\s*\(\s*[`"'][^`"')]*\$\{[^}]+\}/g) || []) {
-      bad.push(`${rel(f)}: ${m.trim().slice(0, 70)}`);
+    /* Capture the WHOLE template, not up to the first `}`. Truncating at the
+       interpolation made two different fetches - one fixed filename, one
+       user-independent bundle - print as the identical string, so an
+       allowance for one silently allowed the other. */
+    for (const m of js.match(/fetch\s*\(\s*`[^`]*\$\{[^`]*`/g) || []) {
+      bad.push(`${rel(f)}: ${m.trim().slice(0, 90)}`);
     }
   }
-  /* Two interpolations are allowed, and only these two:
+  /* Three interpolations are allowed, and only these three:
      - data.js `${name}` is a fixed dataset filename, not user-selected input.
+       Note this is now the INFRASTRUCTURAL path only - the content datasets
+       are served out of topics.json before this line is reached, because a
+       request naming the page someone opened is the leak the bundle closes.
+     - data.js `${BASE}/topics.json` is one fixed file every reader fetches
+       unconditionally, so it carries no signal by construction.
      - i18n.js `${code}` is a locale. It reveals nothing the browser has not
        already disclosed: Accept-Language is sent on every request regardless,
        so a locale fetch adds no new signal. Everything else is a leak. */
   const filtered = bad.filter(
-    (b) => !/data\.js.*\$\{name\}/.test(b) && !/i18n\.js.*\$\{code\}/.test(b)
+    (b) => !/data\.js.*\$\{name\}/.test(b)
+        && !/data\.js.*\$\{BASE\}\/topics\.json/.test(b)
+        && !/i18n\.js.*\$\{code\}/.test(b)
   );
   return filtered.length
     ? `per-item endpoint(s) - see PRIVACY.md §1: ${filtered.join(" | ")}`
