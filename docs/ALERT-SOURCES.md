@@ -397,6 +397,24 @@ discovery tool, not a source list.
    elevated supply context with its own lag stated in every item, never as a
    live spike.
 
+**Checked 2026-08-14, closing three questions the survey left open:**
+
+- **Milwaukee and Sacramento publish nothing.** Socrata catalog search over
+  both counties' domains returns zero overdose/ME datasets. The JAMIA survey
+  named them; whatever they had is not public today.
+- **Pierce County WA** (`internal.open.piercecountywa.gov`, `qxa4-9v9w`) is
+  real but **annual aggregates only** — year, cause, count. No dates, no
+  substances. Not usable for alerts.
+- **The state-feed well is dry.** A 319-URL probe of 28 missing jurisdictions'
+  health department domains (11 path patterns each) found exactly two live
+  RSS feeds — SC and TX — and both are the page-tree indexes already in
+  `_retired`, one listing events dated in the future. State newsroom RSS is
+  not where the remaining coverage is.
+- **UNC's NC dataset re-verified:** 1,735 samples, 56 counties, but newest
+  `date_collect` is 2025-07-15 — 13 months old, outside the 365-day window
+  entirely. It cannot produce a current alert until they publish again.
+  Asking them for a live feed remains the highest-value action.
+
 **Still open, in order:**
 
 3. **Ask UNC / StreetSafe for a machine-readable feed.** Biggest coverage gain

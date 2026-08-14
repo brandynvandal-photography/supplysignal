@@ -430,6 +430,7 @@ function emit(src, sub, r, b, totals, asOf, lagDays) {
     pubDate: asOf,
     sourceId: src.id,
     sourceName: src.name,
+    evidence: src.evidence || "lab",
     trust: src.trust ?? 1,
     hintFips: src.fips,
     hintState: src.state,

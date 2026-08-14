@@ -17,6 +17,7 @@ import { gate1, gate2 } from "./recency.mjs";
 import { classifyDeterministic, band, classifyWithLLM, applyLLMVerdict } from "./classify.mjs";
 import { buildIndex, geotag } from "./geotag.mjs";
 import { cluster } from "./dedupe.mjs";
+import { grade, admit } from "./evidence.mjs";
 import {
   readJson, writeJson, writeCounty, writeIndex, writeCountyFeed, appendReview, writeRunLog,
   writeAlertsBundle,
@@ -185,6 +186,8 @@ async function main() {
       publishable.push({
         ...rest, ...preScored,
         verdict: "score",
+        evidenceClass: item.evidence || "lab",
+        originator: item.sourceName,
         summary: item.summary || item.body || item.title,
       });
       continue;
@@ -196,8 +199,24 @@ async function main() {
     const g2 = gate2(item, vocab, settings);
     if (!g2.pass) { drop(g2.reason.split(":")[0]); continue; }
 
+    /* Evidence before confidence. The keyword score says whether this READS
+       like an alert; the grade says whether anyone identifiable actually
+       found it out. An unattributed item is dropped here no matter how well
+       it scores - see src/evidence.mjs for why that trade is the right way
+       round. */
+    const ev = grade(item, scored, sources);
+    if (ev.verdict === "drop") { drop(`evidence_${ev.reason}`); continue; }
+    if (scored.confidence < ev.floor) { drop("below_class_floor"); continue; }
+
     const b = band(scored.confidence, settings);
-    const merged = { ...item, ...scored, summary: (item.body || item.title).slice(0, 220) };
+    const merged = {
+      ...item, ...scored,
+      severity: ev.ceiling && scored.severity === "critical" && ev.ceiling !== "critical"
+        ? ev.ceiling : scored.severity,
+      evidenceClass: ev.klass,
+      originator: ev.originator,
+      summary: (item.body || item.title).slice(0, 220),
+    };
 
     if (b === "publish") publishable.push(merged);
     else if (b === "escalate") escalate.push(merged);
@@ -247,6 +266,20 @@ async function main() {
 
   /* ---- Cluster + write ---- */
   const clusters = cluster(located, settings);
+
+  /* The cluster-level evidence gate: severity capped at the strongest member's
+     ceiling, and a critical claim needs a measurement, an institution, or two
+     INDEPENDENT publishers - twenty outlets running one wire story is one
+     source. dedupe strips members, so classes ride on the cluster. */
+  for (const c of clusters) {
+    const a = admit(c);
+    if (a.severity !== c.severity) {
+      stats.evidenceDemoted = (stats.evidenceDemoted || 0) + 1;
+    }
+    c.severity = a.severity;
+    c.evidenceClass = a.evidenceClass;
+    c.independent = a.independent;
+  }
   const byCounty = new Map();
   for (const c of clusters) {
     if (!byCounty.has(c.fips)) byCounty.set(c.fips, []);

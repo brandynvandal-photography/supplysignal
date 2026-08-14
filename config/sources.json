@@ -50,7 +50,8 @@
    },
    "enabled": true,
    "_note": "Media 132608 is CDC Online Newsroom. It was configured as \"cdc-han\" until 2026-08-14; it never was HAN. There is no working public HAN feed (413690.rss returns 0 items, the han web pages 403 every non-browser client) and HAN is national-altitude anyway. See docs/ALERT-SOURCES.md.",
-   "maxItems": 60
+   "maxItems": 60,
+   "evidence": "official"
   },
   {
    "id": "az-adhs-blog",
@@ -62,7 +63,8 @@
     "level": "state",
     "state": "AZ"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "dc-doh",
@@ -74,7 +76,8 @@
     "level": "state",
     "state": "DC"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "de-dhss",
@@ -87,7 +90,8 @@
     "state": "DE"
    },
    "enabled": true,
-   "maxItems": 60
+   "maxItems": 60,
+   "evidence": "official"
   },
   {
    "id": "fl-doh",
@@ -99,7 +103,8 @@
     "level": "state",
     "state": "FL"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "ga-dph",
@@ -111,7 +116,8 @@
     "level": "state",
     "state": "GA"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "hi-doh",
@@ -123,7 +129,8 @@
     "level": "state",
     "state": "HI"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "id-dhw",
@@ -135,7 +142,8 @@
     "level": "state",
     "state": "ID"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "ks-kdhe",
@@ -148,7 +156,8 @@
     "state": "KS"
    },
    "enabled": true,
-   "_note": "Unusually high signal - real advisories rather than press releases."
+   "_note": "Unusually high signal - real advisories rather than press releases.",
+   "evidence": "official"
   },
   {
    "id": "la-ldh",
@@ -160,7 +169,8 @@
     "level": "state",
     "state": "LA"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "me-dhhs",
@@ -172,7 +182,8 @@
     "level": "state",
     "state": "ME"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "mn-mdh",
@@ -184,7 +195,8 @@
     "level": "state",
     "state": "MN"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "ms-msdh",
@@ -196,7 +208,8 @@
     "level": "state",
     "state": "MS"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "mt-dphhs",
@@ -208,7 +221,8 @@
     "level": "state",
     "state": "MT"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "nc-dhhs",
@@ -220,7 +234,8 @@
     "level": "state",
     "state": "NC"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "nd-hhs",
@@ -232,7 +247,8 @@
     "level": "state",
     "state": "ND"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "ri-doh",
@@ -244,7 +260,8 @@
     "level": "state",
     "state": "RI"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "ut-dhhs",
@@ -256,7 +273,8 @@
     "level": "state",
     "state": "UT"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "va-vdh",
@@ -268,7 +286,8 @@
     "level": "state",
     "state": "VA"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "wa-doh",
@@ -280,7 +299,8 @@
     "level": "state",
     "state": "WA"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "wi-dhs",
@@ -292,7 +312,8 @@
     "level": "state",
     "state": "WI"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "wv-oeps",
@@ -305,7 +326,8 @@
     "state": "WV"
    },
    "enabled": true,
-   "_note": "Epidemiology/HAN-style content - directly relevant."
+   "_note": "Epidemiology/HAN-style content - directly relevant.",
+   "evidence": "official"
   },
   {
    "id": "wy-doh",
@@ -317,7 +339,8 @@
     "level": "state",
     "state": "WY"
    },
-   "enabled": true
+   "enabled": true,
+   "evidence": "official"
   },
   {
    "id": "grassroots-hr",
@@ -329,7 +352,8 @@
     "level": "national"
    },
    "enabled": true,
-   "_note": "Community org, verified 2026-08-10. Socials are their primary channel; this feed is the machine-readable mirror - socials stay a human discovery layer, never a machine source."
+   "_note": "Community org, verified 2026-08-10. Socials are their primary channel; this feed is the machine-readable mirror - socials stay a human discovery layer, never a machine source.",
+   "evidence": "community"
   },
   {
    "id": "rebel-hr",
@@ -342,7 +366,8 @@
     "state": "NY"
    },
    "enabled": true,
-   "_note": "NYC community drug checking. 406s a bare UA - needs the browser UA the ingest already sends. Verified 2026-08-10."
+   "_note": "NYC community drug checking. 406s a bare UA - needs the browser UA the ingest already sends. Verified 2026-08-10.",
+   "evidence": "community"
   }
  ],
  "googleNews": {
@@ -385,7 +410,8 @@
     "trust": 1,
     "enabled": true,
     "_note": "The boolean column is `opioids`. `opioid_related` is not a column and errors. $select names only the date and cause columns - the dataset also carries age, race, gender, incident_street, incident_zip, latitude and longitude, and none of it is ever requested.",
-    "denominator": "opioid-involved deaths"
+    "denominator": "opioid-involved deaths",
+    "evidence": "lab"
    },
    {
     "id": "allegheny-me",
@@ -413,7 +439,8 @@
     "trust": 1,
     "enabled": true,
     "_note": "Drugs are pre-parsed into combined_od1..10, and the SQL endpoint aggregates server-side, so only (substance, count) pairs are transferred - no row for any individual. Date field is death_date_and_time, not death_date.",
-    "denominator": "accidental overdose deaths"
+    "denominator": "accidental overdose deaths",
+    "evidence": "lab"
    },
    {
     "id": "santaclara-me",
@@ -433,7 +460,8 @@
     "enabled": true,
     "_note": "Fentanyl-involved deaths only, so the denominator is narrower than Cook's and a share here means 'of fentanyl deaths', not 'of overdose deaths'. Same $select discipline: the dataset carries age, race, gender, zip and lat/lon. Every column in this dataset is typed text, dates included, so date literals must be date-only and month bucketing uses substring().",
     "denominator": "fentanyl-involved deaths",
-    "dateType": "text"
+    "dateType": "text",
+    "evidence": "lab"
    },
    {
     "id": "sandiego-me",
@@ -452,10 +480,12 @@
     "trust": 1,
     "enabled": true,
     "_note": "`opioid_related` is a categorical string, not a boolean - the values are Opioid, Opioid-Fentanyl, Non-Opioid, Non-Disclosure. Querying it as `true` or 'Yes' returns zero rows, which is what made this dataset look unusable on first pass. It also has a real `death_date` (calendar_date); the `year`/`quarter` columns are a red herring. Verified 2026-08-14.",
-    "denominator": "opioid-involved deaths"
+    "denominator": "opioid-involved deaths",
+    "evidence": "lab"
    }
   ],
   "completeness": 0.7,
   "_lagNote": "maxLagDays is measured from the last COMPLETE month, not the newest record - see completeThrough() in src/sources/medex.mjs. Allegheny's newest record is about 2 months old but it is still filling in cases from 4 months back, so its honest anchor is roughly 6 months and 150 would have silently dropped it. Every item states its own lag in the body text."
- }
+ },
+ "_evidenceNote": "Every source carries an evidence class - lab, official, community - read by src/evidence.mjs. Aggregators (googleNews, gdelt) deliberately have none: they are carriers, and their items are graded by the originator NAMED IN THE TEXT, or dropped if nobody is. The classes gate severity (community and unconfirmed media never publish critical) and set per-class confidence floors. See the header of src/evidence.mjs for why grading the originator rather than the carrier is the load-bearing idea."
 }
