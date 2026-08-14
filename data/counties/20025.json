@@ -1,0 +1,18 @@
+{
+  "fips": "20025",
+  "name": "Clark County",
+  "state": "KS",
+  "clusters": [],
+  "coverage": {
+    "lastScan": "2026-08-14T07:51:40.670Z",
+    "windowDays": 365,
+    "sourcesChecked": 26,
+    "sourcesFailed": [
+      "la-ldh",
+      "google-news"
+    ],
+    "scanned": true,
+    "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
+  },
+  "newSinceLastRun": []
+}

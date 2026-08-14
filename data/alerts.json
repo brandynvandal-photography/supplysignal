@@ -1,16 +1,41 @@
 {
-  "generated": "2026-08-14T05:04:27.760Z",
+  "generated": "2026-08-14T07:51:40.894Z",
   "windowDays": 365,
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "countyCount": 3231,
   "coverage": {
-    "lastScan": "2026-08-14T05:04:27.592Z",
+    "lastScan": "2026-08-14T07:51:40.696Z",
     "sourcesChecked": 26,
     "sourcesFailed": [
       "la-ldh",
-      "cook-me"
+      "google-news"
     ],
     "countiesScanned": 203
   },
-  "clusters": []
+  "clusters": [
+    {
+      "id": "7e960bbcde86720f",
+      "fips": "17031",
+      "state": "IL",
+      "headline": "Acetyl fentanyl is turning up more often in Cook County's drug supply",
+      "eventDate": "2026-06-30",
+      "summary": "The Cook County Medical Examiner identified acetyl fentanyl in 13 of the 161 opioid-involved deaths it examined in the 90 days to 30 June. That is 8% of them, against 2% over the year before that. Toxicology runs about 6 weeks behind, so this describes what has been in the supply recently rather than what is in it tonight.",
+      "severity": "elevated",
+      "substances": [
+        "acetylfentanyl"
+      ],
+      "sourceCount": 1,
+      "confidence": 1,
+      "sources": [
+        {
+          "name": "The Cook County Medical Examiner",
+          "url": "https://datacatalog.cookcountyil.gov/d/cjeq-bs86",
+          "published": "2026-06-30T00:00:00.000Z",
+          "trust": 1
+        }
+      ],
+      "n": "Cook County",
+      "s": "IL"
+    }
+  ]
 }

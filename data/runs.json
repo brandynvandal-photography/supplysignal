@@ -1,6 +1,64 @@
 {
   "runs": [
     {
+      "started": "2026-08-14T07:45:47.905Z",
+      "fetched": 377,
+      "notModified": 12,
+      "dropped": {
+        "prefilter": 364,
+        "outside_window": 8,
+        "low_confidence": 3
+      },
+      "published": 1,
+      "escalated": 1,
+      "reviewed": 1,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "google-news"
+      ],
+      "medex": {
+        "cook-me": {
+          "items": 1,
+          "latest": "2026-06-30",
+          "lagDays": 45,
+          "recent": 161,
+          "baseline": 748
+        },
+        "allegheny-me": {
+          "items": 0,
+          "latest": "2026-01-31",
+          "lagDays": 195,
+          "recent": 75,
+          "baseline": 323
+        },
+        "santaclara-me": {
+          "items": 0,
+          "latest": "2026-05-31",
+          "lagDays": 75,
+          "recent": 23,
+          "baseline": 91
+        },
+        "sandiego-me": {
+          "items": 0,
+          "latest": "2026-03-31",
+          "lagDays": 136,
+          "recent": 115,
+          "baseline": 441
+        }
+      },
+      "finished": "2026-08-14T07:51:40.694Z",
+      "newClusters": 1,
+      "bundle": {
+        "clusters": 1,
+        "bytes": 716
+      }
+    },
+    {
       "started": "2026-08-14T04:57:26.102Z",
       "fetched": 474,
       "notModified": 14,

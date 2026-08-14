@@ -4,12 +4,12 @@
   "state": "OR",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-14T05:04:27.518Z",
+    "lastScan": "2026-08-14T07:51:40.637Z",
     "windowDays": 365,
     "sourcesChecked": 26,
     "sourcesFailed": [
       "la-ldh",
-      "cook-me"
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
