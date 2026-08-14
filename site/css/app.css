@@ -1174,20 +1174,19 @@ ol.steps p { font-size: .95rem; color: var(--ink-2); }
 
 .tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch;
              border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-/* The 520px floor is OPT-IN, on .cmp, rather than the default.
+/* No min-width here, deliberately. A 520px floor used to apply to every .data
+ * table and forced all six two-column tables to scroll sideways on a phone for
+ * no reason. It was then narrowed to .cmp, the one genuinely wide table - the
+ * four-column tool comparison - on the argument that wrapping its cells would
+ * destroy the side-by-side reading it existed for. Measured on the device it is
+ * actually read on, there was no side by side left to protect: 520px inside a
+ * 293px wrapper put 229px off-screen, and reaching "what it misses" scrolled
+ * the tool name away. That table is now .card + .reagtable like every other
+ * data block on the page, and .cmp is gone with it.
  *
- * It used to apply to every .data table, which forced all six two-column
- * tables to overflow their wrapper and scroll sideways on a phone - the
- * columns squeezed into a cramped strip inside a box for no reason, since
- * "Sold as / Found to contain fentanyl" fits a 402pt screen comfortably.
- *
- * Exactly one table in the app genuinely needs the floor: the four-column
- * tool comparison, where wrapping every cell to three lines would destroy
- * the side-by-side reading the table exists for. That one keeps it, and
- * scrolls horizontally on purpose. Any future wide table should take .cmp
- * (or its own modifier) rather than moving the floor back up here. */
+ * A future wide table should take its own modifier rather than putting the
+ * floor back here. */
 table.data { border-collapse: collapse; width: 100%; font-size: .92rem; }
-table.data.cmp { min-width: 520px; }
 table.data th, table.data td {
   text-align: left; padding: 13px var(--sp-3); border-bottom: 1px solid var(--line); vertical-align: top;
 }
@@ -2168,15 +2167,6 @@ details.disc .groupkids > details.disc > summary h2 {
   color: var(--brand);
   display: inline-flex; align-items: center; min-height: var(--tap); padding: 4px 0;
 }
-
-/* Comparison table: four columns of prose need a wider measure than the
-   default data table, and each cell needs to stay readable when it wraps. */
-.cmp td, .cmp th { vertical-align: top; }
-/* (removed) .cmp min-width: 620px never applied - table.data.cmp above is
-   more specific, and 520px is the value that was actually wanted. Raising the
-   surviving rule to 620 would widen the app's only wide table on the strength
-   of a declaration that has never rendered once. */
-.cmp .cellnote { display: block; margin-top: 5px; }
 
 /* --------------------------------------------------- emergency tab accent */
 

@@ -131,24 +131,53 @@ export async function render() {
       g.compare ? (
         disclosure("sec-compare", g.compare.headline, null,
           h("p", { class: "sec__note" }, g.compare.intro),
-          h("div", { class: "tablewrap" },
-            h("table", { class: "data cmp" },
-              h("thead", null, h("tr", null,
-                h("th", { scope: "col" }, "Tool"),
-                h("th", { scope: "col" }, "What it finds"),
-                h("th", { scope: "col" }, "What it misses"),
-                h("th", { scope: "col" }, "How much a negative is worth"))),
+
+          /* .card + .reagtable, the same shape the reagent tables and the
+             fentanyl-prevalence table use, so every data block on this page
+             reads as the same kind of thing.
+             
+             This one had four columns and a 520px floor, and scrolled sideways
+             on purpose - the comment on .cmp argued that wrapping every cell
+             would destroy the side-by-side reading the table exists for. That
+             was true on a desktop and false where this is actually read: on a
+             375px screen the table was 520px inside a 293px wrapper, so 229px
+             of it - "what it misses" and most of the negative - sat off-screen,
+             and reaching them scrolled the tool name away. There was no side by
+             side to protect.
+             
+             So the four columns become one labelled block per tool. The column
+             headers do not vanish the way the reagent table's did, because
+             unlike "Drug / Reaction" they each carry meaning the cell alone
+             does not - they move inline, which is what the stacked layout was
+             going to do to them at 560px anyway. */
+          h("div", { class: "card" },
+            h("table", { class: "reagtable" },
+              h("caption", { class: "sr-only" },
+                "What each test finds, what it misses, and how much a negative result is worth"),
               h("tbody", null, g.compare.rows.map((r) =>
                 h("tr", null,
                   h("th", { scope: "row" }, r.tool),
-                  h("td", null, r.finds),
-                  h("td", null, r.misses),
                   h("td", null,
-                    /* The word carries it; the tint only reinforces. */
-                    h("span", { class: `rate rate--${
-                      r.confidence === "high" ? "low" : r.confidence === "low" ? "high" : "mid"
-                    }` }, r.confidence === "n/a" ? "different question" : r.confidence),
-                    h("span", { class: "cellnote" }, r.negative))))))),
+                    h("span", { class: "cellnote" },
+                      h("strong", null, "Finds: "), r.finds),
+                    h("span", { class: "cellnote" },
+                      h("strong", null, "Misses: "), r.misses),
+                    h("span", { class: "cellnote" },
+                      h("strong", null, "A negative is worth: "),
+                      /* The word carries it; the tint only reinforces.
+                         rate--mid was asked for here and has never existed in
+                         the stylesheet, so "medium" and "different question"
+                         rendered as bare text sitting between two real pills.
+                         --verylow is the neutral tier that was already there;
+                         adding a second class to do its job is how the pair
+                         drift apart later. */
+                      h("span", { class: `rate rate--${
+                        r.confidence === "high" ? "low"
+                        : r.confidence === "low" ? "high"
+                        : "verylow"
+                      }` }, r.confidence === "n/a" ? "different question" : r.confidence),
+                      " ", r.negative))))))),
+
           h("p", { class: "sec__note" }, g.compare.note))
       ) : null,
       /* "Where to buy" and "who to buy from" are two questions, and the second
