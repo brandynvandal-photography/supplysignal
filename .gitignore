@@ -12,3 +12,6 @@ review/pending.json
 # repo and double every Netlify deploy for no benefit. Rebuild it, do not
 # track it.
 www/
+
+# Staged deploy output (scripts/build-site.mjs). Netlify builds it; never committed.
+dist/

@@ -23,7 +23,14 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 
 const toml = readFileSync("netlify.toml", "utf8");
 
-/* Paths the web is allowed to reach. Everything else must be 404'd. */
+/* Paths the web is allowed to reach.
+ *
+ * This list used to be checked against a DENYLIST of 404 rules over a
+ * whole-repo deploy. That control was bypassable by changing one letter's case
+ * (Netlify matches redirects case-sensitively — /Src/ingest.mjs returned 200
+ * in production), so the deploy now publishes a staged dist/ containing only
+ * the allowlist in scripts/build-site.mjs. This file checks the two lists
+ * agree, which is the property that now matters. */
 const PUBLIC = new Set([
   "site",                  // the app
   "data",                  // its bundles, loaded by relative path
@@ -44,10 +51,15 @@ const PUBLIC = new Set([
   "app-support",
 ]);
 
+/* The deploy's real allowlist. If these two ever disagree, either something
+   server-side is about to ship or something the app needs is about to vanish. */
+import { PUBLIC as STAGED, SKIP_IN_DATA } from "../scripts/build-site.mjs";
+
 /* Never checked in, or unreachable by the platform regardless. */
 const IGNORED = new Set([
   ".git", ".github", ".claude", ".attic", ".gitignore", ".DS_Store", "node_modules",
   "www",   // build output of scripts/build-app.mjs, gitignored, never deployed
+  "dist",  // build output of scripts/build-site.mjs — this IS the deploy, staged
 ]);
 
 const blocked = new Set();
@@ -70,6 +82,30 @@ for (const entry of readdirSync(".")) {
   }
 }
 
+/* The check that replaces the old denylist reasoning.
+ *
+ * The denylist was the mechanism until 2026-08-14, when production answered
+ * /Src/ingest.mjs with 200 — Netlify matches redirects case-sensitively, so
+ * one capital letter reached every server-side file. The deploy now publishes
+ * a staged dist/ built from an explicit allowlist, and the property worth
+ * testing is that this file's idea of what is public and the build script's
+ * are the same list. The 404 rules stay as defence in depth and are still
+ * checked below. */
+{
+  const staged = new Set(STAGED);
+  const documented = new Set(PUBLIC);
+  documented.delete("netlify.toml");        // read by the platform, never served
+  for (const x of staged) {
+    if (!documented.has(x)) fails.push(`build-site stages "${x}" but PUBLIC here does not list it`);
+  }
+  for (const x of documented) {
+    if (!staged.has(x)) fails.push(`PUBLIC lists "${x}" but build-site never stages it`);
+  }
+  for (const n of [".cache.json", ".rotation.json", ".medex.json", "runs.json"]) {
+    if (!SKIP_IN_DATA.has(n)) fails.push(`internal data/${n} would be staged into the deploy`);
+  }
+}
+
 /* Forced, or Netlify serves the real file and ignores the rule entirely. */
 for (const m of toml.matchAll(/\[\[redirects\]\]([\s\S]*?)(?=\[\[|$)/g)) {
   const b = m[1];
@@ -84,5 +120,5 @@ if (fails.length) {
   console.log(`\n0 passed, ${fails.length} failed`);
   process.exit(1);
 }
-console.log("  ok   only the app is reachable; every other published path is 404'd");
+console.log("  ok   the deploy stages an allowlist, and it matches the documented one");
 console.log("\n1 passed, 0 failed");

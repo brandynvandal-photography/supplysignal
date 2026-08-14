@@ -21,7 +21,7 @@
 import {
   PATHS, SEGMENTS, parseRoute, toUrl, canonicalUrl, decode, DEFAULT_DAYS,
 } from "../site/js/routes.js";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -158,6 +158,55 @@ check("the native build gets hash URLs, never paths", () => {
 check("hash form still parses when path routing is off", () => {
   const r = parseRoute({ pathname: "/", hash: "#/substances/fentanyl" }, false);
   return r.tab === "substances" && r.id === "fentanyl" ? null : JSON.stringify(r);
+});
+
+/* ------------------------------------------------ cross-page pointers */
+
+check("a cross-page pointer from another section reaches its page", () => {
+  /* Views write href="#/heat". Under path routing that is no longer an
+     address: tapped on /sos it makes /sos#/heat, which parses as the emergency
+     tab with a sub-route of "heat" and re-renders the emergency page. Every
+     cross-page pointer in the app broke this way, including three ON the
+     emergency page - "If they are burning up", "If they are panicking", and
+     "No naloxone yet?". app.js linkify() rewrites them through toUrl on
+     render; this asserts the translation those links depend on. */
+  const bad = [];
+  for (const [from, raw, wantTab] of [
+    ["/sos",    "#/heat",        "heat"],
+    ["/sos",    "#/stimulants",  "stimulants"],
+    ["/sos",    "#/learn",       "learn"],
+    ["/learn",  "#/sex",         "sex"],
+    ["/learn",  "#/policy",      "policy"],
+    ["/drugs",  "#/supervision", "supervision"],
+    ["/after",  "#/support",     "support"],
+  ]) {
+    const href = toUrl(raw, true);
+    const [p, h] = href.split("#");
+    const got = parseRoute({ pathname: p || "/", hash: h ? "#" + h : "" }, true);
+    if (got.tab !== wantTab) bad.push(`from ${from}: ${raw} -> ${href} -> ${got.tab}, want ${wantTab}`);
+  }
+  return bad.length ? bad.join("; ") : null;
+});
+
+check("every in-app href a view writes is one toUrl can translate", () => {
+  /* A view writing href="#/nonsense" would silently land on alerts. */
+  const dir = path.join(ROOT, "site/js/views");
+  const bad = [];
+  for (const f of readdirSync(dir).filter((x) => x.endsWith(".js"))) {
+    const src = readFileSync(path.join(dir, f), "utf8");
+    for (const m of src.matchAll(/href:\s*"(#\/[a-z-]+)"/g)) {
+      const seg = m[1].slice(2);
+      if (!SEGMENTS[seg] && !PATHS[seg]) bad.push(`${f}: ${m[1]}`);
+    }
+  }
+  return bad.length ? bad.join("; ") : null;
+});
+
+check("app.js rewrites in-app hrefs on render", () => {
+  const app = readFileSync(path.join(ROOT, "site/js/app.js"), "utf8");
+  if (!/function linkify/.test(app)) return "linkify() is gone";
+  if (!/linkify\(node\)/.test(app)) return "route() no longer calls linkify";
+  return null;
 });
 
 /* ----------------------------------------------------------- no drift */

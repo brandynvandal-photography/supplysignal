@@ -36,7 +36,7 @@
    that copy still imported the old src/locate.mjs path that the /src/* 404
    rule had killed. Verified in the live cache - cachedImportsOldPath: true.
    A comment saying "remember to bump this" is not a mechanism. */
-const VERSION = "nl-8a20b851";
+const VERSION = "nl-f1847c93";
 
 /* The minimum set that makes every screen renderable offline. Data files are
    picked up on first use by the runtime cache. */

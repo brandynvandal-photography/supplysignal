@@ -211,6 +211,47 @@ const VIEWS = {
   heat:       () => import("./views/heat.js"),
 };
 
+/* Rewrite in-app links to the current URL scheme.
+ *
+ * Views write href="#/heat" - the language they have always spoken, and the
+ * one the native build still uses. Under path routing that string is no longer
+ * an address: tapped on /sos it produces /sos#/heat, which parses as the
+ * emergency tab with a sub-route of "heat" and renders the emergency page
+ * again. Every cross-page pointer in the app broke that way, including three
+ * on the emergency page itself - "If they are burning up", "If they are
+ * panicking", and "No naloxone yet?" - which are the referrals most likely to
+ * be followed by somebody in the middle of an overdose.
+ *
+ * Rewriting the href rather than only intercepting the click keeps
+ * right-click-copy, middle-click and no-JS honest: what the reader copies is
+ * the address the page actually lives at. */
+function linkify(root) {
+  for (const a of root.querySelectorAll?.('a[href^="#/"]') || []) {
+    a.setAttribute("href", toUrl(a.getAttribute("href")));
+  }
+}
+
+/* Belt and braces for anything inserted after render, and so a same-document
+   navigation does not cost a round trip. Capture-phase on the document, one
+   listener, no per-link bookkeeping. */
+document.addEventListener("click", (e) => {
+  if (e.defaultPrevented || e.button !== 0) return;
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest?.("a[href]");
+  if (!a || a.target === "_blank") return;
+  const href = a.getAttribute("href") || "";
+  if (href.startsWith("#/")) {
+    e.preventDefault();
+    go(href);
+    return;
+  }
+  /* An already-rewritten in-app path: route it rather than reloading. */
+  if (pathRouting() && /^\/[a-z-]+$/.test(href) && R.PATHS[href.slice(1)]) {
+    e.preventDefault();
+    go(`#/${R.PATHS[href.slice(1)]}`);
+  }
+});
+
 let token = 0;
 
 async function route() {
@@ -231,6 +272,7 @@ async function route() {
     if (mine !== token) return;                 // a newer navigation won
     const node = await mod.render(r, { go, data });
     if (mine !== token) return;
+    linkify(node);
     clear(view).appendChild(node);
   } catch (err) {
     if (mine !== token) return;

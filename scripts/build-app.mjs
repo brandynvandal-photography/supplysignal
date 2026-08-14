@@ -38,7 +38,7 @@
 // strictly better than fetching it: no network at all for a lookup, and the
 // app works from a cold start with no signal.
 
-import { cp, rm, mkdir, readdir, stat, writeFile } from "node:fs/promises";
+import { cp, rm, mkdir, readdir, stat, writeFile, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -86,6 +86,32 @@ async function main() {
     const from = path.join(ROOT, "data", entry.name);
     await cp(from, path.join(dataOut, entry.name), { recursive: true });
     shipped++;
+  }
+
+  /* The shell's asset paths are absolute (/site/css/app.css) because on the
+     web the document is served at /alerts, /test and the rest, where a
+     relative href would resolve against / and 404.
+     
+     In this bundle the app IS at the root, so those same absolute paths point
+     at /site/... which does not exist here - and the failure is total and
+     silent: no stylesheet, no module, a blank white screen with Quick Exit and
+     SOS both inert. Verified by building and resolving every reference against
+     the staged tree. Rewrite them to root-absolute on the way in. */
+  const shell = path.join(OUT, "index.html");
+  const html = await readFile(shell, "utf8");
+  const fixed = html.replace(/(["'])\/site\//g, "$1/");
+  if (fixed === html && /\/site\//.test(html)) {
+    throw new Error("index.html still references /site/ after rewrite");
+  }
+  await writeFile(shell, fixed);
+
+  /* Fail loudly rather than shipping a bundle that cannot boot. */
+  const missing = [];
+  for (const m of fixed.matchAll(/(?:href|src)="(\/[^"]+\.(?:css|js|png|webmanifest))"/g)) {
+    if (!existsSync(path.join(OUT, m[1]))) missing.push(m[1]);
+  }
+  if (missing.length) {
+    throw new Error(`bundle references files it does not contain: ${missing.join(", ")}`);
   }
 
   /* A marker the app can read to know it is running from a bundle rather than
