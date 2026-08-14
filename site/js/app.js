@@ -744,6 +744,24 @@ function mountBackToTop() {
      Not awaited: boot is finished either way. */
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
   idle(() => { renderFooterMeta().catch(() => {}); });
+
+  /* The packaged app carries the alerts that existed on the day it was built.
+     Everything else in the bundle stays true; alerts are a claim about now.
+     No-ops on the website and offline. See data.refreshAlerts. */
+  idle(() => {
+    data.refreshAlerts().then((updated) => {
+      if (!updated) return;
+      renderFooterMeta().catch(() => {});
+      /* Redraw the alerts screen only if the reader is still at the top of
+         it. Replacing the page under somebody who has scrolled into a county
+         they were reading is worse than showing them slightly older alerts
+         for one more navigation, and the fresh copy is what the next tap
+         renders either way. */
+      let tab = "alerts";
+      try { tab = parseRoute().tab; } catch { tab = null; }
+      if (tab === "alerts" && window.scrollY < 40) route().catch(() => {});
+    }).catch(() => {});
+  });
 })();
 
 

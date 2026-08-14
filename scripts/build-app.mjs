@@ -104,10 +104,37 @@ async function main() {
      the staged tree. Rewrite them to root-absolute on the way in. */
   const shell = path.join(OUT, "index.html");
   const html = await readFile(shell, "utf8");
-  const fixed = html.replace(/(["'])\/site\//g, "$1/");
+  let fixed = html.replace(/(["'])\/site\//g, "$1/");
   if (fixed === html && /\/site\//.test(html)) {
     throw new Error("index.html still references /site/ after rewrite");
   }
+
+  /* One origin, added HERE and nowhere else.
+   *
+   * site/js/data.js refreshes alerts.json from nightlight.help when the
+   * packaged app has signal, because alerts are the one thing in this bundle
+   * that goes stale (see refreshAlerts). On the website that is same-origin
+   * and needs no permission. In the bundle the document is served from
+   * capacitor://localhost, so 'self' is the app - and connect-src 'self'
+   * blocks the request with nothing in the UI to show for it.
+   *
+   * The relaxation is applied to the COPY, so site/index.html keeps
+   * connect-src 'self' exactly as test/privacy.test.mjs requires and the
+   * website's policy is untouched. test/offline.test.mjs asserts the bundle
+   * adds this one origin and nothing else, and that it is the same origin the
+   * code actually fetches - so widening it further, or pointing the fetch
+   * somewhere the policy does not allow, fails the build rather than shipping
+   * a feature that silently does nothing. */
+  const ALLOW = "https://nightlight.help";
+  const withConnect = fixed.replace(
+    /connect-src 'self'/,
+    `connect-src 'self' ${ALLOW}`
+  );
+  if (withConnect === fixed) {
+    throw new Error("connect-src 'self' not found in index.html — the alerts refresh would be blocked in the app");
+  }
+  fixed = withConnect;
+
   await writeFile(shell, fixed);
 
   /* Fail loudly rather than shipping a bundle that cannot boot. */

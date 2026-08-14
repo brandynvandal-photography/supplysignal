@@ -51,6 +51,49 @@ const jsFiles = [];
   }
 })(path.join(WWW, "js"));
 
+/* ------------------------------------------- 0. the one permitted origin */
+
+/* Alerts are the only thing in the bundle that goes stale, so the packaged app
+   refreshes them when it has signal. That single exception has to stay a
+   single exception, and the three places it is written down - the URL in the
+   code, the origin in the bundle's CSP, and the fallback that makes it
+   optional - have to agree, or the feature is either dead or wider than it
+   claims. */
+const dataSrcRaw = readFileSync(path.join(ROOT, "site/js/data.js"), "utf8");
+const remoteM = dataSrcRaw.match(/REMOTE_ALERTS = "([^"]+)"/);
+if (!remoteM) fails.push("REMOTE_ALERTS is not declared in data.js");
+const REMOTE = remoteM ? remoteM[1] : null;
+const REMOTE_ORIGIN = REMOTE ? new URL(REMOTE).origin : null;
+
+const bundleHtml = readFileSync(path.join(WWW, "index.html"), "utf8");
+const connect = bundleHtml.match(/connect-src([^;]*)/);
+checked++;
+if (!connect) {
+  fails.push("the bundle's CSP has no connect-src");
+} else {
+  const allowed = connect[1].trim().split(/\s+/);
+  const extra = allowed.filter((v) => v !== "'self'");
+  if (extra.length !== 1 || extra[0] !== REMOTE_ORIGIN) {
+    fails.push(`the bundle's connect-src should be 'self' plus ${REMOTE_ORIGIN} and nothing else, got: ${allowed.join(" ")}`);
+  }
+}
+
+/* The website's own policy must NOT have been widened. The relaxation exists
+   because capacitor://localhost is not nightlight.help; on the web it is, and
+   there is nothing to permit. */
+checked++;
+const siteConnect = readFileSync(path.join(ROOT, "site/index.html"), "utf8").match(/connect-src([^;]*)/);
+if (!siteConnect || siteConnect[1].trim() !== "'self'") {
+  fails.push(`site/index.html connect-src should still be 'self' alone, got: ${siteConnect?.[1].trim()}`);
+}
+
+/* Offline is the default, not the failure path: a refresh that cannot happen
+   has to leave the bundled copy in place rather than throw. */
+checked++;
+if (!/catch\s*{\s*\n?\s*return false;/.test(dataSrcRaw.replace(/\/\*[\s\S]*?\*\//g, ""))) {
+  fails.push("refreshAlerts does not fall back to the bundled copy on failure");
+}
+
 /* ----------------------------------------------------------- 1. modules */
 
 /* Static and dynamic imports both, because the views are all loaded with
@@ -123,6 +166,10 @@ for (const file of [...jsFiles, path.join(ROOT, "site/js/i18n.js")]) {
     if (!spec) continue;                        // fully interpolated; covered above
     checked++;
     if (/^[a-z]+:\/\//i.test(spec)) {
+      /* One exception, and it is checked rather than waved through below:
+         the alerts refresh. Everything else off-origin is a screen that is
+         blank on a plane and full on wifi. */
+      if (spec === REMOTE) continue;
       fails.push(`${rel(file)} fetches off-origin, which cannot work offline: ${spec}`);
       continue;
     }

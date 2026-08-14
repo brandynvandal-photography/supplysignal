@@ -266,6 +266,89 @@ export async function alerts() {
   return a;
 }
 
+/* ------------------------------------------------- the one stale dataset */
+
+/**
+ * Is this the packaged app rather than the website?
+ *
+ * Capacitor serves the bundle from capacitor://localhost, so the protocol is
+ * the honest signal - it is a fact about where this document came from, not a
+ * guess about the device from a user-agent string. It depends on the native
+ * config NOT setting iosScheme, which is asserted in the wrapper repo.
+ */
+export function packaged() {
+  return location.protocol === "capacitor:" || location.protocol === "ionic:";
+}
+
+/** The only file this app ever requests off its own origin. See below. */
+export const REMOTE_ALERTS = "https://nightlight.help/data/alerts.json";
+
+/**
+ * Refresh the alerts bundle from the web, when there is a web to reach.
+ *
+ * Everything else in the bundle is reference material - what a reagent colour
+ * means, what a combination does - and it is as true in six months as it is
+ * today. Alerts are the exception: they are a claim about right now, and an
+ * install that never updated would keep showing the supply as it was on the
+ * day the app was built while the footer's date quietly aged. That is the one
+ * way this app could be confidently wrong, which is the thing it is least
+ * allowed to be.
+ *
+ * WHAT THIS DOES NOT COST, because it is the obvious objection: alerts.json is
+ * the same national file every reader gets, byte for byte. Asking for it says
+ * "somebody opened Nightlight" and nothing else - the same single fact the
+ * website's access log already holds, and precisely what PRIVACY.md section 1
+ * says a log is allowed to show. There is no county in the URL, no substance,
+ * no query string, no cookie and no referrer. A per-county request would be a
+ * different thing entirely and is still forbidden.
+ *
+ * Returns true only when a genuinely NEWER copy replaced the bundled one, so
+ * the caller can decide whether anything on screen needs redrawing.
+ */
+export async function refreshAlerts({ timeoutMs = 8000 } = {}) {
+  /* The website already serves this file fresh from its own origin. */
+  if (!packaged()) return false;
+  /* navigator.onLine lies in one direction only: false is reliable, true can
+     mean a captive portal. Trusting the reliable half costs nothing and skips
+     the wait entirely on a plane, which is the case this whole bundle exists
+     for. The timeout covers the other half. */
+  if (navigator.onLine === false) return false;
+
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), timeoutMs);
+  try {
+    const r = await fetch(REMOTE_ALERTS, {
+      credentials: "omit",
+      cache: "no-store",
+      referrerPolicy: "no-referrer",
+      signal: ctl.signal,
+    });
+    if (!r.ok) return false;
+    const fresh = await r.json();
+    if (!fresh || !fresh.generated || !Array.isArray(fresh.clusters)) return false;
+
+    /* Newer, or nothing. A copy that is the same age is not worth a redraw,
+       and one that is OLDER means something is wrong at the other end - a
+       rolled-back deploy, a cache serving last month - and the bundled file
+       is then the better of the two. */
+    const have = await alerts();
+    if (have.generated && !(Date.parse(fresh.generated) > Date.parse(have.generated))) {
+      return false;
+    }
+
+    cache.set("alerts", fresh);
+    /* The by-county index is memoised off the OLD object and would otherwise
+       survive the swap - every county screen would keep showing the bundled
+       alerts while the footer claimed the new date. */
+    alertsByFips = null;
+    return true;
+  } catch {
+    return false;                               // offline, aborted, malformed
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 const rank = { critical: 0, elevated: 1, advisory: 2 };
 
 export async function alertsFor(fips, days = 90) {
