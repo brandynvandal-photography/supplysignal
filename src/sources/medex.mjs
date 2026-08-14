@@ -275,46 +275,52 @@ async function fetchSocrata(src, settings, since, until) {
 }
 
 /**
- * CKAN with a SQL endpoint (Allegheny). The drugs are already in their own
- * columns, so the whole tally runs server-side and the response is a list of
- * (drug, count) pairs — no record for any individual is transferred.
+ * CKAN (Allegheny), via plain datastore_search.
  *
- * Returned in the same shape as fetchSocrata's rows so the caller does not
- * branch, with one synthetic row per death-with-that-drug. That is a count
- * standing in for records, which is all anything downstream uses it for.
+ * WHY NOT THE SQL ENDPOINT THIS USED TO USE.
+ *
+ * datastore_search_sql fails in bursts. Measured 2026-08-14: the identical
+ * query returned 200 twice then 500; minutes later five consecutive runs
+ * failed every call; minutes after that everything answered again. Plain
+ * datastore_search on the same resource stayed at 200 throughout, so it is
+ * that one endpoint rather than the query, the resource or the network. No
+ * retry budget covers a minute-long outage, and the SQL path needed FIVE calls
+ * per run - five chances to lose the county.
+ *
+ * This is one call: all 7,751 rows, 2 MB, about a third of a second.
+ *
+ * THE PRIVACY DISCIPLINE IS UNCHANGED, and worth stating because the mechanism
+ * moved. The SQL path aggregated server-side, so only (drug, count) pairs
+ * crossed the wire. This pulls rows - but `fields` is a whitelist naming ONLY
+ * the date and the ten drug columns, so age, sex, race, incident_zip and
+ * decedent_zip are never requested and never arrive. Verified against the live
+ * response: the only keys returned are the eleven asked for, and CKAN does not
+ * include its own _id. Same guarantee the Socrata sources get from $select, by
+ * the same means.
+ *
+ * Returned in fetchSocrata's row shape, so everything downstream is identical.
  */
-async function fetchCkanSql(src, settings, since, until) {
-  const arr = src.drugColumns.join(",");
-  const sql =
-    `SELECT drug, COUNT(*) AS n FROM (` +
-    `SELECT unnest(ARRAY[${arr}]) AS drug FROM "${src.resource}" ` +
-    `WHERE ${src.dateField} > '${dlit(src, since)}' AND ${src.dateField} < '${dlit(src, until)}'` +
-    `) t WHERE drug IS NOT NULL AND drug <> '' GROUP BY drug`;
+async function fetchCkanRows(src, settings) {
+  const fields = [src.dateField, ...src.drugColumns].join(",");
+  const url = `${src.endpoint}?resource_id=${encodeURIComponent(src.resource)}` +
+    `&fields=${encodeURIComponent(fields)}` +
+    `&limit=${src.maxRows || 20000}`;
 
-  const data = await getJson(
-    `${src.endpoint}?sql=${encodeURIComponent(sql)}`, settings
-  );
+  const data = await getJson(url, settings);
   if (!data?.success) throw new Error(data?.error?.message || "CKAN query failed");
 
-  const rows = [];
-  for (const r of data.result.records || []) {
-    const n = Number(r.n) || 0;
-    for (let i = 0; i < n; i++) rows.push({ date: null, text: r.drug });
+  const recs = data.result?.records || [];
+  /* A silent truncation would shrink every window and every baseline at once,
+     which reads as "nothing is happening here" rather than as a failure. */
+  const total = Number(data.result?.total);
+  if (Number.isFinite(total) && recs.length < total) {
+    throw new Error(`CKAN returned ${recs.length} of ${total} rows - raise maxRows`);
   }
-  return rows;
-}
 
-/**
- * A separate count of DEATHS (not drug-mentions) in the window, for the
- * denominator. The unnest above counts one row per drug per death, so it
- * cannot supply it.
- */
-async function ckanTotal(src, settings, since, until) {
-  const sql =
-    `SELECT COUNT(*) AS n FROM "${src.resource}" ` +
-    `WHERE ${src.dateField} > '${dlit(src, since)}' AND ${src.dateField} < '${dlit(src, until)}'`;
-  const data = await getJson(`${src.endpoint}?sql=${encodeURIComponent(sql)}`, settings);
-  return Number(data?.result?.records?.[0]?.n) || 0;
+  return recs.map((r) => ({
+    date: dayOnly(r[src.dateField]),
+    text: src.drugColumns.map((c) => r[c]).filter(Boolean).join(" | "),
+  }));
 }
 
 /**
@@ -345,11 +351,10 @@ async function latestDate(src, settings) {
     const r = await getJson(url, settings, 0, true);
     v = Object.values(r?.[0] || {})[0];
   } else {
-    const sql =
-      `SELECT MAX(${src.dateField}) AS d FROM "${src.resource}" ` +
-      `WHERE ${src.dateField} < '${today}'`;
-    const data = await getJson(`${src.endpoint}?sql=${encodeURIComponent(sql)}`, settings);
-    v = data?.result?.records?.[0]?.d;
+    /* Derived from the one row pull rather than a second endpoint. */
+    const rows = await fetchCkanRows(src, settings);
+    const dates = rows.map((r) => r.date).filter((d) => d && d < today);
+    v = dates.length ? dates.sort().at(-1) : null;
   }
   if (!v) return null;
   const d = dayOnly(v);
@@ -429,14 +434,16 @@ async function monthlyCounts(src, settings, since) {
     return rows.map((r) => ({ m: String(r.m).slice(0, 7), n: Number(r.n) || 0 }))
       .sort((a, b) => a.m.localeCompare(b.m));
   }
-  const sql =
-    `SELECT to_char(${src.dateField}, 'YYYY-MM') AS m, COUNT(*) AS n FROM "${src.resource}" ` +
-    `WHERE ${src.dateField} > '${dlit(src, since)}' ` +
-    `AND ${src.dateField} < '${dlit(src, Date.now() + DAY)}' ` +
-    `GROUP BY 1 ORDER BY 1`;
-  const data = await getJson(`${src.endpoint}?sql=${encodeURIComponent(sql)}`, settings);
-  return (data?.result?.records || [])
-    .map((r) => ({ m: r.m, n: Number(r.n) || 0 }))
+  const rows = await fetchCkanRows(src, settings);
+  const from = dlit(src, since), until = dlit(src, Date.now() + DAY);
+  const buckets = new Map();
+  for (const r of rows) {
+    if (!r.date || r.date <= from || r.date >= until) continue;
+    const m = r.date.slice(0, 7);
+    buckets.set(m, (buckets.get(m) || 0) + 1);
+  }
+  return [...buckets.entries()]
+    .map(([m, n]) => ({ m, n }))
     .sort((a, b) => a.m.localeCompare(b.m));
 }
 
@@ -647,39 +654,38 @@ export async function fetchMedicalExaminer(src, settings, cfg = {}, state = {}) 
   const recentFrom = anchor - recentDays * DAY;
   const baseFrom = recentFrom - baselineDays * DAY;
 
-  /* CKAN needs the whole span, because its baseline is derived by subtracting
-     the recent counts from it. Socrata filters client-side, so asking for the
-     full span meant the recent window was transferred twice - and the recent
-     window is the expensive half, being the one with the free text in it.
-     Disjoint ranges: nothing crosses the wire more than once. */
-  const fetcher = src.kind === "socrata" ? fetchSocrata : fetchCkanSql;
-  const [recentRows, allRows] = await Promise.all([
-    fetcher(src, settings, recentFrom, anchor),
-    fetcher(src, settings, baseFrom, src.kind === "socrata" ? recentFrom : anchor),
-  ]);
-
-  /* The baseline is everything since baseFrom MINUS the recent window. For
-     Socrata that is a date filter; for CKAN the rows are synthetic and carry
-     no date, so subtract the counts instead. */
-  let recentTotal, baseTotal, recentCounts, baseCounts;
+  /* One shape for both sources now.
+   *
+   * CKAN used to need its own branch: the SQL path returned (drug, count)
+   * pairs expanded into synthetic rows carrying no date, so the baseline had
+   * to be derived by subtracting one aggregate from another. datastore_search
+   * returns real dated rows, so it filters exactly like Socrata does and the
+   * whole second code path disappears.
+   *
+   * Socrata still asks for two disjoint ranges, because the recent window is
+   * the expensive half - it carries the free-text cause of death - and asking
+   * for the full span would transfer it twice. CKAN is one request for
+   * everything, so it filters what it already has. */
+  let recentRows, baseRows;
   if (src.kind === "socrata") {
-    /* allRows IS the baseline now - the ranges no longer overlap. */
-    recentTotal = recentRows.length;
-    baseTotal = allRows.length;
-    recentCounts = tally(recentRows.map((r) => r.text));
-    baseCounts = tally(allRows.map((r) => r.text));
-  } else {
-    const [rT, aT] = await Promise.all([
-      ckanTotal(src, settings, recentFrom, anchor),
-      ckanTotal(src, settings, baseFrom, anchor),
+    [recentRows, baseRows] = await Promise.all([
+      fetchSocrata(src, settings, recentFrom, anchor),
+      fetchSocrata(src, settings, baseFrom, recentFrom),
     ]);
-    recentTotal = rT;
-    baseTotal = aT - rT;
-    recentCounts = tally(recentRows.map((r) => r.text));
-    const allCounts = tally(allRows.map((r) => r.text));
-    baseCounts = new Map();
-    for (const [k, v] of allCounts) baseCounts.set(k, v - (recentCounts.get(k) || 0));
+  } else {
+    const all = await fetchCkanRows(src, settings);
+    const inWindow = (r, from, until) => {
+      const t = Date.parse(r.date);
+      return !Number.isNaN(t) && t >= from && t < until;
+    };
+    recentRows = all.filter((r) => inWindow(r, recentFrom, anchor));
+    baseRows = all.filter((r) => inWindow(r, baseFrom, recentFrom));
   }
+
+  const recentTotal = recentRows.length;
+  const baseTotal = baseRows.length;
+  const recentCounts = tally(recentRows.map((r) => r.text));
+  const baseCounts = tally(baseRows.map((r) => r.text));
 
   if (!recentTotal) return { items: [], skipped: "empty_window", latest };
 

@@ -281,6 +281,38 @@ function linkify(root) {
   }
 }
 
+/* Opening a section brings its OWN heading to the top, not its body.
+ *
+ * Every other way into a section already did this: the jump chips resolve to
+ * the heading (ui.js jumpNav), search results resolve to the heading
+ * (reveal()), and a tab change focuses the new view's h1. Tapping a disclosure
+ * did not. Open one sitting low in the viewport and the summary stayed where
+ * it was while the content unrolled below the fold - so the reader saw body
+ * text with the thing they had just asked for scrolled off the top.
+ *
+ * Only on OPEN. Collapsing should leave the page where it is, or the act of
+ * closing something throws the reader somewhere new.
+ *
+ * scroll-margin-top on the target keeps it clear of the sticky bar; that token
+ * is already set for every jump target in app.css. */
+document.addEventListener("click", (e) => {
+  const summary = e.target.closest?.("summary");
+  if (!summary) return;
+  const det = summary.parentElement;
+  if (!det || det.tagName !== "DETAILS" || det.open) return;   // open => it is about to close
+
+  /* After the browser has toggled it and laid the content out. */
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (!det.open) return;
+    const top = summary.getBoundingClientRect().top;
+    /* Already comfortably in view and near the top? Leave it alone - moving
+       the page under a finger that did not ask for it is worse than a small
+       imperfection. */
+    if (top >= 0 && top < 160) return;
+    summary.scrollIntoView({ behavior: "smooth", block: "start" });
+  }));
+});
+
 /* Belt and braces for anything inserted after render, and so a same-document
    navigation does not cost a round trip. Capture-phase on the document, one
    listener, no per-link bookkeeping. */

@@ -419,8 +419,8 @@
     "county": "Allegheny County",
     "fips": "42003",
     "state": "PA",
-    "kind": "ckan-sql",
-    "endpoint": "https://data.wprdc.org/api/3/action/datastore_search_sql",
+    "kind": "ckan",
+    "endpoint": "https://data.wprdc.org/api/3/action/datastore_search",
     "resource": "1c59b26a-1684-4bfb-92f7-205b947530cf",
     "landing": "https://data.wprdc.org/dataset/allegheny-county-fatal-accidental-overdoses",
     "dateField": "death_date_and_time",
@@ -438,9 +438,10 @@
     ],
     "trust": 1,
     "enabled": true,
-    "_note": "Drugs are pre-parsed into combined_od1..10, and the SQL endpoint aggregates server-side, so only (substance, count) pairs are transferred - no row for any individual. Date field is death_date_and_time, not death_date.",
+    "_note": "Drugs are pre-parsed into combined_od1..10. Plain datastore_search, NOT datastore_search_sql: that endpoint fails in bursts (verified 2026-08-14 - five consecutive runs failed every call, then recovered, while plain search stayed at 200 throughout) and the SQL path needed five calls per run. This is one call for all 7,751 rows. `fields` is a whitelist of the date and the ten drug columns, so age, sex, race and both ZIP columns are never requested - the same discipline $select gives the Socrata sources. Date field is death_date_and_time, not death_date.",
     "denominator": "accidental overdose deaths",
-    "evidence": "lab"
+    "evidence": "lab",
+    "maxRows": 20000
    },
    {
     "id": "santaclara-me",
