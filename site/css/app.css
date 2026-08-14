@@ -1963,12 +1963,8 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 
    This is a band per colour, in order, left to right.
 
-   CRISP EDGES, NOT A BLEND, and that is a correctness decision rather than a
-   style one. A smooth gradient between yellow and black paints a wide olive
-   middle that the reaction never produces. On a page somebody uses to decide
-   whether a pill matches a reference photo, inventing an intermediate colour
-   is inventing evidence. Equal bands with hard boundaries say "yellow, then
-   black" and nothing more.
+   Equal bands, blended at the boundaries - see the mask rule below for why
+   the blend costs no per-pair CSS, and why it stopped being crisp.
 
    Reuses the swatch colours above - one source for both, so a dot and a band
    can never disagree. The colour WORDS stay next to it: this is reinforcement
@@ -1982,9 +1978,31 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 .reagbar > span { flex: 1 1 0; min-width: 0; }
 /* A single-colour result is one full band, which is exactly right. */
 
-/* A hairline between bands, so two similar colours never merge into one and a
-   three-stage reaction always reads as three stages. */
-.reagbar > span + span { box-shadow: inset 1px 0 0 var(--glass-line); }
+/* The bands blend into each other rather than butting up.
+ *
+ * COLOUR-AGNOSTIC, which is the trick that makes this affordable: each band
+ * after the first is pulled left over its neighbour and masked so it fades in
+ * across the overlap. The blend comes from the mask, not from knowing which
+ * two colours meet - so it needs no per-pair CSS. That matters because the CSP
+ * has no unsafe-inline and a style attribute renders nothing here, so real
+ * per-sequence linear-gradient() would have meant generating 51 pair classes
+ * at build time and keeping them in sync with the data.
+ *
+ * This started crisp, on the reasoning that blending yellow into black paints
+ * an olive middle the reaction never produces. That was too strong: a Marquis
+ * reaction genuinely does travel through intermediate shades over about thirty
+ * seconds, so the blend is closer to what somebody watching the drop sees than
+ * a hard edge is.
+ *
+ * The words still carry the meaning - "yellow, then blue, then black" sits
+ * beside every bar and the bar is aria-hidden - so nothing here is the only
+ * signal, and nobody is matching a sample against an invented midpoint without
+ * the named reference colours right there. */
+.reagbar > span + span {
+  margin-left: -18px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 18px);
+  mask-image: linear-gradient(to right, transparent 0, #000 18px);
+}
 
 /* Black and white have to be re-stated for the BAND, and this is a legibility
    bug rather than a preference.
@@ -2001,9 +2019,8 @@ details.disc[open] { margin-bottom: var(--sp-3); }
    the meaning, and this only has to look like what it says. */
 .reagbar > .swatch--black { background: #0a0908; }
 .reagbar > .swatch--white { background: #fdfaf4; box-shadow: inset 0 0 0 1px var(--line-2); }
-.reagbar > .swatch--white + span, .reagbar > span + .swatch--white {
-  box-shadow: inset 1px 0 0 var(--line-2);
-}
+/* White needs an outline of its own on light backgrounds; the blend handles
+   the boundary, so this is only about the band not vanishing into the card. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .reagbar > .swatch--black { background: #000; }
   :root:not([data-theme="light"]) .reagbar > .swatch--white { background: #f4ece0; }
