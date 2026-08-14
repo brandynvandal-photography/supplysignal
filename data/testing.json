@@ -1226,13 +1226,41 @@
             "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
             "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
           }
-        ]
+        ],
+        "byDrug": {
+          "opioid": {
+            "label": "Heroin, fentanyl or another opioid",
+            "water": null,
+            "note": "The standard ratio above."
+          },
+          "stim": {
+            "label": "Meth, MDMA or cocaine",
+            "water": "Use MORE water than above, not less.",
+            "note": "High concentrations of stimulants and common cuts make these strips read positive when no fentanyl is there. The false positive goes away as the sample gets weaker, so a stimulant is tested more dilute than an opioid — the opposite of the instinct to use less water so nothing is missed.",
+            "sources": [
+              {
+                "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7941948/"
+              }
+            ]
+          },
+          "pill": {
+            "label": "A pill",
+            "water": null,
+            "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
+          },
+          "residue": {
+            "label": "Cooker or bag residue",
+            "water": "2 mL of clean water into the cooker. Mix well.",
+            "note": "Nothing to weigh — the residue is the sample."
+          }
+        }
       },
       {
         "id": "whpm-fentanyl",
         "strip": "fentanyl",
         "name": "DanceSafe",
-        "maker": "Made by WHPM. Since 12 March 2026 the storefront and shipping are run by Transparency, the organization behind Bunk Police — the strip and its instructions did not change, but the packet may arrive with a different name on it.",
+        "maker": "Made by WHPM in Irwindale, California, and developed with DanceSafe specifically for checking drugs rather than urine. Since 12 March 2026 the storefront and shipping are run by Transparency, the organization behind Bunk Police — the strip and its instructions did not change, but the packet may arrive with a different name on it.",
         "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
         "water": "1 mL of water for every 10 mg. About 20 drops, or one full syringe.",
         "residue": "Testing cooker residue instead: add 2 mL of clean water to the cooker and mix well.",
@@ -1251,6 +1279,146 @@
           {
             "name": "DanceSafe — Storefront Update: New Partner, Same Mission",
             "url": "https://dancesafe.org/dancesafextransparency/"
+          },
+          {
+            "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+          }
+        ],
+        "byDrug": {
+          "opioid": {
+            "label": "Heroin, fentanyl or another opioid",
+            "water": null,
+            "note": "The standard ratio above."
+          },
+          "stim": {
+            "label": "Meth, MDMA or cocaine",
+            "water": null,
+            "note": "No change. At this concentration — 10 mg per mL — laboratory testing of the WHPM strip found no false positives from meth, MDMA, lidocaine, levamisole or most other common cuts. That is the reason for the ratio, and it is the one thing that most separates this strip from BTNX's in ordinary use.",
+            "sources": [
+              {
+                "name": "Grassroots Harm Reduction — fentanyl test strips",
+                "url": "https://grassrootsharmreduction.org/product/fentanyl-test-strips-pack-of-10/"
+              }
+            ]
+          },
+          "pill": {
+            "label": "A pill",
+            "water": null,
+            "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
+          },
+          "residue": {
+            "label": "Cooker or bag residue",
+            "water": "2 mL of clean water into the cooker. Mix well.",
+            "note": "Nothing to weigh — the residue is the sample."
+          }
+        }
+      },
+      {
+        "id": "bunk-fentanyl",
+        "strip": "fentanyl",
+        "name": "Bunk Police (light blue)",
+        "maker": "The same WHPM strip DanceSafe sells, under Bunk Police's own packaging. Their older DARK blue strips were BTNX and take the BTNX ratio instead — check which one is in your hand before measuring.",
+        "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
+        "water": "1 mL of water for every 10 mg. One teaspoon (5 mL) holds 50 mg.",
+        "residue": "Testing cooker residue instead: add 2 mL of clean water to the cooker and mix well.",
+        "dip": "Dip for 15 seconds, holding the blue end.",
+        "dipLimit": "Do not dip above the top of the dotted section.",
+        "wait": "Wait 3 minutes, lying flat.",
+        "positive": "ONE red line, at the top only",
+        "negative": "TWO red lines — any second line, however faint, is negative",
+        "invalid": "No lines, or only the bottom line. Redo it with a new strip.",
+        "blindSpot": "A WHPM strip, so it shares WHPM's blind spot: bulky changes on the carbonyl part of the molecule — isobutyryl, tetrahydrofuran and cyclopentyl replacements. It missed 28 of the fentanyl analogues in the laboratory screen, and was the more sensitive of the two brands at low concentrations.",
+        "byDrug": {
+          "opioid": {
+            "label": "Heroin, fentanyl or another opioid",
+            "water": null,
+            "note": "The standard ratio above."
+          },
+          "stim": {
+            "label": "Meth, MDMA or cocaine",
+            "water": null,
+            "note": "No change. At this concentration — 10 mg per mL — laboratory testing of the WHPM strip found no false positives from meth, MDMA, lidocaine, levamisole or most other common cuts. That is the reason for the ratio, and it is the one thing that most separates this strip from BTNX's in ordinary use.",
+            "sources": [
+              {
+                "name": "Grassroots Harm Reduction — fentanyl test strips",
+                "url": "https://grassrootsharmreduction.org/product/fentanyl-test-strips-pack-of-10/"
+              }
+            ]
+          },
+          "pill": {
+            "label": "A pill",
+            "water": null,
+            "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
+          },
+          "residue": {
+            "label": "Cooker or bag residue",
+            "water": "2 mL of clean water into the cooker. Mix well.",
+            "note": "Nothing to weigh — the residue is the sample."
+          }
+        },
+        "sources": [
+          {
+            "name": "The Bunk Police — How to test for fentanyl",
+            "url": "https://bunkpolice.com/how-to-test-for-fentanyl-fent-kits/"
+          },
+          {
+            "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+          }
+        ]
+      },
+      {
+        "id": "grassroots-fentanyl",
+        "strip": "fentanyl",
+        "name": "Grassroots Harm Reduction",
+        "maker": "Also the WHPM strip, made in Irwindale, California and built for drug checking rather than urine screening. Cut-off 10 ng/mL.",
+        "sample": "50 mg of drug into one teaspoon of water — 10 mg per mL, the same concentration as the other WHPM strips.",
+        "water": "5 mL — one teaspoon — for every 50 mg.",
+        "residue": "Testing cooker residue instead: add 2 mL of clean water to the cooker and mix well.",
+        "dip": "Dip for 15 seconds, holding the coloured end. Grassroots does not restate the timings on its product page; these are the WHPM strip's published procedure.",
+        "dipLimit": "Do not dip above the dotted section.",
+        "wait": "Wait 3 minutes, lying flat.",
+        "positive": "ONE red line",
+        "negative": "TWO red lines — any second line, however faint, is negative",
+        "invalid": "No lines, or only the bottom line. Redo it with a new strip.",
+        "blindSpot": "A WHPM strip, so it shares WHPM's blind spot: bulky carbonyl modifications. What it does not do is false-positive on meth, MDMA, lidocaine or levamisole at 10 mg/mL, which laboratory testing checked for specifically.",
+        "byDrug": {
+          "opioid": {
+            "label": "Heroin, fentanyl or another opioid",
+            "water": null,
+            "note": "The standard ratio above."
+          },
+          "stim": {
+            "label": "Meth, MDMA or cocaine",
+            "water": null,
+            "note": "No change. At this concentration — 10 mg per mL — laboratory testing of the WHPM strip found no false positives from meth, MDMA, lidocaine, levamisole or most other common cuts. That is the reason for the ratio, and it is the one thing that most separates this strip from BTNX's in ordinary use.",
+            "sources": [
+              {
+                "name": "Grassroots Harm Reduction — fentanyl test strips",
+                "url": "https://grassrootsharmreduction.org/product/fentanyl-test-strips-pack-of-10/"
+              }
+            ]
+          },
+          "pill": {
+            "label": "A pill",
+            "water": null,
+            "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
+          },
+          "residue": {
+            "label": "Cooker or bag residue",
+            "water": "2 mL of clean water into the cooker. Mix well.",
+            "note": "Nothing to weigh — the residue is the sample."
+          }
+        },
+        "sources": [
+          {
+            "name": "Grassroots Harm Reduction — fentanyl test strips",
+            "url": "https://grassrootsharmreduction.org/product/fentanyl-test-strips-pack-of-10/"
+          },
+          {
+            "name": "The Bunk Police — How to test for fentanyl",
+            "url": "https://bunkpolice.com/how-to-test-for-fentanyl-fent-kits/"
           },
           {
             "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
@@ -1277,9 +1445,22 @@
             "name": "Washington State DOH — Using BTNX Rapid Response Xylazine Test Strips (DOH 150-238)",
             "url": "https://doh.wa.gov/sites/default/files/2024-03/150238-BTNXXylazineTestStripsPoster.pdf"
           }
-        ]
+        ],
+        "byDrug": {
+          "opioid": {
+            "label": "Fentanyl or another opioid",
+            "water": null,
+            "note": "The standard ratio above."
+          },
+          "pill": {
+            "label": "A pill",
+            "water": null,
+            "note": "Crush it completely first."
+          }
+        }
       }
     ],
-    "gap": "Only the products whose own instruction sheet was read are listed. Wondfo, DetectaChem, Lochness Medical, MD-Bio and the other vendors are not here yet, and neither are benzodiazepine or nitazene strips: printing a number that has not been read off the sheet it came from is the failure this section exists to prevent. If yours is not listed, your packet is the authority."
+    "gap": "Only products whose own instructions were read are listed. Wondfo, DetectaChem, Lochness Medical and MD-Bio are not here yet, and neither are benzodiazepine or nitazene strips: printing a number that has not been read off the sheet it came from is the failure this section exists to prevent. If yours is not listed, your packet is the authority.",
+    "drugHeadline": "What are you testing?"
   }
 }

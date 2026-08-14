@@ -89,24 +89,15 @@ export async function render() {
        made the real result cards below mean slightly less. */
     disclosure("sec-reading", "Reading a test strip",
       { open: true },
-      h("div", { class: "readout" },
-        resultCard("1", "line", "POSITIVE", "Drug detected", "critical"),
-        /* Neutral, not green. A green NEGATIVE card under the headline
-           "testing never gives a green light" was the app contradicting
-           itself in color while agreeing in words. Only POSITIVE keeps a
-           severity color; a negative cannot rule out nitazenes or every
-           analogue, and the card now says so. */
-        resultCard("2", "lines", "NEGATIVE", "Not detected — can’t rule out everything", "neutral"),
-        resultCard("0", "lines", "INVALID", "Retest with a new strip", "neutral")),
+      /* The verdict cards are rendered BY the picker now, from the product the
+         reader chose. They used to be printed once, above it, as though the
+         answer were the same for every strip - and then the section below
+         quietly said it was not. Two answers to one question on one screen is
+         worse than either answer alone. */
+      brandPicker(g.brands),
       callout("warn", "Why one line means positive",
         h("p", null, fts.reading.explain),
-        h("p", null, fts.reading.faintLine)),
-      /* Directly under how to read one, because it changes how to read one.
-         It lived inside each strip's own card, which is where it belongs by
-         subject and nowhere near where anyone would find it: Test, then Test
-         strips, then Fentanyl test strips, two collapsed disclosures deep.
-         A five-fold difference in how much water to use is not detail. */
-      brandPicker(g.brands))
+        h("p", null, fts.reading.faintLine)))
   );
 
   /* The prevalence table is the page's center of gravity - the claims audit
@@ -649,73 +640,105 @@ function reagentCard(r) {
 
    Module-scoped rather than passed down because render() rebuilds the page on
    every navigation and resets it there. */
-/* Which strip is in your hand?
+/* Reading a strip IS this control. It is not a section beside one.
  *
- * The numbers on this page were "the common pattern" until they were checked
- * one product at a time, and then they were not common. Both fentanyl strips
- * in wide harm reduction use say dip for 15 seconds and read one line as
- * positive - and then:
+ * The page used to state one reading for all strips and then, much further
+ * down and two collapsed disclosures deep, admit that the numbers differ by
+ * product. They differ by a lot:
  *
- *   BTNX       5 mL of water per 10 mg    read at 5 minutes    dark blue end
- *   DanceSafe  1 mL of water per 10 mg    read at 3 minutes    yellow end
+ *   BTNX   5 mL per 10 mg   read at 5 min   and stimulants false-positive on it
+ *   WHPM   1 mL per 10 mg   read at 3 min   and they do not, at that strength
  *
- * Five times the water. Somebody following the wrong one dilutes their sample
- * to a fifth of the intended concentration, which pushes a real positive
- * toward a negative - wrong in the direction that gets people killed - and
- * then reads it two minutes late as well.
+ * Five times the water, two minutes apart. Somebody following the wrong sheet
+ * dilutes to a fifth of the intended concentration, which pushes a real
+ * positive toward a negative, and then reads it late as well.
  *
- * .card + .reagtable, which is what a block of facts about one thing looks
- * like everywhere else on this page: the reagent reactions, the fentanyl
- * prevalence figures, the tool comparison. It was a stack of bold-label
- * paragraphs, which was a fourth shape for the same job.
+ * SECOND AXIS: what is being tested. On a BTNX strip a stimulant has to be
+ * made MORE dilute than an opioid, because high concentrations of meth, MDMA,
+ * cocaine and common cuts make it read positive when no fentanyl is there -
+ * the opposite of the instinct to use less water so nothing is missed. The
+ * WHPM strips were built around that problem and tested clean at 10 mg/mL.
+ * The answer therefore depends on BOTH dropdowns, which is why neither of
+ * them is a footnote under a fixed set of numbers.
  *
- * Session-only, like everything else here: a select whose value nothing
- * writes down.
+ * Session-only: two selects whose values nothing writes down.
  */
 function brandPicker(brands) {
   const items = brands?.items || [];
   if (!items.length) return null;
 
   const label = (b) => `${b.name} — ${b.strip}`;
-  const body = h("div", { class: "brandcard" });
+  const out = h("div", { class: "brandcard" });
 
-  const paint = (b) => {
-    clear(body);
+  const drugSel = h("select", { class: "input", id: "drugpick" });
+  const brandSel = h("select", { class: "input", id: "brandpick" },
+    items.map((b, i) => h("option", { value: String(i) }, label(b))));
+
+  const current = () => items[Number(brandSel.value) || 0] || items[0];
+
+  /* The drug list belongs to the product, because a strip that cannot be
+     fooled by meth does not need the entry warning about it. Rebuilt, and the
+     reader's choice kept when the new product offers the same one. */
+  const fillDrugs = () => {
+    const keys = Object.keys(current().byDrug || {});
+    const keep = drugSel.value;
+    clear(drugSel);
+    for (const k of keys) {
+      drugSel.appendChild(h("option", { value: k }, current().byDrug[k].label));
+    }
+    if (keys.includes(keep)) drugSel.value = keep;
+  };
+
+  const paint = () => {
+    const b = current();
+    const d = (b.byDrug || {})[drugSel.value] || {};
+    clear(out);
+
     const row = (k, v) => (v
       ? h("tr", null, h("th", { scope: "row" }, k), h("td", null, v))
       : null);
-    body.appendChild(frag(
+
+    out.appendChild(frag(
       b.maker ? h("p", { class: "sec__note" }, b.maker) : null,
+
+      /* The verdict cards, driven by the product rather than printed once for
+         all of them. This is the whole point of the control. */
+      h("div", { class: "readout" },
+        resultCard("1", "line", "POSITIVE", b.positive, "critical"),
+        resultCard("2", "lines", "NEGATIVE", b.negative, "neutral"),
+        resultCard("0", "lines", "INVALID", b.invalid, "neutral")),
+
       h("div", { class: "card" },
         h("table", { class: "reagtable" },
           h("caption", { class: "sr-only" }, `${label(b)} — how to run and read it`),
           h("tbody", null,
             row("Sample", b.sample),
-            row("Water", b.water),
-            row("Cooker residue", b.residue),
+            row("Water", d.water || b.water),
             row("Dip", b.dip),
             row("Do not dip past", b.dipLimit),
-            row("Wait", b.wait),
-            row("Positive", b.positive),
-            row("Negative", b.negative),
-            row("Invalid", b.invalid)))),
+            row("Wait", b.wait)))),
+
+      d.note ? h("p", { class: "sec__note" }, d.note) : null,
+      d.sources ? sourceRow(d.sources) : null,
       b.onlyFor ? callout("stop", "Only for fentanyl", h("p", null, b.onlyFor)) : null,
       b.blindSpot ? h("p", { class: "sec__note" }, b.blindSpot) : null,
       sourceRow(b.sources),
     ));
   };
 
-  paint(items[0]);
-
-  const sel = h("select", { class: "input", id: "brandpick" },
-    items.map((b, i) => h("option", { value: String(i) }, label(b))));
-  sel.addEventListener("change", () => paint(items[Number(sel.value)] || items[0]));
+  brandSel.addEventListener("change", () => { fillDrugs(); paint(); });
+  drugSel.addEventListener("change", paint);
+  fillDrugs();
+  paint();
 
   return frag(
-    h("h3", null, brands.headline),
     brands.intro ? h("p", { class: "sec__note" }, brands.intro) : null,
-    h("div", { class: "mixslot" }, h("label", { for: "brandpick" }, "Brand"), sel),
-    body,
+    h("div", { class: "mixslots" },
+      h("div", { class: "mixslot" },
+        h("label", { for: "brandpick" }, "Strip"), brandSel),
+      h("div", { class: "mixslot" },
+        h("label", { for: "drugpick" }, "Testing"), drugSel)),
+    out,
     brands.notInterchangeable
       ? callout("warn", brands.notInterchangeable.title,
           h("p", null, brands.notInterchangeable.body),
