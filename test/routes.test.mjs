@@ -249,6 +249,49 @@ check("boot and route both survive a URL parse error", () => {
   return bad.length ? bad.join("; ") : null;
 });
 
+/* --------------------------------------------- navigation side effects */
+
+check("a search destination normalises to the live URL", () => {
+  /* reveal() guards on "have we arrived where the result pointed" before it
+     scrolls. The search index stores "#/test"; under path routing the live URL
+     is "/test". Compared raw, that guard was true for EVERY result, so
+     reveal() aborted on its first tick and the reader landed at the top of the
+     right page with the heading they asked for thousands of pixels down.
+     Measured: 5,924px on "Fentanyl test strips". */
+  const bad = [];
+  for (const [want, live] of [
+    ["#/test", "/test"],
+    ["#/policy", "/policy"],
+    ["#/sex", "/sex"],
+    ["#/help", "/sos"],
+    ["#/substances/fentanyl", "/drugs#/fentanyl"],
+  ]) {
+    if (toUrl(want, true) !== live) bad.push(`${want} -> ${toUrl(want, true)}, want ${live}`);
+  }
+  return bad.length ? bad.join("; ") : null;
+});
+
+check("reveal compares the destination in the live form", () => {
+  const app = readFileSync(path.join(ROOT, "site/js/app.js"), "utf8");
+  return /routeIdentity\(toUrl\(wantRoute\)\)/.test(app)
+    ? null : "reveal() no longer normalises wantRoute before comparing";
+});
+
+check("every navigation path scrolls to the top", () => {
+  /* go() calls route() directly on a pushState, which fires neither popstate
+     nor hashchange - so the handler that used to do this never ran and a tab
+     tapped from halfway down a page landed halfway down the next one. */
+  const app = readFileSync(path.join(ROOT, "site/js/app.js"), "utf8");
+  if (!/function toTop\(\)/.test(app)) return "toTop() is gone";
+  const go = app.slice(app.indexOf("export function go("), app.indexOf("const VIEWS"));
+  const calls = (go.match(/toTop\(\)/g) || []).length;
+  if (calls < 3) return `go() only calls toTop() ${calls} time(s); each branch needs it`;
+  if (!/documentElement\.scrollTop = 0/.test(app)) {
+    return "toTop() dropped the iOS fallback - scrollTo alone loses to momentum scrolling";
+  }
+  return null;
+});
+
 /* ----------------------------------------------------------- no drift */
 
 check("every section has a view, and every view has a section", () => {

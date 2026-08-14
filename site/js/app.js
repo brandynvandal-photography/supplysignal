@@ -222,18 +222,53 @@ function canonicalize() {
   if (want && want !== here()) history.replaceState(null, "", want);
 }
 
+/**
+ * Put the reader at the top of the screen they just chose.
+ *
+ * Called from every navigation path, because there is more than one and they
+ * do not share a code path: a hash change fires an event, a pushState does
+ * not. When path routing landed, go() started calling route() directly and
+ * silently stopped scrolling - so tapping a tab from halfway down a long page
+ * left you halfway down the next one, which on Drugs is somewhere in the
+ * middle of the class grid with no heading in sight.
+ *
+ * Three ways of saying the same thing, because they fail on different
+ * browsers. scrollTo with an explicit `instant` is the modern one; the
+ * documentElement/body assignments are what iOS Safari actually honours when
+ * a momentum scroll is still in flight, which is exactly the case here - the
+ * reader has just flicked the page and then reached for the tab bar.
+ *
+ * Explicitly instant, never smooth. A navigation is not a journey, and
+ * animating it means watching the old page leave.
+ */
+function toTop() {
+  try { window.scrollTo({ top: 0, left: 0, behavior: "instant" }); }
+  catch { window.scrollTo(0, 0); }
+  /* iOS momentum can land after the call above; these stick. */
+  if (document.documentElement) document.documentElement.scrollTop = 0;
+  if (document.body) document.body.scrollTop = 0;
+}
+
 export function go(hash, replace = false) {
   const url = toUrl(hash);
+  const changed = routeIdentity(url) !== routeIdentity(here());
+
   if (!pathRouting()) {
-    if (location.hash === url) return route();
-    if (replace) { history.replaceState(null, "", url); route(); }
+    /* The hash branch reaches route() through the hashchange event, which
+       scrolls for itself - except when the URL is unchanged and no event
+       fires, or when replaceState is used, which also fires nothing. */
+    if (location.hash === url) { toTop(); return route(); }
+    if (replace) { history.replaceState(null, "", url); toTop(); route(); }
     else location.hash = url;
     return;
   }
-  if (url === here()) return route();
+
+  if (url === here()) { toTop(); return route(); }
   /* pushState fires neither popstate nor hashchange, so route() is called
-     directly. Back and forward DO fire popstate, which is wired up below. */
+     directly - and so is the scroll, which the event handler would otherwise
+     have done. Back and forward DO fire popstate, which is wired up below. */
   history[replace ? "replaceState" : "pushState"](null, "", url);
+  if (changed) toTop();
   route();
 }
 
@@ -424,7 +459,7 @@ const onNavigate = (fn) => {
 
 onNavigate(async () => {
   const now = here();
-  if (routeIdentity(now) !== routeIdentity(lastRoute)) window.scrollTo(0, 0);
+  if (routeIdentity(now) !== routeIdentity(lastRoute)) toTop();
   lastRoute = now;
   await route();
   focusView();
@@ -755,7 +790,13 @@ function reveal(anchor, label, wantRoute) {
        would force-open and scroll to a same-named heading on the wrong page.
        Compared through routeIdentity so the alerts filter chips, which change
        the hash without changing the destination, do not cancel a real reveal. */
-    if (wantRoute && routeIdentity(here()) !== routeIdentity(wantRoute)) return;
+    /* wantRoute arrives in the search index's "#/test" form; here() is the
+       live URL, which under path routing is "/test". Comparing them raw made
+       this guard true on EVERY search result - so reveal() aborted on its
+       first tick and the reader landed at the top of the right page with the
+       heading they asked for still thousands of pixels down. Normalise the
+       destination through the same translator the links use. */
+    if (wantRoute && routeIdentity(here()) !== routeIdentity(toUrl(wantRoute))) return;
     const el = toHeading((anchor && document.getElementById(anchor)) || findByText());
     if (el) {
       /* Open the target and every disclosure above it - landing on something
