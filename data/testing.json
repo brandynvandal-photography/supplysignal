@@ -941,7 +941,8 @@
   "stripBrandNote": {
     "title": "Read the instructions that came with your strips",
     "body": "Strips are not interchangeable. Dip time, how long to wait before reading, how long the result stays valid, and how much water to use all change between brands — and sometimes between lots from the same brand. The steps here are the common pattern, not a substitute for the insert in your packet.",
-    "detail": "If you have no insert, look up your exact brand before you dilute. Reading a strip too early or too late is one of the easiest ways to get an answer that is wrong in the direction that hurts you."
+    "detail": "If you have no insert, look up your exact brand before you dilute. Reading a strip too early or too late is one of the easiest ways to get an answer that is wrong in the direction that hurts you.",
+    "lines": "That includes what the lines mean. Every strip in common harm reduction use is a competitive test, where ONE line means detected — that is how these particular products are built, not a rule of nature, and one built the other way would look no different in your hand. If the insert that came with your strips disagrees with anything on this page, the insert is right."
   },
   "storage": {
     "headline": "Storing your supplies",

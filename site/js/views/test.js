@@ -506,7 +506,15 @@ function stripCard(s, g) {
       s.procedure && g?.stripBrandNote
         ? callout("warn", g.stripBrandNote.title,
             h("p", null, g.stripBrandNote.body),
-            h("p", null, g.stripBrandNote.detail))
+            h("p", null, g.stripBrandNote.detail),
+            /* The line rule is the one thing on this page that is worth a
+               reader's life getting backwards, and every strip card states it
+               as though it were universal. It is universal across the products
+               in common use - checked against BTNX, DanceSafe, and the state
+               health department instructions that ship with donated strips -
+               but that is a fact about those products, not about lateral flow.
+               The packet outranks us on its own strip. */
+            g.stripBrandNote.lines ? h("p", null, g.stripBrandNote.lines) : null)
         : null,
 
       s.procedure
