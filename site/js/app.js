@@ -629,6 +629,13 @@ function mountBackToTop() {
 /* ------------------------------------------------------------------- boot */
 
 (async function boot() {
+  /* Before anything paints. A WKWebView reports display-mode: browser, so the
+     standalone media query that clears the status bar never matches it and the
+     header is drawn under the clock - see --bar-top in app.css. Set first so
+     the bar is never laid out at the wrong height and then corrected, which
+     the reader would see as the whole page shifting down. */
+  if (isNative()) document.documentElement.classList.add("is-native");
+
   await i18n.init();
   applyStrings();
 

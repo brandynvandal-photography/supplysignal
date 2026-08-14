@@ -148,6 +148,21 @@
   --bar-row-h: 67px;
   --bar-h: calc(var(--bar-row-h) + var(--banner-h));
 
+  /* How much of the bar is status-bar clearance rather than bar.
+   *
+   * Zero in a browser tab, where the chrome already owns that strip. Non-zero
+   * anywhere the app draws under the status bar: added to the home screen,
+   * and in the packaged iOS app, which sets overlaysWebView.
+   *
+   * It is a token because THREE rules need the same number and they are
+   * hundreds of lines apart - the bar's own padding, the search panel that
+   * pins beneath it, and the scroll-margin that keeps a jumped-to heading
+   * clear of both. Two of the three used to carry their own answer and they
+   * did not agree: scroll-margin added the inset while the bar itself never
+   * did, so the bar was drawn under the clock and headings landed 59px below
+   * where they should have. */
+  --bar-top: 0px;
+
   /* Spacing scale. Generous on purpose - the room between things is most of
      what makes an interface feel calm rather than crowded. */
   --sp-1: 6px;  --sp-2: 12px;  --sp-3: 20px;  --sp-4: 32px;  --sp-5: 48px;
@@ -327,11 +342,12 @@ a { color: var(--brand); }
    emerging.js have no id at all, so those landed behind the bar. */
 [id^="sec-"], [id^="grp-"],
 #view h1, #view h2, #view h3, #view h4, #view summary, #view details {
-  scroll-margin-top: calc(var(--bar-h) + env(safe-area-inset-top) + 14px);
+  scroll-margin-top: calc(var(--bar-h) + var(--bar-top) + 14px);
 }
 
 .topbar {
   position: sticky; top: 0; z-index: 40;
+  padding-top: var(--bar-top);          /* status-bar clearance; 0 in a tab */
   background: transparent;
   border-bottom: 1px solid var(--glass-line);
 }
@@ -719,7 +735,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    Collapsed by default, full width when open, and pinned under the header so
    the results list is the only thing competing for attention while it is up. */
 .searchpanel {
-  position: sticky; top: var(--bar-h); z-index: 39;
+  position: sticky; top: calc(var(--bar-h) + var(--bar-top)); z-index: 39;
   padding: var(--sp-3) 0 var(--sp-2);
   /* The bar's own material. This panel sticks directly beneath the frosted
      topbar, and painting it opaque put a sheet of glass on top of a solid
@@ -2522,12 +2538,29 @@ details.disc .groupkids > details.disc > summary h2 {
 html, body { overscroll-behavior-y: none; }
 .tablewrap, .listbox { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
 
-/* Home-screen standalone: the status bar is translucent black, so the header
-   has to clear it itself. Without this the wordmark sits under the clock. */
+/* Drawing under the status bar: the header has to clear it itself, or the
+   wordmark sits under the clock.
+ *
+ * TWO CASES, and only one of them was covered. Added to the home screen,
+ * `display-mode: standalone` matches and this worked. The PACKAGED iOS app
+ * reports `display-mode: browser` - a WKWebView is not a standalone web app,
+ * whatever it looks like - so the query never matched and the first native
+ * build drew the early-access banner behind the Dynamic Island and the
+ * wordmark behind the clock. Observed on an iPhone 17 Pro, not deduced.
+ *
+ * app.js adds .is-native at boot from Capacitor.isNativePlatform(), which is
+ * the same fact `isNative()` already uses for routing and Quick Exit. Keyed
+ * off that rather than made unconditional, because `viewport-fit=cover` means
+ * a browser tab could report a non-zero top inset in some future WebKit and
+ * that would push the website's header down for nobody's benefit. */
 @media (display-mode: standalone) {
-  .topbar { padding-top: env(safe-area-inset-top); }
+  :root { --bar-top: env(safe-area-inset-top); }
   .nav { padding-bottom: max(env(safe-area-inset-bottom), 8px); }
 }
+:root.is-native {
+  --bar-top: env(safe-area-inset-top);
+}
+.is-native .nav { padding-bottom: max(env(safe-area-inset-bottom), 8px); }
 
 /* Text selection and callouts: an installed app should not offer to "Look Up"
    a heading on long-press, but text a reader may want to copy - a phone
