@@ -96,6 +96,10 @@
      the cheap phones this has to run on. */
   --glass: color-mix(in srgb, var(--surface) 55%, transparent);
   --glass-strong: color-mix(in srgb, var(--surface) 78%, transparent);
+  /* Cards specifically. --glass-strong is opaque enough in dark mode that the
+     ambient wash never reaches content, which is the one visible gap against
+     the Weather city view. 68% lets it through; no blur, so no battery cost. */
+  --glass-card: color-mix(in srgb, var(--surface) 68%, transparent);
   --glass-line: color-mix(in srgb, var(--line-2) 45%, transparent);
 
   /* The two frosted bars - the header and the tab bar - sandwich the content
@@ -195,6 +199,7 @@
     --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
     --glass: color-mix(in srgb, var(--surface) 62%, transparent);
     --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
+    --glass-card: color-mix(in srgb, var(--surface) 68%, transparent);
     --bar-tint: color-mix(in srgb, var(--surface) 90%, transparent);
   }
 }
@@ -216,6 +221,7 @@
   --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
   --glass: color-mix(in srgb, var(--surface) 62%, transparent);
   --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
+  --glass-card: color-mix(in srgb, var(--surface) 68%, transparent);
   --bar-tint: color-mix(in srgb, var(--surface) 90%, transparent);
 }
 
@@ -233,9 +239,16 @@ body {
      someone is just trying to scroll or tap a tab. */
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: contain;
+  /* Two layers, so the page sits INSIDE the atmosphere for its whole length.
+     The top radial alone meant a long scroll left the wash behind and finished
+     on flat --bg; the second is warm light rising from the floor, which is
+     both the thing that makes Apple Weather's city view read as one continuous
+     sky and, here, literally the name of the app. */
   background-image:
     radial-gradient(120% 70% at 50% -10%,
-      color-mix(in srgb, var(--brand) 7%, transparent) 0%, transparent 60%);
+      color-mix(in srgb, var(--brand) 7%, transparent) 0%, transparent 60%),
+    linear-gradient(to bottom,
+      transparent 55%, color-mix(in srgb, var(--glow) 4%, transparent) 100%);
   background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-sans);
@@ -554,7 +567,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .input {
   flex: 1; min-width: 0; font: inherit; font-size: 1rem;
   padding: 14px var(--sp-3); color: var(--ink);
-  background: var(--glass-strong); border: 1px solid var(--glass-line);
+  background: var(--glass-card); border: 1px solid var(--glass-line);
   border-radius: var(--radius); min-height: var(--tap);
 }
 .input::placeholder { color: var(--ink-3); }
@@ -708,7 +721,10 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .searchpanel {
   position: sticky; top: var(--bar-h); z-index: 39;
   padding: var(--sp-3) 0 var(--sp-2);
-  background: var(--surface);
+  /* The bar's own material. This panel sticks directly beneath the frosted
+     topbar, and painting it opaque put a sheet of glass on top of a solid
+     slab - the two-materials mismatch --bar-tint exists to avoid. */
+  background: var(--bar-tint);
   border-bottom: 1px solid var(--glass-line);
 }
 /* Full width of the centred .wrap. .input carries `flex: 1` for the county
@@ -864,7 +880,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 }
 
 .sources { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 12px;
-           padding-top: 11px; border-top: 1px solid var(--line); }
+           padding-top: 11px; border-top: 1px solid var(--glass-line); }
 /* Citation links are the most-tapped small target in the app - they are how
    somebody checks whether a claim is real - and they were 22px tall. WCAG
    2.5.8's inline exception does not apply: these sit in a flex row of their
@@ -1225,8 +1241,11 @@ table.data th[scope="row"] { font-weight: 650; }
  *
  * Reset at the same breakpoint where main resets, because that is where the
  * bar stops being fixed to the bottom. */
+/* Transparent, because it was the last full-width opaque rectangle on the
+   page: everything else floats on the atmosphere and the scroll ended by
+   hitting a wall. The hairline and the 34px above it still mark the boundary. */
 .foot {
-  border-top: 1px solid var(--line); background: var(--surface); margin-top: 34px;
+  border-top: 1px solid var(--glass-line); background: transparent; margin-top: 34px;
   padding: 20px 0 calc(var(--nav-h) + var(--sp-4) + env(safe-area-inset-bottom));
 }
 /* Above 880px the tab bar is not fixed to the bottom, so the allowance above
@@ -1544,7 +1563,7 @@ details.disc--urgent > summary h2 { color: var(--critical); }
 
 .jump {
   display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
-  margin: 4px 0 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line);
+  margin: 4px 0 20px; padding-bottom: 16px; border-bottom: 1px solid var(--glass-line);
 }
 .jump__label {
   font-size: .78rem; font-weight: 700; text-transform: uppercase;
@@ -2465,14 +2484,24 @@ details.disc .groupkids > details.disc > summary h2 {
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
   }
+  /* Only while search is open, never at rest. */
+  .searchpanel {
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
 }
 
 /* Reduced transparency is an accessibility setting, not a preference for a
    different look: someone who turns it on needs opaque surfaces. */
 @media (prefers-reduced-transparency: reduce) {
-  .topbar::before, .nav { -webkit-backdrop-filter: none; backdrop-filter: none; }
-  .nav { background: var(--surface); }
-  :root { --glass: var(--surface); --glass-strong: var(--surface); }
+  .topbar::before, .nav, .searchpanel {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  .nav, .searchpanel { background: var(--surface); }
+  :root {
+    --glass: var(--surface); --glass-strong: var(--surface);
+    --glass-card: var(--surface);
+  }
 }
 
 /* Concentric corners. A card sits inside the page at --radius; anything
