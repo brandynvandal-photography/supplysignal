@@ -2543,16 +2543,29 @@ details.disc .groupkids > details.disc > summary h2 {
    * the full material.
    *
    * To bring it back on phones, delete this block. */
-  @media (hover: none) and (pointer: coarse) {
-    .topbar::before, .nav {
-      -webkit-backdrop-filter: none; backdrop-filter: none;
-      will-change: auto;
-    }
-  }
   /* Only while search is open, never at rest. */
   .searchpanel {
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  /* THE SEARCH PANEL IS THE WORST CASE, not an afterthought on this list.
+   *
+   * It is a second sticky element pinned beneath the first, so WebKit has two
+   * stacked surfaces to reposition off-thread and two backdrops to re-sample
+   * on the main thread against content that just moved - and the reader is
+   * usually typing while it happens, which is the moment the interface can
+   * least afford to stutter. It was reported on its own, after the bars were
+   * already fixed, because it was the one surface this rule had missed. */
+  @media (hover: none) and (pointer: coarse) {
+    .topbar::before, .nav, .searchpanel {
+      -webkit-backdrop-filter: none; backdrop-filter: none;
+      will-change: auto;
+    }
+    /* Opaque rather than 90% tinted. Without a blur behind it, a translucent
+       panel shows the page's own text sliding under the search results, and
+       results that are hard to read is a worse failure than a flat surface. */
+    .searchpanel { background: var(--surface); }
   }
 }
 
