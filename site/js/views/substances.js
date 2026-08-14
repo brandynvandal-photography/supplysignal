@@ -96,8 +96,8 @@ async function indexView(subs, combosP, { go }) {
 
   wrap.appendChild(
     h("p", { class: "sec__note" },
-      "What something is, what it does, how long it lasts, and what it should " +
-      "never be mixed with — plus what a reagent can and cannot tell you about " +
+      "What something is, what it does, how long it lasts, and which combinations " +
+      "carry the most risk — plus what a reagent can and cannot tell you about " +
       "it. Search by name, or browse by class."));
 
   /* ---- search ---- */
