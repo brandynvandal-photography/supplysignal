@@ -1545,6 +1545,22 @@ table.data caption {
 
 /* License condition for PsychonautWiki (CC BY-SA) and TripSit (link-back
    plus source note). Styled quietly, but always present. */
+/* The rule that closes a page off before its sources.
+ *
+ * .foot-attr drew a border-top and a wide top margin, and moving the block into
+ * a disclosure lost both - the provenance ended up butted against the last
+ * section, reading as one more topic rather than as the page's footing. Same
+ * idiom .jump already uses to close a block: padding, then a hairline.
+ *
+ * On the wrapper, not on the details, because details.disc has its own border
+ * and clips to its radius - a border-top there would be a second line hard
+ * against the card's own. */
+.srcfoot {
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--glass-line);
+}
+
 /* The source list inside the provenance disclosure.
  *
  * This replaces .foot-attr, which drew its own heading, its own top rule and

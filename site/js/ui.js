@@ -323,6 +323,23 @@ export function englishOnlyNotice() {
    would be a second answer to a question that has one. */
 export const SOURCES_ID = "sec-sources";
 
+/**
+ * The provenance disclosure, with the rule that separates it from the page.
+ *
+ * .foot-attr drew a border-top and a wide top margin, and moving the block
+ * into a `disclosure()` lost them: the sources ended up butted against the
+ * last section, reading as one more topic rather than as the page's footing.
+ * The rule is the same idiom .jump already uses to close a block off.
+ *
+ * A wrapper rather than a border on the details itself, because details.disc
+ * carries its own border and `overflow: hidden` - a border-top there would be
+ * a second line hard against the card's own.
+ */
+export function sourcesDisclosure(title, ...kids) {
+  return h("div", { class: "srcfoot" },
+    disclosure(SOURCES_ID, title || "Where this data comes from", null, ...kids));
+}
+
 export function sourceSink() {
   const seen = new Map();               // url -> {name, url}, deduped across blocks
   return {
@@ -349,7 +366,7 @@ export function sourceSink() {
      */
     render(title = "Where this data comes from") {
       if (!seen.size) return null;
-      return disclosure(SOURCES_ID, title, null,
+      return sourcesDisclosure(title,
         h("ul", { class: "srclist" },
           [...seen.values()].map((s) =>
             h("li", null, extLink(s.url, s.name || s.url)))));

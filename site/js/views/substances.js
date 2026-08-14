@@ -12,7 +12,7 @@
 
 import {
   h, frag, clear, section, callout, badge, extLink, empty, englishOnlyNotice, group,
-  jumpNav, disclosure, SOURCES_ID,
+  jumpNav, disclosure, sourcesDisclosure,
 } from "../ui.js";
 import * as data from "../data.js";
 import { CLASSES, classInfo, groupAll } from "../taxonomy.js";
@@ -1136,7 +1136,7 @@ function durationTable(r) {
    the page. Passing it in rather than fetching it keeps this function
    synchronous and keeps every source in one list. */
 function attributionBlock(subs, combos, unc = null) {
-  return disclosure(SOURCES_ID, "Where this data comes from", null,
+  return sourcesDisclosure("Where this data comes from",
     h("ul", { class: "srclist" },
       (subs.attribution || []).map((a) =>
         h("li", null,

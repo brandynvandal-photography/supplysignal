@@ -19,7 +19,7 @@
  * detection is a date and a name; that is all it honestly is. */
 
 import {
-  h, frag, section, callout, extLink, empty, badge, disclosure, SOURCES_ID,
+  h, frag, section, callout, extLink, empty, badge, disclosure, sourcesDisclosure,
 } from "../ui.js";
 import * as data from "../data.js";
 
@@ -144,7 +144,7 @@ export async function render(route, { go }) {
      footer elsewhere, for the same job. */
   if (doc.sources?.length) {
     wrap.appendChild(
-      disclosure(SOURCES_ID, "Where this data comes from", null,
+      sourcesDisclosure("Where this data comes from",
         frag(doc.sources.map((s) =>
           h("div", { class: "card" },
             h("h3", null, s.name),
