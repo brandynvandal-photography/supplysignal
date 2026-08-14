@@ -1,15 +1,16 @@
 {
-  "generated": "2026-08-14T12:21:45.911Z",
+  "generated": "2026-08-14T13:40:30.457Z",
   "windowDays": 365,
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "countyCount": 3231,
   "coverage": {
-    "lastScan": "2026-08-14T12:21:45.726Z",
+    "lastScan": "2026-08-14T13:40:30.165Z",
     "sourcesChecked": 26,
     "sourcesFailed": [
-      "la-ldh"
+      "la-ldh",
+      "google-news"
     ],
-    "countiesScanned": 202
+    "countiesScanned": 203
   },
   "clusters": [
     {
@@ -33,6 +34,8 @@
           "trust": 1
         }
       ],
+      "evidenceClass": "media",
+      "independent": 1,
       "n": "Cook County",
       "s": "IL"
     }

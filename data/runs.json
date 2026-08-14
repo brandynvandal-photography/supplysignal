@@ -1,6 +1,66 @@
 {
   "runs": [
     {
+      "started": "2026-08-14T13:34:15.802Z",
+      "fetched": 431,
+      "notModified": 9,
+      "dropped": {
+        "prefilter": 409,
+        "outside_window": 9,
+        "evidence_not_a_supply_finding": 2,
+        "evidence_no_named_originator": 8,
+        "below_class_floor": 1
+      },
+      "published": 1,
+      "escalated": 1,
+      "reviewed": 1,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "google-news"
+      ],
+      "medex": {
+        "cook-me": {
+          "items": 1,
+          "latest": "2026-06-30",
+          "lagDays": 46,
+          "recent": 161,
+          "baseline": 748
+        },
+        "allegheny-me": {
+          "items": 0,
+          "latest": "2026-01-31",
+          "lagDays": 196,
+          "recent": 75,
+          "baseline": 323
+        },
+        "santaclara-me": {
+          "items": 0,
+          "latest": "2026-05-31",
+          "lagDays": 76,
+          "recent": 23,
+          "baseline": 91
+        },
+        "sandiego-me": {
+          "items": 0,
+          "latest": "2026-03-31",
+          "lagDays": 137,
+          "recent": 115,
+          "baseline": 441
+        }
+      },
+      "finished": "2026-08-14T13:40:30.163Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 1,
+        "bytes": 735
+      }
+    },
+    {
       "started": "2026-08-14T12:13:40.586Z",
       "fetched": 627,
       "notModified": 13,

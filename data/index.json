@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-14T12:21:45.725Z",
+  "generated": "2026-08-14T13:40:30.163Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -2065,7 +2065,7 @@
       "s": "IL",
       "c": 1,
       "sev": "elevated",
-      "t": "2026-08-14T12:21:45.678Z"
+      "t": "2026-08-14T13:40:30.095Z"
     },
     "17033": {
       "n": "Crawford County",
@@ -6307,7 +6307,7 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T12:21:45.680Z"
+      "t": "2026-08-14T13:40:30.098Z"
     },
     "25001": {
       "n": "Barnstable County",
@@ -7394,26 +7394,1314 @@
       "sev": null,
       "t": "2026-08-14T12:21:45.723Z"
     },
+    "27117": {
+      "n": "Pipestone County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.098Z"
+    },
+    "27119": {
+      "n": "Polk County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.099Z"
+    },
+    "27121": {
+      "n": "Pope County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.099Z"
+    },
+    "27123": {
+      "n": "Ramsey County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.099Z"
+    },
+    "27125": {
+      "n": "Red Lake County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.099Z"
+    },
+    "27127": {
+      "n": "Redwood County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.100Z"
+    },
+    "27129": {
+      "n": "Renville County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.100Z"
+    },
+    "27131": {
+      "n": "Rice County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.100Z"
+    },
+    "27133": {
+      "n": "Rock County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.101Z"
+    },
+    "27135": {
+      "n": "Roseau County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.101Z"
+    },
+    "27137": {
+      "n": "St. Louis County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.101Z"
+    },
+    "27139": {
+      "n": "Scott County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.102Z"
+    },
+    "27141": {
+      "n": "Sherburne County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.102Z"
+    },
+    "27143": {
+      "n": "Sibley County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.102Z"
+    },
+    "27145": {
+      "n": "Stearns County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.103Z"
+    },
+    "27147": {
+      "n": "Steele County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.103Z"
+    },
+    "27149": {
+      "n": "Stevens County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.103Z"
+    },
+    "27151": {
+      "n": "Swift County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.103Z"
+    },
+    "27153": {
+      "n": "Todd County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.104Z"
+    },
+    "27155": {
+      "n": "Traverse County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.104Z"
+    },
+    "27157": {
+      "n": "Wabasha County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.104Z"
+    },
+    "27159": {
+      "n": "Wadena County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.105Z"
+    },
+    "27161": {
+      "n": "Waseca County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.105Z"
+    },
+    "27163": {
+      "n": "Washington County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.106Z"
+    },
+    "27165": {
+      "n": "Watonwan County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.106Z"
+    },
+    "27167": {
+      "n": "Wilkin County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.106Z"
+    },
+    "27169": {
+      "n": "Winona County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.107Z"
+    },
+    "27171": {
+      "n": "Wright County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.107Z"
+    },
+    "27173": {
+      "n": "Yellow Medicine County",
+      "s": "MN",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.107Z"
+    },
+    "28001": {
+      "n": "Adams County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.107Z"
+    },
+    "28003": {
+      "n": "Alcorn County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.108Z"
+    },
+    "28005": {
+      "n": "Amite County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.108Z"
+    },
+    "28007": {
+      "n": "Attala County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.108Z"
+    },
+    "28009": {
+      "n": "Benton County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.109Z"
+    },
+    "28011": {
+      "n": "Bolivar County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.109Z"
+    },
+    "28013": {
+      "n": "Calhoun County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.109Z"
+    },
+    "28015": {
+      "n": "Carroll County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.110Z"
+    },
+    "28017": {
+      "n": "Chickasaw County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.110Z"
+    },
+    "28019": {
+      "n": "Choctaw County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.110Z"
+    },
+    "28021": {
+      "n": "Claiborne County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.110Z"
+    },
+    "28023": {
+      "n": "Clarke County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.111Z"
+    },
+    "28025": {
+      "n": "Clay County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.111Z"
+    },
+    "28027": {
+      "n": "Coahoma County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.111Z"
+    },
+    "28029": {
+      "n": "Copiah County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.112Z"
+    },
+    "28031": {
+      "n": "Covington County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.112Z"
+    },
+    "28033": {
+      "n": "DeSoto County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.112Z"
+    },
+    "28035": {
+      "n": "Forrest County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.113Z"
+    },
+    "28037": {
+      "n": "Franklin County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.113Z"
+    },
+    "28039": {
+      "n": "George County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.113Z"
+    },
+    "28041": {
+      "n": "Greene County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.114Z"
+    },
+    "28043": {
+      "n": "Grenada County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.114Z"
+    },
+    "28045": {
+      "n": "Hancock County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.114Z"
+    },
+    "28047": {
+      "n": "Harrison County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.115Z"
+    },
+    "28049": {
+      "n": "Hinds County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.115Z"
+    },
+    "28051": {
+      "n": "Holmes County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.115Z"
+    },
+    "28053": {
+      "n": "Humphreys County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.116Z"
+    },
+    "28055": {
+      "n": "Issaquena County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.116Z"
+    },
+    "28057": {
+      "n": "Itawamba County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.116Z"
+    },
+    "28059": {
+      "n": "Jackson County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.117Z"
+    },
+    "28061": {
+      "n": "Jasper County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.117Z"
+    },
+    "28063": {
+      "n": "Jefferson County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.117Z"
+    },
+    "28065": {
+      "n": "Jefferson Davis County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.118Z"
+    },
+    "28067": {
+      "n": "Jones County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.118Z"
+    },
+    "28069": {
+      "n": "Kemper County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.118Z"
+    },
+    "28071": {
+      "n": "Lafayette County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.119Z"
+    },
+    "28073": {
+      "n": "Lamar County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.119Z"
+    },
+    "28075": {
+      "n": "Lauderdale County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.120Z"
+    },
+    "28077": {
+      "n": "Lawrence County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.120Z"
+    },
+    "28079": {
+      "n": "Leake County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.120Z"
+    },
+    "28081": {
+      "n": "Lee County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.121Z"
+    },
+    "28083": {
+      "n": "Leflore County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.121Z"
+    },
+    "28085": {
+      "n": "Lincoln County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.121Z"
+    },
+    "28087": {
+      "n": "Lowndes County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.122Z"
+    },
+    "28089": {
+      "n": "Madison County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.122Z"
+    },
+    "28091": {
+      "n": "Marion County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.122Z"
+    },
+    "28093": {
+      "n": "Marshall County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.123Z"
+    },
+    "28095": {
+      "n": "Monroe County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.123Z"
+    },
+    "28097": {
+      "n": "Montgomery County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.123Z"
+    },
+    "28099": {
+      "n": "Neshoba County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.124Z"
+    },
+    "28101": {
+      "n": "Newton County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.124Z"
+    },
+    "28103": {
+      "n": "Noxubee County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.124Z"
+    },
+    "28105": {
+      "n": "Oktibbeha County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.125Z"
+    },
+    "28107": {
+      "n": "Panola County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.125Z"
+    },
+    "28109": {
+      "n": "Pearl River County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.126Z"
+    },
+    "28111": {
+      "n": "Perry County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.126Z"
+    },
+    "28113": {
+      "n": "Pike County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.126Z"
+    },
+    "28115": {
+      "n": "Pontotoc County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.127Z"
+    },
+    "28117": {
+      "n": "Prentiss County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.127Z"
+    },
+    "28119": {
+      "n": "Quitman County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.127Z"
+    },
+    "28121": {
+      "n": "Rankin County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.128Z"
+    },
+    "28123": {
+      "n": "Scott County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.128Z"
+    },
+    "28125": {
+      "n": "Sharkey County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.128Z"
+    },
+    "28127": {
+      "n": "Simpson County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.129Z"
+    },
+    "28129": {
+      "n": "Smith County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.129Z"
+    },
+    "28131": {
+      "n": "Stone County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.129Z"
+    },
+    "28133": {
+      "n": "Sunflower County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.130Z"
+    },
+    "28135": {
+      "n": "Tallahatchie County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.130Z"
+    },
+    "28137": {
+      "n": "Tate County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.130Z"
+    },
+    "28139": {
+      "n": "Tippah County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.131Z"
+    },
+    "28141": {
+      "n": "Tishomingo County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.131Z"
+    },
+    "28143": {
+      "n": "Tunica County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.132Z"
+    },
+    "28145": {
+      "n": "Union County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.132Z"
+    },
+    "28147": {
+      "n": "Walthall County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.132Z"
+    },
+    "28149": {
+      "n": "Warren County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.133Z"
+    },
+    "28151": {
+      "n": "Washington County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.133Z"
+    },
+    "28153": {
+      "n": "Wayne County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.133Z"
+    },
+    "28155": {
+      "n": "Webster County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.134Z"
+    },
+    "28157": {
+      "n": "Wilkinson County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.134Z"
+    },
+    "28159": {
+      "n": "Winston County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.135Z"
+    },
+    "28161": {
+      "n": "Yalobusha County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.135Z"
+    },
+    "28163": {
+      "n": "Yazoo County",
+      "s": "MS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.135Z"
+    },
+    "29001": {
+      "n": "Adair County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.136Z"
+    },
+    "29003": {
+      "n": "Andrew County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.136Z"
+    },
+    "29005": {
+      "n": "Atchison County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.136Z"
+    },
+    "29007": {
+      "n": "Audrain County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.137Z"
+    },
+    "29009": {
+      "n": "Barry County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.137Z"
+    },
+    "29011": {
+      "n": "Barton County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.138Z"
+    },
+    "29013": {
+      "n": "Bates County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.138Z"
+    },
+    "29015": {
+      "n": "Benton County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.138Z"
+    },
+    "29017": {
+      "n": "Bollinger County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.138Z"
+    },
+    "29019": {
+      "n": "Boone County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.139Z"
+    },
+    "29021": {
+      "n": "Buchanan County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.139Z"
+    },
+    "29023": {
+      "n": "Butler County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.139Z"
+    },
+    "29025": {
+      "n": "Caldwell County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.140Z"
+    },
+    "29027": {
+      "n": "Callaway County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.140Z"
+    },
+    "29029": {
+      "n": "Camden County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.140Z"
+    },
+    "29031": {
+      "n": "Cape Girardeau County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.141Z"
+    },
+    "29033": {
+      "n": "Carroll County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.141Z"
+    },
+    "29035": {
+      "n": "Carter County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.141Z"
+    },
+    "29037": {
+      "n": "Cass County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.142Z"
+    },
+    "29039": {
+      "n": "Cedar County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.142Z"
+    },
+    "29041": {
+      "n": "Chariton County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.142Z"
+    },
+    "29043": {
+      "n": "Christian County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.143Z"
+    },
+    "29045": {
+      "n": "Clark County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.143Z"
+    },
+    "29047": {
+      "n": "Clay County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.143Z"
+    },
+    "29049": {
+      "n": "Clinton County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.144Z"
+    },
+    "29051": {
+      "n": "Cole County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.144Z"
+    },
+    "29053": {
+      "n": "Cooper County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.144Z"
+    },
+    "29055": {
+      "n": "Crawford County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.145Z"
+    },
+    "29057": {
+      "n": "Dade County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.145Z"
+    },
+    "29059": {
+      "n": "Dallas County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.145Z"
+    },
+    "29061": {
+      "n": "Daviess County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.146Z"
+    },
+    "29063": {
+      "n": "DeKalb County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.146Z"
+    },
+    "29065": {
+      "n": "Dent County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.147Z"
+    },
+    "29067": {
+      "n": "Douglas County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.147Z"
+    },
+    "29069": {
+      "n": "Dunklin County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.147Z"
+    },
+    "29071": {
+      "n": "Franklin County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.148Z"
+    },
+    "29073": {
+      "n": "Gasconade County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.148Z"
+    },
+    "29075": {
+      "n": "Gentry County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.148Z"
+    },
+    "29077": {
+      "n": "Greene County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.149Z"
+    },
+    "29079": {
+      "n": "Grundy County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.149Z"
+    },
+    "29081": {
+      "n": "Harrison County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.149Z"
+    },
+    "29083": {
+      "n": "Henry County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.150Z"
+    },
+    "29085": {
+      "n": "Hickory County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.150Z"
+    },
+    "29087": {
+      "n": "Holt County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.150Z"
+    },
+    "29089": {
+      "n": "Howard County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.151Z"
+    },
+    "29091": {
+      "n": "Howell County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.151Z"
+    },
+    "29093": {
+      "n": "Iron County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.151Z"
+    },
+    "29095": {
+      "n": "Jackson County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.152Z"
+    },
+    "29097": {
+      "n": "Jasper County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.152Z"
+    },
+    "29099": {
+      "n": "Jefferson County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.152Z"
+    },
+    "29101": {
+      "n": "Johnson County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.153Z"
+    },
+    "29103": {
+      "n": "Knox County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.153Z"
+    },
+    "29105": {
+      "n": "Laclede County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.153Z"
+    },
+    "29107": {
+      "n": "Lafayette County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.154Z"
+    },
+    "29109": {
+      "n": "Lawrence County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.154Z"
+    },
+    "29111": {
+      "n": "Lewis County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.154Z"
+    },
+    "29113": {
+      "n": "Lincoln County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.155Z"
+    },
+    "29115": {
+      "n": "Linn County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.155Z"
+    },
+    "29117": {
+      "n": "Livingston County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.155Z"
+    },
+    "29119": {
+      "n": "McDonald County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.156Z"
+    },
+    "29121": {
+      "n": "Macon County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.156Z"
+    },
+    "29123": {
+      "n": "Madison County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.156Z"
+    },
+    "29125": {
+      "n": "Maries County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.157Z"
+    },
+    "29127": {
+      "n": "Marion County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.157Z"
+    },
+    "29129": {
+      "n": "Mercer County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.157Z"
+    },
+    "29131": {
+      "n": "Miller County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.158Z"
+    },
+    "29133": {
+      "n": "Mississippi County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.158Z"
+    },
+    "29135": {
+      "n": "Moniteau County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.159Z"
+    },
+    "29137": {
+      "n": "Monroe County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.159Z"
+    },
+    "29139": {
+      "n": "Montgomery County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.159Z"
+    },
+    "29141": {
+      "n": "Morgan County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.160Z"
+    },
+    "29143": {
+      "n": "New Madrid County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.160Z"
+    },
+    "29145": {
+      "n": "Newton County",
+      "s": "MO",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T13:40:30.160Z"
+    },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T12:21:45.680Z"
+      "t": "2026-08-14T13:40:30.097Z"
     },
     "42003": {
       "n": "Allegheny County",
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T12:21:45.724Z"
+      "t": "2026-08-14T13:40:30.161Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T12:21:45.679Z"
+      "t": "2026-08-14T13:40:30.096Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -8974,7 +10262,7 @@
       "s": "CA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T12:21:45.725Z"
+      "t": "2026-08-14T13:40:30.162Z"
     },
     "06075": {
       "n": "San Francisco County",
@@ -9016,7 +10304,7 @@
       "s": "CA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T12:21:45.724Z"
+      "t": "2026-08-14T13:40:30.161Z"
     },
     "06087": {
       "n": "Santa Cruz County",

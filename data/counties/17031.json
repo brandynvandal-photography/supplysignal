@@ -23,20 +23,21 @@
           "published": "2026-06-30T00:00:00.000Z",
           "trust": 1
         }
-      ]
+      ],
+      "evidenceClass": "media",
+      "independent": 1
     }
   ],
   "coverage": {
-    "lastScan": "2026-08-14T12:21:45.678Z",
+    "lastScan": "2026-08-14T13:40:30.095Z",
     "windowDays": 365,
     "sourcesChecked": 27,
     "sourcesFailed": [
-      "la-ldh"
+      "la-ldh",
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
   },
-  "newSinceLastRun": [
-    "87c9f39dc862a920"
-  ]
+  "newSinceLastRun": []
 }
