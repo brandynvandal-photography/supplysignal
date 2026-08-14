@@ -12,6 +12,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchFeed, fetchCountyNews, fetchGdelt } from "./sources/index.mjs";
+import { fetchMedicalExaminer } from "./sources/medex.mjs";
 import { gate1, gate2 } from "./recency.mjs";
 import { classifyDeterministic, band, classifyWithLLM, applyLLMVerdict } from "./classify.mjs";
 import { buildIndex, geotag } from "./geotag.mjs";
@@ -61,6 +62,42 @@ async function main() {
     } catch (e) {
       console.error(`[feed:${feed.id}] ${e.message}`);
       stats.sourcesFailed.push(feed.id);
+    }
+  }
+
+  /* ---- Tier S2: county medical examiners. ----
+   *
+   * A handful of counties publish their toxicology as open data. Unlike every
+   * other source here it does not depend on anyone writing an article, and it
+   * names the actual compound. Four requests, three counties, and it is the
+   * only thing in this pipeline that can say what is in a supply rather than
+   * what somebody said about it. See src/sources/medex.mjs. */
+  const me = sources.medicalExaminers;
+  const meReached = new Set();
+  if (me?.enabled) {
+    for (const src of me.sources.filter((s) => s.enabled)) {
+      try {
+        const r = await fetchMedicalExaminer(src, settings, me);
+        if (r.skipped) {
+          console.error(`[medex:${src.id}] skipped (${r.skipped})`);
+          stats.sourcesFailed.push(src.id);
+          continue;
+        }
+        raw.push(...r.items);
+        stats.fetched += r.items.length;
+        /* The county WAS examined, whether or not anything crossed the
+           threshold. That is the difference between "nothing published here"
+           and "we have not looked", which data/index.json now reports. */
+        meReached.add(src.fips);
+        stats.medex = stats.medex || {};
+        stats.medex[src.id] = {
+          items: r.items.length, latest: r.latest, lagDays: r.lagDays,
+          recent: r.recentTotal, baseline: r.baseTotal,
+        };
+      } catch (e) {
+        console.error(`[medex:${src.id}] ${e.message}`);
+        stats.sourcesFailed.push(src.id);
+      }
     }
   }
 
@@ -129,6 +166,29 @@ async function main() {
     const g1 = gate1(item, settings);
     if (!g1.pass) { drop(g1.reason); continue; }
     item.publishedAt = g1.published.toISOString();
+
+    /* Structured sources score themselves.
+     *
+     * A medical-examiner tally is a counted fact out of a named public
+     * dataset, not prose that has to be interpreted, and the two stages being
+     * skipped here are both built for news articles. The keyword classifier
+     * would be guessing at text this pipeline generated itself. gate2 drops
+     * any item naming a year that is not this one or last, which is right for
+     * an article recounting an old spike and wrong for a comparison against
+     * last year's baseline.
+     *
+     * gate1 above still applies. Recency is a safety property, not a
+     * formatting one, and a source that quietly stops updating has to fail
+     * closed - medex.mjs has its own staleness guard for the same reason. */
+    if (item.preScored) {
+      const { preScored, ...rest } = item;
+      publishable.push({
+        ...rest, ...preScored,
+        verdict: "score",
+        summary: item.summary || item.body || item.title,
+      });
+      continue;
+    }
 
     const scored = classifyDeterministic(item, vocab);
     if (scored.verdict === "drop") { drop(scored.reason); continue; }
@@ -211,7 +271,12 @@ async function main() {
     (i) => i.counties || {}
   );
 
-  const touched = new Set([...byCounty.keys(), ...reached]);
+  /* `reached` stays the news loop's own bookkeeping, because the rotation
+     cursor above is derived from it and a medical-examiner county must not
+     advance it. This is the union that answers "did anybody look here", which
+     is the question data/index.json exists to answer honestly. */
+  const scannedFips = new Set([...reached, ...meReached]);
+  const touched = new Set([...byCounty.keys(), ...scannedFips]);
   let totalNew = 0;
 
   for (const fips of touched) {
@@ -221,9 +286,10 @@ async function main() {
     const coverage = {
       lastScan: new Date().toISOString(),
       windowDays: settings.recency.windowDays,
-      sourcesChecked: sources.feeds.filter((f) => f.enabled).length + 1,
+      sourcesChecked:
+        sources.feeds.filter((f) => f.enabled).length + 1 + (meReached.has(fips) ? 1 : 0),
       sourcesFailed: [...new Set(stats.sourcesFailed)],
-      scanned: reached.has(fips),
+      scanned: scannedFips.has(fips),
     };
     if (!DRY_RUN) {
       const { newIds } = await writeCounty(ROOT, county, cs, coverage);

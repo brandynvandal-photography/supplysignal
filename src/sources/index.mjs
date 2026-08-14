@@ -84,7 +84,19 @@ export async function fetchFeed(feed, settings, cacheEntry = {}) {
   const res = await politeFetch(feed.url, settings, headers);
   if (res.notModified) return { items: [], notModified: true, cache: cacheEntry };
 
-  const items = itemsFromRss(res.body).map((i) => ({
+  /* `maxItems` caps how far down a feed to read. It had been sitting in
+     config/sources.json on two entries since they were added and nothing ever
+     read it, which went unnoticed because the gates drop the surplus anyway —
+     just after parsing it. CDC's newsroom feed serves its whole 2006-present
+     archive on every request, so an hourly run was parsing 1,837 items to keep
+     the handful inside the window and reporting the other 2,029 as
+     `outside_window` drops, which is what sent an earlier debugging session
+     looking for a broken date filter that did not exist.
+     RSS is newest-first, so the head is the recent end. */
+  let parsed = itemsFromRss(res.body);
+  if (feed.maxItems > 0) parsed = parsed.slice(0, feed.maxItems);
+
+  const items = parsed.map((i) => ({
     ...i,
     sourceId: feed.id,
     sourceName: feed.name,

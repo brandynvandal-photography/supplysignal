@@ -30,20 +30,6 @@
    "id": "tx-dshs",
    "url": "https://www.dshs.texas.gov/rss.xml",
    "died": "Valid RSS but abandoned - newest item 2023-01-05."
-  }
- ],
- "_wafNote": "Florida, Louisiana and Delaware sit behind Cloudflare/WAF and return 403 if hit twice in quick succession. Keep polling.requestDelayMs at or above 1500 and send the configured user agent. Arkansas, Massachusetts and New Hampshire block automated requests entirely - they may still have feeds, but they cannot be verified without a real browser.",
- "feeds": [
-  {
-   "id": "cdc-han",
-   "name": "CDC Health Alert Network",
-   "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
-   "kind": "rss",
-   "trust": 1,
-   "scope": {
-    "level": "national"
-   },
-   "enabled": true
   },
   {
    "id": "cdc-newsroom",
@@ -54,7 +40,24 @@
    "scope": {
     "level": "national"
    },
-   "enabled": true
+   "enabled": true,
+   "_retiredNote": "Media 316422 is CDC Food Safety, not the newsroom - verified against tools.cdc.gov/api/v2/resources/media/316422.json on 2026-08-14. Off-topic for this project and it was double-counting the newsroom feed above."
+  }
+ ],
+ "_wafNote": "Florida, Louisiana and Delaware sit behind Cloudflare/WAF and return 403 if hit twice in quick succession. Keep polling.requestDelayMs at or above 1500 and send the configured user agent. Arkansas, Massachusetts and New Hampshire block automated requests entirely - they may still have feeds, but they cannot be verified without a real browser.",
+ "feeds": [
+  {
+   "id": "cdc-newsroom",
+   "name": "CDC Online Newsroom",
+   "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "national"
+   },
+   "enabled": true,
+   "_note": "Media 132608 is CDC Online Newsroom. It was configured as \"cdc-han\" until 2026-08-14; it never was HAN. There is no working public HAN feed (413690.rss returns 0 items, the han web pages 403 every non-browser client) and HAN is national-altitude anyway. See docs/ALERT-SOURCES.md.",
+   "maxItems": 60
   },
   {
    "id": "az-adhs-blog",
@@ -361,5 +364,105 @@
   "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc",
   "trust": 3,
   "minIntervalMs": 2000
+ },
+ "medicalExaminers": {
+  "_comment": "County medical-examiner open data. See src/sources/medex.mjs for what this is and is not, and docs/ALERT-SOURCES.md for the full survey of what else was checked. These are the only free public sources found that are county-granular, name specific adulterants, and are current within weeks. They are mortality data - a lagging indicator - so severity is capped at 'elevated' and every item states its own lag. Verified working 2026-08-14.",
+  "enabled": true,
+  "recentDays": 90,
+  "baselineDays": 365,
+  "minCount": 3,
+  "riseFactor": 2,
+  "maxLagDays": 210,
+  "sources": [
+   {
+    "id": "cook-me",
+    "name": "The Cook County Medical Examiner",
+    "county": "Cook County",
+    "fips": "17031",
+    "state": "IL",
+    "kind": "socrata",
+    "url": "https://datacatalog.cookcountyil.gov/resource/cjeq-bs86.json",
+    "landing": "https://datacatalog.cookcountyil.gov/d/cjeq-bs86",
+    "dateField": "incident_date",
+    "textFields": [
+     "primarycause",
+     "secondarycause"
+    ],
+    "where": "opioids=true",
+    "trust": 1,
+    "enabled": true,
+    "_note": "The boolean column is `opioids`. `opioid_related` is not a column and errors. $select names only the date and cause columns - the dataset also carries age, race, gender, incident_street, incident_zip, latitude and longitude, and none of it is ever requested.",
+    "denominator": "opioid-involved deaths"
+   },
+   {
+    "id": "allegheny-me",
+    "name": "The Allegheny County Medical Examiner",
+    "county": "Allegheny County",
+    "fips": "42003",
+    "state": "PA",
+    "kind": "ckan-sql",
+    "endpoint": "https://data.wprdc.org/api/3/action/datastore_search_sql",
+    "resource": "1c59b26a-1684-4bfb-92f7-205b947530cf",
+    "landing": "https://data.wprdc.org/dataset/allegheny-county-fatal-accidental-overdoses",
+    "dateField": "death_date_and_time",
+    "drugColumns": [
+     "combined_od1",
+     "combined_od2",
+     "combined_od3",
+     "combined_od4",
+     "combined_od5",
+     "combined_od6",
+     "combined_od7",
+     "combined_od8",
+     "combined_od9",
+     "combined_od10"
+    ],
+    "trust": 1,
+    "enabled": true,
+    "_note": "Drugs are pre-parsed into combined_od1..10, and the SQL endpoint aggregates server-side, so only (substance, count) pairs are transferred - no row for any individual. Date field is death_date_and_time, not death_date.",
+    "denominator": "accidental overdose deaths"
+   },
+   {
+    "id": "santaclara-me",
+    "name": "The Santa Clara County Medical Examiner",
+    "county": "Santa Clara County",
+    "fips": "06085",
+    "state": "CA",
+    "kind": "socrata",
+    "url": "https://data.sccgov.org/resource/j8j2-ged9.json",
+    "landing": "https://data.sccgov.org/d/j8j2-ged9",
+    "dateField": "death_date",
+    "textFields": [
+     "cause_of_death"
+    ],
+    "where": "",
+    "trust": 1,
+    "enabled": true,
+    "_note": "Fentanyl-involved deaths only, so the denominator is narrower than Cook's and a share here means 'of fentanyl deaths', not 'of overdose deaths'. Same $select discipline: the dataset carries age, race, gender, zip and lat/lon. Every column in this dataset is typed text, dates included, so date literals must be date-only and month bucketing uses substring().",
+    "denominator": "fentanyl-involved deaths",
+    "dateType": "text"
+   },
+   {
+    "id": "sandiego-me",
+    "name": "The San Diego County Medical Examiner",
+    "county": "San Diego County",
+    "fips": "06073",
+    "state": "CA",
+    "kind": "socrata",
+    "url": "https://data.sandiegocounty.gov/resource/jkvb-n4p7.json",
+    "landing": "https://data.sandiegocounty.gov/d/jkvb-n4p7",
+    "dateField": "death_date",
+    "textFields": [
+     "cod_string"
+    ],
+    "where": "opioid_related IN ('Opioid','Opioid-Fentanyl')",
+    "trust": 1,
+    "enabled": true,
+    "_note": "`opioid_related` is a categorical string, not a boolean - the values are Opioid, Opioid-Fentanyl, Non-Opioid, Non-Disclosure. Querying it as `true` or 'Yes' returns zero rows, which is what made this dataset look unusable on first pass. It also has a real `death_date` (calendar_date); the `year`/`quarter` columns are a red herring. Verified 2026-08-14.",
+    "denominator": "opioid-involved deaths"
+   }
+  ],
+  "completeness": 0.7,
+  "_lagNote": "maxLagDays is measured from the last COMPLETE month, not the newest record - see completeThrough() in src/sources/medex.mjs. Allegheny's newest record is about 2 months old but it is still filling in cases from 4 months back, so its honest anchor is roughly 6 months and 150 would have silently dropped it. Every item states its own lag in the body text."
  }
 }
