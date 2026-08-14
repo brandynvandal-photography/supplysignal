@@ -4,12 +4,13 @@
   "state": "MD",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-14T07:51:40.637Z",
+    "lastScan": "2026-08-14T10:20:59.726Z",
     "windowDays": 365,
     "sourcesChecked": 26,
     "sourcesFailed": [
       "la-ldh",
-      "google-news"
+      "cook-me",
+      "santaclara-me"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."

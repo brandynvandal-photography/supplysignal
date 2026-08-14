@@ -1,0 +1,19 @@
+{
+  "fips": "20209",
+  "name": "Wyandotte County",
+  "state": "KS",
+  "clusters": [],
+  "coverage": {
+    "lastScan": "2026-08-14T10:20:59.733Z",
+    "windowDays": 365,
+    "sourcesChecked": 26,
+    "sourcesFailed": [
+      "la-ldh",
+      "cook-me",
+      "santaclara-me"
+    ],
+    "scanned": true,
+    "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
+  },
+  "newSinceLastRun": []
+}

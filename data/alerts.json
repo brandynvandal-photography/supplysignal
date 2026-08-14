@@ -1,14 +1,15 @@
 {
-  "generated": "2026-08-14T07:51:40.894Z",
+  "generated": "2026-08-14T10:21:00.022Z",
   "windowDays": 365,
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "countyCount": 3231,
   "coverage": {
-    "lastScan": "2026-08-14T07:51:40.696Z",
+    "lastScan": "2026-08-14T10:20:59.798Z",
     "sourcesChecked": 26,
     "sourcesFailed": [
       "la-ldh",
-      "google-news"
+      "cook-me",
+      "santaclara-me"
     ],
     "countiesScanned": 203
   },

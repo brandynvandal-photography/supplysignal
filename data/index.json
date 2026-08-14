@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-14T07:51:40.695Z",
+  "generated": "2026-08-14T10:20:59.797Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -4594,33 +4594,1433 @@
       "sev": null,
       "t": "2026-08-14T07:51:40.693Z"
     },
+    "20169": {
+      "n": "Saline County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.726Z"
+    },
+    "20171": {
+      "n": "Scott County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.727Z"
+    },
+    "20173": {
+      "n": "Sedgwick County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.727Z"
+    },
+    "20175": {
+      "n": "Seward County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.727Z"
+    },
+    "20177": {
+      "n": "Shawnee County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.728Z"
+    },
+    "20179": {
+      "n": "Sheridan County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.728Z"
+    },
+    "20181": {
+      "n": "Sherman County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.728Z"
+    },
+    "20183": {
+      "n": "Smith County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.729Z"
+    },
+    "20185": {
+      "n": "Stafford County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.729Z"
+    },
+    "20187": {
+      "n": "Stanton County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.729Z"
+    },
+    "20189": {
+      "n": "Stevens County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.730Z"
+    },
+    "20191": {
+      "n": "Sumner County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.730Z"
+    },
+    "20193": {
+      "n": "Thomas County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.730Z"
+    },
+    "20195": {
+      "n": "Trego County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.730Z"
+    },
+    "20197": {
+      "n": "Wabaunsee County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.731Z"
+    },
+    "20199": {
+      "n": "Wallace County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.731Z"
+    },
+    "20201": {
+      "n": "Washington County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.731Z"
+    },
+    "20203": {
+      "n": "Wichita County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.732Z"
+    },
+    "20205": {
+      "n": "Wilson County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.732Z"
+    },
+    "20207": {
+      "n": "Woodson County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.732Z"
+    },
+    "20209": {
+      "n": "Wyandotte County",
+      "s": "KS",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.733Z"
+    },
+    "21001": {
+      "n": "Adair County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.733Z"
+    },
+    "21003": {
+      "n": "Allen County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.733Z"
+    },
+    "21005": {
+      "n": "Anderson County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.740Z"
+    },
+    "21007": {
+      "n": "Ballard County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.741Z"
+    },
+    "21009": {
+      "n": "Barren County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.741Z"
+    },
+    "21011": {
+      "n": "Bath County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.741Z"
+    },
+    "21013": {
+      "n": "Bell County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.742Z"
+    },
+    "21015": {
+      "n": "Boone County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.742Z"
+    },
+    "21017": {
+      "n": "Bourbon County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.742Z"
+    },
+    "21019": {
+      "n": "Boyd County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.742Z"
+    },
+    "21021": {
+      "n": "Boyle County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.743Z"
+    },
+    "21023": {
+      "n": "Bracken County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.743Z"
+    },
+    "21025": {
+      "n": "Breathitt County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.743Z"
+    },
+    "21027": {
+      "n": "Breckinridge County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.744Z"
+    },
+    "21029": {
+      "n": "Bullitt County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.744Z"
+    },
+    "21031": {
+      "n": "Butler County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.744Z"
+    },
+    "21033": {
+      "n": "Caldwell County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.744Z"
+    },
+    "21035": {
+      "n": "Calloway County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.745Z"
+    },
+    "21037": {
+      "n": "Campbell County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.745Z"
+    },
+    "21039": {
+      "n": "Carlisle County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.745Z"
+    },
+    "21041": {
+      "n": "Carroll County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.746Z"
+    },
+    "21043": {
+      "n": "Carter County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.746Z"
+    },
+    "21045": {
+      "n": "Casey County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.746Z"
+    },
+    "21047": {
+      "n": "Christian County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.747Z"
+    },
+    "21049": {
+      "n": "Clark County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.747Z"
+    },
+    "21051": {
+      "n": "Clay County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.747Z"
+    },
+    "21053": {
+      "n": "Clinton County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.748Z"
+    },
+    "21055": {
+      "n": "Crittenden County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.748Z"
+    },
+    "21057": {
+      "n": "Cumberland County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.748Z"
+    },
+    "21059": {
+      "n": "Daviess County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.748Z"
+    },
+    "21061": {
+      "n": "Edmonson County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.749Z"
+    },
+    "21063": {
+      "n": "Elliott County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.749Z"
+    },
+    "21065": {
+      "n": "Estill County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.749Z"
+    },
+    "21067": {
+      "n": "Fayette County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.750Z"
+    },
+    "21069": {
+      "n": "Fleming County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.750Z"
+    },
+    "21071": {
+      "n": "Floyd County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.750Z"
+    },
+    "21073": {
+      "n": "Franklin County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.751Z"
+    },
+    "21075": {
+      "n": "Fulton County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.751Z"
+    },
+    "21077": {
+      "n": "Gallatin County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.751Z"
+    },
+    "21079": {
+      "n": "Garrard County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.751Z"
+    },
+    "21081": {
+      "n": "Grant County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.752Z"
+    },
+    "21083": {
+      "n": "Graves County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.752Z"
+    },
+    "21085": {
+      "n": "Grayson County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.752Z"
+    },
+    "21087": {
+      "n": "Green County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.753Z"
+    },
+    "21089": {
+      "n": "Greenup County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.753Z"
+    },
+    "21091": {
+      "n": "Hancock County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.753Z"
+    },
+    "21093": {
+      "n": "Hardin County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.754Z"
+    },
+    "21095": {
+      "n": "Harlan County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.754Z"
+    },
+    "21097": {
+      "n": "Harrison County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.754Z"
+    },
+    "21099": {
+      "n": "Hart County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.755Z"
+    },
+    "21101": {
+      "n": "Henderson County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.755Z"
+    },
+    "21103": {
+      "n": "Henry County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.755Z"
+    },
+    "21105": {
+      "n": "Hickman County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.755Z"
+    },
+    "21107": {
+      "n": "Hopkins County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.756Z"
+    },
+    "21109": {
+      "n": "Jackson County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.756Z"
+    },
+    "21111": {
+      "n": "Jefferson County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.756Z"
+    },
+    "21113": {
+      "n": "Jessamine County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.757Z"
+    },
+    "21115": {
+      "n": "Johnson County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.757Z"
+    },
+    "21117": {
+      "n": "Kenton County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.757Z"
+    },
+    "21119": {
+      "n": "Knott County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.758Z"
+    },
+    "21121": {
+      "n": "Knox County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.758Z"
+    },
+    "21123": {
+      "n": "Larue County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.758Z"
+    },
+    "21125": {
+      "n": "Laurel County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.759Z"
+    },
+    "21127": {
+      "n": "Lawrence County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.759Z"
+    },
+    "21129": {
+      "n": "Lee County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.759Z"
+    },
+    "21131": {
+      "n": "Leslie County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.760Z"
+    },
+    "21133": {
+      "n": "Letcher County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.760Z"
+    },
+    "21135": {
+      "n": "Lewis County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.760Z"
+    },
+    "21137": {
+      "n": "Lincoln County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.760Z"
+    },
+    "21139": {
+      "n": "Livingston County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.761Z"
+    },
+    "21141": {
+      "n": "Logan County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.761Z"
+    },
+    "21143": {
+      "n": "Lyon County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.761Z"
+    },
+    "21145": {
+      "n": "McCracken County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.762Z"
+    },
+    "21147": {
+      "n": "McCreary County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.762Z"
+    },
+    "21149": {
+      "n": "McLean County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.762Z"
+    },
+    "21151": {
+      "n": "Madison County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.763Z"
+    },
+    "21153": {
+      "n": "Magoffin County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.763Z"
+    },
+    "21155": {
+      "n": "Marion County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.763Z"
+    },
+    "21157": {
+      "n": "Marshall County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.764Z"
+    },
+    "21159": {
+      "n": "Martin County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.764Z"
+    },
+    "21161": {
+      "n": "Mason County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.764Z"
+    },
+    "21163": {
+      "n": "Meade County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.765Z"
+    },
+    "21165": {
+      "n": "Menifee County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.765Z"
+    },
+    "21167": {
+      "n": "Mercer County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.765Z"
+    },
+    "21169": {
+      "n": "Metcalfe County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.765Z"
+    },
+    "21171": {
+      "n": "Monroe County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.766Z"
+    },
+    "21173": {
+      "n": "Montgomery County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.766Z"
+    },
+    "21175": {
+      "n": "Morgan County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.766Z"
+    },
+    "21177": {
+      "n": "Muhlenberg County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.767Z"
+    },
+    "21179": {
+      "n": "Nelson County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.767Z"
+    },
+    "21181": {
+      "n": "Nicholas County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.767Z"
+    },
+    "21183": {
+      "n": "Ohio County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.767Z"
+    },
+    "21185": {
+      "n": "Oldham County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.768Z"
+    },
+    "21187": {
+      "n": "Owen County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.768Z"
+    },
+    "21189": {
+      "n": "Owsley County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.768Z"
+    },
+    "21191": {
+      "n": "Pendleton County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.769Z"
+    },
+    "21193": {
+      "n": "Perry County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.769Z"
+    },
+    "21195": {
+      "n": "Pike County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.769Z"
+    },
+    "21197": {
+      "n": "Powell County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.769Z"
+    },
+    "21199": {
+      "n": "Pulaski County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.770Z"
+    },
+    "21201": {
+      "n": "Robertson County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.770Z"
+    },
+    "21203": {
+      "n": "Rockcastle County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.771Z"
+    },
+    "21205": {
+      "n": "Rowan County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.771Z"
+    },
+    "21207": {
+      "n": "Russell County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.771Z"
+    },
+    "21209": {
+      "n": "Scott County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.772Z"
+    },
+    "21211": {
+      "n": "Shelby County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.772Z"
+    },
+    "21213": {
+      "n": "Simpson County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.772Z"
+    },
+    "21215": {
+      "n": "Spencer County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.773Z"
+    },
+    "21217": {
+      "n": "Taylor County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.773Z"
+    },
+    "21219": {
+      "n": "Todd County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.773Z"
+    },
+    "21221": {
+      "n": "Trigg County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.773Z"
+    },
+    "21223": {
+      "n": "Trimble County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.774Z"
+    },
+    "21225": {
+      "n": "Union County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.774Z"
+    },
+    "21227": {
+      "n": "Warren County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.774Z"
+    },
+    "21229": {
+      "n": "Washington County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.775Z"
+    },
+    "21231": {
+      "n": "Wayne County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.775Z"
+    },
+    "21233": {
+      "n": "Webster County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.775Z"
+    },
+    "21235": {
+      "n": "Whitley County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.776Z"
+    },
+    "21237": {
+      "n": "Wolfe County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.776Z"
+    },
+    "21239": {
+      "n": "Woodford County",
+      "s": "KY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.776Z"
+    },
+    "22001": {
+      "n": "Acadia Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.777Z"
+    },
+    "22003": {
+      "n": "Allen Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.777Z"
+    },
+    "22005": {
+      "n": "Ascension Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.777Z"
+    },
+    "22007": {
+      "n": "Assumption Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.778Z"
+    },
+    "22009": {
+      "n": "Avoyelles Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.778Z"
+    },
+    "22011": {
+      "n": "Beauregard Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.778Z"
+    },
+    "22013": {
+      "n": "Bienville Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.779Z"
+    },
+    "22015": {
+      "n": "Bossier Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.779Z"
+    },
+    "22017": {
+      "n": "Caddo Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.779Z"
+    },
+    "22019": {
+      "n": "Calcasieu Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.779Z"
+    },
+    "22021": {
+      "n": "Caldwell Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.780Z"
+    },
+    "22023": {
+      "n": "Cameron Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.780Z"
+    },
+    "22025": {
+      "n": "Catahoula Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.780Z"
+    },
+    "22027": {
+      "n": "Claiborne Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.781Z"
+    },
+    "22029": {
+      "n": "Concordia Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.781Z"
+    },
+    "22031": {
+      "n": "De Soto Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.781Z"
+    },
+    "22033": {
+      "n": "East Baton Rouge Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.782Z"
+    },
+    "22035": {
+      "n": "East Carroll Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.782Z"
+    },
+    "22037": {
+      "n": "East Feliciana Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.782Z"
+    },
+    "22039": {
+      "n": "Evangeline Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.783Z"
+    },
+    "22041": {
+      "n": "Franklin Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.783Z"
+    },
+    "22043": {
+      "n": "Grant Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.783Z"
+    },
+    "22045": {
+      "n": "Iberia Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.784Z"
+    },
+    "22047": {
+      "n": "Iberville Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.784Z"
+    },
+    "22049": {
+      "n": "Jackson Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.784Z"
+    },
+    "22051": {
+      "n": "Jefferson Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.785Z"
+    },
+    "22053": {
+      "n": "Jefferson Davis Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.785Z"
+    },
+    "22055": {
+      "n": "Lafayette Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.785Z"
+    },
+    "22057": {
+      "n": "Lafourche Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.785Z"
+    },
+    "22059": {
+      "n": "La Salle Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.786Z"
+    },
+    "22061": {
+      "n": "Lincoln Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.786Z"
+    },
+    "22063": {
+      "n": "Livingston Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.786Z"
+    },
+    "22065": {
+      "n": "Madison Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.787Z"
+    },
+    "22067": {
+      "n": "Morehouse Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.787Z"
+    },
+    "22069": {
+      "n": "Natchitoches Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.787Z"
+    },
+    "22071": {
+      "n": "Orleans Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.788Z"
+    },
+    "22073": {
+      "n": "Ouachita Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.788Z"
+    },
+    "22075": {
+      "n": "Plaquemines Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.788Z"
+    },
+    "22077": {
+      "n": "Pointe Coupee Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.789Z"
+    },
+    "22079": {
+      "n": "Rapides Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.789Z"
+    },
+    "22081": {
+      "n": "Red River Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.789Z"
+    },
+    "22083": {
+      "n": "Richland Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.790Z"
+    },
+    "22085": {
+      "n": "Sabine Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.790Z"
+    },
+    "22087": {
+      "n": "St. Bernard Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.790Z"
+    },
+    "22089": {
+      "n": "St. Charles Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.791Z"
+    },
+    "22091": {
+      "n": "St. Helena Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.791Z"
+    },
+    "22093": {
+      "n": "St. James Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.791Z"
+    },
+    "22095": {
+      "n": "St. John the Baptist Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.792Z"
+    },
+    "22097": {
+      "n": "St. Landry Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.792Z"
+    },
+    "22099": {
+      "n": "St. Martin Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.792Z"
+    },
+    "22101": {
+      "n": "St. Mary Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.792Z"
+    },
+    "22103": {
+      "n": "St. Tammany Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.793Z"
+    },
+    "22105": {
+      "n": "Tangipahoa Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.793Z"
+    },
+    "22107": {
+      "n": "Tensas Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.793Z"
+    },
+    "22109": {
+      "n": "Terrebonne Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.794Z"
+    },
+    "22111": {
+      "n": "Union Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.794Z"
+    },
+    "22113": {
+      "n": "Vermilion Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.794Z"
+    },
+    "22115": {
+      "n": "Vernon Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.795Z"
+    },
+    "22117": {
+      "n": "Washington Parish",
+      "s": "LA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T10:20:59.795Z"
+    },
     "24510": {
       "n": "Baltimore City",
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T07:51:40.637Z"
+      "t": "2026-08-14T10:20:59.726Z"
     },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T07:51:40.637Z"
+      "t": "2026-08-14T10:20:59.725Z"
     },
     "42003": {
       "n": "Allegheny County",
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T07:51:40.693Z"
+      "t": "2026-08-14T10:20:59.795Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T07:51:40.636Z"
+      "t": "2026-08-14T10:20:59.724Z"
     },
     "01001": {
       "n": "Autauga County",
@@ -6181,7 +7581,7 @@
       "s": "CA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T07:51:40.694Z"
+      "t": "2026-08-14T10:20:59.796Z"
     },
     "06075": {
       "n": "San Francisco County",
