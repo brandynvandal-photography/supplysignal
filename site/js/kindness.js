@@ -48,7 +48,7 @@ const LINES = [
   "Nobody deserves to get hurt. That includes you.",
   "You know your life better than anyone does.",
   "You matter today. Not once you change. Today.",
-  "Whatever today’s been, you got through it.",
+  "Whatever it’s been like, you got yourself here.",
 ];
 
 /* Warm, soft, and none of them alarming. Deliberately no ❤️ - the pure red
