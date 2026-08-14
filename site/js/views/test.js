@@ -722,9 +722,11 @@ function brandPicker(brands) {
        the right edge of the phone. Label above, select full width. */
     h("div", { class: "pick" },
       h("div", { class: "pick__row" },
-        h("label", { for: "brandpick" }, "Which strip"), brandSel),
+        h("label", { for: "brandpick" }, "Which strip"),
+        h("div", { class: "pick__field" }, brandSel)),
       h("div", { class: "pick__row" },
-        h("label", { for: "drugpick" }, "What you are testing"), drugSel)),
+        h("label", { for: "drugpick" }, "What you are testing"),
+        h("div", { class: "pick__field" }, drugSel))),
     /* Four vendors in that list, two manufacturers behind them. Chasing
        storefronts is the wrong axis - the MAKER determines the numbers, and a
        reader holding an unlisted brand does not need us to have enumerated

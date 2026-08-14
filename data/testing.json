@@ -1225,12 +1225,34 @@
           "opioid": {
             "label": "Heroin, fentanyl or another opioid",
             "water": null,
-            "note": "The standard ratio above."
+            "note": "The standard amount above. Opioids do not cross-react with this strip."
+          },
+          "cocaine": {
+            "label": "Cocaine",
+            "water": null,
+            "note": "The standard amount above — do not over-dilute it. Cocaine was tested and produced no false positives at any concentration tried, so it does not need the stimulant treatment. Lidocaine, a common cocaine cut, does fool the strip from about 2.5 mg per mL, which the standard amount already sits under.",
+            "sources": [
+              {
+                "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7941948/"
+              }
+            ]
           },
           "stim": {
-            "label": "Meth, MDMA or cocaine",
+            "label": "Meth or MDMA",
             "water": "10 mg into 20 mL — four teaspoons. Four times the usual amount.",
-            "note": "Not just “more water” — this much. The standard 5 mL puts the sample at 2 mg per mL, and this strip reads positive with no fentanyl present at 1.5 mg/mL of methamphetamine, 2 mg/mL of MDMA, and 1 mg/mL of diphenhydramine, which is a common cut. The usual ratio is already at or above all three. Twenty millilitres brings it to 0.5 mg per mL, under every one of them. If it still reads positive, retest at ten times the water before acting on it — in a street-sample study that corrected every false positive.",
+            "note": "Not just “more water” — this much. The standard 5 mL puts the sample at 2 mg per mL, and this strip reads positive with no fentanyl present at 1.5 mg/mL of methamphetamine and 2 mg/mL of MDMA. The usual ratio is already at or above both. Twenty millilitres brings it to 0.5 mg per mL, under them and under diphenhydramine's 1 mg/mL as well. If it still reads positive, retest at ten times the water before acting on it — in a street-sample study that corrected every false positive.",
+            "sources": [
+              {
+                "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7941948/"
+              }
+            ]
+          },
+          "unknown": {
+            "label": "An unknown powder",
+            "water": "10 mg into 20 mL — four teaspoons.",
+            "note": "Diphenhydramine — Benadryl — fools this strip from 1 mg per mL, lower than meth or MDMA do, and it is a common cut in powders sold as anything. If you do not know what you have, dilute as though it were a stimulant.",
             "sources": [
               {
                 "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
@@ -1239,14 +1261,19 @@
             ]
           },
           "pill": {
-            "label": "A pill",
+            "label": "A pill, pressed or pharmaceutical",
             "water": null,
-            "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
+            "note": "Crush it completely first, then use the standard amount. A pill dropped in whole only wets its surface, and fentanyl is not spread evenly through a pressed tablet — one corner can carry all of it."
+          },
+          "blotter": {
+            "label": "Blotter or a tab",
+            "water": "Soak it in 5 mL — one teaspoon — for about 10 minutes.",
+            "note": "It has to actually come off the paper, which takes longer than a dip."
           },
           "residue": {
             "label": "Residue in a cap, cooker or bag",
-            "water": "2 mL of clean water — about half a teaspoon — onto the residue. Mix well.",
-            "note": "Nothing to weigh — the residue is the sample."
+            "water": "2 mL of clean water — about half a teaspoon.",
+            "note": "Nothing to weigh: the residue is the sample. Rinse it around and test the rinse."
           }
         }
       },
@@ -1283,12 +1310,34 @@
           "opioid": {
             "label": "Heroin, fentanyl or another opioid",
             "water": null,
-            "note": "The standard ratio above."
+            "note": "The standard amount above."
+          },
+          "cocaine": {
+            "label": "Cocaine",
+            "water": null,
+            "note": "The standard amount above. No change needed.",
+            "sources": [
+              {
+                "name": "Grassroots Harm Reduction — fentanyl test strips",
+                "url": "https://grassrootsharmreduction.org/product/fentanyl-test-strips-pack-of-10/"
+              }
+            ]
           },
           "stim": {
-            "label": "Meth, MDMA or cocaine",
+            "label": "Meth or MDMA",
             "water": "No change — 10 mg per mL, the same as above.",
-            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the single biggest practical difference between the two in ordinary use.",
+            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the biggest practical difference between the two.",
+            "sources": [
+              {
+                "name": "Grassroots Harm Reduction — fentanyl test strips",
+                "url": "https://grassrootsharmreduction.org/product/fentanyl-test-strips-pack-of-10/"
+              }
+            ]
+          },
+          "unknown": {
+            "label": "An unknown powder",
+            "water": null,
+            "note": "The standard amount. This strip was tested against the common cuts and stimulants at this strength.",
             "sources": [
               {
                 "name": "Grassroots Harm Reduction — fentanyl test strips",
@@ -1297,14 +1346,19 @@
             ]
           },
           "pill": {
-            "label": "A pill",
+            "label": "A pill, pressed or pharmaceutical",
             "water": null,
-            "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
+            "note": "Crush it completely first, then use the standard amount. A pill dropped in whole only wets its surface, and fentanyl is not spread evenly through a pressed tablet — one corner can carry all of it."
+          },
+          "blotter": {
+            "label": "Blotter or a tab",
+            "water": "Soak it in 5 mL — one teaspoon — for about 10 minutes.",
+            "note": "It has to actually come off the paper, which takes longer than a dip."
           },
           "residue": {
             "label": "Residue in a cap, cooker or bag",
-            "water": "2 mL of clean water — about half a teaspoon — onto the residue. Mix well.",
-            "note": "Nothing to weigh — the residue is the sample."
+            "water": "2 mL of clean water — about half a teaspoon.",
+            "note": "Nothing to weigh: the residue is the sample. Rinse it around and test the rinse."
           }
         }
       },
@@ -1327,12 +1381,34 @@
           "opioid": {
             "label": "Heroin, fentanyl or another opioid",
             "water": null,
-            "note": "The standard ratio above."
+            "note": "The standard amount above."
+          },
+          "cocaine": {
+            "label": "Cocaine",
+            "water": null,
+            "note": "The standard amount above. No change needed.",
+            "sources": [
+              {
+                "name": "Grassroots Harm Reduction — fentanyl test strips",
+                "url": "https://grassrootsharmreduction.org/product/fentanyl-test-strips-pack-of-10/"
+              }
+            ]
           },
           "stim": {
-            "label": "Meth, MDMA or cocaine",
+            "label": "Meth or MDMA",
             "water": "No change — 10 mg per mL, the same as above.",
-            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the single biggest practical difference between the two in ordinary use.",
+            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the biggest practical difference between the two.",
+            "sources": [
+              {
+                "name": "Grassroots Harm Reduction — fentanyl test strips",
+                "url": "https://grassrootsharmreduction.org/product/fentanyl-test-strips-pack-of-10/"
+              }
+            ]
+          },
+          "unknown": {
+            "label": "An unknown powder",
+            "water": null,
+            "note": "The standard amount. This strip was tested against the common cuts and stimulants at this strength.",
             "sources": [
               {
                 "name": "Grassroots Harm Reduction — fentanyl test strips",
@@ -1341,14 +1417,19 @@
             ]
           },
           "pill": {
-            "label": "A pill",
+            "label": "A pill, pressed or pharmaceutical",
             "water": null,
-            "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
+            "note": "Crush it completely first, then use the standard amount. A pill dropped in whole only wets its surface, and fentanyl is not spread evenly through a pressed tablet — one corner can carry all of it."
+          },
+          "blotter": {
+            "label": "Blotter or a tab",
+            "water": "Soak it in 5 mL — one teaspoon — for about 10 minutes.",
+            "note": "It has to actually come off the paper, which takes longer than a dip."
           },
           "residue": {
             "label": "Residue in a cap, cooker or bag",
-            "water": "2 mL of clean water — about half a teaspoon — onto the residue. Mix well.",
-            "note": "Nothing to weigh — the residue is the sample."
+            "water": "2 mL of clean water — about half a teaspoon.",
+            "note": "Nothing to weigh: the residue is the sample. Rinse it around and test the rinse."
           }
         },
         "sources": [
@@ -1381,12 +1462,34 @@
           "opioid": {
             "label": "Heroin, fentanyl or another opioid",
             "water": null,
-            "note": "The standard ratio above."
+            "note": "The standard amount above."
+          },
+          "cocaine": {
+            "label": "Cocaine",
+            "water": null,
+            "note": "The standard amount above. No change needed.",
+            "sources": [
+              {
+                "name": "Grassroots Harm Reduction — fentanyl test strips",
+                "url": "https://grassrootsharmreduction.org/product/fentanyl-test-strips-pack-of-10/"
+              }
+            ]
           },
           "stim": {
-            "label": "Meth, MDMA or cocaine",
+            "label": "Meth or MDMA",
             "water": "No change — 10 mg per mL, the same as above.",
-            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the single biggest practical difference between the two in ordinary use.",
+            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the biggest practical difference between the two.",
+            "sources": [
+              {
+                "name": "Grassroots Harm Reduction — fentanyl test strips",
+                "url": "https://grassrootsharmreduction.org/product/fentanyl-test-strips-pack-of-10/"
+              }
+            ]
+          },
+          "unknown": {
+            "label": "An unknown powder",
+            "water": null,
+            "note": "The standard amount. This strip was tested against the common cuts and stimulants at this strength.",
             "sources": [
               {
                 "name": "Grassroots Harm Reduction — fentanyl test strips",
@@ -1395,14 +1498,19 @@
             ]
           },
           "pill": {
-            "label": "A pill",
+            "label": "A pill, pressed or pharmaceutical",
             "water": null,
-            "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
+            "note": "Crush it completely first, then use the standard amount. A pill dropped in whole only wets its surface, and fentanyl is not spread evenly through a pressed tablet — one corner can carry all of it."
+          },
+          "blotter": {
+            "label": "Blotter or a tab",
+            "water": "Soak it in 5 mL — one teaspoon — for about 10 minutes.",
+            "note": "It has to actually come off the paper, which takes longer than a dip."
           },
           "residue": {
             "label": "Residue in a cap, cooker or bag",
-            "water": "2 mL of clean water — about half a teaspoon — onto the residue. Mix well.",
-            "note": "Nothing to weigh — the residue is the sample."
+            "water": "2 mL of clean water — about half a teaspoon.",
+            "note": "Nothing to weigh: the residue is the sample. Rinse it around and test the rinse."
           }
         },
         "sources": [
@@ -1444,12 +1552,17 @@
           "opioid": {
             "label": "Fentanyl or another opioid",
             "water": null,
-            "note": "The standard ratio above."
+            "note": "The standard amount above."
           },
           "pill": {
-            "label": "A pill",
+            "label": "A pill, pressed or pharmaceutical",
             "water": null,
-            "note": "Crush it completely first."
+            "note": "Crush it completely first, then use the standard amount. A pill dropped in whole only wets its surface, and fentanyl is not spread evenly through a pressed tablet — one corner can carry all of it."
+          },
+          "residue": {
+            "label": "Residue in a cap, cooker or bag",
+            "water": "2 mL of clean water — about half a teaspoon.",
+            "note": "Nothing to weigh: the residue is the sample. Rinse it around and test the rinse."
           }
         }
       }

@@ -1533,7 +1533,6 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
   font-size: .78rem; font-weight: 700; text-transform: uppercase;
   letter-spacing: .06em; color: var(--ink-3);
 }
-.pick__row { position: relative; }
 
 /* The select has to stop being an operating system widget, and then look like
  * the other things on this page that open.
@@ -1563,11 +1562,19 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
 }
 .pick__row select:hover { background: var(--surface-2); }
 .pick__row select:focus-visible { border-color: var(--brand); outline-offset: 0; }
-.pick__row::after {
+/* The chevron centres on the SELECT, not on the row.
+ *
+ * It used to hang off .pick__row with bottom: 0 and a 44px line box, on the
+ * assumption the select was 44px tall. It is 70px - var(--sp-3) top and bottom
+ * plus the line - so the arrow sat thirteen pixels below centre while every
+ * other chevron on the page was centred in its row. .pick__field wraps the
+ * select and nothing else, so 50% of it is 50% of the control at any height. */
+.pick__field { position: relative; display: grid; }
+.pick__field::after {
   content: "\203A";
-  position: absolute; right: var(--sp-4); bottom: 0;
-  line-height: var(--tap); font-size: 1.4rem; color: var(--ink-3);
-  transform: rotate(90deg);
+  position: absolute; right: var(--sp-4); top: 50%;
+  font-size: 1.4rem; line-height: 1; color: var(--ink-3);
+  transform: translateY(-50%) rotate(90deg);
   pointer-events: none;                      /* the click belongs to the select */
 }
 
