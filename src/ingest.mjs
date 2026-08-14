@@ -356,7 +356,7 @@ async function main() {
       scanned: scannedFips.has(fips),
     };
     if (!DRY_RUN) {
-      const { newIds } = await writeCounty(ROOT, county, cs, coverage);
+      const { newIds } = await writeCounty(ROOT, county, cs, coverage, settings.recency.windowDays);
       totalNew += newIds.length;
       if (cs.length) await writeCountyFeed(ROOT, county, cs, siteUrl);
     }

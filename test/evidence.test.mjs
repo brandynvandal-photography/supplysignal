@@ -158,6 +158,77 @@ check("a marginal community item is dropped by its floor", () => {
   return g.floor > 0.5 ? null : `floor=${g.floor}`;
 });
 
+/* ------------------------------------------- borrowed permission attack */
+
+check("a media item cannot borrow an official item's permission to be critical", () => {
+  /* admit() took the max severity across the cluster and, separately, the max
+     evidence class, then asked whether THAT class could hold critical. The two
+     were computed independently, so an attacker-controlled media item supplied
+     the critical reading while a genuine health-department item in the same
+     cluster supplied the class that waived the demotion. Each member is now
+     capped against its own class first. */
+  const c = {
+    rawSeverity: "critical", severity: "critical",
+    evidenceClasses: ["official", "media"],
+    memberGrades: [
+      { severity: "critical", evidenceClass: "media" },
+      { severity: "advisory", evidenceClass: "official" },
+    ],
+    sources: [
+      { name: "Valley Herald", url: "https://news.google.com/rss/articles/X" },
+      { name: "WV OEPS", url: "https://oeps.wv.gov/alert" },
+    ],
+  };
+  const a = admit(c);
+  return a.severity === "elevated" ? null : `published ${a.severity}`;
+});
+
+check("an official item claiming critical itself still publishes critical", () => {
+  const a = admit({
+    rawSeverity: "critical", severity: "critical",
+    evidenceClasses: ["official"],
+    memberGrades: [{ severity: "critical", evidenceClass: "official" }],
+    sources: [{ name: "WV OEPS", url: "https://oeps.wv.gov/alert" }],
+  });
+  return a.severity === "critical" ? null : `demoted to ${a.severity}`;
+});
+
+check("two invented mastheads on an aggregator are not two publishers", () => {
+  /* For a Google News item, sourceName is whatever followed the last " - " in
+     the article title — the masthead the author chose at signup. Two pages
+     under two invented names scored as independent corroboration, which is the
+     only thing standing between a media item and a critical publication. */
+  const g = (n) => ({ name: n, url: "https://news.google.com/rss/articles/X" });
+  const c = {
+    rawSeverity: "critical", severity: "critical",
+    evidenceClasses: ["media"],
+    memberGrades: [
+      { severity: "critical", evidenceClass: "media" },
+      { severity: "critical", evidenceClass: "media" },
+    ],
+    sources: [g("Valley Herald"), g("County Post")],
+  };
+  const a = admit(c);
+  return independence(c) === 0 && a.severity === "elevated"
+    ? null : `independence=${independence(c)}, severity=${a.severity}`;
+});
+
+check("two real hosts still corroborate", () => {
+  const c = {
+    rawSeverity: "critical", severity: "critical",
+    evidenceClasses: ["media"],
+    memberGrades: [
+      { severity: "critical", evidenceClass: "media" },
+      { severity: "critical", evidenceClass: "media" },
+    ],
+    sources: [
+      { name: "Tribune", url: "https://tribune.com/a" },
+      { name: "Sun-Times", url: "https://suntimes.com/b" },
+    ],
+  };
+  return admit(c).severity === "critical" ? null : `demoted to ${admit(c).severity}`;
+});
+
 /* ------------------------------------------------------------------- run */
 
 console.log("\nEVIDENCE");

@@ -55,6 +55,14 @@ export function cluster(alerts, settings) {
   const threshold = settings.dedupe.trigramThreshold;
   const windowMs = settings.dedupe.clusterWindowDays * DAY;
 
+  /* Keyed BY COUNTY, matching pass 3's own `c.fips !== a.fips` guard.
+   *
+   * These were global. fetchCountyNews runs one query per county, so a
+   * regional article mentioning several counties comes back once per county,
+   * each copy carrying a different hintFips - and passes 1 and 2 ran before
+   * any county was considered, so the first county in scan order kept it and
+   * every other county silently lost it. A three-county spike published to
+   * one. */
   const seenUrls = new Set();
   const seenHashes = new Set();
   const survivors = [];
@@ -62,11 +70,11 @@ export function cluster(alerts, settings) {
   // Pass 1 + 2: exact URL and content-hash collapse.
   for (const a of alerts) {
     const cu = canonicalUrl(a.url);
-    if (seenUrls.has(cu)) continue;
+    if (seenUrls.has(`${a.fips}|${cu}`)) continue;
     const ch = contentHash(a);
-    if (seenHashes.has(ch)) continue;
-    seenUrls.add(cu);
-    seenHashes.add(ch);
+    if (seenHashes.has(`${a.fips}|${ch}`)) continue;
+    seenUrls.add(`${a.fips}|${cu}`);
+    seenHashes.add(`${a.fips}|${ch}`);
     survivors.push({ ...a, urlCanon: cu, contentHash: ch });
   }
 
@@ -135,6 +143,15 @@ export function cluster(alerts, settings) {
      * report. The unit tests passed because they hand-build clusters that
      * still have members, a shape this function never returns. */
     c.evidenceClasses = [...new Set(c.members.map((m) => m.evidenceClass).filter(Boolean))];
+
+    /* Per member, so admit() can cap each reading against the class that
+       produced it. Taking the cluster maximum of each separately let a
+       cluster borrow its severity from one member and its permission from
+       another. */
+    c.memberGrades = c.members.map((m) => ({
+      severity: m.rawSeverity || m.severity,
+      evidenceClass: m.evidenceClass || null,
+    }));
 
     /* The strongest reading BEFORE per-item evidence capping, so admit() can
        apply the corroboration exception. Without it the cap has already been

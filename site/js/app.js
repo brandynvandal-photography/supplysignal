@@ -118,11 +118,37 @@ function isNative() {
   return Boolean(globalThis.Capacitor?.isNativePlatform?.());
 }
 
-document.getElementById("exit").addEventListener("click", () => {
+/* Broadcast so the search panel — which owns its own close() inside a later
+   block — can clear itself without app.js reaching into its internals. A
+   typed query is the single most revealing thing on screen. */
+const PANIC = "nl:panic";
+
+document.getElementById("exit").addEventListener("click", async () => {
+  /* Clear the visible screen FIRST, and synchronously.
+   *
+   * Everything below is asynchronous or slow enough to lose a race with the
+   * platform's app-switcher snapshot. On native, the previous version reset
+   * the route but left the search panel open with the typed drug still in the
+   * input, so the snapshot the OS kept showed the query and its result cards.
+   * On the web the panel would carry over into the weather site's paint. */
+  try { document.dispatchEvent(new CustomEvent(PANIC)); } catch {}
+  try { window.scrollTo(0, 0); } catch {}
+
   try { localStorage.clear(); } catch {}
   try { sessionStorage.clear(); } catch {}
+
+  /* Unregister before deleting the caches: a live worker can re-commit files
+     behind the delete, and the REGISTRATION is itself the durable trace — it
+     names nightlight.help in the browser's site-data and service-worker
+     listings, and it survived Quick Exit, the pagehide wipe and a restart.
+     Nothing in the repo called unregister() at all. */
   try {
-    if (window.caches?.keys) caches.keys().then((ks) => ks.forEach((k) => caches.delete(k)));
+    const regs = await navigator.serviceWorker?.getRegistrations?.() || [];
+    await Promise.all(regs.map((r) => r.unregister().catch(() => {})));
+  } catch {}
+  try {
+    const keys = await caches.keys();
+    await Promise.all(keys.map((k) => caches.delete(k).catch(() => {})));
   } catch {}
 
   if (isNative()) {
@@ -130,18 +156,42 @@ document.getElementById("exit").addEventListener("click", () => {
        Heat and water - a real page about drinking water in the heat, which
        reads as nothing in particular to somebody glancing at a phone. */
     try {
-      history.replaceState(null, "", "#/heat");
-      route();
+      history.replaceState(null, "", toUrl("#/heat"));
+      await route();
     } catch {}
 
+    /* Capacitor's plugin methods return promises, so a native-side failure
+       rejects ASYNCHRONOUSLY and a synchronous try/catch never sees it. The
+       old code also returned unconditionally after trying, so when the plugin
+       was missing entirely the handler exited before the web fallback and the
+       app simply stayed on screen. Await each, and fall through if both fail. */
     const app = globalThis.Capacitor?.Plugins?.App;
-    if (app?.exitApp) { try { app.exitApp(); return; } catch {} }
-    if (app?.minimizeApp) { try { app.minimizeApp(); return; } catch {} }
-    return;                       // wiped and neutralised; nothing else to do
+    try { if (app?.exitApp) { await app.exitApp(); return; } } catch {}
+    try { if (app?.minimizeApp) { await app.minimizeApp(); return; } } catch {}
+    /* Deliberately no `return`: if the platform will not background us, the
+       web path below is a worse exit than leaving, but it is an exit. */
   }
 
-  // Overwrite the current entry so Back does not land here again.
-  try { history.replaceState(null, "", "#"); } catch {}
+  /* Collapse the back stack.
+   *
+   * go() pushes an entry per navigation and each carries the reader's
+   * selection in the fragment, so Back walked straight back into the app and
+   * into the county they looked at. replaceState only ever rewrote the
+   * CURRENT entry. There is no API that can delete history entries, so this
+   * walks back over them first - each go(-1) lands on an entry we then
+   * overwrite - and only then leaves.
+   *
+   * It is a mitigation, not a guarantee, which is why the copy no longer
+   * claims otherwise: a private window is the only way to leave no entry. */
+  try {
+    const depth = Math.min(history.length - 1, 25);
+    history.replaceState(null, "", "/heat");
+    for (let i = 0; i < depth; i++) {
+      history.go(-1);
+      history.replaceState(null, "", "/heat");
+    }
+  } catch {}
+
   location.replace("https://weather.com/");
 });
 
@@ -748,6 +798,10 @@ document.addEventListener("click", (e) => {
     clear(results);
     status.textContent = "";
   };
+
+  /* Quick Exit fires this. The panel clears itself rather than app.js reaching
+     into a closure it does not own. */
+  document.addEventListener(PANIC, close);
 
   const open = async () => {
     panel.hidden = false;

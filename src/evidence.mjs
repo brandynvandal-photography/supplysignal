@@ -226,7 +226,17 @@ export function publisherOf(source) {
   let host = null;
   try { host = new URL(source.url).hostname.replace(/^www\./, ""); } catch { /* unparseable */ }
   if (!host || AGGREGATOR_HOSTS.test(host)) {
-    return slug(source.name) || slug(host) || null;
+    /* NOT a publisher identity, and it must not count as one.
+     *
+     * For a Google News item, sourceName is whatever came after the last " - "
+     * in the article title (sources/index.mjs) - which is the publication name
+     * the author chose when they set the site up. Two pages under two invented
+     * mastheads therefore scored as two independent publishers, and
+     * independence >= 2 is the ONLY thing standing between a media item and a
+     * critical publication. Returning null makes an aggregator-only cluster
+     * count zero independent publishers, so it can never clear that bar on
+     * names alone. */
+    return null;
   }
   return slug(host) || null;
 }
@@ -257,24 +267,53 @@ export function admit(cluster, { minIndependentForCritical = 2 } = {}) {
   const best = ["lab", "official", "community", "media"].find((k) => classes.includes(k)) || "media";
   const independent = independence(cluster);
 
-  /* Start from the UNCAPPED reading where one survives. The per-item ceiling
-     is a rule about a single story; corroboration is evidence the per-item
-     grade could not see, so this is the one place it may be revisited. */
-  let severity = cluster.rawSeverity || cluster.severity;
-  if (severity === "critical" && best !== "lab" && best !== "official") {
-    /* The per-item ceiling stops a single story publishing critical. The
-       cluster is where corroboration lives, so this is where the exception
-       lives too: several publishers independently reporting the same thing is
-       itself evidence, of the kind the per-item grade cannot see. The first
-       version applied the ceiling before this check, which made the
-       independence rule dead code - caught by its own test. */
-    if (independent < minIndependentForCritical) severity = "elevated";
-    /* Corroboration can lift MEDIA, because several outlets independently
-       reporting a thing is itself evidence about the thing. It cannot lift
-       community reports: two harm-reduction groups sharing one street rumour
-       is one rumour, and the module's contract says community never publishes
-       critical. */
-    if (best === "community") severity = "elevated";
+  /* THE SEVERITY MUST COME FROM THE MEMBER THAT EARNED IT.
+   *
+   * This used to take the maximum severity across the cluster and, separately,
+   * the strongest class across the cluster, then ask whether THAT class was
+   * allowed to hold critical. The two were computed independently, so a
+   * cluster could borrow its severity from one member and its permission from
+   * another: an attacker-controlled media item supplies a "critical" reading,
+   * a genuine health-department item in the same cluster supplies the
+   * "official" class, and the demotion branch is waived on the strength of a
+   * source that never claimed critical at all.
+   *
+   * So each member is capped against its OWN class first, and the cluster
+   * takes the strongest of those already-capped readings. A media item can
+   * only ever contribute "elevated", whoever it is clustered with. */
+  const fallbackSeverity = cluster.rawSeverity || cluster.severity;
+  const perMember = cluster.memberGrades?.length
+    ? cluster.memberGrades
+    : (cluster.members?.map((m) => ({
+        severity: m.rawSeverity || m.severity || fallbackSeverity,
+        evidenceClass: m.evidenceClass || best,
+      })) || [{ severity: fallbackSeverity, evidenceClass: best }]);
+
+  /* Each member capped against its OWN class, then the strongest of those.
+     A media item contributes at most "elevated" whoever it is clustered with. */
+  let severity = perMember
+    .map((m) => capSeverity(m.severity || fallbackSeverity,
+                            CEILING[m.evidenceClass] || CEILING.media))
+    .sort((a, b) => (RANK[a] ?? 9) - (RANK[b] ?? 9))[0] || fallbackSeverity;
+
+  /* The ONE exception, and it has to live here rather than in the cap above.
+   *
+   * Several INDEPENDENT publishers reporting the same thing is evidence the
+   * per-item grade cannot see, so corroboration may lift media to critical.
+   * It may not lift community - two harm-reduction groups passing on one
+   * street rumour is one rumour - and it is not needed for lab or official,
+   * whose ceiling is already critical.
+   *
+   * Note this is deliberately gated on a MEDIA member having claimed critical
+   * itself. Capping first and promoting second is what stops the cluster
+   * borrowing a severity from one member and a permission from another. */
+  const mediaClaimedCritical = perMember.some(
+    (m) => (m.severity || fallbackSeverity) === "critical" && m.evidenceClass === "media");
+  if (severity !== "critical" && best === "media" && mediaClaimedCritical
+      && independent >= minIndependentForCritical) {
+    severity = "critical";
   }
+
   return { severity, evidenceClass: best, independent };
 }
+

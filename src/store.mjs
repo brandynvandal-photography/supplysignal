@@ -28,22 +28,55 @@ export async function writeJson(p, obj) {
   await writeFile(p, JSON.stringify(obj, null, 2) + "\n", "utf8");
 }
 
-export async function writeCounty(root, county, clusters, coverage) {
+/**
+ * MERGE, never replace.
+ *
+ * This used to write exactly the clusters the current run produced. `touched`
+ * in ingest.mjs is the union of counties that produced clusters and counties
+ * merely SCANNED, so a county that was scanned and found nothing had its
+ * stored alerts overwritten with [] — and finding nothing is the normal case.
+ * The 25 RSS feeds are conditional-GET cached, so a feed answering 304 makes
+ * its items vanish from the run, and with them every alert they had ever
+ * produced for that county. A real published alert could disappear on the very
+ * next scan with nothing wrong anywhere.
+ *
+ * The window is enforced on read (recency.gate3) and by the nightly pass in
+ * src/age.mjs, which is the right place for it — expiry is a decision about
+ * age, not about whether one scan happened to see something.
+ */
+export async function writeCounty(root, county, clusters, coverage, windowDays = 365) {
   const p = path.join(root, "data", "counties", `${county.fips}.json`);
   const prev = await readJson(p, { clusters: [] });
-  const prevIds = new Set((prev.clusters || []).map((c) => c.id));
-  const newIds = clusters.filter((c) => !prevIds.has(c.id)).map((c) => c.id);
+  const prevById = new Map((prev.clusters || []).map((c) => [c.id, c]));
+
+  /* This run's version of a cluster wins — counts and wording get updated —
+     but a cluster it did not see is kept until it ages out. */
+  const merged = new Map(prevById);
+  for (const c of clusters) merged.set(c.id, c);
+
+  const cutoff = Date.now() - windowDays * 86400000;
+  const kept = [...merged.values()].filter((c) => {
+    const t = Date.parse(c.eventDate);
+    return Number.isNaN(t) ? true : t >= cutoff;
+  });
+
+  const rank = { critical: 0, elevated: 1, advisory: 2 };
+  kept.sort((a, b) =>
+    (rank[a.severity] ?? 3) - (rank[b.severity] ?? 3) ||
+    String(b.eventDate).localeCompare(String(a.eventDate)));
+
+  const newIds = clusters.filter((c) => !prevById.has(c.id)).map((c) => c.id);
 
   await writeJson(p, {
     fips: county.fips,
     name: county.name,
     state: county.state,
-    clusters,
+    clusters: kept,
     coverage: { ...coverage, disclaimer: DISCLAIMER },
     newSinceLastRun: newIds,
   });
 
-  return { newIds, total: clusters.length };
+  return { newIds, total: kept.length };
 }
 
 export async function writeIndex(root, entries) {

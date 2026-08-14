@@ -5,7 +5,7 @@
     "description": "County-level drug supply alerts, drug-checking results, and how to test a supply. Harm reduction information, not medical advice.",
     "skipToContent": "Skip to content",
     "themeToggle": "Switch color theme",
-    "quickExit": "Leave now — jumps to a weather site and removes this page from your back button",
+    "quickExit": "Leave now — clears what is on this device, overwrites the back button, and jumps to a weather site",
     "language": "Language",
     "loadFailed": "This section could not load.",
     "loadFailedHint": "Check your connection and try again.",
@@ -37,7 +37,7 @@
     "activeAlert": "{count} active alert",
     "updated": "data updated {date}",
     "awaitingScan": "awaiting first scan",
-    "privacy": "Nothing is saved — closing this tab clears it. ✕ leaves right now and drops this page from your back button."
+    "privacy": "Nothing is saved — closing this tab clears it. ✕ leaves right now, clears this device and overwrites the back button. It cannot erase the browser's own history: a private window is the only way to leave no trace at all."
   },
   "alerts": {
     "heading": "What's showing up near you",
@@ -85,7 +85,7 @@
     "locateOutside": "That location isn’t inside a US county. Search by name instead.",
     "locateNoData": "Couldn’t load the map data. Search by name instead.",
     "sessionTitle": "Nothing you do here is saved",
-    "sessionBody": "No account, and nothing kept between visits — close the tab and it is gone. The ✕ in the corner is for when you need to leave this second: it drops this page from your back button and sends you to a weather site.",
+    "sessionBody": "No account, and nothing kept between visits — close the tab and it is gone. The ✕ in the corner is for when you need to leave this second: it clears what this site stored, walks the back button back over where you have been, and sends you to a weather site. What it cannot do is erase the browser's own history — for that, use a private window.",
     "everywhereTitle": "Everywhere else right now",
     "everywhereIntro": "Every alert published anywhere in the country, newest and most serious first.",
     "everywhereCount": "{count} published anywhere in the country in the last {window}.",

@@ -167,12 +167,32 @@ export function applyLLMVerdict(scored, verdict) {
   if (verdict.is_retrospective) {
     return { ...scored, verdict: "drop", reason: "llm:retrospective" };
   }
+  /* Whitelist at the boundary.
+   *
+   * The model's reply was merged as-is, and every guard downstream is a lookup
+   * keyed on the three severity literals - so an off-enum string did not fail
+   * those checks, it walked past them: RANKS[severity] is undefined, and
+   * `undefined < anything` is false, which reads as "already severe enough"
+   * and skips the clamp. The item text fed to the model is attacker-authored,
+   * so the reply is attacker-influenced. Validate rather than trust. */
+  const SEVERITIES = ["critical", "elevated", "advisory"];
+  const severity = SEVERITIES.includes(verdict.severity) ? verdict.severity : scored.severity;
+
+  const substances = Array.isArray(verdict.substances)
+    ? verdict.substances.filter((x) => typeof x === "string" && x.length < 60).slice(0, 12)
+    : [];
+
+  const eventDate = typeof verdict.event_date === "string"
+    && /^\d{4}-\d{2}-\d{2}$/.test(verdict.event_date) ? verdict.event_date : null;
+
+  const conf = Number(verdict.confidence);
+
   return {
     ...scored,
-    severity: verdict.severity || scored.severity,
-    substances: verdict.substances?.length ? verdict.substances : scored.substances,
-    eventDate: verdict.event_date || null,
-    confidence: Math.max(scored.confidence, Number(verdict.confidence) || 0),
+    severity,
+    substances: substances.length ? substances : scored.substances,
+    eventDate,
+    confidence: Math.max(scored.confidence, Number.isFinite(conf) ? Math.min(Math.max(conf, 0), 1) : 0),
     llmChecked: true,
   };
 }

@@ -114,8 +114,10 @@
       <span aria-hidden="true">◐</span>
     </button>
 
-    <!-- The threat is often in the same room. One tap wipes local traces,
-         drops this page out of the back button, and leaves. -->
+    <!-- The threat is often in the same room. One tap clears what this site
+         stored, unregisters the service worker, overwrites the back stack and
+         leaves. It cannot delete browser history — no API can — so the copy
+         says "overwrites", not "removes". -->
     <button class="iconbtn" id="exit" aria-label="Quick exit — leave this site now and clear local traces"
             title="Quick exit">
       <span aria-hidden="true">✕</span>
