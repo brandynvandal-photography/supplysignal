@@ -770,6 +770,56 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .searchresults { margin-top: var(--sp-2); display: flex; flex-direction: column; gap: 8px; }
 .searchresults:empty { display: none; }
 
+/* ON A PHONE THE OPEN PANEL OWNS THE SCREEN, and the results are what scrolls.
+ *
+ * It was a sticky strip with an unbounded list inside it, which meant the list
+ * had no scroll container of its own: a drag anywhere moved the DOCUMENT. The
+ * panel stayed pinned, correctly, while the page tore past underneath it - so
+ * the reader's own results slid away under a bar that would not move, and
+ * flicking to see result eight scrolled the page behind instead. That is what
+ * was being reported as the search bar being glitchy, and it is a missing
+ * overflow rather than anything to do with compositing.
+ *
+ * position: fixed rather than a tall sticky element: sticky stays in flow, so
+ * giving it the height of the viewport would add a screenful to the document
+ * and jolt the page every time search opened or closed. Fixed changes no
+ * geometry at all.
+ *
+ * The tab bar sits at z-index 45 and stays above this on purpose. Search is
+ * not a mode somebody should have to work out how to leave, and covering the
+ * one row that is always an exit would be the wrong thing to cover.
+ *
+ * Desktop keeps the strip: a mouse wheel over a page that scrolls behind an
+ * open panel is ordinary, the results are not competing with a thumb, and
+ * there is room for both. */
+@media (max-width: 879px) {
+  .searchpanel:not([hidden]) {
+    position: fixed;
+    top: calc(var(--bar-h) + var(--bar-top));
+    left: 0; right: 0; bottom: 0;
+    display: flex; flex-direction: column;
+    overflow: hidden;                  /* the list scrolls, never the panel */
+    border-bottom: 0;
+    /* Opaque: there is a whole page behind this now, not a few pixels. */
+    background: var(--surface);
+  }
+  .searchpanel:not([hidden]) > .wrap {
+    display: flex; flex-direction: column;
+    flex: 1; min-height: 0;            /* or the list cannot shrink to scroll */
+  }
+  .searchpanel:not([hidden]) .searchresults {
+    flex: 1; min-height: 0;
+    overflow-y: auto;
+    /* Stops the scroll chaining to the document when the list hits its end,
+       which is the same tear this rule exists to remove. */
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    /* Clear the tab bar, so the last result is reachable rather than sitting
+       underneath Support and SOS. */
+    padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + var(--sp-3));
+  }
+}
+
 /* A result is a destination, so it says what KIND of thing it is before it
    says the name - "Drug" and "Answer" and "Support" mean different actions,
    and a list of bare titles makes the reader work that out for themselves. */
