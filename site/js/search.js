@@ -173,7 +173,46 @@ export async function search(term, limit = 10) {
   }
   starts.forEach(push);
 
-  /* 4. Destinations. */
+  /* 4. Destinations.
+   *
+   * Capped per section, because the index is nowhere near evenly distributed:
+   * Support holds 143 of its 519 entries - 28% - for the honest reason that it
+   * is a directory of named services while the other sections are prose. So a
+   * plain word returned a screenful of one page's table of contents:
+   *
+   *     "help"    9 of 10 rows Support
+   *     "line"   10 of 10 rows Support
+   *     "people"  7 of 10 rows Support
+   *
+   * and the single Staying up or Learn row - often the one a reader in that
+   * moment wanted - sat below the fold behind eight hotlines.
+   *
+   * The cap is on ORDER, not on membership. Anything above it is held back
+   * until every section in the same match band has had its turn, then appended
+   * - so a query only Support can answer still returns everything Support has.
+   * Nothing is hidden; the first screenful just stops belonging to one page.
+   *
+   * The overflow is flushed at the end of its OWN band rather than at the end
+   * of the whole list, because the bands are a real ranking: a title beginning
+   * with the query outranks a drug whose name merely contains it. Deferring the
+   * surplus past the next band inverts that - "line" answered with three crisis
+   * lines and then seven substances ending in -escaline, with the rest of the
+   * crisis lines beneath them. */
+  const SECTION_CAP = 3;
+  const perSection = new Map();
+  const overflow = [];
+  const flush = () => { overflow.splice(0).forEach(push); };
+  const pushCapped = (r) => {
+    const n = perSection.get(r.kind) || 0;
+    if (n >= SECTION_CAP) { overflow.push(r); return; }
+    const before = out.length;
+    push(r);
+    /* Only a row that actually landed counts against its section. A duplicate
+       push() rejected never reached the reader, and spending the section's
+       allowance on it would cost a real result. */
+    if (out.length > before) perSection.set(r.kind, n + 1);
+  };
+
   const dStart = [], dWord = [], dIn = [];
   for (const e of idx.entries || []) {
     const t = norm(e.t);
@@ -182,8 +221,14 @@ export async function search(term, limit = 10) {
     else if (t.includes(` ${q}`)) dWord.push(r);
     else if (t.includes(q)) dIn.push(r);
   }
-  dStart.forEach(push); dWord.forEach(push);
-  contains.forEach(push); dIn.forEach(push);
+  dStart.forEach(pushCapped); dWord.forEach(pushCapped);
+  flush();
+  /* Drug substring matches are not capped: "Drug" is one section by name but
+     302 individually named substances by content, and a reader typing part of
+     a drug name is asking for exactly that list. */
+  contains.forEach(push);
+  dIn.forEach(pushCapped);
+  flush();
 
   /* 5. Fuzzy, only if nothing above matched at all. */
   if (!out.length && q.length >= 4) {
