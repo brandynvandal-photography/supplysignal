@@ -1517,6 +1517,24 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
 .brandcard > :last-child { margin-bottom: 0; }
 .brandcard .readbar { margin: 12px 0; }
 
+/* The strip picker's two dropdowns.
+ *
+ * NOT .mixslot, which is the combination checker's row and puts its label
+ * beside the select. That works there because the labels are one character
+ * each. Here "Which strip" and "What you are testing" ate 101px of a 375px
+ * screen, leaving a 277px select starting at x=150 - so 52px of every option
+ * ran off the right edge of the phone, on the one control whose whole job is
+ * telling somebody which numbers apply to them.
+ *
+ * Label above, select the full width, and it cannot overflow at any size. */
+.pick { display: grid; gap: 12px; margin: 14px 0 16px; }
+.pick__row { display: grid; gap: 6px; }
+.pick__row label {
+  font-size: .78rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--ink-3);
+}
+.pick__row select { width: 100%; min-width: 0; }
+
 .mixslots { display: grid; gap: 8px; margin-bottom: 12px; }
 .mixslot { display: flex; gap: 8px; align-items: center; }
 .mixslot label {

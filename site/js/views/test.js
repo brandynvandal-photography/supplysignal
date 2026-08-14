@@ -733,11 +733,16 @@ function brandPicker(brands) {
 
   return frag(
     brands.intro ? h("p", { class: "sec__note" }, brands.intro) : null,
-    h("div", { class: "mixslots" },
-      h("div", { class: "mixslot" },
-        h("label", { for: "brandpick" }, "Strip"), brandSel),
-      h("div", { class: "mixslot" },
-        h("label", { for: "drugpick" }, "Testing"), drugSel)),
+    /* .pick, not .mixslot. The combination checker's slot puts its label
+       BESIDE the select, which works there because "A" and "B" are one
+       character. "Strip" and "Testing" took 101px of a 375px screen and left
+       the select 277px wide starting at x=150 - 52px of every option ran off
+       the right edge of the phone. Label above, select full width. */
+    h("div", { class: "pick" },
+      h("div", { class: "pick__row" },
+        h("label", { for: "brandpick" }, "Which strip"), brandSel),
+      h("div", { class: "pick__row" },
+        h("label", { for: "drugpick" }, "What you are testing"), drugSel)),
     out,
     brands.notInterchangeable
       ? callout("warn", brands.notInterchangeable.title,
