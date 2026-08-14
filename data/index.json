@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-14T19:14:21.151Z",
+  "generated": "2026-08-14T21:41:43.599Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -6307,7 +6307,7 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T19:14:21.085Z"
+      "t": "2026-08-14T21:41:43.519Z"
     },
     "25001": {
       "n": "Barnstable County",
@@ -9907,26 +9907,1426 @@
       "sev": null,
       "t": "2026-08-14T19:14:21.150Z"
     },
+    "31155": {
+      "n": "Saunders County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.523Z"
+    },
+    "31157": {
+      "n": "Scotts Bluff County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.524Z"
+    },
+    "31159": {
+      "n": "Seward County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.525Z"
+    },
+    "31161": {
+      "n": "Sheridan County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.526Z"
+    },
+    "31163": {
+      "n": "Sherman County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.527Z"
+    },
+    "31165": {
+      "n": "Sioux County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.528Z"
+    },
+    "31167": {
+      "n": "Stanton County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.529Z"
+    },
+    "31169": {
+      "n": "Thayer County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.530Z"
+    },
+    "31171": {
+      "n": "Thomas County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.531Z"
+    },
+    "31173": {
+      "n": "Thurston County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.532Z"
+    },
+    "31175": {
+      "n": "Valley County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.533Z"
+    },
+    "31177": {
+      "n": "Washington County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.534Z"
+    },
+    "31179": {
+      "n": "Wayne County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.535Z"
+    },
+    "31181": {
+      "n": "Webster County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.536Z"
+    },
+    "31183": {
+      "n": "Wheeler County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.537Z"
+    },
+    "31185": {
+      "n": "York County",
+      "s": "NE",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.538Z"
+    },
+    "32001": {
+      "n": "Churchill County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.539Z"
+    },
+    "32003": {
+      "n": "Clark County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.541Z"
+    },
+    "32005": {
+      "n": "Douglas County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.542Z"
+    },
+    "32007": {
+      "n": "Elko County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.543Z"
+    },
+    "32009": {
+      "n": "Esmeralda County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.544Z"
+    },
+    "32011": {
+      "n": "Eureka County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.545Z"
+    },
+    "32013": {
+      "n": "Humboldt County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.545Z"
+    },
+    "32015": {
+      "n": "Lander County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.546Z"
+    },
+    "32017": {
+      "n": "Lincoln County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.546Z"
+    },
+    "32019": {
+      "n": "Lyon County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.546Z"
+    },
+    "32021": {
+      "n": "Mineral County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.546Z"
+    },
+    "32023": {
+      "n": "Nye County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.547Z"
+    },
+    "32027": {
+      "n": "Pershing County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.547Z"
+    },
+    "32029": {
+      "n": "Storey County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.547Z"
+    },
+    "32031": {
+      "n": "Washoe County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.548Z"
+    },
+    "32033": {
+      "n": "White Pine County",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.548Z"
+    },
+    "32510": {
+      "n": "Carson City",
+      "s": "NV",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.548Z"
+    },
+    "33001": {
+      "n": "Belknap County",
+      "s": "NH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.548Z"
+    },
+    "33003": {
+      "n": "Carroll County",
+      "s": "NH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.549Z"
+    },
+    "33005": {
+      "n": "Cheshire County",
+      "s": "NH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.549Z"
+    },
+    "33007": {
+      "n": "Coos County",
+      "s": "NH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.549Z"
+    },
+    "33009": {
+      "n": "Grafton County",
+      "s": "NH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.550Z"
+    },
+    "33011": {
+      "n": "Hillsborough County",
+      "s": "NH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.550Z"
+    },
+    "33013": {
+      "n": "Merrimack County",
+      "s": "NH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.550Z"
+    },
+    "33015": {
+      "n": "Rockingham County",
+      "s": "NH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.551Z"
+    },
+    "33017": {
+      "n": "Strafford County",
+      "s": "NH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.551Z"
+    },
+    "33019": {
+      "n": "Sullivan County",
+      "s": "NH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.551Z"
+    },
+    "34001": {
+      "n": "Atlantic County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.551Z"
+    },
+    "34003": {
+      "n": "Bergen County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.552Z"
+    },
+    "34005": {
+      "n": "Burlington County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.552Z"
+    },
+    "34007": {
+      "n": "Camden County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.552Z"
+    },
+    "34009": {
+      "n": "Cape May County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.553Z"
+    },
+    "34011": {
+      "n": "Cumberland County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.553Z"
+    },
+    "34013": {
+      "n": "Essex County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.553Z"
+    },
+    "34015": {
+      "n": "Gloucester County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.553Z"
+    },
+    "34017": {
+      "n": "Hudson County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.554Z"
+    },
+    "34019": {
+      "n": "Hunterdon County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.554Z"
+    },
+    "34021": {
+      "n": "Mercer County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.554Z"
+    },
+    "34023": {
+      "n": "Middlesex County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.555Z"
+    },
+    "34025": {
+      "n": "Monmouth County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.555Z"
+    },
+    "34027": {
+      "n": "Morris County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.555Z"
+    },
+    "34029": {
+      "n": "Ocean County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.556Z"
+    },
+    "34031": {
+      "n": "Passaic County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.556Z"
+    },
+    "34033": {
+      "n": "Salem County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.556Z"
+    },
+    "34035": {
+      "n": "Somerset County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.556Z"
+    },
+    "34037": {
+      "n": "Sussex County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.557Z"
+    },
+    "34039": {
+      "n": "Union County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.557Z"
+    },
+    "34041": {
+      "n": "Warren County",
+      "s": "NJ",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.557Z"
+    },
+    "35001": {
+      "n": "Bernalillo County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.557Z"
+    },
+    "35003": {
+      "n": "Catron County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.558Z"
+    },
+    "35005": {
+      "n": "Chaves County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.558Z"
+    },
+    "35006": {
+      "n": "Cibola County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.558Z"
+    },
+    "35007": {
+      "n": "Colfax County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.559Z"
+    },
+    "35009": {
+      "n": "Curry County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.559Z"
+    },
+    "35011": {
+      "n": "De Baca County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.559Z"
+    },
+    "35013": {
+      "n": "Doña Ana County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.559Z"
+    },
+    "35015": {
+      "n": "Eddy County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.560Z"
+    },
+    "35017": {
+      "n": "Grant County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.560Z"
+    },
+    "35019": {
+      "n": "Guadalupe County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.560Z"
+    },
+    "35021": {
+      "n": "Harding County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.561Z"
+    },
+    "35023": {
+      "n": "Hidalgo County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.561Z"
+    },
+    "35025": {
+      "n": "Lea County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.561Z"
+    },
+    "35027": {
+      "n": "Lincoln County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.561Z"
+    },
+    "35028": {
+      "n": "Los Alamos County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.562Z"
+    },
+    "35029": {
+      "n": "Luna County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.562Z"
+    },
+    "35031": {
+      "n": "McKinley County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.563Z"
+    },
+    "35033": {
+      "n": "Mora County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.563Z"
+    },
+    "35035": {
+      "n": "Otero County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.564Z"
+    },
+    "35037": {
+      "n": "Quay County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.564Z"
+    },
+    "35039": {
+      "n": "Rio Arriba County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.564Z"
+    },
+    "35041": {
+      "n": "Roosevelt County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.564Z"
+    },
+    "35043": {
+      "n": "Sandoval County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.565Z"
+    },
+    "35045": {
+      "n": "San Juan County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.565Z"
+    },
+    "35047": {
+      "n": "San Miguel County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.565Z"
+    },
+    "35049": {
+      "n": "Santa Fe County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.566Z"
+    },
+    "35051": {
+      "n": "Sierra County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.566Z"
+    },
+    "35053": {
+      "n": "Socorro County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.566Z"
+    },
+    "35055": {
+      "n": "Taos County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.566Z"
+    },
+    "35057": {
+      "n": "Torrance County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.567Z"
+    },
+    "35059": {
+      "n": "Union County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.567Z"
+    },
+    "35061": {
+      "n": "Valencia County",
+      "s": "NM",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.567Z"
+    },
+    "36001": {
+      "n": "Albany County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.568Z"
+    },
+    "36003": {
+      "n": "Allegany County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.568Z"
+    },
+    "36005": {
+      "n": "Bronx County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.568Z"
+    },
+    "36007": {
+      "n": "Broome County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.568Z"
+    },
+    "36009": {
+      "n": "Cattaraugus County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.569Z"
+    },
+    "36011": {
+      "n": "Cayuga County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.569Z"
+    },
+    "36013": {
+      "n": "Chautauqua County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.569Z"
+    },
+    "36015": {
+      "n": "Chemung County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.570Z"
+    },
+    "36017": {
+      "n": "Chenango County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.570Z"
+    },
+    "36019": {
+      "n": "Clinton County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.570Z"
+    },
+    "36021": {
+      "n": "Columbia County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.570Z"
+    },
+    "36023": {
+      "n": "Cortland County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.571Z"
+    },
+    "36025": {
+      "n": "Delaware County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.571Z"
+    },
+    "36027": {
+      "n": "Dutchess County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.571Z"
+    },
+    "36029": {
+      "n": "Erie County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.572Z"
+    },
+    "36031": {
+      "n": "Essex County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.572Z"
+    },
+    "36033": {
+      "n": "Franklin County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.572Z"
+    },
+    "36035": {
+      "n": "Fulton County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.572Z"
+    },
+    "36037": {
+      "n": "Genesee County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.573Z"
+    },
+    "36039": {
+      "n": "Greene County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.573Z"
+    },
+    "36041": {
+      "n": "Hamilton County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.573Z"
+    },
+    "36043": {
+      "n": "Herkimer County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.574Z"
+    },
+    "36045": {
+      "n": "Jefferson County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.574Z"
+    },
+    "36047": {
+      "n": "Kings County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.574Z"
+    },
+    "36049": {
+      "n": "Lewis County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.575Z"
+    },
+    "36051": {
+      "n": "Livingston County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.575Z"
+    },
+    "36053": {
+      "n": "Madison County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.575Z"
+    },
+    "36055": {
+      "n": "Monroe County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.575Z"
+    },
+    "36057": {
+      "n": "Montgomery County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.576Z"
+    },
+    "36059": {
+      "n": "Nassau County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.576Z"
+    },
+    "36061": {
+      "n": "New York County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.576Z"
+    },
+    "36063": {
+      "n": "Niagara County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.577Z"
+    },
+    "36065": {
+      "n": "Oneida County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.577Z"
+    },
+    "36067": {
+      "n": "Onondaga County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.577Z"
+    },
+    "36069": {
+      "n": "Ontario County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.577Z"
+    },
+    "36071": {
+      "n": "Orange County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.578Z"
+    },
+    "36073": {
+      "n": "Orleans County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.578Z"
+    },
+    "36075": {
+      "n": "Oswego County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.578Z"
+    },
+    "36077": {
+      "n": "Otsego County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.579Z"
+    },
+    "36079": {
+      "n": "Putnam County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.579Z"
+    },
+    "36081": {
+      "n": "Queens County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.579Z"
+    },
+    "36083": {
+      "n": "Rensselaer County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.580Z"
+    },
+    "36085": {
+      "n": "Richmond County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.580Z"
+    },
+    "36087": {
+      "n": "Rockland County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.580Z"
+    },
+    "36089": {
+      "n": "St. Lawrence County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.580Z"
+    },
+    "36091": {
+      "n": "Saratoga County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.581Z"
+    },
+    "36093": {
+      "n": "Schenectady County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.581Z"
+    },
+    "36095": {
+      "n": "Schoharie County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.581Z"
+    },
+    "36097": {
+      "n": "Schuyler County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.582Z"
+    },
+    "36099": {
+      "n": "Seneca County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.582Z"
+    },
+    "36101": {
+      "n": "Steuben County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.582Z"
+    },
+    "36103": {
+      "n": "Suffolk County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.582Z"
+    },
+    "36105": {
+      "n": "Sullivan County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.583Z"
+    },
+    "36107": {
+      "n": "Tioga County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.583Z"
+    },
+    "36109": {
+      "n": "Tompkins County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.583Z"
+    },
+    "36111": {
+      "n": "Ulster County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.584Z"
+    },
+    "36113": {
+      "n": "Warren County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.584Z"
+    },
+    "36115": {
+      "n": "Washington County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.584Z"
+    },
+    "36117": {
+      "n": "Wayne County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.585Z"
+    },
+    "36119": {
+      "n": "Westchester County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.585Z"
+    },
+    "36121": {
+      "n": "Wyoming County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.585Z"
+    },
+    "36123": {
+      "n": "Yates County",
+      "s": "NY",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.585Z"
+    },
+    "37001": {
+      "n": "Alamance County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.586Z"
+    },
+    "37003": {
+      "n": "Alexander County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.586Z"
+    },
+    "37005": {
+      "n": "Alleghany County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.586Z"
+    },
+    "37007": {
+      "n": "Anson County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.587Z"
+    },
+    "37009": {
+      "n": "Ashe County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.587Z"
+    },
+    "37011": {
+      "n": "Avery County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.587Z"
+    },
+    "37013": {
+      "n": "Beaufort County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.587Z"
+    },
+    "37015": {
+      "n": "Bertie County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.588Z"
+    },
+    "37017": {
+      "n": "Bladen County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.588Z"
+    },
+    "37019": {
+      "n": "Brunswick County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.588Z"
+    },
+    "37021": {
+      "n": "Buncombe County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.589Z"
+    },
+    "37023": {
+      "n": "Burke County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.589Z"
+    },
+    "37025": {
+      "n": "Cabarrus County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.589Z"
+    },
+    "37027": {
+      "n": "Caldwell County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.590Z"
+    },
+    "37029": {
+      "n": "Camden County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.590Z"
+    },
+    "37031": {
+      "n": "Carteret County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.590Z"
+    },
+    "37033": {
+      "n": "Caswell County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.591Z"
+    },
+    "37035": {
+      "n": "Catawba County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.591Z"
+    },
+    "37037": {
+      "n": "Chatham County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.591Z"
+    },
+    "37039": {
+      "n": "Cherokee County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.592Z"
+    },
+    "37041": {
+      "n": "Chowan County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.592Z"
+    },
+    "37043": {
+      "n": "Clay County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.592Z"
+    },
+    "37045": {
+      "n": "Cleveland County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.592Z"
+    },
+    "37047": {
+      "n": "Columbus County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.593Z"
+    },
+    "37049": {
+      "n": "Craven County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.593Z"
+    },
+    "37051": {
+      "n": "Cumberland County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.593Z"
+    },
+    "37053": {
+      "n": "Currituck County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.594Z"
+    },
+    "37055": {
+      "n": "Dare County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.594Z"
+    },
+    "37057": {
+      "n": "Davidson County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.594Z"
+    },
+    "37059": {
+      "n": "Davie County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.594Z"
+    },
+    "37061": {
+      "n": "Duplin County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.595Z"
+    },
+    "37063": {
+      "n": "Durham County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.595Z"
+    },
+    "37065": {
+      "n": "Edgecombe County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.595Z"
+    },
+    "37067": {
+      "n": "Forsyth County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.596Z"
+    },
+    "37069": {
+      "n": "Franklin County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.596Z"
+    },
+    "37071": {
+      "n": "Gaston County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.596Z"
+    },
+    "37073": {
+      "n": "Gates County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.596Z"
+    },
+    "37075": {
+      "n": "Graham County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.597Z"
+    },
+    "37077": {
+      "n": "Granville County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.597Z"
+    },
+    "37079": {
+      "n": "Greene County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.597Z"
+    },
+    "37081": {
+      "n": "Guilford County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-14T21:41:43.598Z"
+    },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T19:14:21.084Z"
+      "t": "2026-08-14T21:41:43.516Z"
     },
     "42003": {
       "n": "Allegheny County",
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T19:14:21.150Z"
+      "t": "2026-08-14T21:41:43.598Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T19:14:21.082Z"
+      "t": "2026-08-14T21:41:43.513Z"
     },
     "01001": {
       "n": "Autauga County",
