@@ -31,10 +31,9 @@ export async function render() {
        per SUB-section too, which after grouping meant eleven chips, "Reagents"
        listed twice, and entries pointing inside collapsed parents. */
     jumpNav([
-      { id: "sec-reading", label: "Reading a strip" },
+      { id: "sec-strips", label: "Test strips" },
       { id: "sec-prevalence", label: "What's out there" },
       { id: "sec-compare", label: "Which one to get" },
-      { id: "sec-strips", label: "Test strips" },
       { id: "grp-reagents", label: "Reagents" },
       { id: "sec-storage", label: "Storing supplies" },
     ])
@@ -87,7 +86,12 @@ export async function render() {
        --critical, which on THIS page is the colour of a positive fentanyl
        result - spending it on a default-open explainer where nothing is wrong
        made the real result cards below mean slightly less. */
-    disclosure("sec-reading", "Reading a test strip",
+    /* ONE section, not two. "Reading a test strip" and "Test strips" were
+       separate top-level disclosures with the same subject: the first said how
+       to read one, the second held each type with its limits and accuracy - so
+       a reader had to know both existed, and the picker that decides the
+       reading sat in one while the strip it describes sat in the other. */
+    disclosure("sec-strips", "Test strips",
       { open: true },
       /* The verdict cards are rendered BY the picker now, from the product the
          reader chose. They used to be printed once, above it, as though the
@@ -97,7 +101,9 @@ export async function render() {
       brandPicker(g.brands),
       callout("warn", "Why one line means positive",
         h("p", null, fts.reading.explain),
-        h("p", null, fts.reading.faintLine)))
+        h("p", null, fts.reading.faintLine)),
+      /* Each type, under the reading it shares. */
+      g.strips.map((s) => stripCard(s, g)))
   );
 
   /* The prevalence table is the page's center of gravity - the claims audit
@@ -270,11 +276,6 @@ export async function render() {
   );
 
   wrap.appendChild(section("Using it", null));
-
-  wrap.appendChild(
-    disclosure("sec-strips", "Test strips", null,
-      g.strips.map((s) => stripCard(s, g)))
-  );
 
   wrap.appendChild(
     group("grp-reagents", "Reagent testing",
