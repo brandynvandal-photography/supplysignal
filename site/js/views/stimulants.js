@@ -1,4 +1,4 @@
-/* Staying up, and losing the thread.
+/* Staying up, and coming down.
  *
  * Two subjects on one page because they arrive together: the person who has
  * been awake for three days and the person seeing things are frequently the

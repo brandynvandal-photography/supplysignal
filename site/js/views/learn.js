@@ -129,12 +129,12 @@ export async function render(route, { go }) {
 
   wrap.appendChild(
     h("div", { id: "sec-stimulants" },
-      section("Staying up, and losing the thread", null,
+      section("Staying up, and coming down", null,
         h("p", { class: "sec__note" },
           "What days without sleep do on their own, what stimulant psychosis "
           + "looks like, and how to help somebody in it."),
         h("a", { class: "bigptr", href: "#/stimulants" },
-          h("span", { class: "bigptr__hd" }, "Staying up, and losing the thread"),
+          h("span", { class: "bigptr__hd" }, "Staying up, and coming down"),
           h("span", { class: "bigptr__sub" },
             "Sleep loss alone will do this eventually — the timeline is "
             + "documented, and sleep is the treatment.")))));

@@ -189,6 +189,52 @@ const SUPPLEMENT = [
       "gabapentin is widely prescribed and often assumed to be harmless.",
     source: { name: "FDA — gabapentinoid breathing risk", url: "https://www.fda.gov/drugs/drug-safety-and-availability/fda-warns-about-serious-breathing-problems-seizure-and-nerve-pain-medicines-gabapentin-neurontin" },
   },
+  {
+    /* Both of the entries below exist because TripSit's chart has no category
+       for them at all, and both are things this app's own alert pipeline is
+       built to detect - Cook County's medical examiner named medetomidine and
+       N-pyrro protonitazene in its recent toxicology. A reader who arrives
+       from an alert and looks the substance up should not find silence. */
+    id: "medetomidine",
+    name: "Medetomidine (\"rhino tranq\")",
+    with: "opioids",
+    status: "Dangerous",
+    note:
+      "Medetomidine is a veterinary sedative from the same family as xylazine " +
+      "and considerably stronger. It is not an opioid, so naloxone does not " +
+      "reverse it — give naloxone anyway, because the fentanyl it arrives with " +
+      "is what stops breathing, and that is what naloxone fixes. In the Chicago " +
+      "cluster that first defined this in May 2024, all twelve laboratory-" +
+      "confirmed cases stayed altered despite naloxone, all had markedly raised " +
+      "blood pressure on arrival, and three quarters had a slowed heart rate. " +
+      "Sedation outlasted the naloxone and needed hospital stabilisation, with " +
+      "higher odds of admission and intensive care than other overdoses that " +
+      "week. Watch breathing rather than alertness, and stay with them.",
+    source: {
+      name: "Journal of Medical Toxicology — medetomidine-involved overdoses, Chicago 2024",
+      url: "https://doi.org/10.1007/s13181-026-01148-2",
+    },
+  },
+  {
+    id: "nitazenes",
+    name: "Nitazenes",
+    with: "benzodiazepines",
+    status: "Dangerous",
+    note:
+      "Nitazenes are opioids — unlike xylazine and medetomidine — so every rule " +
+      "on the opioid row applies to them, and naloxone does work. They are " +
+      "missing from the chart only because they are new: laboratory work puts " +
+      "the pyrrolidino family's grip on the μ-opioid receptor in the same range " +
+      "as fentanyl's, and some analogues considerably above it. Stacked with " +
+      "benzodiazepines — or with alcohol, gabapentinoids, or another opioid — " +
+      "the effect on breathing compounds the same way it does for any opioid, " +
+      "from a starting point where the amount that does it is very small and " +
+      "not something a person can judge by eye.",
+    source: {
+      name: "J Pharmacol Exp Ther — pharmacology of N-pyrrolidino nitazenes",
+      url: "https://doi.org/10.1016/j.jpet.2026.104977",
+    },
+  },
 ];
 
 const payload = {

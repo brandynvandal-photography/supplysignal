@@ -672,7 +672,11 @@ function supplementBlock(combos) {
     combos.supplement.map((s) =>
       h("details", { class: "acc acc--flag" },
         h("summary", null,
-          h("span", null, `${s.name} + opioids`),
+          /* s.with, not a hardcoded "opioids". Every supplement entry paired
+             with opioids until now, so the field was never read and the label
+             was right by coincidence - the first entry that pairs with
+             anything else would have been captioned wrongly. */
+          h("span", null, `${s.name} + ${prettyCat(s.with || "opioids")}`),
           badge(s.status, "critical")),
         h("div", { class: "acc__body" },
           h("p", null, s.note),
