@@ -1461,6 +1461,7 @@
       }
     ],
     "gap": "Only products whose own instructions were read are listed. Wondfo, DetectaChem, Lochness Medical and MD-Bio are not here yet, and neither are benzodiazepine or nitazene strips: printing a number that has not been read off the sheet it came from is the failure this section exists to prevent. If yours is not listed, your packet is the authority.",
-    "drugHeadline": "What are you testing?"
+    "drugHeadline": "What are you testing?",
+    "notListed": "Not listed? Most strips sold for harm reduction in the US are made by one of two companies — BTNX or WHPM — whatever name is on the front. DanceSafe, Bunk Police and Grassroots all sell the same WHPM strip. Look for the maker on the packet, the box or the insert and use that row. If it names neither, your insert is the authority."
   }
 }

@@ -743,6 +743,13 @@ function brandPicker(brands) {
         h("label", { for: "brandpick" }, "Which strip"), brandSel),
       h("div", { class: "pick__row" },
         h("label", { for: "drugpick" }, "What you are testing"), drugSel)),
+    /* Four vendors in that list, two manufacturers behind them. Chasing
+       storefronts is the wrong axis - the MAKER determines the numbers, and a
+       reader holding an unlisted brand does not need us to have enumerated
+       their shop, they need to know to look for the maker on the packet. This
+       is the line that makes the control answer for products it does not
+       name, without a single invented figure. */
+    brands.notListed ? h("p", { class: "sec__note" }, brands.notListed) : null,
     out,
     brands.notInterchangeable
       ? callout("warn", brands.notInterchangeable.title,
