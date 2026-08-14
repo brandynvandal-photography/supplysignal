@@ -1,0 +1,216 @@
+/* The URL scheme.
+ *
+ * Two things are being protected here and only one of them is cosmetic.
+ *
+ * The cosmetic one: /alerts instead of /site/#/alerts.
+ *
+ * The other one is the reason this file is long. Only the SECTION may live in
+ * the path. A path is transmitted and lands in the host's access log; a
+ * fragment never leaves the browser. PRIVACY.md section 1 calls a log
+ * containing "IP -> 47065" a disaster and section 3 promises county and
+ * substance stay after the #. A refactor that moved a county into the path
+ * would look tidy, pass every other test, and quietly break the promise the
+ * whole app is built on - so there is a check below that fails if a five-digit
+ * FIPS or a substance id ever appears left of the fragment.
+ *
+ * And every legacy URL still has to work. 3,231 per-county RSS feeds publish
+ * nightlight.help/#/47065, the Capacitor build has no server to rewrite paths,
+ * and links people already shared are in messages nobody can edit.
+ */
+
+import {
+  PATHS, SEGMENTS, parseRoute, toUrl, canonicalUrl, decode, DEFAULT_DAYS,
+} from "../site/js/routes.js";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+const cases = [];
+const check = (name, fn) => cases.push({ name, fn });
+const url = (u) => {
+  const [p, h] = String(u).split("#");
+  return { pathname: p || "/", hash: h ? "#" + h : "" };
+};
+
+/* ------------------------------------------------------------ canonical */
+
+/* from -> what the address bar should end up showing. */
+const CANON = [
+  ["/",                        "/alerts"],
+  ["/alerts",                  "/alerts"],
+  ["/sos",                     "/sos"],
+  ["/drugs",                   "/drugs"],
+  ["/alerts#/47065",           "/alerts#/47065"],
+  ["/alerts#/47065/30",        "/alerts#/47065/30"],
+  ["/alerts#/map",             "/alerts#/map"],
+  ["/drugs#/class/opioids",    "/drugs#/class/opioids"],
+
+  /* Legacy. None of these can be edited after the fact. */
+  ["/site/",                   "/alerts"],
+  ["/site/#/test",             "/test"],
+  ["/#/47065",                 "/alerts#/47065"],       // every RSS feed
+  ["/#/47065/30",              "/alerts#/47065/30"],
+  ["/#/alerts/17031",          "/alerts#/17031"],
+  ["/#/alerts/map",            "/alerts#/map"],
+  ["/#/substances/fentanyl",   "/drugs#/fentanyl"],
+  ["/#/help",                  "/sos"],
+  ["/#/heat",                  "/heat"],
+];
+
+for (const [from, want] of CANON) {
+  check(`canonical  ${from}  ->  ${want}`, () => {
+    const got = canonicalUrl(url(from), true);
+    return got === want ? null : `got ${got}`;
+  });
+}
+
+check("canonicalising twice changes nothing", () => {
+  const bad = [];
+  for (const [from] of CANON) {
+    const once = canonicalUrl(url(from), true);
+    const twice = canonicalUrl(url(once), true);
+    if (once !== twice) bad.push(`${from}: ${once} -> ${twice}`);
+  }
+  return bad.length ? bad.join("; ") : null;
+});
+
+/* ------------------------------------------------------------- the promise */
+
+check("no county or substance ever appears in the path", () => {
+  /* The check this file exists for. */
+  const selections = ["47065", "17031", "06085", "fentanyl", "xylazine", "class/opioids"];
+  const bad = [];
+  for (const sel of selections) {
+    for (const from of [`/#/${sel}`, `/#/alerts/${sel}`, `/#/substances/${sel}`,
+                        `/alerts#/${sel}`, `/drugs#/${sel}`]) {
+      const got = canonicalUrl(url(from), true) || "";
+      const pathPart = got.split("#")[0];
+      if (pathPart.includes(sel.split("/")[0])) bad.push(`${from} -> ${got}`);
+    }
+  }
+  return bad.length ? `selection leaked into the path: ${bad.join("; ")}` : null;
+});
+
+check("every path segment is a section name and nothing else", () => {
+  /* If a future segment is ever anything but a fixed section, it is by
+     definition something about the reader. */
+  const bad = Object.keys(PATHS).filter((seg) => !/^[a-z-]+$/.test(seg));
+  return bad.length ? bad.join(", ") : null;
+});
+
+/* ------------------------------------------------------------- parseRoute */
+
+check("path form and hash form parse identically", () => {
+  const pairs = [
+    ["/alerts#/47065",        "/#/alerts/47065"],
+    ["/alerts#/47065/30",     "/#/alerts/47065/30"],
+    ["/alerts#/map",          "/#/alerts/map"],
+    ["/drugs#/fentanyl",      "/#/substances/fentanyl"],
+    ["/sos",                  "/#/help"],
+    ["/heat",                 "/#/heat"],
+  ];
+  const bad = [];
+  for (const [p, h] of pairs) {
+    const a = JSON.stringify(parseRoute(url(p), true));
+    const b = JSON.stringify(parseRoute(url(h), true));
+    if (a !== b) bad.push(`${p} => ${a}  vs  ${h} => ${b}`);
+  }
+  return bad.length ? bad.join("; ") : null;
+});
+
+check("a bare five-digit fips is the alerts tab", () => {
+  const r = parseRoute(url("/#/47065"), true);
+  return r.tab === "alerts" && r.fips === "47065" ? null : JSON.stringify(r);
+});
+
+check("an unknown section falls back to alerts rather than blank", () => {
+  const r = parseRoute(url("/#/nonsense"), true);
+  return r.tab === "alerts" ? null : JSON.stringify(r);
+});
+
+check("the window segment survives, and defaults", () => {
+  const a = parseRoute(url("/alerts#/47065/30"), true);
+  const b = parseRoute(url("/alerts#/47065"), true);
+  return a.days === 30 && b.days === DEFAULT_DAYS ? null : `${a.days} / ${b.days}`;
+});
+
+check("map focus is only accepted when it is a real fips", () => {
+  const a = parseRoute(url("/alerts#/map/17031"), true);
+  const b = parseRoute(url("/alerts#/map/banana"), true);
+  return a.focus === "17031" && b.focus === null ? null : `${a.focus} / ${b.focus}`;
+});
+
+/* ------------------------------------------------------------ native build */
+
+check("the native build gets hash URLs, never paths", () => {
+  /* Capacitor serves off a local origin with no server to rewrite anything, so
+     a path URL there is a 404 rather than a route. */
+  const bad = [];
+  for (const h of ["#/alerts", "#/substances/fentanyl", "#/help", "#/47065"]) {
+    const got = toUrl(h, false);
+    if (!got.startsWith("#")) bad.push(`${h} -> ${got}`);
+  }
+  return bad.length ? bad.join("; ") : null;
+});
+
+check("hash form still parses when path routing is off", () => {
+  const r = parseRoute({ pathname: "/", hash: "#/substances/fentanyl" }, false);
+  return r.tab === "substances" && r.id === "fentanyl" ? null : JSON.stringify(r);
+});
+
+/* ----------------------------------------------------------- no drift */
+
+check("every section has a view, and every view has a section", () => {
+  const app = readFileSync(path.join(ROOT, "site/js/app.js"), "utf8");
+  const block = app.slice(app.indexOf("const VIEWS = {"), app.indexOf("let token"));
+  const views = [...block.matchAll(/^\s*([a-z]+):\s*\(\)\s*=>/gm)].map((m) => m[1]);
+  const ids = Object.values(PATHS);
+  const missing = views.filter((v) => !ids.includes(v));
+  const extra = ids.filter((i) => !views.includes(i));
+  return missing.length || extra.length
+    ? `view without a path: ${missing.join(", ") || "none"}; path without a view: ${extra.join(", ") || "none"}`
+    : null;
+});
+
+check("every section is rewritten in netlify.toml", () => {
+  /* A section with no rewrite 404s on a hard refresh and on a shared link -
+     it would still work while clicking around, which is how it ships broken. */
+  const toml = readFileSync(path.join(ROOT, "netlify.toml"), "utf8");
+  const rewritten = new Set(
+    [...toml.matchAll(/from\s*=\s*"\/([a-z-]+)"\s*\n\s*to\s*=\s*"\/site\/index\.html"/g)]
+      .map((m) => m[1])
+  );
+  const missing = Object.keys(PATHS).filter((seg) => !rewritten.has(seg));
+  return missing.length ? `no rewrite for: ${missing.join(", ")}` : null;
+});
+
+check("the tab bar links to real sections", () => {
+  const html = readFileSync(path.join(ROOT, "site/index.html"), "utf8");
+  const bad = [];
+  for (const m of html.matchAll(/<a href="([^"]+)"\s+data-tab="([a-z]+)"/g)) {
+    const [, href, id] = m;
+    if (!SEGMENTS[id]) { bad.push(`unknown tab id ${id}`); continue; }
+    if (href !== `/${SEGMENTS[id]}`) bad.push(`${id}: href ${href}, expected /${SEGMENTS[id]}`);
+  }
+  return bad.length ? bad.join("; ") : null;
+});
+
+check("PATHS and SEGMENTS are inverses", () => {
+  const bad = Object.entries(PATHS).filter(([seg, id]) => SEGMENTS[id] !== seg);
+  return bad.length ? JSON.stringify(bad) : null;
+});
+
+/* ------------------------------------------------------------------- run */
+
+console.log("\nURL SCHEME");
+let pass = 0, fail = 0;
+for (const c of cases) {
+  let err;
+  try { err = c.fn(); } catch (e) { err = e.stack || String(e); }
+  if (err) { fail++; console.log(`  FAIL ${c.name}\n      ${err}`); }
+  else { pass++; console.log(`  ok   ${c.name}`); }
+}
+console.log(`\n${pass} passed, ${fail} failed`);
+if (fail) process.exitCode = 1;

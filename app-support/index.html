@@ -5,8 +5,13 @@
 <title>Support — Nightlight</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<!-- Served at /support/. App Store Connect requires a Support URL and a
+<!-- Served at /app-support/. App Store Connect requires a Support URL and a
      reviewer will open it, so this page must stay reachable and indexable.
+
+     It moved off /support/ on 2026-08-14, when the app's own Support TAB took
+     that path in the switch to path-based routing. netlify.toml keeps a 301
+     from the old path, so an already-submitted Support URL still lands here -
+     but the value in App Store Connect should be updated to the new one.
 
      Self-contained, same reasoning as /privacy/: no stylesheet fetch, no font,
      no script, its own CSP. -->

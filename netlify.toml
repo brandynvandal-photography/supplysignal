@@ -18,8 +18,12 @@
 #
 # The site is published from the REPO ROOT, not from site/. The app loads its
 # data with relative paths like ../data/substances.json, so site/ and data/ have
-# to stay siblings. Root index.html redirects into site/ and preserves any
-# #/fips deep link.
+# to stay siblings.
+#
+# Since 2026-08-14 each section is a real path - /alerts, /test, /drugs - served
+# by rewriting onto site/index.html. Only the SECTION is in the path; county and
+# substance stay in the fragment, because a fragment is never transmitted and
+# PRIVACY.md is a promise about exactly that. See the app-routes block below.
 
 [build]
   publish = "."
@@ -58,14 +62,113 @@
   # nothing renders. Every failure mode builds.
   ignore = "node scripts/deploy-needed.mjs"
 
-# Fast path to the app. index.html at the root does this too, in HTML and JS,
-# and it stays as the fallback for anyone who fetches the file directly.
-# Fragments survive a 301 - the browser reattaches them - so #/47065 still lands.
+# The root IS the app, rewritten rather than redirected.
+#
+# It used to 301 to /site/, and index.html at the root did the same in HTML and
+# JS. Both are now the long way round: the router canonicalises whatever URL it
+# lands on, so serving the shell here lets / become /alerts in the address bar
+# with no request and no history entry.
+#
+# NOT a 301 to /alerts, which looks equivalent and is not. A browser reattaches
+# the fragment across a redirect, so /#/test would arrive as /alerts#/test -
+# and that parses as the alerts tab with a sub-route of "test", which is a
+# different page from the one the link asked for. Rewriting keeps the fragment
+# where the router can read it whole.
+#
+# force = true because index.html is a real file at this path and would
+# otherwise win. That file stays as the no-JavaScript fallback for anyone who
+# fetches /index.html directly.
 [[redirects]]
   from = "/"
-  to = "/site/"
+  to = "/site/index.html"
+  status = 200
+  force = true
+
+# ---------------------------------------------------------------- app routes
+#
+# Each tab is a real path, rewritten (200, not a redirect) onto the one HTML
+# file the app has always been. The reader sees /alerts; the server serves
+# /site/index.html and the router reads the path.
+#
+# WHAT STAYS IN THE FRAGMENT, AND WHY THIS LIST IS EXPLICIT RATHER THAN /*:
+#
+# Only the SECTION is in the path. County and substance stay after the #,
+# because a fragment is never transmitted - PRIVACY.md section 3 is a promise
+# about exactly this, and section 1 calls an access log containing
+# "IP -> 47065" a disaster. /alerts is in Netlify's log. /alerts#/47065 is not.
+#
+# A catch-all /* rewrite would have been shorter and would have swallowed
+# /data/*, /privacy/, /app-support/ and the 404 rules below it. Naming the
+# routes means a typo 404s instead of silently serving the app shell, and the
+# list is the same one VIEWS is keyed by in site/js/app.js - test/publish
+# checks they have not drifted apart.
+[[redirects]]
+  from = "/alerts"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/test"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/drugs"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/learn"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/support"
+  to = "/site/index.html"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/sos"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/after"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/heat"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/emerging"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/policy"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/supervision"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/sex"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/stimulants"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
+  from = "/about"
+  to = "/site/index.html"
+  status = 200
+
+# The App Store support page used to live at /support/, which is now the app's
+# Support tab. The value in App Store Connect should be updated to
+# /app-support/; until it is, and for any reviewer or user holding the old
+# link, this keeps it landing on the page rather than on the app shell.
+[[redirects]]
+  from = "/support/"
+  to = "/app-support/"
   status = 301
-  force = false
+  force = true
 
 # Everything that is not the app, 404'd.
 #
@@ -219,6 +322,15 @@
 # Unversioned filenames, so revalidate rather than trust age. A stale app.js
 # after a deploy is not hypothetical - it is exactly what served the old name
 # for a while after the Nightlight rename. ETags make this a cheap 304.
+# The service worker is served from /site/ but the pages it controls are at
+# the root now (/alerts, /test). A worker's scope defaults to its own directory,
+# so without this header it would silently control nothing and every returning
+# reader would lose offline access.
+[[headers]]
+  for = "/site/sw.js"
+  [headers.values]
+    Service-Worker-Allowed = "/"
+
 [[headers]]
   for = "/site/*"
   [headers.values]

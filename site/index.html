@@ -38,8 +38,11 @@
 <meta name="theme-color" content="#faf6f0" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#17150f" media="(prefers-color-scheme: dark)">
 
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="img/icon-180.png">
+<!-- Absolute, all four of these. The document is served at /alerts, /test and
+     the rest now, rewritten onto this one file, so a relative href would
+     resolve against / and 404. -->
+<link rel="manifest" href="/site/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/site/img/icon-180.png">
 <!-- Installs to the home screen and runs chrome-free on both platforms, so the
      same build is the web app, the iOS app and the Android app.
      The home-screen title is the ONE place the name is read by someone who may
@@ -48,7 +51,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Nightlight">
-<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="/site/css/app.css">
 <!-- Favicon mirrors the header mark: halo + core in --l-glow. No animation and
      no halo alpha subtleties survive at 16px, so it is drawn flat. -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23b8720f' stroke-width='2' opacity='.4'/><circle cx='16' cy='16' r='8.5' fill='none' stroke='%23b8720f' stroke-width='2.4' opacity='.65'/><circle cx='16' cy='16' r='7' fill='%23b8720f' opacity='.25'/><circle cx='16' cy='16' r='4.5' fill='%23b8720f'/></svg>">
@@ -82,12 +85,12 @@
     <!-- On wide screens this sits in the header row; on phones the stylesheet
          pins it to the bottom of the viewport, within thumb reach. -->
     <nav class="nav" aria-label="Sections">
-      <a href="#/alerts"     data-tab="alerts"><span class="ico" aria-hidden="true">◉</span>Alerts</a>
-      <a href="#/test"       data-tab="test"><span class="ico" aria-hidden="true">◈</span>Test</a>
-      <a href="#/substances" data-tab="substances"><span class="ico" aria-hidden="true">◐</span>Drugs</a>
-      <a href="#/learn"      data-tab="learn"><span class="ico" aria-hidden="true">◇</span>Learn</a>
-      <a href="#/support"    data-tab="support"><span class="ico" aria-hidden="true">❋</span>Support</a>
-      <a href="#/help"       data-tab="help" aria-label="Emergency"><span class="ico" aria-hidden="true">✚</span>SOS</a>
+      <a href="/alerts"     data-tab="alerts"><span class="ico" aria-hidden="true">◉</span>Alerts</a>
+      <a href="/test"       data-tab="test"><span class="ico" aria-hidden="true">◈</span>Test</a>
+      <a href="/drugs"      data-tab="substances"><span class="ico" aria-hidden="true">◐</span>Drugs</a>
+      <a href="/learn"      data-tab="learn"><span class="ico" aria-hidden="true">◇</span>Learn</a>
+      <a href="/support"    data-tab="support"><span class="ico" aria-hidden="true">❋</span>Support</a>
+      <a href="/sos"        data-tab="help" aria-label="Emergency"><span class="ico" aria-hidden="true">✚</span>SOS</a>
     </nav>
 
     <span class="topbar__spacer"></span>
@@ -164,6 +167,6 @@
   </div>
 </footer>
 
-<script type="module" src="js/app.js"></script>
+<script type="module" src="/site/js/app.js"></script>
 </body>
 </html>

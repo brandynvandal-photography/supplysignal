@@ -6,6 +6,7 @@ import * as data from "./data.js";
 import * as i18n from "./i18n.js";
 import { markVisit } from "./seen.js";
 import { mountKindBar } from "./kindness.js";
+import * as R from "./routes.js";
 const { t } = i18n;
 
 const view = document.getElementById("view");
@@ -145,35 +146,45 @@ document.getElementById("exit").addEventListener("click", () => {
 });
 
 /* ---------------------------------------------------------------- routing
-   Fragments are never sent to the server, which is why every piece of
-   user-selected state lives here rather than in a query string. */
+ *
+ * The SECTION is in the path (/alerts, /test). Everything a reader SELECTS -
+ * a county, a substance - stays in the fragment.
+ *
+ * That split is not cosmetic. A path is transmitted and lands in the host's
+ * access log; a fragment never leaves the browser. PRIVACY.md section 1 calls
+ * a log containing "IP -> 47065" a disaster and section 3 promises county and
+ * substance live after the #. So /alerts is loggable and /alerts#/47065 is
+ * not, and nothing user-selected may ever move left of that #.
+ */
 
-const DEFAULT_DAYS = 90;
+/* The URL scheme lives in routes.js, pure and testable. Everything below just
+   feeds it the real location and makes the history calls. */
+const pathRouting = () => !isNative();
+const parseRoute = () => R.parseRoute(location, pathRouting());
+const toUrl = (hash) => R.toUrl(hash, pathRouting());
 
-function parseHash() {
-  const raw = location.hash.replace(/^#\/?/, "");
-  const parts = raw.split("/").filter(Boolean).map(decodeURIComponent);
+const here = () => location.pathname + location.hash;
 
-  // Legacy links published before the app grew sections: #/47065 and
-  // #/47065/30. Keep them working - they are in RSS feeds and shared messages.
-  if (/^\d{5}$/.test(parts[0] || "")) {
-    return { tab: "alerts", fips: parts[0], days: Number(parts[1]) || DEFAULT_DAYS };
-  }
-
-  const tab = parts[0] || "alerts";
-  if (tab === "alerts") {
-    if (parts[1] === "map") return { tab, map: true, focus: /^\d{5}$/.test(parts[2] || "") ? parts[2] : null };
-    return { tab, fips: /^\d{5}$/.test(parts[1] || "") ? parts[1] : null,
-             days: Number(parts[2]) || DEFAULT_DAYS };
-  }
-  // `sub` carries a second segment, currently only #/substances/class/<slug>.
-  return { tab, id: parts[1] || null, sub: parts[2] || null };
+/* replaceState, not a redirect: no request, no history entry, and the back
+   button still goes wherever they came from. See routes.js canonicalUrl. */
+function canonicalize() {
+  const want = R.canonicalUrl(location, pathRouting());
+  if (want && want !== here()) history.replaceState(null, "", want);
 }
 
 export function go(hash, replace = false) {
-  if (location.hash === hash) return route();
-  if (replace) { history.replaceState(null, "", hash); route(); }
-  else location.hash = hash;
+  const url = toUrl(hash);
+  if (!pathRouting()) {
+    if (location.hash === url) return route();
+    if (replace) { history.replaceState(null, "", url); route(); }
+    else location.hash = url;
+    return;
+  }
+  if (url === here()) return route();
+  /* pushState fires neither popstate nor hashchange, so route() is called
+     directly. Back and forward DO fire popstate, which is wired up below. */
+  history[replace ? "replaceState" : "pushState"](null, "", url);
+  route();
 }
 
 const VIEWS = {
@@ -203,7 +214,7 @@ const VIEWS = {
 let token = 0;
 
 async function route() {
-  const r = parseHash();
+  const r = parseRoute();
   const tab = VIEWS[r.tab] ? r.tab : "alerts";
   const mine = ++token;
 
@@ -261,7 +272,7 @@ function focusView() {
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
 let first = true;
-let lastHash = location.hash;
+let lastRoute = here();
 
 /* Scroll to the top on a real navigation, but NOT when only a filter changed.
  *
@@ -272,11 +283,21 @@ let lastHash = location.hash;
  *
  * Compared on the route MINUS its trailing window segment, so switching county
  * still scrolls to the top the way arriving anywhere else does. */
-const routeIdentity = (hash) => hash.replace(/\/(30|90|365)$/, "");
+const routeIdentity = (url) => String(url).replace(/\/(30|90|365)$/, "");
 
-window.addEventListener("hashchange", async () => {
-  if (routeIdentity(location.hash) !== routeIdentity(lastHash)) window.scrollTo(0, 0);
-  lastHash = location.hash;
+/* Both events, because the section now moves the PATH and the sub-route moves
+   the fragment. A tab change is pushState (popstate on back); picking a county
+   is a hash change. Listening to one would half-work in a way that looks like
+   an intermittent bug. */
+const onNavigate = (fn) => {
+  window.addEventListener("hashchange", fn);
+  window.addEventListener("popstate", fn);
+};
+
+onNavigate(async () => {
+  const now = here();
+  if (routeIdentity(now) !== routeIdentity(lastRoute)) window.scrollTo(0, 0);
+  lastRoute = now;
   await route();
   focusView();
 });
@@ -438,7 +459,7 @@ function mountBackToTop() {
   }, { passive: true });
 
   wide.addEventListener?.("change", sync);
-  window.addEventListener("hashchange", sync);
+  onNavigate(sync);
   sync();
 }
 
@@ -447,6 +468,11 @@ function mountBackToTop() {
 (async function boot() {
   await i18n.init();
   applyStrings();
+
+  /* Before the first render, so lastRoute below is seeded with the canonical
+     URL rather than the one that is about to be replaced. */
+  canonicalize();
+  lastRoute = here();
 
   await route();
 
@@ -480,10 +506,28 @@ function mountBackToTop() {
 
     const syncKind = () => {
       // Never on Emergency: nothing sits between someone and the overdose steps.
-      kindbar.classList.toggle("is-hidden", parseHash().tab === "help");
+      kindbar.classList.toggle("is-hidden", parseRoute().tab === "help");
     };
     syncKind();
-    window.addEventListener("hashchange", syncKind);
+    onNavigate(syncKind);
+  }
+
+  /* The tab bar's hrefs are real paths in the HTML, so right-click-copy and
+     middle-click give a shareable URL and the bar still works with no JS.
+     Clicking one, though, should not cost a round trip to fetch a document we
+     already have - so intercept it and route in place.
+
+     The native build rewrites them to hash links, because there is no server
+     under Capacitor to turn /alerts into anything. */
+  for (const a of navLinks) {
+    const id = a.dataset.tab;
+    if (!id) continue;
+    a.setAttribute("href", toUrl(`#/${id}`));
+    a.addEventListener("click", (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      go(`#/${id}`);
+    });
   }
 
   mountBackToTop();
@@ -505,7 +549,13 @@ function mountBackToTop() {
 
   const isDev = ["localhost", "127.0.0.1"].includes(location.hostname);
   if ("serviceWorker" in navigator && !isDev) {
-    navigator.serviceWorker.register("./sw.js").catch(() => {
+    /* Absolute path and an explicit root scope. "./sw.js" resolved against
+       the document, which is /alerts now, so it asked for a worker at /sw.js
+       that does not exist - and even served correctly a worker's scope
+       defaults to its own directory, so one at /site/ would control none of
+       the pages. netlify.toml sends Service-Worker-Allowed: / to permit the
+       wider scope. */
+    navigator.serviceWorker.register("/site/sw.js", { scope: "/" }).catch(() => {
       /* Offline support is an enhancement; failing to get it is not an error
          worth surfacing to someone mid-crisis. */
     });
@@ -568,7 +618,7 @@ function reveal(anchor, label, wantRoute) {
        would force-open and scroll to a same-named heading on the wrong page.
        Compared through routeIdentity so the alerts filter chips, which change
        the hash without changing the destination, do not cancel a real reveal. */
-    if (wantRoute && routeIdentity(location.hash) !== routeIdentity(wantRoute)) return;
+    if (wantRoute && routeIdentity(here()) !== routeIdentity(wantRoute)) return;
     const el = toHeading((anchor && document.getElementById(anchor)) || findByText());
     if (el) {
       /* Open the target and every disclosure above it - landing on something

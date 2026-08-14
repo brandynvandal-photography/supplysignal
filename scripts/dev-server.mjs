@@ -32,6 +32,14 @@ const TYPES = {
   ".txt": "text/plain; charset=utf-8",
 };
 
+/* The app routes netlify.toml rewrites onto site/index.html. Parsed from the
+   same file production reads, so there is one list, not two. */
+const APP_ROUTES = new Set(
+  [...(await readFile(path.join(ROOT, "netlify.toml"), "utf8"))
+    .matchAll(/from\s*=\s*"(\/[a-z-]+)"\s*\n\s*to\s*=\s*"\/site\/index\.html"/g)]
+    .map((m) => m[1])
+);
+
 const server = createServer(async (req, res) => {
   try {
     let rel = decodeURIComponent(new URL(req.url, "http://x").pathname);
@@ -46,13 +54,24 @@ const server = createServer(async (req, res) => {
       return;
     }
 
-    const info = await stat(file).catch(() => null);
+    let info = await stat(file).catch(() => null);
+
+    /* Stand in for netlify.toml's app-route rewrites, so /alerts and /test
+       serve the app shell here the way they do in production. The list is
+       read from netlify.toml rather than duplicated, or the two drift and a
+       route works locally and 404s live. */
+    let target = file;
+    if (!info?.isFile() && APP_ROUTES.has(rel)) {
+      target = path.join(ROOT, "site", "index.html");
+      info = await stat(target).catch(() => null);
+    }
+
     if (!info?.isFile()) {
       res.writeHead(404, { "content-type": "text/plain" }).end("not found");
       return;
     }
 
-    const body = await readFile(file);
+    const body = await readFile(target);
     res.writeHead(200, {
       "content-type": TYPES[path.extname(file)] || "application/octet-stream",
       // The whole point.

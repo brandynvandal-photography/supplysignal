@@ -38,7 +38,10 @@ const PUBLIC = new Set([
      the app itself is noindex, because a search result for it outs the reader.
      Self-contained: their own CSP, no stylesheet, no font, no script. */
   "privacy",
-  "support",
+  /* Was "support" until 2026-08-14, when the app's own Support TAB took that
+     path. netlify.toml 301s the old URL here so an already-submitted App Store
+     Connect Support URL keeps working. */
+  "app-support",
 ]);
 
 /* Never checked in, or unreachable by the platform regardless. */
