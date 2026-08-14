@@ -100,7 +100,13 @@ export async function render() {
         resultCard("0", "lines", "INVALID", "Retest with a new strip", "neutral")),
       callout("warn", "Why one line means positive",
         h("p", null, fts.reading.explain),
-        h("p", null, fts.reading.faintLine)))
+        h("p", null, fts.reading.faintLine)),
+      /* Directly under how to read one, because it changes how to read one.
+         It lived inside each strip's own card, which is where it belongs by
+         subject and nowhere near where anyone would find it: Test, then Test
+         strips, then Fentanyl test strips, two collapsed disclosures deep.
+         A five-fold difference in how much water to use is not detail. */
+      brandPicker(g.brands))
   );
 
   /* The prevalence table is the page's center of gravity - the claims audit
@@ -517,7 +523,6 @@ function stripCard(s, g) {
             g.stripBrandNote.lines ? h("p", null, g.stripBrandNote.lines) : null)
         : null,
 
-      brandPicker(g.brands, s.id),
 
       s.procedure
         ? frag(h("h4", null, "How to do it"),
@@ -644,12 +649,12 @@ function reagentCard(r) {
 
    Module-scoped rather than passed down because render() rebuilds the page on
    every navigation and resets it there. */
-/* Which strip do you actually have?
+/* Which strip is in your hand?
  *
  * The numbers on this page were "the common pattern" until they were checked
- * one product at a time, and then they were not common at all. Both fentanyl
- * brands in wide harm reduction use say dip for 15 seconds and read one line
- * as positive - and then:
+ * one product at a time, and then they were not common. Both fentanyl strips
+ * in wide harm reduction use say dip for 15 seconds and read one line as
+ * positive - and then:
  *
  *   BTNX       5 mL of water per 10 mg    read at 5 minutes    dark blue end
  *   DanceSafe  1 mL of water per 10 mg    read at 3 minutes    yellow end
@@ -659,37 +664,41 @@ function reagentCard(r) {
  * toward a negative - wrong in the direction that gets people killed - and
  * then reads it two minutes late as well.
  *
- * So the reader picks their packet and the numbers change. Session-only, like
- * everything else here: a `select` whose value nothing writes down. Rendered
- * as plain content when a strip has only one brand on file, because a dropdown
- * with one option is a control that does nothing.
+ * .card + .reagtable, which is what a block of facts about one thing looks
+ * like everywhere else on this page: the reagent reactions, the fentanyl
+ * prevalence figures, the tool comparison. It was a stack of bold-label
+ * paragraphs, which was a fourth shape for the same job.
  *
- * The blind-spot lines are not padding. One third of the fentanyl analogues in
- * a 251-compound screen are found by one brand and not the other, and a reader
- * holding one strip deserves to know which third they are not covering.
+ * Session-only, like everything else here: a select whose value nothing
+ * writes down.
  */
-function brandPicker(brands, stripId) {
-  const items = (brands?.items || []).filter((b) => b.strip === stripId);
+function brandPicker(brands) {
+  const items = brands?.items || [];
   if (!items.length) return null;
 
+  const label = (b) => `${b.name} — ${b.strip}`;
   const body = h("div", { class: "brandcard" });
 
   const paint = (b) => {
     clear(body);
-    const row = (label, value) =>
-      value ? h("p", null, h("strong", null, `${label} `), value) : null;
+    const row = (k, v) => (v
+      ? h("tr", null, h("th", { scope: "row" }, k), h("td", null, v))
+      : null);
     body.appendChild(frag(
       b.maker ? h("p", { class: "sec__note" }, b.maker) : null,
-      row("Sample:", b.sample),
-      row("Water:", b.water),
-      row("Residue:", b.residue),
-      row("Dip:", b.dip),
-      b.dipLimit ? callout("warn", b.dipLimit) : null,
-      row("Wait:", b.wait),
-      h("div", { class: "readbar" },
-        h("span", null, h("strong", null, b.positive), " = positive"),
-        h("span", null, h("strong", null, b.negative), " = negative")),
-      row("Invalid:", b.invalid),
+      h("div", { class: "card" },
+        h("table", { class: "reagtable" },
+          h("caption", { class: "sr-only" }, `${label(b)} — how to run and read it`),
+          h("tbody", null,
+            row("Sample", b.sample),
+            row("Water", b.water),
+            row("Cooker residue", b.residue),
+            row("Dip", b.dip),
+            row("Do not dip past", b.dipLimit),
+            row("Wait", b.wait),
+            row("Positive", b.positive),
+            row("Negative", b.negative),
+            row("Invalid", b.invalid)))),
       b.onlyFor ? callout("stop", "Only for fentanyl", h("p", null, b.onlyFor)) : null,
       b.blindSpot ? h("p", { class: "sec__note" }, b.blindSpot) : null,
       sourceRow(b.sources),
@@ -698,24 +707,14 @@ function brandPicker(brands, stripId) {
 
   paint(items[0]);
 
-  /* One brand on file: no control, just its numbers. */
-  if (items.length === 1) {
-    return frag(h("h4", null, `If yours is ${items[0].name}`), body);
-  }
-
-  /* The id has to be unique across the page: this renders once per strip
-     section, so a fixed one would give two labels the same target and point
-     both at whichever select happened to be first in the document. */
-  const selId = `brand-${stripId}`;
-  const sel = h("select", { class: "input", id: selId },
-    items.map((b, i) => h("option", { value: String(i) }, b.name)));
+  const sel = h("select", { class: "input", id: "brandpick" },
+    items.map((b, i) => h("option", { value: String(i) }, label(b))));
   sel.addEventListener("change", () => paint(items[Number(sel.value)] || items[0]));
 
   return frag(
-    h("h4", null, brands.headline),
+    h("h3", null, brands.headline),
     brands.intro ? h("p", { class: "sec__note" }, brands.intro) : null,
-    h("div", { class: "mixslot" },
-      h("label", { for: selId }, "Brand"), sel),
+    h("div", { class: "mixslot" }, h("label", { for: "brandpick" }, "Brand"), sel),
     body,
     brands.notInterchangeable
       ? callout("warn", brands.notInterchangeable.title,

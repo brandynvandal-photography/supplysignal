@@ -1191,7 +1191,7 @@
   },
   "brands": {
     "headline": "Which strip do you have?",
-    "intro": "Strips are not one product. Two brands of fentanyl strip, both in wide harm reduction use, want five times different amounts of water and read at different times — and they do not detect the same things. Pick yours to get its own numbers.",
+    "intro": "The brand on the packet changes the numbers. Two fentanyl strips in wide harm reduction use want five times different amounts of water and are read two minutes apart — and they do not detect the same things.",
     "notInterchangeable": {
       "title": "The two fentanyl brands miss different drugs",
       "body": "A laboratory screen of 251 synthetic opioids found that one third of the fentanyl analogues tested are detectable by one brand and not the other. Each is blind to a different part of the molecule. That is not a reason to distrust the one you have — it is the reason a negative is weaker evidence than a positive, and the reason programs that can hand out both do.",
@@ -1280,6 +1280,6 @@
         ]
       }
     ],
-    "gap": "Benzodiazepine and nitazene strips are not listed here yet. The instructions that ship with them were not checked one by one, and printing a number that has not been read off the sheet it came from is the failure this section exists to prevent. Read your packet."
+    "gap": "Only the products whose own instruction sheet was read are listed. Wondfo, DetectaChem, Lochness Medical, MD-Bio and the other vendors are not here yet, and neither are benzodiazepine or nitazene strips: printing a number that has not been read off the sheet it came from is the failure this section exists to prevent. If yours is not listed, your packet is the authority."
   }
 }
