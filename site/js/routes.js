@@ -43,8 +43,18 @@ export const SEGMENTS = Object.fromEntries(
 
 export const DEFAULT_DAYS = 90;
 
+/* decodeURIComponent throws on a truncated escape - a lone "%", "%E0%A4%A" -
+   and nothing above caught it. canonicalize() runs before the first render and
+   route() reads the URL outside its own try/catch, so one malformed fragment
+   rejected the boot promise and left the static loading skeleton on screen
+   forever, with aria-busy="true" and no error. Reproduced live against
+   /sos#/%E0%A4%A: the overdose page renders nothing at all.
+   A segment that will not decode is passed through as written; it will simply
+   fail to match a route, which is the correct outcome for a malformed URL. */
+const decodeSeg = (s) => { try { return decodeURIComponent(s); } catch { return s; } };
+
 const split = (hash) =>
-  String(hash || "").replace(/^#\/?/, "").split("/").filter(Boolean).map(decodeURIComponent);
+  String(hash || "").replace(/^#\/?/, "").split("/").filter(Boolean).map(decodeSeg);
 
 /** Sub-route -> view state. `parts` is everything after the section. */
 export function decode(tab, parts) {

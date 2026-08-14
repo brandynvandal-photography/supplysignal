@@ -255,7 +255,11 @@ document.addEventListener("click", (e) => {
 let token = 0;
 
 async function route() {
-  const r = parseRoute();
+  /* Outside the try below in the original, which is how the native build broke
+     on the same input: canonicalUrl returns null when path routing is off, so
+     Capacitor never reached canonicalize() and hit this instead. */
+  let r;
+  try { r = parseRoute(); } catch { r = { tab: "alerts" }; }
   const tab = VIEWS[r.tab] ? r.tab : "alerts";
   const mine = ++token;
 
@@ -513,7 +517,10 @@ function mountBackToTop() {
 
   /* Before the first render, so lastRoute below is seeded with the canonical
      URL rather than the one that is about to be replaced. */
-  canonicalize();
+  /* A malformed URL must never stop the app from rendering. routes.js no
+     longer throws, and this is the second layer: whatever happens while
+     normalising the address, the first paint still happens. */
+  try { canonicalize(); } catch { /* leave the URL as it arrived */ }
   lastRoute = here();
 
   await route();

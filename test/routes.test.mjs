@@ -209,6 +209,46 @@ check("app.js rewrites in-app hrefs on render", () => {
   return null;
 });
 
+/* ------------------------------------------------------- malformed input */
+
+check("a malformed percent-escape never throws", () => {
+  /* decodeURIComponent throws on a truncated escape. canonicalize() runs
+     before the first render and route() read the URL outside its own
+     try/catch, so ONE bad fragment rejected the boot promise and left the
+     static loading skeleton on screen with aria-busy="true" and no error.
+     Reproduced live against /sos#/%E0%A4%A - the overdose page rendered
+     nothing at all. */
+  const bad = [];
+  for (const h of ["#/%", "#/%E0%A4%A", "#/%C0%80", "#/%%", "#/a%2", "#/100%25"]) {
+    for (const p of ["/", "/sos", "/alerts", "/drugs"]) {
+      for (const routing of [true, false]) {
+        try {
+          parseRoute({ pathname: p, hash: h }, routing);
+          canonicalUrl({ pathname: p, hash: h }, routing);
+          toUrl(h, routing);
+        } catch (e) {
+          bad.push(`${p}${h} (pathRouting=${routing}): ${e.constructor.name}`);
+        }
+      }
+    }
+  }
+  return bad.length ? bad.slice(0, 4).join("; ") : null;
+});
+
+check("a malformed fragment still lands on a real view", () => {
+  /* Failing safe means rendering something, not rendering nothing. */
+  const r = parseRoute({ pathname: "/sos", hash: "#/%E0%A4%A" }, true);
+  return r.tab === "help" ? null : JSON.stringify(r);
+});
+
+check("boot and route both survive a URL parse error", () => {
+  const app = readFileSync(path.join(ROOT, "site/js/app.js"), "utf8");
+  const bad = [];
+  if (!/try \{ canonicalize\(\); \} catch/.test(app)) bad.push("canonicalize() is unguarded in boot");
+  if (!/try \{ r = parseRoute\(\); \} catch/.test(app)) bad.push("parseRoute() is unguarded in route()");
+  return bad.length ? bad.join("; ") : null;
+});
+
 /* ----------------------------------------------------------- no drift */
 
 check("every section has a view, and every view has a section", () => {

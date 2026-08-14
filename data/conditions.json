@@ -1,112 +1,175 @@
 {
- "note": "Session-only condition lens. Selections are NEVER stored - see the module comment in substances.js. Each caution's source was live-verified 2026-08-10 (they are the same label/guidance URLs as rx.json). Conditions appear here ONLY when every caution under them is sourced; that is why this list is short.",
- "conditions": [
-  {
-   "id": "heart",
-   "label": "Heart condition or high blood pressure",
-   "items": [
+  "note": "Session-only condition lens. Selections are NEVER stored - see the module comment in substances.js. Each caution's source was live-verified 2026-08-10, except the gender-affirming hormone entries, verified 2026-08-14. Conditions appear only when the reader picks them.",
+  "conditions": [
     {
-     "text": "Methadone carries a boxed warning for life-threatening heart rhythm changes (QT prolongation). Other QT-prolonging drugs add to it.",
-     "sources": [
-      {
-       "name": "Methadose label (DailyMed)",
-       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=808a9d0b-720b-4034-a862-5122ff514608"
-      }
-     ]
+      "id": "heart",
+      "label": "Heart condition or high blood pressure",
+      "items": [
+        {
+          "text": "Methadone carries a boxed warning for life-threatening heart rhythm changes (QT prolongation). Other QT-prolonging drugs add to it.",
+          "sources": [
+            {
+              "name": "Methadose label (DailyMed)",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=808a9d0b-720b-4034-a862-5122ff514608"
+            }
+          ]
+        },
+        {
+          "text": "Stimulants raise heart rate and blood pressure while they act - that is their mechanism, not a side effect. A heart condition changes what a normal-for-others amount does to you.",
+          "sources": [
+            {
+              "name": "See stimulant class pages and their cited labels",
+              "url": "#/substances/class/stimulants"
+            }
+          ]
+        }
+      ]
     },
     {
-     "text": "Stimulants raise heart rate and blood pressure while they act - that is their mechanism, not a side effect. A heart condition changes what a normal-for-others amount does to you.",
-     "sources": [
-      {
-       "name": "See stimulant class pages and their cited labels",
-       "url": "#/substances/class/stimulants"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "seizures",
-   "label": "Seizure history",
-   "items": [
-    {
-     "text": "Tramadol lowers the seizure threshold - its label carries a dedicated seizure warning - and the risk rises further combined with SSRIs or SNRIs.",
-     "sources": [
-      {
-       "name": "Tramadol label (DailyMed)",
-       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9f0e33bd-65f8-446a-886f-e7e16a142ce5"
-      }
-     ]
+      "id": "seizures",
+      "label": "Seizure history",
+      "items": [
+        {
+          "text": "Tramadol lowers the seizure threshold - its label carries a dedicated seizure warning - and the risk rises further combined with SSRIs or SNRIs.",
+          "sources": [
+            {
+              "name": "Tramadol label (DailyMed)",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9f0e33bd-65f8-446a-886f-e7e16a142ce5"
+            }
+          ]
+        },
+        {
+          "text": "Stopping benzodiazepines abruptly after regular use can itself cause seizures - one of the few cases where quitting suddenly is more dangerous than tapering.",
+          "sources": [
+            {
+              "name": "FDA benzodiazepine class boxed warning",
+              "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requiring-boxed-warning-updated-improve-safe-use-benzodiazepine-drug-class"
+            }
+          ]
+        }
+      ]
     },
     {
-     "text": "Stopping benzodiazepines abruptly after regular use can itself cause seizures - one of the few cases where quitting suddenly is more dangerous than tapering.",
-     "sources": [
-      {
-       "name": "FDA benzodiazepine class boxed warning",
-       "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requiring-boxed-warning-updated-improve-safe-use-benzodiazepine-drug-class"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "antidepressants",
-   "label": "Taking antidepressants",
-   "items": [
-    {
-     "text": "SSRI and SNRI labels list amphetamines (including MDMA) among serotonin-syndrome risks. MAOIs are the serious one: contraindicated with serotonergic drugs, with documented severe reactions.",
-     "sources": [
-      {
-       "name": "Zoloft label (class labeling)",
-       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fda754f6-d0f3-4dce-a17a-927d64f912f7"
-      }
-     ]
+      "id": "antidepressants",
+      "label": "Taking antidepressants",
+      "items": [
+        {
+          "text": "SSRI and SNRI labels list amphetamines (including MDMA) among serotonin-syndrome risks. MAOIs are the serious one: contraindicated with serotonergic drugs, with documented severe reactions.",
+          "sources": [
+            {
+              "name": "Zoloft label (class labeling)",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fda754f6-d0f3-4dce-a17a-927d64f912f7"
+            }
+          ]
+        },
+        {
+          "text": "SSRIs also blunt most of MDMA's effect - which people sometimes answer by taking more. The blunting is documented; taking more is the danger.",
+          "sources": [
+            {
+              "name": "Controlled human study",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/10731626/"
+            }
+          ]
+        }
+      ]
     },
     {
-     "text": "SSRIs also blunt most of MDMA's effect - which people sometimes answer by taking more. The blunting is documented; taking more is the danger.",
-     "sources": [
-      {
-       "name": "Controlled human study",
-       "url": "https://pubmed.ncbi.nlm.nih.gov/10731626/"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "hivmeds",
-   "label": "On HIV treatment with a booster",
-   "items": [
+      "id": "hivmeds",
+      "label": "On HIV treatment with a booster",
+      "items": [
+        {
+          "text": "Ritonavir and cobicistat block the enzyme that clears fentanyl, several benzos, and others - raising their levels. Documented deaths exist with MDMA. Check your exact pair on the Liverpool checker; PrEP alone is not a booster.",
+          "sources": [
+            {
+              "name": "Norvir label",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2849298e-de6e-47bb-8194-56e075b33fc3"
+            },
+            {
+              "name": "Liverpool interaction checker",
+              "url": "https://www.hiv-druginteractions.org/checker"
+            }
+          ]
+        }
+      ]
+    },
     {
-     "text": "Ritonavir and cobicistat block the enzyme that clears fentanyl, several benzos, and others - raising their levels. Documented deaths exist with MDMA. Check your exact pair on the Liverpool checker; PrEP alone is not a booster.",
-     "sources": [
-      {
-       "name": "Norvir label",
-       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2849298e-de6e-47bb-8194-56e075b33fc3"
-      },
-      {
-       "name": "Liverpool interaction checker",
-       "url": "https://www.hiv-druginteractions.org/checker"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "moud",
-   "label": "On methadone, bupe, or naltrexone",
-   "items": [
+      "id": "moud",
+      "label": "On methadone, bupe, or naltrexone",
+      "items": [
+        {
+          "text": "Each has its own section under \"On prescribed medication?\" below - naltrexone especially: tolerance drops during treatment, and opioid use after a missed dose carries heightened overdose risk per its label.",
+          "sources": [
+            {
+              "name": "Vivitrol label (DailyMed)",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cd11c435-b0f0-4bb9-ae78-60f101f3703f"
+            }
+          ]
+        }
+      ]
+    },
     {
-     "text": "Each has its own section under \"On prescribed medication?\" below - naltrexone especially: tolerance drops during treatment, and opioid use after a missed dose carries heightened overdose risk per its label.",
-     "sources": [
-      {
-       "name": "Vivitrol label (DailyMed)",
-       "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=cd11c435-b0f0-4bb9-ae78-60f101f3703f"
-      }
-     ]
+      "id": "hrt",
+      "label": "Taking gender-affirming hormones",
+      "items": [
+        {
+          "text": "Spironolactone moves your electrolytes in two directions at once. Its label warns that excessive diuresis may cause symptomatic dehydration, and that it can cause hyponatremia — low sodium. The dancefloor advice everywhere, including on this site, about drinking water in heat is written for people whose sodium starts normal. It also causes hyperkalemia, high potassium, which is the label's lead warning and a contraindication — and stimulant overheating releases potassium from muscle.",
+          "sources": [
+            {
+              "name": "Aldactone label (DailyMed)",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=0fed2822-3a03-4b64-9857-c682fcd462bc"
+            }
+          ]
+        },
+        {
+          "text": "Estrogen raises the risk of a blood clot, and this is the risk that has actually been measured in trans people rather than borrowed from somebody else. Across 18 studies covering 11,542 people on feminizing hormones, about 2 in 100 had a clot. It concentrates in one form: ethinylestradiol, the estrogen in older birth-control pills and in a lot of what is sold without a prescription, ran 2 to 6 in 100 — roughly twenty times the rate in cis men. Estradiol through the skin does not show the same rise, because swallowing it sends it through the liver first and that is where the clotting factors go up. Long hours sitting still, dehydration and smoking stack on top.",
+          "sources": [
+            {
+              "name": "Pooled VTE prevalence, 18 studies, 11,542 people (Front Endocrinol 2021)",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8647165/"
+            },
+            {
+              "name": "VTE in transgender women — route of administration (2023 review)",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9844815/"
+            }
+          ]
+        },
+        {
+          "text": "Testosterone thickens your blood — it raises hematocrit, which is why prescribers check bloodwork. Be clear about what that does and does not mean: the clot warnings printed on testosterone labels come from replacement therapy in cis men, and the studies that have looked at trans men specifically have not found an increased clot risk. The label's own instruction if hematocrit runs high is to stop until it comes down, not to keep going — so this is a reason to get the blood test, not a reason to stop on your own.",
+          "sources": [
+            {
+              "name": "Testosterone cypionate label (DailyMed)",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=235b5625-570d-3fba-e063-6394a90aa2d1"
+            },
+            {
+              "name": "Managing VTE risk in transgender adults on hormone therapy",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6628137/"
+            }
+          ]
+        },
+        {
+          "text": "Testosterone is a Schedule III controlled substance. Holding it without a prescription is a drug charge, and that matters most if you are on probation or parole — the same exposure as anything else in your pocket. Not a reason not to have it. A reason to know who finds out.",
+          "sources": [
+            {
+              "name": "Testosterone cypionate label (DailyMed)",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=235b5625-570d-3fba-e063-6394a90aa2d1"
+            },
+            {
+              "name": "What supervision can and cannot require",
+              "url": "#/supervision"
+            }
+          ]
+        },
+        {
+          "text": "If you are on HIV treatment as well, boosters and inducers move hormone levels in both directions — some push estradiol up, others cut it by a third. Liverpool keeps a chart for exactly this pairing.",
+          "sources": [
+            {
+              "name": "Liverpool — gender-affirming therapy × HIV drug interactions (Nov 2025)",
+              "url": "https://www.hiv-druginteractions.org/prescribing_resources/hiv-ts-gender"
+            }
+          ]
+        }
+      ]
     }
-   ]
-  }
- ],
- "notCovered": "Pregnancy, liver and kidney disease, diabetes, asthma, and mental health conditions are real factors we have not yet sourced to this app's standard - their absence here is a gap in this page, never evidence of safety."
+  ],
+  "notCovered": "Pregnancy, liver and kidney disease, diabetes, asthma, and mental health conditions are real factors we have not yet sourced to this app's standard. Nor is whether estrogen changes how a stimulant hits you — that has been studied in rats and not in people — or whether kratom raises estradiol levels, which nobody has tested. Their absence here is a gap in this page, never evidence of safety."
 }
