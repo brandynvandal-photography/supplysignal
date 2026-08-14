@@ -164,8 +164,8 @@
             "amount": "A small corner, soaked in 1 teaspoon for 10 minutes"
           },
           {
-            "form": "Cooker or injection residue",
-            "amount": "About 1 mL of clean water into the cooker, after preparing the shot and before drawing it up"
+            "form": "Residue in a cap, cooker or bag",
+            "amount": "About 1 mL of clean water onto the residue, after preparing a shot and before drawing it up"
           }
         ],
         "recovery": "Testing does not destroy the drug — the water can be evaporated off afterwards."
@@ -1202,8 +1202,8 @@
         "name": "BTNX Rapid Response",
         "maker": "Made by BTNX. Commonly what a syringe service program or health department hands out.",
         "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
-        "water": "5 mL of water for every 10 mg. That is a full cooker.",
-        "residue": "Testing cooker residue instead: add 2 mL of clean water to the cooker and mix well.",
+        "water": "5 mL of water for every 10 mg — one teaspoon. If you cook a shot, that is a full cooker.",
+        "residue": "Testing residue instead — what is left in a cap, a cooker or the corner of a bag: add 2 mL of clean water, about half a teaspoon, and mix well.",
         "dip": "Dip for 15 seconds, holding the dark blue end.",
         "dipLimit": "Do not dip past the wavy blue lines.",
         "wait": "Wait 5 minutes.",
@@ -1244,8 +1244,8 @@
             "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
           },
           "residue": {
-            "label": "Cooker or bag residue",
-            "water": "2 mL of clean water into the cooker. Mix well.",
+            "label": "Residue in a cap, cooker or bag",
+            "water": "2 mL of clean water — about half a teaspoon — onto the residue. Mix well.",
             "note": "Nothing to weigh — the residue is the sample."
           }
         }
@@ -1256,8 +1256,8 @@
         "name": "DanceSafe",
         "maker": "Made by WHPM in Irwindale, California, and developed with DanceSafe specifically for checking drugs rather than urine. Since 12 March 2026 the storefront and shipping are run by Transparency, the organization behind Bunk Police — the strip and its instructions did not change, but the packet may arrive with a different name on it.",
         "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
-        "water": "1 mL of water for every 10 mg. About 20 drops, or one full syringe.",
-        "residue": "Testing cooker residue instead: add 2 mL of clean water to the cooker and mix well.",
+        "water": "1 mL of water for every 10 mg — about 20 drops, or a fifth of a teaspoon.",
+        "residue": "Testing residue instead — what is left in a cap, a cooker or the corner of a bag: add 2 mL of clean water, about half a teaspoon, and mix well.",
         "dip": "Dip for 15 seconds, holding the yellow end.",
         "dipLimit": "Do not dip past the dotted area.",
         "wait": "Wait 3 minutes, with the strip face up on a flat surface.",
@@ -1302,8 +1302,8 @@
             "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
           },
           "residue": {
-            "label": "Cooker or bag residue",
-            "water": "2 mL of clean water into the cooker. Mix well.",
+            "label": "Residue in a cap, cooker or bag",
+            "water": "2 mL of clean water — about half a teaspoon — onto the residue. Mix well.",
             "note": "Nothing to weigh — the residue is the sample."
           }
         }
@@ -1314,8 +1314,8 @@
         "name": "Bunk Police (light blue)",
         "maker": "The same WHPM strip DanceSafe sells, under Bunk Police's own packaging. Their older DARK blue strips were BTNX and take the BTNX ratio instead — check which one is in your hand before measuring.",
         "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
-        "water": "1 mL of water for every 10 mg. One teaspoon (5 mL) holds 50 mg.",
-        "residue": "Testing cooker residue instead: add 2 mL of clean water to the cooker and mix well.",
+        "water": "1 mL of water for every 10 mg — about 20 drops. One teaspoon holds 50 mg.",
+        "residue": "Testing residue instead — what is left in a cap, a cooker or the corner of a bag: add 2 mL of clean water, about half a teaspoon, and mix well.",
         "dip": "Dip for 15 seconds, holding the blue end.",
         "dipLimit": "Do not dip above the top of the dotted section.",
         "wait": "Wait 3 minutes, lying flat.",
@@ -1346,8 +1346,8 @@
             "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
           },
           "residue": {
-            "label": "Cooker or bag residue",
-            "water": "2 mL of clean water into the cooker. Mix well.",
+            "label": "Residue in a cap, cooker or bag",
+            "water": "2 mL of clean water — about half a teaspoon — onto the residue. Mix well.",
             "note": "Nothing to weigh — the residue is the sample."
           }
         },
@@ -1369,7 +1369,7 @@
         "maker": "Also the WHPM strip, made in Irwindale, California and built for drug checking rather than urine screening. Cut-off 10 ng/mL.",
         "sample": "50 mg of drug into one teaspoon of water — 10 mg per mL, the same concentration as the other WHPM strips.",
         "water": "5 mL — one teaspoon — for every 50 mg.",
-        "residue": "Testing cooker residue instead: add 2 mL of clean water to the cooker and mix well.",
+        "residue": "Testing residue instead — what is left in a cap, a cooker or the corner of a bag: add 2 mL of clean water, about half a teaspoon, and mix well.",
         "dip": "Dip for 15 seconds, holding the coloured end. Grassroots does not restate the timings on its product page; these are the WHPM strip's published procedure.",
         "dipLimit": "Do not dip above the dotted section.",
         "wait": "Wait 3 minutes, lying flat.",
@@ -1400,8 +1400,8 @@
             "note": "Crush it completely first. A pill tested whole wets only its surface, and fentanyl is not spread evenly through a pressed tablet."
           },
           "residue": {
-            "label": "Cooker or bag residue",
-            "water": "2 mL of clean water into the cooker. Mix well.",
+            "label": "Residue in a cap, cooker or bag",
+            "water": "2 mL of clean water — about half a teaspoon — onto the residue. Mix well.",
             "note": "Nothing to weigh — the residue is the sample."
           }
         },
@@ -1426,7 +1426,7 @@
         "name": "BTNX Rapid Response",
         "maker": "Made by BTNX.",
         "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
-        "water": "5 mL of water for every 10 mg. That is a full cooker.",
+        "water": "5 mL of water for every 10 mg — one teaspoon. If you cook a shot, that is a full cooker.",
         "dip": "Dip for 15 seconds, holding the solid end.",
         "dipLimit": "Do not dip past the wavy red lines.",
         "wait": "Wait 5 minutes.",
