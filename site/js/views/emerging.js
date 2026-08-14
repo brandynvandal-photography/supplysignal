@@ -18,7 +18,9 @@
  * No counts framed as rates, no province breakdown, no prevalence. A first
  * detection is a date and a name; that is all it honestly is. */
 
-import { h, frag, section, callout, extLink, empty, badge } from "../ui.js";
+import {
+  h, frag, section, callout, extLink, empty, badge, disclosure, SOURCES_ID,
+} from "../ui.js";
 import * as data from "../data.js";
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July",
@@ -136,10 +138,13 @@ export async function render(route, { go }) {
             h("div", { class: "sources" }, extLink(s.url, "Visit")))))));
   }
 
-  /* Attribution is a licence condition for Health Canada, not a courtesy. */
+  /* Attribution is a licence condition for Health Canada, not a courtesy.
+     In the app's own disclosure like every other section, and like the same
+     block on every other page - it was a plain section here and a bulleted
+     footer elsewhere, for the same job. */
   if (doc.sources?.length) {
     wrap.appendChild(
-      section("Where this comes from", null,
+      disclosure(SOURCES_ID, "Where this data comes from", null,
         frag(doc.sources.map((s) =>
           h("div", { class: "card" },
             h("h3", null, s.name),

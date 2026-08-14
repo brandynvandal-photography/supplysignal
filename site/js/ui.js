@@ -318,6 +318,11 @@ export function englishOnlyNotice() {
  *   ... src.add(block.sources) ...        // returns null, sits inline in a tree
  *   const foot = src.render(); if (foot) wrap.appendChild(foot);
  */
+/* The id every page's provenance disclosure carries, so there is one name for
+   it rather than a string typed out in five files. One per page - a second
+   would be a second answer to a question that has one. */
+export const SOURCES_ID = "sec-sources";
+
 export function sourceSink() {
   const seen = new Map();               // url -> {name, url}, deduped across blocks
   return {
@@ -328,11 +333,24 @@ export function sourceSink() {
       return null;
     },
     size: () => seen.size,
-    render(title = "Where this comes from") {
+    /**
+     * ONE dropdown, in the app's own disclosure, at the foot of the page.
+     *
+     * It was a bare block with a small-caps heading and a bulleted list - a
+     * shape that appears nowhere else in the app, sitting under pages whose
+     * every other section is a `details` you open. Four surfaces rendered
+     * provenance four different ways: this, a hand-rolled twin in
+     * substances.js, a plain section in emerging.js, and cards in about.js.
+     *
+     * "Where this DATA comes from", not "where this comes from": collapsed,
+     * all a reader sees is the summary, and the shorter wording reads as if
+     * it might be about the app itself. The word doing the work is the one
+     * that says what is inside.
+     */
+    render(title = "Where this data comes from") {
       if (!seen.size) return null;
-      return h("div", { class: "foot-attr" },
-        h("h3", null, title),
-        h("ul", null,
+      return disclosure(SOURCES_ID, title, null,
+        h("ul", { class: "srclist" },
           [...seen.values()].map((s) =>
             h("li", null, extLink(s.url, s.name || s.url)))));
     },

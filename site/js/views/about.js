@@ -13,7 +13,7 @@
  */
 
 import {
-  h, frag, section, callout, extLink, disclosure, jumpNav,
+  h, frag, section, callout, extLink, disclosure, jumpNav, SOURCES_ID,
 } from "../ui.js";
 import * as data from "../data.js";
 import { privacyBlock } from "./help.js";
@@ -55,7 +55,7 @@ export async function render(route, { go }) {
 
   /* ---- provenance ---- */
   wrap.appendChild(
-    disclosure("sec-sources", "Where the data comes from", null,
+    disclosure(SOURCES_ID, "Where this data comes from", null,
       await sourcesBlock())
   );
 

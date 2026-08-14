@@ -1531,15 +1531,17 @@ table.data caption {
 
 /* License condition for PsychonautWiki (CC BY-SA) and TripSit (link-back
    plus source note). Styled quietly, but always present. */
-.foot-attr {
-  margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line);
-  font-size: .84rem; color: var(--ink-3);
-}
-.foot-attr h3 { font-size: .84rem; text-transform: uppercase; letter-spacing: .06em;
-                color: var(--ink-3); margin: 0 0 8px; }
-.foot-attr ul { margin: 0; padding-left: 18px; }
-.foot-attr li { margin-bottom: 5px; }
-.foot-attr a { color: var(--brand); }
+/* The source list inside the provenance disclosure.
+ *
+ * This replaces .foot-attr, which drew its own heading, its own top rule and
+ * its own margin - a block that looked like nothing else in the app, under
+ * pages made entirely of disclosures. The container is now `disclosure()`
+ * like every other section, so all that is left to style is the list. */
+.srclist { margin: 0; padding-left: 18px; font-size: .9rem; color: var(--ink-2); }
+.srclist li { margin-bottom: 6px; }
+.srclist li:last-child { margin-bottom: 0; }
+.srclist a { color: var(--brand); }
+.srclist .sec__note { color: var(--ink-3); }
 
 /* ------------------------------------------------------------- rate pills
    Prevalence figures. The number and its wording carry the meaning; color
