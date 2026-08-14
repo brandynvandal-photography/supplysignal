@@ -56,12 +56,33 @@ check("the caption uses each entry's own category, not a hardcoded one", () => {
   if (VIEW.includes("`${s.name} + opioids`")) {
     return "supplementBlock still hardcodes + opioids";
   }
-  if (!VIEW.includes("prettyCat(s.with")) {
+  if (!/\(s\.with \|\| "opioids"\)/.test(VIEW)) {
     return "supplementBlock does not render s.with";
   }
   /* And there is at least one entry that would expose a regression. */
   const nonOpioid = (COMBOS.supplement || []).filter((s) => s.with !== "opioids");
   return nonOpioid.length ? null : "no non-opioid entry left to catch a regression";
+});
+
+check("the caption does not capitalise the category mid-phrase", () => {
+  /* The fix above was made by routing the field through prettyCat, which
+     exists to label a select option or one half of a chart row - so it
+     capitalises. That turned "Xylazine ("tranq") + opioids" into "+ Opioids",
+     which reads as though opioids were a brand. The correction and the
+     regression arrived in the same line, which is why this check is separate
+     from the one above rather than folded into it. */
+  if (/\$\{s\.name\} \+ \$\{prettyCat\(/.test(VIEW)) {
+    return "the supplement caption capitalises its category again";
+  }
+  if (!/const catInSentence = \(c\) => CAT_LABEL\[c\] \|\| c;/.test(VIEW)) {
+    return "catInSentence is gone or no longer passes non-acronyms through unchanged";
+  }
+  /* The acronyms still have to survive it: GHB and SSRIs are not lowercase
+     words, and a category whose casing is part of its name must keep it. */
+  if (!/CAT_LABEL = \{/.test(VIEW) || !VIEW.includes('ssris: "SSRIs"')) {
+    return "the cased-category map is missing";
+  }
+  return null;
 });
 
 check("nitazenes and medetomidine are covered", () => {

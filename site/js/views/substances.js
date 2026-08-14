@@ -676,7 +676,7 @@ function supplementBlock(combos) {
              with opioids until now, so the field was never read and the label
              was right by coincidence - the first entry that pairs with
              anything else would have been captioned wrongly. */
-          h("span", null, `${s.name} + ${prettyCat(s.with || "opioids")}`),
+          h("span", null, `${s.name} + ${catInSentence(s.with || "opioids")}`),
           badge(s.status, "critical")),
         h("div", { class: "acc__body" },
           h("p", null, s.note),
@@ -689,12 +689,31 @@ function definitionFor(combos, status) {
   return d ? h("p", { class: "sec__note" }, d.definition) : null;
 }
 
+/* Categories whose casing is part of the name. Everything else is an ordinary
+   noun that takes a capital only because it starts a label. */
+const CAT_LABEL = {
+  "ghb/gbl": "GHB / GBL", ssris: "SSRIs", maois: "MAOIs", nbomes: "NBOMes",
+  lsd: "LSD", mdma: "MDMA", dmt: "DMT", mxe: "MXE", pcp: "PCP", amt: "AMT",
+  "2c-x": "2C-x", "2c-t-x": "2C-T-x", dox: "DOx", "5-meo-xxt": "5-MeO-xxT",
+  dextromethorphan: "DXM (dextromethorphan)",
+};
+
+/* For a label that IS the whole thing: a select option, a chart row, one half
+   of "Opioids + Benzodiazepines". */
 const prettyCat = (c) =>
-  ({ "ghb/gbl": "GHB / GBL", ssris: "SSRIs", maois: "MAOIs", nbomes: "NBOMes",
-     lsd: "LSD", mdma: "MDMA", dmt: "DMT", mxe: "MXE", pcp: "PCP", amt: "AMT",
-     "2c-x": "2C-x", "2c-t-x": "2C-T-x", dox: "DOx", "5-meo-xxt": "5-MeO-xxT",
-     dextromethorphan: "DXM (dextromethorphan)" }[c] ||
-   c.charAt(0).toUpperCase() + c.slice(1));
+  CAT_LABEL[c] || c.charAt(0).toUpperCase() + c.slice(1);
+
+/* For a category appearing INSIDE a phrase, where it is not a proper noun.
+ *
+ * "Xylazine ("tranq") + opioids" is a sentence fragment; "+ Opioids" reads as
+ * though opioids were a brand. The supplement captions used to be written with
+ * "opioids" hardcoded in lowercase, and fixing the real bug underneath them -
+ * the caption said opioids for an entry that pairs with benzodiazepines - was
+ * done by routing the field through prettyCat, which capitalised all of them
+ * on the way past. The fix and the regression came in the same line.
+ *
+ * The acronyms still have to survive: GHB and SSRIs are not lowercase words. */
+const catInSentence = (c) => CAT_LABEL[c] || c;
 
 /* =============================================================== detail == */
 
