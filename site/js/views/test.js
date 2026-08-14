@@ -543,12 +543,19 @@ function reagentCard(r) {
       h("p", { class: "sec__note" }, r.base),
       h("p", null, h("strong", null, "Use for: "), r.useFor),
 
-      h("div", { class: "tablewrap" },
-        h("table", { class: "data" },
+      /* .card + .reagtable, exactly what a drug page uses for the same thing -
+         not a lookalike built out of .tablewrap and .data. Those two carry a
+         border, a scroll container and sticky header styling that made this
+         read as a boxed data grid while the identical content on the Drugs page
+         read as prose on a card. Sharing the class means sharing one rule set,
+         so the two cannot drift apart again the way they just did.
+
+         No thead: the row header IS the drug name, which is how .reagtable is
+         built, and "Drug / Reaction" over two columns told a reader nothing the
+         content did not. The sr-only caption still names the table. */
+      h("div", { class: "card" },
+        h("table", { class: "reagtable" },
           h("caption", { class: "sr-only" }, `${r.name} reagent color reactions`),
-          h("thead", null, h("tr", null,
-            h("th", { scope: "col" }, "Drug"),
-            h("th", { scope: "col" }, "Reaction"))),
           h("tbody", null, r.reactions.map((x) =>
             h("tr", null,
               h("th", { scope: "row" }, x.substance),
@@ -568,11 +575,11 @@ function reagentCard(r) {
 
                    The bar is aria-hidden; x.color - the full prose, which
                    carries nuance no bar can - is what gets read out. */
-                h("span", { class: "colorcell" },
+                h("span", { class: "reagrow" },
                   h("span", { class: "reagbar", "aria-hidden": "true" },
                     (x.keys || [x.key]).map((k) =>
                       h("span", { class: KNOWN_COLORS.has(k) ? `swatch--${k}` : "" }))),
-                  h("span", null, x.color)),
+                  h("span", { class: "reagrow__words" }, x.color)),
                 x.note ? h("span", { class: "cellnote" }, x.note) : null)))))),
 
       (r.caveats || []).length

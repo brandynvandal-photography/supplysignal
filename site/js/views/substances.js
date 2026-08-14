@@ -415,7 +415,7 @@ function classView(slug, subs, { go }) {
 
   const wrap = h("div");
   wrap.appendChild(
-    h("button", { type: "button", class: "backlink", onClick: () => go("#/substances") },
+    h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/substances") },
       h("span", { "aria-hidden": "true" }, "‹"), " All classes")
   );
   /* The h1 is the only place the class is named. An earlier version also gave
@@ -711,7 +711,7 @@ async function detailView(id, subs, combos, { go }) {
 
   wrap.appendChild(
     h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/substances") },
-      "‹ All drugs")
+      h("span", { "aria-hidden": "true" }, "‹"), " All drugs")
   );
 
   wrap.appendChild(h("div", { class: "county-head" },

@@ -34,7 +34,7 @@ export async function render(route, { go }) {
   const wrap = h("div");
 
   wrap.appendChild(
-    h("button", { type: "button", class: "backlink", onClick: () => go("#/alerts") },
+    h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/alerts") },
       h("span", { "aria-hidden": "true" }, "‹"), " Alerts")
   );
 

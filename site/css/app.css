@@ -830,8 +830,21 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
   font-size: .78rem; font-weight: 700; letter-spacing: .01em;
-  padding: 5px 11px; border-radius: var(--radius-pill); white-space: nowrap;
+  padding: 5px 11px; border-radius: var(--radius-pill);
+
+  /* NOT nowrap. A badge holds a severity token most of the time - "critical",
+     "2 alerts" - but the Support directory puts whole sentences in one:
+     "Devices are purchased, not free - configuration fee on a first order."
+     is 69 characters. On iOS Safari that ran straight out of the card.
+     Wrapping is the correct default; the short tokens opt back in below. */
+  white-space: normal;
+  overflow-wrap: anywhere;      /* a long unbroken token cannot escape either */
+  max-width: 100%;
 }
+
+/* The severity words are one or two tokens and must never break mid-phrase -
+   "critical" wrapping to "criti/cal" would read as damage. */
+.badge--critical, .badge--elevated, .badge--advisory { white-space: nowrap; }
 /* Severity keeps the uppercase treatment. Everything else reads as normal
    language - the shouty styling was most of what made this feel like a
    readout instead of a page written for a person. */
@@ -882,7 +895,7 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
    block rather than a control and then the thing you came for. Scoped to the
    sibling pair so the county and emerging headers, which have no button above
    them, keep their existing spacing. */
-.btn + .county-head, .backlink + .county-head { margin-top: var(--sp-3); }
+.btn + .county-head { margin-top: var(--sp-3); }
 .county-head .mono {
   font-size: .86rem; color: var(--ink-3); letter-spacing: 0;
 }
@@ -1028,16 +1041,11 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 .classcard__hint { color: var(--ink-2); font-size: .88rem; line-height: 1.5; }
 .classcard__n { color: var(--ink-3); font-size: .8rem; margin-top: 6px; }
 
-.backlink {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: none; border: 0; padding: 8px 0; margin-bottom: var(--sp-1);
-  min-height: var(--tap);
-  /* --brand, NOT --brand-ink. `--brand-ink` is the colour for text sitting ON
-     a brand-filled surface (white on sage, near-black on mint); used against
-     the page it measured 1.16:1 in dark mode - invisible. */
-  font: inherit; font-size: .92rem; color: var(--brand); cursor: pointer;
-}
-.backlink:hover { text-decoration: underline; }
+/* .backlink is gone. Three screens had a "back" control and two of them were a
+   bare text link while the drug page used a ghost pill - the same action
+   wearing two shapes. They are all the pill now: it reads as a control at a
+   glance, it is a real 44px target rather than an 8px-padded line of text, and
+   there is one thing to style instead of two. */
 
 /* ------------------------------------------------ new since last visit */
 
@@ -1203,9 +1211,6 @@ table.data th[scope="row"] { font-weight: 650; }
    flex-wrap does the work the stacking used to: the short reactions ("Orange
    to brown") sit beside the bar, and the long ones ("Black, often purple or
    brown tinted") wrap under it with the same 10px between them. */
-.colorcell { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.colorcell .reagbar { max-width: 168px; }
-.colorcell > span:last-child { font-size: .9rem; color: var(--ink-2); }
 
 /* --------------------------------------------------------------- footer */
 
@@ -1868,7 +1873,7 @@ details.disc[open] { margin-bottom: var(--sp-3); }
    on paper serves the person with no smartphone - the reader every digital
    product silently drops. Ink-friendly, chrome stripped, links written out. */
 @media print {
-  .topbar, .nav, .search, .viewtoggle, .chips, .iconbtn, .backlink,
+  .topbar, .nav, .search, .viewtoggle, .chips, .iconbtn,
   .kind, .skip, button.btn { display: none !important; }
   body { background: #fff; color: #000; font-size: 11pt; }
   main { padding: 0; max-width: none; }
@@ -1946,36 +1951,6 @@ details.disc[open] { margin-bottom: var(--sp-3); }
     margin-top: 12px; padding-top: 12px;
   }
 
-  /* The Test page's reagent tables get the same treatment, for the same
-     reason and now with the same contents. Two columns at 375px leaves the
-     reaction column about 150px wide, which a 168px reaction bar overflows -
-     the bar was clipped at the table edge and the prose beside it wrapped
-     every two words. Stacked, the drug name gets a line and the reaction gets
-     the full width, which is what makes this read identically to a drug page. */
-  .acc__body .data,
-  .acc__body .data tbody,
-  .acc__body .data tr,
-  .acc__body .data th,
-  .acc__body .data td {
-    display: block; width: auto;
-  }
-  .acc__body .data thead { display: none; }   /* the row label IS the drug name */
-
-  /* table.data gives every th and td its own border-bottom and 13px/20px
-     padding. Stacked, that draws a rule under the drug name AND under the
-     reaction - empty strips between every entry - and the horizontal padding
-     no longer buys anything because each cell is now full width. Both are
-     neutralised here; the separator becomes the row, once. */
-  .acc__body .data th,
-  .acc__body .data td {
-    border-bottom: 0; white-space: normal;
-    padding: 0 var(--sp-3);        /* keep the inset; the table sits in a card */
-  }
-  .acc__body .data td { padding-top: 4px; }   /* same as .reagtable td */
-  .acc__body .data tr + tr {
-    border-top: 1px solid var(--glass-line);
-    margin-top: 12px; padding-top: 12px;   /* same as .reagtable above */
-  }
 }
 .swatch__sep { color: var(--ink-3); margin: 0 2px 0 7px; }
 .reag__none { color: var(--ink-2); font-style: italic; }
@@ -2070,7 +2045,12 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 :root[data-theme="dark"] .reagbar > .swatch--white { background: #f4ece0; }
 
 /* The row: bar, then the words, then the reagent name stays the row label. */
+/* Used by BOTH the Drugs page and the Test page's reagent tables. There was
+   a second class, .colorcell, that had drifted to these exact four
+   declarations - which is how the two pages ended up looking different in
+   the first place. One class now, so they cannot. */
 .reagrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.reagrow .reagbar { max-width: 168px; }
 .reagrow__words { font-size: .9rem; color: var(--ink-2); }
 /* Separates the two sequences in the 22 results that carry a `to`. Its own
    line, because "settling to" between two bars on one line reads as a fourth
