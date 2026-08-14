@@ -141,3 +141,130 @@ Two things worth taking from it, beyond the answer:
   (see the note above `WATCH` in `medex.mjs`) — a drug-checking feed is exactly
   where they would become visible, so they should go on its watchlist if this
   lands.
+
+---
+
+## 2. UNC Street Drug Analysis Lab — asking to use the chemical dictionary
+
+**To:** the same inbox that answered §1, in reply to that thread.
+**Status:** drafted 2026-08-14, not sent.
+
+**What this is about.** After declining the feed request, they sent a copy of
+their chemical dictionary — `chemdict.csv`, 382 substances with synonyms,
+street names, pronunciations, six-word plain-language glosses, SMILES, tags and
+a category.
+
+**Check this before reading the draft, because it is the whole reason the
+email exists.** It is *not* the public file:
+
+| | rows | schema |
+|---|---|---|
+| `opioiddatalab/drugchecking` → `chemdictionary/chemdictionary.csv` (MIT) | 156 | `substance, pronunciation, PubChemCID, CAS, UNII, commonrole`, plus boolean class columns |
+| what was sent | 382 | `substance, cid, synonyms, pronunciation, sixwords, vernacular, SMILES, tags, category` |
+
+Different file, different schema, more than twice the rows. The MIT grant on
+the repository covers the repository's copy and says nothing about this one.
+A lab that published a redistribution policy the same week, after being burned
+by downstream misuse, has not implicitly licensed a file by emailing it — and
+treating "it arrived in my inbox" as permission is the exact behaviour that
+closed the door in §1.
+
+**What it would add**, measured against what already ships rather than guessed:
+
+- 382 substances, **301 of which the app has no entry for at all**
+- **105 street names** the search index does not carry
+- **54 pronunciations** — the app has none, anywhere
+- 226 six-word glosses
+- tags including `cut`, `inert`, `impurity`, `flavor`, and 35 rows marked
+  `not psychoactive`
+
+That last group answers a question Nightlight currently cannot: *what is this
+thing in my drugs that is not a drug?* And `pronunciation` is quietly the most
+useful field in an emergency — being able to say "medetomidine" out loud to a
+dispatcher.
+
+**Deliberately a smaller ask than §1 was.** Five naming fields, no sample data,
+no results, nothing about anybody's drugs.
+
+---
+
+### Draft
+
+> **Subject:** Re: Machine-readable feed for street drug checking results?
+>
+> Thank you — both for the quick answer and for explaining the policy rather
+> than just pointing at it. That is more than most people get, and the reason
+> for it is completely understandable.
+>
+> Thank you as well for the chemical dictionary. Before I use any of it I want
+> to ask properly, because I do not think you licensed it by attaching it, and
+> after what you described I would rather be the person who asks.
+>
+> What I checked first: the copy in the opioiddatalab/drugchecking repository
+> is MIT licensed, but it is a different file — 156 rows, and an older schema
+> without synonyms, vernacular, sixwords or tags. The one you sent has 382
+> rows and those fields. So the repository's licence does not cover it, and I
+> am not going to assume.
+>
+> **What I would like to use, and nothing else:** `substance`, `synonyms`,
+> `vernacular`, `pronunciation` and `sixwords`. Names, street names, how to say
+> them, and the plain-language line. No sample data, no results, no counts,
+> nothing about what anyone's drugs contained.
+>
+> **What it would do.** Nightlight is a free, non-commercial harm reduction
+> reference — no account, no advertising, nothing sold, no analytics. Those
+> five fields would go to three places:
+>
+> - **Search.** 105 of your street names are not in our index. Somebody typing
+>   what a thing is actually called on their street would reach the page about
+>   it.
+> - **Pronunciation.** We have none at all. Being able to say "medetomidine"
+>   to a 911 dispatcher, or to a nurse, is worth more than it sounds.
+> - **The things that are not drugs.** Your tags mark cuts, impurities and
+>   inert material, and the glosses explain them in a line. We currently have
+>   no honest answer for a reader who has been told there is something in their
+>   supply and cannot find out what it even is.
+>
+> It would be attributed to the lab on every screen it appears on and linked
+> back to you, in whatever wording you want. If you would rather it were not
+> attributed, that is fine too.
+>
+> **On the thing that prompted your policy.** The app cannot learn what any
+> reader looks at — every dataset ships as one national file, identical for
+> every visitor, and all lookups run in the browser, so there is no request
+> that records which drug or which county anyone checked. There are no
+> analytics of any kind. Nothing you shared would become a way of profiling the
+> people it is meant to help, and nothing would be republished as a bulk
+> download or presented as our own work.
+>
+> If the answer is no, that is a completely fine answer and I will not use it.
+> If the answer is "not that file, but here is one you can use," that is even
+> better. And if there are conditions — attribution wording, a caveat you want
+> shown, a field you would rather we left alone — I would rather have them than
+> not.
+>
+> One other thing you may want to know, since it came from your work: we now
+> tell readers which brand of fentanyl strip they are holding and what its own
+> blind spots are, because of the 251-compound screen showing a third of
+> analogues are found by one brand and not the other. That paper changed what
+> this app tells people.
+>
+> Best regards,
+> [name]
+> [role / affiliation, if you want to give one]
+> https://nightlight.help
+
+---
+
+### Notes before sending
+
+- **Reply in the existing thread.** They answered once; this is a smaller ask
+  in the same conversation, not a fresh approach.
+- **Do not use any of it until they answer.** Not the street names, not the
+  pronunciations. There is no partial version of asking permission.
+- **If they say yes,** the fields map to `data/substances.json` aliases and to
+  `data/search-intents.json` slang; the glosses and tags want a new
+  `data/dictionary.json` built by a script under `scripts/`, so the CSV stays
+  the source and nothing is hand-copied.
+- **If they say no,** record it in `ALERT-SOURCES.md` §4 with the date, the
+  same as everything else, and delete the local copy of the file.
