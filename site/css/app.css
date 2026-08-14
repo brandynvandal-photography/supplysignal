@@ -1195,7 +1195,13 @@ table.data th[scope="row"] { font-weight: 650; }
   display: inline-block; width: 15px; height: 15px; border-radius: 4px;
   border: 1px solid var(--line-2); margin-right: 7px; vertical-align: -2px; flex: none;
 }
-.colorcell { display: flex; align-items: flex-start; }
+/* Reagent reaction cell: the same bar, at the same size, stacked above the
+   words - identical to a drug page's .reagrow, so a reagent reads the same
+   wherever you meet it. The prose here is longer than a colour list ("Gray to
+   black - but DELAYED 15-30 seconds, often smoking"), which is why it sits
+   under the bar rather than beside it. */
+.colorcell { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.colorcell .reagbar { max-width: 168px; }
 
 /* --------------------------------------------------------------- footer */
 
@@ -1934,6 +1940,37 @@ details.disc[open] { margin-bottom: var(--sp-3); }
   .reagtable tr + tr {
     border-top: 1px solid var(--glass-line);
     margin-top: 12px; padding-top: 12px;
+  }
+
+  /* The Test page's reagent tables get the same treatment, for the same
+     reason and now with the same contents. Two columns at 375px leaves the
+     reaction column about 150px wide, which a 168px reaction bar overflows -
+     the bar was clipped at the table edge and the prose beside it wrapped
+     every two words. Stacked, the drug name gets a line and the reaction gets
+     the full width, which is what makes this read identically to a drug page. */
+  .acc__body .data,
+  .acc__body .data tbody,
+  .acc__body .data tr,
+  .acc__body .data th,
+  .acc__body .data td {
+    display: block; width: auto;
+  }
+  .acc__body .data thead { display: none; }   /* the row label IS the drug name */
+
+  /* table.data gives every th and td its own border-bottom and 13px/20px
+     padding. Stacked, that draws a rule under the drug name AND under the
+     reaction - empty strips between every entry - and the horizontal padding
+     no longer buys anything because each cell is now full width. Both are
+     neutralised here; the separator becomes the row, once. */
+  .acc__body .data th,
+  .acc__body .data td {
+    border-bottom: 0; white-space: normal;
+    padding: 0 var(--sp-3);        /* keep the inset; the table sits in a card */
+  }
+  .acc__body .data td { padding-top: 6px; }
+  .acc__body .data tr + tr {
+    border-top: 1px solid var(--glass-line);
+    margin-top: 14px; padding-top: 14px;
   }
 }
 .swatch__sep { color: var(--ink-3); margin: 0 2px 0 7px; }

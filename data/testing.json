@@ -412,7 +412,11 @@
         {
           "substance": "Amphetamine / methamphetamine",
           "color": "Orange to brown",
-          "key": "orange"
+          "key": "orange",
+          "keys": [
+            "orange",
+            "brown"
+          ]
         },
         {
           "substance": "Heroin / morphine",
@@ -428,12 +432,20 @@
           "substance": "DXM",
           "color": "Gray to black — but DELAYED 15–30 seconds, often smoking",
           "key": "black",
-          "note": "The timing, not the final color, is what separates DXM from MDMA"
+          "note": "The timing, not the final color, is what separates DXM from MDMA",
+          "keys": [
+            "gray",
+            "black"
+          ]
         },
         {
           "substance": "2C-B",
           "color": "Yellow turning green",
-          "key": "green"
+          "key": "green",
+          "keys": [
+            "yellow",
+            "green"
+          ]
         },
         {
           "substance": "Cathinones",
@@ -622,7 +634,11 @@
         {
           "substance": "Heroin",
           "color": "Deep purplish red turning green",
-          "key": "purple"
+          "key": "purple",
+          "keys": [
+            "purple",
+            "green"
+          ]
         },
         {
           "substance": "Morphine",
@@ -632,7 +648,11 @@
         {
           "substance": "Codeine",
           "color": "Very dark green turning red-brown",
-          "key": "green"
+          "key": "green",
+          "keys": [
+            "green",
+            "brown"
+          ]
         },
         {
           "substance": "Oxycodone",
@@ -642,12 +662,20 @@
         {
           "substance": "Hydromorphone",
           "color": "Blue turning purple",
-          "key": "blue"
+          "key": "blue",
+          "keys": [
+            "blue",
+            "purple"
+          ]
         },
         {
           "substance": "2C-B",
           "color": "Yellow turning green",
-          "key": "green"
+          "key": "green",
+          "keys": [
+            "yellow",
+            "green"
+          ]
         },
         {
           "substance": "Cocaine, ketamine",
@@ -668,7 +696,11 @@
         {
           "substance": "Cocaine",
           "color": "Light yellow to orange — a range is accepted",
-          "key": "yellow"
+          "key": "yellow",
+          "keys": [
+            "yellow",
+            "orange"
+          ]
         },
         {
           "substance": "Ketamine",
@@ -678,12 +710,20 @@
         {
           "substance": "MDMA",
           "color": "Intense brown to black",
-          "key": "black"
+          "key": "black",
+          "keys": [
+            "brown",
+            "black"
+          ]
         },
         {
           "substance": "Amphetamine",
           "color": "Orange to red",
-          "key": "orange"
+          "key": "orange",
+          "keys": [
+            "orange",
+            "red"
+          ]
         },
         {
           "substance": "Methamphetamine",

@@ -526,6 +526,13 @@ function dilutionBlock(d) {
   );
 }
 
+/* Colours the reagent bar can paint. Anything outside this renders as an empty
+   band rather than a wrong one - see .reagbar in app.css. */
+const KNOWN_COLORS = new Set([
+  "yellow", "green", "blue", "purple", "black", "brown",
+  "orange", "red", "pink", "gray", "white", "violet", "olive",
+]);
+
 function reagentCard(r) {
   return h("details", { class: `acc ${r.criticalCaveat ? "acc--flag" : ""}` },
     h("summary", null,
@@ -546,11 +553,25 @@ function reagentCard(r) {
             h("tr", null,
               h("th", { scope: "row" }, x.substance),
               h("td", null,
-                // The swatch is decorative. The color NAME beside it carries
-                // the meaning, so this table survives greyscale, color
-                // blindness, and a screen reader.
+                /* Same reaction bar the Drugs page uses, so a reagent looks
+                   the same wherever you meet it. Most rows here are one colour
+                   and render as a single band, which is correct - this table is
+                   a per-drug lookup, not a timeline.
+
+                   `keys` exists only where the prose describes an unambiguous
+                   transition AND both ends map to a palette colour. Compound
+                   hues ("blue-green shifting to brown-black"), either/or
+                   wording ("no reaction, or light pink to deep peach") and
+                   violet-to-purple (the same swatch twice) deliberately have no
+                   sequence and stay one band. Inventing a second band there
+                   would be inventing precision the source does not have.
+
+                   The bar is aria-hidden; x.color - the full prose, which
+                   carries nuance no bar can - is what gets read out. */
                 h("span", { class: "colorcell" },
-                  h("span", { class: `swatch swatch--${x.key}`, "aria-hidden": "true" }),
+                  h("span", { class: "reagbar", "aria-hidden": "true" },
+                    (x.keys || [x.key]).map((k) =>
+                      h("span", { class: KNOWN_COLORS.has(k) ? `swatch--${k}` : "" }))),
                   h("span", null, x.color)),
                 x.note ? h("span", { class: "cellnote" }, x.note) : null)))))),
 
