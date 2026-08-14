@@ -4,10 +4,12 @@
   "state": "GA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-11T15:10:14.276Z",
+    "lastScan": "2026-08-14T02:45:37.202Z",
     "windowDays": 365,
-    "sourcesChecked": 3,
-    "sourcesFailed": [],
+    "sourcesChecked": 27,
+    "sourcesFailed": [
+      "la-ldh"
+    ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
   },
