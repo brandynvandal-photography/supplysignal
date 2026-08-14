@@ -1535,30 +1535,39 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
 }
 .pick__row { position: relative; }
 
-/* The select has to stop being an operating system widget.
+/* The select has to stop being an operating system widget, and then look like
+ * the other things on this page that open.
  *
- * .input gives it the app's field - the glass fill, the hairline, the radius -
- * and then the browser draws its OWN control inside that, because nothing ever
- * turned the native appearance off. On macOS Safari that is a small grey
- * system box with a double chevron sitting in a field that looks nothing like
- * it, which is what "the dropdown does not match the rest of the site" is.
+ * .input gave it the app's FIELD - the one a search box wears - while every
+ * other openable control on the Test page is a disclosure row: glass, hairline,
+ * a heavier label, and a rotated angle quote at the right edge. Two dropdowns
+ * dressed as text inputs sitting above nine dropdowns dressed as rows is what
+ * "does not match the other dropdowns" is.
  *
- * The chevron is drawn in CSS rather than pulled in as a data URI, so it takes
- * --ink-3 and stays right in both themes. A baked SVG would have needed its
- * stroke colour hardcoded, and would have been wrong in one of them. */
+ * So this borrows details.acc's summary exactly - the same background, border,
+ * radius, padding, weight and tap floor - and draws the same "\203A" rotated
+ * 90 degrees. The glyph is a character rather than a baked SVG so it takes
+ * --ink-3 and is right in both themes. */
 .pick__row select {
   -webkit-appearance: none; appearance: none;
   width: 100%; min-width: 0;
-  padding-right: calc(var(--sp-3) + 22px);   /* clear of the chevron */
+  font: inherit; font-weight: 650;
+  color: var(--ink);
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius);
+  min-height: var(--tap);
+  padding: var(--sp-3) calc(var(--sp-4) + 14px) var(--sp-3) var(--sp-4);
   text-overflow: ellipsis;
   cursor: pointer;
 }
+.pick__row select:hover { background: var(--surface-2); }
+.pick__row select:focus-visible { border-color: var(--brand); outline-offset: 0; }
 .pick__row::after {
-  content: ""; position: absolute; right: 20px; bottom: 18px;
-  width: 8px; height: 8px;
-  border-right: 2px solid var(--ink-3);
-  border-bottom: 2px solid var(--ink-3);
-  transform: rotate(45deg);
+  content: "\203A";
+  position: absolute; right: var(--sp-4); bottom: 0;
+  line-height: var(--tap); font-size: 1.4rem; color: var(--ink-3);
+  transform: rotate(90deg);
   pointer-events: none;                      /* the click belongs to the select */
 }
 
