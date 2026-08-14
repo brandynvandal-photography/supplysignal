@@ -500,5 +500,14 @@
       "route": "#/heat",
       "anchor": "sec-prevent"
     }
-  ]
+  ],
+  "starters": [
+    "If someone is overdosing right now",
+    "Where to get naloxone free",
+    "If you call 911, what happens to you",
+    "Testing your supply",
+    "How long it stays detectable",
+    "Finding help"
+  ],
+  "_startersNote": "Shown in the search panel BEFORE anything is typed. The 35 intents below are hand-written for people who cannot name what they need, and they were invisible until a query happened to match one - opening search showed an empty box. Six, matching the tab bar's own ceiling, ordered by what somebody in trouble needs first rather than by how often it is asked: the emergency, then preventing the next one, then the fear that stops people calling, then testing, supervision, and help. Each must match an intent label exactly; the search test fails if one stops resolving."
 }

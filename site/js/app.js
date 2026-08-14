@@ -890,6 +890,15 @@ document.addEventListener("click", (e) => {
       mod = await import("./search.js");
       mod.prefetch();
     }
+    /* Offer the starting points on OPEN, not only after an input event -
+       otherwise the panel is blank until the reader types and deletes a
+       character, which nobody does. Guarded on the box still being empty
+       because the bundle load above is async and they may have started
+       typing in the meantime. */
+    if (!input.value.trim()) {
+      clear(results);
+      renderResults(await mod.starters(), "start");
+    }
   };
 
   btn.addEventListener("click", () => (panel.hidden ? open() : close()));
@@ -910,7 +919,16 @@ document.addEventListener("click", (e) => {
 
     clear(results);
     input.setAttribute("aria-expanded", String(rs.length > 0));
-    if (!q.trim()) { status.textContent = ""; return; }
+
+    /* Nothing typed: offer somewhere to start rather than a blank panel.
+       The reader who opens search without a query is usually the one who does
+       not have the word for what they need, which is the reader an empty box
+       serves worst. */
+    if (!q.trim()) {
+      status.textContent = "";
+      renderResults(await mod.starters(), "start");
+      return;
+    }
 
     if (!rs.length) {
       /* Into the live region, which survives the next clear(). */
@@ -921,6 +939,16 @@ document.addEventListener("click", (e) => {
     }
     status.textContent = "";
 
+    renderResults(rs);
+  });
+
+  /* One renderer for typed results and for the starting points, so a starter
+     behaves in every way like the result it becomes once you type its words. */
+  function renderResults(rs, variant) {
+    if (variant === "start" && rs.length) {
+      results.appendChild(
+        h("p", { class: "sresult__head" }, "If you are not sure what to look for"));
+    }
     for (const r of rs) {
       /* Both branches were identical. The anchor is applied by reveal()
          after navigation rather than through the URL - see the note there. */
@@ -939,5 +967,5 @@ document.addEventListener("click", (e) => {
       });
       results.appendChild(a);
     }
-  });
+  }
 }

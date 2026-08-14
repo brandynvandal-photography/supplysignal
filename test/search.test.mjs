@@ -132,6 +132,59 @@ for (const [q, want] of CASES) {
   else fails.push(`"${q}" → ${got} (wanted ${want}); top result "${r[0].label}"`);
 }
 
+/* ------------------------------------------------- the empty search box */
+
+/* What a reader sees before typing anything. The 35 intents are written for
+   people who cannot name what they need, and they were unreachable until a
+   query happened to match one - opening search showed a blank panel, which
+   serves that reader worst of all. */
+{
+  const labels = new Set((intents.intents || []).map((i) => i.label));
+  const byLabel = new Map((intents.intents || []).map((i) => [i.label, i]));
+  const starters = intents.starters || [];
+
+  if (!starters.length) fails.push("no starters configured — the empty search box is blank again");
+
+  for (const label of starters) {
+    if (!labels.has(label)) {
+      fails.push(`starter has no matching intent, so it silently vanishes: "${label}"`);
+      continue;
+    }
+    const i = byLabel.get(label);
+    if (!i.route || !i.route.startsWith("#/")) {
+      fails.push(`starter "${label}" points at ${i.route}`);
+    }
+  }
+
+  /* Ordering is an editorial decision about a frightened reader, not a ranking
+     output. If these get reordered, the overdose entry must not drift down. */
+  if (starters.length && !/overdos/i.test(starters[0])) {
+    fails.push(`the first starting point is "${starters[0]}", not the overdose one`);
+  }
+  if (starters.length > 8) {
+    fails.push(`${starters.length} starting points is a wall, not a way in`);
+  }
+
+  /* Every starter's destination must have a name for the kind slot, or the
+     row falls back to "Start here" - which is what six identical labels looked
+     like before, and told the reader nothing. */
+  const WHERE = new Set(["#/help", "#/alerts", "#/test", "#/substances", "#/learn",
+    "#/support", "#/policy", "#/supervision", "#/sex", "#/stimulants", "#/heat",
+    "#/after", "#/about"]);
+  for (const label of starters) {
+    const i = byLabel.get(label);
+    if (i && !WHERE.has(i.route)) {
+      fails.push(`starter "${label}" goes to ${i.route}, which has no section name in search.js`);
+    }
+  }
+
+  /* Six distinct destinations beats six routes into one page. */
+  const dests = new Set(starters.map((l) => byLabel.get(l)?.route).filter(Boolean));
+  if (starters.length && dests.size < starters.length - 1) {
+    fails.push(`${starters.length} starting points lead to only ${dests.size} places`);
+  }
+}
+
 console.log("SEARCH\n");
 for (const f of fails) console.log("  not ok " + f);
 if (!fails.length) console.log(`  ok   all ${pass} realistic queries reach the right page`);

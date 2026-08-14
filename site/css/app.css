@@ -733,6 +733,14 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    intrinsic width. */
 #searchpanel .input { width: 100%; display: block; }
 
+/* The label above the starting points offered before anything is typed. Not a
+   heading element: it is a hint inside a listbox, and an h3 in there would put
+   a phantom entry in the document outline for a screen reader. */
+.sresult__head {
+  margin: 2px 4px 8px; font-size: .82rem; font-weight: 650;
+  color: var(--ink-3); text-transform: none;
+}
+
 .searchresults { margin-top: var(--sp-2); display: flex; flex-direction: column; gap: 8px; }
 .searchresults:empty { display: none; }
 

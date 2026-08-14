@@ -59,6 +59,50 @@ async function load() {
 /** Warm the bundles without blocking. Safe to call repeatedly. */
 export function prefetch() { load().catch(() => {}); }
 
+/**
+ * What to offer somebody who has not typed anything.
+ *
+ * The 35 intents below are hand-written for exactly the reader who cannot name
+ * what they need - and they were unreachable unless a query happened to match
+ * one, because opening search showed an empty box and nothing else. A person
+ * who does not know the word for the thing they are looking for is precisely
+ * the person a blank search field helps least.
+ *
+ * Curated in data/search-intents.json rather than computed, because "what
+ * should we offer first" is an editorial decision about a frightened reader,
+ * not a ranking problem.
+ */
+export async function starters() {
+  const { INTENTS } = await load();
+  const byLabel = new Map((INTENTS.intents || []).map((i) => [i.label, i]));
+  /* The kind slot names the DESTINATION, not "start here" six times over.
+     It exists to tell results apart, and six identical labels tell a reader
+     nothing except that the app repeats itself. Where each one goes is the
+     useful fact, in the same words the tab bar uses.
+     
+     `why` is dropped here on purpose: it exists on some intents and not
+     others, so a list of six came out ragged, one card twice the height of
+     its neighbours for no reason a reader could see. These are six equal
+     choices, and they should look like it. */
+  const WHERE = {
+    "#/help": "Emergency", "#/alerts": "Alerts", "#/test": "Test",
+    "#/substances": "Drugs", "#/learn": "Learn", "#/support": "Support",
+    "#/policy": "Policy", "#/supervision": "Supervision", "#/sex": "Sex",
+    "#/stimulants": "Staying up", "#/heat": "Heat", "#/after": "After",
+    "#/about": "About",
+  };
+  return (INTENTS.starters || [])
+    .map((label) => byLabel.get(label))
+    .filter(Boolean)
+    .map((i) => ({
+      kind: WHERE[i.route] || "Start here",
+      label: i.label,
+      route: i.route,
+      anchor: i.anchor || null,
+      why: null,
+    }));
+}
+
 function drugResult(d, why) {
   return { kind: "Drug", label: d.n, route: `#/substances/${d.i}`, why };
 }
