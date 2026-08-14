@@ -32,16 +32,9 @@
    "died": "Valid RSS but abandoned - newest item 2023-01-05."
   },
   {
-   "id": "cdc-newsroom",
-   "name": "CDC Newsroom",
+   "id": "cdc-food-safety",
    "url": "https://tools.cdc.gov/api/v2/resources/media/316422.rss",
-   "kind": "rss",
-   "trust": 1,
-   "scope": {
-    "level": "national"
-   },
-   "enabled": true,
-   "_retiredNote": "Media 316422 is CDC Food Safety, not the newsroom - verified against tools.cdc.gov/api/v2/resources/media/316422.json on 2026-08-14. Off-topic for this project and it was double-counting the newsroom feed above."
+   "died": "Retired 2026-08-14, not dead: media 316422 is CDC Food Safety, confirmed by tools.cdc.gov/api/v2/resources/media/316422.json returning name \"Food Safety\". It shipped as id \"cdc-newsroom\" and was never the newsroom. Food recalls are off-topic for a drug-supply pipeline, and the real newsroom feed (media 132608) is live under that id now."
   }
  ],
  "_wafNote": "Florida, Louisiana and Delaware sit behind Cloudflare/WAF and return 403 if hit twice in quick succession. Keep polling.requestDelayMs at or above 1500 and send the configured user agent. Arkansas, Massachusetts and New Hampshire block automated requests entirely - they may still have feeds, but they cannot be verified without a real browser.",
