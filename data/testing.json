@@ -938,12 +938,6 @@
     "Carry naloxone, and make sure whoever is with you knows where it is.",
     "Fentanyl and nitazenes are opioids — naloxone works on both. It may take more than one dose."
   ],
-  "stripBrandNote": {
-    "title": "Read the instructions that came with your strips",
-    "body": "Strips are not interchangeable. Dip time, how long to wait before reading, how long the result stays valid, and how much water to use all change between brands — and sometimes between lots from the same brand. The steps here are the common pattern, not a substitute for the insert in your packet.",
-    "detail": "If you have no insert, look up your exact brand before you dilute. Reading a strip too early or too late is one of the easiest ways to get an answer that is wrong in the direction that hurts you.",
-    "lines": "That includes what the lines mean. Every strip in common harm reduction use is a competitive test, where ONE line means detected — that is how these particular products are built, not a rule of nature, and one built the other way would look no different in your hand. If the insert that came with your strips disagrees with anything on this page, the insert is right."
-  },
   "storage": {
     "headline": "Storing your supplies",
     "intro": "Every one of these degrades, and a degraded test does not announce itself — it just gives you a wrong answer in the same confident colors.",
@@ -1462,6 +1456,8 @@
     ],
     "gap": "Only products whose own instructions were read are listed. Wondfo, DetectaChem, Lochness Medical and MD-Bio are not here yet, and neither are benzodiazepine or nitazene strips: printing a number that has not been read off the sheet it came from is the failure this section exists to prevent. If yours is not listed, your packet is the authority.",
     "drugHeadline": "What are you testing?",
-    "notListed": "Not listed? Most strips sold for harm reduction in the US are made by one of two companies — BTNX or WHPM — whatever name is on the front. DanceSafe, Bunk Police and Grassroots all sell the same WHPM strip. Look for the maker on the packet, the box or the insert and use that row. If it names neither, your insert is the authority."
+    "notListed": "Not listed? Most strips sold for harm reduction in the US are made by one of two companies — BTNX or WHPM — whatever name is on the front. DanceSafe, Bunk Police and Grassroots all sell the same WHPM strip. Look for the maker on the packet, the box or the insert and use that row. If it names neither, your insert is the authority.",
+    "lotsTitle": "Read the instructions that came with your strips",
+    "lots": "Strips are not interchangeable, and a brand can change between lots. Dip time, how long a result stays valid and how much water to use have all differed between batches from the same maker. The row above is that product's published procedure; the paper in your packet is that packet's."
   }
 }

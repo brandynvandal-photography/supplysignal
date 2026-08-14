@@ -492,35 +492,20 @@ function stripCard(s, g) {
     h("div", { class: "acc__body" },
       h("p", null, h("strong", null, "Detects: "), s.detects),
 
-      h("div", { class: "readbar" },
-        h("span", null, h("strong", null, "1 line"), " = ", s.reading.positive ? "positive" : ""),
-        h("span", null, h("strong", null, "2 lines"), " = negative")),
-
-      /* Before the steps, not after. The numbers below (dip for 15 seconds,
-         read at 3 minutes) are the common pattern and genuinely differ by
-         manufacturer and sometimes by lot - someone who follows ours instead
-         of the insert in their packet can read a strip at the wrong moment
-         and get a false negative on the one question they are asking. */
-      s.procedure && g?.stripBrandNote
-        ? callout("warn", g.stripBrandNote.title,
-            h("p", null, g.stripBrandNote.body),
-            h("p", null, g.stripBrandNote.detail),
-            /* The line rule is the one thing on this page that is worth a
-               reader's life getting backwards, and every strip card states it
-               as though it were universal. It is universal across the products
-               in common use - checked against BTNX, DanceSafe, and the state
-               health department instructions that ship with donated strips -
-               but that is a fact about those products, not about lateral flow.
-               The packet outranks us on its own strip. */
-            g.stripBrandNote.lines ? h("p", null, g.stripBrandNote.lines) : null)
-        : null,
-
-
-      s.procedure
-        ? frag(h("h4", null, "How to do it"),
-            h("ol", { class: "steps steps--tight" },
-              s.procedure.map((p) => h("li", null, h("p", null, p)))))
-        : null,
+      /* THREE BLOCKS REMOVED HERE, all of them now said better upstairs.
+         - The 1-line/2-line bar: the picker prints the verdict cards for the
+           product the reader actually picked, in that product's own wording.
+         - The "read the instructions that came with your strips" callout: its
+           whole message was that the numbers below are a common pattern and
+           yours may differ. The numbers below are gone, and the picker shows
+           the real ones. Its one surviving fact - that brands differ, and
+           sometimes lots within a brand - now runs once under the picker
+           rather than once per strip.
+         - "How to do it": the steps duplicated Sample, Water, Dip and Wait for
+           exactly the two strips the picker covers, which are the only two
+           that had steps at all.
+         What stays here is what the picker does not know: what this type
+         detects, where it fails, and how it performs in the field. */
 
       s.dilution ? dilutionBlock(s.dilution) : null,
 
@@ -551,20 +536,16 @@ function dilutionBlock(d) {
             h("th", { scope: "row" }, c.substance),
             h("td", null, c.threshold)))))),
 
-    callout("warn", "Published amounts disagree — by up to ten times",
-      h("p", null, d.conflict),
-      h("ul", null, d.guidance.map((x) => h("li", null, x)))),
+    callout("info", "If a stimulant tests positive",
+      h("ul", null, d.guidance.slice(-1).map((x) => h("li", null, x)))),
 
-    h("div", { class: "tablewrap" },
-      h("table", { class: "data" },
-        h("caption", { class: "sr-only" }, "Commonly published water amounts by drug form"),
-        h("thead", null, h("tr", null,
-          h("th", { scope: "col" }, "Form"),
-          h("th", { scope: "col" }, "Commonly published amount"))),
-        h("tbody", null, d.commonAmounts.map((c) =>
-          h("tr", null,
-            h("th", { scope: "row" }, c.form),
-            h("td", null, c.amount)))))),
+    /* The "commonly published amount" table is gone, and it had to go rather
+       than merely being redundant: it gave one middle-ground figure per drug
+       form - a teaspoon per 10 mg - which is BTNX's ratio and five times what
+       the WHPM strips ask for. Printed under a control that now states each
+       product's own number, it was not a second opinion, it was a wrong one.
+       The "published protocols disagree by ten times" callout went with it:
+       that was this page explaining why it could not tell you. It can now. */
 
     h("p", { class: "sec__note" }, d.recovery)
   );
@@ -752,6 +733,10 @@ function brandPicker(brands) {
        name, without a single invented figure. */
     brands.notListed ? h("p", { class: "sec__note" }, brands.notListed) : null,
     out,
+    /* Once, not once per strip. What survives from the old per-card callout is
+       the part the picker cannot cover: a brand can change between LOTS, so
+       even the right row is not a substitute for the paper in the packet. */
+    brands.lots ? callout("warn", brands.lotsTitle, h("p", null, brands.lots)) : null,
     brands.notInterchangeable
       ? callout("warn", brands.notInterchangeable.title,
           h("p", null, brands.notInterchangeable.body),
