@@ -4,11 +4,14 @@
   "state": "PA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-14T13:40:30.161Z",
+    "lastScan": "2026-08-14T19:14:21.150Z",
     "windowDays": 365,
     "sourcesChecked": 27,
     "sourcesFailed": [
       "la-ldh",
+      "cook-me",
+      "santaclara-me",
+      "sandiego-me",
       "google-news"
     ],
     "scanned": true,
