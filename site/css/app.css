@@ -160,8 +160,18 @@
    * clear of both. Two of the three used to carry their own answer and they
    * did not agree: scroll-margin added the inset while the bar itself never
    * did, so the bar was drawn under the clock and headings landed 59px below
-   * where they should have. */
-  --bar-top: 0px;
+   * where they should have.
+   *
+   * UNCONDITIONAL, and that is the point. This was first written to apply
+   * only under display-mode: standalone and .is-native, on the theory that a
+   * browser tab should be left alone. That theory is wrong: a non-zero inset
+   * MEANS the page is drawing under the status bar, and there is no state in
+   * which the correct response to that is to ignore it. In a Safari tab with
+   * viewport-fit=cover the inset is 0 while the URL bar is up and becomes the
+   * status bar's height when scrolling collapses the chrome - so a conditional
+   * rule left the bar sliding under the clock mid-scroll and popping back,
+   * which is one of the three things reported as the bar being glitchy. */
+  --bar-top: env(safe-area-inset-top, 0px);
 
   /* Spacing scale. Generous on purpose - the room between things is most of
      what makes an interface feel calm rather than crowded. */
@@ -2508,6 +2518,37 @@ details.disc .groupkids > details.disc > summary h2 {
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
   }
+
+  /* NOT ON A TOUCH DEVICE, which is where this app is mostly read.
+   *
+   * A live blur behind a bar that stays put while the page moves has to be
+   * re-sampled against different content every single frame, and WebKit
+   * cannot do that on the scrolling thread. During a momentum scroll the
+   * bar's position updates off-thread while its frosted layer waits for the
+   * main thread, which is all three of the things reported here: the blur
+   * trailing a few pixels behind the bar, the bar appearing to jump, and the
+   * bar vanishing for a frame when the repaint misses entirely.
+   *
+   * will-change: backdrop-filter was tried first and does not address it.
+   * That promotes the layer once; the cost here is not promotion, it is that
+   * the thing being sampled has changed.
+   *
+   * WHAT IS ACTUALLY GIVEN UP: --bar-tint is 90% opaque, so the blur was
+   * doing 10% of the work on that surface. Ten per cent of a bar, against a
+   * navigation that stutters on the device this app is opened on at three in
+   * the morning. Rule 3 of the glass notes above already requires every glass
+   * surface to survive having no blur and to meet contrast without it, so
+   * this is a sanctioned state rather than a regression - and the desktop,
+   * where there is no momentum scrolling and the compositor has room, keeps
+   * the full material.
+   *
+   * To bring it back on phones, delete this block. */
+  @media (hover: none) and (pointer: coarse) {
+    .topbar::before, .nav {
+      -webkit-backdrop-filter: none; backdrop-filter: none;
+      will-change: auto;
+    }
+  }
   /* Only while search is open, never at rest. */
   .searchpanel {
     -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -2554,11 +2595,7 @@ html, body { overscroll-behavior-y: none; }
  * a browser tab could report a non-zero top inset in some future WebKit and
  * that would push the website's header down for nobody's benefit. */
 @media (display-mode: standalone) {
-  :root { --bar-top: env(safe-area-inset-top); }
   .nav { padding-bottom: max(env(safe-area-inset-bottom), 8px); }
-}
-:root.is-native {
-  --bar-top: env(safe-area-inset-top);
 }
 .is-native .nav { padding-bottom: max(env(safe-area-inset-bottom), 8px); }
 
