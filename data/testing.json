@@ -1188,5 +1188,98 @@
         "body": "Amazon and similar carry real strips alongside listings advertising “99% accurate” with no study behind the number, and urine screens named to look like drug-checking strips. If a listing will not tell you which analogues it misses, it is selling confidence rather than information."
       }
     }
+  },
+  "brands": {
+    "headline": "Which strip do you have?",
+    "intro": "Strips are not one product. Two brands of fentanyl strip, both in wide harm reduction use, want five times different amounts of water and read at different times — and they do not detect the same things. Pick yours to get its own numbers.",
+    "notInterchangeable": {
+      "title": "The two fentanyl brands miss different drugs",
+      "body": "A laboratory screen of 251 synthetic opioids found that one third of the fentanyl analogues tested are detectable by one brand and not the other. Each is blind to a different part of the molecule. That is not a reason to distrust the one you have — it is the reason a negative is weaker evidence than a positive, and the reason programs that can hand out both do.",
+      "source": {
+        "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+      }
+    },
+    "verified": "2026-08-14",
+    "items": [
+      {
+        "id": "btnx-fentanyl",
+        "strip": "fentanyl",
+        "name": "BTNX Rapid Response",
+        "maker": "Made by BTNX. Commonly what a syringe service program or health department hands out.",
+        "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
+        "water": "5 mL of water for every 10 mg. That is a full cooker.",
+        "residue": "Testing cooker residue instead: add 2 mL of clean water to the cooker and mix well.",
+        "dip": "Dip for 15 seconds, holding the dark blue end.",
+        "dipLimit": "Do not dip past the wavy blue lines.",
+        "wait": "Wait 5 minutes.",
+        "positive": "ONE red line",
+        "negative": "TWO red lines — look closely, the second can be very faint",
+        "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
+        "blindSpot": "Blind to bulky changes on the phenethyl part of the molecule, particularly dimethoxy substitutions. It missed 52 of the fentanyl analogues in the laboratory screen — more misses than the other brand, but it detected more compounds overall at high concentrations (173 against 149).",
+        "sources": [
+          {
+            "name": "Washington State DOH — Using BTNX Rapid Response Fentanyl Test Strips (DOH 150-240)",
+            "url": "https://doh.wa.gov/sites/default/files/2024-03/150240-BTNXFentanylTestStripsPoster.pdf"
+          },
+          {
+            "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+          }
+        ]
+      },
+      {
+        "id": "whpm-fentanyl",
+        "strip": "fentanyl",
+        "name": "DanceSafe",
+        "maker": "Made by WHPM. Since 12 March 2026 the storefront and shipping are run by Transparency, the organization behind Bunk Police — the strip and its instructions did not change, but the packet may arrive with a different name on it.",
+        "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
+        "water": "1 mL of water for every 10 mg. About 20 drops, or one full syringe.",
+        "residue": "Testing cooker residue instead: add 2 mL of clean water to the cooker and mix well.",
+        "dip": "Dip for 15 seconds, holding the yellow end.",
+        "dipLimit": "Do not dip past the dotted area.",
+        "wait": "Wait 3 minutes, with the strip face up on a flat surface.",
+        "positive": "ONE red line",
+        "negative": "TWO red lines — look closely, the second can be very faint",
+        "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
+        "blindSpot": "Blind to bulky changes on the carbonyl part of the molecule — isobutyryl, tetrahydrofuran and cyclopentyl replacements. It missed 28 of the fentanyl analogues in the laboratory screen, but it was the more sensitive of the two at low concentrations, finding almost 2.5 times as many compounds at 200 ng/mL.",
+        "sources": [
+          {
+            "name": "Washington State DOH — Using DanceSafe Fentanyl Test Strips (DOH 150-239)",
+            "url": "https://doh.wa.gov/sites/default/files/2024-03/150239-DanceSafeFentanylTestStripsPoster.pdf"
+          },
+          {
+            "name": "DanceSafe — Storefront Update: New Partner, Same Mission",
+            "url": "https://dancesafe.org/dancesafextransparency/"
+          },
+          {
+            "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+          }
+        ]
+      },
+      {
+        "id": "btnx-xylazine",
+        "strip": "xylazine",
+        "name": "BTNX Rapid Response",
+        "maker": "Made by BTNX.",
+        "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
+        "water": "5 mL of water for every 10 mg. That is a full cooker.",
+        "dip": "Dip for 15 seconds, holding the solid end.",
+        "dipLimit": "Do not dip past the wavy red lines.",
+        "wait": "Wait 5 minutes.",
+        "positive": "ONE red line",
+        "negative": "TWO red lines — if two appear, however faint, it is negative",
+        "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
+        "onlyFor": "Only use these on fentanyl. They can read positive on cocaine and other drugs when no xylazine is there.",
+        "sources": [
+          {
+            "name": "Washington State DOH — Using BTNX Rapid Response Xylazine Test Strips (DOH 150-238)",
+            "url": "https://doh.wa.gov/sites/default/files/2024-03/150238-BTNXXylazineTestStripsPoster.pdf"
+          }
+        ]
+      }
+    ],
+    "gap": "Benzodiazepine and nitazene strips are not listed here yet. The instructions that ship with them were not checked one by one, and printing a number that has not been read off the sheet it came from is the failure this section exists to prevent. Read your packet."
   }
 }

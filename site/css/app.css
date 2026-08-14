@@ -1503,6 +1503,20 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
    back to its own line rather than crushing to nothing, which is the layout
    this replaced. min-width on the label keeps both dropdowns left-aligned
    with each other so the column still reads as a column. */
+/* The panel under the strip brand picker.
+ *
+ * Deliberately the same card material as everything else rather than a new
+ * one: swapping the brand swaps NUMBERS, and a surface that redrew itself in a
+ * different style each time would read as a different kind of claim. Only the
+ * figures change. */
+.brandcard {
+  background: var(--glass); border: 1px solid var(--glass-line);
+  border-radius: var(--radius); padding: var(--sp-3); margin: 10px 0 14px;
+}
+.brandcard > :first-child { margin-top: 0; }
+.brandcard > :last-child { margin-bottom: 0; }
+.brandcard .readbar { margin: 12px 0; }
+
 .mixslots { display: grid; gap: 8px; margin-bottom: 12px; }
 .mixslot { display: flex; gap: 8px; align-items: center; }
 .mixslot label {

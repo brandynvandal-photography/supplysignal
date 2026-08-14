@@ -12,8 +12,8 @@
  * Every source is linked so a reader can check the original. */
 
 import {
-  h, frag, section, callout, badge, extLink, empty, disclosure, jumpNav, group,
-  sourceSink,
+  h, frag, clear, section, callout, badge, extLink, empty, disclosure, jumpNav,
+  group, sourceSink,
 } from "../ui.js";
 import * as data from "../data.js";
 
@@ -517,6 +517,8 @@ function stripCard(s, g) {
             g.stripBrandNote.lines ? h("p", null, g.stripBrandNote.lines) : null)
         : null,
 
+      brandPicker(g.brands, s.id),
+
       s.procedure
         ? frag(h("h4", null, "How to do it"),
             h("ol", { class: "steps steps--tight" },
@@ -642,6 +644,88 @@ function reagentCard(r) {
 
    Module-scoped rather than passed down because render() rebuilds the page on
    every navigation and resets it there. */
+/* Which strip do you actually have?
+ *
+ * The numbers on this page were "the common pattern" until they were checked
+ * one product at a time, and then they were not common at all. Both fentanyl
+ * brands in wide harm reduction use say dip for 15 seconds and read one line
+ * as positive - and then:
+ *
+ *   BTNX       5 mL of water per 10 mg    read at 5 minutes    dark blue end
+ *   DanceSafe  1 mL of water per 10 mg    read at 3 minutes    yellow end
+ *
+ * Five times the water. Somebody following the wrong one dilutes their sample
+ * to a fifth of the intended concentration, which pushes a real positive
+ * toward a negative - wrong in the direction that gets people killed - and
+ * then reads it two minutes late as well.
+ *
+ * So the reader picks their packet and the numbers change. Session-only, like
+ * everything else here: a `select` whose value nothing writes down. Rendered
+ * as plain content when a strip has only one brand on file, because a dropdown
+ * with one option is a control that does nothing.
+ *
+ * The blind-spot lines are not padding. One third of the fentanyl analogues in
+ * a 251-compound screen are found by one brand and not the other, and a reader
+ * holding one strip deserves to know which third they are not covering.
+ */
+function brandPicker(brands, stripId) {
+  const items = (brands?.items || []).filter((b) => b.strip === stripId);
+  if (!items.length) return null;
+
+  const body = h("div", { class: "brandcard" });
+
+  const paint = (b) => {
+    clear(body);
+    const row = (label, value) =>
+      value ? h("p", null, h("strong", null, `${label} `), value) : null;
+    body.appendChild(frag(
+      b.maker ? h("p", { class: "sec__note" }, b.maker) : null,
+      row("Sample:", b.sample),
+      row("Water:", b.water),
+      row("Residue:", b.residue),
+      row("Dip:", b.dip),
+      b.dipLimit ? callout("warn", b.dipLimit) : null,
+      row("Wait:", b.wait),
+      h("div", { class: "readbar" },
+        h("span", null, h("strong", null, b.positive), " = positive"),
+        h("span", null, h("strong", null, b.negative), " = negative")),
+      row("Invalid:", b.invalid),
+      b.onlyFor ? callout("stop", "Only for fentanyl", h("p", null, b.onlyFor)) : null,
+      b.blindSpot ? h("p", { class: "sec__note" }, b.blindSpot) : null,
+      sourceRow(b.sources),
+    ));
+  };
+
+  paint(items[0]);
+
+  /* One brand on file: no control, just its numbers. */
+  if (items.length === 1) {
+    return frag(h("h4", null, `If yours is ${items[0].name}`), body);
+  }
+
+  /* The id has to be unique across the page: this renders once per strip
+     section, so a fixed one would give two labels the same target and point
+     both at whichever select happened to be first in the document. */
+  const selId = `brand-${stripId}`;
+  const sel = h("select", { class: "input", id: selId },
+    items.map((b, i) => h("option", { value: String(i) }, b.name)));
+  sel.addEventListener("change", () => paint(items[Number(sel.value)] || items[0]));
+
+  return frag(
+    h("h4", null, brands.headline),
+    brands.intro ? h("p", { class: "sec__note" }, brands.intro) : null,
+    h("div", { class: "mixslot" },
+      h("label", { for: selId }, "Brand"), sel),
+    body,
+    brands.notInterchangeable
+      ? callout("warn", brands.notInterchangeable.title,
+          h("p", null, brands.notInterchangeable.body),
+          sourceRow([brands.notInterchangeable.source]))
+      : null,
+    brands.gap ? h("p", { class: "sec__note" }, brands.gap) : null,
+  );
+}
+
 let SRC = sourceSink();
 
 function sourceRow(sources) {
