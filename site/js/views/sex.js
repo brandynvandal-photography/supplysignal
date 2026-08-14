@@ -54,7 +54,7 @@ export async function render() {
       { id: "sec-prep", label: "PrEP and PEP" },
       { id: "sec-ec", label: "Emergency contraception" },
       { id: "sec-interactions", label: "Dangerous mixes" },
-      { id: "sec-out", label: "Long nights" },
+      { id: "sec-out", label: "Long nights and hot days" },
     ]));
 
   wrap.appendChild(h("p", { class: "sec__note" }, g.blurb));
