@@ -683,7 +683,7 @@ document.addEventListener("click", (e) => {
     if (!rs.length) {
       /* Into the live region, which survives the next clear(). */
       status.textContent =
-        "Nothing matched. Try a drug name, a street name, or what you are " +
+        "Nothing matched. Try a drug name, its street name, or what you are " +
         "trying to find out.";
       return;
     }
