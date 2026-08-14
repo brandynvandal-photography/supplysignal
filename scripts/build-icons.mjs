@@ -157,9 +157,28 @@ function png(size, rgba) {
 
 /* ------------------------------------------------------------------ main */
 
-mkdirSync(OUT, { recursive: true });
-for (const size of [180, 192, 512]) {
-  const file = join(OUT, `icon-${size}.png`);
+/* The App Store wants a 1024² master, and the native wrapper is a separate
+   repository - so the size and the destination are both arguments rather than
+   a second copy of this renderer living over there.
+
+     node scripts/build-icons.mjs
+     node scripts/build-icons.mjs --out ../nightlight-capacitor/resources --sizes 1024
+
+   Generated at 1024 rather than upscaled from 512, which is the whole point of
+   the mark being drawn in code: there is no master to lose. An upscaled icon is
+   also exactly what Apple rejects app updates for - a store review has already
+   bounced a sibling project over a placeholder icon nobody looked at. */
+const argv = process.argv.slice(2);
+const arg = (name, fallback) => {
+  const i = argv.indexOf(`--${name}`);
+  return i >= 0 && argv[i + 1] ? argv[i + 1] : fallback;
+};
+const outDir = arg("out", OUT);
+const sizes = arg("sizes", "180,192,512").split(",").map(Number).filter(Boolean);
+
+mkdirSync(outDir, { recursive: true });
+for (const size of sizes) {
+  const file = join(outDir, `icon-${size}.png`);
   writeFileSync(file, png(size, render(size)));
   console.log(`wrote ${file}`);
 }

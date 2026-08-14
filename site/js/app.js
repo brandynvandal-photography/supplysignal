@@ -720,7 +720,13 @@ function mountBackToTop() {
   await swept;
 
   const isDev = ["localhost", "127.0.0.1"].includes(location.hostname);
-  if ("serviceWorker" in navigator && !isDev) {
+  /* The packaged app has no use for a worker whose entire job is making a
+     network app work without the network: every file it would cache is
+     already on the device, in the bundle. WKWebView does not run workers on
+     the capacitor:// scheme anyway, so this was already a registration that
+     failed into its own catch - saying so is better than a silent no-op that
+     leaves the next reader thinking offline depends on it. */
+  if ("serviceWorker" in navigator && !isDev && !data.packaged()) {
     /* Absolute path and an explicit root scope. "./sw.js" resolved against
        the document, which is /alerts now, so it asked for a worker at /sw.js
        that does not exist - and even served correctly a worker's scope

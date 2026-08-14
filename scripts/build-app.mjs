@@ -77,6 +77,16 @@ async function main() {
   /* The app, at the root of the bundle. */
   await cp(path.join(ROOT, "site"), OUT, { recursive: true });
 
+  /* The service worker does not come with it.
+   *
+   * Its whole job is making a network app work without the network, and in
+   * here every file it would cache is already on the device. WKWebView will
+   * not run a worker on the capacitor:// scheme either, so it could only ever
+   * be dead weight - and dead weight that invites the belief that offline
+   * depends on it, when offline is the files being present. app.js skips the
+   * registration in a packaged build for the same reason. */
+  await rm(path.join(OUT, "sw.js"), { force: true });
+
   /* The national bundles, beside it, so "../data/..." still resolves. */
   const dataOut = path.join(OUT, "data");
   await mkdir(dataOut, { recursive: true });
