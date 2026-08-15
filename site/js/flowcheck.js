@@ -114,6 +114,64 @@ export function completedBy(observations, charts, exceptId) {
 }
 
 /**
+ * No idea what it is — so run a Marquis and let it decide the rest.
+ *
+ * Chart 3 is a router, not a flow. It has no endpoint of its own: it reads a
+ * Marquis and sends you to one of the tests on the other two charts. That is
+ * the honest starting point for a ground score, and it is the one case where
+ * the app can be genuinely useful without being told anything at all.
+ *
+ * ONE STEP AT A TIME, which is the whole reason a flowchart is a chart. The
+ * branch names the reagent to run SECOND; what comes after that depends on
+ * what the second one does. Loading four reagents up front because four
+ * substances are still live would be the wall of dropdowns this picker started
+ * as, and it would also be wrong — the chart does not ask for four.
+ *
+ * Charts 1 and 2 open on Marquis for substances chart 3 does not route —
+ * heroin, oxycodone, 2C-B. Their own second step answers it, so it is read off
+ * `flows` rather than restated here, and only when chart 3 has nothing to say
+ * about the reading. Where chart 3 does route, chart 3 wins: it is the chart
+ * written for exactly this situation.
+ *
+ * A reading no chart lists gets no next step and no candidates. DanceSafe's
+ * own footer covers it, and it is carried in the data as `unknownRule`:
+ * without knowing what something was sold as, differentiating further may be
+ * misleading. Offering a next reagent there would be inventing a route.
+ *
+ * @param {string} reading   what Marquis did — a color, or "none"
+ * @param {object} charts
+ * @returns {{reading:string, next:string[], leads:string[], says:string[],
+ *            matched:boolean, routed:boolean}|null}
+ */
+export function unknownNext(reading, charts) {
+  if (!reading || reading === "skip") return null;
+  const unknown = charts?.unknown || {};
+  const first = unknown.first || "Marquis";
+
+  const next = [], leads = [], says = [];
+  const add = (list, v) => { if (v && !list.includes(v)) list.push(v); };
+
+  for (const b of unknown.branches || []) {
+    if (!stepAgrees(b, reading)) continue;
+    add(says, b.says);
+    (b.next || []).forEach((r) => add(next, r));
+    (b.leads || []).forEach((id) => add(leads, id));
+  }
+  const routed = next.length > 0;
+
+  for (const f of charts?.flows || []) {
+    const opener = f.steps?.[0];
+    if (!opener || opener.reagent !== first || !stepAgrees(opener, reading)) continue;
+    add(leads, f.id);
+    /* Only fills the gap. A substance chart 3 already routes to must not also
+       drag its own second step in and turn a one-step instruction into three. */
+    if (!routed) add(next, f.steps[1]?.reagent);
+  }
+
+  return { reading, next, leads, says, routed, matched: next.length > 0 };
+}
+
+/**
  * Reagents the reader reported that this chart never asks for.
  *
  * Not wrong and not wasted — reagentmatch.js scores them against the whole

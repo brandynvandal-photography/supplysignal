@@ -12,7 +12,7 @@
  * handing somebody a confirmation the chart does not give.
  */
 
-import { flowFor, walk, completedBy, offChart } from "../site/js/flowcheck.js";
+import { flowFor, walk, completedBy, offChart, unknownNext } from "../site/js/flowcheck.js";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -112,6 +112,86 @@ check("heroin runs three deep and each step is required", () => {
   const two = walk(flowFor("heroin", CHARTS), { Marquis: "purple", Froehde: "brown" });
   if (two.status !== "ontrack") return `two of three steps reported ${two.status}`;
   return two.next === "Liebermann" ? null : `pointed at ${two.next}`;
+});
+
+/* ------------------------------------ chart 3, the unknown-substance router */
+
+check("a black Marquis on an unknown routes to Simon's, for MDMA or MDA", () => {
+  /* Chart 3's own instruction: "go to flowchart 1 and complete the MDMA or MDA
+     test, starting with step 2 (Simon's)". */
+  const r = unknownNext("black", CHARTS);
+  if (!r.routed) return "chart 3 did not claim the black branch";
+  if (r.next.join() !== "Simons") return `next was ${r.next.join(", ")}`;
+  const missing = ["mdma", "mda"].filter((x) => !r.leads.includes(x));
+  return missing.length ? `leads missing ${missing.join(", ")}` : null;
+});
+
+check("a clear Marquis routes to Liebermann, and keeps ketamine live", () => {
+  /* Ketamine is the case a naive version drops. Its own flow OPENS on Morris,
+     so matching the reading against flow openers alone would never reach it —
+     chart 3 is what routes a no-reaction Marquis toward it. */
+  const r = unknownNext("none", CHARTS);
+  if (r.next.join() !== "Liebermann") return `next was ${r.next.join(", ")}`;
+  return r.leads.includes("ketamine") && r.leads.includes("cocaine")
+    ? null : `leads were ${r.leads.join(", ")}`;
+});
+
+check("a routed branch does not also drag in every flow's own second step", () => {
+  /* An orange Marquis leaves cocaine, meth, amphetamine and mescaline live.
+     Following each of their flows would load Morris, Liebermann, Simon's AND
+     Froehde — four dropdowns, and more than the chart asks for. Chart 3 says
+     run Liebermann; the peach/orange widening adds Morris. That is the cap. */
+  const r = unknownNext("orange", CHARTS);
+  if (r.next.length > 2) return `loaded ${r.next.length} reagents: ${r.next.join(", ")}`;
+  if (!r.next.includes("Liebermann")) return "the chart's own next step is missing";
+  const want = ["cocaine", "methamphetamine", "amphetamine", "mescaline"];
+  const missing = want.filter((x) => !r.leads.includes(x));
+  return missing.length ? `leads missing ${missing.join(", ")}` : null;
+});
+
+check("a reading chart 3 skips still routes, off the other charts", () => {
+  /* Chart 3 branches four ways. Heroin's magenta and 2C-B's yellow are not
+     among them, and both are on charts 1 and 2 opening with Marquis — so the
+     second step comes off their own flows rather than being restated. */
+  const purple = unknownNext("purple", CHARTS);
+  if (purple.routed) return "chart 3 wrongly claimed the purple branch";
+  if (!purple.leads.includes("heroin")) return "purple did not reach heroin";
+  if (!purple.next.includes("Froehde")) return `purple next was ${purple.next.join(", ")}`;
+
+  const yellow = unknownNext("yellow", CHARTS);
+  return yellow.leads.includes("2c-b") && yellow.next.includes("Froehde")
+    ? null : `yellow gave next ${yellow.next.join(", ")} / leads ${yellow.leads.join(", ")}`;
+});
+
+check("a reading no chart lists invents no next step", () => {
+  /* DanceSafe's own footer: without knowing what it was sold as, further
+     differentiation may be misleading. Offering a reagent here would be
+     inventing a route, which is worse than saying there is not one. */
+  for (const c of ["blue", "red"]) {
+    const r = unknownNext(c, CHARTS);
+    if (r.matched) return `${c} produced next: ${r.next.join(", ")}`;
+    if (r.leads.length) return `${c} produced candidates: ${r.leads.join(", ")}`;
+  }
+  return CHARTS.unknownRule ? null : "the footer rule is not in the data to show";
+});
+
+check("no reading, no route", () => {
+  if (unknownNext("", CHARTS) !== null) return "an empty reading produced a route";
+  return unknownNext("skip", CHARTS) === null ? null : "a skipped reading produced a route";
+});
+
+check("every reagent chart 3 routes to is one the picker can express", () => {
+  const OFFERED = new Set(["Marquis", "Mecke", "Mandelin", "Froehde", "Liebermann",
+                           "Simons", "Morr", "Ehrlich", "Hofmann", "Zimmermann", "Scott"]);
+  const bad = [];
+  for (const b of CHARTS.unknown?.branches || []) {
+    for (const r of b.next || []) if (!OFFERED.has(r)) bad.push(r);
+    for (const id of b.leads || []) {
+      if (!CHARTS.flows.some((f) => f.id === id)) bad.push(`lead with no flow: ${id}`);
+    }
+  }
+  if (!OFFERED.has(CHARTS.unknown?.first)) bad.push(`opener ${CHARTS.unknown?.first}`);
+  return bad.length ? bad.join(", ") : null;
 });
 
 /* ------------------------------------------------------------ guardrails */

@@ -17,7 +17,7 @@ import {
 } from "../ui.js";
 import * as data from "../data.js";
 import { match as reagentMatch, checkSoldAs } from "../reagentmatch.js";
-import { flowFor, walk, completedBy, offChart } from "../flowcheck.js";
+import { flowFor, walk, completedBy, offChart, unknownNext } from "../flowcheck.js";
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
@@ -531,10 +531,14 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
     const reagent = h("select", { class: "input", "aria-label": `Reagent ${i + 1}` },
       REAGENTS.map((r) =>
         h("option", { value: r, selected: r === first || null }, reagentName(r))));
+    /* Capitalised. The values stay lowercase — they are keys into the reagent
+       table — but a dropdown full of lowercase words next to "Marquis" and
+       "Simon's" read as unfinished text rather than as choices. */
+    const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
     const result = h("select", { class: "input", "aria-label": `What reagent ${i + 1} did` },
-      h("option", { value: "" }, "choose…"),
-      h("option", { value: "none" }, "no reaction"),
-      COLORS.map((c) => h("option", { value: c }, c)));
+      h("option", { value: "" }, "Choose…"),
+      h("option", { value: "none" }, "No reaction"),
+      COLORS.map((c) => h("option", { value: c }, cap(c))));
     reagent.addEventListener("change", check);
     result.addEventListener("change", check);
 
@@ -627,6 +631,83 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
       if (had) result.value = had;
     }
     relabel();
+  }
+
+  /* NO CONTEXT, SO START WITH A MARQUIS AND LET IT DECIDE.
+   *
+   * "Not saying / not sure" used to leave one Marquis row and nothing else,
+   * which is where a ground score actually starts — and then left the reader
+   * to work out on their own which bottle to open second. Chart 3 exists for
+   * exactly that and answers it: peach sends you to Morris, no reaction to
+   * Liebermann, black to Simon's.
+   *
+   * The rows follow it ONE STEP AT A TIME. Answering Marquis adds the reagent
+   * the chart asks for next and nothing beyond it; answering that adds the one
+   * after. Loading every reagent that is still live would be four dropdowns
+   * for an orange Marquis, which is both a wall and more than the chart asks
+   * for.
+   *
+   * Nothing already answered is removed. A row the reader filled in stays even
+   * when changing the Marquis reading reroutes everything under it, because
+   * deleting somebody's own observation to tidy a layout is never worth it. */
+  function syncUnknown() {
+    const marquis = slots.find((s) => s.reagent.value === "Marquis");
+    const route = unknownNext(marquis?.result.value, charts);
+
+    const keep = new Set(["Marquis", ...(route?.next || [])]);
+    for (const { reagent, result } of slots) if (result.value) keep.add(reagent.value);
+
+    for (const s of [...slots]) {
+      if (keep.has(s.reagent.value)) continue;
+      const at = slots.indexOf(s);
+      if (at > -1) slots.splice(at, 1);
+      rows.children[at]?.remove();
+    }
+    const have = new Set(slots.map((s) => s.reagent.value));
+    for (const r of route?.next || []) if (!have.has(r)) addSlot(r);
+    relabel();
+    return route;
+  }
+
+  /* Where chart 3 sends you, and what it can end at. The candidates are
+     buttons rather than prose: tapping one is the chart's own "go to flowchart
+     1 and complete the MDMA or MDA test", and it loads that test. */
+  function routeCard(route) {
+    const said = route.reading === "none" ? "nothing" : route.reading;
+
+    if (!route.matched) {
+      return h("div", { class: "plan" },
+        h("p", { class: "plan__hd" },
+          "Marquis went ", h("strong", null, said),
+          ". DanceSafe's unknown-substance chart does not list that result."),
+        h("p", { class: "sec__note" }, charts?.unknownRule || ""),
+        h("p", { class: "sec__note" },
+          "If you know what it was sold as, say so above — that turns this into "
+          + "a test with an expected answer. Otherwise everything the reading "
+          + "fits is listed below."));
+    }
+
+    return h("div", { class: "plan" },
+      h("p", { class: "plan__hd" },
+        "Marquis went ", h("strong", null, said),
+        route.routed
+          ? ". The unknown-substance chart runs "
+          : ". No unknown-substance branch covers that, but the charts do — next is ",
+        h("strong", null, route.next.map(reagentName).join(" or ")),
+        route.next.length > 1
+          ? ", loaded below. Either is a valid second step from here."
+          : " next, loaded below."),
+      route.leads.length
+        ? frag(
+            h("p", { class: "sec__note" },
+              `That branch can end at ${route.leads.length === 1 ? "one thing" : `${route.leads.length} things`}. `
+              + "Pick one to load its full test:"),
+            h("div", { class: "tags" }, route.leads.map((id) =>
+              h("button", {
+                type: "button", class: "chip",
+                onClick: () => { soldAs.value = id; onSoldAs(); },
+              }, nameOf(id)))))
+        : null);
   }
 
   /* WHAT THE TEST IS, now that the rows are already filled in.
@@ -764,6 +845,12 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
 
   function check() {
     clear(out);
+
+    /* With nothing said about what it is, the rows follow chart 3 from the
+       Marquis reading. Done before the state is read: adding a row adds an
+       empty one, so it cannot change what is about to be scored. */
+    const route = soldAs.value ? null : syncUnknown();
+
     /* Last one wins if the same reagent is picked twice — the alternative is
        an error message about a mistake the reader can simply correct. */
     const state = {};
@@ -782,11 +869,13 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
      * yet is standing over a bag deciding what to open. */
     if (flow) out.appendChild(planCard(flow, run));
     else if (soldAs.value) out.appendChild(tablePlanNote(soldAs.value));
+    else if (route) out.appendChild(routeCard(route));
 
     if (!used) {
       if (!soldAs.value) {
         out.appendChild(h("p", { class: "sec__note" },
-          "Say what each one did. Two reagents narrow it far more than one."));
+          "Start with Marquis. What it does decides which reagent the chart "
+          + "asks for next, and that one gets loaded for you."));
       }
       return;
     }
@@ -930,10 +1019,11 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
      * there. The UI simply does not render two of them. */
   }
 
-  soldAs.addEventListener("change", () => {
+  function onSoldAs() {
     loadFlow(flowFor(soldAs.value, charts), soldAs.value);
     check();
-  });
+  }
+  soldAs.addEventListener("change", onSoldAs);
   /* ONE, and the reader adds the rest. Most people own a Marquis and nothing
      else, and opening with two empty rows asks for a second bottle before it
      has answered anything with the first. One reagent narrows the list less —

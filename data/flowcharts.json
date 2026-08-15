@@ -135,5 +135,35 @@
       ]
     }
   ],
+  "unknown": {
+    "_comment": [
+      "Chart 3, TESTING UNKNOWN SUBSTANCES. A router rather than a flow: it has",
+      "no endpoint of its own, it reads a Marquis and sends you to one of the",
+      "tests above, which is why it is shaped differently from `flows`.",
+      "",
+      "`next` is the reagent the chart says to run SECOND — one step, not the",
+      "whole branch, because the step after that depends on what the second one",
+      "does. `leads` is what the branch can end at.",
+      "",
+      "The orange branch carries two next reagents because of the widening. The",
+      "chart separates PEACH (which goes to Morris, toward cocaine) from BRIGHT",
+      "ORANGE (which goes to Liebermann, toward amphetamine, meth or mescaline),",
+      "and nobody reading a spot plate under a kitchen light can be asked to",
+      "tell those apart reliably. Both are offered rather than one guessed at."
+    ],
+    "chart": "3 — testing unknown substances",
+    "first": "Marquis",
+    "branches": [
+      { "colors": ["pink"], "says": "light pink",
+        "next": ["Morr"], "leads": ["cocaine"] },
+      { "none": true, "says": "no reaction",
+        "next": ["Liebermann"], "leads": ["cocaine", "ketamine"] },
+      { "colors": ["orange"], "says": "peach, or bright orange",
+        "next": ["Liebermann", "Morr"],
+        "leads": ["cocaine", "methamphetamine", "amphetamine", "mescaline"] },
+      { "colors": ["black"], "says": "black",
+        "next": ["Simons"], "leads": ["mdma", "mda"] }
+    ]
+  },
   "unknownRule": "Any Marquis result the charts do not list should be treated as an unexpected reaction for a ground score or mystery substance. Without context around what something was sold as, further differentiation may be misleading."
 }
