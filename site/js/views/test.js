@@ -633,6 +633,30 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
     relabel();
   }
 
+  /* THE SAME REACTION BAR THE REAGENT TABLES USE.
+   *
+   * Those tables answer the forward question — what does Marquis do to MDMA —
+   * and they answer it with a blended band of the colors it goes through. This
+   * screen was answering the same question in words alone, so "expect royal
+   * blue" sat above a reagent table two sections up where royal blue was a
+   * band you could hold a spot plate against. One reagent result, two
+   * renderings, in the same tool.
+   *
+   * A step accepting several readings gets several bands, which is what the
+   * bar already does for a sequence — the meaning differs (these are
+   * alternatives, not a progression) and the words beside it carry that. The
+   * bar is aria-hidden throughout for the same reason it is in the tables:
+   * color is never the only signal, and reagent color is exactly where a
+   * color-blind reader is most at risk of being failed. */
+  const bar = (colors, none) => {
+    const keys = [...(none ? ["none"] : []), ...(colors || [])];
+    if (!keys.length) return null;
+    return h("span", { class: "reagbar reagbar--inline", "aria-hidden": "true" },
+      keys.map((k) => h("span", { class: KNOWN_COLORS.has(k) || k === "none" ? `swatch--${k}` : "" })));
+  };
+  const dot = (v) =>
+    h("span", { class: `swatch swatch--${v === "none" ? "none" : v}`, "aria-hidden": "true" });
+
   /* NO CONTEXT, SO START WITH A MARQUIS AND LET IT DECIDE.
    *
    * "Not saying / not sure" used to leave one Marquis row and nothing else,
@@ -678,7 +702,7 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
     if (!route.matched) {
       return h("div", { class: "plan" },
         h("p", { class: "plan__hd" },
-          "Marquis went ", h("strong", null, said),
+          "Marquis went ", dot(route.reading), h("strong", null, said),
           ". DanceSafe's unknown-substance chart does not list that result."),
         h("p", { class: "sec__note" }, charts?.unknownRule || ""),
         h("p", { class: "sec__note" },
@@ -689,7 +713,7 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
 
     return h("div", { class: "plan" },
       h("p", { class: "plan__hd" },
-        "Marquis went ", h("strong", null, said),
+        "Marquis went ", dot(route.reading), h("strong", null, said),
         route.routed
           ? ". The unknown-substance chart runs "
           : ". No unknown-substance branch covers that, but the charts do — next is ",
@@ -741,7 +765,8 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
         flow.steps.map((s) =>
           h("li", { class: `plan__step${done.has(s.reagent) ? " plan__step--done" : ""}` },
             h("span", { class: "plan__reagent" }, reagentName(s.reagent)),
-            h("span", { class: "plan__says" }, `expect ${s.says}`)))),
+            h("span", { class: "plan__says" }, `expect ${s.says}`),
+            bar(s.colors, s.none)))),
       /* Sample count is not decoration. Every reagent needs its own scraping —
          running a second on the same spot reads the first reagent's product. */
       h("p", { class: "sec__note" },
@@ -790,6 +815,9 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
                 h("em", null, `The chart expects ${s.says}.`))
             : h("span", null,
                 `${reagentName(s.reagent)} went `,
+                /* The observed reading gets the dot; the expected sequence has
+                   its bar in the plan panel above, so neither is drawn twice. */
+                dot(s.observed),
                 h("strong", null, s.observed === "none" ? "nothing" : s.observed),
                 ` — the chart expects ${s.says}`)));
 
@@ -921,10 +949,14 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
           h("span", { class: "soldline__mark", "aria-hidden": "true" }, mark),
           h("span", null,
             `${reagentName(d.reagent)} went `,
+            dot(d.observed),
             h("strong", null, d.observed === "none" ? "nothing" : d.observed),
             d.verdict === "unknown"
               ? ` — nothing published for ${name} with ${reagentName(d.reagent)}`
-              : ` — published for ${name} is ${was}`));
+              : ` — published for ${name} is ${was}`,
+            /* No plan panel above this one — the table has no sequence to
+               print — so the published colors carry their own bar. */
+            d.verdict === "unknown" ? null : bar(doc?.colors, doc?.none)));
       };
 
       out.appendChild(
@@ -1043,13 +1075,18 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
       + "right reagents, in the right order. Then say what each one did. "
       + "Already ran some? Enter them in any order. Colors are the plain ones "
       + "on purpose — a spot plate under a kitchen light is not a laboratory."),
-    callout("stop", "This cannot rule out fentanyl",
+    /* Four sentences down to three, and the title now says the thing instead
+       of gesturing at it. "This cannot rule out fentanyl" describes a
+       limitation of the tool; "reagents do not test for fentanyl" is the fact,
+       and it is shorter. Both caveats that matter are kept — the dose is below
+       detection, and a mixture reacts as whatever dominates — because either
+       one alone lets somebody talk themselves into a clean reading. */
+    callout("stop", "Reagents do not test for fentanyl",
       h("p", null,
-        "A dose that kills is far below what any reagent shows, so no color "
-        + "here and no combination of them says a sample is free of it. A "
-        + "reagent also reads whatever reacts STRONGEST — a mixture shows one "
-        + "color and hides the rest, and most street samples are mixtures. "
-        + "What this gives you is what the result is consistent with.")),
+        "They tell you what the strongest thing in a sample is. A dose of "
+        + "fentanyl that kills is far below what any color can show, and a "
+        + "mixture reacts as whatever dominates. Use a fentanyl test strip "
+        + "for that.")),
     /* The frame sits above the readings, in the same control, because what it
        was sold as changes how everything under it reads. Optional — the list
        works without it, and "not saying" is the default rather than a thing

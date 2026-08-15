@@ -1442,11 +1442,18 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
 .plan { margin-bottom: var(--sp-3); }
 .plan__hd { margin: 0 0 var(--sp-2); font-size: .95rem; }
 .plan__steps { list-style: none; margin: 0 0 var(--sp-2); padding: 0; counter-reset: plan; }
+/* nowrap, so the bar cannot orphan.
+   "expect yellow-green-brown-black" runs past one line on a phone, and with
+   the row wrapping, the swatch bar dropped below the text and sat alone
+   against the right edge — furthest from the words it belongs to. The step
+   text wraps inside its own box now and the bar holds the right-hand column
+   at every width. */
 .plan__step {
-  display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+  display: flex; align-items: baseline; gap: 9px; flex-wrap: nowrap;
   padding: 7px 0 7px 26px; position: relative; font-size: .93rem;
   counter-increment: plan;
 }
+.plan__says { min-width: 0; }
 .plan__step + .plan__step { border-top: 1px solid var(--glass-line); }
 .plan__step::before {
   content: counter(plan); position: absolute; left: 0; top: 7px;
@@ -2463,6 +2470,20 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 }
 .reagbar > span { flex: 1 1 0; min-width: 0; }
 /* A single-colour result is one full band, which is exactly right. */
+
+/* THE BAR IN A PROSE LINE rather than a table cell, for the reverse lookup.
+ *
+ * .reagbar is sized to fill a column at up to 168px. Trailing a sentence it
+ * takes only the room it needs, and it has to live HERE, beside the rule it
+ * overrides — both are single-class selectors, so the one further down the
+ * file wins, and this sat 1000 lines above .reagbar doing nothing at all. */
+.reagbar--inline {
+  width: auto; max-width: 96px; min-width: 52px; height: 11px;
+  margin-left: auto; align-self: center;
+}
+.soldline .reagbar--inline {
+  display: inline-flex; margin: 0 0 0 7px; vertical-align: middle;
+}
 
 /* The bands blend into each other rather than butting up.
  *
