@@ -55,6 +55,10 @@
 <!-- Favicon mirrors the header mark: halo + core in --l-glow. No animation and
      no halo alpha subtleties survive at 16px, so it is drawn flat. -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23b8720f' stroke-width='2' opacity='.4'/><circle cx='16' cy='16' r='8.5' fill='none' stroke='%23b8720f' stroke-width='2.4' opacity='.65'/><circle cx='16' cy='16' r='7' fill='%23b8720f' opacity='.25'/><circle cx='16' cy='16' r='4.5' fill='%23b8720f'/></svg>">
+<!-- Blocking, and in the head on purpose. It decides whether the opening
+     splash renders at all, and that decision has to be made before the body
+     paints. See the file. -->
+<script src="js/native-flag.js"></script>
 </head>
 <body>
 

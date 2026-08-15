@@ -3337,7 +3337,17 @@ html, body { overscroll-behavior-y: none; }
 
    Painted with the theme's own surface so there is no flash of a different
    colour handing over to the app underneath. */
-.boot {
+/* NOT ON THE WEB. The opening belongs to the packaged app — the thing that
+   gets launched from a home screen and needs a moment of identity while it
+   starts. A website does not: the reader has already seen a URL bar and a tab
+   title, and a full-screen logo between them and the page is a toll.
+
+   Hidden by default and shown only under .is-packaged, which js/native-flag.js
+   sets from the capacitor: protocol before the body paints. Defaulting to
+   HIDDEN is deliberate — if that script ever fails to load, the web behaves
+   correctly and only the app loses its splash. */
+.boot { display: none; }
+.is-packaged .boot {
   position: fixed; inset: 0; z-index: 100;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 18px;
@@ -3349,7 +3359,7 @@ html, body { overscroll-behavior-y: none; }
      came up gold. */
   color: var(--glow);
 }
-.boot__name {
+.is-packaged .boot__name {
   font-size: 1.45rem; font-weight: 650; letter-spacing: -.015em;
   color: var(--ink);
   opacity: 0;
@@ -3357,7 +3367,7 @@ html, body { overscroll-behavior-y: none; }
 }
 @keyframes bootname { to { opacity: 1; } }
 
-.boot__ring, .boot__core, .boot__halo { transform-origin: 16px 16px; }
+.is-packaged .boot__ring, .is-packaged .boot__core, .is-packaged .boot__halo { transform-origin: 16px 16px; }
 .boot__ring--outer { opacity: .3; }
 .boot__ring--inner { opacity: .55; }
 .boot__halo { opacity: .22; }
@@ -3371,11 +3381,11 @@ html, body { overscroll-behavior-y: none; }
 
 /* Leaving. pointer-events go first so the screen is usable the instant the
    fade starts rather than when it finishes. */
-.boot--out { opacity: 0; pointer-events: none; transition: opacity .26s ease-out; }
+.is-packaged .boot--out { opacity: 0; pointer-events: none; transition: opacity .26s ease-out; }
 
 /* Nothing to fade from and nothing to fade to: the mark is still there, it
    just does not move, and the whole thing is gone in a quarter of a second. */
 @media (prefers-reduced-motion: reduce) {
-  .boot__name { animation: none; opacity: 1; }
-  .boot--out { transition: opacity .12s linear; }
+  .is-packaged .boot__name { animation: none; opacity: 1; }
+  .is-packaged .boot--out { transition: opacity .12s linear; }
 }

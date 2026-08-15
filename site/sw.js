@@ -36,7 +36,7 @@
    that copy still imported the old src/locate.mjs path that the /src/* 404
    rule had killed. Verified in the live cache - cachedImportsOldPath: true.
    A comment saying "remember to bump this" is not a mechanism. */
-const VERSION = "nl-df73ee71";
+const VERSION = "nl-45bd752f";
 
 /* The minimum set that makes every screen renderable offline. Data files are
    picked up on first use by the runtime cache. */
@@ -45,6 +45,10 @@ const SHELL = [
   "./index.html",
   "./css/app.css",
   "./js/app.js",
+  /* Loaded blocking from <head>, so a cache miss on it would block the first
+     paint of every offline launch. It decides whether the opening splash
+     renders — see the file. */
+  "./js/native-flag.js",
 ];
 
 self.addEventListener("install", (e) => {

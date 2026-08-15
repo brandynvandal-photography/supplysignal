@@ -193,7 +193,28 @@ for (const file of files) {
   }
 }
 
+/* The splash gate and packaged() must test the same thing.
+ *
+ * site/js/native-flag.js decides, before the body paints, whether the opening
+ * renders — and it cannot import data.js, because it runs blocking in <head>
+ * before the module graph exists. So the protocol test is written twice, and
+ * two copies of a rule drift. If one ever learns about a new scheme and the
+ * other does not, the app either loses its splash or the web grows one. */
+{
+  const flag = readFileSync("site/js/native-flag.js", "utf8");
+  const dataJs = readFileSync("site/js/data.js", "utf8");
+  const schemes = (src) => [...src.matchAll(/location\.protocol === "([a-z]+):"/g)]
+    .map((m) => m[1]).sort().join(",");
+  const a = schemes(flag), b = schemes(dataJs);
+  if (!a) problems.push("native-flag.js no longer tests location.protocol at all");
+  else if (a !== b) {
+    problems.push(`native-flag.js tests [${a}] but data.js packaged() tests [${b}] — `
+      + "the splash gate and packaged() must agree");
+  }
+}
+
 const seen = [...new Set(problems)];
+
 console.log("REFS\n");
 if (seen.length) {
   for (const p of seen) console.log("  not ok " + p);
