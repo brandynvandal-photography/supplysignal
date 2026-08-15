@@ -1087,41 +1087,71 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
      * already gives flush full-width rows, inset hairlines between them and a
      * pressed tint. Same row the substance index and the map's top list use,
      * so a result here now looks like every other tappable name in the app. */
-    const hit = (m) =>
+    const hit = (m, meta) =>
       h("button", { type: "button", class: "nbr",
                     onClick: () => go(`#/substances/${m.id}`) },
         h("span", { class: "nbr__text" },
           h("span", { class: "nbr__name" }, nameOf(m.id))),
         h("span", { class: "nbr__right" },
           h("span", { class: "nbr__dist" },
-            m.unknown
+            meta || (m.unknown
               ? `${m.agrees} of ${used}, ${m.unknown} untested`
-              : `${m.agrees} of ${used}`),
+              : `${m.agrees} of ${used}`)),
           h("span", { "aria-hidden": "true" }, "›")));
 
-    /* Every reading, or it is not in this list. */
+    /* A COMPLETED CHART IS A PUBLISHED RESULT, and the list has to say so.
+     *
+     * The two halves of this screen scored differently and could therefore
+     * contradict each other outright. Live example: an unknown, Marquis orange,
+     * Simon's clear, Froehde clear — that completes DanceSafe's amphetamine
+     * sequence, and the card said so. Then a fourth reagent the chart does not
+     * ask for went into the table scoring, no substance had a published result
+     * for all four, and directly underneath "Completes the Amphetamine test"
+     * the screen said "Nothing published matches all 4 readings."
+     *
+     * Both sentences were true of their own scoring and the pair of them is
+     * incoherent — worse, the second reads as "inconclusive" and cancels the
+     * first. The verdict card already says an off-chart reading is not counted
+     * in it; the list was silently counting it and coming back empty.
+     *
+     * So anything a chart completes is in this list, ahead of substances that
+     * merely have the right colors in their rows, and labelled for the evidence
+     * it rests on. The empty state is now only reachable when no chart answered
+     * at all, which is the only time it is true. */
+    const chartedWalks = completedBy(state, charts);
+    const inTable = new Set(consistent.map((c) => c.id));
+    const chartOnly = chartedWalks.filter((w) => !inTable.has(w.id));
+    const chartedIds = new Set(chartedWalks.map((w) => w.id));
+    const ranked = chartedIds.size
+      ? [...consistent].sort((a, b) =>
+          (chartedIds.has(b.id) ? 1 : 0) - (chartedIds.has(a.id) ? 1 : 0))
+      : consistent;
+
     const allOf = used === 1 ? "that reading" : `all ${used} readings`;
-    if (!consistent.length) {
+    const total = chartOnly.length + consistent.length;
+
+    if (!total) {
       out.appendChild(empty(
         `Nothing published matches ${allOf}.`,
         "That is a gap in what has been tested, not proof you have something new. "
         + "Reagent age and light both change a color, so it is also worth "
         + "checking whether one of the readings could go the other way."));
     } else {
-      /* A substance whose whole published FLOW these readings complete goes to
-         the top, ahead of ones that merely have the right colors in their row.
-         Otherwise the card above can name MDA from the chart while the list
-         under it sorts MDA fifth behind three research chemicals, and the two
-         halves of the screen appear to disagree about their own answer. */
-      const charted = new Set(completedBy(state, charts).map((w) => w.id));
-      const ranked = charted.size
-        ? [...consistent].sort((a, b) => (charted.has(b.id) ? 1 : 0) - (charted.has(a.id) ? 1 : 0))
-        : consistent;
-
       out.appendChild(h("p", { class: "sec__note" },
-        `${consistent.length} substance${consistent.length === 1 ? "" : "s"} `
-        + `match${consistent.length === 1 ? "es" : ""} ${allOf}, best first.`));
-      out.appendChild(h("div", { class: "list" }, ranked.slice(0, 12).map(hit)));
+        chartOnly.length && !consistent.length
+          /* The chart answered and the table cannot corroborate it, because no
+             one substance has a published result for every reagent that got
+             run. That is a gap in the table, not a second opinion. */
+          ? `${chartOnly.length === 1 ? "One substance" : `${chartOnly.length} substances`} `
+            + "completed a published DanceSafe sequence. No single substance in "
+            + `the ${Object.keys(table || {}).length}-substance color table has a `
+            + `result on record for ${allOf}, so it has nothing to add here.`
+          : `${total} substance${total === 1 ? "" : "s"} `
+            + `match${total === 1 ? "es" : ""} ${allOf}, best first.`));
+      out.appendChild(h("div", { class: "list" }, [
+        ...chartOnly.map((w) => hit({ id: w.id }, "matches the chart")),
+        ...ranked.slice(0, 12).map((m) => hit(m)),
+      ]));
     }
 
     /* ONE LIST, AND IT IS THE ONE THAT MATCHES EVERYTHING.

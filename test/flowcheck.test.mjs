@@ -12,7 +12,8 @@
  * handing somebody a confirmation the chart does not give.
  */
 
-import { flowFor, walk, completedBy, offChart, unknownNext } from "../site/js/flowcheck.js";
+import { flowFor, walk, completedBy, offChart, guide, unknownNext } from "../site/js/flowcheck.js";
+import { match } from "../site/js/reagentmatch.js";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -192,6 +193,43 @@ check("every reagent chart 3 routes to is one the picker can express", () => {
   }
   if (!OFFERED.has(CHARTS.unknown?.first)) bad.push(`opener ${CHARTS.unknown?.first}`);
   return bad.length ? bad.join(", ") : null;
+});
+
+/* -------------------------------- the two scorings must not contradict */
+
+check("a completed chart is never reported as nothing published", () => {
+  /* THE BUG THIS EXISTS FOR, seen live. An unknown: Marquis orange, Simon's
+     clear, Froehde clear. That completes DanceSafe's amphetamine sequence and
+     the card said so — and directly underneath, the color-table list said
+     "Nothing published matches all 4 readings", because a fourth reagent the
+     chart does not ask for went into the table scoring and no substance has a
+     published result covering all four.
+
+     Both sentences were true of their own scoring. The pair is incoherent, and
+     the second one reads as "inconclusive" and cancels the first.
+
+     The rule: if any chart completes, the screen has something published to
+     show, whatever the table does. */
+  const obs = { Marquis: "orange", Simons: "none", Froehde: "none", Liebermann: "yellow" };
+  const done = completedBy(obs, CHARTS);
+  if (!done.some((w) => w.id === "amphetamine")) {
+    return `amphetamine did not complete: ${done.map((w) => w.id).join(", ") || "nothing did"}`;
+  }
+  /* And the table genuinely cannot corroborate it, which is why the UI has to
+     carry the chart's answer rather than defer to the table. */
+  const full = match(obs, TABLE).consistent;
+  if (full.length) return null;           // table agrees too; nothing to reconcile
+  return done.length ? null : "a chart completed but nothing was left to show";
+});
+
+check("an off-chart reagent cannot empty a completed chart's answer", () => {
+  /* Adding a reagent the chart never asks for must not change what the chart
+     concluded. It is scored by the table, and the table is a separate claim. */
+  const bare = { Marquis: "black", Simons: "blue" };
+  const plus = { ...bare, Mecke: "purple" };
+  const a = completedBy(bare, CHARTS).map((w) => w.id);
+  const b = completedBy(plus, CHARTS).map((w) => w.id);
+  return a.join() === b.join() ? null : `${a.join()} became ${b.join()}`;
 });
 
 /* ------------------------------------------------------------ guardrails */
