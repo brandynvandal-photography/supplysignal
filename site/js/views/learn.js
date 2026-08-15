@@ -141,8 +141,15 @@ export async function render(route, { go }) {
             h("p", null, x.d),
             x.note ? h("p", { class: "sec__note" }, x.note) : null,
             x.sources ? h("div", { class: "sources" },
-              x.sources.map((z) => extLink(z.url, z.name))) : null)))))] : []),
+              x.sources.map((z) => extLink(z.url, z.name))) : null)))))] : []));
 
+  /* ITS OWN appendChild, and that is the fix rather than a style preference.
+     This block was the SECOND argument to the call above, and appendChild takes
+     one node — every argument after the first is dropped without an error. So
+     whenever the beforeTheNight bundle loaded, it took the first slot and this
+     entire section never rendered. Not a broken chip: a missing section, live,
+     found by the chip test noticing its target did not exist. */
+  wrap.appendChild(
     h("div", { id: "sec-stimulants" },
       section("Staying up, and coming down", null,
         h("p", { class: "sec__note" },

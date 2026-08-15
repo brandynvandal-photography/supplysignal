@@ -35,7 +35,34 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 class Node {
   constructor() { this.childNodes = []; }
-  appendChild(n) { if (n) this.childNodes.push(n); return n; }
+  /* FRAGMENTS FLATTEN, as they do in a real DOM.
+   *
+   * They used to be stored whole, and everything that walks the tree only
+   * descends into elements — so anything a view built with frag() was invisible
+   * to querySelector. textContent hid it, because that maps every child
+   * including fragments, so the render assertions all passed over the top of
+   * it. It surfaced the moment a check needed structure rather than words: the
+   * jump-chip test reported 55 sections as having no heading, and every one of
+   * them had a heading sitting inside an unflattened fragment. */
+  appendChild(n, ...extra) {
+    /* appendChild TAKES ONE NODE, and the real one ignores the rest in
+       silence. That silence hid a whole section: learn.js called
+       wrap.appendChild(spreadItem, stimulantsDiv) and "Staying up, and coming
+       down" simply never rendered whenever the first argument was present.
+       Here it is a hard error, because a view that calls it this way has lost
+       content and there is no other signal that it did. */
+    if (extra.length) {
+      throw new Error(`appendChild got ${extra.length + 1} arguments; `
+        + "everything after the first is dropped — use append() or one call each");
+    }
+    if (!n) return n;
+    if (!(n instanceof El) && !(n instanceof Text) && n instanceof Node) {
+      for (const c of [...n.childNodes]) this.appendChild(c);
+      return n;
+    }
+    this.childNodes.push(n);
+    return n;
+  }
   append(...n) { n.forEach((x) => this.appendChild(x)); }
   replaceChildren(...n) { this.childNodes = []; this.append(...n); }
   remove() {}
@@ -184,6 +211,18 @@ const SCREENS = [
   ["help", {}],
 ];
 
+/** Every element in a rendered tree, depth-first. */
+function walkEls(root) {
+  const out = [];
+  const go = (n) => {
+    for (const c of n.childNodes) {
+      if (c instanceof El) { out.push(c); go(c); }
+    }
+  };
+  go(root);
+  return out;
+}
+
 console.log("VIEWS\n");
 for (const [name, route] of SCREENS) {
   const label = route.id ? `${name}/${route.sub || route.id}` : name;
@@ -204,7 +243,43 @@ for (const [name, route] of SCREENS) {
       fails.push(`${label} rendered its failure state: "${text.slice(0, 80)}"`);
       continue;
     }
-    console.log(`  ok   ${label.padEnd(24)} ${text.length.toLocaleString()} chars`);
+
+    /* EVERY JUMP CHIP LANDS ON A REAL HEADING.
+     *
+     * A chip whose target no longer exists fails in complete silence:
+     * jumpNav does getElementById, gets null, and returns. No error, no
+     * console warning, nothing moves. The reader taps it and the page sits
+     * there. Sections on this app get renamed, reordered and re-parented
+     * constantly — "Test strips" alone has moved twice — so the chips drift
+     * out of date and nothing notices.
+     *
+     * Two things are checked, because a chip can be broken in two ways: the
+     * id may not be in the tree at all, and it may be in the tree on an
+     * element with no heading to scroll to. jumpNav falls back to scrolling
+     * the wrapper in that case, which lands the reader in the middle of a
+     * section rather than at its title. */
+    const chips = walkEls(node).filter((e) => e.attrs["data-jump"]);
+    const ids = new Map();
+    for (const e of walkEls(node)) if (e.id) ids.set(e.id, e);
+    for (const chip of chips) {
+      const want = chip.attrs["data-jump"];
+      const target = ids.get(want);
+      if (!target) {
+        fails.push(`${label}: jump chip "${chip.textContent.trim()}" points at `
+          + `#${want}, which this screen does not render`);
+        continue;
+      }
+      const heading = /^h[1-4]$/.test(target.tag) || target.tag === "summary"
+        ? target
+        : target.querySelector("h1, h2, h3, h4, summary");
+      if (!heading) {
+        fails.push(`${label}: jump chip "${chip.textContent.trim()}" lands on `
+          + `#${want}, which has no heading to scroll to`);
+      }
+    }
+
+    console.log(`  ok   ${label.padEnd(24)} ${text.length.toLocaleString()} chars`
+      + (chips.length ? `, ${chips.length} jump chips` : ""));
   } catch (e) {
     fails.push(`${label} THREW ${e.name}: ${e.message}`);
   }

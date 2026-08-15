@@ -551,8 +551,8 @@ function reverseLookup(matchFn, table, subs, go, charts) {
   const common = COMMON.filter((id) => withData.includes(id)).sort(byName);
   const rest = withData.filter((id) => !common.includes(id)).sort(byName);
 
-  const soldAs = h("select", { class: "input", "aria-label": "What it was sold as" },
-    h("option", { value: "" }, "not saying / not sure"),
+  const soldAs = h("select", { class: "input", "aria-label": "Which substance to test for" },
+    h("option", { value: "" }, "not sure — start with Marquis"),
     common.length
       ? h("optgroup", { label: "Most often tested" },
           common.map((id) => h("option", { value: id }, nameOf(id))))
@@ -776,7 +776,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
           ". The unknown-substance chart does not list that result."),
         h("p", { class: "sec__note" }, charts?.unknownRule || ""),
         h("p", { class: "sec__note" },
-          "If you know what it was sold as, say so above — that turns this into "
+          "If you have a substance in mind, pick it above — that turns this into "
           + "a test with an expected answer. Otherwise everything the reading "
           + "fits is listed below."));
     }
@@ -973,7 +973,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
            path they said nothing — the chart got here on its own — so the meta
            names the chart instead of putting words in their mouth. */
         h("span", { class: "card__meta" },
-          found ? (flow.chart ? `chart ${flow.chart.split(" ")[0]}` : "") : `sold as ${name}`)),
+          found ? (flow.chart ? `chart ${flow.chart.split(" ")[0]}` : "") : `testing for ${name}`)),
       h("ul", { class: "soldlines" }, run.steps.map(line)),
 
       run.status === "ontrack"
@@ -1119,7 +1119,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
           h("div", { class: "card__top" },
             h("span", { class: `badge badge--${look.badge}` },
               h("span", { "aria-hidden": "true" }, look.glyph), look.label),
-            h("span", { class: "card__meta" }, `sold as ${name}`)),
+            h("span", { class: "card__meta" }, `testing for ${name}`)),
           h("ul", { class: "soldlines" }, sold.detail.map(line)),
           h("p", { class: "sec__note" },
             sold.status === "expected"
@@ -1268,16 +1268,17 @@ function reverseLookup(matchFn, table, subs, go, charts) {
        the chart's reagents load in its order — so the first sentence is what
        to do, not what it is for. */
     h("p", { class: "sec__note" },
-      "Say what it was sold as and this loads the test for it — the "
-      + "right reagents, in the right order. Then say what each one did. "
-      + "Already ran some? Enter them in any order."),
+      "Pick the substance you think it is — what it was sold as, or what you "
+      + "expect — and this loads the test for it: the right reagents, in the "
+      + "right order. Then say what each one did. Already ran some? Enter them "
+      + "in any order."),
     /* BOTH PATHS EXPLAINED BEFORE THE CONTROLS, not after them. This sentence
        sat under the empty picker, which is below the thing it is instructions
        for — a reader following it had already had to guess. */
     h("p", { class: "sec__note" },
-      "No idea what it is? Leave that set to ", h("em", null, "not sure"),
-      " and start with Marquis. What it does decides which reagent the chart "
-      + "asks for next, and that one gets loaded for you."),
+      "No idea what it is? Leave it on ", h("em", null, "not sure"),
+      " and start with Marquis. What it does decides which reagent comes next, "
+      + "and that one gets loaded for you."),
     /* Four sentences down to three, and the title now says the thing instead
        of gesturing at it. "This cannot rule out fentanyl" describes a
        limitation of the tool; "reagents do not test for fentanyl" is the fact,
@@ -1298,7 +1299,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
       h("div", { class: "revslot" },
         h("div", { class: "mixslot" },
           h("label", { class: "pick__row" },
-            h("span", { class: "mixlabel" }, "sold as"),
+            h("span", { class: "mixlabel" }, "substance"),
             h("span", { class: "pick__field" }, soldAs))))),
     rows,
     h("div", { class: "mixadd" }, addBtn),

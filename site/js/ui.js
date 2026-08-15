@@ -253,6 +253,16 @@ export function jumpNav(items) {
           {
             type: "button",
             class: "chip",
+            /* The target, on the element, so it can be checked.
+             *
+             * The id lived only in this closure, which meant a chip pointing at
+             * a section that had been renamed or moved was invisible to
+             * everything: getElementById returns null, the handler returns, and
+             * the chip does nothing at all with no error anywhere. Sections get
+             * reordered and re-parented on this app constantly. Written here so
+             * test/views.test.mjs can render every screen and assert that every
+             * chip still lands on a real heading. */
+            "data-jump": id,
             onClick: () => {
               const el = document.getElementById(id);
               if (!el) return;

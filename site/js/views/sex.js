@@ -57,7 +57,10 @@ export async function render() {
       { id: "sec-after", label: "After a positive result" },
       { id: "sec-ec", label: "Emergency contraception" },
       { id: "sec-interactions", label: "Dangerous mixes" },
-      { id: "sec-out", label: "Long nights and hot days" },
+      /* No "Long nights and hot days" chip. That section moved to Learn and
+         the chip stayed, pointing at an id nothing on this page renders — and
+         a chip whose target is missing does not fail, it just does nothing
+         when tapped. */
     ]));
 
   wrap.appendChild(h("p", { class: "sec__note" }, g.blurb));
