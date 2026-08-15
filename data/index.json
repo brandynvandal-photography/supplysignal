@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-14T21:41:43.599Z",
+  "generated": "2026-08-15T01:52:48.242Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -6307,7 +6307,7 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T21:41:43.519Z"
+      "t": "2026-08-15T01:52:48.180Z"
     },
     "25001": {
       "n": "Barnstable County",
@@ -11307,26 +11307,1426 @@
       "sev": null,
       "t": "2026-08-14T21:41:43.598Z"
     },
+    "37083": {
+      "n": "Halifax County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.180Z"
+    },
+    "37085": {
+      "n": "Harnett County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.181Z"
+    },
+    "37087": {
+      "n": "Haywood County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.181Z"
+    },
+    "37089": {
+      "n": "Henderson County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.181Z"
+    },
+    "37091": {
+      "n": "Hertford County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.182Z"
+    },
+    "37093": {
+      "n": "Hoke County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.182Z"
+    },
+    "37095": {
+      "n": "Hyde County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.182Z"
+    },
+    "37097": {
+      "n": "Iredell County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.183Z"
+    },
+    "37099": {
+      "n": "Jackson County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.183Z"
+    },
+    "37101": {
+      "n": "Johnston County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.184Z"
+    },
+    "37103": {
+      "n": "Jones County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.184Z"
+    },
+    "37105": {
+      "n": "Lee County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.184Z"
+    },
+    "37107": {
+      "n": "Lenoir County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.185Z"
+    },
+    "37109": {
+      "n": "Lincoln County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.185Z"
+    },
+    "37111": {
+      "n": "McDowell County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.186Z"
+    },
+    "37113": {
+      "n": "Macon County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.186Z"
+    },
+    "37115": {
+      "n": "Madison County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.187Z"
+    },
+    "37117": {
+      "n": "Martin County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.187Z"
+    },
+    "37119": {
+      "n": "Mecklenburg County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.187Z"
+    },
+    "37121": {
+      "n": "Mitchell County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.188Z"
+    },
+    "37123": {
+      "n": "Montgomery County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.188Z"
+    },
+    "37125": {
+      "n": "Moore County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.188Z"
+    },
+    "37127": {
+      "n": "Nash County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.189Z"
+    },
+    "37129": {
+      "n": "New Hanover County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.189Z"
+    },
+    "37131": {
+      "n": "Northampton County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.189Z"
+    },
+    "37133": {
+      "n": "Onslow County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.190Z"
+    },
+    "37135": {
+      "n": "Orange County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.190Z"
+    },
+    "37137": {
+      "n": "Pamlico County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.190Z"
+    },
+    "37139": {
+      "n": "Pasquotank County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.190Z"
+    },
+    "37141": {
+      "n": "Pender County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.191Z"
+    },
+    "37143": {
+      "n": "Perquimans County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.191Z"
+    },
+    "37145": {
+      "n": "Person County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.191Z"
+    },
+    "37147": {
+      "n": "Pitt County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.192Z"
+    },
+    "37149": {
+      "n": "Polk County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.192Z"
+    },
+    "37151": {
+      "n": "Randolph County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.192Z"
+    },
+    "37153": {
+      "n": "Richmond County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.193Z"
+    },
+    "37155": {
+      "n": "Robeson County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.193Z"
+    },
+    "37157": {
+      "n": "Rockingham County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.193Z"
+    },
+    "37159": {
+      "n": "Rowan County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.193Z"
+    },
+    "37161": {
+      "n": "Rutherford County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.194Z"
+    },
+    "37163": {
+      "n": "Sampson County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.194Z"
+    },
+    "37165": {
+      "n": "Scotland County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.194Z"
+    },
+    "37167": {
+      "n": "Stanly County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.195Z"
+    },
+    "37169": {
+      "n": "Stokes County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.195Z"
+    },
+    "37171": {
+      "n": "Surry County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.195Z"
+    },
+    "37173": {
+      "n": "Swain County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.196Z"
+    },
+    "37175": {
+      "n": "Transylvania County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.196Z"
+    },
+    "37177": {
+      "n": "Tyrrell County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.196Z"
+    },
+    "37179": {
+      "n": "Union County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.196Z"
+    },
+    "37181": {
+      "n": "Vance County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.197Z"
+    },
+    "37183": {
+      "n": "Wake County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.197Z"
+    },
+    "37185": {
+      "n": "Warren County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.197Z"
+    },
+    "37187": {
+      "n": "Washington County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.198Z"
+    },
+    "37189": {
+      "n": "Watauga County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.198Z"
+    },
+    "37191": {
+      "n": "Wayne County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.198Z"
+    },
+    "37193": {
+      "n": "Wilkes County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.199Z"
+    },
+    "37195": {
+      "n": "Wilson County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.199Z"
+    },
+    "37197": {
+      "n": "Yadkin County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.199Z"
+    },
+    "37199": {
+      "n": "Yancey County",
+      "s": "NC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.200Z"
+    },
+    "38001": {
+      "n": "Adams County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.200Z"
+    },
+    "38003": {
+      "n": "Barnes County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.200Z"
+    },
+    "38005": {
+      "n": "Benson County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.200Z"
+    },
+    "38007": {
+      "n": "Billings County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.201Z"
+    },
+    "38009": {
+      "n": "Bottineau County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.201Z"
+    },
+    "38011": {
+      "n": "Bowman County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.201Z"
+    },
+    "38013": {
+      "n": "Burke County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.202Z"
+    },
+    "38015": {
+      "n": "Burleigh County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.202Z"
+    },
+    "38017": {
+      "n": "Cass County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.202Z"
+    },
+    "38019": {
+      "n": "Cavalier County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.203Z"
+    },
+    "38021": {
+      "n": "Dickey County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.203Z"
+    },
+    "38023": {
+      "n": "Divide County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.203Z"
+    },
+    "38025": {
+      "n": "Dunn County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.204Z"
+    },
+    "38027": {
+      "n": "Eddy County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.204Z"
+    },
+    "38029": {
+      "n": "Emmons County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.204Z"
+    },
+    "38031": {
+      "n": "Foster County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.205Z"
+    },
+    "38033": {
+      "n": "Golden Valley County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.205Z"
+    },
+    "38035": {
+      "n": "Grand Forks County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.205Z"
+    },
+    "38037": {
+      "n": "Grant County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.206Z"
+    },
+    "38039": {
+      "n": "Griggs County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.206Z"
+    },
+    "38041": {
+      "n": "Hettinger County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.206Z"
+    },
+    "38043": {
+      "n": "Kidder County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.207Z"
+    },
+    "38045": {
+      "n": "LaMoure County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.207Z"
+    },
+    "38047": {
+      "n": "Logan County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.207Z"
+    },
+    "38049": {
+      "n": "McHenry County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.208Z"
+    },
+    "38051": {
+      "n": "McIntosh County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.208Z"
+    },
+    "38053": {
+      "n": "McKenzie County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.208Z"
+    },
+    "38055": {
+      "n": "McLean County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.208Z"
+    },
+    "38057": {
+      "n": "Mercer County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.209Z"
+    },
+    "38059": {
+      "n": "Morton County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.209Z"
+    },
+    "38061": {
+      "n": "Mountrail County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.209Z"
+    },
+    "38063": {
+      "n": "Nelson County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.210Z"
+    },
+    "38065": {
+      "n": "Oliver County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.210Z"
+    },
+    "38067": {
+      "n": "Pembina County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.210Z"
+    },
+    "38069": {
+      "n": "Pierce County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.211Z"
+    },
+    "38071": {
+      "n": "Ramsey County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.211Z"
+    },
+    "38073": {
+      "n": "Ransom County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.211Z"
+    },
+    "38075": {
+      "n": "Renville County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.212Z"
+    },
+    "38077": {
+      "n": "Richland County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.212Z"
+    },
+    "38079": {
+      "n": "Rolette County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.213Z"
+    },
+    "38081": {
+      "n": "Sargent County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.213Z"
+    },
+    "38083": {
+      "n": "Sheridan County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.213Z"
+    },
+    "38085": {
+      "n": "Sioux County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.214Z"
+    },
+    "38087": {
+      "n": "Slope County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.214Z"
+    },
+    "38089": {
+      "n": "Stark County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.214Z"
+    },
+    "38091": {
+      "n": "Steele County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.215Z"
+    },
+    "38093": {
+      "n": "Stutsman County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.215Z"
+    },
+    "38095": {
+      "n": "Towner County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.215Z"
+    },
+    "38097": {
+      "n": "Traill County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.215Z"
+    },
+    "38099": {
+      "n": "Walsh County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.216Z"
+    },
+    "38101": {
+      "n": "Ward County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.216Z"
+    },
+    "38103": {
+      "n": "Wells County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.216Z"
+    },
+    "38105": {
+      "n": "Williams County",
+      "s": "ND",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.217Z"
+    },
+    "39001": {
+      "n": "Adams County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.217Z"
+    },
+    "39003": {
+      "n": "Allen County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.217Z"
+    },
+    "39005": {
+      "n": "Ashland County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.217Z"
+    },
+    "39007": {
+      "n": "Ashtabula County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.218Z"
+    },
+    "39009": {
+      "n": "Athens County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.218Z"
+    },
+    "39011": {
+      "n": "Auglaize County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.218Z"
+    },
+    "39013": {
+      "n": "Belmont County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.218Z"
+    },
+    "39015": {
+      "n": "Brown County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.219Z"
+    },
+    "39017": {
+      "n": "Butler County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.219Z"
+    },
+    "39019": {
+      "n": "Carroll County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.219Z"
+    },
+    "39021": {
+      "n": "Champaign County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.219Z"
+    },
+    "39023": {
+      "n": "Clark County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.220Z"
+    },
+    "39025": {
+      "n": "Clermont County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.220Z"
+    },
+    "39027": {
+      "n": "Clinton County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.220Z"
+    },
+    "39029": {
+      "n": "Columbiana County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.220Z"
+    },
+    "39031": {
+      "n": "Coshocton County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.221Z"
+    },
+    "39033": {
+      "n": "Crawford County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.221Z"
+    },
+    "39035": {
+      "n": "Cuyahoga County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.221Z"
+    },
+    "39037": {
+      "n": "Darke County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.221Z"
+    },
+    "39039": {
+      "n": "Defiance County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.222Z"
+    },
+    "39041": {
+      "n": "Delaware County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.222Z"
+    },
+    "39043": {
+      "n": "Erie County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.222Z"
+    },
+    "39045": {
+      "n": "Fairfield County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.223Z"
+    },
+    "39047": {
+      "n": "Fayette County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.223Z"
+    },
+    "39049": {
+      "n": "Franklin County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.223Z"
+    },
+    "39051": {
+      "n": "Fulton County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.223Z"
+    },
+    "39053": {
+      "n": "Gallia County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.224Z"
+    },
+    "39055": {
+      "n": "Geauga County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.224Z"
+    },
+    "39057": {
+      "n": "Greene County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.224Z"
+    },
+    "39059": {
+      "n": "Guernsey County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.224Z"
+    },
+    "39061": {
+      "n": "Hamilton County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.225Z"
+    },
+    "39063": {
+      "n": "Hancock County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.225Z"
+    },
+    "39065": {
+      "n": "Hardin County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.225Z"
+    },
+    "39067": {
+      "n": "Harrison County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.226Z"
+    },
+    "39069": {
+      "n": "Henry County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.226Z"
+    },
+    "39071": {
+      "n": "Highland County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.226Z"
+    },
+    "39073": {
+      "n": "Hocking County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.226Z"
+    },
+    "39075": {
+      "n": "Holmes County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.227Z"
+    },
+    "39077": {
+      "n": "Huron County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.227Z"
+    },
+    "39079": {
+      "n": "Jackson County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.227Z"
+    },
+    "39081": {
+      "n": "Jefferson County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.227Z"
+    },
+    "39083": {
+      "n": "Knox County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.228Z"
+    },
+    "39085": {
+      "n": "Lake County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.228Z"
+    },
+    "39087": {
+      "n": "Lawrence County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.228Z"
+    },
+    "39089": {
+      "n": "Licking County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.228Z"
+    },
+    "39091": {
+      "n": "Logan County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.229Z"
+    },
+    "39093": {
+      "n": "Lorain County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.229Z"
+    },
+    "39095": {
+      "n": "Lucas County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.229Z"
+    },
+    "39097": {
+      "n": "Madison County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.230Z"
+    },
+    "39099": {
+      "n": "Mahoning County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.230Z"
+    },
+    "39101": {
+      "n": "Marion County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.230Z"
+    },
+    "39103": {
+      "n": "Medina County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.230Z"
+    },
+    "39105": {
+      "n": "Meigs County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.231Z"
+    },
+    "39107": {
+      "n": "Mercer County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.231Z"
+    },
+    "39109": {
+      "n": "Miami County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.231Z"
+    },
+    "39111": {
+      "n": "Monroe County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.232Z"
+    },
+    "39113": {
+      "n": "Montgomery County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.232Z"
+    },
+    "39115": {
+      "n": "Morgan County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.232Z"
+    },
+    "39117": {
+      "n": "Morrow County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.232Z"
+    },
+    "39119": {
+      "n": "Muskingum County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.233Z"
+    },
+    "39121": {
+      "n": "Noble County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.233Z"
+    },
+    "39123": {
+      "n": "Ottawa County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.233Z"
+    },
+    "39125": {
+      "n": "Paulding County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.234Z"
+    },
+    "39127": {
+      "n": "Perry County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.234Z"
+    },
+    "39129": {
+      "n": "Pickaway County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.234Z"
+    },
+    "39131": {
+      "n": "Pike County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.234Z"
+    },
+    "39133": {
+      "n": "Portage County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.235Z"
+    },
+    "39135": {
+      "n": "Preble County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.235Z"
+    },
+    "39137": {
+      "n": "Putnam County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.235Z"
+    },
+    "39139": {
+      "n": "Richland County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.236Z"
+    },
+    "39141": {
+      "n": "Ross County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.236Z"
+    },
+    "39143": {
+      "n": "Sandusky County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.236Z"
+    },
+    "39145": {
+      "n": "Scioto County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.236Z"
+    },
+    "39147": {
+      "n": "Seneca County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.237Z"
+    },
+    "39149": {
+      "n": "Shelby County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.237Z"
+    },
+    "39151": {
+      "n": "Stark County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.237Z"
+    },
+    "39153": {
+      "n": "Summit County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.237Z"
+    },
+    "39155": {
+      "n": "Trumbull County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.238Z"
+    },
+    "39157": {
+      "n": "Tuscarawas County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.238Z"
+    },
+    "39159": {
+      "n": "Union County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.239Z"
+    },
+    "39161": {
+      "n": "Van Wert County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.239Z"
+    },
+    "39163": {
+      "n": "Vinton County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.239Z"
+    },
+    "39165": {
+      "n": "Warren County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.240Z"
+    },
+    "39167": {
+      "n": "Washington County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.240Z"
+    },
+    "39169": {
+      "n": "Wayne County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.240Z"
+    },
+    "39171": {
+      "n": "Williams County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.240Z"
+    },
+    "39173": {
+      "n": "Wood County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.241Z"
+    },
+    "39175": {
+      "n": "Wyandot County",
+      "s": "OH",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T01:52:48.241Z"
+    },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T21:41:43.516Z"
+      "t": "2026-08-15T01:52:48.179Z"
     },
     "42003": {
       "n": "Allegheny County",
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T21:41:43.598Z"
+      "t": "2026-08-15T01:52:48.241Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-14T21:41:43.513Z"
+      "t": "2026-08-15T01:52:48.177Z"
     },
     "01001": {
       "n": "Autauga County",

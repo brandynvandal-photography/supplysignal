@@ -1,6 +1,49 @@
 {
   "runs": [
     {
+      "started": "2026-08-15T01:46:11.666Z",
+      "fetched": 895,
+      "notModified": 11,
+      "dropped": {
+        "prefilter": 861,
+        "outside_window": 20,
+        "evidence_not_a_supply_finding": 5,
+        "evidence_no_named_originator": 7,
+        "foreign_year": 1
+      },
+      "published": 0,
+      "escalated": 1,
+      "reviewed": 1,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "cook-me",
+        "santaclara-me",
+        "sandiego-me"
+      ],
+      "socrataToken": "set",
+      "medex": {
+        "allegheny-me": {
+          "items": 0,
+          "latest": "2026-01-31",
+          "lagDays": 196,
+          "recent": 75,
+          "baseline": 323,
+          "cached": true
+        }
+      },
+      "finished": "2026-08-15T01:52:48.242Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 1,
+        "bytes": 743
+      }
+    },
+    {
       "started": "2026-08-14T21:35:06.275Z",
       "fetched": 964,
       "notModified": 9,
