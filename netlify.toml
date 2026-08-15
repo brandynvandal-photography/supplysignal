@@ -140,6 +140,16 @@
 # routes means a typo 404s instead of silently serving the app shell, and the
 # list is the same one VIEWS is keyed by in site/js/app.js - test/publish
 # checks they have not drifted apart.
+# The quick-exit destination. Served from our own domain so the promise the X
+# makes — clears the device, overwrites the back stack, leaves — holds all the
+# way to the page the reader lands on, instead of ending at a third party that
+# has no idea it is part of a safety feature. site/w/index.html carries the
+# note on what that page may and may not say.
+[[redirects]]
+  from = "/w"
+  to = "/site/w/index.html"
+  status = 200
+
 [[redirects]]
   from = "/alerts"
   to = "/site/index.html"

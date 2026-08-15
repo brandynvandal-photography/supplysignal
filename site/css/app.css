@@ -666,7 +666,14 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   .topbar .wrap { position: relative; }
   .topbar__spacer { display: block; }
   .nav {
-    position: absolute; left: 50%; transform: translateX(-50%);
+    /* bottom and right are RESET, not merely overridden. The base rule pins
+       this to the foot of the screen as the phone tab bar — position: fixed,
+       inset 0 on three sides — and switching to absolute kept the bottom: 0,
+       which pinned the tabs to the bottom edge of the header row instead of
+       the bottom of the screen. Centred horizontally and vertically, and
+       anchored to nothing else. */
+    position: absolute; left: 50%; top: 50%; right: auto; bottom: auto;
+    transform: translate(-50%, -50%);
     border-top: 0; background: none;
     padding: 0; margin: 0; width: auto;
   }

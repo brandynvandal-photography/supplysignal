@@ -192,7 +192,12 @@ document.getElementById("exit").addEventListener("click", async () => {
     }
   } catch {}
 
-  location.replace("https://weather.com/");
+  /* Our own page, not weather.com. The exit is a promise about what happens to
+     the reader's device, and it used to end at a third party — so the last step
+     of a privacy feature was a request to a company that had no idea it was
+     part of one. site/w/index.html is a clock: nothing branded, nothing said
+     about anything being cleared, nothing pointing back here. */
+  location.replace("/w");
 });
 
 /* ---------------------------------------------------------------- routing

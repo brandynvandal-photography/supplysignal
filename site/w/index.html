@@ -1,0 +1,56 @@
+<!doctype html>
+<!--
+  THE QUICK-EXIT DESTINATION.
+
+  The X in the header is a panic button. It clears what is on the device,
+  overwrites the back stack, and leaves — and where it leaves TO is part of the
+  safety mechanism, because the person it protects against is standing behind
+  the reader looking at the screen.
+
+  It used to be weather.com. Sending someone to a third party to hide meant the
+  reader's exit was a request to a company that had no idea it was part of a
+  safety feature, and the app could not promise anything about what happened
+  next. This page is ours, so the promise holds all the way to the end.
+
+  WHAT IT MUST NOT DO, and this is the whole specification:
+
+    - not say thank you, not say goodbye, not mention that anything was
+      cleared. A confirmation that data was wiped is a confession that there
+      was data worth wiping. The reader already knows; the person behind them
+      must not learn it.
+    - carry no branding, no colours from the app, no wordmark, no icon.
+    - be plausible to arrive at by accident, and dull enough that nobody asks
+      about it.
+
+  So it is a clock, and everything on it is true. There was a version of this
+  that rendered a local forecast, and it was dropped: inventing temperatures
+  puts fabricated readings in front of somebody who may believe them, and a
+  date and time is exactly as unremarkable without stating anything false.
+
+  No link back. Nothing here points at the app.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'none';
+  script-src 'self';
+  style-src 'self';
+  base-uri 'none';
+  form-action 'none';
+  frame-ancestors 'none';
+">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Clock</title>
+<link rel="stylesheet" href="w.css">
+</head>
+<body>
+  <main>
+    <p id="t" class="t">&nbsp;</p>
+    <p id="d" class="d">&nbsp;</p>
+  </main>
+  <script src="w.js"></script>
+</body>
+</html>
