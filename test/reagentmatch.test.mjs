@@ -13,7 +13,7 @@
  * literature into a false elimination.
  */
 
-import { match, compare } from "../site/js/reagentmatch.js";
+import { match, compare, checkSoldAs } from "../site/js/reagentmatch.js";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -35,6 +35,54 @@ check("a substance with no published result is never ruled out by it", () => {
   if (r !== "unknown") return `absence read as ${r}`;
   const out = match({ Simons: "none" }, TABLE);
   if (ids(out.ruledOut).includes("fentanyl")) return "fentanyl ruled out by an unpublished pair";
+  return null;
+});
+
+check("a gap keeps fentanyl on the screen instead of deleting it", () => {
+  /* THE CASE THAT DECIDES THE WHOLE DESIGN. The full-match list is now exactly
+     that — every reading or nothing — so fentanyl, which has no Simon's row at
+     all, cannot appear in it once Simon's is one of the readings. It must
+     therefore appear in `partial`. Anywhere else and the screen has quietly
+     told somebody they do not have the thing most likely to kill them. */
+  const out = match({ Marquis: "orange", Simons: "none" }, TABLE);
+  if (ids(out.consistent).includes("fentanyl")) return "an untested pair counted as a match";
+  if (ids(out.ruledOut).includes("fentanyl")) return "fentanyl ruled out by an unpublished pair";
+  if (!ids(out.partial).includes("fentanyl")) return "fentanyl vanished from all three lists";
+  return null;
+});
+
+check("a full match means EVERY reading matched, with nothing assumed", () => {
+  /* The rule the picker promises: 2 of 2 for two reagents, 1 of 1 for one. A
+     single unpublished pair is a gap, not a match, and may not be counted as
+     one however well the rest agrees. */
+  for (const obs of [{ Marquis: "black", Simons: "blue" },
+                     { Marquis: "none", Mandelin: "orange" },
+                     { Ehrlich: "pink" },
+                     { Marquis: "purple", Mecke: "blue", Simons: "none" }]) {
+    const out = match(obs, TABLE);
+    const used = out.used;
+    const bad = out.consistent.filter((s) => s.agrees !== used || s.unknown > 0);
+    if (bad.length) {
+      return `${bad.length} partial match listed as full on ${JSON.stringify(obs)}`
+        + ` (e.g. ${bad[0].id}: ${bad[0].agrees} of ${used}, ${bad[0].unknown} untested)`;
+    }
+  }
+  return null;
+});
+
+check("the three lists never disagree about the same substance", () => {
+  /* Full, partial and contradicted are meant to be exclusive. A substance in
+     two of them means one of the filters is wrong, and the reader would see
+     the same name in two places saying different things. */
+  const out = match({ Marquis: "black", Simons: "blue" }, TABLE);
+  const seen = new Map();
+  for (const [list, name] of [[out.consistent, "consistent"],
+                              [out.partial, "partial"], [out.ruledOut, "ruledOut"]]) {
+    for (const s of list) {
+      if (seen.has(s.id)) return `${s.id} is in both ${seen.get(s.id)} and ${name}`;
+      seen.set(s.id, name);
+    }
+  }
   return null;
 });
 
@@ -136,6 +184,85 @@ check("Marquis nothing plus Mandelin orange keeps ketamine and cocaine in", () =
   return missing.length ? `missing ${missing.join(", ")}` : null;
 });
 
+/* ------------------------------------------------ sold as, and was it that */
+
+check("sold as MDMA, and it behaved like MDMA", () => {
+  /* Black Marquis and blue Simon's is the textbook pair. */
+  const r = checkSoldAs("mdma", { Marquis: "black", Simons: "blue" }, TABLE);
+  return r?.status === "expected" ? null : `got ${r?.status}`;
+});
+
+check("sold as MDMA, Simon's did nothing — the MDA case", () => {
+  /* THE REASON ANYBODY OWNS SIMON'S. Marquis cannot separate MDMA from MDA;
+     Simon's is the one that can, because it reacts with the secondary amine
+     and not the primary one. Somebody sold MDMA whose Simon's stays clear must
+     be told that is not the published reaction, and the list underneath has to
+     reach MDA — which is a real drug with a real dose difference, not a
+     harmless substitution. */
+  const obs = { Marquis: "black", Simons: "none" };
+  const sold = checkSoldAs("mdma", obs, TABLE);
+  if (sold?.status !== "unexpected") return `sold-as verdict was ${sold?.status}`;
+  if (checkSoldAs("mda", obs, TABLE)?.status !== "expected") {
+    return "the same readings are not expected for MDA";
+  }
+  const full = ids(match(obs, TABLE).consistent);
+  if (!full.includes("mda")) return "MDA missing from the full-match list";
+  if (full.includes("mdma")) return "MDMA listed as a full match for its own contradiction";
+  return null;
+});
+
+check("one contradiction outweighs any number of agreements", () => {
+  /* A verdict that averaged would call one match and one miss a half-success,
+     and the miss is the only part carrying information. */
+  const r = checkSoldAs("mdma", { Marquis: "black", Simons: "none", Mecke: "black" }, TABLE);
+  if (r?.status !== "unexpected") return `got ${r?.status} on 2 agreements and 1 miss`;
+  return r.disagrees > 0 && r.agrees > 0 ? null : "the detail lost the disagreement";
+});
+
+check("an untested reagent gives no verdict rather than a false clean one", () => {
+  /* Fentanyl has no Simon's row. "Expected" here would read as reassurance
+     manufactured out of a gap in the literature. */
+  const r = checkSoldAs("fentanyl", { Marquis: "orange", Simons: "none" }, TABLE);
+  if (r?.status !== "partial") return `got ${r?.status}`;
+  return r.unknown === 1 ? null : `counted ${r.unknown} unpublished`;
+});
+
+check("the cocaine override answers both ways for a sold-as check too", () => {
+  /* Whichever chart the reader's eye agrees with, cocaine sold as cocaine must
+     not be called unexpected on a faint Marquis. */
+  for (const seen of ["none", "pink"]) {
+    const r = checkSoldAs("cocaine", { Marquis: seen, Mandelin: "orange" }, TABLE);
+    if (r?.status !== "expected") return `Marquis ${seen} gave ${r?.status}`;
+  }
+  return null;
+});
+
+check("a substance with no reagent data at all returns nothing to show", () => {
+  if (checkSoldAs("not-a-real-id", { Marquis: "black" }, TABLE) !== null) {
+    return "an unknown substance produced a verdict";
+  }
+  if (checkSoldAs("mdma", {}, TABLE) !== null) return "no readings produced a verdict";
+  return null;
+});
+
+check("the sold-as verdict and the lists never contradict each other", () => {
+  /* Two ways of saying the same thing about the same substance, on the same
+     screen, at the same moment. If they can disagree, one of them is lying. */
+  const obs = { Marquis: "purple", Mecke: "blue" };
+  const { consistent, partial, ruledOut } = match(obs, TABLE);
+  const bucket = (id) =>
+    ids(consistent).includes(id) ? "expected"
+      : ids(partial).includes(id) ? "partial"
+      : ids(ruledOut).includes(id) ? "unexpected" : null;
+  for (const id of ["heroin", "mdma", "cocaine", "fentanyl", "ketamine", "lsd"]) {
+    const sold = checkSoldAs(id, obs, TABLE);
+    const seen = bucket(id);
+    if (!sold || !seen) continue;            // scored zero either way
+    if (sold.status !== seen) return `${id}: verdict ${sold.status}, list ${seen}`;
+  }
+  return null;
+});
+
 /* -------------------------------------------------------- the guardrails */
 
 check("nothing is consistent on unknowns alone", () => {
@@ -148,7 +275,8 @@ check("nothing is consistent on unknowns alone", () => {
 
 check("no observations returns nothing rather than everything", () => {
   const out = match({}, TABLE);
-  return out.consistent.length === 0 && out.used === 0 ? null : "empty input returned results";
+  return out.consistent.length === 0 && out.partial.length === 0 && out.used === 0
+    ? null : "empty input returned results";
 });
 
 check("skip is not an observation", () => {

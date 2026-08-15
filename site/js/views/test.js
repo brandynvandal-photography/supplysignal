@@ -16,7 +16,7 @@ import {
   group, sourceSink,
 } from "../ui.js";
 import * as data from "../data.js";
-import { match as reagentMatch } from "../reagentmatch.js";
+import { match as reagentMatch, checkSoldAs } from "../reagentmatch.js";
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
@@ -327,7 +327,7 @@ export async function render(route, ctx) {
       /* The charts run backwards. After "Reagents" and before "how to run
          one", because somebody reaching for this has already run them. */
       disclosure("sec-whatisit", "What could this be?", null,
-        reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go))
+        reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go, g.reagents))
     ),
       (
       /* ONE section, not two. "Handling reagents safely" was a sibling of "How
@@ -424,9 +424,15 @@ export async function render(route, ctx) {
  *   - Nothing here rules out fentanyl. A lethal dose is far below what any
  *     reagent shows, and no combination of colours on this screen changes it.
  */
-function reverseLookup(matchFn, table, subs, go) {
+function reverseLookup(matchFn, table, subs, go, guideReagents) {
   const REAGENTS = ["Marquis", "Mecke", "Mandelin", "Froehde", "Liebermann",
                     "Simons", "Ehrlich", "Hofmann", "Zimmermann", "Scott"];
+  /* The table's keys are bare — "Simons", "Ehrlich" — and the rest of the page
+     writes them the way the reagents are actually named: Simon's, Ehrlich's.
+     Taken from the guide rather than hardcoded so the two cannot drift, and
+     falling back to the key for the three the guide has no entry for. */
+  const NAMES = new Map((guideReagents || []).map((r) => [String(r.id).toLowerCase(), r.name]));
+  const reagentName = (key) => NAMES.get(String(key).toLowerCase()) || key;
   /* "gray" arrived with the DanceSafe override for MDA on Simon's. The test
      that pairs this list against the data would have caught its absence: a
      color in the file the picker does not offer is unreachable, and every
@@ -444,14 +450,41 @@ function reverseLookup(matchFn, table, subs, go) {
    * added one at a time, answered underneath. So it is built the same way and
    * wears the same controls, down to the "+ Add another" button and the ×.
    *
-   * Two reagents is the useful minimum and the default, because one narrows
-   * almost nothing. */
+   * It opens with one reagent, because most people own one bottle and a second
+   * empty row reads as a requirement rather than an option. */
   const slots = [];
-  const rows = h("div", { class: "mixslots" });
+  const rows = h("div", { class: "mixslots revslots" });
   const out = h("div", { class: "revout", role: "status", "aria-live": "polite" });
 
   const nameOf = (id) =>
     (subs?.substances || []).find((x) => x.id === id)?.name || id;
+
+  /* WHAT IT WAS SOLD AS, which is the question people actually arrive with.
+   *
+   * The list below answers "what could this be" against all 207 substances.
+   * Nobody walks up with that question. They walk up with "I bought MDMA, is
+   * this MDMA", and that is a different comparison — one substance, and the
+   * answer is expected or unexpected rather than a ranked list.
+   *
+   * Optional, and above the reagents because it is the frame for everything
+   * under it. Only substances with published reagent data are offered; the
+   * rest cannot be answered either way and an option that always returns
+   * "cannot say" is a dead control. */
+  const COMMON = ["mdma", "mda", "cocaine", "heroin", "methamphetamine",
+                  "ketamine", "lsd", "fentanyl", "alprazolam"];
+  const withData = Object.keys(table || {});
+  const byName = (a, b) => nameOf(a).localeCompare(nameOf(b));
+  const common = COMMON.filter((id) => withData.includes(id)).sort(byName);
+  const rest = withData.filter((id) => !common.includes(id)).sort(byName);
+
+  const soldAs = h("select", { class: "input", "aria-label": "What it was sold as" },
+    h("option", { value: "" }, "not saying / not sure"),
+    common.length
+      ? h("optgroup", { label: "Most often tested" },
+          common.map((id) => h("option", { value: id }, nameOf(id))))
+      : null,
+    h("optgroup", { label: "Everything with published reagent data" },
+      rest.map((id) => h("option", { value: id }, nameOf(id)))));
 
   const addBtn = h("button", {
     type: "button", class: "btn btn--ghost btn--sm",
@@ -467,7 +500,8 @@ function reverseLookup(matchFn, table, subs, go) {
     const first = REAGENTS.find((r) => !taken.has(r)) || REAGENTS[0];
 
     const reagent = h("select", { class: "input", "aria-label": `Reagent ${i + 1}` },
-      REAGENTS.map((r) => h("option", { value: r, selected: r === first || null }, r)));
+      REAGENTS.map((r) =>
+        h("option", { value: r, selected: r === first || null }, reagentName(r))));
     const result = h("select", { class: "input", "aria-label": `What reagent ${i + 1} did` },
       h("option", { value: "" }, "choose…"),
       h("option", { value: "none" }, "no reaction"),
@@ -475,11 +509,31 @@ function reverseLookup(matchFn, table, subs, go) {
     reagent.addEventListener("change", check);
     result.addEventListener("change", check);
 
-    const row = h("div", { class: "mixslot revslot" },
-      h("span", { class: "pick__field" }, reagent),
-      h("span", { class: "revslot__went" }, "went"),
-      h("span", { class: "pick__field" }, result),
-      i > 1
+    /* THE COMBINATION CHECKER'S ROW, twice.
+     *
+     * Its slot is a label carrying a word and a field: "I took [Opioids]".
+     * A reagent takes two answers rather than one, so it gets two of those
+     * stacked — "I used [Marquis] / it went [black]" — same label, same field,
+     * same chevron, and it reads as the sentence somebody would say out loud.
+     *
+     * They were side by side with the word "went" between them, which is not
+     * the same control: two bare fields on a line, no label, and at 393px both
+     * of them too narrow to show "no reaction". */
+    const pair = (word, sel) =>
+      h("div", { class: "mixslot" },
+        h("label", { class: "pick__row" },
+          h("span", { class: "mixlabel" }, word),
+          h("span", { class: "pick__field" }, sel)));
+
+    /* The × is a sibling of both halves, not a child of either, so it can
+       centre beside the pair and take the same width off both rows. */
+    const row = h("div", { class: "revslot" },
+      pair(i === 0 ? "I used" : "and", reagent),
+      pair("it went", result),
+      /* Every reagent past the first can go. The combination checker keeps two
+         because a combination of one is not a combination; one reagent is a
+         real question with a real answer, so the floor here is one. */
+      i > 0
         ? h("button", {
             type: "button", class: "iconbtn mixslot__x",
             "aria-label": `Remove reagent ${i + 1}`,
@@ -487,6 +541,7 @@ function reverseLookup(matchFn, table, subs, go) {
               const at = slots.findIndex((x) => x.reagent === reagent);
               if (at > -1) slots.splice(at, 1);
               row.remove();
+              relabel();
               addBtn.disabled = slots.length >= MAX;
               check();
             },
@@ -495,6 +550,16 @@ function reverseLookup(matchFn, table, subs, go) {
 
     slots.push({ reagent, result });
     rows.appendChild(row);
+    addBtn.disabled = slots.length >= MAX;
+  }
+
+  /* Removing the first reagent would otherwise leave the list starting on
+     "and", the same way the combination checker's would. */
+  function relabel() {
+    [...rows.children].forEach((row, i) => {
+      const lab = row.querySelector(".mixlabel");
+      if (lab) lab.textContent = i === 0 ? "I used" : "and";
+    });
     addBtn.disabled = slots.length >= MAX;
   }
 
@@ -507,30 +572,122 @@ function reverseLookup(matchFn, table, subs, go) {
       if (result.value) state[reagent.value] = result.value;
     }
 
-    const { consistent, ruledOut, used } = matchFn(state, table);
+    const { consistent, partial, ruledOut, used } = matchFn(state, table);
     if (!used) {
       out.appendChild(h("p", { class: "sec__note" },
         "Say what each one did. Two reagents narrow it far more than one."));
       return;
     }
+
+    /* THE SOLD-AS VERDICT, first, because it is the question that was asked.
+     *
+     * Deliberately not a purity or safety result in either direction. An
+     * expected reaction says the majority of what is in there behaves like the
+     * thing it was sold as — it cannot see fentanyl and it cannot see a second
+     * drug hiding behind a stronger one. An unexpected reaction says it did not
+     * do what that is supposed to do, which is worth acting on, and does not
+     * on its own name what it is instead. The list underneath does that part. */
+    const sold = soldAs.value ? checkSoldAs(soldAs.value, state, table) : null;
+    if (sold) {
+      const name = nameOf(sold.id);
+      const look = {
+        expected:   { card: "advisory", badge: "ok",       glyph: "✓", label: `Expected for ${name}` },
+        unexpected: { card: "elevated", badge: "elevated", glyph: "▲", label: `Unexpected for ${name}` },
+        partial:    { card: "advisory", badge: "neutral",  glyph: "?", label: `No published answer` },
+      }[sold.status];
+
+      const line = (d) => {
+        const doc = d.documented;
+        const was = doc?.none && doc?.colors?.length
+          ? `no reaction or ${doc.colors.join(" or ")}`
+          : doc?.none ? "no reaction" : (doc?.colors || []).join(" or ");
+        const mark = { agrees: "✓", disagrees: "✗", unknown: "–" }[d.verdict];
+        return h("li", { class: `soldline soldline--${d.verdict}` },
+          h("span", { class: "soldline__mark", "aria-hidden": "true" }, mark),
+          h("span", null,
+            `${reagentName(d.reagent)} went `,
+            h("strong", null, d.observed === "none" ? "nothing" : d.observed),
+            d.verdict === "unknown"
+              ? ` — nothing published for ${name} with ${reagentName(d.reagent)}`
+              : ` — published for ${name} is ${was}`));
+      };
+
+      out.appendChild(
+        h("div", { class: `card card--${look.card}` },
+          h("div", { class: "card__top" },
+            h("span", { class: `badge badge--${look.badge}` },
+              h("span", { "aria-hidden": "true" }, look.glyph), look.label),
+            h("span", { class: "card__meta" }, `sold as ${name}`)),
+          h("ul", { class: "soldlines" }, sold.detail.map(line)),
+          h("p", { class: "sec__note" },
+            sold.status === "expected"
+              ? "That is the published reaction, which is worth having and is "
+                + "not a purity result. A reagent reads whatever reacts "
+                + "strongest, so anything else in there behaves like the "
+                + "majority and stays hidden — including fentanyl, at a dose "
+                + "that kills."
+              : sold.status === "unexpected"
+              ? "It did not do what " + name + " is supposed to do. That is "
+                + "worth acting on and it does not by itself say what you have "
+                + "instead — reagent age, light and a faint reaction all move a "
+                + "color, and a mixture reacts as whatever dominates. What the "
+                + "readings do fit is below."
+              : "Nobody has published what " + name + " does with "
+                + (sold.unknown === sold.used ? "those reagents" : "one of the reagents you ran")
+                + ", so there is no expected result to compare yours against. "
+                + "That is a gap in the reference, not a finding.")));
+    }
+
+    const hit = (m) =>
+      h("button", { type: "button", class: "revhit",
+                    onClick: () => go(`#/substances/${m.id}`) },
+        h("span", { class: "revhit__name" }, nameOf(m.id)),
+        h("span", { class: "revhit__meta" },
+          m.unknown
+            ? `${m.agrees} of ${used}, ${m.unknown} untested`
+            : `${m.agrees} of ${used} match`));
+
+    /* Every reading, or it is not in this list. */
+    const allOf = used === 1 ? "that reading" : `all ${used} readings`;
     if (!consistent.length) {
-      out.appendChild(empty("Nothing published matches that combination.",
+      out.appendChild(empty(
+        `Nothing published matches ${allOf}.`,
         "That is a gap in what has been tested, not proof you have something new. "
         + "Reagent age and light both change a color, so it is also worth "
         + "checking whether one of the readings could go the other way."));
     } else {
       out.appendChild(h("p", { class: "sec__note" },
         `${consistent.length} substance${consistent.length === 1 ? "" : "s"} `
-        + `consistent with ${used} reading${used === 1 ? "" : "s"}, best first.`));
+        + `match${consistent.length === 1 ? "es" : ""} ${allOf}, best first.`));
       out.appendChild(h("div", { class: "list" },
-        consistent.slice(0, 12).map((m) =>
-          h("button", { type: "button", class: "revhit",
-                        onClick: () => go(`#/substances/${m.id}`) },
-            h("span", { class: "revhit__name" }, nameOf(m.id)),
-            h("span", { class: "revhit__meta" },
-              `${m.agrees} of ${used} match`
-              + (m.unknown ? ` · ${m.unknown} not published` : ""))))));
+        consistent.slice(0, 12).map(hit)));
     }
+
+    /* NOT FOLDED INTO THE LIST ABOVE, AND NOT THROWN AWAY.
+     *
+     * These agree with everything they have been tested against and have no
+     * published result for at least one reagent used. Fentanyl is the case
+     * that decides how this is handled: the reference has three reagents for
+     * it and no more, so running a fourth leaves a gap, and a screen that
+     * silently dropped it would be telling somebody they do not have the thing
+     * most likely to kill them. */
+    if (partial.length) {
+      out.appendChild(
+        h("details", { class: "acc" },
+          h("summary", null,
+            h("span", null,
+              `${partial.length} more that fit, but have not been tested with `
+              + `every reagent you used`)),
+          h("div", { class: "acc__body" },
+            h("p", { class: "sec__note" },
+              "Nothing you saw contradicts these. Nobody has published what "
+              + "they do with one of the reagents you ran, so they cannot be "
+              + "confirmed — and they cannot be ruled out either. Fentanyl has "
+              + "three published reagents and no more, which is why a missing "
+              + "result is never treated as a clean result here."),
+            h("div", { class: "list" }, partial.slice(0, 12).map(hit)))));
+    }
+
     if (ruledOut.length) {
       out.appendChild(
         h("details", { class: "acc" },
@@ -554,12 +711,17 @@ function reverseLookup(matchFn, table, subs, go) {
               return h("div", { class: "revmiss" },
                 h("strong", null, nameOf(m.id)),
                 h("span", { class: "sec__note" },
-                  ` — you saw ${bad.observed} on ${bad.reagent}; published is ${was}`));
+                  ` — you saw ${bad.observed} on ${reagentName(bad.reagent)}; published is ${was}`));
             })))));
     }
   }
 
-  addSlot();
+  soldAs.addEventListener("change", check);
+  /* ONE, and the reader adds the rest. Most people own a Marquis and nothing
+     else, and opening with two empty rows asks for a second bottle before it
+     has answered anything with the first. One reagent narrows the list less —
+     which the empty state says, and which is a better argument for adding a
+     second than a blank row that looks like a requirement. */
   addSlot();
   check();
 
@@ -575,6 +737,16 @@ function reverseLookup(matchFn, table, subs, go) {
         + "reagent also reads whatever reacts STRONGEST — a mixture shows one "
         + "color and hides the rest, and most street samples are mixtures. "
         + "What this gives you is what the result is consistent with.")),
+    /* The frame sits above the readings, in the same control, because what it
+       was sold as changes how everything under it reads. Optional — the list
+       works without it, and "not saying" is the default rather than a thing
+       you have to go and clear. */
+    h("div", { class: "mixslots revslots" },
+      h("div", { class: "revslot" },
+        h("div", { class: "mixslot" },
+          h("label", { class: "pick__row" },
+            h("span", { class: "mixlabel" }, "sold as"),
+            h("span", { class: "pick__field" }, soldAs))))),
     rows,
     h("div", { class: "mixadd" }, addBtn),
     out);

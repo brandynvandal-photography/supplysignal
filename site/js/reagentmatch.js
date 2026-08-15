@@ -19,6 +19,24 @@
  * cannot have, so unknown never counts against a candidate. It is recorded and
  * shown, and it lowers confidence rather than the substance's chances.
  *
+ * SO THERE ARE THREE ANSWERS, NOT TWO. A gap is neither a match nor a miss, and
+ * collapsing it into either one is a lie in a different direction:
+ *
+ *   consistent — every reading you gave matched something published. Two of
+ *                two, one of one. Nothing assumed.
+ *   partial    — nothing contradicts, but one of your reagents has never been
+ *                published against it. It cannot be confirmed AND IT CANNOT BE
+ *                DISMISSED. Fentanyl is the reason this list exists: the file
+ *                has Marquis, Mecke and Mandelin for it and nothing else, so
+ *                anybody who ran Simon's has a gap, and fentanyl must not
+ *                disappear off a harm-reduction screen because of one.
+ *   ruledOut   — something you saw contradicts something published.
+ *
+ * 86 of the 207 substances here are missing at least one of the two default
+ * reagents, so "partial" is not an edge case, it is two fifths of the table.
+ * The screen shows the full matches as the answer and keeps the partials one
+ * tap away, named for what they are.
+ *
  * WHAT A MATCH IS AND IS NOT. "Consistent with" — never "it is". Three reasons,
  * all of which the UI has to say out loud:
  *
@@ -80,16 +98,74 @@ export function compare(row, observed) {
 }
 
 /**
+ * Was that the reaction you should have got for what you were sold?
+ *
+ * The list below answers "what could this be". This answers the question
+ * somebody actually walked up with — I bought MDMA, is this MDMA — by scoring
+ * the readings against that one substance instead of all 207.
+ *
+ * WHAT THE THREE ANSWERS MEAN, and the limits are load-bearing in both
+ * directions:
+ *
+ *   expected   — every reading matches what is published for it. NOT a
+ *                confirmation and NOT a purity result. A reagent reads the
+ *                strongest reactant present, so a sample that is mostly what it
+ *                was sold as plus something else reacts like the majority and
+ *                hides the rest. Fentanyl is invisible here at a dose that
+ *                kills.
+ *   unexpected — at least one reading contradicts what is published. The
+ *                honest reading is "this did not do what that is supposed to
+ *                do", which is worth acting on, and not "this is definitely
+ *                something else": reagent age, light and a faint reaction all
+ *                move a colour, and mixtures react as whatever dominates.
+ *   partial    — nothing contradicts, and at least one of those reagents has
+ *                never been published against it. No verdict either way.
+ *
+ * @param {string} id                            substance id in the table
+ * @param {Record<string,string>} observations   reagent name -> colour or "none"
+ * @param {Record<string,Array>} table           data/reagents.json .reagents
+ * @returns {{id:string, status:string, agrees:number, disagrees:number,
+ *            unknown:number, used:number, detail:Array}|null}
+ */
+export function checkSoldAs(id, observations, table) {
+  const rows = (table || {})[id];
+  const entries = Object.entries(observations || {})
+    .filter(([, v]) => v && v !== "skip");
+  if (!rows || !entries.length) return null;
+
+  const byReagent = new Map(rows.map((r) => [r.reagent, r]));
+  let agrees = 0, disagrees = 0, unknown = 0;
+  const detail = [];
+  for (const [reagent, observed] of entries) {
+    const documented = byReagent.get(reagent) || null;
+    const verdict = compare(documented, observed);
+    if (verdict === AGREE) agrees++;
+    else if (verdict === DISAGREE) disagrees++;
+    else unknown++;
+    detail.push({ reagent, observed, verdict, documented });
+  }
+
+  /* One contradiction outweighs any number of agreements. Two reagents where
+     one matched and one did not is the classic sold-as-MDMA-but-it-is-MDA
+     result, and calling that a half-match would bury the only part of it that
+     tells you anything. */
+  const status = disagrees > 0 ? "unexpected"
+    : agrees === entries.length ? "expected" : "partial";
+
+  return { id, status, agrees, disagrees, unknown, used: entries.length, detail };
+}
+
+/**
  * Rank every substance against a set of observations.
  *
  * @param {Record<string,string>} observations  reagent name -> colour or "none"
  * @param {Record<string,Array>} table          data/reagents.json .reagents
- * @returns {{consistent:Array, ruledOut:Array, used:number}}
+ * @returns {{consistent:Array, partial:Array, ruledOut:Array, used:number}}
  */
 export function match(observations, table) {
   const entries = Object.entries(observations || {})
     .filter(([, v]) => v && v !== "skip");
-  if (!entries.length) return { consistent: [], ruledOut: [], used: 0 };
+  if (!entries.length) return { consistent: [], partial: [], ruledOut: [], used: 0 };
 
   const scored = [];
   for (const [id, rows] of Object.entries(table || {})) {
@@ -112,11 +188,17 @@ export function match(observations, table) {
     || a.id.localeCompare(b.id);
 
   return {
-    /* Nothing contradicted, and at least one thing positively matched. A
-       candidate whose every reagent is unpublished is not evidence of
-       anything and would otherwise sit at the top of the list looking like
-       one. */
-    consistent: scored.filter((s) => s.disagrees === 0 && s.agrees > 0).sort(rank),
+    /* EVERY reading matched — two of two, one of one. No gaps and no
+       contradictions, so nothing here rests on an assumption about a pair
+       nobody published. This is the answer the screen leads with. */
+    consistent: scored
+      .filter((s) => s.disagrees === 0 && s.agrees === entries.length)
+      .sort(rank),
+    /* Fits as far as anyone has tested, with at least one reagent never
+       published against it. Not confirmed, and — the point — not dismissed. */
+    partial: scored
+      .filter((s) => s.disagrees === 0 && s.agrees > 0 && s.unknown > 0)
+      .sort(rank),
     /* Kept and shown rather than discarded, because a single misread colour
        should not silently delete the right answer. */
     ruledOut: scored.filter((s) => s.disagrees > 0 && s.agrees > 0)

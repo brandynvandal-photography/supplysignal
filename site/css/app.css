@@ -1392,13 +1392,43 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
 /* A reagent slot: which reagent, what it did. Two selects on one line, wearing
    the combination checker's row so the two tools read as the same kind of
    thing — which they are, one running each direction. */
-.revslot { gap: 8px; align-items: center; }
-.revslot .pick__field { flex: 1 1 8rem; min-width: 0; }
-.revslot__went { flex: none; color: var(--ink-3); font-size: .92rem; }
-@media (max-width: 400px) {
-  /* At the narrowest, "went" costs a line the selects need more. */
-  .revslot__went { display: none; }
+/* One reagent is two of the combination checker's rows — which one, and what
+ * it did — so the × has to sit beside the pair rather than inside either half
+ * of it. A grid with an auto second column does that in one place: the button
+ * spans both rows and centres on them, and a slot with no × collapses that
+ * column to nothing and takes the full width, exactly as the combination
+ * checker's first two rows already do. */
+/* A wider gap BETWEEN reagents than within one, or four rows of dropdowns read
+   as one undifferentiated stack. */
+.revslots { gap: 15px; }
+.revslot {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px; align-items: center;
 }
+.revslot .mixslot { grid-column: 1; }
+.revslot .mixslot__x { grid-column: 2; grid-row: 1 / span 2; }
+/* "it went" is wider than "I took", and both columns of selects have to line
+   up down the whole list or the pairs stop reading as pairs. */
+.revslot .mixlabel { min-width: 4.1rem; }
+/* .mixslot's flex basis is set on the SELECT, which works for the combination
+   checker because its select is the flex item. Here the select sits inside
+   .pick__field, so the basis has to go on the wrapper — without it the field
+   is sized by its widest option, and "Dextropropoxyphene" in the sold-as list
+   pushed the whole control onto a second line. */
+.revslot .pick__field { flex: 1 1 8rem; min-width: 0; }
+
+/* The sold-as verdict: one line per reading, with the mark carrying the
+   answer as a shape as well as a colour. */
+.soldlines { list-style: none; margin: var(--sp-2) 0 0; padding: 0; }
+.soldline {
+  display: flex; gap: 9px; align-items: baseline;
+  font-size: .93rem; padding: 3px 0;
+}
+.soldline__mark { flex: none; font-weight: 700; width: .9rem; }
+.soldline--agrees .soldline__mark { color: var(--ok); }
+.soldline--disagrees .soldline__mark { color: var(--elevated); }
+.soldline--unknown { color: var(--ink-2); }
+.soldline--unknown .soldline__mark { color: var(--ink-3); }
 
 .revout { margin-top: var(--sp-3); }
 .revhit {
