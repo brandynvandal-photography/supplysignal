@@ -124,7 +124,7 @@
     {
      "with": "MDMA and amphetamines",
      "claim": "Labels list amphetamines among drugs with serotonin syndrome risk. Separately, a controlled human study found SSRIs blunt most of MDMA's effect - which people sometimes chase with more. Neither fact makes the mix predictable.",
-     "confidence": "high (label) / moderate-high (blunting)",
+     "confidence": "moderate-high",
      "sources": [
       {
        "name": "Zoloft label (class labeling)",

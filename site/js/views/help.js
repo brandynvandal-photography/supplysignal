@@ -286,7 +286,7 @@ export async function render() {
               + "screening rules missed a fifth to a third of them. If they "
               + "hit their head, that is an ambulance regardless."))),
 
-        callout("info", "Right regardless of what caused it",
+        callout("info", "Regardless of what caused it",
           h("ul", null,
             h("li", null, "On their side, unless they are gasping or hit their head."),
             h("li", null, "Never face-up if they might vomit — which is always."),
@@ -379,15 +379,15 @@ export async function render() {
           h("h3", null, "What the promise does and does not cover"),
           h("p", null,
             "Your state's Good Samaritan law can stop the police arresting you "
-            + "for what they find because you asked for help. Nothing in it "
-            + "stops the festival throwing you out — those laws are written "
-            + "against the state, and a ticket is a revocable license."),
+            + "for what they find because you asked for help. It does not stop "
+            + "the festival throwing you out. The law binds the police; your "
+            + "ticket is a permission the event can take back at any time."),
           h("p", { class: "sec__note" },
-            "It is also scene-limited. At Ultra in 2025 a woman died after "
-            + "being taken to a medical tent; the partner who carried her in "
-            + "was charged a year later, on evidence from a separate "
-            + "investigation. None of which is a reason not to go and get help "
-            + "— it is a reason to know what the promise is worth.")),
+            "It also only covers that night. At Ultra in 2025 a woman died "
+            + "after being taken to a medical tent; the partner who carried her "
+            + "in was charged a year later, using evidence from a separate "
+            + "investigation. Go and get help anyway — just know that the "
+            + "protection is narrower than it sounds.")),
         h("div", { class: "card" },
           h("h3", null, "The disclosure nobody warns you about"),
           h("p", null,
@@ -396,10 +396,7 @@ export async function render() {
             + "generate an explanation of benefits, and it is mailed to "
             + "whoever holds the policy. That is the most likely way a night "
             + "like this gets disclosed, and it has nothing to do with "
-            + "police."),
-          h("p", { class: "sec__note" },
-            "Naloxone is allowed into many festivals now, but door staff do "
-            + "not always recognize it. Keep it in the pharmacy packaging.")),
+            + "police.")),
         h("div", { class: "card" },
           h("h3", null, "A 911 call is a different conversation"),
           h("p", null,
@@ -458,7 +455,21 @@ export async function render() {
             + "Keeping it in the pharmacy packaging helps, and so does saying "
             + "what it is before they find it. If it is confiscated, ask "
             + "whether the venue keeps its own — many now do, and the person "
-            + "on the door may not be the person who knows.")))));
+            + "on the door may not be the person who knows.")),
+        /* The pointer sits here rather than at the foot of the page. It used to
+           be the second-to-last thing on Help, where somebody reading about
+           getting naloxone past a door had already stopped scrolling. This is
+           the paragraph that raises the question, so this is where the answer
+           to "I do not have any" belongs.
+
+           Still below the overdose steps, which was the reason it was ever put
+           at the foot: nobody reading this page mid-crisis should meet a link
+           about next week before they meet rescue breaths. */
+        h("a", { class: "bigptr", href: "#/learn", "data-reveal": "sec-naloxone" },
+          h("span", { class: "bigptr__hd" }, "No naloxone yet?"),
+          h("span", { class: "bigptr__sub" },
+            "Where to get it free, and how to use it — worth doing before the "
+            + "night you need it.")))));
 
 
   /* ---- what to tell EMS once they arrive ----
@@ -568,32 +579,20 @@ export async function render() {
           "this works where you live.")))
   );
 
-  /* Naloxone SOURCING lives on Learn; this is the one pointer to it.
-     It sits at the END of the page, after every crisis section, because it is
-     preparation rather than emergency - it was interrupting the run from
-     overdose response to what-to-tell-EMS, which is the sequence somebody
-     actually reads mid-crisis. Last is where a "next time, before it happens"
-     thought belongs. */
+  /* The naloxone pointer used to be here. It is now inside "At a club or a
+     bar", directly under "Naloxone at the door" - the paragraph that raises
+     the question is the right place to answer it, and this far down the page
+     nobody was still scrolling. Naloxone SOURCING itself still lives on Learn;
+     that is still the only pointer to it. */
+
   /* .bigptr, the same cross-page pointer Support and Learn use. These were
      underlined text links in a note-sized box, so they sat narrower than every
      disclosure above them and read as footnotes rather than as the two doors
      they are. The arrow is supplied by the class - it was being typed into the
      string, which is why it survived the previous restyle. */
-  /* Straight to the naloxone section, not the top of Learn. Landing on the
-     page and making somebody scan for it is the difference between a pointer
-     and a signpost pointing at a building. */
-  wrap.appendChild(
-    h("a", { class: "bigptr", href: "#/learn", "data-reveal": "sec-naloxone" },
-      h("span", { class: "bigptr__hd" }, "No naloxone yet?"),
-      h("span", { class: "bigptr__sub" },
-        "Where to get it free, and how to use it — worth doing before the night "
-        + "you need it."))
-  );
-
-  /* Same reasoning as the naloxone pointer, and the same position: this is a
-     morning-after thought, and it must never sit above the overdose steps.
-     Someone reading this page while a body is failing needs the steps, not a
-     link about next week. */
+  /* This one stays at the foot. It is a morning-after thought, and it must
+     never sit above the overdose steps - someone reading this page while a
+     body is failing needs the steps, not a link about next week. */
   wrap.appendChild(
     h("a", { class: "bigptr", href: "#/after" },
       h("span", { class: "bigptr__hd" }, "It’s over and they’re breathing"),

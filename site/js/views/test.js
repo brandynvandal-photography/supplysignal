@@ -1235,7 +1235,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
             + `the ${Object.keys(table || {}).length}-substance color table has a `
             + `result on record for ${allOf}, so it has nothing to add here.`
           : `${total} substance${total === 1 ? "" : "s"} `
-            + `match${total === 1 ? "es" : ""} ${allOf}, best first.`));
+            + `match${total === 1 ? "es" : ""} ${allOf}.`));
       out.appendChild(h("div", { class: "list" }, [
         ...chartOnly.map((w) => hit({ id: w.id }, "matches the chart")),
         ...ranked.slice(0, 12).map((m) => hit(m)),

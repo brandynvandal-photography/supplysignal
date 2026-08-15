@@ -1090,7 +1090,22 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
      is 69 characters. On iOS Safari that ran straight out of the card.
      Wrapping is the correct default; the short tokens opt back in below. */
   white-space: normal;
-  overflow-wrap: anywhere;      /* a long unbroken token cannot escape either */
+
+  /* break-word, NOT anywhere. They look interchangeable and are not:
+     `anywhere` offers a break after EVERY character when the browser computes
+     min-content width, so a badge that is a flex item collapses to one letter
+     wide and the layout will happily hand it that. In the combination
+     checker's pair rows that is exactly what happened - "No known interaction"
+     rendered 99px wide and 92px tall, four lines, with a lone "n" on one of
+     them, while "Dangerous" beside it sat on a single line because the
+     severity badges opt into nowrap below.
+
+     `break-word` still breaks a word that cannot fit on a line by itself - so
+     a long URL in a Support badge is still contained, which is what the rule
+     was for - but it does not let intra-word breaks shrink the element's
+     min-content size. The badge asks for its longest word and wraps between
+     words like prose. */
+  overflow-wrap: break-word;
   max-width: 100%;
 }
 
@@ -1247,6 +1262,11 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
   .firstdet { padding: 11px 0; }
 }
 .firstdet:last-child { border-bottom: 0; }
+/* Air between the twelfth row's rule and the "N earlier first detections"
+   disclosure that follows it. With no margin the summary's heading sat hard on
+   that 1px line - the border read as an underline belonging to the heading
+   rather than as the bottom of the list above it. */
+.firstdet + details.disc { margin-top: var(--sp-3); }
 .firstdet__name { font-weight: 600; }
 .firstdet__when { color: var(--ink-2); font-size: .88rem; }
 
@@ -1553,13 +1573,33 @@ details.acc {
 details.acc > summary {
   cursor: pointer; padding: var(--sp-3) var(--sp-4); font-weight: 650; list-style: none;
   display: flex; align-items: center; gap: 10px; min-height: var(--tap);
+
+  /* WRAP, and reserve the chevron's column.
+     A pair row in the combination checker holds two things that both want
+     room: "Alcohol + Caffeine" and a verdict badge. On one nowrap line at
+     375px neither fits, so flex shrank BOTH - the name to 68px and the badge
+     to 108px, and each then broke mid-phrase. Letting the row wrap means the
+     badge drops to its own line instead of squeezing its neighbour, which is
+     what somebody would do with a pen. */
+  flex-wrap: wrap;
+  position: relative;
+  /* Just enough to clear the chevron. Every pixel reserved here comes off the
+     badge's line, and at 375px the badge is already within a few pixels of
+     wrapping. */
+  padding-right: calc(var(--sp-4) + 12px);
 }
 details.acc > summary::-webkit-details-marker { display: none; }
+/* Pinned rather than laid out. As a flex item with margin-left:auto it was the
+   last thing in the row, so the moment the badge wrapped, the chevron followed
+   it down to line two and the row lost its right edge. It is furniture, not
+   content: it belongs at the middle of the right edge whatever the summary
+   does, and the padding above keeps the text out from under it. */
 details.acc > summary::after {
-  content: "\203A"; margin-left: auto; font-size: 1.4rem; color: var(--ink-3);
-  transform: rotate(90deg); transition: transform .18s;
+  content: "\203A"; font-size: 1.4rem; color: var(--ink-3); line-height: 1;
+  position: absolute; right: var(--sp-4); top: 50%;
+  transform: translateY(-50%) rotate(90deg); transition: transform .18s;
 }
-details.acc[open] > summary::after { transform: rotate(-90deg); }
+details.acc[open] > summary::after { transform: translateY(-50%) rotate(-90deg); }
 details.acc > summary:hover { background: var(--surface-2); }
 /* Top padding, not zero.
    The first child's margin is killed on the line below, so padding was the

@@ -759,16 +759,11 @@
       "id": "ehrlich",
       "name": "Ehrlich's",
       "base": "p-DMAB in ethanol with concentrated hydrochloric acid",
-      "useFor": "The indole reagent, and the single most important LSD test. Use only for LSD, psilocybin, and DMT.",
+      "useFor": "The indole reagent, and the single most important LSD test. Use only for LSD and DMT.",
       "reactions": [
         {
           "substance": "LSD and all lysergamides",
           "color": "Purple",
-          "key": "purple"
-        },
-        {
-          "substance": "Psilocybin",
-          "color": "Purple, but often muddy or hard to see",
           "key": "purple"
         },
         {
@@ -789,7 +784,8 @@
       ],
       "caveats": [
         "CRITICAL: 25I-NBOMe and other NBOMes, 2C-x, and DOx compounds give NO reaction. A negative result on blotter does not mean nothing is there — it is fully consistent with an NBOMe, which is exactly what gets substituted for LSD and is far more dangerous. Ehrlich's rules an indole in; it cannot rule a substituted phenethylamine out. Always pair with Marquis or Froehde.",
-        "Slow reagent — can take up to 5 minutes, and stays readable for up to an hour."
+        "Slow reagent — can take up to 5 minutes, and stays readable for up to an hour.",
+        "Not for mushrooms. Ehrlich's does turn purple for psilocybin, but it turns purple for indoles generally — ordinary supermarket mushrooms and death cap included — so it cannot tell you a species. Fungal material cannot be identified with an at-home test at all."
       ],
       "criticalCaveat": true
     },

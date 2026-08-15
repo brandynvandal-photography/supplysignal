@@ -29,9 +29,16 @@ const RISK = {
   Dangerous: { kind: "critical", glyph: "▲", rank: 0, label: "Dangerous" },
   Unsafe: { kind: "critical", glyph: "▲", rank: 1, label: "Unsafe" },
   Caution: { kind: "elevated", glyph: "●", rank: 2, label: "Caution" },
-  "Low Risk & Decrease": { kind: "neutral", glyph: "○", rank: 3, label: "Effects reduce each other" },
+  /* "Reduce"/"Amplify each other", not "EFFECTS reduce each other". The longer
+     pair needed 203px and the badge gets 183-200px at 375px - three nested
+     card paddings deep, that is all the room there is - so both wrapped to two
+     lines inside a pill and read as a mistake. "Effects" was the droppable
+     word: the badge sits on a combination result, so what is reducing or
+     amplifying is not in question. The mechanism is still stated and neither
+     one grades safety, which is the rule this table exists to keep. */
+  "Low Risk & Decrease": { kind: "neutral", glyph: "○", rank: 3, label: "Reduce each other" },
   "Low Risk & No Synergy": { kind: "neutral", glyph: "○", rank: 4, label: "No known interaction" },
-  "Low Risk & Synergy": { kind: "neutral", glyph: "○", rank: 5, label: "Effects amplify each other" },
+  "Low Risk & Synergy": { kind: "neutral", glyph: "○", rank: 5, label: "Amplify each other" },
   Unknown: { kind: "neutral", glyph: "?", rank: 6, label: "No data" },
 };
 
@@ -839,16 +846,38 @@ async function detailView(id, subs, combos, { go }) {
     );
   } else {
     /* Say so, rather than opening on a dose chart for something the reader
-       cannot identify. 250 of 302 entries are in this state, almost all of
-       them obscure research chemicals with no plain-language description
-       published anywhere we could check - and writing one from memory is
-       exactly how a confident sentence about an unfamiliar drug ends up
-       wrong. An absence, stated, is more useful than a guess. */
+       cannot identify. The entries left in this state are research chemicals
+       with no plain-language description published anywhere we could check -
+       writing one from memory is exactly how a confident sentence about an
+       unfamiliar drug ends up wrong. An absence, stated, is more useful than
+       a guess.
+
+       But an absence of EFFECTS data is not an absence of identity, and this
+       used to read as though we knew nothing at all. The page already carries
+       the drug's chemical and psychoactive families as tags directly above
+       this paragraph; naming the family here turns "we have nothing" into the
+       one true, checked thing we do have - what kind of drug it is. Anything
+       whose ordinary identity is describable at all - a supplement, a spice,
+       an over-the-counter box - now has a written description instead and
+       never reaches this branch. */
+    const fam = [...new Set([
+      ...(s.class?.psychoactive || []),
+      ...(s.class?.chemical || []),
+    ].filter(Boolean))];
+    /* "a and b", not test.js's "a or b" - these are families the drug is in at
+       the same time, not alternatives it might be one of. */
+    const listOf = (a) => a.length > 1
+      ? `${a.slice(0, -1).join(", ")} and ${a[a.length - 1]}` : a[0];
+
     wrap.appendChild(
       h("div", { class: "leadin leadin--none" },
         h("p", null,
-          "We don’t have a plain description of this one yet. Nobody has published a " +
-          "checked one, and we won’t guess."),
+          fam.length
+            ? `Nobody has published a checked description of what ${s.name} does, `
+              + "so there is not one here — we won’t guess. What is on record is "
+              + `the family it belongs to: ${listOf(fam.map((f) => f.toLowerCase()))}.`
+            : `Nobody has published a checked description of what ${s.name} is or `
+              + "does, so there is not one here — we won’t guess."),
         h("p", { class: "sec__note" },
           "The dose, duration and interaction data below comes from PsychonautWiki " +
           "and TripSit and is sourced at the foot of the page."))
@@ -1050,13 +1079,21 @@ async function detailView(id, subs, combos, { go }) {
           "Reagent colors are worked out on powders and crystals. DanceSafe puts it " +
           "plainly: plant matter and fungi are difficult, if not impossible, to test " +
           "with at-home tools."),
+        /* No reagent is named here any more. Naming one - and this said
+           Ehrlich's - reads as a test you could run, however the sentence
+           around it is worded. Nothing identifies a mushroom at home, so the
+           paragraph makes the point without handing over a procedure. The
+           evidence behind it is unchanged: ordinary supermarket mushrooms and
+           death cap both produce the same purple as psilocybin, and New Zealand
+           drug checkers got no reaction at all from confirmed psilocybin
+           mushrooms - and a reaction on the cap but not the stem of the same
+           one. */
         /^psilocyb/.test(id)
           ? h("p", null,
-              "Ehrlich’s turns purple for indoles in general — ordinary supermarket " +
-              "mushrooms can do it, and so can death cap. Drug checkers in New Zealand " +
-              "also got no reaction at all from confirmed psilocybin mushrooms, and a " +
-              "reaction on the cap but not the stem of the same one. A purple result " +
-              "does not tell you the species, and no result does not mean it is clean.")
+              "That goes double for mushrooms. Nothing you can buy identifies a " +
+              "species: ordinary supermarket mushrooms produce the same color as " +
+              "psilocybin ones, and so does death cap. A color is not an " +
+              "identification, and no color does not mean it is clean.")
           : h("p", null,
               "The blue that stands for THC in the cannabis reagent has been recorded " +
               "coming from ordinary thyme and oregano, and no spot test detects synthetic " +
