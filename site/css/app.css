@@ -554,8 +554,31 @@ a { color: var(--brand); }
 #searchbtn { color: var(--ink); }
 #searchbtn .iconbtn__svg { stroke-width: 2.4; }
 
-@media (min-width: 700px) {
-  #searchbtn .iconbtn__svg { width: 26px; height: 26px; }
+/* At tablet width the app is still serving PHONE-SIZED CHROME, which is the
+ * thing five attempts at the magnifier were actually chasing. Measured at 820px
+ * — an iPad in portrait — the header carries an 18.6px wordmark, 11.5px tab
+ * labels and a 26px icon on a screen more than twice a phone's width. Every
+ * piece of it is small; the search mark reads worst only because it is the
+ * thinnest, so enlarging it on its own left it oddly bigger than its
+ * neighbours and still undersized against the screen.
+ *
+ * So the icon row scales together. The two glyphs take font-size, the drawn
+ * mark takes width and height, and the tap targets grow with them. */
+/* 700 to 879 ONLY, and the upper bound is not caution, it is arithmetic.
+ *
+ * At 880 the tab bar moves INTO the header row, and that row is already over
+ * budget: measured at 880px it needs 877px of content — wordmark 125, nav 564,
+ * three 44px buttons, four 14px gaps — inside a --wrap capped at 820px, so 780
+ * of usable box. It overflows today, before this rule existed. Below 880 the
+ * header holds only the wordmark and the three buttons, and there is room to
+ * spare.
+ *
+ * An iPad in portrait is 744 to 834, so it lands in this band and gets the
+ * bigger row. An iPad in LANDSCAPE is 1024 and gets the desktop header, which
+ * is the crowded one — it keeps 44px on purpose. */
+@media (min-width: 700px) and (max-width: 879px) {
+  .iconbtn { font-size: 1.5rem; min-width: 52px; min-height: 52px; }
+  #searchbtn .iconbtn__svg { width: 32px; height: 32px; }
 }
 
 /* ----------------------------------------------------------------- nav */
