@@ -773,7 +773,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
       return h("div", { class: "plan" },
         h("p", { class: "plan__hd" },
           "Marquis went ", h("strong", null, said),
-          ". DanceSafe's unknown-substance chart does not list that result."),
+          ". The unknown-substance chart does not list that result."),
         h("p", { class: "sec__note" }, charts?.unknownRule || ""),
         h("p", { class: "sec__note" },
           "If you know what it was sold as, say so above — that turns this into "
@@ -869,7 +869,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
 
     return h("div", { class: "plan" },
       h("p", { class: "plan__hd" },
-        "Loaded DanceSafe's ",
+        "Loaded the ",
         h("strong", null, `${name} test`),
         multi
           ? ` — ${flow.steps.length} reagents, in the chart's order. Just say what each one did.`
@@ -908,7 +908,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
     const have = new Set((table?.[id] || []).map((r) => r.reagent));
     if (!picked.some((r) => have.has(r))) return null;
     return h("p", { class: "plan__hd" },
-      "No DanceSafe flowchart covers ",
+      "No published flowchart covers ",
       h("strong", null, nameOf(id)),
       `, so there is no published order to follow. Loaded the reagents that `
       + "have a result on record for it — say what they did, or change them.");
@@ -1203,7 +1203,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
              one substance has a published result for every reagent that got
              run. That is a gap in the table, not a second opinion. */
           ? `${chartOnly.length === 1 ? "One substance" : `${chartOnly.length} substances`} `
-            + "completed a published DanceSafe sequence. No single substance in "
+            + "completed a published test sequence. No single substance in "
             + `the ${Object.keys(table || {}).length}-substance color table has a `
             + `result on record for ${allOf}, so it has nothing to add here.`
           : `${total} substance${total === 1 ? "" : "s"} `
@@ -1221,9 +1221,9 @@ function reverseLookup(matchFn, table, subs, go, charts) {
         + "behaves like a substance, not that it is one, and every analogue "
         + "with the same reactive group behaves the same way."
         + (chartOnly.length || chartedIds.size
-            ? " Rows marked as matching the chart followed a published "
-              + "DanceSafe sequence; the rest are here because their published "
-              + "colors fit, which is weaker."
+            ? " Rows marked as matching the chart completed a published test "
+              + "sequence; the rest are here because their published colors "
+              + "fit, which is weaker."
             : "")));
     }
 
@@ -1268,7 +1268,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
        the chart's reagents load in its order — so the first sentence is what
        to do, not what it is for. */
     h("p", { class: "sec__note" },
-      "Say what it was sold as and this loads DanceSafe's test for it — the "
+      "Say what it was sold as and this loads the test for it — the "
       + "right reagents, in the right order. Then say what each one did. "
       + "Already ran some? Enter them in any order."),
     /* BOTH PATHS EXPLAINED BEFORE THE CONTROLS, not after them. This sentence
