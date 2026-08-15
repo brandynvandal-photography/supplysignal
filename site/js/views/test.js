@@ -552,7 +552,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
   const rest = withData.filter((id) => !common.includes(id)).sort(byName);
 
   const soldAs = h("select", { class: "input", "aria-label": "Which substance to test for" },
-    h("option", { value: "" }, "not sure — start with Marquis"),
+    h("option", { value: "" }, "not sure or groundscore"),
     common.length
       ? h("optgroup", { label: "Most often tested" },
           common.map((id) => h("option", { value: id }, nameOf(id))))
