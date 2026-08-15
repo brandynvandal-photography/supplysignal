@@ -1863,21 +1863,53 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
    thing underneath it. A select is not a heading, it is an answer the reader
    gave, and setting five of them in semibold down one column made the picker
    read as five headings with nothing under them. */
-.pick__row select {
+/* ONE SIZE FOR EVERY DROPDOWN, and it is smaller than body text.
+ *
+ * These inherited 1rem — 17px on iOS — inside a box whose 32px side padding
+ * left 230px of usable room on a 390px screen. "Grassroots Harm Reduction —
+ * fentanyl" needs 294px at that size, so the strip picker ran past its own
+ * border. Reported on device.
+ *
+ * Two changes and they compound: the text drops to .95rem, and the side
+ * padding drops from --sp-4 to --sp-3, which is where most of the room comes
+ * back. A select is a control, not prose, so it does not need the reading
+ * measure the paragraphs around it are set to.
+ *
+ * --dropdown-fs is a token rather than a literal so the strip picker, the
+ * reagent picker, the substance picker, the combination checker and the state
+ * picker cannot drift apart again — they were three different rules before. */
+:root { --dropdown-fs: .95rem; }
+.pick__row select,
+select.input {
   -webkit-appearance: none; appearance: none;
   width: 100%; min-width: 0;
-  font: inherit;
+  font: inherit; font-size: var(--dropdown-fs);
   color: var(--ink);
   background: var(--glass);
   border: 1px solid var(--glass-line);
   border-radius: var(--radius);
   min-height: var(--tap);
-  padding: var(--sp-3) calc(var(--sp-4) + 14px) var(--sp-3) var(--sp-4);
+  padding: var(--sp-3) calc(var(--sp-3) + 14px) var(--sp-3) var(--sp-3);
+  /* ALL THREE, because ellipsis alone does nothing. text-overflow only takes
+     effect on a box that is `overflow: hidden` and `white-space: nowrap`, and
+     a select is neither by default — it computes to overflow visible and
+     white-space pre. So the rule had been sitting here inert and long options
+     were not being truncated at all, they were painting straight over the
+     control's own border. That is the report from iOS: it was never a font
+     size on its own. */
+  overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
   cursor: pointer;
 }
-.pick__row select:hover { background: var(--surface-2); }
-.pick__row select:focus-visible { border-color: var(--brand); outline-offset: 0; }
+/* The options list too. iOS renders the popup at the control's size, so a
+   16px control with 17px options shows a truncated menu over an untruncated
+   one. */
+.pick__row select option, select.input option { font-size: var(--dropdown-fs); }
+.pick__row select:hover, select.input:hover { background: var(--surface-2); }
+.pick__row select:focus-visible, select.input:focus-visible {
+  border-color: var(--brand); outline-offset: 0;
+}
 /* The chevron centres on the SELECT, not on the row.
  *
  * It used to hang off .pick__row with bottom: 0 and a 44px line box, on the
@@ -1888,7 +1920,11 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
 .pick__field { position: relative; display: grid; }
 .pick__field::after {
   content: "\203A";
-  position: absolute; right: var(--sp-4); top: 50%;
+  /* --sp-3, matching the select's own side padding. It was --sp-4 while the
+     select was padded to --sp-4 too; the padding came in to make room for
+     long option text and the chevron stayed out, so a truncated label ran its
+     ellipsis right up against the arrow. */
+  position: absolute; right: var(--sp-3); top: 50%;
   font-size: 1.4rem; line-height: 1; color: var(--ink-3);
   transform: translateY(-50%) rotate(90deg);
   pointer-events: none;                      /* the click belongs to the select */
