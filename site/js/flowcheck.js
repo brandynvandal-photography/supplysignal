@@ -148,11 +148,12 @@ export function unknownNext(reading, charts) {
   const unknown = charts?.unknown || {};
   const first = unknown.first || "Marquis";
 
-  const next = [], leads = [], says = [];
+  const next = [], leads = [], says = [], branches = [];
   const add = (list, v) => { if (v && !list.includes(v)) list.push(v); };
 
   for (const b of unknown.branches || []) {
     if (!stepAgrees(b, reading)) continue;
+    branches.push(b);
     add(says, b.says);
     (b.next || []).forEach((r) => add(next, r));
     (b.leads || []).forEach((id) => add(leads, id));
@@ -168,7 +169,7 @@ export function unknownNext(reading, charts) {
     if (!routed) add(next, f.steps[1]?.reagent);
   }
 
-  return { reading, next, leads, says, routed, matched: next.length > 0 };
+  return { reading, next, leads, says, routed, branches, matched: next.length > 0 };
 }
 
 /**
@@ -211,17 +212,41 @@ export function guide(observations, charts) {
   const route = unknownNext(opener, charts);
   if (!route?.matched) return { route, live: [], finished: [], next: [], first };
 
-  const live = route.leads
+  /* THE SECOND HOP, from the chart rather than from inference.
+   *
+   * This is where chart 3 hands off: a light-yellow Liebermann goes to the
+   * amphetamine/meth test at Simon's, a yellow-brown one to the mescaline test
+   * at Froehde. Nothing else can work that out — neither the meth flow nor the
+   * amphetamine flow HAS a Liebermann step, so a Liebermann reading cannot
+   * contradict them and the survivor logic would leave every candidate
+   * standing and pick the wrong reagent to run. */
+  const taken = [];
+  for (const b of route.branches || []) {
+    for (const t of b.then || []) {
+      const seen = obs[t.reagent];
+      if (!seen || seen === "skip" || !stepAgrees(t, seen)) continue;
+      taken.push(t);
+    }
+  }
+  const leadIds = taken.length
+    ? [...new Set(taken.flatMap((t) => t.leads || []))] : route.leads;
+  const chartNext = taken.length
+    ? [...new Set(taken.flatMap((t) => t.next || []))] : route.next;
+
+  const live = leadIds
     .map((id) => walk(flowFor(id, charts), obs))
     .filter((w) => w && w.status !== "unexpected");
   const finished = live.filter((w) => w.status === "expected");
 
   const answered = Object.keys(obs).filter((k) => obs[k] && obs[k] !== "skip");
   const onlyOpener = answered.length === 1 && answered[0] === first;
+  /* The chart's own instruction wins for as long as it has one — the opening
+     Marquis, and then whichever handoff its `then` matched. */
+  const unrun = chartNext.filter((r) => !answered.includes(r));
 
   let next;
-  if (onlyOpener) {
-    next = route.next.filter((r) => !answered.includes(r));
+  if (onlyOpener || unrun.length) {
+    next = unrun;
   } else {
     /* The step the most survivors are waiting on. Ties break by name so the
        same readings always produce the same instruction. */

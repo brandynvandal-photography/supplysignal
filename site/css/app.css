@@ -1322,7 +1322,23 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 }
 .callout--warn { background: var(--elevated-soft); border-color: color-mix(in srgb, var(--elevated) 30%, transparent); }
 .callout--stop { background: var(--critical-soft); border-color: color-mix(in srgb, var(--critical) 30%, transparent); }
+/* INFO IS NOT A WARNING, so it does not get a warning's weight.
+ *
+ * Every callout shared one padding and one heading size, which is right for
+ * stop and warn — those are the ones that have to stop a reader — and too much
+ * for info, which is used ten times over for a closing sentence or an aside.
+ * "The point", a single summary line, was rendering with 20/32 padding and a
+ * heading the size of the sections around it, so a footnote read like a
+ * section of its own.
+ *
+ * Tighter box, heading dropped to the note scale. It is still a callout and
+ * still tinted; it just stops competing with the content it summarises. */
 .callout--info { background: var(--brand-soft); border-color: color-mix(in srgb, var(--brand) 28%, transparent); }
+.callout--info { padding: var(--sp-2) var(--sp-3); }
+.callout--info .callout__hd { margin-bottom: 3px; gap: 6px; }
+.callout--info .callout__hd h3 { font-size: .92rem; letter-spacing: 0; }
+.callout--info p { font-size: .93rem; }
+.callout--info p:last-child { margin-bottom: 0; }
 .callout h3 { margin: 0 0 6px; font-size: 1rem; }
 .callout p { font-size: .95rem; }
 .callout__hd { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
@@ -1461,9 +1477,13 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
   background: var(--surface-2); color: var(--ink-2);
   font-size: .72rem; font-weight: 700; line-height: 18px; text-align: center;
 }
-/* A step already answered is checked off rather than dimmed — dimming reads as
-   disabled, and these stay meaningful after they are run. */
-.plan__step--done::before { content: "✓"; background: var(--ok-soft); color: var(--ok); }
+/* The mark carries the verdict, not merely "answered". A step ticked purely
+   for having a value in it put a green check beside a reading the card below
+   was crossing out. Unanswered steps keep their number. */
+.plan__step--agrees::before { content: "✓"; background: var(--ok-soft); color: var(--ok); }
+.plan__step--disagrees::before {
+  content: "✗"; background: var(--elevated-soft); color: var(--elevated);
+}
 .plan__reagent { font-weight: 650; }
 .plan__says { color: var(--ink-2); }
 /* The fork is a list of possibilities, not an ordered procedure — so no step
@@ -2466,6 +2486,11 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 .swatch--black { background: #26221c; }  .swatch--brown { background: #7a5230; }
 .swatch--orange { background: #c67117; } .swatch--red { background: #b3301c; }
 .swatch--pink { background: #c76b8f; }   .swatch--gray { background: #8a8076; }
+/* The three the DanceSafe charts fork on. Each sits deliberately between its
+   neighbours — peach between orange and pink, magenta between pink and purple,
+   olive between green and yellow — because that is what the reader is being
+   asked to tell apart. */
+.swatch--peach { background: #e0a074; }  .swatch--magenta { background: #b0417a; }
 .swatch--white { background: #eee6d8; }  .swatch--olive { background: #6f7d3f; }
 
 /* ------------------------------------------------- reagent reaction scale

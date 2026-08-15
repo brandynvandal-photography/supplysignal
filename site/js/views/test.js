@@ -472,8 +472,21 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
      that pairs this list against the data would have caught its absence: a
      color in the file the picker does not offer is unreachable, and every
      substance carrying it silently stops being findable. */
-  const COLORS = ["yellow", "orange", "red", "pink", "purple", "blue",
-                  "green", "brown", "gray", "black"];
+  /* PEACH, MAGENTA AND OLIVE ARE HERE BECAUSE THE CHARTS FORK ON THEM.
+   *
+   * Every other entry is a plain bucket on purpose. These three look like
+   * exceptions until you see what rounding them did: DanceSafe sends PEACH to
+   * Morris and toward cocaine, and bright ORANGE to Liebermann and toward
+   * amphetamine — two different tests, and folding them together let one
+   * Marquis reading offer both routes and finish both sequences. MAGENTA is
+   * heroin's Marquis and sits between the pink that opens the cocaine branch
+   * and the purple nothing else claims. OLIVE is 2C-B's dark lime green.
+   *
+   * A color the chart forks on has to be a color the reader can say. They cost
+   * nothing on the table side — reagentmatch.js maps each to the table words it
+   * falls between, so picking peach still scores against all 207 substances. */
+  const COLORS = ["yellow", "orange", "peach", "red", "pink", "magenta",
+                  "purple", "blue", "green", "olive", "brown", "gray", "black"];
   const MAX = REAGENTS.length;
 
   /* SAME SHAPE AS THE COMBINATION CHECKER, deliberately.
@@ -622,12 +635,16 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
    *
    * Anything already answered is carried across by reagent rather than by
    * position, so changing the sold-as after entering a colour keeps it. */
+  /* A NEW SUBSTANCE IS A NEW TEST, so the readings go with it.
+   *
+   * Results used to be carried across by reagent, on the reasoning that a
+   * colour you observed is a colour you observed whatever you call the sample.
+   * True of the reading and false of the test: switching from MDMA to MDA left
+   * the old answers sitting under a freshly loaded chart, already scored
+   * against it, so a test the reader had not run appeared to have a verdict.
+   * Every reading also belongs to a specific scraping of a specific sample, and
+   * "sold as" changing usually means a different bag. */
   function loadFlow(flow, id) {
-    const keep = new Map();
-    for (const { reagent, result } of slots) {
-      if (result.value) keep.set(reagent.value, result.value);
-    }
-
     let want = (flow?.steps || []).map((s) => s.reagent).filter((r) => REAGENTS.includes(r));
     /* No chart for this one — 196 of the 207 substances. The table still knows
        which reagents have a published result for it, and those are the only
@@ -641,10 +658,6 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
     slots.length = 0;
     clear(rows);
     (want.length ? want : [REAGENTS[0]]).forEach((r) => addSlot(r));
-    for (const { reagent, result } of slots) {
-      const had = keep.get(reagent.value);
-      if (had) result.value = had;
-    }
     relabel();
   }
 
@@ -822,8 +835,14 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
    * swatch to compare against is the point of the chart, an answer printed
    * against the input field is a leading question. */
   function planCard(flow, run) {
-    const done = new Set((run?.steps || [])
-      .filter((s) => s.verdict !== "pending").map((s) => s.reagent));
+    /* THE MARK IS THE VERDICT, not "has this been answered".
+     *
+     * It used to tick any step that had a value in it, so a Marquis reported
+     * brown against a chart expecting black got a green check up here and a red
+     * cross in the verdict card directly below — the same reading marked right
+     * and wrong on one screen, twelve lines apart. Reported from the live app.
+     * Agrees ticks, disagrees crosses, unanswered keeps its step number. */
+    const verdicts = new Map((run?.steps || []).map((s) => [s.reagent, s.verdict]));
     const name = nameOf(flow.id);
     const multi = flow.steps.length > 1;
 
@@ -835,11 +854,13 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
           ? ` — ${flow.steps.length} reagents, in the chart's order. Just say what each one did.`
           : " — one reagent. Just say what it did."),
       h("ol", { class: "plan__steps" },
-        flow.steps.map((s) =>
-          h("li", { class: `plan__step${done.has(s.reagent) ? " plan__step--done" : ""}` },
+        flow.steps.map((s) => {
+          const v = verdicts.get(s.reagent) || "pending";
+          return h("li", { class: `plan__step plan__step--${v}` },
             h("span", { class: "plan__reagent" }, reagentName(s.reagent)),
             h("span", { class: "plan__says" }, `expect ${s.says}`),
-            bar(s.colors, s.none)))),
+            bar(s.colors, s.none));
+        })),
       /* Sample count is not decoration. Every reagent needs its own scraping —
          running a second on the same spot reads the first reagent's product. */
       h("p", { class: "sec__note" },
@@ -868,20 +889,27 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
 
   /* The verdict, walked step by step down the chart.
    *
+   * "-LIKE SUBSTANCE", NEVER THE SUBSTANCE. A completed sequence says the
+   * sample behaved the way that drug behaves. It does not say what the sample
+   * is: a reagent reads whatever reacts strongest, so anything sharing the
+   * reactive group reads the same and anything weaker hides behind it. Every
+   * analogue of a charted drug walks the same path. "Completes the ketamine
+   * test" was already careful about WHO said it — nobody claimed ketamine —
+   * but it still let a reader finish the sentence "so it is ketamine".
+   *
    * `found` is the guided path arriving at an answer rather than a claim being
-   * checked. Nobody said it was ketamine, so nothing can be "expected for"
-   * ketamine — what happened is that the readings completed the ketamine
-   * sequence, and the label has to say that and not more. */
+   * checked, so it keeps the weaker frame of the two. */
   function flowCard(flow, run, state, found) {
     const name = nameOf(flow.id);
+    const like = `${name}-like substance`;
     const look = found
       ? { card: "advisory", badge: "ok", glyph: "✓",
-          label: `Completes the ${name} test` }
+          label: `Consistent with a ${like}` }
       : {
         expected:   { card: "advisory", badge: "ok",       glyph: "✓",
-                      label: `Expected for ${name}` },
+                      label: `Consistent with a ${like}` },
         ontrack:    { card: "advisory", badge: "neutral",  glyph: "›",
-                      label: `So far, so ${name}` },
+                      label: `So far, ${name}-like` },
         unexpected: { card: "elevated", badge: "elevated", glyph: "▲",
                       label: `Unexpected for ${name}` },
       }[run.status];
@@ -930,8 +958,9 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
 
       others.length
         ? h("p", { class: "sec__note" },
-            "What these readings DO complete is the published flow for ",
-            h("strong", null, others.map((o) => nameOf(o.id)).join(", or ")),
+            "What these readings DO complete is the published flow for a ",
+            h("strong", null,
+              others.map((o) => `${nameOf(o.id)}-like substance`).join(", or a ")),
             ". That is the chart's own answer, not a guess from the colors.")
         : null,
 
@@ -939,7 +968,12 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
          tool already says reagents do not test for fentanyl; repeating the
          stakes at every result is the kind of line that stops being read. */
       h("p", { class: "sec__note" },
-        run.status === "expected"
+        run.status === "expected" || found
+          ? "It behaved the way that drug behaves. That is not the same as "
+            + `being it — a reagent reads whatever reacts strongest, so an `
+            + "analogue with the same reactive group walks the same path, and "
+            + "anything weaker in the mix hides behind it."
+          : run.status === "expected"
           ? "That is the chart's endpoint, which is worth having and is not a "
             + "purity result. A reagent reads whatever reacts strongest, so "
             + "anything else in there behaves like the majority and stays hidden."
@@ -995,14 +1029,11 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
       out.appendChild(flowCard(flowFor(w.id, charts), w, state, true));
     }
 
-    if (!used) {
-      if (!soldAs.value) {
-        out.appendChild(h("p", { class: "sec__note" },
-          "Start with Marquis. What it does decides which reagent the chart "
-          + "asks for next, and that one gets loaded for you."));
-      }
-      return;
-    }
+    /* The "start with Marquis" line used to sit here, under the empty picker,
+       which is below the controls it is instructions for. It is in the intro
+       at the top of the section now, where somebody reads before touching
+       anything. */
+    if (!used) return;
 
     /* THE CHART'S VERDICT WINS WHERE THERE IS ONE.
      *
@@ -1030,9 +1061,12 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
     if (sold) {
       const name = nameOf(sold.id);
       const look = {
-        expected:   { card: "advisory", badge: "ok",       glyph: "✓", label: `Expected for ${name}` },
-        unexpected: { card: "elevated", badge: "elevated", glyph: "▲", label: `Unexpected for ${name}` },
-        partial:    { card: "advisory", badge: "neutral",  glyph: "?", label: `No published answer` },
+        expected:   { card: "advisory", badge: "ok",       glyph: "✓",
+                      label: `Consistent with a ${name}-like substance` },
+        unexpected: { card: "elevated", badge: "elevated", glyph: "▲",
+                      label: `Unexpected for ${name}` },
+        partial:    { card: "advisory", badge: "neutral",  glyph: "?",
+                      label: `No published answer` },
       }[sold.status];
 
       const line = (d) => {
@@ -1063,10 +1097,10 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
           h("ul", { class: "soldlines" }, sold.detail.map(line)),
           h("p", { class: "sec__note" },
             sold.status === "expected"
-              ? "That is the published reaction, which is worth having and is "
-                + "not a purity result. A reagent reads whatever reacts "
-                + "strongest, so anything else in there behaves like the "
-                + "majority and stays hidden."
+              ? "It behaved the way " + name + " behaves. That is not the same "
+                + "as being it — a reagent reads whatever reacts strongest, so "
+                + "an analogue with the same reactive group reads the same, and "
+                + "anything weaker in the mix hides behind it."
               : sold.status === "unexpected"
               ? "It did not do what " + name + " is supposed to do. That is "
                 + "worth acting on and it does not by itself say what you have "
@@ -1152,6 +1186,19 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
         ...chartOnly.map((w) => hit({ id: w.id }, "matches the chart")),
         ...ranked.slice(0, 12).map((m) => hit(m)),
       ]));
+      /* THE CHARTS ARE THE FLOWS. Everything else in this list got here by
+         having the right colors in its row, which is a weaker thing and has to
+         read as one — the charts are a published sequence somebody validated,
+         and a color table is a lookup. Neither identifies anything. */
+      out.appendChild(h("p", { class: "sec__note" },
+        "None of this confirms what you have. A reagent color says a sample "
+        + "behaves like a substance, not that it is one, and every analogue "
+        + "with the same reactive group behaves the same way."
+        + (chartOnly.length || chartedIds.size
+            ? " Rows marked as matching the chart followed a published "
+              + "DanceSafe sequence; the rest are here because their published "
+              + "colors fit, which is weaker."
+            : "")));
     }
 
     /* ONE LIST, AND IT IS THE ONE THAT MATCHES EVERYTHING.
@@ -1198,6 +1245,13 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
       "Say what it was sold as and this loads DanceSafe's test for it — the "
       + "right reagents, in the right order. Then say what each one did. "
       + "Already ran some? Enter them in any order."),
+    /* BOTH PATHS EXPLAINED BEFORE THE CONTROLS, not after them. This sentence
+       sat under the empty picker, which is below the thing it is instructions
+       for — a reader following it had already had to guess. */
+    h("p", { class: "sec__note" },
+      "No idea what it is? Leave that set to ", h("em", null, "not sure"),
+      " and start with Marquis. What it does decides which reagent the chart "
+      + "asks for next, and that one gets loaded for you."),
     /* Four sentences down to three, and the title now says the thing instead
        of gesturing at it. "This cannot rule out fentanyl" describes a
        limitation of the tool; "reagents do not test for fentanyl" is the fact,
@@ -1410,6 +1464,9 @@ function dilutionBlock(d) {
 const KNOWN_COLORS = new Set([
   "yellow", "green", "blue", "purple", "black", "brown",
   "orange", "red", "pink", "gray", "white", "violet", "olive",
+  /* The three the DanceSafe charts fork on. Without a swatch class the band
+     renders as an empty slot, which is worse than a rounded color. */
+  "peach", "magenta",
 ]);
 
 function reagentCard(r) {

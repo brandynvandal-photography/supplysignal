@@ -307,8 +307,8 @@ check("the colour vocabulary in the data is the one the UI offers", () => {
   /* If the data ever grows a colour the picker does not list, that colour
      becomes unreachable and every substance carrying it silently stops being
      findable. */
-  const OFFERED = new Set(["yellow", "brown", "orange", "green", "black",
-                           "pink", "purple", "red", "blue", "gray"]);
+  const OFFERED = new Set(["yellow", "brown", "orange", "peach", "green", "olive",
+                           "black", "pink", "magenta", "purple", "red", "blue", "gray"]);
   const seen = new Set();
   for (const rows of Object.values(TABLE)) {
     for (const r of rows) for (const c of r.colors || []) seen.add(String(c).toLowerCase());

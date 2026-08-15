@@ -66,6 +66,37 @@ const AGREE = "agrees";
 /** Nobody published a result for this pair. Never counts against. */
 const UNKNOWN = "unknown";
 
+/* THE PICKER KNOWS MORE COLOURS THAN THE TABLE DOES.
+ *
+ * data/reagents.json normalises PsychonautWiki to ten words — yellow, brown,
+ * orange, green, black, pink, purple, red, blue, gray. DanceSafe's charts name
+ * readings that fork BETWEEN those, and the forks are load-bearing: peach goes
+ * to Morris and toward cocaine while bright orange goes to Liebermann and
+ * toward amphetamine, so rounding peach to orange merges two different tests.
+ * The picker therefore offers peach, magenta and olive as well.
+ *
+ * Which leaves a gap. A reader who picks peach has said something the table
+ * has no word for, and scoring it literally would match nothing at all in 207
+ * substances — the chart would answer and the table would go silent, which is
+ * the failure this file exists to avoid.
+ *
+ * So each of the extra colours carries the table words it falls between, and
+ * agrees with a row holding EITHER. Precision where the chart forks, and the
+ * table's generosity everywhere else. The charts match on the exact word and
+ * do not use this map: peach must not satisfy a step that asks for orange, or
+ * the fork it was added for stops existing. */
+const TABLE_ALIAS = {
+  peach: ["orange", "pink"],
+  magenta: ["pink", "purple"],
+  olive: ["green", "yellow"],
+};
+
+/** Every table word an observed reading could reasonably be recorded as. */
+const asTableColors = (observed) => {
+  const v = String(observed).toLowerCase();
+  return TABLE_ALIAS[v] || [v];
+};
+
 /**
  * Compare one observation against one substance's published row.
  *
@@ -75,6 +106,8 @@ const UNKNOWN = "unknown";
 export function compare(row, observed) {
   if (!row) return UNKNOWN;
   const colors = (row.colors || []).map((c) => String(c).toLowerCase());
+  const seen = asTableColors(observed);
+  const hit = () => seen.some((c) => colors.includes(c));
   const mayBeNone = row.none === true;
   const observedNone = observed === "none";
 
@@ -86,15 +119,12 @@ export function compare(row, observed) {
    * a match — which is the only honest thing to do with a reaction that
    * genuinely presents both ways, and it means neither observation can
    * eliminate the substance. */
-  if (mayBeNone && colors.length) {
-    return observedNone || colors.includes(String(observed).toLowerCase())
-      ? AGREE : DISAGREE;
-  }
+  if (mayBeNone && colors.length) return (observedNone || hit()) ? AGREE : DISAGREE;
 
   if (mayBeNone) return observedNone ? AGREE : DISAGREE;
   if (observedNone) return DISAGREE;
   if (!colors.length) return UNKNOWN;
-  return colors.includes(String(observed).toLowerCase()) ? AGREE : DISAGREE;
+  return hit() ? AGREE : DISAGREE;
 }
 
 /**

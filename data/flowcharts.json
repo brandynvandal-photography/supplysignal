@@ -15,12 +15,19 @@
     "the difference between 'black is one of the colors Marquis gives for MDMA'",
     "and 'black then royal blue is the MDMA result'.",
     "",
-    "COLORS ARE THE PICKER'S TEN GENERIC NAMES, deliberately. DanceSafe writes",
-    "royal blue, peach, light pink, magenta, ice blue, dark lime green. A person",
-    "reading a spot plate under a kitchen light cannot reliably tell peach from",
-    "light orange, so each is widened to the generic bucket it falls in and the",
-    "chart's own wording is kept in `says` for display. Widening can only cost",
-    "precision; narrowing could eliminate the substance somebody is holding.",
+    "COLORS ARE MOSTLY THE PICKER'S PLAIN BUCKETS, widened from what DanceSafe",
+    "writes — royal blue and bright blue and ice blue are all `blue` — because a",
+    "spot plate under a kitchen light is not a laboratory, and widening can only",
+    "cost precision where narrowing could eliminate the substance somebody is",
+    "holding. The chart's own wording is kept in `says` for display.",
+    "",
+    "THREE EXCEPTIONS, and they are exceptions because the charts FORK on them.",
+    "peach goes to Morris and toward cocaine while bright orange goes to",
+    "Liebermann and toward amphetamine; magenta is heroin's Marquis and sits",
+    "between the pink that opens the cocaine branch and purple; olive is 2C-B's",
+    "dark lime green. A color the chart forks on has to be one the reader can",
+    "say, so the picker offers all three and reagentmatch.js maps each back to",
+    "the table words it falls between for the 207-substance scoring.",
     "",
     "steps[] is ordered. `colors` are the accepted readings at that step,",
     "`none: true` means no reaction is accepted, and both may be set."
@@ -53,7 +60,7 @@
       "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
       "steps": [
         { "reagent": "Morr", "colors": ["blue"], "says": "bright blue" },
-        { "reagent": "Marquis", "colors": ["orange", "pink"], "none": true,
+        { "reagent": "Marquis", "colors": ["peach", "pink"], "none": true,
           "says": "peach, light pink, or no reaction" },
         { "reagent": "Liebermann", "colors": ["orange", "red", "yellow"],
           "says": "soft orange, red-orange, or light yellow" }
@@ -77,7 +84,7 @@
       "id": "2c-b",
       "chart": "2 side 1 — other drugs",
       "steps": [
-        { "reagent": "Marquis", "colors": ["yellow", "green"],
+        { "reagent": "Marquis", "colors": ["yellow", "green", "olive"],
           "says": "yellow, yellow-green, or dark lime green" },
         { "reagent": "Froehde", "colors": ["yellow", "green", "black"],
           "says": "yellow, yellow-green, or yellow-black" },
@@ -129,7 +136,7 @@
       "id": "heroin",
       "chart": "2 side 2 — other drugs",
       "steps": [
-        { "reagent": "Marquis", "colors": ["pink", "purple"], "says": "magenta" },
+        { "reagent": "Marquis", "colors": ["magenta", "pink", "purple"], "says": "magenta" },
         { "reagent": "Froehde", "colors": ["red", "brown"], "says": "reddish-brown" },
         { "reagent": "Liebermann", "colors": ["black", "brown"], "says": "black-brown" }
       ]
@@ -141,26 +148,50 @@
       "no endpoint of its own, it reads a Marquis and sends you to one of the",
       "tests above, which is why it is shaped differently from `flows`.",
       "",
-      "`next` is the reagent the chart says to run SECOND — one step, not the",
-      "whole branch, because the step after that depends on what the second one",
-      "does. `leads` is what the branch can end at.",
+      "PEACH IS ITS OWN COLOR HERE, and getting that wrong broke the router.",
+      "The chart separates PEACH and LIGHT PINK, which go to Morris and toward",
+      "cocaine, from BRIGHT ORANGE, which goes to Liebermann and toward",
+      "amphetamine, meth or mescaline. Folding peach into `orange` merged the",
+      "two branches: an orange Marquis then offered Morris, listed cocaine as",
+      "live, and could finish BOTH the cocaine and the methamphetamine",
+      "sequences off one reading. The picker offers peach as its own choice now",
+      "rather than making somebody round it to a branch.",
       "",
-      "The orange branch carries two next reagents because of the widening. The",
-      "chart separates PEACH (which goes to Morris, toward cocaine) from BRIGHT",
-      "ORANGE (which goes to Liebermann, toward amphetamine, meth or mescaline),",
-      "and nobody reading a spot plate under a kitchen light can be asked to",
-      "tell those apart reliably. Both are offered rather than one guessed at."
+      "`next` is the reagent the chart says to run SECOND — one step, not the",
+      "whole branch. `then` is the step after that, keyed on what the second",
+      "reagent did, because that is where chart 3 hands off to charts 1 and 2:",
+      "a light-yellow Liebermann goes to the amphetamine/meth test at Simon's,",
+      "a yellow-brown one goes to the mescaline test at Froehde. Without it a",
+      "Liebermann reading could not narrow anything, since neither the meth nor",
+      "the amphetamine flow has a Liebermann step to contradict."
     ],
     "chart": "3 — testing unknown substances",
     "first": "Marquis",
     "branches": [
-      { "colors": ["pink"], "says": "light pink",
-        "next": ["Morr"], "leads": ["cocaine"] },
+      { "colors": ["peach", "pink"], "says": "peach or light pink",
+        "next": ["Morr"], "leads": ["cocaine"],
+        "then": [
+          { "reagent": "Morr", "colors": ["blue"], "says": "bright blue",
+            "next": ["Liebermann"], "leads": ["cocaine"] }
+        ] },
       { "none": true, "says": "no reaction",
-        "next": ["Liebermann"], "leads": ["cocaine", "ketamine"] },
-      { "colors": ["orange"], "says": "peach, or bright orange",
-        "next": ["Liebermann", "Morr"],
-        "leads": ["cocaine", "methamphetamine", "amphetamine", "mescaline"] },
+        "next": ["Liebermann"], "leads": ["cocaine", "ketamine"],
+        "then": [
+          { "reagent": "Liebermann", "colors": ["orange", "red"],
+            "says": "soft orange or orange-red",
+            "next": ["Morr"], "leads": ["cocaine"] },
+          { "reagent": "Liebermann", "colors": ["yellow"], "says": "light yellow",
+            "next": ["Morr"], "leads": ["ketamine"] }
+        ] },
+      { "colors": ["orange"], "says": "bright orange",
+        "next": ["Liebermann"],
+        "leads": ["methamphetamine", "amphetamine", "mescaline"],
+        "then": [
+          { "reagent": "Liebermann", "colors": ["yellow"], "says": "light yellow",
+            "next": ["Simons"], "leads": ["methamphetamine", "amphetamine"] },
+          { "reagent": "Liebermann", "colors": ["brown"], "says": "yellow-brown",
+            "next": ["Froehde"], "leads": ["mescaline"] }
+        ] },
       { "colors": ["black"], "says": "black",
         "next": ["Simons"], "leads": ["mdma", "mda"] }
     ]

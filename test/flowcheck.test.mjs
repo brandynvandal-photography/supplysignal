@@ -137,17 +137,71 @@ check("a clear Marquis routes to Liebermann, and keeps ketamine live", () => {
     ? null : `leads were ${r.leads.join(", ")}`;
 });
 
-check("a routed branch does not also drag in every flow's own second step", () => {
-  /* An orange Marquis leaves cocaine, meth, amphetamine and mescaline live.
-     Following each of their flows would load Morris, Liebermann, Simon's AND
-     Froehde — four dropdowns, and more than the chart asks for. Chart 3 says
-     run Liebermann; the peach/orange widening adds Morris. That is the cap. */
+check("an ORANGE Marquis is the amphetamine side and never reaches cocaine", () => {
+  /* REPORTED FROM THE LIVE APP, and the bug was a color. Peach was folded into
+     "orange" on the reasoning that nobody can tell them apart on a spot plate.
+     But the chart FORKS there — peach goes to Morris and toward cocaine, bright
+     orange goes to Liebermann and toward amphetamine, meth or mescaline — so
+     merging them made one orange Marquis offer Morris, list cocaine as live,
+     and go on to complete the cocaine AND the methamphetamine sequences at
+     once. Peach is its own color now, and this is the assertion that keeps the
+     two branches apart. */
   const r = unknownNext("orange", CHARTS);
-  if (r.next.length > 2) return `loaded ${r.next.length} reagents: ${r.next.join(", ")}`;
-  if (!r.next.includes("Liebermann")) return "the chart's own next step is missing";
-  const want = ["cocaine", "methamphetamine", "amphetamine", "mescaline"];
+  if (r.next.join() !== "Liebermann") return `next was ${r.next.join(", ")}`;
+  if (r.leads.includes("cocaine")) return "an orange Marquis still reaches cocaine";
+  const want = ["methamphetamine", "amphetamine", "mescaline"];
   const missing = want.filter((x) => !r.leads.includes(x));
   return missing.length ? `leads missing ${missing.join(", ")}` : null;
+});
+
+check("PEACH is the cocaine side, and it is a separate branch", () => {
+  const r = unknownNext("peach", CHARTS);
+  if (r.next.join() !== "Morr") return `next was ${r.next.join(", ")}`;
+  if (!r.leads.includes("cocaine")) return "peach does not reach cocaine";
+  const wrong = ["methamphetamine", "amphetamine", "mescaline"].filter((x) => r.leads.includes(x));
+  return wrong.length ? `peach also reached ${wrong.join(", ")}` : null;
+});
+
+check("one Marquis reading cannot complete two different tests", () => {
+  /* The visible symptom of the merged branch: a screen showing "Completes the
+     Cocaine test" and "Completes the Methamphetamine test" stacked, off one
+     set of readings. Cocaine's path and the amphetamine path now start on
+     different colors, so no single Marquis can be on both. */
+  const both = completedBy(
+    { Marquis: "orange", Morr: "blue", Liebermann: "orange", Simons: "blue" }, CHARTS);
+  const ids2 = both.map((w) => w.id);
+  if (ids2.includes("cocaine") && ids2.includes("methamphetamine")) {
+    return `both completed: ${ids2.join(", ")}`;
+  }
+  return null;
+});
+
+check("chart 3's SECOND hop routes, where inference cannot", () => {
+  /* An orange Marquis then a light-yellow Liebermann goes to the
+     amphetamine/meth test at Simon's; a yellow-brown one goes to the mescaline
+     test at Froehde. Nothing can work that out from the flows alone — neither
+     the meth nor the amphetamine flow HAS a Liebermann step, so a Liebermann
+     reading cannot contradict them and every candidate would stay standing. */
+  const yellow = guide({ Marquis: "orange", Liebermann: "yellow" }, CHARTS);
+  if (yellow.next.join() !== "Simons") return `light yellow went to ${yellow.next.join(", ")}`;
+  if (yellow.live.some((w) => w.id === "mescaline")) return "mescaline survived a light yellow";
+
+  const brown = guide({ Marquis: "orange", Liebermann: "brown" }, CHARTS);
+  if (brown.next.join() !== "Froehde") return `yellow-brown went to ${brown.next.join(", ")}`;
+  const stillThere = brown.live.map((w) => w.id);
+  if (stillThere.includes("methamphetamine")) return "meth survived a yellow-brown Liebermann";
+  return stillThere.includes("mescaline") ? null : "mescaline was dropped";
+});
+
+check("a clear Marquis still walks to ketamine through Liebermann and Morris", () => {
+  /* The other branch's second hop, and the one that already worked — asserted
+     here so adding `then` did not break it. */
+  const step2 = guide({ Marquis: "none", Liebermann: "yellow" }, CHARTS);
+  if (step2.next.join() !== "Morr") return `next was ${step2.next.join(", ")}`;
+  if (step2.live.some((w) => w.id === "oxycodone")) return "oxycodone survived a light yellow";
+  const done = guide({ Marquis: "none", Liebermann: "yellow", Morr: "purple" }, CHARTS);
+  return done.finished.some((w) => w.id === "ketamine")
+    ? null : `finished: ${done.finished.map((w) => w.id).join(", ") || "nothing"}`;
 });
 
 check("a reading chart 3 skips still routes, off the other charts", () => {
@@ -263,8 +317,8 @@ check("every reagent a chart names is one the picker can express", () => {
 });
 
 check("every colour a chart names is one the picker offers", () => {
-  const OFFERED = new Set(["yellow", "orange", "red", "pink", "purple", "blue",
-                           "green", "brown", "gray", "black"]);
+  const OFFERED = new Set(["yellow", "orange", "peach", "red", "pink", "magenta",
+                           "purple", "blue", "green", "olive", "brown", "gray", "black"]);
   const bad = [];
   for (const f of CHARTS.flows) {
     for (const s of f.steps) {
