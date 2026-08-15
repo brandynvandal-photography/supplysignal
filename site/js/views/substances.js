@@ -920,7 +920,13 @@ async function detailView(id, subs, combos, { go }) {
      comparison ran, the class no longer looked anything like the id a drug's
      `cats` holds, and GHB, GBL and DXM all survived beside the classes that
      cover them. Every entry now carries the key it is matched on. */
-  const asEntry = (name) => ({ key: String(name).toLowerCase(), label: name });
+  /* BOTH SOURCES GET THE SAME LABELLER. The per-drug lists are upstream text
+     and 39 of their entries arrive lowercase — amt, maois, nbomes,
+     amphetamines — so a callout ended up mixing "Alcohol" and "Benzodiazepines"
+     with "cocaine" and "pregabalin". prettyCat is safe on already-correct
+     input: it looks up the acronym table first, so GHB, DXM and MAOIs survive
+     intact, and otherwise only lifts the first letter. */
+  const asEntry = (name) => ({ key: String(name).toLowerCase(), label: prettyCat(name) });
   const asClass = (cat) => ({ key: String(cat).toLowerCase(), label: prettyCat(cat) });
 
   const dRaw = [...d.map(asEntry), ...extraD.map(asClass)];
@@ -987,7 +993,8 @@ async function detailView(id, subs, combos, { go }) {
             extraU.length ? classNote() : null)
         : null,
       s.interactions.uncertain.length
-        ? h("p", { class: "sec__note" }, `Uncertain: ${s.interactions.uncertain.join(", ")}`)
+        ? h("p", { class: "sec__note" },
+            `Uncertain: ${s.interactions.uncertain.map(prettyCat).join(", ")}`)
         : null,
       /* The stated absence. An empty section here would read as "nothing to
          worry about", which is the one thing it must never mean. */
