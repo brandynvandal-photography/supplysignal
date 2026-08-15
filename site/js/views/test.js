@@ -427,8 +427,12 @@ export async function render(route, ctx) {
 function reverseLookup(matchFn, table, subs, go) {
   const REAGENTS = ["Marquis", "Mecke", "Mandelin", "Froehde", "Liebermann",
                     "Simons", "Ehrlich", "Hofmann", "Zimmermann", "Scott"];
+  /* "gray" arrived with the DanceSafe override for MDA on Simon's. The test
+     that pairs this list against the data would have caught its absence: a
+     colour in the file that the picker does not offer is unreachable, and
+     every substance carrying it silently stops being findable. */
   const COLORS = ["yellow", "orange", "red", "pink", "purple", "blue",
-                  "green", "brown", "black"];
+                  "green", "brown", "gray", "black"];
 
   const state = {};
   const out = h("div", { class: "revout", role: "status" });

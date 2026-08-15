@@ -56,13 +56,25 @@ const UNKNOWN = "unknown";
  */
 export function compare(row, observed) {
   if (!row) return UNKNOWN;
-  const documentedNone = row.none === true;
+  const colors = (row.colors || []).map((c) => String(c).toLowerCase());
+  const mayBeNone = row.none === true;
   const observedNone = observed === "none";
 
-  if (documentedNone) return observedNone ? AGREE : DISAGREE;
-  if (observedNone) return DISAGREE;
+  /* BOTH is a real state, not a contradiction.
+   *
+   * A faint reaction is what one observer records as nothing and another
+   * records as a colour, and DanceSafe's own flowchart lists MDA on Simon's
+   * both ways. A row carrying `none: true` AND colors means either reading is
+   * a match — which is the only honest thing to do with a reaction that
+   * genuinely presents both ways, and it means neither observation can
+   * eliminate the substance. */
+  if (mayBeNone && colors.length) {
+    return observedNone || colors.includes(String(observed).toLowerCase())
+      ? AGREE : DISAGREE;
+  }
 
-  const colors = (row.colors || []).map((c) => String(c).toLowerCase());
+  if (mayBeNone) return observedNone ? AGREE : DISAGREE;
+  if (observedNone) return DISAGREE;
   if (!colors.length) return UNKNOWN;
   return colors.includes(String(observed).toLowerCase()) ? AGREE : DISAGREE;
 }

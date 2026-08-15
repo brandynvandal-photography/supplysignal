@@ -70,16 +70,56 @@ check("black Marquis plus blue Simon's reaches MDMA", () => {
   return top.includes("mdma") ? null : `MDMA not in the top of ${top.join(", ")}`;
 });
 
-check("Simon's separates the secondary amines from MDA", () => {
+check("a blue Simon's still separates MDMA from MDA", () => {
   /* The classic use of Simon's: it reacts with secondary amines — MDMA,
-     methamphetamine — and not with primary ones. If MDA is documented as no
-     reaction, a blue Simon's must rule it out. */
-  const mda = TABLE.mda || [];
-  const simons = mda.find((r) => r.reagent === "Simons");
-  if (!simons) return null;                    // not published, nothing to assert
-  if (!simons.none) return null;               // data says otherwise; not our claim to make
+     methamphetamine — and not with primary ones. MDA now carries BOTH a
+     no-reaction and a dark gray/green, so this asserts the narrower thing that
+     survives that: BLUE is still MDMA's and not MDA's. */
   const out = match({ Simons: "blue" }, TABLE);
-  return ids(out.consistent).includes("mda") ? "MDA still consistent with a blue Simon's" : null;
+  const got = ids(out.consistent);
+  if (got.includes("mda")) return "MDA consistent with a blue Simon's";
+  if (!got.includes("mdma")) return "MDMA not consistent with a blue Simon's";
+  return null;
+});
+
+check("MDA's Simon's reaction matches BOTH nothing and gray", () => {
+  /* The override. DanceSafe's flowchart lists MDA on Simon's both ways, so
+     neither reading may eliminate it — which is what makes Simon's a weaker
+     discriminator than it is usually given credit for. */
+  const row = (TABLE.mda || []).find((r) => r.reagent === "Simons");
+  if (!row) return "MDA lost its Simon's row";
+  if (!row.none || !(row.colors || []).length) {
+    return "the override did not survive a rebuild: " + JSON.stringify(row);
+  }
+  if (compare(row, "none") !== "agrees") return "no-reaction no longer matches";
+  if (compare(row, "gray") !== "agrees") return "gray no longer matches";
+  if (compare(row, "blue") !== "disagrees") return "blue wrongly matches";
+  return null;
+});
+
+check("cocaine survives BOTH a blank Marquis and a faint pink one", () => {
+  /* The other override, and the one that motivated the pair: PsychonautWiki's
+     version alone eliminates cocaine for anybody reporting pink, DanceSafe's
+     alone eliminates it for anybody reporting nothing. Carrying both means
+     neither observation can. */
+  const blank = ids(match({ Marquis: "none" }, TABLE).consistent);
+  const pink = ids(match({ Marquis: "pink" }, TABLE).consistent);
+  if (!blank.includes("cocaine")) return "cocaine lost on a blank Marquis";
+  if (!pink.includes("cocaine")) return "cocaine lost on a pink Marquis";
+  return null;
+});
+
+check("every override carries its source in the shipped data", () => {
+  /* A divergence from upstream that is not attributable is indistinguishable
+     from a hand-edit, which the file's own header forbids. */
+  const bad = [];
+  for (const [id, rows] of Object.entries(TABLE)) {
+    for (const r of rows) {
+      if (!r.override) continue;
+      if (!r.override.source || !r.override.why) bad.push(`${id}/${r.reagent}`);
+    }
+  }
+  return bad.length ? `unattributed override: ${bad.join(", ")}` : null;
 });
 
 check("a purple Marquis with a blue Mecke reaches heroin", () => {
@@ -140,7 +180,7 @@ check("the colour vocabulary in the data is the one the UI offers", () => {
      becomes unreachable and every substance carrying it silently stops being
      findable. */
   const OFFERED = new Set(["yellow", "brown", "orange", "green", "black",
-                           "pink", "purple", "red", "blue"]);
+                           "pink", "purple", "red", "blue", "gray"]);
   const seen = new Set();
   for (const rows of Object.values(TABLE)) {
     for (const r of rows) for (const c of r.colors || []) seen.add(String(c).toLowerCase());
