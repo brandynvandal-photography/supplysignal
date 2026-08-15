@@ -27,11 +27,18 @@
  *     mixtures.
  *   - Fentanyl at a dose that kills is far below what any reagent shows. No
  *     colour on this screen rules it out, and no combination of them does.
- *   - Colour is perceptual, and reagent age and light change it.
+ *   - Colour is perceptual, reagent age and light change it, and SOURCES
+ *     GENUINELY DISAGREE about faint reactions. The table behind this page is
+ *     PsychonautWiki, which records cocaine as no reaction on Marquis and MDA
+ *     as no reaction on Simon's; DanceSafe's 2023 chart records a light pink
+ *     or peach Marquis for cocaine and a dark grey-green Simon's for MDA. A
+ *     faint reaction is precisely what one chart calls a colour and another
+ *     calls nothing.
  *
- * Because of the last point, a disagreement is reported rather than silently
- * dropped: the reader sees which observation conflicts and can decide whether
- * they read the colour the same way the source did.
+ * Because of that last point a disagreement is REPORTED, never dropped, and
+ * the UI does not call the second list "ruled out". The reader sees which
+ * observation conflicts and what was published, and decides for themselves
+ * whether they read the colour the way the source did.
  */
 
 /** One observation contradicts a documented result. */

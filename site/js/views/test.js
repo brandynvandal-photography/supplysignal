@@ -290,7 +290,7 @@ export async function render(route, ctx) {
 
   wrap.appendChild(
     group("grp-reagents", "Reagent testing",
-      "What reagents do, how to run one, and how to handle the chemicals.", [
+      "What reagents do, what a set of colors adds up to, and how to run one safely.", [
       (
       /* "Reagents", not "Reagent testing" - the parent tile is already called
          Reagent testing, and a child repeating its parent's name tells a
@@ -330,25 +330,43 @@ export async function render(route, ctx) {
         reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go))
     ),
       (
+      /* ONE section, not two. "Handling reagents safely" was a sibling of "How
+         to run a reagent test", and every word of it describes something you
+         do while running one: gloves before you start, what to do if it goes
+         on your skin during, disposal after. Split in two, a reader who opened
+         the procedure got the steps without the acid warning, and the safety
+         section read as optional reading rather than as part of the method.
+         Same mistake the reading and strips sections had.
+
+         Ordered the way it actually happens, which is also how DanceSafe
+         sequences it: protect yourself, run it, clean up, and keep the kit
+         alive for next time. */
       disclosure("sec-procedure", "How to run a reagent test", null,
+        callout("stop", "Before you open a bottle",
+          h("p", null, g.safety.ppe),
+          h("p", { class: "sec__note" },
+            "These are strong acids. The warning belongs here rather than in a "
+            + "section of its own, because this is the moment it applies.")),
+
         h("ol", { class: "steps" },
-          g.procedure.map((p) => h("li", null, h("h4", null, p.title), h("p", null, p.body)))))
-    ),
-      (
-      disclosure("sec-safety", "Handling reagents safely", null,
-        callout("warn", "Protect your eyes and skin", h("p", null, g.safety.ppe)),
+          g.procedure.map((p) => h("li", null, h("h4", null, p.title), h("p", null, p.body)))),
+
         h("div", { class: "card" },
           h("h3", null, "If it gets on you"),
           h("ul", null, g.safety.firstAid.map((f) => h("li", null, f))),
-          h("h3", null, "Storage and shelf life"),
+          h("h3", null, "Disposal"),
+          h("p", null, g.safety.disposal)),
+
+        h("div", { class: "card" },
+          h("h3", null, "Keeping the kit working"),
           h("p", null, g.safety.storage),
           h("p", null, g.safety.expiry),
-          h("p", null, h("strong", null, "Check it still works: "), g.safety.validate),
-          h("h3", null, "Disposal"),
-          h("p", null, g.safety.disposal)))
+          h("p", null, h("strong", null, "Check it still works: "), g.safety.validate)))
     ),
     ],
-    ["Reagents", "Running a test", "Handling them safely"])
+    /* The preview names what is inside. "Handling them safely" is gone
+       because that section is gone — it is inside "Running a test" now. */
+    ["Reagents", "What could this be?", "Running a test"])
   );
 
   if (g.storage) {
@@ -447,11 +465,16 @@ function reverseLookup(matchFn, table, subs, go) {
       out.appendChild(
         h("details", { class: "acc" },
           h("summary", null,
-            h("span", null, `${ruledOut.length} that one reading rules out`)),
+            h("span", null, `${ruledOut.length} that do not match what is published`)),
           h("div", { class: "acc__body" },
             h("p", { class: "sec__note" },
-              "Kept here rather than hidden: one misread color should not delete "
-              + "the right answer, and reagent age changes what you see."),
+              "Kept here rather than hidden, and deliberately not called ruled "
+              + "out. One misread color should not delete the right answer, "
+              + "reagent age changes what you see, and sources genuinely "
+              + "disagree about faint reactions — DanceSafe records a light "
+              + "pink Marquis for cocaine where the reference behind this page "
+              + "records none at all. A faint reaction is exactly the kind one "
+              + "chart calls a color and another calls nothing."),
             h("div", { class: "list" }, ruledOut.slice(0, 10).map((m) => {
               const bad = m.detail.find((d) => d.verdict === "disagrees");
               const doc = bad?.documented;
