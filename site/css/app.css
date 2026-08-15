@@ -893,7 +893,23 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .searchpanel:not([hidden]) {
   position: fixed;
   top: calc(var(--bar-h) + var(--bar-top));
-  left: 0; right: 0; bottom: 0;
+  left: 0; right: 0;
+  /* STOPS WHERE THE TAB BAR STARTS, rather than running underneath it and
+     relying on the list's padding to compensate.
+     
+     The padding approach worked in a browser window and not on a phone: the
+     panel ended at the bottom of the LAYOUT viewport, which on iOS Safari
+     extends behind the collapsed toolbar, so the real estate the padding was
+     clearing was already partly gone before the tab bar was accounted for.
+     "Finding help" — the last starting point — sat under Support and SOS.
+     
+     --nav-real is the tab bar's MEASURED height, set by app.js on load and on
+     resize. The constant --nav-h is 64 and the bar actually renders about 71 —
+     the links carry their own padding and the bar a top border — so anchoring
+     to the token left a seven-pixel overlap, which is precisely the kind of
+     number this file keeps getting wrong by guessing. The calc() stays as the
+     fallback for the moment before the measurement lands. */
+  bottom: var(--nav-real, calc(var(--nav-h) + env(safe-area-inset-bottom)));
   display: flex; flex-direction: column;
   overflow: hidden;                  /* the list scrolls, never the panel */
   border-bottom: 0;
@@ -922,9 +938,15 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
      which is the same tear this rule exists to remove. */
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  /* Clear the tab bar, so the last result is reachable rather than sitting
-     underneath Support and SOS. */
-  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + var(--sp-3));
+  /* The panel now ends above the tab bar, so this is breathing room at the end
+     of a list rather than compensation for an overlap. */
+  padding-bottom: var(--sp-3);
+}
+
+/* Above 960 the tab bar moves into the header and the bottom of the screen is
+   empty, so the panel takes the whole of it. */
+@media (min-width: 960px) {
+  .searchpanel:not([hidden]) { bottom: 0; }
 }
 
 /* A result is a destination, so it says what KIND of thing it is before it

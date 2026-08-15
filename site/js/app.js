@@ -755,6 +755,24 @@ function mountBackToTop() {
      five it stops a sixth of a megabyte from racing the content.
 
      Not awaited: boot is finished either way. */
+  /* The tab bar's REAL height, published to CSS.
+   *
+   * --nav-h is 64 and the bar renders about 71: the links carry padding and
+   * the bar a top border. The open search panel anchors its bottom edge to
+   * the bar, and anchoring to the token left the last result seven pixels
+   * under it. Measuring removes the guess, and re-measuring on resize keeps
+   * it right when the safe-area inset changes with orientation. */
+  const navEl = document.querySelector(".nav");
+  if (navEl) {
+    const measureNav = () => {
+      const px = Math.round(navEl.getBoundingClientRect().height);
+      if (px > 0) document.documentElement.style.setProperty("--nav-real", `${px}px`);
+    };
+    measureNav();
+    window.addEventListener("resize", measureNav);
+    window.addEventListener("orientationchange", measureNav);
+  }
+
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
   idle(() => { renderFooterMeta().catch(() => {}); });
 
