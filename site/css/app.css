@@ -1383,6 +1383,25 @@ details.callout--fold[open] > summary::after { transform: rotate(-90deg); }
 details.callout--fold > .callout__body > :first-child { margin-top: 10px; }
 details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
 
+/* The reverse reagent lookup's results.
+ *
+ * A hit is a button because it goes somewhere — the drug's own page — and the
+ * meta line carries the two numbers that decide how much it is worth: how many
+ * of the readings agreed, and how many of them nobody has published for that
+ * substance. The second number is the honest limit of the answer. */
+.revout { margin-top: var(--sp-3); }
+.revhit {
+  display: flex; align-items: baseline; gap: 10px; width: 100%;
+  text-align: left; cursor: pointer;
+  background: var(--glass); border: 1px solid var(--glass-line);
+  border-radius: var(--radius); padding: var(--sp-2) var(--sp-3);
+  color: inherit; font: inherit; margin-bottom: 8px;
+}
+.revhit:hover { background: var(--surface-2); }
+.revhit__name { font-weight: 650; }
+.revhit__meta { margin-left: auto; font-size: .85rem; color: var(--ink-3); white-space: nowrap; }
+.revmiss { padding: 6px 2px; font-size: .93rem; }
+
 /* ------------------------------------------------------------ accordion */
 
 details.acc {

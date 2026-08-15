@@ -16,12 +16,22 @@ import {
   group, sourceSink,
 } from "../ui.js";
 import * as data from "../data.js";
+import { match as reagentMatch } from "../reagentmatch.js";
 
-export async function render() {
+export async function render(route, ctx) {
+  const go = ctx?.go || (() => {});
   const g = await data.testingGuide();
   if (!g) return empty("The testing guide could not load.", "Check your connection and try again.");
 
   SRC = sourceSink();          // fresh per render; see the note on sourceRow
+
+  /* Both national bundles, fetched together. The reverse lookup needs the
+     whole reagent table rather than one substance's row, and the substance
+     list only to turn an id into a name a reader recognises. */
+  const [REAGENT_TABLE, SUBS] = await Promise.all([
+    data.reagentTable().catch(() => ({})),
+    data.substances().catch(() => ({ substances: [] })),
+  ]);
   const wrap = h("div");
 
   wrap.appendChild(h("h1", null, "Test your supply"));
@@ -35,6 +45,7 @@ export async function render() {
       { id: "sec-prevalence", label: "What's out there" },
       { id: "sec-compare", label: "Which one to get" },
       { id: "grp-reagents", label: "Reagents" },
+      { id: "sec-whatisit", label: "What could this be?" },
       { id: "sec-storage", label: "Storing supplies" },
     ])
   );
@@ -313,6 +324,12 @@ export async function render() {
           : null)
     ),
       (
+      /* The charts run backwards. After "Reagents" and before "how to run
+         one", because somebody reaching for this has already run them. */
+      disclosure("sec-whatisit", "What could this be?", null,
+        reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go))
+    ),
+      (
       disclosure("sec-procedure", "How to run a reagent test", null,
         h("ol", { class: "steps" },
           g.procedure.map((p) => h("li", null, h("h4", null, p.title), h("p", null, p.body)))))
@@ -371,6 +388,111 @@ export async function render() {
  * the rows that mention it and opens the ones that match, which turns eight
  * separate tables into one answer.
  */
+/* WHAT COULD THIS BE? The reagent charts, run backwards.
+ *
+ * Every other reagent surface in this app goes one way: pick a reagent, read
+ * what it turns for each drug. Somebody standing over a spot plate has the
+ * opposite problem — three colours and no idea what they add up to.
+ *
+ * The matching lives in reagentmatch.js, pure and tested, because the failure
+ * that matters here is silent: quietly dropping the drug somebody actually
+ * holds out of a list they are using to decide what to do. The rule that
+ * prevents it is that an unpublished pair never eliminates anything.
+ *
+ * WHAT THIS SCREEN MUST SAY, and does, before any result:
+ *   - Consistent with, never "it is". A reagent reads the STRONGEST reactant,
+ *     so a mixture shows one colour and hides the rest, and most street
+ *     samples are mixtures.
+ *   - Nothing here rules out fentanyl. A lethal dose is far below what any
+ *     reagent shows, and no combination of colours on this screen changes it.
+ */
+function reverseLookup(matchFn, table, subs, go) {
+  const REAGENTS = ["Marquis", "Mecke", "Mandelin", "Froehde", "Liebermann",
+                    "Simons", "Ehrlich", "Hofmann", "Zimmermann", "Scott"];
+  const COLORS = ["yellow", "orange", "red", "pink", "purple", "blue",
+                  "green", "brown", "black"];
+
+  const state = {};
+  const out = h("div", { class: "revout", role: "status" });
+  const nameOf = (id) =>
+    (subs?.substances || []).find((x) => x.id === id)?.name || id;
+
+  const paint = () => {
+    clear(out);
+    const { consistent, ruledOut, used } = matchFn(state, table);
+    if (!used) {
+      out.appendChild(h("p", { class: "sec__note" },
+        "Pick what each reagent did. Two reagents narrow it far more than one."));
+      return;
+    }
+    if (!consistent.length) {
+      out.appendChild(empty("Nothing published matches that combination.",
+        "That is a gap in what has been tested, not proof you have something new. "
+        + "Reagent age and light both change a color, so it is also worth "
+        + "checking whether one of the readings could go the other way."));
+    } else {
+      out.appendChild(h("p", { class: "sec__note" },
+        `${consistent.length} substance${consistent.length === 1 ? "" : "s"} `
+        + `consistent with ${used} reading${used === 1 ? "" : "s"}, best first.`));
+      out.appendChild(h("div", { class: "list" },
+        consistent.slice(0, 12).map((m) =>
+          h("button", { type: "button", class: "revhit",
+                        onClick: () => go(`#/substances/${m.id}`) },
+            h("span", { class: "revhit__name" }, nameOf(m.id)),
+            h("span", { class: "revhit__meta" },
+              `${m.agrees} of ${used} match`
+              + (m.unknown ? ` · ${m.unknown} not published` : ""))))));
+    }
+    if (ruledOut.length) {
+      out.appendChild(
+        h("details", { class: "acc" },
+          h("summary", null,
+            h("span", null, `${ruledOut.length} that one reading rules out`)),
+          h("div", { class: "acc__body" },
+            h("p", { class: "sec__note" },
+              "Kept here rather than hidden: one misread color should not delete "
+              + "the right answer, and reagent age changes what you see."),
+            h("div", { class: "list" }, ruledOut.slice(0, 10).map((m) => {
+              const bad = m.detail.find((d) => d.verdict === "disagrees");
+              const doc = bad?.documented;
+              const was = doc?.none ? "no reaction" : (doc?.colors || []).join(" or ");
+              return h("div", { class: "revmiss" },
+                h("strong", null, nameOf(m.id)),
+                h("span", { class: "sec__note" },
+                  ` — you saw ${bad.observed} on ${bad.reagent}; published is ${was}`));
+            })))));
+    }
+  };
+
+  const rows = REAGENTS.map((r) => {
+    const sel = h("select", { class: "input", id: `rev-${r}` },
+      h("option", { value: "skip" }, "didn’t use"),
+      h("option", { value: "none" }, "no reaction"),
+      COLORS.map((c) => h("option", { value: c }, c)));
+    sel.addEventListener("change", () => { state[r] = sel.value; paint(); });
+    return h("div", { class: "pick__row" },
+      h("label", { for: `rev-${r}` }, r),
+      h("div", { class: "pick__field" }, sel));
+  });
+
+  paint();
+
+  return frag(
+    h("p", { class: "sec__note" },
+      "Ran a few reagents and want to know what they add up to? Say what each "
+      + "one did. Colors are the plain ones on purpose — a spot plate under a "
+      + "kitchen light is not a laboratory."),
+    callout("stop", "This cannot rule out fentanyl",
+      h("p", null,
+        "A dose that kills is far below what any reagent shows, so no color "
+        + "here and no combination of them says a sample is free of it. A "
+        + "reagent also reads whatever reacts STRONGEST — a mixture shows one "
+        + "color and hides the rest, and most street samples are mixtures. "
+        + "What this gives you is what the result is consistent with.")),
+    h("div", { class: "pick" }, rows),
+    out);
+}
+
 function reagentFilter(reagents) {
   const cards = reagents.map((r) => ({ r, el: reagentCard(r) }));
   const list = h("div", null, cards.map((c) => c.el));

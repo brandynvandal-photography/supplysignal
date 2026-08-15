@@ -633,6 +633,18 @@ export async function reagentsFor(id) {
   const r = await load("reagents", { reagents: {} });
   return r.reagents?.[id] || null;
 }
+/* The whole reagent table, keyed by substance.
+ *
+ * reagentsFor() answers "what does this drug do", which is the forward
+ * question every reagent page asks. The reverse lookup on the Test page needs
+ * the other direction — "what turns black with Marquis" — and that cannot be
+ * answered one substance at a time. Same bundle, already national, so it costs
+ * no extra request and names nothing. */
+export async function reagentTable() {
+  const r = await load("reagents", { reagents: {} });
+  return r.reagents || {};
+}
+
 
 /** Is this a plant or fungal material, where a reagent color table would be
  *  misleading? See the note in scripts/build-reagents.mjs. */
