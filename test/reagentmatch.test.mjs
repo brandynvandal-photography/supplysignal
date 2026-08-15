@@ -14,6 +14,7 @@
  */
 
 import { match, compare, checkSoldAs } from "../site/js/reagentmatch.js";
+import { NAMED_REAGENTS as NAMED } from "../site/js/reagentnames.js";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -315,6 +316,62 @@ check("the colour vocabulary in the data is the one the UI offers", () => {
   }
   const missing = [...seen].filter((c) => !OFFERED.has(c));
   return missing.length ? `data uses colours the picker does not offer: ${missing.join(", ")}` : null;
+});
+
+/* -------------------------------------------------- keys are not labels */
+
+check("every reagent key in the data has a printable name", () => {
+  /* REPORTED FROM THE LIVE SITE: substance pages rendered "Morr" and "Simons"
+     as row headers, at a reader holding a bottle that says Morris and Simon's.
+     The build's key map had two entries that could never fire — the API sends
+     `simons` and `foli` and the map was keyed on `simon` and `folin` — and
+     three that were missing entirely.
+
+     A key with no label is a key that will be printed raw the moment any view
+     forgets to map it, so the data must not contain one. */
+  const keys = new Set();
+  for (const rows of Object.values(TABLE)) for (const r of rows) keys.add(r.reagent);
+  const unnamed = [...keys].filter((k) => !NAMED.includes(String(k).toLowerCase()));
+  return unnamed.length ? `no name for: ${unnamed.join(", ")}` : null;
+});
+
+check("no substance lists the same reagent twice", () => {
+  /* 17 substances did, 21 pairs in all, and they rendered as two rows with the
+     same name — which reads as two different reagents. 6 were the same reading
+     seen to different depths and the deeper one wins; the other 15 genuinely
+     disagree and are carried as `alts`. */
+  const bad = [];
+  for (const [id, rows] of Object.entries(TABLE)) {
+    const seen = new Map();
+    for (const r of rows) seen.set(r.reagent, (seen.get(r.reagent) || 0) + 1);
+    for (const [rg, n] of seen) if (n > 1) bad.push(`${id}/${rg} x${n}`);
+  }
+  return bad.length ? bad.join(", ") : null;
+});
+
+check("alternatives are carried, never concatenated into one sequence", () => {
+  /* 25C-NBOMe on Mandelin is yellow-red-brown in one upstream reading and
+     yellow-green-brown in the other. Merging those into one four-color
+     sequence would describe a reaction neither source reported. And pethidine
+     on Mecke is NO REACTION in one and yellow-orange in the other, so the row
+     has to hold both or one of them eliminates the substance. */
+  const rows = Object.values(TABLE).flat().filter((r) => r.alts);
+  if (!rows.length) return "no alternatives survived the build at all";
+  for (const r of rows) {
+    if (r.alts.length < 2) return `${r.reagent} has an alts array of ${r.alts.length}`;
+    /* Every alternative's colors must be reachable through the row's own
+       colors, or the matcher and the display disagree about the same row. */
+    const union = new Set(r.colors || []);
+    for (const a of r.alts) {
+      for (const c of a.colors || []) {
+        if (!union.has(c)) return `${r.reagent}: alt color ${c} missing from colors`;
+      }
+    }
+  }
+  const peth = (TABLE.pethidine || []).find((r) => r.reagent === "Mecke");
+  if (!peth?.alts) return "pethidine/Mecke lost its conflicting readings";
+  return peth.none && (peth.colors || []).length
+    ? null : "pethidine/Mecke dropped one side of the conflict";
 });
 
 /* ------------------------------------------------------------------- run */

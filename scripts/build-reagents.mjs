@@ -30,17 +30,77 @@ const API = "https://api.psychonautwiki.org/";
 const slug = (s) =>
   String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-const REAGENT_NAMES = {
+/* Upstream keys -> the key this file ships. ASCII identifiers, not labels:
+   flowcharts.json references these, the picker builds its list from them, and
+   the OVERRIDES below patch rows by them. site/js/reagentnames.js turns them
+   into what a reader sees, which is where Morris and Simon's live.
+
+   Two of these were WRONG and neither had ever fired: the API sends `simons`
+   and `foli`, and the map was keyed on `simon` and `folin`. So both fell to a
+   fallback that just capitalised the raw key, and "Simons" and "Foli" shipped.
+   `morr`, `roba` and `cann` were never mapped at all. Verified against the
+   live API, which sends exactly: cann ehrl foli froe gall hofm lieb mand marq
+   meck morr roba scott simons zimm. */
+const REAGENT_KEYS = {
   marq: "Marquis", meck: "Mecke", mand: "Mandelin", lieb: "Liebermann",
-  froe: "Froehde", ehrl: "Ehrlich", simon: "Simon's", scott: "Scott",
-  hofm: "Hofmann", gall: "Gallic", folin: "Folin", zimm: "Zimmermann",
+  froe: "Froehde", ehrl: "Ehrlich", simons: "Simons", scott: "Scott",
+  hofm: "Hofmann", gall: "Gallic", foli: "Foli", zimm: "Zimmermann",
+  morr: "Morr", roba: "Roba",
+  /* `cann` is deliberately absent. It appears on exactly one substance (PCP,
+     as a no-reaction), and there is no confident name for it — shipping a row
+     labelled "Cann" gives a reader an abbreviation they cannot act on, and
+     guessing at "Cannabis reagent" is the kind of invention this file's
+     sourcing rules forbid. Dropped, and counted below so a future reagent
+     appearing upstream gets noticed rather than silently shipped. */
 };
 
-function reagentName(raw) {
-  const key = String(raw || "").replace(/_desc$/, "");
-  if (REAGENT_NAMES[key]) return REAGENT_NAMES[key];
-  // Unknown key: readable fallback, never a blank
-  return key.charAt(0).toUpperCase() + key.slice(1);
+function reagentKey(raw) {
+  return REAGENT_KEYS[String(raw || "").replace(/_desc$/, "")] || null;
+}
+
+/* PsychonautWiki reports some pairs TWICE with different results, and the two
+ * readings are not always the same observation seen to different depths.
+ *
+ * 6 of the 21 duplicates are prefixes — ["pink"] and ["pink","blue"], one
+ * observer stopping earlier than the other — and the longer one simply wins.
+ * The other 15 genuinely disagree: 25C-NBOMe on Mandelin is yellow-red-brown
+ * in one and yellow-green-brown in the other; pethidine on Mecke is NO
+ * REACTION in one and yellow-orange in the other.
+ *
+ * Those are carried as ALTERNATIVES rather than merged. Concatenating them
+ * would invent a sequence neither source reported, and dropping either would
+ * eliminate a substance on a reading somebody did publish. `colors` stays the
+ * union so the matcher — which only asks "does this color appear" — keeps
+ * agreeing with both, and `alts` holds the readings intact for display. */
+function mergeDuplicates(rows) {
+  const by = new Map();
+  const sig = (r) => (r.colors || []).join("|") + (r.none ? "|none" : "");
+  for (const r of rows) {
+    const cur = by.get(r.reagent);
+    if (!cur) { by.set(r.reagent, { ...r }); continue; }
+
+    const a = sig(cur), b = sig(r);
+    if (a === b) continue;                                   // exact repeat
+    if (b.startsWith(a)) { by.set(r.reagent, { ...r }); continue; }   // r is deeper
+    if (a.startsWith(b)) continue;                            // cur is deeper
+
+    const alts = cur.alts ? [...cur.alts] : [strip(cur)];
+    alts.push(strip(r));
+    const merged = { reagent: r.reagent, alts };
+    const colors = [...new Set(alts.flatMap((x) => x.colors || []))];
+    if (colors.length) merged.colors = colors;
+    if (alts.some((x) => x.none)) merged.none = true;
+    by.set(r.reagent, merged);
+  }
+  return [...by.values()];
+}
+
+function strip(r) {
+  const o = {};
+  if (r.colors?.length) o.colors = r.colors;
+  if (r.to) o.to = r.to;
+  if (r.none) o.none = true;
+  return o;
 }
 
 /** "green3" -> "green"; dedupe consecutive repeats, keep order. */
@@ -80,12 +140,20 @@ if (json.errors) throw new Error(JSON.stringify(json.errors).slice(0, 300));
 const bySlug = {};
 let covered = 0;
 
+const unnamed = new Map();
+let mergedPairs = 0;
+
 for (const s of json.data.substances) {
   const rows = [];
   for (const r of s.reagents?.results || []) {
     const start = cleanColors(r.startColors);
     const end = cleanColors(r.endColors);
-    const name = reagentName(r.reagent?.name);
+    const name = reagentKey(r.reagent?.name);
+    if (!name) {
+      const raw = String(r.reagent?.name || "?").replace(/_desc$/, "");
+      unnamed.set(raw, (unnamed.get(raw) || 0) + 1);
+      continue;
+    }
 
     if (!start.length && !end.length) {
       // Explicit no-reaction is worth showing; missing data is not.
@@ -96,8 +164,16 @@ for (const s of json.data.substances) {
     const to = end.length && end.join("|") !== start.join("|") ? end : null;
     rows.push({ reagent: name, colors: start.length ? start : end, ...(to ? { to } : {}) });
   }
-  if (rows.length) { bySlug[slug(s.name)] = rows; covered++; }
+  const deduped = mergeDuplicates(rows);
+  mergedPairs += rows.length - deduped.length;
+  if (deduped.length) { bySlug[slug(s.name)] = deduped; covered++; }
 }
+
+if (unnamed.size) {
+  console.warn("dropped reagents with no confident name: "
+    + [...unnamed].map(([k, n]) => `${k} (${n} row${n === 1 ? "" : "s"})`).join(", "));
+}
+console.log(`merged ${mergedPairs} duplicate reagent row(s)`);
 
 /* Plant and fungal MATERIAL is dropped, and the reason is upstream: PW records
  * reagent colors per COMPOUND, with no idea what matrix the compound is in.

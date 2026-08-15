@@ -1316,32 +1316,28 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 
 /* ---------------------------------------------------------- callout box */
 
+/* ONE SIZE, THE SMALL ONE.
+ *
+ * Callouts carried 20/32 padding and a 1rem heading — a section's weight — and
+ * there are a lot of them. On the Test page a stop callout ran 724px tall,
+ * which is most of a phone screen for one warning, and the reader has to get
+ * past it to reach the tool it is warning about. Severity is already carried by
+ * the tint, the border and the glyph; the box does not also need to be large to
+ * be read, and a page of large boxes is a page where none of them stand out.
+ *
+ * This is the sizing that was applied to callout--info and then asked for
+ * everywhere. Kinds still differ in colour, and only in colour. */
 .callout {
-  border-radius: var(--radius); padding: var(--sp-3) var(--sp-4); margin: 0 0 14px;
+  border-radius: var(--radius); padding: var(--sp-2) var(--sp-3); margin: 0 0 12px;
   border: 1px solid var(--line); background: var(--surface-2);
 }
 .callout--warn { background: var(--elevated-soft); border-color: color-mix(in srgb, var(--elevated) 30%, transparent); }
 .callout--stop { background: var(--critical-soft); border-color: color-mix(in srgb, var(--critical) 30%, transparent); }
-/* INFO IS NOT A WARNING, so it does not get a warning's weight.
- *
- * Every callout shared one padding and one heading size, which is right for
- * stop and warn — those are the ones that have to stop a reader — and too much
- * for info, which is used ten times over for a closing sentence or an aside.
- * "The point", a single summary line, was rendering with 20/32 padding and a
- * heading the size of the sections around it, so a footnote read like a
- * section of its own.
- *
- * Tighter box, heading dropped to the note scale. It is still a callout and
- * still tinted; it just stops competing with the content it summarises. */
 .callout--info { background: var(--brand-soft); border-color: color-mix(in srgb, var(--brand) 28%, transparent); }
-.callout--info { padding: var(--sp-2) var(--sp-3); }
-.callout--info .callout__hd { margin-bottom: 3px; gap: 6px; }
-.callout--info .callout__hd h3 { font-size: .92rem; letter-spacing: 0; }
-.callout--info p { font-size: .93rem; }
-.callout--info p:last-child { margin-bottom: 0; }
-.callout h3 { margin: 0 0 6px; font-size: 1rem; }
-.callout p { font-size: .95rem; }
-.callout__hd { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.callout h3 { margin: 0 0 3px; font-size: .92rem; letter-spacing: 0; }
+.callout p { font-size: .93rem; }
+.callout p:last-child { margin-bottom: 0; }
+.callout__hd { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
 .callout__hd h3 { margin: 0; }
 
 /* ----------------------------------------------------------- empty/skel */
@@ -1486,6 +1482,13 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
 }
 .plan__reagent { font-weight: 650; }
 .plan__says { color: var(--ink-2); }
+/* The read window. Monospaced so 0:45 and 30:00 line up down the list, and
+   dimmed because it qualifies the expected color rather than competing with
+   it — but never hidden: a Morris judged at 45 seconds has not finished. */
+.plan__read {
+  font-family: var(--font-mono); font-size: .78rem; color: var(--ink-3);
+  white-space: nowrap; flex: none;
+}
 /* The fork is a list of possibilities, not an ordered procedure — so no step
    numbers, and a dot instead. */
 .plan__steps--fork { counter-reset: none; }

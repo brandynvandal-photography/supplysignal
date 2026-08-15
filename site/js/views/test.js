@@ -18,6 +18,7 @@ import {
 import * as data from "../data.js";
 import { match as reagentMatch, checkSoldAs } from "../reagentmatch.js";
 import { flowFor, walk, completedBy, offChart, guide } from "../flowcheck.js";
+import { reagentLabel } from "../reagentnames.js";
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
@@ -382,7 +383,7 @@ export async function render(route, ctx) {
       /* The charts run backwards, and this is the tool the whole section is
          for — so it goes last, after what a reagent is and how to run one. */
       disclosure("sec-whatisit", "What could this be?", { open: true },
-        reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go, g.reagents, FLOWS))
+        reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go, FLOWS))
     ),
     ],
     /* The preview names what is inside. "Handling them safely" is gone
@@ -448,26 +449,19 @@ export async function render(route, ctx) {
  *   - Nothing here rules out fentanyl. A lethal dose is far below what any
  *     reagent shows, and no combination of colours on this screen changes it.
  */
-function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
+function reverseLookup(matchFn, table, subs, go, charts) {
   /* Morris is on here because the DanceSafe charts start the cocaine and
      ketamine tests with it, and a picker that cannot express the first step of
      a chart it is checking against is broken. It sits sixth on colour-table
      coverage but first on those two flows. */
   const REAGENTS = ["Marquis", "Mecke", "Mandelin", "Froehde", "Liebermann",
                     "Simons", "Morr", "Ehrlich", "Hofmann", "Zimmermann", "Scott"];
-  /* The table's keys are bare — "Simons", "Ehrlich" — and the rest of the page
-     writes them the way the reagents are actually named: Simon's, Ehrlich's.
-     Taken from the guide rather than hardcoded so the two cannot drift, and
-     falling back to the key for the three the guide has no entry for. */
-  const NAMES = new Map((guideReagents || []).map((r) => [String(r.id).toLowerCase(), r.name]));
-  /* The reagent table abbreviates where the guide does not. Morris is the one
-     that matters — it opens two DanceSafe flows, and unaliased it rendered as
-     "Morr" in the chart's own instructions. */
-  const KEY_ALIAS = { morr: "morris" };
-  const reagentName = (key) => {
-    const k = String(key).toLowerCase();
-    return NAMES.get(k) || NAMES.get(KEY_ALIAS[k]) || key;
-  };
+  /* Labels come from reagentnames.js, which is the one map the whole app uses.
+     This built its own out of the testing guide plus an alias for Morris, which
+     worked here and left the substance pages printing "Morr" and "Simons" —
+     the bug that map exists to prevent, in the one place that had not been
+     given a copy of it. */
+  const reagentName = reagentLabel;
   /* "gray" arrived with the DanceSafe override for MDA on Simon's. The test
      that pairs this list against the data would have caught its absence: a
      color in the file the picker does not offer is unreachable, and every
@@ -506,6 +500,30 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
 
   const nameOf = (id) =>
     (subs?.substances || []).find((x) => x.id === id)?.name || id;
+
+  /* "a Amphetamine-like substance". The article has to follow the SOUND of the
+     name, and drug names are the worst case for guessing it: initialisms are
+     read letter by letter, so LSD and MDMA and 2C-B all take "an" while their
+     spelling starts with a consonant. So the rule is vowel-sound rather than
+     vowel-letter — a leading vowel, or a leading consonant LETTER whose letter
+     NAME opens with a vowel sound, which is every letter except the seven in
+     the string below. */
+  const NO_VOWEL_SOUND = "BCDGJKPQTUVWYZ";
+  const article = (word) => {
+    const w = String(word).trim();
+    const c = w.charAt(0);
+    const initialism = /^[A-Z0-9][A-Z0-9-]/.test(w);   // LSD, MDMA, 2C-B, 4-HO-MET
+    if (!initialism) return "aeiou".includes(c.toLowerCase()) ? "an" : "a";
+    /* A leading DIGIT is read as its word, and eight is the only one that opens
+       on a vowel — two, four, five, twenty-five all take "a". Treating every
+       digit as a vowel gave "an 2C-B-like substance". */
+    if (/[0-9]/.test(c)) return c === "8" ? "an" : "a";
+    return NO_VOWEL_SOUND.includes(c.toUpperCase()) ? "a" : "an";
+  };
+  const aLike = (id) => {
+    const n = nameOf(id);
+    return `${article(n)} ${n}-like substance`;
+  };
 
   /* WHAT IT WAS SOLD AS, which is the question people actually arrive with.
    *
@@ -809,6 +827,9 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
                 h("span", { class: "plan__says" },
                   led.next.length > 1 ? `${reagentName(f.reagent)}: ` : "",
                   f.step.says),
+                f.step.read
+                  ? h("span", { class: "plan__read" }, `read within ${f.step.read}`)
+                  : null,
                 bar(f.step.colors, f.step.none))))
         : null,
       led.live.length
@@ -859,6 +880,12 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
           return h("li", { class: `plan__step plan__step--${v}` },
             h("span", { class: "plan__reagent" }, reagentName(s.reagent)),
             h("span", { class: "plan__says" }, `expect ${s.says}`),
+            /* HOW LONG THE READING IS GOOD FOR, which the charts print under
+               every sample and which changes the answer rather than decorating
+               it: Morris is read over five minutes and the LSD Ehrlich's over
+               thirty, while everything else is forty-five seconds. A Morris
+               judged at forty-five seconds has not finished reacting. */
+            s.read ? h("span", { class: "plan__read" }, `read within ${s.read}`) : null,
             bar(s.colors, s.none));
         })),
       /* Sample count is not decoration. Every reagent needs its own scraping —
@@ -901,13 +928,13 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
    * checked, so it keeps the weaker frame of the two. */
   function flowCard(flow, run, state, found) {
     const name = nameOf(flow.id);
-    const like = `${name}-like substance`;
+    const like = aLike(flow.id);
     const look = found
       ? { card: "advisory", badge: "ok", glyph: "✓",
-          label: `Consistent with a ${like}` }
+          label: `Consistent with ${like}` }
       : {
         expected:   { card: "advisory", badge: "ok",       glyph: "✓",
-                      label: `Consistent with a ${like}` },
+                      label: `Consistent with ${like}` },
         ontrack:    { card: "advisory", badge: "neutral",  glyph: "›",
                       label: `So far, ${name}-like` },
         unexpected: { card: "elevated", badge: "elevated", glyph: "▲",
@@ -958,9 +985,8 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
 
       others.length
         ? h("p", { class: "sec__note" },
-            "What these readings DO complete is the published flow for a ",
-            h("strong", null,
-              others.map((o) => `${nameOf(o.id)}-like substance`).join(", or a ")),
+            "What these readings DO complete is the published flow for ",
+            h("strong", null, others.map((o) => aLike(o.id)).join(", or ")),
             ". That is the chart's own answer, not a guess from the colors.")
         : null,
 
@@ -1062,7 +1088,7 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
       const name = nameOf(sold.id);
       const look = {
         expected:   { card: "advisory", badge: "ok",       glyph: "✓",
-                      label: `Consistent with a ${name}-like substance` },
+                      label: `Consistent with ${aLike(sold.id)}` },
         unexpected: { card: "elevated", badge: "elevated", glyph: "▲",
                       label: `Unexpected for ${name}` },
         partial:    { card: "advisory", badge: "neutral",  glyph: "?",

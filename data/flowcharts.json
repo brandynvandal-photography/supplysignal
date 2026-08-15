@@ -42,103 +42,294 @@
       "id": "mdma",
       "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
       "steps": [
-        { "reagent": "Marquis", "colors": ["black"], "says": "black" },
-        { "reagent": "Simons", "colors": ["blue"], "says": "royal blue" }
+        {
+          "reagent": "Marquis",
+          "colors": [
+            "black"
+          ],
+          "says": "black",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Simons",
+          "colors": [
+            "blue"
+          ],
+          "says": "royal blue",
+          "read": "0:45"
+        }
       ]
     },
     {
       "id": "mda",
       "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
       "steps": [
-        { "reagent": "Marquis", "colors": ["black"], "says": "black" },
-        { "reagent": "Simons", "colors": ["gray", "green"], "none": true,
-          "says": "no reaction, or gray/green" }
+        {
+          "reagent": "Marquis",
+          "colors": [
+            "black"
+          ],
+          "says": "black",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Simons",
+          "colors": [
+            "gray",
+            "green"
+          ],
+          "none": true,
+          "says": "no reaction, or gray/green",
+          "read": "0:45"
+        }
       ]
     },
     {
       "id": "cocaine",
       "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
       "steps": [
-        { "reagent": "Morr", "colors": ["blue"], "says": "bright blue" },
-        { "reagent": "Marquis", "colors": ["peach", "pink"], "none": true,
-          "says": "peach, light pink, or no reaction" },
-        { "reagent": "Liebermann", "colors": ["orange", "red", "yellow"],
-          "says": "soft orange, red-orange, or light yellow" }
+        {
+          "reagent": "Morr",
+          "colors": [
+            "blue"
+          ],
+          "says": "bright blue",
+          "read": "5:00"
+        },
+        {
+          "reagent": "Marquis",
+          "colors": [
+            "peach",
+            "pink"
+          ],
+          "none": true,
+          "says": "peach, light pink, or no reaction",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Liebermann",
+          "colors": [
+            "orange",
+            "red",
+            "yellow"
+          ],
+          "says": "soft orange, red-orange, or light yellow",
+          "read": "0:45"
+        }
       ]
     },
     {
       "id": "ketamine",
       "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
       "steps": [
-        { "reagent": "Morr", "colors": ["purple"], "says": "violet-purple" }
+        {
+          "reagent": "Morr",
+          "colors": [
+            "purple"
+          ],
+          "says": "violet-purple",
+          "read": "5:00"
+        }
       ]
     },
     {
       "id": "lsd",
       "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
       "steps": [
-        { "reagent": "Ehrlich", "colors": ["purple"], "says": "purple" }
+        {
+          "reagent": "Ehrlich",
+          "colors": [
+            "purple"
+          ],
+          "says": "purple",
+          "read": "30:00"
+        }
       ]
     },
     {
       "id": "2c-b",
       "chart": "2 side 1 — other drugs",
       "steps": [
-        { "reagent": "Marquis", "colors": ["yellow", "green", "olive"],
-          "says": "yellow, yellow-green, or dark lime green" },
-        { "reagent": "Froehde", "colors": ["yellow", "green", "black"],
-          "says": "yellow, yellow-green, or yellow-black" },
-        { "reagent": "Liebermann", "colors": ["yellow", "green", "black"],
-          "says": "light yellow, yellow-green, or yellow-black" }
+        {
+          "reagent": "Marquis",
+          "colors": [
+            "yellow",
+            "green",
+            "olive"
+          ],
+          "says": "yellow, yellow-green, or dark lime green",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Froehde",
+          "colors": [
+            "yellow",
+            "green",
+            "black"
+          ],
+          "says": "yellow, yellow-green, or yellow-black",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Liebermann",
+          "colors": [
+            "yellow",
+            "green",
+            "black"
+          ],
+          "says": "light yellow, yellow-green, or yellow-black",
+          "read": "0:45"
+        }
       ]
     },
     {
       "id": "mescaline",
       "chart": "2 side 1 — other drugs",
       "steps": [
-        { "reagent": "Marquis", "colors": ["orange"], "says": "bright orange" },
-        { "reagent": "Froehde", "colors": ["yellow", "green", "brown", "black"],
-          "says": "yellow-green-brown-black" },
-        { "reagent": "Liebermann", "colors": ["brown", "black"],
-          "says": "brown-black" }
+        {
+          "reagent": "Marquis",
+          "colors": [
+            "orange"
+          ],
+          "says": "bright orange",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Froehde",
+          "colors": [
+            "yellow",
+            "green",
+            "brown",
+            "black"
+          ],
+          "says": "yellow-green-brown-black",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Liebermann",
+          "colors": [
+            "brown",
+            "black"
+          ],
+          "says": "brown-black",
+          "read": "0:45"
+        }
       ]
     },
     {
       "id": "methamphetamine",
       "chart": "2 side 2 — other drugs",
       "steps": [
-        { "reagent": "Marquis", "colors": ["orange"], "says": "orange" },
-        { "reagent": "Simons", "colors": ["blue"], "says": "royal blue" }
+        {
+          "reagent": "Marquis",
+          "colors": [
+            "orange"
+          ],
+          "says": "orange",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Simons",
+          "colors": [
+            "blue"
+          ],
+          "says": "royal blue",
+          "read": "0:45"
+        }
       ]
     },
     {
       "id": "amphetamine",
       "chart": "2 side 2 — other drugs",
       "steps": [
-        { "reagent": "Marquis", "colors": ["orange"], "says": "orange" },
-        { "reagent": "Simons", "none": true, "says": "no reaction" },
-        { "reagent": "Froehde", "none": true, "says": "no reaction" }
+        {
+          "reagent": "Marquis",
+          "colors": [
+            "orange"
+          ],
+          "says": "orange",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Simons",
+          "none": true,
+          "says": "no reaction",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Froehde",
+          "none": true,
+          "says": "no reaction",
+          "read": "0:45"
+        }
       ]
     },
     {
       "id": "oxycodone",
       "chart": "2 side 2 — other drugs",
       "steps": [
-        { "reagent": "Marquis", "colors": ["gray", "purple"], "none": true,
-          "says": "no reaction, light gray, or gray-purple" },
-        { "reagent": "Liebermann", "colors": ["brown", "purple"],
-          "says": "light brown or purple-brown" },
-        { "reagent": "Froehde", "colors": ["yellow", "blue"],
-          "says": "light yellow — or ice blue, which the chart marks as oxycodone WITH acetaminophen" }
+        {
+          "reagent": "Marquis",
+          "colors": [
+            "gray",
+            "purple"
+          ],
+          "none": true,
+          "says": "no reaction, light gray, or gray-purple",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Liebermann",
+          "colors": [
+            "brown",
+            "purple"
+          ],
+          "says": "light brown or purple-brown",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Froehde",
+          "colors": [
+            "yellow",
+            "blue"
+          ],
+          "says": "light yellow — or ice blue, which the chart marks as oxycodone WITH acetaminophen",
+          "read": "0:45"
+        }
       ]
     },
     {
       "id": "heroin",
       "chart": "2 side 2 — other drugs",
       "steps": [
-        { "reagent": "Marquis", "colors": ["magenta", "pink", "purple"], "says": "magenta" },
-        { "reagent": "Froehde", "colors": ["red", "brown"], "says": "reddish-brown" },
-        { "reagent": "Liebermann", "colors": ["black", "brown"], "says": "black-brown" }
+        {
+          "reagent": "Marquis",
+          "colors": [
+            "magenta",
+            "pink",
+            "purple"
+          ],
+          "says": "magenta",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Froehde",
+          "colors": [
+            "red",
+            "brown"
+          ],
+          "says": "reddish-brown",
+          "read": "0:45"
+        },
+        {
+          "reagent": "Liebermann",
+          "colors": [
+            "black",
+            "brown"
+          ],
+          "says": "black-brown",
+          "read": "0:45"
+        }
       ]
     }
   ],
@@ -168,33 +359,141 @@
     "chart": "3 — testing unknown substances",
     "first": "Marquis",
     "branches": [
-      { "colors": ["peach", "pink"], "says": "peach or light pink",
-        "next": ["Morr"], "leads": ["cocaine"],
+      {
+        "colors": [
+          "peach",
+          "pink"
+        ],
+        "says": "peach or light pink",
+        "next": [
+          "Morr"
+        ],
+        "leads": [
+          "cocaine"
+        ],
         "then": [
-          { "reagent": "Morr", "colors": ["blue"], "says": "bright blue",
-            "next": ["Liebermann"], "leads": ["cocaine"] }
-        ] },
-      { "none": true, "says": "no reaction",
-        "next": ["Liebermann"], "leads": ["cocaine", "ketamine"],
+          {
+            "reagent": "Morr",
+            "colors": [
+              "blue"
+            ],
+            "says": "bright blue",
+            "next": [
+              "Liebermann"
+            ],
+            "leads": [
+              "cocaine"
+            ],
+            "read": "5:00"
+          }
+        ],
+        "read": "0:45"
+      },
+      {
+        "none": true,
+        "says": "no reaction",
+        "next": [
+          "Liebermann"
+        ],
+        "leads": [
+          "cocaine",
+          "ketamine"
+        ],
         "then": [
-          { "reagent": "Liebermann", "colors": ["orange", "red"],
+          {
+            "reagent": "Liebermann",
+            "colors": [
+              "orange",
+              "red"
+            ],
             "says": "soft orange or orange-red",
-            "next": ["Morr"], "leads": ["cocaine"] },
-          { "reagent": "Liebermann", "colors": ["yellow"], "says": "light yellow",
-            "next": ["Morr"], "leads": ["ketamine"] }
-        ] },
-      { "colors": ["orange"], "says": "bright orange",
-        "next": ["Liebermann"],
-        "leads": ["methamphetamine", "amphetamine", "mescaline"],
+            "next": [
+              "Morr"
+            ],
+            "leads": [
+              "cocaine"
+            ],
+            "read": "0:45"
+          },
+          {
+            "reagent": "Liebermann",
+            "colors": [
+              "yellow"
+            ],
+            "says": "light yellow",
+            "next": [
+              "Morr"
+            ],
+            "leads": [
+              "ketamine"
+            ],
+            "read": "0:45"
+          }
+        ],
+        "read": "0:45"
+      },
+      {
+        "colors": [
+          "orange"
+        ],
+        "says": "bright orange",
+        "next": [
+          "Liebermann"
+        ],
+        "leads": [
+          "methamphetamine",
+          "amphetamine",
+          "mescaline"
+        ],
         "then": [
-          { "reagent": "Liebermann", "colors": ["yellow"], "says": "light yellow",
-            "next": ["Simons"], "leads": ["methamphetamine", "amphetamine"] },
-          { "reagent": "Liebermann", "colors": ["brown"], "says": "yellow-brown",
-            "next": ["Froehde"], "leads": ["mescaline"] }
-        ] },
-      { "colors": ["black"], "says": "black",
-        "next": ["Simons"], "leads": ["mdma", "mda"] }
+          {
+            "reagent": "Liebermann",
+            "colors": [
+              "yellow"
+            ],
+            "says": "light yellow",
+            "next": [
+              "Simons"
+            ],
+            "leads": [
+              "methamphetamine",
+              "amphetamine"
+            ],
+            "read": "0:45"
+          },
+          {
+            "reagent": "Liebermann",
+            "colors": [
+              "brown"
+            ],
+            "says": "yellow-brown",
+            "next": [
+              "Froehde"
+            ],
+            "leads": [
+              "mescaline"
+            ],
+            "read": "0:45"
+          }
+        ],
+        "read": "0:45"
+      },
+      {
+        "colors": [
+          "black"
+        ],
+        "says": "black",
+        "next": [
+          "Simons"
+        ],
+        "leads": [
+          "mdma",
+          "mda"
+        ],
+        "read": "0:45"
+      }
     ]
   },
-  "unknownRule": "Any Marquis result the charts do not list should be treated as an unexpected reaction for a ground score or mystery substance. Without context around what something was sold as, further differentiation may be misleading."
+  "unknownRule": "Any Marquis result the charts do not list should be treated as an unexpected reaction for a ground score or mystery substance. Without context around what something was sold as, further differentiation may be misleading.",
+  "readNote": "Times are how long a reaction stays readable, from the DanceSafe charts. A reading taken after its window has drifted and is not the published result."
 }

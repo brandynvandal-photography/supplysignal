@@ -17,6 +17,7 @@ import {
 import * as data from "../data.js";
 import { CLASSES, classInfo, groupAll } from "../taxonomy.js";
 import { draw as drawStructure } from "../structure.js";
+import { reagentLabel } from "../reagentnames.js";
 
 /* `label` is what renders; the KEY is TripSit's verbatim status, kept for
    data fidelity and shown in the definitions block. The raw terms are chart
@@ -1069,7 +1070,10 @@ async function detailView(id, subs, combos, { go }) {
             h("tbody", null,
               s.reagentResults.map((r) =>
                 h("tr", null,
-                  h("th", { scope: "row" }, r.reagent),
+                  /* The label, not the key. "Morr" and "Simons" were being
+                     printed straight out of the data at a reader holding a
+                     bottle that says Morris and Simon's. */
+                  h("th", { scope: "row" }, reagentLabel(r.reagent)),
                   h("td", null,
                     /* `to` is a SECOND sequence - what the reaction settles
                        into - not a continuation of the first. Concatenating
@@ -1078,7 +1082,24 @@ async function detailView(id, subs, combos, { go }) {
                        entries carrying a `to` were mangled the same way; the
                        old arrow rendering hid it by reading as one long chain.
                        Two sequences, shown as two. */
-                    r.none
+                    /* ALTERNATIVES, where upstream reported the same reagent
+                       twice with different results. PsychonautWiki lists 25C-
+                       NBOMe on Mandelin as yellow-red-brown AND yellow-green-
+                       brown; pethidine on Mecke as no reaction AND yellow-
+                       orange. Those used to render as two rows with the same
+                       name, which reads as two reagents. One row, and the
+                       readings joined by "or" — never merged into a single
+                       sequence, which would invent a reaction neither source
+                       reported. */
+                    r.alts
+                      ? frag(r.alts.map((a, i) => frag(
+                          i ? h("span", { class: "reag__settles" }, "or") : null,
+                          a.none
+                            ? h("span", { class: "reag__none" }, "No reaction expected")
+                            : frag(seq(a.colors),
+                                a.to ? h("span", { class: "reag__settles" }, "settling to") : null,
+                                a.to ? seq(a.to) : null))))
+                      : r.none
                       ? h("span", { class: "reag__none" }, "No reaction expected")
                       : frag(
                           seq(r.colors),
