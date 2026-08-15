@@ -542,9 +542,26 @@ a { color: var(--brand); }
  * So: wide AND coarse. Desktop keeps 22, phones keep 22, tablets in touch mode
  * get a mark sized for the screen they are actually on. CSS beats the width and
  * height attributes on the element, so the markup stays one size. */
-@media (min-width: 880px) and (pointer: coarse) {
-  .iconbtn__svg { width: 27px; height: 27px; }
-  .iconbtn { min-width: 48px; min-height: 48px; }
+/* THE SEARCH ICON, twice over, because size was only half of it.
+ *
+ * CONTRAST FIRST. .iconbtn inherits --ink-2, the secondary ink - deliberately
+ * dimmer than body text. The theme and exit glyphs can afford that: they are
+ * solid characters. Thin 2.1px line art at a secondary weight is the faintest
+ * thing in the header, which is what "can barely see it" was about and why
+ * enlarging it twice did not fix it. The comment two rules down already says
+ * this is the one icon people go LOOKING for; it now gets the primary ink and
+ * a slightly heavier stroke to match the glyphs beside it.
+ *
+ * SIZE SECOND, and no longer gated on the pointer. The previous attempt keyed
+ * on (pointer: coarse) to mean "a tablet" - but an iPad with a keyboard case
+ * or trackpad reports pointer: fine, so on the device that reported the
+ * problem the rule may never have matched at all. Width alone: a wide screen
+ * gets a bigger mark, which is true of a desktop too and harms nothing there. */
+#searchbtn { color: var(--ink); }
+#searchbtn .iconbtn__svg { stroke-width: 2.4; }
+
+@media (min-width: 880px) {
+  #searchbtn .iconbtn__svg { width: 26px; height: 26px; }
 }
 
 /* ----------------------------------------------------------------- nav */
