@@ -74,6 +74,75 @@ check("a memorial walk is not a supply finding", () => {
   return g.verdict === "drop" ? null : JSON.stringify(g);
 });
 
+/* ------------------------------------------------- announcements, official
+ *
+ * The regression these exist for: on 2026-08-15 "Delaware Hospitals Adopt
+ * Statewide Emergency Department Guidance for Opioid Use Disorder Treatment"
+ * published as a STATEWIDE ALERT. Trusted source, real substance, an event
+ * word, and nothing whatsoever circulating.
+ *
+ * It got through because official feeds were exempt from the not-a-finding
+ * filter, on the reasoning that a health department publishing an item has
+ * already decided the item is about a drug supply. That holds for a dedicated
+ * drug-alert feed. Most of these sources are departmental NEWSROOMS - WIC,
+ * food stamps, tick safety - and there it does not hold at all.
+ *
+ * Both halves are load-bearing. The DROP list is what the reader should never
+ * see under "what's showing up near you"; the KEEP list is every way a real
+ * advisory could be worded, and losing one of those is the worse failure. */
+const official = (title, body = "") => ({
+  sourceId: "wv-oeps", sourceName: "WV OEPS", title, body,
+});
+const isAnnouncement = (g) =>
+  g.verdict === "drop" && g.reason === "not_a_supply_finding";
+
+for (const title of [
+  "Delaware Hospitals Adopt Statewide Emergency Department Guidance for Opioid Use Disorder Treatment",
+  "DHSS Announces Health Fund Applications Due August 31",
+  "WCHD Adds More Naloxone Distribution Boxes",
+  "State awarded $4.2 million grant to expand opioid treatment",
+  "Department launches new overdose dashboard",
+  "Free naloxone training now available statewide",
+  "County opens new harm reduction center",
+  "Health department hosts overdose awareness campaign",
+  "New syringe services sites now open in three counties",
+]) {
+  check(`an announcement is not an alert: ${title.slice(0, 46)}…`, () => {
+    const g = grade(official(title), scored, SOURCES);
+    return isAnnouncement(g) ? null : JSON.stringify(g);
+  });
+}
+
+for (const title of [
+  "Health department warns of spike in overdoses linked to fentanyl-adulterated supply",
+  "Public health advisory: carfentanil detected in local drug supply",
+  "Cluster of overdoses in the county; residents should remain vigilant",
+  "Xylazine now appearing in the majority of samples tested",
+  "Alert: counterfeit pills containing fentanyl are circulating",
+  "Drug checking service identifies nitazenes in three samples",
+  "Bromazolam found in pressed pills sold as Xanax across the state",
+  "Overdose spike alert: 14 in 48 hours, naloxone distributed at the scene",
+  "Three deaths in 24 hours; samples returned positive for nitazenes",
+  "Warning: blue pills stamped M30 contain 2.4 mg fentanyl",
+  "Fentanyl test strips are failing to detect this batch, lab says",
+]) {
+  check(`a real advisory survives it: ${title.slice(0, 46)}…`, () => {
+    const g = grade(official(title), scored, SOURCES);
+    return isAnnouncement(g) ? JSON.stringify(g) : null;
+  });
+}
+
+check("a medical examiner's own tally is exempt from the announcement filter", () => {
+  /* preScored items are structured counts, not prose. A tally that happens to
+     mention a distribution program must not be read as announcing one. */
+  const g = grade(
+    { sourceId: "cook-me", sourceName: "Cook County ME", preScored: true,
+      title: "Acetyl fentanyl in 13 of 163 opioid-involved deaths",
+      body: "Naloxone distribution boxes were installed countywide during the period." },
+    scored, SOURCES);
+  return isAnnouncement(g) ? JSON.stringify(g) : null;
+});
+
 /* ------------------------------------------------------------- carriers */
 
 check("a tagged official feed publishes without naming itself in prose", () => {

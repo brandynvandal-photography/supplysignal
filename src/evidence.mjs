@@ -92,6 +92,48 @@ const NOT_A_FINDING = new RegExp([
   /\bremembrance\b|\bhonou?r(s|ing|ed)? (those|the) (lost|victims|memory)/,
 ].map((r) => r.source).join("|"), "i");
 
+/* SERVICE AND POLICY ANNOUNCEMENTS.
+ *
+ * Separate from NOT_A_FINDING because it applies to a different class of
+ * source. NOT_A_FINDING is about carrier prose - crime stories and charity
+ * walks that a news aggregator dressed up as drug coverage. This is about
+ * OFFICIAL feeds, and the reason it is needed is that most of them are general
+ * departmental newsrooms rather than drug-alert feeds. Delaware's is
+ * news.delaware.gov/category/dhss - WIC, food stamps, EMS week, tick safety,
+ * and once in a while an actual advisory.
+ *
+ * The assumption a few lines down - that a tagged official feed publishing an
+ * item has already decided the item is about a drug supply - holds for a
+ * dedicated alert feed and does not hold for a newsroom. It let "Delaware
+ * Hospitals Adopt Statewide Emergency Department Guidance for Opioid Use
+ * Disorder Treatment" through as a statewide alert on 2026-08-15: a trusted
+ * source, a real substance, an event word, and nothing circulating.
+ *
+ * Deliberately narrow. Every pattern is a thing an INSTITUTION does - adopts,
+ * launches, is awarded, opens - never a thing a supply does. A real advisory
+ * saying "the health department is warning residents after a cluster of
+ * overdoses" matches none of them. Where the two genuinely co-occur, the
+ * announcement wording is what the headline leads on, and that is the call
+ * this makes. */
+/* The gap between verb and noun is [^.;:]{0,44} rather than [\w\s]{0,24}: real
+   headlines put a dollar figure, a hyphenated adjective or a department's whole
+   name in the middle ("awarded $4.2 million grant", "Adopt Statewide Emergency
+   Department Guidance"). It stops at sentence punctuation so the two halves
+   still have to be the same clause. */
+const G = "(?:[^.;:!?]|\\.\\d){0,44}";
+const ANNOUNCEMENT = new RegExp([
+  `\\b(adopts?|adopted|issues?|releases?|publish(es|ed)?|updates?|implements?|implemented)${G}\\b(guidance|guidelines?|protocols?|standards?|toolkit|framework|recommendations?)\\b`,
+  `\\b(launch(es|ed|ing)?|announce(s|d)?|unveil(s|ed)?|expand(s|ed|ing)?|open(s|ed|ing)?|add(s|ed|ing)?|install(s|ed|ing)?|offer(s|ed|ing)?|host(s|ed|ing)?)${G}\\b(programs?|programmes?|initiatives?|campaigns?|clinics?|centers?|centres?|sites?|hotlines?|helplines?|dashboards?|websites?|portals?|services?|boxe?s?|vending machines?|applications?|deadlines?|physicals?|screenings?)\\b`,
+  `\\b(awarded|awards?|receives?|received|secures?|allocat(es|ed)|invest(s|ed|ing)?)${G}\\b(grant|grants|funding|award|million|billion)\\b`,
+  /\b(grant|funding|fund) (of|totaling|totalling|worth|applications?)\b/.source,
+  /\bnaloxone (distribution|vending|boxes?|cabinets?|leave-behind)\b/.source,
+  /\bnew (law|bill|rule|regulation|legislation) (takes effect|signed|passed|goes into effect)\b/.source,
+  /\b(signs?|signed) (into law|legislation|a bill)\b/.source,
+  /\bnow (available|offering|accepting|open)\b/.source,
+  /\b(training|certification|course|webinar|workshop)s? (is |are |now |available|offered|open)/.source,
+  /\bhiring\b|\bjob (opening|posting)|\brequest for (proposals|applications)\b|\bRFP\b/.source,
+].join("|"), "i");
+
 /**
  * Severity ceilings by class.
  *
@@ -163,6 +205,15 @@ export function grade(item, scored, sources) {
    * item is about a drug supply; second-guessing that with a word list is how
    * the strongest sources get thrown away. */
   if (carrier === "carrier" && NOT_A_FINDING.test(text)) {
+    return { verdict: "drop", reason: "not_a_supply_finding" };
+  }
+
+  /* Announcements, though, are dropped whoever is speaking - and it is the
+     official feeds this is actually aimed at, because most of them are
+     departmental newsrooms rather than drug-alert feeds. See ANNOUNCEMENT
+     above. A lab is exempt: a medical examiner's structured tally is a count
+     of what was measured, and nothing it emits is a press release. */
+  if (carrier !== "lab" && !item.preScored && ANNOUNCEMENT.test(text)) {
     return { verdict: "drop", reason: "not_a_supply_finding" };
   }
 

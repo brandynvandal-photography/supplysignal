@@ -52,42 +52,6 @@
       "independent": 1,
       "n": "Cook County",
       "s": "IL"
-    },
-    {
-      "id": "36a7a2978f6f1314",
-      "fips": null,
-      "state": "DE",
-      "headline": "Delaware Hospitals Adopt Statewide Emergency Department Guidance for Opioid Use Disorder Treatment",
-      "eventDate": "2026-07-07",
-      "summary": "DOVER – The Delaware Department of Health and Social Services (DHSS), through its Division of Substance Abuse and Mental Health (DSAMH), today joined hospital leaders from across the state at Bayhealth in Dover to announ",
-      "severity": "advisory",
-      "substances": [
-        "opioid"
-      ],
-      "sourceCount": 1,
-      "confidence": 0.5769230769230769,
-      "sources": [
-        {
-          "name": "Delaware Health and Social Services",
-          "url": "https://news.delaware.gov/2026/07/07/delaware-hospitals-adopt-statewide-emergency-department-guidance-for-opioid-use-disorder-treatment/",
-          "published": "2026-07-07T10:29:54.000Z",
-          "trust": 1,
-          "evidence": "official"
-        }
-      ],
-      "evidenceClasses": [
-        "official"
-      ],
-      "memberGrades": [
-        {
-          "severity": "advisory",
-          "evidenceClass": "official"
-        }
-      ],
-      "rawSeverity": "advisory",
-      "scope": "state",
-      "evidenceClass": "official",
-      "independent": 1
     }
   ]
 }
