@@ -52,6 +52,9 @@ export async function render() {
       { id: "sec-spiking", label: "Drink spiking" },
       { id: "sec-barriers", label: "Barriers" },
       { id: "sec-prep", label: "PrEP and PEP" },
+      { id: "sec-doxypep", label: "Doxy-PEP" },
+      { id: "sec-testing", label: "Getting tested" },
+      { id: "sec-after", label: "After a positive result" },
       { id: "sec-ec", label: "Emergency contraception" },
       { id: "sec-interactions", label: "Dangerous mixes" },
       { id: "sec-out", label: "Long nights and hot days" },
@@ -69,6 +72,15 @@ export async function render() {
   wrap.appendChild(block("sec-spiking", g.spiking));
   wrap.appendChild(block("sec-barriers", g.barriers));
   wrap.appendChild(block("sec-prep", g.prep));
+  /* Straight after PrEP and PEP, because it is the same shape of decision -
+     a medication taken around sex rather than a thing to do afterwards - and
+     because a reader who just read the 72-hour PEP clock is holding exactly
+     the context doxy-PEP's own 72-hour window needs. */
+  if (g.doxypep) wrap.appendChild(block("sec-doxypep", g.doxypep));
+  /* Then the two the page had nothing on at all: when a test can actually see
+     something, and what happens after one is positive. */
+  if (g.testing) wrap.appendChild(block("sec-testing", g.testing));
+  if (g.after) wrap.appendChild(block("sec-after", g.after));
   wrap.appendChild(block("sec-ec", g.ec));
 
   /* The one section that earns a severity treatment: everything in it can put

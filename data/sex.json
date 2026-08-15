@@ -263,5 +263,105 @@
         ]
       }
     ]
+  },
+  "testing": {
+    "headline": "Getting tested",
+    "blurb": "Free testing exists in most of the country, and the part people get wrong is not where — it is when.",
+    "items": [
+      {
+        "t": "Testing too early tells you about last year, not last week",
+        "b": "Every test has a window: the gap between an exposure and the point the test can see it. Test three days after a risk and a negative is real information about everything BEFORE that exposure and says nothing at all about it. For HIV: a lab nucleic-acid test can find it 10 to 33 days after, a lab antigen/antibody test 18 to 45 days, and a rapid finger-stick or at-home antibody test 23 to 90 days. The faster the result, the longer the window."
+      },
+      {
+        "t": "Which test you get is not the same question as how fast you get it",
+        "b": "An at-home antibody test is the slowest to close its window and the easiest to actually do. A clinic drawing blood from a vein closes it soonest. If something happened recently, the useful move is often to test now for a baseline and again after the window, rather than picking one moment and hoping."
+      },
+      {
+        "t": "Free is normal, not a favor",
+        "b": "Health departments, Planned Parenthood, syringe service programs, and many community clinics test at no cost, and a lot of them do not ask for insurance or an ID. Mail-in kits exist too. None of it is conditional on stopping using."
+      },
+      {
+        "t": "If you inject, ask for hepatitis C as well",
+        "b": "It is not on a standard STI panel and has to be asked for. It transmits through shared equipment far more readily than through sex, and the app's other pages assume the injecting route rather than this one."
+      }
+    ],
+    "sources": [
+      {
+        "name": "CDC — HIV testing and window periods",
+        "url": "https://www.cdc.gov/hiv/testing/index.html"
+      },
+      {
+        "name": "CDC — find free and low-cost testing near you",
+        "url": "https://gettested.cdc.gov/"
+      }
+    ]
+  },
+  "after": {
+    "headline": "After a positive result",
+    "blurb": "Most of what people fear here is either fixable or already over by the time they are told.",
+    "items": [
+      {
+        "t": "Chlamydia, gonorrhea and syphilis are cured with antibiotics",
+        "b": "Not managed — cured. Treatment is usually a single injection or a short course. What matters afterwards is not having sex until treatment is finished and any partner is treated too, or you hand it back and forth."
+      },
+      {
+        "t": "Get retested at three months, not to check the cure",
+        "b": "CDC advises retesting about three months after treatment for chlamydia or gonorrhea. That is not doubt about whether the antibiotics worked — reinfection from an untreated partner is common, and it is the most likely thing a follow-up finds."
+      },
+      {
+        "t": "You can tell a partner without telling them who you are",
+        "b": "Health departments run partner services that will notify someone anonymously, and free sites will send an anonymous text or email for you. Nobody has to hear it from you directly for them to get treated."
+      },
+      {
+        "t": "Hepatitis C is curable, and using is not a reason to be refused",
+        "b": "Eight to twelve weeks of tablets cure well over ninety per cent of cases. The joint AASLD and IDSA guidance is explicit that ongoing substance use is not a reason to withhold treatment, and studies of people actively injecting show high completion and cure rates. If a provider says you have to be abstinent first, that is their policy, not the standard of care."
+      },
+      {
+        "t": "HIV is treatable and treatment stops transmission",
+        "b": "Someone on treatment with an undetectable viral load does not transmit HIV sexually. That is a settled finding, not an optimistic framing."
+      }
+    ],
+    "sources": [
+      {
+        "name": "AASLD/IDSA — HCV guidance: treat regardless of ongoing substance use",
+        "url": "https://www.aasld.org/sites/default/files/2022-07/PracticeGuidelines-HCV-November2018.pdf"
+      },
+      {
+        "name": "CDC — HIV testing and window periods",
+        "url": "https://www.cdc.gov/hiv/testing/index.html"
+      }
+    ]
+  },
+  "doxypep": {
+    "headline": "Doxy-PEP",
+    "blurb": "An antibiotic taken after sex to prevent bacterial STIs. Newer than most of this page, and not for everyone.",
+    "items": [
+      {
+        "t": "What it is",
+        "b": "A single 200 mg dose of doxycycline taken within 72 hours after oral, vaginal or anal sex — no more than 200 mg in any 24 hours. In trials it cut syphilis and chlamydia by more than seventy per cent and gonorrhea by roughly half."
+      },
+      {
+        "t": "Who CDC recommends it for",
+        "b": "Men who have sex with men, and transgender women, who have had syphilis, chlamydia or gonorrhea diagnosed in the past twelve months. That is the group the evidence covers."
+      },
+      {
+        "t": "Who it is not established for",
+        "b": "Trials in cisgender women have not shown the same benefit, and there is not enough evidence for heterosexual men. That is an absence of proof rather than proof it does not work — it means the honest answer is a conversation with a prescriber, not this page."
+      },
+      {
+        "t": "It is prescribed, and it is not a substitute",
+        "b": "You need a prescription, and it does nothing for HIV — PrEP is a separate thing that does that job. Doxycycline also makes some people burn more easily in the sun."
+      }
+    ],
+    "sources": [
+      {
+        "name": "CDC — Clinical guidelines on doxycycline postexposure prophylaxis, 2024",
+        "url": "https://www.cdc.gov/mmwr/volumes/73/rr/pdfs/rr7302a1-H.pdf"
+      },
+      {
+        "name": "CDC — Preventing STIs with doxy-PEP",
+        "url": "https://www.cdc.gov/sti/prevention/doxy-pep.html"
+      }
+    ]
   }
 }
