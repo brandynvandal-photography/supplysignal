@@ -172,6 +172,73 @@ export function unknownNext(reading, charts) {
 }
 
 /**
+ * Walk an unknown all the way down, one reagent at a time.
+ *
+ * unknownNext() answers the first hop. This keeps going: after each reading it
+ * drops the candidates that reading contradicts and names the one reagent to
+ * run next, until either a chart's sequence completes or nothing is left to
+ * run. Nobody is asked which test they are doing — that is the whole point of
+ * chart 3, and somebody with a ground score has no basis for the answer.
+ *
+ * HOW THE NEXT REAGENT IS PICKED. Chart 3 names the second one itself, so it
+ * wins while nothing past the Marquis has been answered. After that it is the
+ * step the most surviving candidates are waiting on, which is the reagent that
+ * splits them — the same principle the charts are drawn on, applied to
+ * whatever is still standing rather than to a fixed drawing.
+ *
+ * That reproduces chart 3 exactly where chart 3 goes. A clear Marquis leaves
+ * cocaine, ketamine and oxycodone; the chart says run Liebermann; light yellow
+ * there kills oxycodone and both survivors are waiting on Morris, which is the
+ * third sample the chart asks for; purple on Morris finishes ketamine and blue
+ * finishes cocaine. The routing falls out rather than being restated.
+ *
+ * A candidate with nothing observed against it yet is still live. Ketamine's
+ * flow is Morris alone, so a Marquis reading says nothing about it either way,
+ * and dropping it for lack of evidence would be the same mistake as reading an
+ * unpublished pair as a no-reaction.
+ *
+ * @param {Record<string,string>} observations
+ * @param {object} charts
+ * @returns {{route:object, live:Array, finished:Array, next:string[],
+ *            first:string}|null}
+ */
+export function guide(observations, charts) {
+  const obs = observations || {};
+  const first = charts?.unknown?.first || "Marquis";
+  const opener = obs[first];
+  if (!opener || opener === "skip") return null;
+
+  const route = unknownNext(opener, charts);
+  if (!route?.matched) return { route, live: [], finished: [], next: [], first };
+
+  const live = route.leads
+    .map((id) => walk(flowFor(id, charts), obs))
+    .filter((w) => w && w.status !== "unexpected");
+  const finished = live.filter((w) => w.status === "expected");
+
+  const answered = Object.keys(obs).filter((k) => obs[k] && obs[k] !== "skip");
+  const onlyOpener = answered.length === 1 && answered[0] === first;
+
+  let next;
+  if (onlyOpener) {
+    next = route.next.filter((r) => !answered.includes(r));
+  } else {
+    /* The step the most survivors are waiting on. Ties break by name so the
+       same readings always produce the same instruction. */
+    const counts = new Map();
+    for (const w of live) {
+      const step = w.steps.find((s) => s.verdict === "pending");
+      if (step) counts.set(step.reagent, (counts.get(step.reagent) || 0) + 1);
+    }
+    next = [...counts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 1).map(([r]) => r);
+  }
+
+  return { route, live, finished, next, first };
+}
+
+/**
  * Reagents the reader reported that this chart never asks for.
  *
  * Not wrong and not wasted — reagentmatch.js scores them against the whole

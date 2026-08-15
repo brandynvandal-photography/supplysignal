@@ -17,7 +17,7 @@ import {
 } from "../ui.js";
 import * as data from "../data.js";
 import { match as reagentMatch, checkSoldAs } from "../reagentmatch.js";
-import { flowFor, walk, completedBy, offChart, unknownNext } from "../flowcheck.js";
+import { flowFor, walk, completedBy, offChart, guide } from "../flowcheck.js";
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
@@ -45,8 +45,8 @@ export async function render(route, ctx) {
     jumpNav([
       { id: "sec-prevalence", label: "What's out there" },
       { id: "sec-compare", label: "Which one to get" },
-      { id: "sec-strips", label: "Test strips" },
       { id: "grp-reagents", label: "Reagents" },
+      { id: "sec-strips", label: "Test strips" },
       { id: "sec-whatisit", label: "What could this be?" },
       { id: "sec-storage", label: "Storing supplies" },
     ])
@@ -260,19 +260,8 @@ export async function render(route, ctx) {
 
   wrap.appendChild(section("Using it", null));
 
-  /* ---- reading strips ----
-     UNDER "Using it", not under "What a test can tell you". It sat second on
-     the page because "one line means positive" is inverted from every strip
-     most people have used and a half-read explanation of it is worse than
-     none — but the section is a how-to-use section, not framing: a strip
-     picker, how to read the result, and each type's limits. It reads as the
-     first thing you do once you have one, which is what this heading is.
-
-     Still the only strip section open by default, and the warning is still
-     the first thing inside it, so the reading explanation is not behind a
-     second click — only behind a shorter page above it. */
   const fts = g.strips.find((s) => s.id === "fentanyl");
-  wrap.appendChild(
+  const strips = (
     /* Open, but not toned urgent. disc--urgent only paints the summary in
        --critical, which on THIS page is the colour of a positive fentanyl
        result - spending it on a default-open explainer where nothing is wrong
@@ -297,6 +286,17 @@ export async function render(route, ctx) {
       g.strips.map((s) => stripCard(s, g)))
   );
 
+  /* ---- reagents first, and open ----
+     Reagent testing leads "Using it" and stands open. It is the part of this
+     page that does something rather than explains something — a reader picks
+     what it was sold as and the app walks them through DanceSafe's test for
+     it — and it was the one block that cost a tap to find out that.
+
+     Test strips follow. That section sat second on the whole page because
+     "one line means positive" is inverted from every strip most people have
+     used and a half-read explanation of it is worse than none, so it is still
+     open and the warning is still the first thing inside it. It is behind a
+     longer page now, not behind a click. */
   wrap.appendChild(
     group("grp-reagents", "Reagent testing",
       "What reagents do, what a set of colors adds up to, and how to run one safely.", [
@@ -333,12 +333,13 @@ export async function render(route, ctx) {
           : null)
     ),
       (
-      /* The charts run backwards. After "Reagents" and before "how to run
-         one", because somebody reaching for this has already run them. */
-      disclosure("sec-whatisit", "What could this be?", null,
-        reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go, g.reagents, FLOWS))
-    ),
-      (
+      /* THE METHOD BEFORE THE TOOL. This sat below the picker on the reasoning
+         that anybody reaching for a reverse lookup has already run their
+         reagents. That stopped being true when the picker started loading the
+         test for you — it now tells somebody which reagents to open and in
+         what order, which is a thing you do BEFORE you have any colors, and
+         the section that says how to do it safely cannot be underneath it.
+         The acid warning is the first thing inside. */
       /* ONE section, not two. "Handling reagents safely" was a sibling of "How
          to run a reagent test", and every word of it describes something you
          do while running one: gloves before you start, what to do if it goes
@@ -372,11 +373,20 @@ export async function render(route, ctx) {
           h("p", null, g.safety.expiry),
           h("p", null, h("strong", null, "Check it still works: "), g.safety.validate)))
     ),
+      (
+      /* The charts run backwards, and this is the tool the whole section is
+         for — so it goes last, after what a reagent is and how to run one. */
+      disclosure("sec-whatisit", "What could this be?", null,
+        reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go, g.reagents, FLOWS))
+    ),
     ],
     /* The preview names what is inside. "Handling them safely" is gone
        because that section is gone — it is inside "Running a test" now. */
-    ["Reagents", "What could this be?", "Running a test"])
+    ["Reagents", "Running a test", "What could this be?"],
+    { open: true })
   );
+
+  wrap.appendChild(strips);
 
   if (g.storage) {
     wrap.appendChild(
@@ -654,8 +664,12 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
     return h("span", { class: "reagbar reagbar--inline", "aria-hidden": "true" },
       keys.map((k) => h("span", { class: KNOWN_COLORS.has(k) || k === "none" ? `swatch--${k}` : "" })));
   };
-  const dot = (v) =>
-    h("span", { class: `swatch swatch--${v === "none" ? "none" : v}`, "aria-hidden": "true" });
+  /* NO INLINE DOTS. An 11px swatch was going in beside each observed reading,
+     and in dark mode swatch--black is #26221c on a card that is nearly the
+     same — it rendered as an empty outlined box directly next to the word
+     "black", which reads as a broken image rather than as a color. The word
+     is right there and the plan panel above carries the full bar, where
+     several bands and a larger area actually make a color legible. */
 
   /* NO CONTEXT, SO START WITH A MARQUIS AND LET IT DECIDE.
    *
@@ -675,10 +689,13 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
    * when changing the Marquis reading reroutes everything under it, because
    * deleting somebody's own observation to tidy a layout is never worth it. */
   function syncUnknown() {
-    const marquis = slots.find((s) => s.reagent.value === "Marquis");
-    const route = unknownNext(marquis?.result.value, charts);
+    const state = {};
+    for (const { reagent, result } of slots) {
+      if (result.value) state[reagent.value] = result.value;
+    }
+    const led = guide(state, charts);
 
-    const keep = new Set(["Marquis", ...(route?.next || [])]);
+    const keep = new Set(["Marquis", ...(led?.next || [])]);
     for (const { reagent, result } of slots) if (result.value) keep.add(reagent.value);
 
     for (const s of [...slots]) {
@@ -688,21 +705,38 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
       rows.children[at]?.remove();
     }
     const have = new Set(slots.map((s) => s.reagent.value));
-    for (const r of route?.next || []) if (!have.has(r)) addSlot(r);
+    for (const r of led?.next || []) if (!have.has(r)) addSlot(r);
     relabel();
-    return route;
+    return led;
   }
 
-  /* Where chart 3 sends you, and what it can end at. The candidates are
-     buttons rather than prose: tapping one is the chart's own "go to flowchart
-     1 and complete the MDMA or MDA test", and it loads that test. */
-  function routeCard(route) {
+  /* ONE INSTRUCTION AT A TIME, and no menu.
+   *
+   * This offered the surviving substances as buttons that loaded their test.
+   * That is asking somebody with a ground score to pick which drug they are
+   * testing for — the exact question they came here unable to answer, and the
+   * question chart 3 exists to take off them. Choosing wrong loads the wrong
+   * sequence and reads a real result against it.
+   *
+   * So it just says what to run next. Each reading drops whatever it
+   * contradicts, the next reagent loads itself, and it ends when a chart's
+   * sequence completes. The candidates are still named, as plain text, because
+   * knowing you are somewhere between cocaine and ketamine is worth having
+   * mid-test — but they are information, not a control. */
+  function routeCard(led) {
+    const route = led.route;
     const said = route.reading === "none" ? "nothing" : route.reading;
+    const names = (list) => list.map((w) => nameOf(w.id));
+    const listOf = (a) => a.length > 1
+      ? `${a.slice(0, -1).join(", ")} or ${a[a.length - 1]}` : a[0];
+
+    const opener = h("p", { class: "plan__hd" },
+      "Marquis went ", h("strong", null, said), ". ");
 
     if (!route.matched) {
       return h("div", { class: "plan" },
         h("p", { class: "plan__hd" },
-          "Marquis went ", dot(route.reading), h("strong", null, said),
+          "Marquis went ", h("strong", null, said),
           ". DanceSafe's unknown-substance chart does not list that result."),
         h("p", { class: "sec__note" }, charts?.unknownRule || ""),
         h("p", { class: "sec__note" },
@@ -711,26 +745,37 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
           + "fits is listed below."));
     }
 
+    /* A chart's sequence has run out. Either one completed, in which case the
+       verdict card below says so step by step, or several are still standing
+       with nothing left to separate them and that is the honest end of it. */
+    if (!led.next.length) {
+      if (led.finished.length) return h("div", { class: "plan" }, opener);
+      return h("div", { class: "plan" },
+        opener,
+        h("p", { class: "sec__note" },
+          led.live.length
+            ? `The chart runs out here with ${listOf(names(led.live))} still `
+              + "open, and nothing left that separates them. Everything the "
+              + "readings fit is below."
+            : "Nothing on the charts follows from that combination. Everything "
+              + "the readings fit is below."));
+    }
+
+    const runNext = h("p", { class: "plan__hd" },
+      "Run ", h("strong", null, listOf(led.next.map(reagentName))), " next",
+      led.next.length > 1
+        ? " — the reading could be either branch, so both are loaded below."
+        : ", loaded below.");
+
     return h("div", { class: "plan" },
-      h("p", { class: "plan__hd" },
-        "Marquis went ", dot(route.reading), h("strong", null, said),
-        route.routed
-          ? ". The unknown-substance chart runs "
-          : ". No unknown-substance branch covers that, but the charts do — next is ",
-        h("strong", null, route.next.map(reagentName).join(" or ")),
-        route.next.length > 1
-          ? ", loaded below. Either is a valid second step from here."
-          : " next, loaded below."),
-      route.leads.length
-        ? frag(
-            h("p", { class: "sec__note" },
-              `That branch can end at ${route.leads.length === 1 ? "one thing" : `${route.leads.length} things`}. `
-              + "Pick one to load its full test:"),
-            h("div", { class: "tags" }, route.leads.map((id) =>
-              h("button", {
-                type: "button", class: "chip",
-                onClick: () => { soldAs.value = id; onSoldAs(); },
-              }, nameOf(id)))))
+      opener,
+      runNext,
+      led.live.length
+        ? h("p", { class: "sec__note" },
+            led.live.length === 1
+              ? `Only ${names(led.live)[0]} is still on the chart from here.`
+              : `Still open: ${listOf(names(led.live))}. That step is what `
+                + "separates them.")
         : null);
   }
 
@@ -793,17 +838,25 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
       + "have a result on record for it — say what they did, or change them.");
   }
 
-  /* The verdict, walked step by step down the chart. */
-  function flowCard(flow, run, state) {
+  /* The verdict, walked step by step down the chart.
+   *
+   * `found` is the guided path arriving at an answer rather than a claim being
+   * checked. Nobody said it was ketamine, so nothing can be "expected for"
+   * ketamine — what happened is that the readings completed the ketamine
+   * sequence, and the label has to say that and not more. */
+  function flowCard(flow, run, state, found) {
     const name = nameOf(flow.id);
-    const look = {
-      expected:   { card: "advisory", badge: "ok",       glyph: "✓",
-                    label: `Expected for ${name}` },
-      ontrack:    { card: "advisory", badge: "neutral",  glyph: "›",
-                    label: `So far, so ${name}` },
-      unexpected: { card: "elevated", badge: "elevated", glyph: "▲",
-                    label: `Unexpected for ${name}` },
-    }[run.status];
+    const look = found
+      ? { card: "advisory", badge: "ok", glyph: "✓",
+          label: `Completes the ${name} test` }
+      : {
+        expected:   { card: "advisory", badge: "ok",       glyph: "✓",
+                      label: `Expected for ${name}` },
+        ontrack:    { card: "advisory", badge: "neutral",  glyph: "›",
+                      label: `So far, so ${name}` },
+        unexpected: { card: "elevated", badge: "elevated", glyph: "▲",
+                      label: `Unexpected for ${name}` },
+      }[run.status];
 
     const mark = { agrees: "✓", disagrees: "✗", pending: "·" };
     const line = (s) =>
@@ -817,7 +870,6 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
                 `${reagentName(s.reagent)} went `,
                 /* The observed reading gets the dot; the expected sequence has
                    its bar in the plan panel above, so neither is drawn twice. */
-                dot(s.observed),
                 h("strong", null, s.observed === "none" ? "nothing" : s.observed),
                 ` — the chart expects ${s.says}`)));
 
@@ -831,7 +883,11 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
       h("div", { class: "card__top" },
         h("span", { class: `badge badge--${look.badge}` },
           h("span", { "aria-hidden": "true" }, look.glyph), look.label),
-        h("span", { class: "card__meta" }, `sold as ${name}`)),
+        /* "sold as MDA" is a quote of something the reader said. On the guided
+           path they said nothing — the chart got here on its own — so the meta
+           names the chart instead of putting words in their mouth. */
+        h("span", { class: "card__meta" },
+          found ? (flow.chart ? `chart ${flow.chart.split(" ")[0]}` : "") : `sold as ${name}`)),
       h("ul", { class: "soldlines" }, run.steps.map(line)),
 
       run.status === "ontrack"
@@ -877,7 +933,7 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
     /* With nothing said about what it is, the rows follow chart 3 from the
        Marquis reading. Done before the state is read: adding a row adds an
        empty one, so it cannot change what is about to be scored. */
-    const route = soldAs.value ? null : syncUnknown();
+    const led = soldAs.value ? null : syncUnknown();
 
     /* Last one wins if the same reagent is picked twice — the alternative is
        an error message about a mistake the reader can simply correct. */
@@ -897,7 +953,14 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
      * yet is standing over a bag deciding what to open. */
     if (flow) out.appendChild(planCard(flow, run));
     else if (soldAs.value) out.appendChild(tablePlanNote(soldAs.value));
-    else if (route) out.appendChild(routeCard(route));
+    else if (led) out.appendChild(routeCard(led));
+
+    /* The guided walk landed on a chart's endpoint. Same card the sold-as path
+       uses, labelled as a sequence that completed rather than as a claim that
+       held — nobody claimed anything here. */
+    for (const w of led?.finished || []) {
+      out.appendChild(flowCard(flowFor(w.id, charts), w, state, true));
+    }
 
     if (!used) {
       if (!soldAs.value) {
@@ -949,7 +1012,6 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
           h("span", { class: "soldline__mark", "aria-hidden": "true" }, mark),
           h("span", null,
             `${reagentName(d.reagent)} went `,
-            dot(d.observed),
             h("strong", null, d.observed === "none" ? "nothing" : d.observed),
             d.verdict === "unknown"
               ? ` — nothing published for ${name} with ${reagentName(d.reagent)}`
@@ -1073,8 +1135,7 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
     h("p", { class: "sec__note" },
       "Say what it was sold as and this loads DanceSafe's test for it — the "
       + "right reagents, in the right order. Then say what each one did. "
-      + "Already ran some? Enter them in any order. Colors are the plain ones "
-      + "on purpose — a spot plate under a kitchen light is not a laboratory."),
+      + "Already ran some? Enter them in any order."),
     /* Four sentences down to three, and the title now says the thing instead
        of gesturing at it. "This cannot rule out fentanyl" describes a
        limitation of the tool; "reagents do not test for fentanyl" is the fact,
@@ -1310,7 +1371,12 @@ function reagentCard(r) {
          built, and "Drug / Reaction" over two columns told a reader nothing the
          content did not. The sr-only caption still names the table. */
       h("div", { class: "card" },
-        h("table", { class: "reagtable" },
+        /* --fixed, because these tables are read as a SET. Every reagent card
+           renders its own table, and an auto-width first column sizes itself
+           to that card's longest drug name — so the color bars started at a
+           different x in every card and a filtered list read as a stack of
+           unrelated blocks. A fixed name column lines them all up. */
+        h("table", { class: "reagtable reagtable--fixed" },
           h("caption", { class: "sr-only" }, `${r.name} reagent color reactions`),
           h("tbody", null, r.reactions.map((x) =>
             h("tr", null,

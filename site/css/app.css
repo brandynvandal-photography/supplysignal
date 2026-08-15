@@ -2398,6 +2398,12 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 .reagtable th { text-align: left; padding: 8px 12px 8px 0; font-weight: 650; white-space: nowrap; vertical-align: top; }
 .reagtable td { padding: 8px 0; }
 .reagtable tr + tr th, .reagtable tr + tr td { border-top: 1px solid var(--glass-line); }
+/* One column width across every card in a filtered list — see the note at the
+   markup. The names wrap here where the auto-width version could not, which is
+   the trade: "Amphetamine / meth" over two lines beats every card starting its
+   color column somewhere different. */
+.reagtable--fixed { table-layout: fixed; }
+.reagtable--fixed th { width: 38%; white-space: normal; }
 /* The word always accompanies the swatch - color is never the only signal,
    and reagent colors are exactly where a color-blind reader is most at risk
    of being failed. */
@@ -2540,9 +2546,27 @@ details.disc[open] { margin-bottom: var(--sp-3); }
    a second class, .colorcell, that had drifted to these exact four
    declarations - which is how the two pages ended up looking different in
    the first place. One class now, so they cannot. */
-.reagrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+/* A GRID, so every row has the same shape.
+ *
+ * This was a wrapping flex row: bar, then the color prose beside it. Whether
+ * they fit on one line depended entirely on how many words the source used, so
+ * "Bluish black" sat next to its bar while "Black, often purple or brown at
+ * the edges" dropped underneath — two renderings of the same kind of row, in
+ * the same table, and the eye reads that as two different kinds of fact.
+ *
+ * Fixed bar column, prose in the rest, wrapping inside its own column. Every
+ * row lines up with every other one at any prose length. */
+.reagrow {
+  display: grid; grid-template-columns: 168px minmax(0, 1fr);
+  align-items: center; gap: 10px;
+}
 .reagrow .reagbar { max-width: 168px; }
 .reagrow__words { font-size: .9rem; color: var(--ink-2); }
+/* Narrow enough that 168px of bar plus readable prose will not sit side by
+   side. Stacked — but stacked for EVERY row, which is the point. */
+@media (max-width: 620px) {
+  .reagrow { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+}
 /* Separates the two sequences in the 22 results that carry a `to`. Its own
    line, because "settling to" between two bars on one line reads as a fourth
    colour band. */

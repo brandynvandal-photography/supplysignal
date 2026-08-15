@@ -413,14 +413,17 @@ export function sourceSink() {
   };
 }
 
-export function group(id, title, blurb, children, preview = null) {
+export function group(id, title, blurb, children, preview = null, opts = null) {
   const kids = (children || []).filter(Boolean);
   if (!kids.length) return h("span");
   if (kids.length === 1) return kids[0];
 
   const items = (preview || []).filter(Boolean);
 
-  return h("details", { class: "disc disc--group", id },
+  /* Open by default, same as disclosure()'s option. A group carrying the
+     thing a page is FOR should not cost a tap to see; the preview list in the
+     summary is a good index when it is shut and redundant when it is not. */
+  return h("details", { class: "disc disc--group", id, open: opts?.open || null },
     h("summary", null,
       /* Title and preview stack in a column; the summary itself stays a row so
          the +/- keeps its place at the far right. */
