@@ -218,9 +218,31 @@ async function main() {
        round. */
     const ev = grade(item, scored, sources);
     if (ev.verdict === "drop") { drop(`evidence_${ev.reason}`); continue; }
-    if (scored.confidence < ev.floor) { drop("below_class_floor"); continue; }
 
-    const b = band(scored.confidence, settings);
+    /* THE CLASS FLOOR IS A PUBLISHING BAR, NOT A REVIEW BAR.
+     *
+     * It used to run before band() and drop outright, and that had two
+     * consequences neither of which was intended.
+     *
+     * The media floor is 0.75 and the publish floor is 0.70, so the WHOLE
+     * escalate band [0.35, 0.70) sits underneath it. Google News and GDELT are
+     * carrier class, and they are the only county-level sources in the app —
+     * so no aggregator item could ever reach the LLM that exists to give
+     * borderline items a second look. The rescue path was unreachable from any
+     * real input.
+     *
+     * And [0.70, 0.75) was a dead zone: the classifier said publish, the floor
+     * said drop, and the item vanished with no review of any kind.
+     *
+     * Both come from treating "not good enough to publish" as "not worth
+     * looking at". They are different questions. A media item at 0.6 is
+     * exactly what escalation is for. So the band is computed first, and an
+     * item that clears publish but not its class floor is DEMOTED to escalate
+     * rather than deleted — which is what the floor was always trying to say. */
+    const raw = band(scored.confidence, settings);
+    const belowFloor = scored.confidence < ev.floor;
+    const b = raw === "publish" && belowFloor ? "escalate" : raw;
+    if (b === "drop") { drop("low_confidence"); continue; }
     /* rawSeverity is the ungraded reading; severity is the graded one.
      *
      * Both are needed. Capping in place here made the cluster-level
@@ -237,6 +259,7 @@ async function main() {
         ? ev.ceiling : scored.severity,
       evidenceCeiling: ev.ceiling,
       evidenceClass: ev.klass,
+      evidenceFloor: ev.floor,
       originator: ev.originator,
       summary: (item.body || item.title).slice(0, 220),
     };
@@ -282,7 +305,39 @@ async function main() {
       }
     }
   } else {
-    review.push(...budget); // no key configured - park them rather than guess
+    /* NO REVIEWER, SO THE SOURCE'S OWN STANDING DECIDES.
+     *
+     * This parked every escalated item, and with no key configured that is
+     * every escalated item there has ever been — both recorded runs show
+     * escalated >= 1, llmCalls 0, published 0. It is not a rare path: the
+     * MODAL real health-department advisory lands here. Confidence is
+     * score/13, and a trust-1 department item naming one substance and one
+     * event scores 7.5, which is 0.577 — inside the escalate band. So a state
+     * health department warning about fentanyl in the supply was parked and
+     * never seen, which is the app's central use case failing silently.
+     *
+     * Escalation exists to resolve AMBIGUITY. With nothing available to
+     * resolve it, the question becomes whether the item stands on its source
+     * alone — and that is exactly what the evidence floor already measures.
+     * An item that clears its own class floor is attributable and specific;
+     * one that does not is precisely what should keep waiting.
+     *
+     * So: clears its floor, publish. Does not, park. A media item at 0.72
+     * still parks, because 0.75 is what media has to reach. Nothing here
+     * lowers a bar — it stops discarding items that had already cleared one.
+     *
+     * If a key is configured this branch never runs, and the model's verdict
+     * governs as before. */
+    const standsAlone = [];
+    for (const m of budget) {
+      if (typeof m.evidenceFloor === "number" && m.confidence >= m.evidenceFloor) {
+        standsAlone.push(m);
+      } else {
+        review.push(m);
+      }
+    }
+    publishable.push(...standsAlone);
+    stats.publishedUnreviewed = standsAlone.length;
   }
 
   /* ---- Geotag ---- */
