@@ -1430,18 +1430,41 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
 .soldline--unknown { color: var(--ink-2); }
 .soldline--unknown .soldline__mark { color: var(--ink-3); }
 
+/* The match rows are .nbr now and inherit .list > .nbr wholesale — flush,
+   unoutlined, hairline-separated. .revhit is gone rather than kept "in case":
+   it was a second list row with its own border and its own spacing, which is
+   how the results ended up as boxes inside a box. */
 .revout { margin-top: var(--sp-3); }
-.revhit {
-  display: flex; align-items: baseline; gap: 10px; width: 100%;
-  text-align: left; cursor: pointer;
-  background: var(--glass); border: 1px solid var(--glass-line);
-  border-radius: var(--radius); padding: var(--sp-2) var(--sp-3);
-  color: inherit; font: inherit; margin-bottom: 8px;
+.revout .list { margin-top: var(--sp-2); }
+/* The chart's shopping list. Unboxed on purpose: it is instructions for the
+   control directly above it, not a result, and a card here would compete with
+   the verdict card that appears underneath once anything has been run. */
+.plan { margin-bottom: var(--sp-3); }
+.plan__hd { margin: 0 0 var(--sp-2); font-size: .95rem; }
+.plan__steps { list-style: none; margin: 0 0 var(--sp-2); padding: 0; counter-reset: plan; }
+.plan__step {
+  display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+  padding: 7px 0 7px 26px; position: relative; font-size: .93rem;
+  counter-increment: plan;
 }
-.revhit:hover { background: var(--surface-2); }
-.revhit__name { font-weight: 650; }
-.revhit__meta { margin-left: auto; font-size: .85rem; color: var(--ink-3); white-space: nowrap; }
-.revmiss { padding: 6px 2px; font-size: .93rem; }
+.plan__step + .plan__step { border-top: 1px solid var(--glass-line); }
+.plan__step::before {
+  content: counter(plan); position: absolute; left: 0; top: 7px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--surface-2); color: var(--ink-2);
+  font-size: .72rem; font-weight: 700; line-height: 18px; text-align: center;
+}
+/* A step already answered is checked off rather than dimmed — dimming reads as
+   disabled, and these stay meaningful after they are run. */
+.plan__step--done::before { content: "✓"; background: var(--ok-soft); color: var(--ok); }
+.plan__reagent { font-weight: 650; }
+.plan__says { color: var(--ink-2); }
+.soldline--pending { color: var(--ink-2); }
+.soldline--pending .soldline__mark { color: var(--ink-3); }
+
+.revmisses { margin-top: var(--sp-2); }
+.revmiss { padding: 8px 0; font-size: .93rem; }
+.revmiss + .revmiss { border-top: 1px solid var(--glass-line); }
 
 /* ------------------------------------------------------------ accordion */
 
@@ -1757,10 +1780,15 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
  * radius, padding, weight and tap floor - and draws the same "\203A" rotated
  * 90 degrees. The glyph is a character rather than a baked SVG so it takes
  * --ink-3 and is right in both themes. */
+/* Body weight, not 650. The bold was borrowed from details.acc's summary along
+   with everything else, and a summary is a heading — it is the title of the
+   thing underneath it. A select is not a heading, it is an answer the reader
+   gave, and setting five of them in semibold down one column made the picker
+   read as five headings with nothing under them. */
 .pick__row select {
   -webkit-appearance: none; appearance: none;
   width: 100%; min-width: 0;
-  font: inherit; font-weight: 650;
+  font: inherit;
   color: var(--ink);
   background: var(--glass);
   border: 1px solid var(--glass-line);

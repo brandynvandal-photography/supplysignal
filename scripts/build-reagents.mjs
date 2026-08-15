@@ -162,6 +162,12 @@ if (dropped.length) console.log(`suppressed plant/fungal matrices: ${dropped.joi
  * article in December 2024 — both AFTER — and still record no reaction. This is
  * a genuine difference of observation, not a missed update.
  */
+/* ONE ENTRY PER SUBSTANCE. A second `cocaine:` key here does not merge, it
+   REPLACES — and it did, silently: adding the Morris correction below as its
+   own block deleted the Marquis one above it, and the build went on reporting
+   that it had applied its overrides. The reagentmatch tests caught it because
+   they assert the chemistry rather than the count. Add reagents to the
+   substance that is already here; do not add a second block for it. */
 const OVERRIDES = {
   cocaine: {
     Marquis: {
@@ -169,6 +175,20 @@ const OVERRIDES = {
       why: "PsychonautWiki records no reaction; DanceSafe's 2023 chart records a "
          + "light pink or peach. Both are kept: the reaction is faint and is "
          + "reported both ways.",
+      source: "DanceSafe reagent flowcharts, 2023 revision",
+    },
+    /* Found by a test rather than by reading: data/flowcharts.json carries
+       DanceSafe's sequences, and a check that the two sources cannot flatly
+       contradict each other on a shared pair flagged this one. The table
+       would have eliminated cocaine on precisely the reading the flowchart
+       opens its cocaine test by telling the reader to expect. */
+    Morr: {
+      colors: ["blue", "pink", "green"],
+      why: "PsychonautWiki records pink/green; DanceSafe's 2023 chart opens its "
+         + "cocaine test with Morris and records BRIGHT BLUE, on two separate "
+         + "charts. Both are kept — a reader following the flowchart must not "
+         + "have cocaine eliminated by the color the flowchart told them to "
+         + "expect.",
       source: "DanceSafe reagent flowcharts, 2023 revision",
     },
   },
@@ -179,6 +199,15 @@ const OVERRIDES = {
          + "dark gray/green. Their flowchart lists both, which is what makes "
          + "Simon's a weaker MDA/MDMA discriminator than it is usually given "
          + "credit for.",
+      source: "DanceSafe reagent flowcharts, 2023 revision",
+    },
+  },
+  heroin: {
+    /* Same origin as cocaine's Morris row above — the two-source check. */
+    Froehde: {
+      colors: ["red", "brown", "purple", "black"],
+      why: "PsychonautWiki records purple/black; DanceSafe's 2023 chart records "
+         + "reddish-brown at the same step of the heroin flow. Both are kept.",
       source: "DanceSafe reagent flowcharts, 2023 revision",
     },
   },

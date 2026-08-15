@@ -1,0 +1,139 @@
+{
+  "_comment": [
+    "DanceSafe reagent testing flowcharts, transcribed by hand.",
+    "",
+    "Source: DanceSafe 'DC_Testing_Flows' 2023 V1.3, charts 1, 2 (sides 1 and 2)",
+    "and 3. Hand-transcribed from the published charts rather than generated,",
+    "because DanceSafe publishes them as artwork and there is no data feed.",
+    "",
+    "WHY THIS EXISTS SEPARATELY FROM reagents.json. That file is one row per",
+    "substance per reagent: what color, independent of every other reagent. It",
+    "is a lookup table and it is generated, and its header forbids hand-edits.",
+    "A flowchart is a different claim and a stronger one: run THESE reagents in",
+    "THIS ORDER, and this specific sequence of colors is what the substance is",
+    "expected to produce. That is how a reagent test is actually run, and it is",
+    "the difference between 'black is one of the colors Marquis gives for MDMA'",
+    "and 'black then royal blue is the MDMA result'.",
+    "",
+    "COLORS ARE THE PICKER'S TEN GENERIC NAMES, deliberately. DanceSafe writes",
+    "royal blue, peach, light pink, magenta, ice blue, dark lime green. A person",
+    "reading a spot plate under a kitchen light cannot reliably tell peach from",
+    "light orange, so each is widened to the generic bucket it falls in and the",
+    "chart's own wording is kept in `says` for display. Widening can only cost",
+    "precision; narrowing could eliminate the substance somebody is holding.",
+    "",
+    "steps[] is ordered. `colors` are the accepted readings at that step,",
+    "`none: true` means no reaction is accepted, and both may be set."
+  ],
+  "source": {
+    "title": "DanceSafe reagent testing flowcharts",
+    "edition": "DC_Testing_Flows, 2023 V1.3",
+    "url": "https://dancesafe.org/testing-kit-instructions/"
+  },
+  "flows": [
+    {
+      "id": "mdma",
+      "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
+      "steps": [
+        { "reagent": "Marquis", "colors": ["black"], "says": "black" },
+        { "reagent": "Simons", "colors": ["blue"], "says": "royal blue" }
+      ]
+    },
+    {
+      "id": "mda",
+      "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
+      "steps": [
+        { "reagent": "Marquis", "colors": ["black"], "says": "black" },
+        { "reagent": "Simons", "colors": ["gray", "green"], "none": true,
+          "says": "no reaction, or gray/green" }
+      ]
+    },
+    {
+      "id": "cocaine",
+      "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
+      "steps": [
+        { "reagent": "Morr", "colors": ["blue"], "says": "bright blue" },
+        { "reagent": "Marquis", "colors": ["orange", "pink"], "none": true,
+          "says": "peach, light pink, or no reaction" },
+        { "reagent": "Liebermann", "colors": ["orange", "red", "yellow"],
+          "says": "soft orange, red-orange, or light yellow" }
+      ]
+    },
+    {
+      "id": "ketamine",
+      "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
+      "steps": [
+        { "reagent": "Morr", "colors": ["purple"], "says": "violet-purple" }
+      ]
+    },
+    {
+      "id": "lsd",
+      "chart": "1 — suspected MDMA, MDA, ketamine, cocaine or LSD",
+      "steps": [
+        { "reagent": "Ehrlich", "colors": ["purple"], "says": "purple" }
+      ]
+    },
+    {
+      "id": "2c-b",
+      "chart": "2 side 1 — other drugs",
+      "steps": [
+        { "reagent": "Marquis", "colors": ["yellow", "green"],
+          "says": "yellow, yellow-green, or dark lime green" },
+        { "reagent": "Froehde", "colors": ["yellow", "green", "black"],
+          "says": "yellow, yellow-green, or yellow-black" },
+        { "reagent": "Liebermann", "colors": ["yellow", "green", "black"],
+          "says": "light yellow, yellow-green, or yellow-black" }
+      ]
+    },
+    {
+      "id": "mescaline",
+      "chart": "2 side 1 — other drugs",
+      "steps": [
+        { "reagent": "Marquis", "colors": ["orange"], "says": "bright orange" },
+        { "reagent": "Froehde", "colors": ["yellow", "green", "brown", "black"],
+          "says": "yellow-green-brown-black" },
+        { "reagent": "Liebermann", "colors": ["brown", "black"],
+          "says": "brown-black" }
+      ]
+    },
+    {
+      "id": "methamphetamine",
+      "chart": "2 side 2 — other drugs",
+      "steps": [
+        { "reagent": "Marquis", "colors": ["orange"], "says": "orange" },
+        { "reagent": "Simons", "colors": ["blue"], "says": "royal blue" }
+      ]
+    },
+    {
+      "id": "amphetamine",
+      "chart": "2 side 2 — other drugs",
+      "steps": [
+        { "reagent": "Marquis", "colors": ["orange"], "says": "orange" },
+        { "reagent": "Simons", "none": true, "says": "no reaction" },
+        { "reagent": "Froehde", "none": true, "says": "no reaction" }
+      ]
+    },
+    {
+      "id": "oxycodone",
+      "chart": "2 side 2 — other drugs",
+      "steps": [
+        { "reagent": "Marquis", "colors": ["gray", "purple"], "none": true,
+          "says": "no reaction, light gray, or gray-purple" },
+        { "reagent": "Liebermann", "colors": ["brown", "purple"],
+          "says": "light brown or purple-brown" },
+        { "reagent": "Froehde", "colors": ["yellow", "blue"],
+          "says": "light yellow — or ice blue, which the chart marks as oxycodone WITH acetaminophen" }
+      ]
+    },
+    {
+      "id": "heroin",
+      "chart": "2 side 2 — other drugs",
+      "steps": [
+        { "reagent": "Marquis", "colors": ["pink", "purple"], "says": "magenta" },
+        { "reagent": "Froehde", "colors": ["red", "brown"], "says": "reddish-brown" },
+        { "reagent": "Liebermann", "colors": ["black", "brown"], "says": "black-brown" }
+      ]
+    }
+  ],
+  "unknownRule": "Any Marquis result the charts do not list should be treated as an unexpected reaction for a ground score or mystery substance. Without context around what something was sold as, further differentiation may be misleading."
+}

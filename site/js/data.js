@@ -645,6 +645,16 @@ export async function reagentTable() {
   return r.reagents || {};
 }
 
+/* DanceSafe's testing flowcharts — the ordered sequences.
+ *
+ * A different claim from the table above and a stronger one: run these
+ * reagents in this order, and this sequence of colors is the expected result.
+ * Hand-transcribed from published artwork rather than generated; the file's
+ * own header carries the source and the reasoning. */
+export async function reagentFlows() {
+  return load("flowcharts", { flows: [], source: null, unknownRule: "" });
+}
+
 
 /** Is this a plant or fungal material, where a reagent color table would be
  *  misleading? See the note in scripts/build-reagents.mjs. */

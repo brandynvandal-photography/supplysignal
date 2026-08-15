@@ -17,6 +17,7 @@ import {
 } from "../ui.js";
 import * as data from "../data.js";
 import { match as reagentMatch, checkSoldAs } from "../reagentmatch.js";
+import { flowFor, walk, completedBy, offChart } from "../flowcheck.js";
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
@@ -28,9 +29,10 @@ export async function render(route, ctx) {
   /* Both national bundles, fetched together. The reverse lookup needs the
      whole reagent table rather than one substance's row, and the substance
      list only to turn an id into a name a reader recognises. */
-  const [REAGENT_TABLE, SUBS] = await Promise.all([
+  const [REAGENT_TABLE, SUBS, FLOWS] = await Promise.all([
     data.reagentTable().catch(() => ({})),
     data.substances().catch(() => ({ substances: [] })),
+    data.reagentFlows().catch(() => ({ flows: [] })),
   ]);
   const wrap = h("div");
 
@@ -327,7 +329,7 @@ export async function render(route, ctx) {
       /* The charts run backwards. After "Reagents" and before "how to run
          one", because somebody reaching for this has already run them. */
       disclosure("sec-whatisit", "What could this be?", null,
-        reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go, g.reagents))
+        reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go, g.reagents, FLOWS))
     ),
       (
       /* ONE section, not two. "Handling reagents safely" was a sibling of "How
@@ -424,15 +426,26 @@ export async function render(route, ctx) {
  *   - Nothing here rules out fentanyl. A lethal dose is far below what any
  *     reagent shows, and no combination of colours on this screen changes it.
  */
-function reverseLookup(matchFn, table, subs, go, guideReagents) {
+function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
+  /* Morris is on here because the DanceSafe charts start the cocaine and
+     ketamine tests with it, and a picker that cannot express the first step of
+     a chart it is checking against is broken. It sits sixth on colour-table
+     coverage but first on those two flows. */
   const REAGENTS = ["Marquis", "Mecke", "Mandelin", "Froehde", "Liebermann",
-                    "Simons", "Ehrlich", "Hofmann", "Zimmermann", "Scott"];
+                    "Simons", "Morr", "Ehrlich", "Hofmann", "Zimmermann", "Scott"];
   /* The table's keys are bare — "Simons", "Ehrlich" — and the rest of the page
      writes them the way the reagents are actually named: Simon's, Ehrlich's.
      Taken from the guide rather than hardcoded so the two cannot drift, and
      falling back to the key for the three the guide has no entry for. */
   const NAMES = new Map((guideReagents || []).map((r) => [String(r.id).toLowerCase(), r.name]));
-  const reagentName = (key) => NAMES.get(String(key).toLowerCase()) || key;
+  /* The reagent table abbreviates where the guide does not. Morris is the one
+     that matters — it opens two DanceSafe flows, and unaliased it rendered as
+     "Morr" in the chart's own instructions. */
+  const KEY_ALIAS = { morr: "morris" };
+  const reagentName = (key) => {
+    const k = String(key).toLowerCase();
+    return NAMES.get(k) || NAMES.get(KEY_ALIAS[k]) || key;
+  };
   /* "gray" arrived with the DanceSafe override for MDA on Simon's. The test
      that pairs this list against the data would have caught its absence: a
      color in the file the picker does not offer is unreachable, and every
@@ -472,7 +485,15 @@ function reverseLookup(matchFn, table, subs, go, guideReagents) {
    * "cannot say" is a dead control. */
   const COMMON = ["mdma", "mda", "cocaine", "heroin", "methamphetamine",
                   "ketamine", "lsd", "fentanyl", "alprazolam"];
-  const withData = Object.keys(table || {});
+  /* Table keys UNION chart ids. Mescaline is the case: DanceSafe publishes a
+     three-step flow for it and PsychonautWiki has no reagent rows at all, so
+     building this list from the table alone left a substance the app can
+     genuinely walk somebody through unreachable in the only control that
+     reaches it. */
+  const withData = [...new Set([
+    ...Object.keys(table || {}),
+    ...(charts?.flows || []).map((f) => f.id),
+  ])];
   const byName = (a, b) => nameOf(a).localeCompare(nameOf(b));
   const common = COMMON.filter((id) => withData.includes(id)).sort(byName);
   const rest = withData.filter((id) => !common.includes(id)).sort(byName);
@@ -491,13 +512,14 @@ function reverseLookup(matchFn, table, subs, go, guideReagents) {
     onClick: () => { addSlot(); check(); },
   }, "+ Add another reagent");
 
-  function addSlot() {
+  function addSlot(want) {
     if (slots.length >= MAX) return;
     const i = slots.length;
     /* Default each new row to a reagent not already chosen, so adding one
        never lands on a duplicate the reader then has to change. */
     const taken = new Set(slots.map((s) => s.reagent.value));
-    const first = REAGENTS.find((r) => !taken.has(r)) || REAGENTS[0];
+    const first = (want && REAGENTS.includes(want) ? want : null)
+      || REAGENTS.find((r) => !taken.has(r)) || REAGENTS[0];
 
     const reagent = h("select", { class: "input", "aria-label": `Reagent ${i + 1}` },
       REAGENTS.map((r) =>
@@ -563,6 +585,176 @@ function reverseLookup(matchFn, table, subs, go, guideReagents) {
     addBtn.disabled = slots.length >= MAX;
   }
 
+  /* SAYING WHAT IT WAS SOLD AS LOADS THE CHART'S REAGENTS.
+   *
+   * Otherwise the reader is guessing which bottles the test needs, and the
+   * guess is wrong in a way that costs a sample: the cocaine test opens with
+   * Morris and the ketamine test is Morris alone, so anybody who assumed
+   * Marquis-first has used up material on a reagent the chart never asks for.
+   * The chart already knows. It fills the rows in its own order, and the
+   * panel above them says what each step should produce.
+   *
+   * Anything already answered is carried across by reagent rather than by
+   * position, so changing the sold-as after entering a colour keeps it. */
+  function loadFlow(flow, id) {
+    const keep = new Map();
+    for (const { reagent, result } of slots) {
+      if (result.value) keep.set(reagent.value, result.value);
+    }
+
+    let want = (flow?.steps || []).map((s) => s.reagent).filter((r) => REAGENTS.includes(r));
+    /* No chart for this one — 196 of the 207 substances. The table still knows
+       which reagents have a published result for it, and those are the only
+       ones that can say anything either way, so they go in the rows. Two, not
+       every one of them: a wall of dropdowns is what this picker started as. */
+    if (!want.length && id) {
+      const have = new Set((table?.[id] || []).map((r) => r.reagent));
+      want = REAGENTS.filter((r) => have.has(r)).slice(0, 2);
+    }
+
+    slots.length = 0;
+    clear(rows);
+    (want.length ? want : [REAGENTS[0]]).forEach((r) => addSlot(r));
+    for (const { reagent, result } of slots) {
+      const had = keep.get(reagent.value);
+      if (had) result.value = had;
+    }
+    relabel();
+  }
+
+  /* WHAT THE TEST IS, now that the rows are already filled in.
+   *
+   * This used to instruct — "the chart runs Marquis, then Simon's" — which was
+   * asking somebody to do by hand what the app knows. Choosing the substance
+   * loads the chart's reagents into the rows in the chart's order, so the only
+   * thing left to enter is what each one did, and this panel's job shrank to
+   * saying which test got loaded and what each step should produce.
+   *
+   * The expected colour is kept, in DanceSafe's own wording — "royal blue",
+   * not "blue" — because the reader is about to hold a real spot plate against
+   * it and the chart's words are more use than the ten buckets the picker has
+   * to round them into. It stays up here rather than beside each dropdown: a
+   * swatch to compare against is the point of the chart, an answer printed
+   * against the input field is a leading question. */
+  function planCard(flow, run) {
+    const done = new Set((run?.steps || [])
+      .filter((s) => s.verdict !== "pending").map((s) => s.reagent));
+    const name = nameOf(flow.id);
+    const multi = flow.steps.length > 1;
+
+    return h("div", { class: "plan" },
+      h("p", { class: "plan__hd" },
+        "Loaded DanceSafe's ",
+        h("strong", null, `${name} test`),
+        multi
+          ? ` — ${flow.steps.length} reagents, in the chart's order. Just say what each one did.`
+          : " — one reagent. Just say what it did."),
+      h("ol", { class: "plan__steps" },
+        flow.steps.map((s) =>
+          h("li", { class: `plan__step${done.has(s.reagent) ? " plan__step--done" : ""}` },
+            h("span", { class: "plan__reagent" }, reagentName(s.reagent)),
+            h("span", { class: "plan__says" }, `expect ${s.says}`)))),
+      /* Sample count is not decoration. Every reagent needs its own scraping —
+         running a second on the same spot reads the first reagent's product. */
+      h("p", { class: "sec__note" },
+        multi
+          ? `That is ${flow.steps.length} separate samples. Each reagent needs `
+            + "its own, because a second drop on a spot that has already reacted "
+            + "is reading the first reagent, not the drug."
+          : "One sample is enough for this one."));
+  }
+
+  /* The same courtesy for the 196 substances no chart covers: the rows are
+     filled with the reagents that have a published result, because those are
+     the only ones that can say anything either way. Said out loud, because
+     "these are what we have data on" is a weaker claim than a flowchart and
+     must not be mistaken for one. */
+  function tablePlanNote(id) {
+    const picked = slots.map((s) => s.reagent.value);
+    const have = new Set((table?.[id] || []).map((r) => r.reagent));
+    if (!picked.some((r) => have.has(r))) return null;
+    return h("p", { class: "plan__hd" },
+      "No DanceSafe flowchart covers ",
+      h("strong", null, nameOf(id)),
+      `, so there is no published order to follow. Loaded the reagents that `
+      + "have a result on record for it — say what they did, or change them.");
+  }
+
+  /* The verdict, walked step by step down the chart. */
+  function flowCard(flow, run, state) {
+    const name = nameOf(flow.id);
+    const look = {
+      expected:   { card: "advisory", badge: "ok",       glyph: "✓",
+                    label: `Expected for ${name}` },
+      ontrack:    { card: "advisory", badge: "neutral",  glyph: "›",
+                    label: `So far, so ${name}` },
+      unexpected: { card: "elevated", badge: "elevated", glyph: "▲",
+                    label: `Unexpected for ${name}` },
+    }[run.status];
+
+    const mark = { agrees: "✓", disagrees: "✗", pending: "·" };
+    const line = (s) =>
+      h("li", { class: `soldline soldline--${s.verdict}` },
+        h("span", { class: "soldline__mark", "aria-hidden": "true" }, mark[s.verdict]),
+        h("span", null,
+          s.verdict === "pending"
+            ? h("span", null, `${reagentName(s.reagent)} — not run yet. `,
+                h("em", null, `The chart expects ${s.says}.`))
+            : h("span", null,
+                `${reagentName(s.reagent)} went `,
+                h("strong", null, s.observed === "none" ? "nothing" : s.observed),
+                ` — the chart expects ${s.says}`)));
+
+    /* What these readings DO complete, which for the commonest failure is not
+       a vague mismatch but the next line down on the same chart. */
+    const others = run.status === "unexpected"
+      ? completedBy(state, charts, flow.id) : [];
+    const extra = offChart(flow, state);
+
+    return h("div", { class: `card card--${look.card}` },
+      h("div", { class: "card__top" },
+        h("span", { class: `badge badge--${look.badge}` },
+          h("span", { "aria-hidden": "true" }, look.glyph), look.label),
+        h("span", { class: "card__meta" }, `sold as ${name}`)),
+      h("ul", { class: "soldlines" }, run.steps.map(line)),
+
+      run.status === "ontrack"
+        ? h("p", { class: "sec__note" },
+            `Nothing so far contradicts ${name}, and the test is not finished. `
+            + `Run ${reagentName(run.next)} on a fresh sample — that is the step `
+            + "that decides it.")
+        : null,
+
+      others.length
+        ? h("p", { class: "sec__note" },
+            "What these readings DO complete is the published flow for ",
+            h("strong", null, others.map((o) => nameOf(o.id)).join(", or ")),
+            ". That is the chart's own answer, not a guess from the colors.")
+        : null,
+
+      h("p", { class: "sec__note" },
+        run.status === "expected"
+          ? "That is the chart's endpoint, which is worth having and is not a "
+            + "purity result. A reagent reads whatever reacts strongest, so "
+            + "anything else in there behaves like the majority and stays "
+            + "hidden — including fentanyl, at a dose that kills."
+          : run.status === "unexpected"
+          ? `It did not do what ${name} is supposed to do. That is worth acting `
+            + "on and it does not by itself say what you have instead — reagent "
+            + "age, light and a faint reaction all move a color, and a mixture "
+            + "reacts as whatever dominates. Everything the readings fit is below."
+          : "Nothing here rules out fentanyl at any step."),
+
+      extra.length
+        ? h("p", { class: "sec__note" },
+            `${extra.map(reagentName).join(" and ")} `
+            + `${extra.length === 1 ? "is" : "are"} not on this chart, so `
+            + `${extra.length === 1 ? "it is" : "they are"} not counted above. `
+            + "The list below scores every reading against all "
+            + `${Object.keys(table || {}).length} substances.`)
+        : null);
+  }
+
   function check() {
     clear(out);
     /* Last one wins if the same reagent is picked twice — the alternative is
@@ -572,14 +764,40 @@ function reverseLookup(matchFn, table, subs, go, guideReagents) {
       if (result.value) state[reagent.value] = result.value;
     }
 
+    const flow = flowFor(soldAs.value, charts);
+    const run = walk(flow, state);
     const { consistent, partial, ruledOut, used } = matchFn(state, table);
+
+    /* THE CHART, before anything has been run.
+     *
+     * This is the answer to "which reagents do I need", and it has to come
+     * before the results rather than with them — somebody who has not started
+     * yet is standing over a bag deciding what to open. */
+    if (flow) out.appendChild(planCard(flow, run));
+    else if (soldAs.value) out.appendChild(tablePlanNote(soldAs.value));
+
     if (!used) {
-      out.appendChild(h("p", { class: "sec__note" },
-        "Say what each one did. Two reagents narrow it far more than one."));
+      if (!soldAs.value) {
+        out.appendChild(h("p", { class: "sec__note" },
+          "Say what each one did. Two reagents narrow it far more than one."));
+      }
       return;
     }
 
-    /* THE SOLD-AS VERDICT, first, because it is the question that was asked.
+    /* THE CHART'S VERDICT WINS WHERE THERE IS ONE.
+     *
+     * checkSoldAs asks whether each colour is somewhere in that substance's
+     * row. The chart asks whether this SEQUENCE is the published result, which
+     * is both stricter and more useful — black on Marquis is in MDMA's row and
+     * is also in MDA's, and the table cannot tell you that Simon's is what
+     * separates them or that you have not run it yet. Where DanceSafe publishes
+     * a flow, that is the answer; the 207-substance table underneath is the
+     * broader scope, and it is where an unexpected result gets explained. */
+    if (run && run.status !== "none") {
+      out.appendChild(flowCard(flow, run, state));
+    }
+
+    /* THE TABLE'S VERDICT, for the 196 substances no chart covers.
      *
      * Deliberately not a purity or safety result in either direction. An
      * expected reaction says the majority of what is in there behaves like the
@@ -587,7 +805,8 @@ function reverseLookup(matchFn, table, subs, go, guideReagents) {
      * drug hiding behind a stronger one. An unexpected reaction says it did not
      * do what that is supposed to do, which is worth acting on, and does not
      * on its own name what it is instead. The list underneath does that part. */
-    const sold = soldAs.value ? checkSoldAs(soldAs.value, state, table) : null;
+    const sold = (!run || run.status === "none") && soldAs.value
+      ? checkSoldAs(soldAs.value, state, table) : null;
     if (sold) {
       const name = nameOf(sold.id);
       const look = {
@@ -638,14 +857,25 @@ function reverseLookup(matchFn, table, subs, go, guideReagents) {
                 + "That is a gap in the reference, not a finding.")));
     }
 
+    /* .nbr, the app's native list row, rather than a bespoke button.
+     *
+     * These were outlined pills with 8px between them sitting INSIDE .list —
+     * which is itself a bordered, rounded, clipping container built for exactly
+     * this. So every result was a box in a box with a gap, when .list > .nbr
+     * already gives flush full-width rows, inset hairlines between them and a
+     * pressed tint. Same row the substance index and the map's top list use,
+     * so a result here now looks like every other tappable name in the app. */
     const hit = (m) =>
-      h("button", { type: "button", class: "revhit",
+      h("button", { type: "button", class: "nbr",
                     onClick: () => go(`#/substances/${m.id}`) },
-        h("span", { class: "revhit__name" }, nameOf(m.id)),
-        h("span", { class: "revhit__meta" },
-          m.unknown
-            ? `${m.agrees} of ${used}, ${m.unknown} untested`
-            : `${m.agrees} of ${used} match`));
+        h("span", { class: "nbr__text" },
+          h("span", { class: "nbr__name" }, nameOf(m.id))),
+        h("span", { class: "nbr__right" },
+          h("span", { class: "nbr__dist" },
+            m.unknown
+              ? `${m.agrees} of ${used}, ${m.unknown} untested`
+              : `${m.agrees} of ${used}`),
+          h("span", { "aria-hidden": "true" }, "›")));
 
     /* Every reading, or it is not in this list. */
     const allOf = used === 1 ? "that reading" : `all ${used} readings`;
@@ -656,11 +886,20 @@ function reverseLookup(matchFn, table, subs, go, guideReagents) {
         + "Reagent age and light both change a color, so it is also worth "
         + "checking whether one of the readings could go the other way."));
     } else {
+      /* A substance whose whole published FLOW these readings complete goes to
+         the top, ahead of ones that merely have the right colors in their row.
+         Otherwise the card above can name MDA from the chart while the list
+         under it sorts MDA fifth behind three research chemicals, and the two
+         halves of the screen appear to disagree about their own answer. */
+      const charted = new Set(completedBy(state, charts).map((w) => w.id));
+      const ranked = charted.size
+        ? [...consistent].sort((a, b) => (charted.has(b.id) ? 1 : 0) - (charted.has(a.id) ? 1 : 0))
+        : consistent;
+
       out.appendChild(h("p", { class: "sec__note" },
         `${consistent.length} substance${consistent.length === 1 ? "" : "s"} `
         + `match${consistent.length === 1 ? "es" : ""} ${allOf}, best first.`));
-      out.appendChild(h("div", { class: "list" },
-        consistent.slice(0, 12).map(hit)));
+      out.appendChild(h("div", { class: "list" }, ranked.slice(0, 12).map(hit)));
     }
 
     /* NOT FOLDED INTO THE LIST ABOVE, AND NOT THROWN AWAY.
@@ -702,7 +941,10 @@ function reverseLookup(matchFn, table, subs, go, guideReagents) {
               + "pink Marquis for cocaine where the reference behind this page "
               + "records none at all. A faint reaction is exactly the kind one "
               + "chart calls a color and another calls nothing."),
-            h("div", { class: "list" }, ruledOut.slice(0, 10).map((m) => {
+            /* Plain lines, not .list. These are not tappable and .acc__body is
+               already a bordered box; a second frame inside it is the same
+               box-in-a-box the match rows had. */
+            h("div", { class: "revmisses" }, ruledOut.slice(0, 10).map((m) => {
               const bad = m.detail.find((d) => d.verdict === "disagrees");
               const doc = bad?.documented;
               const was = doc?.none && doc?.colors?.length
@@ -716,7 +958,10 @@ function reverseLookup(matchFn, table, subs, go, guideReagents) {
     }
   }
 
-  soldAs.addEventListener("change", check);
+  soldAs.addEventListener("change", () => {
+    loadFlow(flowFor(soldAs.value, charts), soldAs.value);
+    check();
+  });
   /* ONE, and the reader adds the rest. Most people own a Marquis and nothing
      else, and opening with two empty rows asks for a second bottle before it
      has answered anything with the first. One reagent narrows the list less —
