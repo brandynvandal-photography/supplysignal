@@ -66,36 +66,22 @@ const AGREE = "agrees";
 /** Nobody published a result for this pair. Never counts against. */
 const UNKNOWN = "unknown";
 
-/* THE PICKER KNOWS MORE COLOURS THAN THE TABLE DOES.
+/* NO ALIASING. A READING MATCHES THE WORD IT IS, OR IT DOES NOT MATCH.
  *
- * data/reagents.json normalises PsychonautWiki to ten words — yellow, brown,
- * orange, green, black, pink, purple, red, blue, gray. DanceSafe's charts name
- * readings that fork BETWEEN those, and the forks are load-bearing: peach goes
- * to Morris and toward cocaine while bright orange goes to Liebermann and
- * toward amphetamine, so rounding peach to orange merges two different tests.
- * The picker therefore offers peach, magenta and olive as well.
- *
- * Which leaves a gap. A reader who picks peach has said something the table
- * has no word for, and scoring it literally would match nothing at all in 207
- * substances — the chart would answer and the table would go silent, which is
- * the failure this file exists to avoid.
- *
- * So each of the extra colours carries the table words it falls between, and
- * agrees with a row holding EITHER. Precision where the chart forks, and the
- * table's generosity everywhere else. The charts match on the exact word and
- * do not use this map: peach must not satisfy a step that asks for orange, or
- * the fork it was added for stops existing. */
-const TABLE_ALIAS = {
-  peach: ["orange", "pink"],
-  magenta: ["pink", "purple"],
-  olive: ["green", "yellow"],
-};
+ * The picker offers thirteen colours and the table knows ten, and the three
+ * extras used to be scored against the table words they fall between — peach
+ * against orange and pink, olive against green and yellow, magenta against
+ * pink and purple. It looked like generosity and it was guessing: an olive
+ * Mecke came back as an agreement with a row published as "yellow or orange",
+ * and the screen put a green tick beside a colour that was not in the list it
+ * had just printed.
 
-/** Every table word an observed reading could reasonably be recorded as. */
-const asTableColors = (observed) => {
-  const v = String(observed).toLowerCase();
-  return TABLE_ALIAS[v] || [v];
-};
+ * That is the wrong place to be generous. A result either is the published one
+ * or it is not, and anything else is unexpected — which is a real finding and
+ * usually the more useful one. Where a source genuinely publishes peach or
+ * magenta or olive, that word goes in the DATA, sourced, in
+ * scripts/build-reagents.mjs. It does not get inferred at match time.
+ */
 
 /**
  * Compare one observation against one substance's published row.
@@ -106,8 +92,7 @@ const asTableColors = (observed) => {
 export function compare(row, observed) {
   if (!row) return UNKNOWN;
   const colors = (row.colors || []).map((c) => String(c).toLowerCase());
-  const seen = asTableColors(observed);
-  const hit = () => seen.some((c) => colors.includes(c));
+  const hit = () => colors.includes(String(observed).toLowerCase());
   const mayBeNone = row.none === true;
   const observedNone = observed === "none";
 

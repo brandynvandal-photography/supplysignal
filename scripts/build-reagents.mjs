@@ -175,6 +175,36 @@ if (unnamed.size) {
 }
 console.log(`merged ${mergedPairs} duplicate reagent row(s)`);
 
+/* EVERY REAGENT THE FLOWCHARTS NAME MUST EXIST HERE, or the failure is silent
+ * and it is the safe-looking kind nobody investigates.
+ *
+ * The two halves are joined by a bare string. If upstream renames a key — or
+ * if the map above is edited to a name the charts do not use — every step on
+ * that reagent stops resolving, `compare` returns `unknown` for all 207
+ * substances, and unknown never eliminates anything. So the app gets quieter
+ * and more permissive rather than visibly broken. This map already shipped two
+ * dead entries for a year (`simon`, `folin`) for exactly that reason.
+ *
+ * Fails the build rather than warning: a chart step nothing can match is not a
+ * degraded feature, it is a test the app claims to run and does not. */
+{
+  const { readFileSync } = await import("node:fs");
+  const charts = JSON.parse(readFileSync("data/flowcharts.json", "utf8"));
+  const shipped = new Set(Object.values(bySlug).flat().map((r) => r.reagent));
+  const wanted = new Set();
+  for (const f of charts.flows || []) for (const s of f.steps || []) wanted.add(s.reagent);
+  for (const b of charts.unknown?.branches || []) {
+    for (const t of b.then || []) wanted.add(t.reagent);
+  }
+  if (charts.unknown?.first) wanted.add(charts.unknown.first);
+  const missing = [...wanted].filter((r) => !shipped.has(r));
+  if (missing.length) {
+    throw new Error(`data/flowcharts.json names reagents this build does not `
+      + `produce: ${missing.join(", ")}. Every chart step on them would silently `
+      + `match nothing. Fix REAGENT_KEYS or the chart.`);
+  }
+}
+
 /* Plant and fungal MATERIAL is dropped, and the reason is upstream: PW records
  * reagent colors per COMPOUND, with no idea what matrix the compound is in.
  * Applied to a mushroom or a bud, those colors describe an isolated molecule
@@ -247,10 +277,31 @@ if (dropped.length) console.log(`suppressed plant/fungal matrices: ${dropped.joi
 const OVERRIDES = {
   cocaine: {
     Marquis: {
-      none: true, colors: ["pink", "orange"],
+      none: true, colors: ["peach", "pink"],
+      /* NO "orange" HERE, and it was mine. DanceSafe records peach or light
+         pink; the ten-word table has no word for peach, so peach was rounded
+         to its two nearest words and shipped as ["pink","orange"]. But
+         reagentmatch.js ALREADY does that rounding on the reader's side —
+         TABLE_ALIAS maps peach to [orange, pink] — so the rounding was applied
+         twice, and the second one put a bright-orange Marquis into cocaine's
+         row. Nobody ever observed an orange cocaine Marquis: it is the word
+         peach, spelled wrong, twice.
+
+         And bright orange is not an omission on the chart, it is an EXCLUSION.
+         Chart 3 routes peach and light pink to Morris and cocaine, and bright
+         orange to Liebermann and the amphetamine side. Keeping orange here let
+         a bright-orange Marquis match cocaine at 4 of 4 and outrank
+         amphetamine, which is the reported bug.
+
+         Zero loss on the readings that matter: peach still agrees through the
+         alias, pink agrees, no-reaction agrees. Only a flat "orange" stops
+         agreeing, and the picker offers peach as its own choice so nobody
+         holding cocaine has to round a faint blush to orange. */
       why: "PsychonautWiki records no reaction; DanceSafe's 2023 chart records a "
          + "light pink or peach. Both are kept: the reaction is faint and is "
-         + "reported both ways.",
+         + "reported both ways. Bright orange is deliberately NOT here — the "
+         + "chart routes it to the amphetamine branch, and reagentmatch.js "
+         + "already widens a reported peach to cover it.",
       source: "DanceSafe reagent flowcharts, 2023 revision",
     },
     /* Found by a test rather than by reading: data/flowcharts.json carries
@@ -279,11 +330,34 @@ const OVERRIDES = {
     },
   },
   heroin: {
+    /* MAGENTA, spelled. The chart's word for heroin's Marquis is magenta, and
+       the upstream ten-word vocabulary has no way to say it — it arrives as
+       brown/purple. With match-time aliasing gone, a reader who picks magenta
+       matches whatever the data actually says, so the data has to say it. The
+       upstream readings are kept alongside rather than replaced. */
+    Marquis: {
+      colors: ["magenta", "brown", "purple"],
+      why: "PsychonautWiki records brown/purple; DanceSafe's 2023 chart records "
+         + "magenta. Both are kept — magenta is a reading the ten-word table "
+         + "cannot express, and a reader who sees it must not be told it "
+         + "contradicts heroin.",
+      source: "DanceSafe reagent flowcharts, 2023 revision",
+    },
     /* Same origin as cocaine's Morris row above — the two-source check. */
     Froehde: {
       colors: ["red", "brown", "purple", "black"],
       why: "PsychonautWiki records purple/black; DanceSafe's 2023 chart records "
          + "reddish-brown at the same step of the heroin flow. Both are kept.",
+      source: "DanceSafe reagent flowcharts, 2023 revision",
+    },
+  },
+  "2c-b": {
+    /* OLIVE, for the same reason as heroin's magenta. */
+    Marquis: {
+      colors: ["olive", "yellow", "green"],
+      why: "PsychonautWiki records yellow/green; DanceSafe's 2023 chart records "
+         + "dark lime green. Both are kept — olive is the picker's word for "
+         + "that shade and the ten-word table has no way to record it.",
       source: "DanceSafe reagent flowcharts, 2023 revision",
     },
   },
