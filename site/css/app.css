@@ -540,15 +540,21 @@ a { color: var(--brand); }
  * this is the one icon people go LOOKING for; it now gets the primary ink and
  * a slightly heavier stroke to match the glyphs beside it.
  *
- * SIZE SECOND, and no longer gated on the pointer. The previous attempt keyed
- * on (pointer: coarse) to mean "a tablet" - but an iPad with a keyboard case
- * or trackpad reports pointer: fine, so on the device that reported the
- * problem the rule may never have matched at all. Width alone: a wide screen
- * gets a bigger mark, which is true of a desktop too and harms nothing there. */
+ * SIZE SECOND, and the breakpoint was simply wrong. Two attempts keyed on
+ * min-width: 880px, once with (pointer: coarse) and once without - and an iPad
+ * in PORTRAIT is 768 to 834 CSS pixels. iPad mini 744, iPad 820, iPad Pro 11"
+ * 834. Only the 12.9" clears 880. So the rule never matched on the device that
+ * reported the problem, in either version, and reverting the markup to 22px
+ * made it smaller than it had been rather than fixing anything.
+ *
+ * 700px instead: above every phone in portrait or landscape and below every
+ * tablet, so it catches an iPad in both orientations. A desktop gets it too,
+ * which is not a cost - 26px of line art next to an 18px glyph is if anything
+ * closer to level than 22 was. */
 #searchbtn { color: var(--ink); }
 #searchbtn .iconbtn__svg { stroke-width: 2.4; }
 
-@media (min-width: 880px) {
+@media (min-width: 700px) {
   #searchbtn .iconbtn__svg { width: 26px; height: 26px; }
 }
 
