@@ -843,43 +843,58 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
  * Desktop keeps the strip: a mouse wheel over a page that scrolls behind an
  * open panel is ordinary, the results are not competing with a thumb, and
  * there is room for both. */
-@media (max-width: 879px) {
-  .searchpanel:not([hidden]) {
-    position: fixed;
-    top: calc(var(--bar-h) + var(--bar-top));
-    left: 0; right: 0; bottom: 0;
-    display: flex; flex-direction: column;
-    overflow: hidden;                  /* the list scrolls, never the panel */
-    border-bottom: 0;
-    /* Opaque: there is a whole page behind this now, not a few pixels. */
-    background: var(--surface);
-  }
-  .searchpanel:not([hidden]) > .wrap {
-    display: flex; flex-direction: column;
-    flex: 1; min-height: 0;            /* or the list cannot shrink to scroll */
-  }
-  /* Two things that only bite once this wrap becomes a flex column, and both
-     of them did:
-     - .input carries `flex: 1` for the county search, which lives in a flex
-       ROW. The note above says it "did nothing" here because this wrap was a
-       plain block. Making it a column woke it up and the search field grew to
-       fill half the screen.
-     - flex children shrink by default, so the results compressed below their
-       own text instead of overflowing, and every card printed on top of the
-       one under it. A scrolling list needs its items at their natural height. */
-  .searchpanel:not([hidden]) > .wrap > .input { flex: none; }
-  .searchpanel:not([hidden]) .searchresults > * { flex: none; }
-  .searchpanel:not([hidden]) .searchresults {
-    flex: 1; min-height: 0;
-    overflow-y: auto;
-    /* Stops the scroll chaining to the document when the list hits its end,
-       which is the same tear this rule exists to remove. */
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-    /* Clear the tab bar, so the last result is reachable rather than sitting
-       underneath Support and SOS. */
-    padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + var(--sp-3));
-  }
+/* THE OPEN SEARCH PANEL OWNS THE SCREEN AT EVERY WIDTH.
+ *
+ * This was scoped to max-width: 879px on the argument that a desktop has room
+ * for both and a wheel over a page scrolling behind an open panel is ordinary.
+ * An iPad in LANDSCAPE is 1024 to 1194, so it fell out of the band and got the
+ * old sticky strip back — the same bug, reported again, on a device the rule
+ * was never written for.
+ *
+ * Width cannot separate the two cases: an iPad Pro 12.9 in landscape is 1366
+ * and a 13-inch laptop is 1280, so any line drawn puts one of them on the
+ * wrong side. Pointer cannot either — the reporter's iPad has a keyboard case
+ * and reports pointer: fine.
+ *
+ * So it stops being a device question. Results scrolling inside the panel is
+ * correct behaviour with a wheel too, and the inner .wrap already holds the
+ * content to one centred column, so a wide screen gets a full-width sheet
+ * over a normal column rather than anything strange. One rule, no sniffing. */
+.searchpanel:not([hidden]) {
+  position: fixed;
+  top: calc(var(--bar-h) + var(--bar-top));
+  left: 0; right: 0; bottom: 0;
+  display: flex; flex-direction: column;
+  overflow: hidden;                  /* the list scrolls, never the panel */
+  border-bottom: 0;
+  /* Opaque: there is a whole page behind this now, not a few pixels. */
+  background: var(--surface);
+}
+.searchpanel:not([hidden]) > .wrap {
+  display: flex; flex-direction: column;
+  flex: 1; min-height: 0;            /* or the list cannot shrink to scroll */
+}
+/* Two things that only bite once this wrap becomes a flex column, and both
+   of them did:
+   - .input carries `flex: 1` for the county search, which lives in a flex
+     ROW. The note above says it "did nothing" here because this wrap was a
+     plain block. Making it a column woke it up and the search field grew to
+     fill half the screen.
+   - flex children shrink by default, so the results compressed below their
+     own text instead of overflowing, and every card printed on top of the
+     one under it. A scrolling list needs its items at their natural height. */
+.searchpanel:not([hidden]) > .wrap > .input { flex: none; }
+.searchpanel:not([hidden]) .searchresults > * { flex: none; }
+.searchpanel:not([hidden]) .searchresults {
+  flex: 1; min-height: 0;
+  overflow-y: auto;
+  /* Stops the scroll chaining to the document when the list hits its end,
+     which is the same tear this rule exists to remove. */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  /* Clear the tab bar, so the last result is reachable rather than sitting
+     underneath Support and SOS. */
+  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + var(--sp-3));
 }
 
 /* A result is a destination, so it says what KIND of thing it is before it
