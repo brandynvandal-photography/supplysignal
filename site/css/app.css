@@ -3342,7 +3342,12 @@ html, body { overscroll-behavior-y: none; }
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 18px;
   background: var(--surface);
-  color: var(--brand);
+  /* --glow, not --brand. The mark is the lamp — gold — everywhere else it
+     appears: the header sets .brand__logo to var(--glow) and the favicon is
+     drawn in the same #b8720f. --brand is the teal the app uses for links and
+     actions, so the opening came up green while the header it hands over to
+     came up gold. */
+  color: var(--glow);
 }
 .boot__name {
   font-size: 1.45rem; font-weight: 650; letter-spacing: -.015em;
