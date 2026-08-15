@@ -539,6 +539,17 @@ export async function detectionFor(id) {
   return row ? { ...row, note: row.note, perDrugNote: s.windows.perDrugNote } : null;
 }
 
+/* 2D skeletal structures, keyed by substance id.
+ *
+ * A national bundle like everything else: 263 molecules in one file, so
+ * opening a drug page costs no request that names the drug. Fetched only on a
+ * detail page, which is the one screen that draws one - the same bargain
+ * substances.json already makes, and the route already discloses that
+ * somebody opened Drugs. */
+export async function structures() {
+  return load("structures", { structures: {} });
+}
+
 /** Session-only condition lens content. */
 export async function conditions() {
   return load("conditions", null);

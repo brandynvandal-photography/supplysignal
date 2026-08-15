@@ -1233,6 +1233,16 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 .status { font-size: .9rem; color: var(--ink-2); margin: 10px 0 0; min-height: 1.4em; }
 .status--err { color: var(--critical); font-weight: 600; }
 
+/* The molecule on a drug page.
+ *
+ * currentColor throughout, so it inherits the page's ink and is correct in
+ * both themes - the reason the drawing is generated at runtime from
+ * coordinates rather than shipped as an image, which would have been baked to
+ * one colour and wrong in the other. */
+.struct__fig { margin: var(--sp-3) 0 var(--sp-2); text-align: center; }
+.struct { display: inline-block; max-width: 100%; height: auto; color: var(--ink-2); }
+.struct__fig figcaption { margin-top: 6px; }
+
 /* ------------------------------------------------------------ accordion */
 
 details.acc {

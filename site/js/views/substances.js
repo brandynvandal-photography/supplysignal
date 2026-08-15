@@ -16,6 +16,7 @@ import {
 } from "../ui.js";
 import * as data from "../data.js";
 import { CLASSES, classInfo, groupAll } from "../taxonomy.js";
+import { draw as drawStructure } from "../structure.js";
 
 /* `label` is what renders; the KEY is TripSit's verbatim status, kept for
    data fidelity and shown in the definitions block. The raw terms are chart
@@ -729,8 +730,9 @@ async function detailView(id, subs, combos, { go }) {
      front - see data.reagentsFor. This is the only view that renders them, and
      loading them for all 302 was costing the Drugs list 111KB before it could
      paint. Attached to a local copy so the cached bundle stays untouched. */
-  const [rg, plantMatrix, detect] = await Promise.all([
+  const [rg, plantMatrix, detect, structs] = await Promise.all([
     data.reagentsFor(id), data.isPlantOrFungal(id), data.detectionFor(id),
+    data.structures().catch(() => null),
   ]);
   const s = rg ? { ...base, reagentResults: rg } : base;
 
@@ -744,6 +746,34 @@ async function detailView(id, subs, combos, { go }) {
   wrap.appendChild(h("div", { class: "county-head" },
     h("h1", null, s.name),
     s.aliases.length ? h("p", { class: "sec__note" }, `Also called: ${s.aliases.join(", ")}`) : null));
+
+  /* The molecule, beside the name.
+   *
+   * Not decoration, and not on every page: 263 of the 298 entries have one,
+   * and the ones that do not are families and plants - "2C-x", Cannabis,
+   * Ayahuasca - which have no single structure and correctly show nothing
+   * rather than a stand-in.
+   *
+   * It earns the space because this app argues from structure elsewhere and
+   * could not show one: the Test page says BTNX's strip is blind to bulky
+   * changes at the phenethyl end while WHPM's is blind at the carbonyl, which
+   * is the practical difference between the two brands and is unreadable as
+   * prose unless you already know which end is which. */
+  {
+    const packed = structs?.structures?.[id];
+    if (packed) {
+      const svg = drawStructure(packed, 200);
+      if (svg) {
+        wrap.appendChild(
+          h("figure", { class: "struct__fig" }, svg,
+            h("figcaption", { class: "sec__note" },
+              "2D structure from ",
+              extLink(`https://pubchem.ncbi.nlm.nih.gov/compound/${packed.cid}`,
+                      `PubChem CID ${packed.cid}`),
+              ". Hydrogens on carbon are not drawn, as a skeletal formula omits them.")));
+      }
+    }
+  }
 
   const cls = [...(s.class.psychoactive || []), ...(s.class.chemical || [])];
   if (cls.length) {
