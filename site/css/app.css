@@ -1339,6 +1339,28 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 .struct { display: inline-block; max-width: 100%; height: auto; color: var(--ink-2); }
 .struct__fig figcaption { margin-top: 6px; }
 
+/* A collapsible callout.
+ *
+ * The box keeps its colour, its glyph and its border — a folded warning has to
+ * still read as a warning at a glance, so nothing about the severity treatment
+ * changes when it closes. What is added is a marker on the right, matching the
+ * one details.acc uses, and a summary that behaves like a control. */
+details.callout--fold > summary {
+  cursor: pointer; list-style: none;
+  display: flex; align-items: center; gap: 10px;
+  min-height: var(--tap);
+}
+details.callout--fold > summary::-webkit-details-marker { display: none; }
+details.callout--fold > summary::after {
+  content: "\203A"; margin-left: auto; font-size: 1.4rem; color: var(--ink-3);
+  transform: rotate(90deg); transition: transform .18s;
+}
+details.callout--fold[open] > summary::after { transform: rotate(-90deg); }
+/* The heading already carries the margin the closed state needs; opening adds
+   the body's own spacing rather than doubling it. */
+details.callout--fold > .callout__body > :first-child { margin-top: 10px; }
+details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
+
 /* ------------------------------------------------------------ accordion */
 
 details.acc {

@@ -156,22 +156,61 @@ export function empty(title, ...body) {
   ));
 }
 
+/**
+ * A callout, collapsible, and OPEN until the reader closes it.
+ *
+ * These are the app's infographic blocks — the location-privacy note, "why one
+ * line means positive", "the two fentanyl brands miss different drugs" — and
+ * several run to a full screen on a phone. A reader who has already taken one
+ * in should be able to fold it away and get to what is underneath.
+ *
+ * THEY START CLOSED, by the maintainer's decision. I argued for open-by-default
+ * — a closed box is not half-read, it is unread, and the disclosure helper
+ * below exists on the principle that anything dangerous to half-read stays
+ * visible. The counterweight is real too: several of these run a full screen on
+ * a phone, and a wall of open boxes is its own way of not being read. The call
+ * was made with that trade in view.
+ *
+ * What the summary carries therefore matters more than it did. The title is
+ * visible when closed, so a title that only labels the box — "A note" — hides
+ * the thing it is about. Every one of these titles states the claim: "why one
+ * line means positive", "the two fentanyl brands miss different drugs", "your
+ * location stays on your device".
+ *
+ * STOP CALLOUTS DO NOT COLLAPSE. Thirteen of them carry the things that get
+ * somebody killed: no reagent detects fentanyl, these xylazine strips are only
+ * for fentanyl, naloxone does not reverse this. A control that folds those
+ * away is a control for dismissing them, and there is no version of this app
+ * where that is worth the tidiness.
+ *
+ * A callout with a title and no body stays a plain block too — a disclosure
+ * whose summary IS its entire content is a control that does nothing.
+ */
 export function callout(kind, title, ...body) {
   /* "✕" rather than "■". A bare filled square is indistinguishable from a
      missing-glyph box, so the most severe callout in the app looked like a
      font failure. Each kind keeps a distinct shape, because colour alone is
      never allowed to carry severity. */
   const glyph = { stop: "✕", warn: "▲", info: "ℹ" }[kind] || "ℹ";
+  const kids = body.filter((b) => b != null && b !== false);
+
+  const head = (tag) => h(
+    tag,
+    { class: "callout__hd" },
+    h("span", { "aria-hidden": "true" }, glyph),
+    h("h3", null, title)
+  );
+  const rendered = () => kids.map((b) => (b instanceof Node ? b : h("p", null, b)));
+
+  if (kind === "stop" || !kids.length) {
+    return h("div", { class: `callout callout--${kind}` }, head("div"), ...rendered());
+  }
+
   return h(
-    "div",
-    { class: `callout callout--${kind}` },
-    h(
-      "div",
-      { class: "callout__hd" },
-      h("span", { "aria-hidden": "true" }, glyph),
-      h("h3", null, title)
-    ),
-    ...body.map((b) => (b instanceof Node ? b : h("p", null, b)))
+    "details",
+    { class: `callout callout--${kind} callout--fold` },
+    head("summary"),
+    h("div", { class: "callout__body" }, ...rendered())
   );
 }
 
