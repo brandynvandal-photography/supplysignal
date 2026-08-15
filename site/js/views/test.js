@@ -1421,7 +1421,7 @@ function prevalenceBlock(p) {
       h("h3", null, "Why the death statistics look different"),
       h("p", null, p.coUse),
       h("p", { class: "sec__note" }, p.regional),
-      callout("info", "The point", h("p", null, p.bottomLine)),
+      callout("info", "Why this matters", h("p", null, p.bottomLine)),
       sourceRow(p.sources)));
 }
 
