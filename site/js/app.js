@@ -633,6 +633,39 @@ function mountBackToTop() {
 
 /* ------------------------------------------------------------------- boot */
 
+/* Take the opening down.
+ *
+ * Called the moment the first view has rendered, and by a failsafe timer that
+ * does not care whether it did. Both matter: this app has an SOS tab and gets
+ * opened in a hurry, so no combination of a slow bundle, a failed import or a
+ * dead network may leave somebody looking at a logo. The timer is armed at
+ * parse time, before anything is awaited, for exactly that reason.
+ *
+ * A 650ms floor because a splash that flashes for 80ms on a warm cache reads
+ * as a glitch rather than an opening — the app looks broken, not quick. */
+const BOOT_SHOWN_AT = Date.now();
+const BOOT_MIN_MS = 650;
+const BOOT_MAX_MS = 1600;
+let bootGone = false;
+
+function dismissBoot() {
+  if (bootGone) return;
+  const el = document.getElementById("boot");
+  if (!el) { bootGone = true; return; }
+  const wait = Math.max(0, BOOT_MIN_MS - (Date.now() - BOOT_SHOWN_AT));
+  setTimeout(() => {
+    if (bootGone) return;
+    bootGone = true;
+    el.classList.add("boot--out");
+    /* Removed rather than left transparent over the page: an invisible fixed
+       overlay still swallows the first tap on iOS. */
+    setTimeout(() => el.remove(), 320);
+  }, wait);
+}
+
+/* Armed before any await below, so a bundle that never finishes still clears. */
+setTimeout(dismissBoot, BOOT_MAX_MS);
+
 (async function boot() {
   /* Before anything paints. A WKWebView reports display-mode: browser, so the
      standalone media query that clears the status bar never matches it and the
@@ -659,6 +692,7 @@ function mountBackToTop() {
   lastRoute = here();
 
   await route();
+  dismissBoot();
 
   /* The kindness bar: rendered once, above the content, and never touched
      again. Two rules it has to keep at the top of the screen that it did not

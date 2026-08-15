@@ -58,6 +58,30 @@
 </head>
 <body>
 
+<!-- THE OPENING. Markup rather than something JavaScript builds, so it is on
+     screen at first paint instead of after the bundle parses — a splash that
+     appears once the app is already up has missed its own point.
+
+     Same mark as the header, on a faster cycle: one sonar ripple is visible in
+     the time this is on screen, where the header's is a 7-second idle breath
+     nobody watches. aria-hidden and inert: it is decoration, it must never take
+     focus, and a screen reader should be reading the page underneath it.
+
+     It is CAPPED, and that matters more here than on most apps. This one has an
+     SOS tab and people open it in a hurry. app.js removes it as soon as the
+     first view renders, and a failsafe removes it regardless if the bundle is
+     slow — nothing about a bad network can leave somebody looking at a logo
+     while they need the overdose steps. -->
+<div class="boot" id="boot" aria-hidden="true">
+  <svg class="boot__logo" viewBox="0 0 32 32" width="64" height="64">
+    <circle class="boot__ring boot__ring--outer" cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle class="boot__ring boot__ring--inner" cx="16" cy="16" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <circle class="boot__halo" cx="16" cy="16" r="7" fill="currentColor"/>
+    <circle class="boot__core" cx="16" cy="16" r="4.2" fill="currentColor"/>
+  </svg>
+  <span class="boot__name">Nightlight</span>
+</div>
+
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="topbar">
