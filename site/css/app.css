@@ -1419,9 +1419,12 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
 }
 .revslot .mixslot { grid-column: 1; }
 .revslot .mixslot__x { grid-column: 2; grid-row: 1 / span 2; }
-/* "it went" is wider than "I took", and both columns of selects have to line
-   up down the whole list or the pairs stop reading as pairs. */
-.revslot .mixlabel { min-width: 4.1rem; }
+/* The label column is reserved to the WIDEST label, not to the widest of the
+   reagent rows. "Substance" is 71px and the column was 65.6, so that one field
+   started five pixels right of every other one — enough to read as a mistake
+   without being obvious enough to explain itself. Every select in the picker
+   lines up on one edge or the rows stop reading as one control. */
+.revslot .mixlabel { min-width: 4.6rem; }
 /* .mixslot's flex basis is set on the SELECT, which works for the combination
    checker because its select is the flex item. Here the select sits inside
    .pick__field, so the basis has to go on the wrapper — without it the field
