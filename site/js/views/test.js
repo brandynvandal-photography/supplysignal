@@ -429,22 +429,88 @@ function reverseLookup(matchFn, table, subs, go) {
                     "Simons", "Ehrlich", "Hofmann", "Zimmermann", "Scott"];
   /* "gray" arrived with the DanceSafe override for MDA on Simon's. The test
      that pairs this list against the data would have caught its absence: a
-     colour in the file that the picker does not offer is unreachable, and
-     every substance carrying it silently stops being findable. */
+     color in the file the picker does not offer is unreachable, and every
+     substance carrying it silently stops being findable. */
   const COLORS = ["yellow", "orange", "red", "pink", "purple", "blue",
                   "green", "brown", "gray", "black"];
+  const MAX = REAGENTS.length;
 
-  const state = {};
-  const out = h("div", { class: "revout", role: "status" });
+  /* SAME SHAPE AS THE COMBINATION CHECKER, deliberately.
+   *
+   * This started as ten fixed rows — every reagent on screen whether or not
+   * anybody owned it — which is a wall, and which also implied you were
+   * supposed to fill them all in. It is the same kind of tool as the drug
+   * combination checker on the Drugs page: a short list of things you have,
+   * added one at a time, answered underneath. So it is built the same way and
+   * wears the same controls, down to the "+ Add another" button and the ×.
+   *
+   * Two reagents is the useful minimum and the default, because one narrows
+   * almost nothing. */
+  const slots = [];
+  const rows = h("div", { class: "mixslots" });
+  const out = h("div", { class: "revout", role: "status", "aria-live": "polite" });
+
   const nameOf = (id) =>
     (subs?.substances || []).find((x) => x.id === id)?.name || id;
 
-  const paint = () => {
+  const addBtn = h("button", {
+    type: "button", class: "btn btn--ghost btn--sm",
+    onClick: () => { addSlot(); check(); },
+  }, "+ Add another reagent");
+
+  function addSlot() {
+    if (slots.length >= MAX) return;
+    const i = slots.length;
+    /* Default each new row to a reagent not already chosen, so adding one
+       never lands on a duplicate the reader then has to change. */
+    const taken = new Set(slots.map((s) => s.reagent.value));
+    const first = REAGENTS.find((r) => !taken.has(r)) || REAGENTS[0];
+
+    const reagent = h("select", { class: "input", "aria-label": `Reagent ${i + 1}` },
+      REAGENTS.map((r) => h("option", { value: r, selected: r === first || null }, r)));
+    const result = h("select", { class: "input", "aria-label": `What reagent ${i + 1} did` },
+      h("option", { value: "" }, "choose…"),
+      h("option", { value: "none" }, "no reaction"),
+      COLORS.map((c) => h("option", { value: c }, c)));
+    reagent.addEventListener("change", check);
+    result.addEventListener("change", check);
+
+    const row = h("div", { class: "mixslot revslot" },
+      h("span", { class: "pick__field" }, reagent),
+      h("span", { class: "revslot__went" }, "went"),
+      h("span", { class: "pick__field" }, result),
+      i > 1
+        ? h("button", {
+            type: "button", class: "iconbtn mixslot__x",
+            "aria-label": `Remove reagent ${i + 1}`,
+            onClick: () => {
+              const at = slots.findIndex((x) => x.reagent === reagent);
+              if (at > -1) slots.splice(at, 1);
+              row.remove();
+              addBtn.disabled = slots.length >= MAX;
+              check();
+            },
+          }, "×")
+        : null);
+
+    slots.push({ reagent, result });
+    rows.appendChild(row);
+    addBtn.disabled = slots.length >= MAX;
+  }
+
+  function check() {
     clear(out);
+    /* Last one wins if the same reagent is picked twice — the alternative is
+       an error message about a mistake the reader can simply correct. */
+    const state = {};
+    for (const { reagent, result } of slots) {
+      if (result.value) state[reagent.value] = result.value;
+    }
+
     const { consistent, ruledOut, used } = matchFn(state, table);
     if (!used) {
       out.appendChild(h("p", { class: "sec__note" },
-        "Pick what each reagent did. Two reagents narrow it far more than one."));
+        "Say what each one did. Two reagents narrow it far more than one."));
       return;
     }
     if (!consistent.length) {
@@ -482,27 +548,20 @@ function reverseLookup(matchFn, table, subs, go) {
             h("div", { class: "list" }, ruledOut.slice(0, 10).map((m) => {
               const bad = m.detail.find((d) => d.verdict === "disagrees");
               const doc = bad?.documented;
-              const was = doc?.none ? "no reaction" : (doc?.colors || []).join(" or ");
+              const was = doc?.none && doc?.colors?.length
+                ? `no reaction or ${doc.colors.join(" or ")}`
+                : doc?.none ? "no reaction" : (doc?.colors || []).join(" or ");
               return h("div", { class: "revmiss" },
                 h("strong", null, nameOf(m.id)),
                 h("span", { class: "sec__note" },
                   ` — you saw ${bad.observed} on ${bad.reagent}; published is ${was}`));
             })))));
     }
-  };
+  }
 
-  const rows = REAGENTS.map((r) => {
-    const sel = h("select", { class: "input", id: `rev-${r}` },
-      h("option", { value: "skip" }, "didn’t use"),
-      h("option", { value: "none" }, "no reaction"),
-      COLORS.map((c) => h("option", { value: c }, c)));
-    sel.addEventListener("change", () => { state[r] = sel.value; paint(); });
-    return h("div", { class: "pick__row" },
-      h("label", { for: `rev-${r}` }, r),
-      h("div", { class: "pick__field" }, sel));
-  });
-
-  paint();
+  addSlot();
+  addSlot();
+  check();
 
   return frag(
     h("p", { class: "sec__note" },
@@ -516,7 +575,8 @@ function reverseLookup(matchFn, table, subs, go) {
         + "reagent also reads whatever reacts STRONGEST — a mixture shows one "
         + "color and hides the rest, and most street samples are mixtures. "
         + "What this gives you is what the result is consistent with.")),
-    h("div", { class: "pick" }, rows),
+    rows,
+    h("div", { class: "mixadd" }, addBtn),
     out);
 }
 

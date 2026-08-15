@@ -1389,6 +1389,17 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
  * meta line carries the two numbers that decide how much it is worth: how many
  * of the readings agreed, and how many of them nobody has published for that
  * substance. The second number is the honest limit of the answer. */
+/* A reagent slot: which reagent, what it did. Two selects on one line, wearing
+   the combination checker's row so the two tools read as the same kind of
+   thing — which they are, one running each direction. */
+.revslot { gap: 8px; align-items: center; }
+.revslot .pick__field { flex: 1 1 8rem; min-width: 0; }
+.revslot__went { flex: none; color: var(--ink-3); font-size: .92rem; }
+@media (max-width: 400px) {
+  /* At the narrowest, "went" costs a line the selects need more. */
+  .revslot__went { display: none; }
+}
+
 .revout { margin-top: var(--sp-3); }
 .revhit {
   display: flex; align-items: baseline; gap: 10px; width: 100%;
