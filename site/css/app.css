@@ -443,6 +443,26 @@ a { color: var(--brand); }
 
 .topbar .wrap { display: flex; align-items: center; gap: 14px; min-height: 66px; }
 
+/* THE HEADER ROW NEEDS MORE WIDTH THAN THE CONTENT COLUMN, above 880.
+ *
+ * Below 880 it holds the wordmark and three icon buttons and has room to
+ * spare. At 880 the tab bar moves INTO it, and then it needs 877px: wordmark
+ * 125, nav 564, three 44px buttons, four 14px gaps. --wrap is 820, leaving
+ * 780 of usable box, so it has overflowed by about a hundred pixels ever
+ * since — measured, not estimated. At 1280 the icon buttons sat 73px outside
+ * the centred column, which is invisible because the viewport has slack; at
+ * 880 the same overflow pushed the whole page into scrolling sideways.
+ *
+ * The breakpoint's own comment says it was validated against "five tabs and
+ * two icon buttons". It is six and three now, and nobody remeasured.
+ *
+ * A toolbar is chrome and does not have to share the article's measure, so it
+ * gets its own wider one. Capped at 1180 so it stops spreading on a large
+ * monitor, and clamped to the viewport so it can never overflow again. */
+@media (min-width: 960px) {
+  .topbar .wrap { max-width: min(1180px, 100%); }
+}
+
 .brand {
   display: flex; align-items: center; gap: 9px;
   background: none; border: 0; padding: 8px 4px; margin-left: -4px; min-height: var(--tap);
@@ -506,7 +526,7 @@ a { color: var(--brand); }
 }
 /* Only where space is genuinely scarce. On a desktop window there is room for
    the whole wordmark and clipping it just looks broken. */
-@media (max-width: 879px) {
+@media (max-width: 959px) {
   .brand__name {
     font-size: min(1.16rem, 21px);
     overflow: hidden; text-overflow: ellipsis; min-width: 0;
@@ -541,7 +561,7 @@ a { color: var(--brand); }
  * a slightly heavier stroke to match the glyphs beside it.
  *
  * SIZE SECOND, and the breakpoint was simply wrong. Two attempts keyed on
- * min-width: 880px, once with (pointer: coarse) and once without - and an iPad
+ * min-width: 960px, once with (pointer: coarse) and once without - and an iPad
  * in PORTRAIT is 768 to 834 CSS pixels. iPad mini 744, iPad 820, iPad Pro 11"
  * 834. Only the 12.9" clears 880. So the rule never matched on the device that
  * reported the problem, in either version, and reverting the markup to 22px
@@ -576,7 +596,7 @@ a { color: var(--brand); }
  * An iPad in portrait is 744 to 834, so it lands in this band and gets the
  * bigger row. An iPad in LANDSCAPE is 1024 and gets the desktop header, which
  * is the crowded one — it keeps 44px on purpose. */
-@media (min-width: 700px) and (max-width: 879px) {
+@media (min-width: 700px) and (max-width: 959px) {
   .iconbtn { font-size: 1.5rem; min-width: 52px; min-height: 52px; }
   #searchbtn .iconbtn__svg { width: 32px; height: 32px; }
 }
@@ -614,11 +634,21 @@ a { color: var(--brand); }
 
 main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)); }
 
-/* 880, not 720. The header row holds the wordmark (which never wraps), five
-   tabs, and two icon buttons; after Help became Emergency it overflowed
-   sideways between 720 and ~860. Tablets keep the bottom bar - which is
-   where thumbs are on a tablet anyway. */
-@media (min-width: 880px) {
+/* 960, and the number is measured rather than chosen.
+ *
+ * It was 880, set when the row held a wordmark, FIVE tabs and TWO icon
+ * buttons. It is six and three now — SOS and the search button — and nobody
+ * remeasured, so the row has needed 877px of content inside an 820px column
+ * for months: 125 wordmark, 564 nav, 132 of buttons, 56 of gaps. At 1280 the
+ * buttons sat 73px outside the centred column, invisible because the viewport
+ * had slack. At 880 the same overflow made the whole page scroll sideways.
+ *
+ * 877 plus 40 of padding is 917, and an 880px window has about 865 usable
+ * after the scrollbar — so no container could have fixed it. The breakpoint
+ * itself was below the width the layout needs. 960 leaves roughly 28px of
+ * headroom; below it the tab bar stays at the bottom, where it fits and where
+ * thumbs are on a tablet anyway. */
+@media (min-width: 960px) {
   .nav {
     position: static; border-top: 0; background: none;
     padding: 0; margin-left: auto; width: auto;
@@ -845,7 +875,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
  * there is room for both. */
 /* THE OPEN SEARCH PANEL OWNS THE SCREEN AT EVERY WIDTH.
  *
- * This was scoped to max-width: 879px on the argument that a desktop has room
+ * This was scoped to max-width: 959px on the argument that a desktop has room
  * for both and a wheel over a page scrolling behind an open panel is ordinary.
  * An iPad in LANDSCAPE is 1024 to 1194, so it fell out of the band and got the
  * old sticky strip back — the same bug, reported again, on a device the rule
@@ -1423,7 +1453,7 @@ table.data th[scope="row"] { font-weight: 650; }
    is dead space. This has to live AFTER the rule it resets: the 880px block
    further up the file comes before .foot is even declared, so the shorthand
    `padding` there would simply overwrite a longhand set earlier. */
-@media (min-width: 880px) {
+@media (min-width: 960px) {
   .foot { padding-bottom: 26px; }
 }
 
@@ -2698,7 +2728,7 @@ details.disc .groupkids > details.disc > summary h2 {
   .totop:hover { transform: translateY(-2px); }
 }
 /* Never on a phone: the bottom bar owns that corner, and Emergency is in it. */
-@media (max-width: 879px) { .totop { display: none !important; } }
+@media (max-width: 959px) { .totop { display: none !important; } }
 
 /* A pointer that is a destination rather than a footnote: used where a whole
    page hangs off another page. Bubble, like everything else - no square
@@ -2886,7 +2916,7 @@ html, body { overscroll-behavior-y: none; }
    up the file (later, equal specificity), shrinking desktop tabs to 11.5px and
    truncating the wordmark on a 1440px screen. Scope the fix to where the
    problem is. */
-@media (max-width: 879px) {
+@media (max-width: 959px) {
   /* min(), not clamp(). clamp(MIN, pref, MAX) returns MIN when MIN exceeds
      MAX - and a rem-based min DOES exceed a px max once the root scales, so
      the cap silently inverted. min() cannot do that. */

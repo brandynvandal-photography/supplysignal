@@ -900,13 +900,54 @@ document.addEventListener("click", (e) => {
   const status = document.getElementById("searchstatus");
   let mod = null;
 
+  /* THE PAGE BEHIND SEARCH DOES NOT MOVE.
+   *
+   * The panel became a fixed sheet covering everything below the header, and
+   * the page still scrolled under it — because covering something is not the
+   * same as locking it. A drag beginning on the header, or one that runs off
+   * the end of the results, chains straight to the document.
+   *
+   * overflow: hidden on the root is the usual answer and it does not hold on
+   * iOS Safari, which keeps scrolling the body anyway. What does hold is
+   * taking the body out of flow at a negative offset equal to the current
+   * scroll, then putting it back exactly where it was. The reader sees the
+   * same pixels throughout; the document simply stops being scrollable while
+   * the panel is up. */
+  let lockedAt = 0;
+  const lock = () => {
+    lockedAt = window.scrollY || 0;
+    const b = document.body;
+    b.style.position = "fixed";
+    b.style.top = `-${lockedAt}px`;
+    b.style.left = "0";
+    b.style.right = "0";
+    b.style.width = "100%";
+    document.documentElement.classList.add("search-open");
+  };
+  const unlock = () => {
+    const b = document.body;
+    b.style.position = "";
+    b.style.top = "";
+    b.style.left = "";
+    b.style.right = "";
+    b.style.width = "";
+    document.documentElement.classList.remove("search-open");
+    /* Instant, and before anything else can paint: a smooth restore here reads
+       as the page jumping on its own after the panel closes. */
+    window.scrollTo({ top: lockedAt, left: 0, behavior: "instant" });
+  };
+
   const close = () => {
+    const wasOpen = !panel.hidden;
     panel.hidden = true;
     btn.setAttribute("aria-expanded", "false");
     input.setAttribute("aria-expanded", "false");
     input.value = "";
     clear(results);
     status.textContent = "";
+    /* Guarded: Quick Exit and Escape both call this, and unlocking a body that
+       was never locked would scroll the page to a stale offset. */
+    if (wasOpen) unlock();
   };
 
   /* Quick Exit fires this. The panel clears itself rather than app.js reaching
@@ -914,6 +955,7 @@ document.addEventListener("click", (e) => {
   document.addEventListener(PANIC, close);
 
   const open = async () => {
+    if (panel.hidden) lock();
     panel.hidden = false;
     btn.setAttribute("aria-expanded", "true");
     input.focus();
