@@ -900,10 +900,62 @@ async function detailView(id, subs, combos, { go }) {
   const extraD = [...fromMatrix.dangerous].filter((x) => !seen.has(x.toLowerCase()));
   const extraU = [...fromMatrix.unsafe].filter((x) => !seen.has(x.toLowerCase()));
 
-  /* Merged for display. Named drugs first, then the classes, so the specific
-     thing a reader came looking for is at the front of the list. */
-  const dAll = [...d, ...extraD];
-  const uAll = [...u, ...extraU];
+  /* THE CLASS WINS, AND THE DRUG IT ALREADY COVERS GOES.
+   *
+   * These two sources overlap by design: the per-drug list names individual
+   * drugs, the matrix rates whole classes, and a named drug is very often a
+   * member of a class the matrix has just rated. So alcohol's Dangerous list
+   * read "... GHB, GBL, Opioids, Tramadol ... ghb/gbl" — GHB and GBL are the
+   * ghb/gbl class, Tramadol is an opioid, and the reader is being asked to
+   * notice that twice.
+   *
+   * The class is the one to keep. It says everything the individual entry says
+   * and it covers the things this page does not list by name, which is exactly
+   * what the footnote under these lists promises. Dropping the class instead
+   * would narrow a warning. 50 lists across the file were carrying at least
+   * one of these. */
+  /* DEDUPE ON IDS, LABEL AFTERWARDS. Doing it the other way round is a bug I
+     wrote and then watched: prettyCat turns "ghb/gbl" into "GHB / GBL" and
+     "dextromethorphan" into "DXM (dextromethorphan)", so by the time the
+     comparison ran, the class no longer looked anything like the id a drug's
+     `cats` holds, and GHB, GBL and DXM all survived beside the classes that
+     cover them. Every entry now carries the key it is matched on. */
+  const asEntry = (name) => ({ key: String(name).toLowerCase(), label: name });
+  const asClass = (cat) => ({ key: String(cat).toLowerCase(), label: prettyCat(cat) });
+
+  const dRaw = [...d.map(asEntry), ...extraD.map(asClass)];
+  const uRaw = [...u.map(asEntry), ...extraU.map(asClass)];
+
+  /* Then the classes win. These two sources overlap by design — the per-drug
+     list names individual drugs, the matrix rates whole classes, and a named
+     drug is very often a member of a class the matrix has just rated. Alcohol
+     read "... GHB, GBL, Opioids, Tramadol ... GHB / GBL": GHB and GBL ARE the
+     ghb/gbl class, Tramadol is an opioid, and the reader is being asked to
+     notice the same warning twice.
+
+     Keep the class. It says everything the individual entry says and it covers
+     what this page does not list by name, which is exactly what the footnote
+     under these lists promises. Dropping the class instead would narrow a
+     warning. 50 lists in the file were carrying at least one of these. */
+  const prune = (rows) => {
+    const present = new Set(rows.map((r) => r.key));
+    /* Aliases too. "DXM" is an ALIAS of dextromethorphan, not its name, so a
+       name-only lookup left DXM sitting next to "DXM (dextromethorphan)" —
+       the same substance twice, once as the drug and once as its own class. */
+    const byName = (k) => (combos?.drugs || []).find(
+      (x) => String(x.name || x.id).toLowerCase() === k
+        || (x.aliases || []).some((a) => String(a).toLowerCase() === k));
+    return rows.filter((r, i) => {
+      if (rows.findIndex((y) => y.key === r.key) !== i) return false;   // exact repeat
+      const drug = byName(r.key);
+      /* A drug whose class shares its own name is not a duplicate of itself —
+         Cocaine the drug and cocaine the class are one entry, not two. */
+      return !drug || !(drug.cats || []).some(
+        (c) => c.toLowerCase() !== r.key && present.has(c.toLowerCase()));
+    });
+  };
+  const dAll = prune(dRaw).map((r) => r.label);
+  const uAll = prune(uRaw).map((r) => r.label);
   /* A fresh node each time: the same element cannot sit in two callouts. */
   const classNote = () => h("p", { class: "sec__note" },
     "Some of these are whole drug classes rather than named drugs, so they "

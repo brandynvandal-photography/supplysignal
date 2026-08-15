@@ -1480,17 +1480,33 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
 .plan { margin-bottom: var(--sp-3); }
 .plan__hd { margin: 0 0 var(--sp-2); font-size: .95rem; }
 .plan__steps { list-style: none; margin: 0 0 var(--sp-2); padding: 0; counter-reset: plan; }
-/* nowrap, so the bar cannot orphan.
-   "expect yellow-green-brown-black" runs past one line on a phone, and with
-   the row wrapping, the swatch bar dropped below the text and sat alone
-   against the right edge — furthest from the words it belongs to. The step
-   text wraps inside its own box now and the bar holds the right-hand column
-   at every width. */
+/* A GRID, so nothing gets squeezed and nothing orphans.
+ *
+ * This was a nowrap flex row of four things — reagent, "expect ...", the read
+ * window, and the colour bar — and three of them refuse to shrink. On a phone
+ * that left the words about 90px to live in and they came out crammed one per
+ * line. Reported on iOS. Before that it wrapped, and then the bar dropped onto
+ * a line of its own against the right edge, furthest from the words it belongs
+ * to. Neither arrangement works as one row.
+ *
+ * So it is two rows on a phone and one on anything wider. The reagent and its
+ * expected colours read as a sentence on the first line; the timing and the
+ * bar sit together underneath, which is also the pairing that makes sense —
+ * they are both things you hold the spot plate against. */
 .plan__step {
-  display: flex; align-items: baseline; gap: 9px; flex-wrap: nowrap;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 9px;
   padding: 7px 0 7px 26px; position: relative; font-size: .93rem;
   counter-increment: plan;
 }
+.plan__reagent { flex: none; }
+/* Takes the rest of the line where there is a rest of the line, and drops to
+   a line of its own when there is not — which on a phone is the readable
+   outcome, because these are sentences. A grid was tried first and put the
+   read window in the same column as the reagent name, so the wider of the two
+   set the column and the words were left about 110px to live in. */
+.plan__says { flex: 1 1 10rem; min-width: 0; }
+.plan__read { flex: none; }
+.plan__step > .reagbar { flex: none; align-self: center; margin-left: auto; }
 .plan__says { min-width: 0; }
 .plan__step + .plan__step { border-top: 1px solid var(--glass-line); }
 .plan__step::before {
@@ -2542,6 +2558,18 @@ details.disc[open] { margin-bottom: var(--sp-3); }
   border-radius: 999px; overflow: hidden;
   border: 1px solid var(--glass-line);
   flex: none;
+  /* iOS Safari does not clip to a rounded corner when the children are
+     composited, and the bands here are: each one after the first carries a
+     -webkit-mask-image to blend into its neighbour, which promotes it to its
+     own layer and lets it paint straight over the border. Reported on device —
+     the colour ran past the pill's edge.
+
+     Giving the PARENT a mask of its own forces WebKit to rasterise the rounded
+     clip and apply it to the layer, which `overflow: hidden` alone does not do
+     there. isolation keeps the promoted children inside this stacking context
+     so the same thing cannot happen through a different route. */
+  -webkit-mask-image: -webkit-radial-gradient(#fff, #000);
+  isolation: isolate;
 }
 .reagbar > span { flex: 1 1 0; min-width: 0; }
 /* A single-colour result is one full band, which is exactly right. */
@@ -2554,8 +2582,9 @@ details.disc[open] { margin-bottom: var(--sp-3); }
  * file wins, and this sat 1000 lines above .reagbar doing nothing at all. */
 .reagbar--inline {
   width: auto; max-width: 96px; min-width: 52px; height: 11px;
-  margin-left: auto; align-self: center;
+  align-self: center;
 }
+
 .soldline .reagbar--inline {
   display: inline-flex; margin: 0 0 0 7px; vertical-align: middle;
 }
