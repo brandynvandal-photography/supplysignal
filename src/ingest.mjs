@@ -387,7 +387,18 @@ async function main() {
         lastScan: new Date().toISOString(),
         sourcesChecked: sources.feeds.filter((f) => f.enabled).length + 1,
         sourcesFailed: [...new Set(stats.sourcesFailed)],
-        countiesScanned: scoped.length,
+        /* REACHED, not intended. `scoped` is the counties this run set out to
+           poll; `reached` is the ones it actually got to. They diverge exactly
+           when it matters — google-news rate-limiting hits the `break` above,
+           so a run can intend 200 and reach 3.
+
+           On 2026-08-12 that is what happened, and alerts.json shipped
+           "countiesScanned: 22" while no county file was written at all: all
+           22 still carry a lastScan two days earlier. The app prints this
+           number to the reader beside a zero, as the evidence that the zero
+           means "nothing found" rather than "nothing looked at". It is the one
+           number here that must never be optimistic. */
+        countiesScanned: reached.size,
       },
     });
     stats.bundle = bundle;
