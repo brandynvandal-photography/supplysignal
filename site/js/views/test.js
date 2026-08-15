@@ -562,7 +562,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
   const rest = withData.filter((id) => !common.includes(id)).sort(byName);
 
   const soldAs = h("select", { class: "input", "aria-label": "Which substance to test for" },
-    h("option", { value: "" }, "not sure or groundscore"),
+    h("option", { value: "" }, "Not sure or groundscore"),
     common.length
       ? h("optgroup", { label: "Most often tested" },
           common.map((id) => h("option", { value: id }, nameOf(id))))
@@ -1307,7 +1307,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
        sat under the empty picker, which is below the thing it is instructions
        for — a reader following it had already had to guess. */
     h("p", { class: "sec__note" },
-      "No idea what it is? Leave it on ", h("em", null, "not sure"),
+      "No idea what it is? Leave it on ", h("em", null, "Not sure"),
       " and start with Marquis. What it does decides which reagent comes next, "
       + "and that one gets loaded for you."),
     /* No fentanyl callout here. It used to sit in this tool AND inside
