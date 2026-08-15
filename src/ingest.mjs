@@ -286,26 +286,58 @@ async function main() {
   }
 
   /* ---- Geotag ---- */
+  /* A STATEWIDE ADVISORY IS NOT AN UNGEOTAGGED ONE, and treating it as one is
+   * why this pipeline published nothing.
+   *
+   * 23 of the 25 enabled feeds are state health departments, and they are the
+   * only sources whose items clear the evidence floors. A statewide advisory
+   * names no county — that is what makes it statewide — so geotag returns
+   * { fips: null, state, method: "state_only" }, and this line used to throw
+   * it away. The best source tier in the app was structurally incapable of
+   * ever reaching a reader. A live replay of the real pipeline: 407 items in,
+   * one reached the publish band, and that one died here.
+   *
+   * So state-scoped items are kept and published as what they are. They are
+   * NOT fanned out across every county in the state: that would assert a
+   * county-level claim the department never made, and the sourced-or-absent
+   * rule forbids inventing precision. They cluster per state, they ride in
+   * the same national bundle every other alert does — so county selection
+   * still never leaves the device — and the county view labels them
+   * statewide and sorts them under anything local. */
   const located = [];
+  const statewide = [];
   for (const item of publishable) {
     const g = geotag(item, item.hintFips, item.hintState);
-    if (!g || !g.fips) { drop(g ? "state_only" : "ungeotagged"); continue; }
-    located.push({
+    if (!g) { drop("ungeotagged"); continue; }
+    const dated = {
       ...item,
-      fips: g.fips,
-      state: g.state,
       eventDate: item.eventDate || item.publishedAt.slice(0, 10),
-    });
+    };
+    if (g.fips) {
+      located.push({ ...dated, fips: g.fips, state: g.state });
+    } else if (g.state) {
+      statewide.push({ ...dated, fips: null, state: g.state, scope: "state" });
+    } else {
+      /* Neither a county nor a state. Nothing to attach it to. */
+      drop("ungeotagged");
+    }
   }
 
   /* ---- Cluster + write ---- */
   const clusters = cluster(located, settings);
+  /* Clustered separately and keyed by state, so two departments issuing the
+     same warning collapse to one and a statewide item never merges with a
+     county one. `cluster` groups on fips; these carry fips null, so they are
+     given the state as their key for the duration and it is put back after. */
+  const stateClusters = cluster(
+    statewide.map((i) => ({ ...i, fips: `state:${i.state}` })), settings
+  ).map((c) => ({ ...c, fips: null, scope: "state", state: String(c.fips).slice(6) }));
 
   /* The cluster-level evidence gate: severity capped at the strongest member's
      ceiling, and a critical claim needs a measurement, an institution, or two
      INDEPENDENT publishers - twenty outlets running one wire story is one
      source. dedupe strips members, so classes ride on the cluster. */
-  for (const c of clusters) {
+  for (const c of [...clusters, ...stateClusters]) {
     const a = admit(c);
     if (a.severity !== c.severity) {
       stats.evidenceDemoted = (stats.evidenceDemoted || 0) + 1;
@@ -371,7 +403,8 @@ async function main() {
     };
   }
 
-  stats.published = clusters.length;
+  stats.published = clusters.length + stateClusters.length;
+  stats.publishedStatewide = stateClusters.length;
   stats.reviewed = review.length;
   stats.finished = new Date().toISOString();
   stats.newClusters = totalNew;
@@ -382,6 +415,7 @@ async function main() {
     // The bundle the site reads. Written after the per-county files so it
     // reflects this run, including counties untouched by it.
     const bundle = await writeAlertsBundle(ROOT, {
+      statewide: stateClusters,
       windowDays: settings.recency.windowDays,
       coverage: {
         lastScan: new Date().toISOString(),

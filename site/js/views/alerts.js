@@ -368,9 +368,10 @@ async function countyView({ fips, days }, { go, data }) {
         }, w.label)))
   );
 
-  const [mine, near] = await Promise.all([
+  const [mine, near, statewide] = await Promise.all([
     data.alertsFor(fips, win),
     data.alertsNearby(fips, win),
+    data.alertsStatewide(c.state, win),
   ]);
 
   /* ---- what changed since last time ---- */
@@ -384,6 +385,23 @@ async function countyView({ fips, days }, { go, data }) {
         ? frag(mine.map((k) => card(k)))
         : notHere(c, near.length, win, await data.wasScanned(fips)))
   );
+
+  /* ---- statewide ----
+     UNDER the county block, always, and labelled. A health department warning
+     for the whole state is real information for somebody in it — and 23 of the
+     app's 25 feeds are state departments, so for most of the country it is the
+     only information there is. But it is not a claim about THIS county, and
+     the section says so rather than letting proximity imply it. Anything local
+     outranks it, which is why it sits here rather than above. */
+  if (statewide.length) {
+    wrap.appendChild(
+      section(`Statewide in ${c.state}`,
+        `${statewide.length} in the last ${labelFor(win)}`,
+        h("p", { class: "sec__note" },
+          "Issued for the whole state, not for " + c.name + " specifically."),
+        frag(statewide.map((k) => card(k))))
+    );
+  }
 
   /* ---- bordering counties ---- */
   const nbrs = await data.neighbors(fips);

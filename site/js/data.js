@@ -363,6 +363,28 @@ export async function alertsFor(fips, days = 90) {
 }
 
 /**
+ * Statewide advisories for a state, newest and most severe first.
+ *
+ * These name no county — that is what makes them statewide — so they are not
+ * in alertsByFips and a county page has to ask for them separately. They come
+ * out of the same bundle every screen already loads, so this costs no request
+ * and reveals nothing about which county was chosen.
+ *
+ * @param {string} state  two-letter code, as carried on the cluster
+ */
+export async function alertsStatewide(state, days = 90) {
+  const a = await alerts();
+  const cutoff = Date.now() - days * 864e5;
+  return (a.clusters || [])
+    .filter((c) => c.scope === "state" && c.state === state)
+    .filter((c) => Date.parse(c.eventDate) >= cutoff)
+    .sort(
+      (x, y) =>
+        rank[x.severity] - rank[y.severity] || String(y.eventDate).localeCompare(x.eventDate)
+    );
+}
+
+/**
  * Every alert in the country inside `days`, newest and most severe first.
  *
  * Costs nothing beyond the bundle every screen already loads. That is not an
@@ -375,6 +397,10 @@ export async function alertsAll(days = 90) {
   const a = await alerts();
   const cutoff = Date.now() - days * 864e5;
   return (a.clusters || [])
+    /* County-scoped only. A statewide advisory has no county to name, and
+       listing it here would put it in "what's showing up near you" for every
+       reader in the country. alertsStatewide() serves it where it belongs. */
+    .filter((c) => c.scope !== "state")
     .filter((c) => Date.parse(c.eventDate) >= cutoff)
     .map((c) => (c.n ? { ...c, _county: { name: c.n, state: c.s, fips: c.fips } } : c))
     .sort(

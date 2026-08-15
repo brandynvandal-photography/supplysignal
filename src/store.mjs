@@ -136,12 +136,21 @@ ${items}
  * logging off. Shipping one identical bundle to everyone means the log shows
  * only that somebody opened the site. See PRIVACY.md §1.
  */
-export async function writeAlertsBundle(root, { windowDays, coverage }) {
+export async function writeAlertsBundle(root, { windowDays, coverage, statewide = [] }) {
   const dir = path.join(root, "data", "counties");
   if (!existsSync(dir)) return { clusters: 0, bytes: 0 };
 
   const cutoff = Date.now() - windowDays * 86400000;
   const clusters = [];
+
+  /* Statewide advisories ride in the same bundle rather than in files of their
+     own. There is no per-state page to read them, and a county page needs the
+     ones for ITS state — which the client can only filter locally if they are
+     already on the device. Same bundle, same privacy model: nothing about
+     which county somebody picked ever leaves. */
+  for (const c of statewide) {
+    if (Date.parse(c.eventDate) >= cutoff) clusters.push({ ...c, scope: "state" });
+  }
 
   for (const file of await readdir(dir)) {
     if (!file.endsWith(".json")) continue;
