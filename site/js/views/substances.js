@@ -861,32 +861,39 @@ async function detailView(id, subs, combos, { go }) {
   const extraD = [...fromMatrix.dangerous].filter((x) => !seen.has(x.toLowerCase()));
   const extraU = [...fromMatrix.unsafe].filter((x) => !seen.has(x.toLowerCase()));
 
-  const anything = d.length || u.length || extraD.length || extraU.length ||
-                   s.interactions.uncertain.length;
+  /* Merged for display. Named drugs first, then the classes, so the specific
+     thing a reader came looking for is at the front of the list. */
+  const dAll = [...d, ...extraD];
+  const uAll = [...u, ...extraU];
+  /* A fresh node each time: the same element cannot sit in two callouts. */
+  const classNote = () => h("p", { class: "sec__note" },
+    "Some of these are whole drug classes rather than named drugs, so they "
+    + "cover things this page does not list individually.");
+
+  const anything = dAll.length || uAll.length || s.interactions.uncertain.length;
 
   wrap.appendChild(
     /* "Dangerous to mix with", not "Do not mix with". The heading names what
        the section contains rather than issuing an instruction - the reader
        decides what to do with it. Same rule as the autonomy pass. */
     section("Dangerous to mix with", null,
-      d.length
+      /* ONE Dangerous and ONE Unsafe, not four callouts.
+       *
+       * The per-drug lists name individual drugs and the matrix rates whole
+       * classes, and the page used to split them into "Dangerous" and
+       * "Dangerous, by drug class" - which asks the reader to hold a
+       * distinction about OUR data model while looking at a list of things
+       * that can kill them. The verdict is the same either way; where it came
+       * from is a footnote, and it now reads as one. */
+      dAll.length
         ? callout("stop", "Dangerous",
-            h("div", { class: "tags" }, d.map((x) => h("span", { class: "tag tag--danger" }, x))))
+            h("div", { class: "tags" }, dAll.map((x) => h("span", { class: "tag tag--danger" }, x))),
+            extraD.length ? classNote() : null)
         : null,
-      u.length
+      uAll.length
         ? callout("warn", "Unsafe",
-            h("div", { class: "tags" }, u.map((x) => h("span", { class: "tag" }, x))))
-        : null,
-      extraD.length
-        ? callout("stop", "Dangerous, by drug class",
-            h("p", { class: "sec__note" },
-              "Rated against whole classes rather than named drugs, so it covers "
-              + "things this page does not list individually."),
-            h("div", { class: "tags" }, extraD.map((x) => h("span", { class: "tag tag--danger" }, x))))
-        : null,
-      extraU.length
-        ? callout("warn", "Unsafe, by drug class",
-            h("div", { class: "tags" }, extraU.map((x) => h("span", { class: "tag" }, x))))
+            h("div", { class: "tags" }, uAll.map((x) => h("span", { class: "tag" }, x))),
+            extraU.length ? classNote() : null)
         : null,
       s.interactions.uncertain.length
         ? h("p", { class: "sec__note" }, `Uncertain: ${s.interactions.uncertain.join(", ")}`)
