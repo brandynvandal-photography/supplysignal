@@ -2697,6 +2697,32 @@ details.disc .groupkids > details.disc > summary {
 }
 /* The parent bubble already supplies the inset; children add none. */
 details.disc .groupkids > details.disc > .disc__body { padding: 0 0 var(--sp-3); }
+
+/* AN OPEN CHILD IS A PANEL, not more of the row above it.
+ *
+ * Children of a group are flush rows divided by a hairline, which is right
+ * while they are all shut. Open one and its whole body inherits that flatness:
+ * "What could this be?" is open by default and its controls, callout and
+ * results ran on from the collapsed "How to run a reagent test" row above with
+ * one hairline between them, so the tool read as the tail of the section above
+ * rather than as its own thing.
+ *
+ * Open children get their own surface and real space above and below. The
+ * hairline between two SHUT rows is untouched — it is only removed where a
+ * panel edge already does that job, or the two would double up. */
+details.disc .groupkids > details.disc[open] {
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius);
+  margin: var(--sp-3) 0;
+  padding: 0 var(--sp-3);
+}
+details.disc .groupkids > details.disc[open]:first-child { margin-top: 0; }
+details.disc .groupkids > details.disc[open]:last-child { margin-bottom: 0; }
+/* No hairline where a panel edge is already the divider. */
+details.disc .groupkids > details.disc[open] + details.disc,
+details.disc .groupkids > details.disc[open] { border-top-width: 1px; }
+details.disc .groupkids > details.disc:not([open]) + details.disc[open] { border-top-width: 1px; }
 /* A nested heading is a row label, not a page heading. */
 details.disc .groupkids > details.disc > summary h2 {
   font-size: 1.02rem;
