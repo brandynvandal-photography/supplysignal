@@ -91,10 +91,8 @@ export async function render() {
   wrap.appendChild(
     h("div", { id: "sec-interactions" },
       section(g.interactions.headline, null,
-        callout("stop", "These are the ones that land people in the hospital",
-          h("p", null,
-            "Not a general warning about mixing. Three specific combinations, "
-            + "each with a documented mechanism.")),
+        callout("stop", "Specific combinations, not a general warning about mixing",
+          h("p", null, "Each one has a documented mechanism.")),
         frag(g.interactions.items.map(item)))));
 
   /* "Long nights and hot days" moved to Learn, and its two halves went
@@ -109,9 +107,8 @@ export async function render() {
     h("a", { class: "bigptr", href: "#/heat" },
       h("span", { class: "bigptr__hd" }, "Heat, and water"),
       h("span", { class: "bigptr__sub" },
-        "The long version: spotting heat stroke when they are still sweating, "
-        + "cooling somebody down with what is in the room, and how much water is "
-        + "too much.")));
+        "Spotting heat stroke when they are still sweating, cooling somebody "
+        + "down with what is in the room, and how much water is too much.")));
 
   wrap.appendChild(
     h("p", { class: "sec__note" },

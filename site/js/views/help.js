@@ -187,8 +187,8 @@ export async function render() {
         h("p", null,
           "Xylazine (“tranq”) is not an opioid, so naloxone will not lift its sedation. " +
           "Give naloxone anyway — it reverses the fentanyl, and that is what stops " +
-          "breathing. Watch their breathing rather than whether they wake up: if " +
-          "breathing improves, the naloxone did its job even if they stay drowsy."),
+          "breathing. Judge it by their breathing, not whether they wake up: if " +
+          "breathing improves, it worked even if they stay drowsy."),
         /* Regional prevalence used to sit here, inside the always-open overdose
            response section. Nobody doing rescue breathing needs epidemiology; it
            diluted the one instruction that matters. It lives on the xylazine
@@ -253,15 +253,13 @@ export async function render() {
         h("div", { class: "card" },
           h("h3", null, "What you genuinely cannot tell apart"),
           h("p", null,
-            "Saying this plainly is more useful than a list of symptoms, "
-            + "because these pairs are not separable without a hospital and "
-            + "the safe move is the same either way."),
+            "These pairs are not separable without a hospital, and the safe "
+            + "move is the same either way."),
           h("ul", null,
             h("li", null,
               h("strong", null, "GHB and an opioid overdose. "),
               "Identical in the first ten minutes — deep unresponsiveness, "
-              + "snoring, slow breathing, vomiting. The signs that tell them "
-              + "apart only show up afterwards. Treat it as an opioid."),
+              + "snoring, slow breathing, vomiting. Treat it as an opioid."),
             h("li", null,
               h("strong", null, "A k-hole and a mixed-depressant overdose. "),
               "Both unresponsive, both possibly with the eyes open, and "
@@ -361,9 +359,8 @@ export async function render() {
             + "and then 911 is the whole answer."),
           h("p", { class: "sec__note" },
             "Note where you are before you call — the nearest numbered pole, "
-            + "stage, bar or vendor. Some festivals number their light poles "
-            + "for exactly this. It is the difference between help arriving and "
-            + "help searching.")),
+            + "stage, bar or vendor. It is the difference between help arriving "
+            + "and help searching.")),
         h("div", { class: "card" },
           h("h3", null, "Tell the event's medics what they took"),
           h("p", null,
@@ -425,7 +422,7 @@ export async function render() {
     h("div", { id: "sec-club" },
       section("At a club or a bar", null,
         h("div", { class: "card" },
-          h("h3", null, "Security is not a medic, and that changes the first move"),
+          h("h3", null, "Security is not a medic"),
           h("p", null,
             "There is no medical tent. Door and floor staff are trained to "
             + "remove a problem from the room, and somebody unconscious can be "
@@ -483,8 +480,7 @@ export async function render() {
           li("Medical conditions, if you know them.", "Heart problems, diabetes, seizures, pregnancy."),
           li("What you already did.", "How many naloxone doses, when, and whether breathing changed.")),
         h("p", { class: "sec__note" },
-          "Paramedics are not police, and treating them as safe to talk to is how " +
-          "the person on the floor gets the right treatment.")))
+          "Paramedics are not police. Telling them is what gets the right treatment.")))
   );
 
   /* ---- Good Samaritan ----
@@ -503,10 +499,10 @@ export async function render() {
         h("h3", null, "What they usually do not cover"),
         h("ul", null,
           li("Selling, sharing, or “possession with intent”.", "In many states, splitting drugs with someone can be charged as distribution."),
-          li("Existing warrants.", "A Good Samaritan law does not stop an arrest on a warrant that already existed."),
-          li("Probation and parole violations.", "Only some states protect these. If you are under supervision, this is the detail that matters most, and you should check your own state."),
+          li("Existing warrants.", "You can still be arrested on a warrant that already existed."),
+          li("Probation and parole violations.", "Only some states protect these. If you are under supervision, check your own state’s law."),
           li("Anything else found at the scene.", "Weapons, other offenses, or a drug-induced homicide charge in states that have one."),
-          li("In some states, immunity is not what you get.", "Some laws only give you a defense to raise in court after being charged, which is not the same as not being charged.")),
+          li("In some states, immunity is not what you get.", "Some laws only give you a defense to raise in court after being charged.")),
         callout("info", "None of this is a reason not to call",
           h("p", null,
             "It is a reason to know the specifics where you live. Someone dies from an " +
@@ -531,8 +527,7 @@ export async function render() {
     disclosure("sec-police", "If police come while you are helping", null,
       callout("warn", "Care first. None of this is worth pausing for",
         h("p", null,
-          "Keep doing what you are doing — rescue breaths, naloxone, staying with them. " +
-          "Everything below is something you can do without stopping.")),
+          "Keep doing what you are doing — rescue breaths, naloxone, staying with them.")),
 
       h("div", { class: "card" },
         h("h3", null, "What you can do"),
@@ -540,7 +535,7 @@ export async function render() {
           li("You do not have to answer questions.",
             "You can stay silent about what was taken, who brought it, or where it came from — that right holds even after an arrest. Saying nothing cannot be used against you the way an answer can."),
           li("Tell the medics, not the police.",
-            "What was taken, how much, and when is medical information that changes treatment. Paramedics need it. That is a different conversation from an officer’s questions."),
+            "What was taken, how much, and when is medical information that changes treatment. That is a different conversation from an officer’s questions."),
           li("You can decline a search out loud.",
             "Say plainly: “I do not consent to a search.” They may search anyway — never physically resist — but saying it preserves the question for a court later. Staying silent is not the same as agreeing."),
           li("Ask whether you are free to go.",
@@ -548,18 +543,18 @@ export async function render() {
           li("Do not run, and do not destroy anything.",
             "Both create new charges that no Good Samaritan law covers, and running from the scene leaves the person you called for."),
           li("Write it down afterward.",
-            "Badge numbers, patrol car numbers, the agency, what was said, and who else was there. Do it as soon as you are somewhere safe, while it is fresh.")),
+            "Badge numbers, patrol car numbers, the agency, what was said, and who else was there. Do it as soon as you are somewhere safe.")),
 
         h("h3", null, "If you are on probation or parole"),
         h("p", null,
-          "This is the situation where the details of your state matter most, and where " +
-          "the answers are least uniform. Only some states protect supervision violations. " +
-          "Worth knowing before a night when you have to decide — not during it."),
+          "Only some states protect supervision violations, and this is where the answers " +
+          "are least uniform. Worth knowing before a night when you have to decide — " +
+          "not during it."),
 
         callout("info", "Calling is still the right call",
           h("p", null,
-            "Knowing how to handle the encounter is not a reason to hesitate at the " +
-            "start of one. The minutes before help arrives are minutes without oxygen, and that is where the damage happens.")),
+            "The minutes before help arrives are minutes without oxygen, and that is " +
+            "where the damage happens.")),
 
         h("div", { class: "sources" },
           extLink("https://www.aclu.org/know-your-rights/stopped-by-police",

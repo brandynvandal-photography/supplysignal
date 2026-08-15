@@ -43,7 +43,7 @@ export async function render(route, { go }) {
         "reduction basics next to it."),
       h("p", null,
         "No account, no tracking, no ads, nothing to buy. It works offline once " +
-        "loaded, and it is built to be useful at 3am on a bad phone."))
+        "loaded."))
   );
 
 
@@ -65,13 +65,13 @@ export async function render(route, { go }) {
       h("div", { class: "card" },
         h("ul", null,
           li("Alerts: every three hours.",
-            "An automated job reads health-department and local-news feeds, groups what it finds by county, and publishes. Most runs it finds nothing, which is normal."),
+            "An automated job reads health-department and local-news feeds. Most runs it finds nothing, which is normal."),
           li("Overdose data: monthly.",
             "CDC provisional counts, which lag reality by several months and are revised."),
           li("Substance reference: weekly.",
             "Doses, durations, interactions and reagent reactions are rebuilt from their upstream sources."),
           li("Hand-checked directories: manually, and dated.",
-            "Programs and phone numbers are verified by a person and stamped with the date. An automated check flags dead links nightly, but a link that still loads can still be out of date.")),
+            "Programs and phone numbers are verified by a person. An automated check flags dead links nightly, but a link that still loads can still be out of date.")),
         h("p", { class: "sec__note" },
           "Every published item carries its own date. If something looks stale, it probably is — " +
           "reporting on a local drug supply is patchy everywhere in the country.")))
@@ -86,11 +86,11 @@ export async function render(route, { go }) {
       h("div", { class: "card" },
         h("p", null,
           "Please say so. A wrong number, a closed program, a claim that does not match " +
-          "what you see locally — those matter more than anything else on this page."),
+          "what you see locally."),
         h("p", null,
           "Clinical claims here are meant to carry a source you can check. If one does not, " +
           "or the source does not say what we claim it says, that is a defect."),
-        callout("warn", "One thing to know before you write",
+        callout("warn", "Before you write",
           h("p", null,
             "Anything you send is outside this app and its privacy promises. Do not include " +
             "details about your own use, your location, or anyone else’s. A report can be " +
@@ -101,8 +101,7 @@ export async function render(route, { go }) {
   wrap.appendChild(
     section("Built on other people’s work", null,
       h("p", { class: "sec__note" },
-        "This app aggregates and formats; it does not generate primary data. The " +
-        "organizations below do the actual work, most of them on very little money."),
+        "The organizations below do the actual work, most of them on very little money."),
       h("div", { class: "chips" },
         extLink("https://harmreduction.org/", "National Harm Reduction Coalition", "btn btn--ghost btn--sm"),
         extLink("https://dancesafe.org/", "DanceSafe", "btn btn--ghost btn--sm"),
@@ -129,16 +128,15 @@ function aboutBlock2() {
         "the CDC, local news, and forensic drug-checking labs — and reorganizes what " +
         "they publish by county, alongside every county that borders it."),
       h("p", null,
-        "Bordering counties are not a secondary feature. A supply does not stop at a " +
-        "county line; it moves with the roads and the people using them, so a warning " +
-        "one county over is often the more useful one."),
+        "A supply does not stop at a county line, so a warning one county over is " +
+        "often the more useful one."),
 
       h("h3", null, "What it is not"),
       h("ul", null,
-        li("Not medical advice.", "It is a reference. It cannot examine anyone, and it does not know your situation."),
+        li("Not medical advice.", "It cannot examine anyone, and it does not know your situation."),
         li("Not a safety check.", "Nothing here verifies a drug or clears it. No test, and no absence of alerts, makes anything safe."),
         li("Not a complete picture.", "Most changes in a local drug supply are never publicly announced. An empty county page means nobody published — not that nothing is happening."),
-        li("Not a treatment service.", "It points at services run by other people. It does not provide care, and it never requires you to want treatment to be useful.")),
+        li("Not a treatment service.", "It points at services other people run; it does not provide care.")),
 
       h("h3", null, "Who it is for"),
       h("p", null,

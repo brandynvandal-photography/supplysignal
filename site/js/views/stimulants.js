@@ -98,18 +98,16 @@ export async function render() {
     h("a", { class: "bigptr", href: "#/heat" },
       h("span", { class: "bigptr__hd" }, "Heat, and water"),
       h("span", { class: "bigptr__sub" },
-        "Overheating is the thing most likely to turn this into an emergency, and the fastest to do it. "
-        + "How to tell when hot has become dangerous, how to cool them down with "
-        + "what is in the room, and why giving them water to drink can be the "
-        + "wrong move.")));
+        "Overheating is the most likely way this becomes an emergency, and the "
+        + "fastest. Spotting it, cooling them down with what is in the room, and "
+        + "why giving them water to drink can be the wrong move.")));
 
   wrap.appendChild(block("sec-calling", g.calling));
   wrap.appendChild(block("sec-coming", g.coming));
 
   wrap.appendChild(
     h("p", { class: "sec__note" },
-      `Checked ${g.verified}. Where the evidence is thin or contested, this page ` +
-      "says so rather than picking a side."));
+      `Checked ${g.verified}. Where the evidence is thin or contested, this page says so.`));
 
   const foot = SRC.render();
   if (foot) wrap.appendChild(foot);

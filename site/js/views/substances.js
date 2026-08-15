@@ -99,9 +99,8 @@ async function indexView(subs, combosP, { go }) {
 
   wrap.appendChild(
     h("p", { class: "sec__note" },
-      "What something is, what it does, how long it lasts, and which combinations " +
-      "carry the most risk — plus what a reagent can and cannot tell you about " +
-      "it. Search by name, or browse by class."));
+      "What something is, what it does, how long it lasts, which combinations " +
+      "carry the most risk, and what a reagent can and cannot tell you."));
 
   /* ---- search ---- */
   const input = h("input", {
@@ -145,7 +144,7 @@ async function indexView(subs, combosP, { go }) {
 
     if (!hits.length) {
       list.appendChild(empty("No match.",
-        "Try another name, or browse by class. Not every drug has published dose data."));
+        "Try another name, or browse by class."));
       return;
     }
     for (const s of hits) list.appendChild(row(s, go));
@@ -447,7 +446,7 @@ function classView(slug, subs, { go }) {
   const info = classInfo(slug);
   if (!info) {
     return empty("That isn’t a class we list.",
-      "Go back to Substances to browse the classes.");
+      "Go back to Drugs to browse the classes.");
   }
 
   const { groups } = groupAll(subs.substances);
@@ -484,7 +483,7 @@ function classView(slug, subs, { go }) {
     clear(list);
     if (!hits.length) {
       list.appendChild(empty("No match in this class.",
-        "Clear the filter, or search from the Substances screen to look across all classes."));
+        "Clear the filter, or search the Drugs screen to look across all classes."));
       return;
     }
     for (const s of hits) list.appendChild(row(s, go));
@@ -499,7 +498,7 @@ function classView(slug, subs, { go }) {
      implying these boxes are exclusive. */
   wrap.appendChild(
     h("p", { class: "sec__note" },
-      "Some drugs belong to more than one class and appear in each. " +
+      "Some drugs belong to more than one class. " +
       "Effects vary by person, dose, and what a drug is actually mixed with.")
   );
 
@@ -597,9 +596,9 @@ function mixChecker(combos, yours) {
     if (picked.length > unique.length) {
       out.appendChild(callout("warn", "Same category chosen twice",
         h("p", null,
-          "Taking more of the same thing raises the dose. Redosing before the " +
-          "first amount has fully come up is a common way people take far more " +
-          "than they meant to.")));
+          "Taking more raises the dose. Redosing before the first amount has " +
+          "fully come up is a common way people take far more than they meant " +
+          "to.")));
     }
     if (unique.length < 2) return;
 
@@ -646,8 +645,8 @@ function mixChecker(combos, yours) {
         callout("stop", `${deps.length} of these slow your breathing`,
           h("p", null,
             deps.map(prettyCat).join(", ") + " all suppress breathing, and the " +
-            "effects stack. Taken together they are more dangerous than any pair " +
-            "above shows, because the pair view can only compare two at a time."),
+            "effects stack. Together they are more dangerous than any pair above " +
+            "shows — the pair view only rates two at a time."),
           h("p", null,
             "Naloxone reverses the opioid. It does nothing for alcohol, " +
             "benzodiazepines, GHB or pregabalin — so breathing can stay " +
@@ -809,7 +808,7 @@ async function detailView(id, subs, combos, { go }) {
               "2D structure from ",
               extLink(`https://pubchem.ncbi.nlm.nih.gov/compound/${packed.cid}`,
                       `PubChem CID ${packed.cid}`),
-              ". Hydrogens on carbon are not drawn, as a skeletal formula omits them.")));
+              ". Hydrogens on carbon are not drawn.")));
       }
     }
   }
@@ -849,8 +848,7 @@ async function detailView(id, subs, combos, { go }) {
       h("div", { class: "leadin leadin--none" },
         h("p", null,
           "We don’t have a plain description of this one yet. Nobody has published a " +
-          "checked one, and we would rather leave a gap than write something that " +
-          "sounds confident and turns out to be wrong."),
+          "checked one, and we won’t guess."),
         h("p", { class: "sec__note" },
           "The dose, duration and interaction data below comes from PsychonautWiki " +
           "and TripSit and is sourced at the foot of the page."))
@@ -964,8 +962,8 @@ async function detailView(id, subs, combos, { go }) {
   const uAll = prune(uRaw).map((r) => r.label);
   /* A fresh node each time: the same element cannot sit in two callouts. */
   const classNote = () => h("p", { class: "sec__note" },
-    "Some of these are whole drug classes rather than named drugs, so they "
-    + "cover things this page does not list individually.");
+    "Some of these are whole drug classes, so they cover things this page "
+    + "does not name individually.");
 
   const anything = dAll.length || uAll.length || s.interactions.uncertain.length;
 
@@ -1003,8 +1001,7 @@ async function detailView(id, subs, combos, { go }) {
         : callout("warn", "We have no interaction data for this one",
             h("p", null,
               "That is a gap in what has been published, not a finding that it "
-              + "mixes safely. Anything combined with it is an unknown, and the "
-              + "combination checker will say the same rather than guess."))));
+              + "mixes safely. Anything combined with it is an unknown."))));
 
   /* ---- FDA boxed warning, where it applies ---- */
   const isOpioid = cls.some((c) => /opioid/i.test(c));
@@ -1410,9 +1407,8 @@ async function conditionLens() {
     h("summary", null, h("h2", null, "Health conditions")),
     h("div", { class: "disc__body" },
       h("p", { class: "sec__note" },
-        "Pick anything that applies and the cautions that are actually sourced appear. " +
-        "Nothing you select here is saved — not on this device, not anywhere. " +
-        "Close the tab and it’s gone."),
+        "Pick anything that applies. Nothing you select here is saved — not on " +
+        "this device, not anywhere."),
       chips,
       body));
 }

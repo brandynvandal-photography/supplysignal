@@ -4,10 +4,12 @@
   "state": "AL",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-10T04:05:59.907Z",
+    "lastScan": "2026-08-10T14:46:31.028Z",
     "windowDays": 365,
-    "sourcesChecked": 3,
-    "sourcesFailed": [],
+    "sourcesChecked": 25,
+    "sourcesFailed": [
+      "la-ldh"
+    ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
   },

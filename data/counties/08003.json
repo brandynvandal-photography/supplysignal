@@ -4,9 +4,9 @@
   "state": "CO",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-12T22:54:51.567Z",
+    "lastScan": "2026-08-15T20:30:53.268Z",
     "windowDays": 365,
-    "sourcesChecked": 27,
+    "sourcesChecked": 26,
     "sourcesFailed": [
       "la-ldh"
     ],

@@ -56,9 +56,7 @@ export async function render(route, { go }) {
         " — from Canada’s drug-testing lab and from a US forensic science center. " +
         "None of it says whether any of these drugs are in your county."),
       h("p", null,
-        "New adulterants tend to show up in lab testing somewhere before they are " +
-        "reported everywhere. This page exists so a drug is not new to you the " +
-        "first time it reaches you."))
+        "This page exists so a drug is not new to you the first time it reaches you."))
   );
 
   /* ---- US alerts ---- */
@@ -126,10 +124,8 @@ export async function render(route, { go }) {
     wrap.appendChild(
       section("Wider than North America", null,
         h("p", { class: "sec__note" },
-          "Supply routes start in producer countries, but early warning comes from " +
-          "wherever drugs are used and tested. These systems watch other continents; " +
-          "neither offers a feed this app could bundle, so they are links to check, " +
-          "not data shown here."),
+          "These systems watch other continents. Neither offers a feed this app " +
+          "could bundle, so they are links to check."),
         frag(doc.globalLinks.map((s) =>
           h("div", { class: "card" },
             h("h3", null, s.name),

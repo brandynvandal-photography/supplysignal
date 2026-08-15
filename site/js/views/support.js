@@ -84,8 +84,8 @@ export async function render() {
     h("a", { class: "bigptr", href: "#/after" },
       h("span", { class: "bigptr__hd" }, "After an overdose"),
       h("span", { class: "bigptr__sub" },
-        "What happens next for whoever it happened to, and for whoever was in " +
-        "the room — plus support for people the usual help isn’t built for."))
+        "What happens next for whoever it happened to, whoever was in the room, " +
+        "and support for people the usual help isn’t built for."))
   );
 
   /* ---- what is underneath ---- */
@@ -134,8 +134,9 @@ export async function render() {
   }
 
   wrap.appendChild(
+    /* Shortened, not dropped — see the note on grp-reagents in views/test.js. */
     group("grp-help", "Finding help",
-      "Treatment, getting through the door, people who have been there, and what to do about cost.", [
+      "Treatment, peer support, and what to do about cost.", [
         sectionOrPending("sec-options", "Treatment options", g.options, renderOptions),
         sectionOrPending("sec-getting", "Getting services", g.getting, renderGetting),
         sectionOrPending("sec-peer", "Peer support", g.peer, renderPeer),
@@ -153,8 +154,7 @@ export async function render() {
   );
 
   wrap.appendChild(
-    group("grp-now", "Staying safer right now",
-      "Supplies, checking what you have, and lowering the odds — no decisions required.", [
+    group("grp-now", "Staying safer right now", "No decisions required.", [
         sectionOrPending("sec-supplies", "Getting supplies", g.supplies, renderSupplies),
         await checkingBlock(),
         saferUseBlock(),
@@ -191,8 +191,7 @@ function sectionOrPending(id, title, payload, renderer) {
     return disclosure(id, title, null,
       h("div", { class: "card" },
         h("p", { class: "sec__note" },
-          "Being verified. This section is populated from checked sources rather " +
-          "than written from memory, so it appears once every link and phone " +
+          "Being verified. This section appears once every link and phone " +
           "number has been confirmed.")));
   }
   return disclosure(id, title, null, renderer(payload));
@@ -362,8 +361,8 @@ function renderSupplies(s) {
     s.lastVerified
       ? h("p", { class: "sec__note" },
           `State programs verified ${s.lastVerified}. These change often — ` +
-          `test strip programs especially, since federal grant money can no ` +
-          `longer be used to buy them.`)
+          `especially test strip programs, since federal grant money can no ` +
+          `longer buy them.`)
       : null
   );
 }

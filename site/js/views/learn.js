@@ -63,9 +63,7 @@ export async function render(route, { go }) {
 
   wrap.appendChild(
     h("p", { class: "sec__note" },
-      "Things worth knowing before the night you need them — a few minutes of " +
-      "practice, how to sit with someone having a hard time, free courses, and " +
-      "how to handle consent and repair when substances are in the room.")
+      "Things worth knowing before the night you need them.")
   );
 
   /* Practice first. It is free, instant, needs no signup and no shipping
@@ -89,9 +87,9 @@ export async function render(route, { go }) {
       wrap.appendChild(
         section("Being the calm person", null,
           h("p", { class: "sec__note" },
-            "The exercises above are for you. This is for somebody else — what to " +
-            "do when a person near you is frightened, overwhelmed, or having a bad " +
-            "time on something, and nobody is quite sure whether it is an emergency."),
+            "What to do when a person near you is frightened, overwhelmed, or " +
+            "having a bad time on something, and nobody is quite sure whether it " +
+            "is an emergency."),
           sitting)
       );
     }
@@ -152,26 +150,22 @@ export async function render(route, { go }) {
   wrap.appendChild(
     h("div", { id: "sec-stimulants" },
       section("Staying up, and coming down", null,
-        h("p", { class: "sec__note" },
-          "What days without sleep do on their own, what stimulant psychosis "
-          + "looks like, and how to help somebody in it."),
         h("a", { class: "bigptr", href: "#/stimulants" },
           h("span", { class: "bigptr__hd" }, "Staying up, and coming down"),
           h("span", { class: "bigptr__sub" },
-            "Sleep loss alone will do this eventually — the timeline is "
-            + "documented, and sleep is the treatment.")))));
+            "Sleep loss alone will bring on psychosis-like states eventually — "
+            + "the documented timeline, what it looks like, how to help, and why "
+            + "sleep is the treatment.")))));
 
   wrap.appendChild(
     h("div", { id: "sec-sex" },
       section("Sexual health", null,
-        h("p", { class: "sec__note" },
-          "Barriers, PrEP and PEP, emergency contraception, and the mixes that "
-          + "actually put people in the hospital."),
         h("a", { class: "bigptr", href: "#/sex" },
           h("span", { class: "bigptr__hd" }, "Sexual health"),
           h("span", { class: "bigptr__sub" },
-            "Including an honest answer about drink test strips, which mostly "
-            + "do not work.")))));
+            "Barriers, PrEP and PEP, emergency contraception, the mixes that put "
+            + "people in the hospital, and why drink test strips mostly do not "
+            + "work.")))));
 
   /* Heat sits on Learn as well as on Staying up, because the people it kills
      are not all at a party. Somebody in a heat wave with nowhere cool to go
@@ -181,9 +175,7 @@ export async function render(route, { go }) {
     h("div", { id: "sec-heat" },
       section("Heat, and water", null,
         h("p", { class: "sec__note" },
-          "More people die of overheating at events than of anything else, and "
-          + "the advice everybody repeats about drinking water is the part that "
-          + "goes wrong."),
+          "More people die of overheating at events than of anything else."),
         h("a", { class: "bigptr", href: "#/heat" },
           h("span", { class: "bigptr__hd" }, "Heat, and water"),
           h("span", { class: "bigptr__sub" },
@@ -202,9 +194,6 @@ export async function render(route, { go }) {
   wrap.appendChild(
     h("div", { id: "sec-policy" },
       section("The law, and having a say in it", null,
-        h("p", { class: "sec__note" },
-          "What the rules actually are where you are, who writes them, and how "
-          + "people change them."),
         h("a", { class: "bigptr", href: "#/policy" },
           h("span", { class: "bigptr__hd" }, "Drug policy and how to weigh in"),
           h("span", { class: "bigptr__sub" },
@@ -220,9 +209,8 @@ export async function render(route, { go }) {
       h("div", { class: "card" },
         h("p", null,
           "The person most likely to be there when you overdose is someone who uses with " +
-          "you, or lives with you. Training one other person doubles the chance that " +
-          "somebody in the room knows what to do — and it is the one preparation that " +
-          "works even when you are the one who cannot act.")))
+          "you, or lives with you. Training them is the one preparation that works even " +
+          "when you are the one who cannot act.")))
   );
 
   wrap.appendChild(

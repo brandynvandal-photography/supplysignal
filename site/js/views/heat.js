@@ -125,9 +125,8 @@ export async function render() {
 
   wrap.appendChild(
     h("p", { class: "sec__note" },
-      `Checked ${g.verified}. Heat guidance is one of the few areas where the ` +
-      "clinical advice and the party advice genuinely disagree; where they do, " +
-      "this page follows the clinical side and says which it is."));
+      `Checked ${g.verified}. Where this page and common party advice disagree, ` +
+      "it follows the clinical evidence and says so."));
 
   const foot = SRC.render();
   if (foot) wrap.appendChild(foot);

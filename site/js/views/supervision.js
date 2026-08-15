@@ -73,9 +73,8 @@ export async function render() {
     h("div", { class: "intro" },
       h("h2", null, "What this page does not cover"),
       h("p", null,
-        "Nothing here is about beating a test. This is about what a test can " +
-        "and cannot see, what to do when it says something wrong, and what the " +
-        "law already entitles you to.")));
+        "Nothing here is about beating a test. It is about what a test can and " +
+        "cannot see, and what the law already entitles you to.")));
 
   /* ---- a positive screen is not a result ---- */
   const r = g.rights;

@@ -1,6 +1,45 @@
 {
+  "cook-me": {
+    "fingerprint": "{\"latest\":\"2026-06-30\",\"recentTotal\":163,\"baseTotal\":748,\"counts\":[[\"acetylfentanyl\",13],[\"bromazolam\",1],[\"carfentanil\",4],[\"fluorofentanyl\",4],[\"medetomidine\",5],[\"methylfentanyl\",2],[\"nitazenes\",4],[\"novel benzos\",5],[\"xylazine\",10]],\"base\":[[\"acetylfentanyl\",17],[\"bromazolam\",6],[\"carfentanil\",74],[\"fluorofentanyl\",20],[\"medetomidine\",18],[\"methylfentanyl\",9],[\"nitazenes\",44],[\"novel benzos\",38],[\"xylazine\",43]]}",
+    "items": [
+      {
+        "title": "Acetyl fentanyl is turning up more often in Cook County's drug supply",
+        "body": "The Cook County Medical Examiner identified acetyl fentanyl in 13 of the 163 opioid-involved deaths it examined in the 90 days to 30 June. That is 8% of them, against 2% over the year before that. Toxicology runs about 7 weeks behind, so this describes what has been in the supply recently rather than what is in it right now.",
+        "url": "https://datacatalog.cookcountyil.gov/d/cjeq-bs86",
+        "pubDate": "2026-06-30",
+        "sourceId": "cook-me",
+        "sourceName": "The Cook County Medical Examiner",
+        "evidence": "lab",
+        "trust": 1,
+        "hintFips": "17031",
+        "hintState": "IL",
+        "preScored": {
+          "severity": "elevated",
+          "substances": [
+            "acetylfentanyl"
+          ],
+          "confidence": 1,
+          "audit": {
+            "source": "medical-examiner",
+            "recent": "13/163",
+            "baseline": "17/748",
+            "asOf": "2026-06-30"
+          }
+        },
+        "publishedAt": "2026-06-30T00:00:00.000Z"
+      }
+    ]
+  },
   "allegheny-me": {
     "fingerprint": "{\"latest\":\"2026-01-31\",\"recentTotal\":75,\"baseTotal\":323,\"counts\":[[\"acetylfentanyl\",6],[\"carfentanil\",2],[\"fluorofentanyl\",4],[\"xylazine\",16]],\"base\":[[\"acetylfentanyl\",36],[\"bromazolam\",7],[\"carfentanil\",11],[\"fluorofentanyl\",54],[\"medetomidine\",1],[\"xylazine\",74]]}",
+    "items": []
+  },
+  "santaclara-me": {
+    "fingerprint": "{\"latest\":\"2026-05-31\",\"recentTotal\":23,\"baseTotal\":91,\"counts\":[[\"acetylfentanyl\",1]],\"base\":[[\"acetylfentanyl\",7],[\"bromazolam\",1],[\"carfentanil\",2],[\"fluorofentanyl\",2],[\"medetomidine\",1]]}",
+    "items": []
+  },
+  "sandiego-me": {
+    "fingerprint": "{\"latest\":\"2026-03-31\",\"recentTotal\":115,\"baseTotal\":441,\"counts\":[[\"acetylfentanyl\",9],[\"carfentanil\",4],[\"fluorofentanyl\",5]],\"base\":[[\"acetylfentanyl\",42],[\"bromazolam\",4],[\"carfentanil\",6],[\"fluorofentanyl\",29],[\"xylazine\",1]]}",
     "items": []
   }
 }

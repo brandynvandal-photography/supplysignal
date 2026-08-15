@@ -4,12 +4,12 @@
   "state": "IL",
   "clusters": [
     {
-      "id": "87c9f39dc862a920",
+      "id": "bd93b105a8ac8490",
       "fips": "17031",
       "state": "IL",
       "headline": "Acetyl fentanyl is turning up more often in Cook County's drug supply",
       "eventDate": "2026-06-30",
-      "summary": "The Cook County Medical Examiner identified acetyl fentanyl in 13 of the 161 opioid-involved deaths it examined in the 90 days to 30 June. That is 8% of them, against 2% over the year before that. Toxicology runs about 7 weeks behind, so this describes what has been in the supply recently rather than what is in it right now.",
+      "summary": "The Cook County Medical Examiner identified acetyl fentanyl in 13 of the 163 opioid-involved deaths it examined in the 90 days to 30 June. That is 8% of them, against 2% over the year before that. Toxicology runs about 7 weeks behind, so this describes what has been in the supply recently rather than what is in it right now.",
       "severity": "elevated",
       "substances": [
         "acetylfentanyl"
@@ -21,23 +21,35 @@
           "name": "The Cook County Medical Examiner",
           "url": "https://datacatalog.cookcountyil.gov/d/cjeq-bs86",
           "published": "2026-06-30T00:00:00.000Z",
-          "trust": 1
+          "trust": 1,
+          "evidence": "lab"
         }
       ],
-      "evidenceClass": "media",
+      "evidenceClasses": [
+        "lab"
+      ],
+      "memberGrades": [
+        {
+          "severity": "elevated",
+          "evidenceClass": "lab"
+        }
+      ],
+      "rawSeverity": "elevated",
+      "evidenceClass": "lab",
       "independent": 1
     }
   ],
   "coverage": {
-    "lastScan": "2026-08-14T13:40:30.095Z",
+    "lastScan": "2026-08-15T20:30:52.123Z",
     "windowDays": 365,
     "sourcesChecked": 27,
     "sourcesFailed": [
-      "la-ldh",
-      "google-news"
+      "la-ldh"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
   },
-  "newSinceLastRun": []
+  "newSinceLastRun": [
+    "bd93b105a8ac8490"
+  ]
 }

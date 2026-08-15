@@ -320,7 +320,7 @@ async function searchBar({ go, data }) {
 
 async function countyView({ fips, days }, { go, data }) {
   const c = await data.county(fips);
-  if (!c) return empty("That county code isn’t one we have.", "Search for a county by name instead.");
+  if (!c) return empty("That county code isn’t one we have.", "Search by name instead.");
 
   const wrap = h("div");
   const win = WINDOWS.some((w) => w.d === days) ? days : 90;
@@ -413,8 +413,7 @@ async function countyView({ fips, days }, { go, data }) {
       "Bordering counties",
       `${nbrs.length} border ${c.name}`,
       h("p", { class: "sec__note" },
-        "Supply moves across county lines. These are the counties that touch " +
-        `${c.name}, nearest first.`),
+        "Supply moves across county lines. Nearest first."),
       h("div", { class: "list" },
         nbrs.map((n) => {
           const cnt = counts.get(n.fips) || 0;
@@ -460,9 +459,9 @@ async function countyView({ fips, days }, { go, data }) {
               "self-selected, not a survey — they show what is possible, not how common."),
             frag(labs.map((k) => card(k, k._county ? true : false))))
         : h("p", { class: "sec__note" },
-            "No public lab results for this area are in the current data. Most of the " +
-            "country has no public drug-checking coverage — no result here does not " +
-            "mean nothing is circulating."))
+            "We have no public lab results for this area. Most of the country has " +
+            "no public drug-checking coverage — no result here does not mean " +
+            "nothing is circulating."))
   );
 
   /* ---- national early warning ----
@@ -556,9 +555,8 @@ function notHere(c, nearCount, win, everScanned) {
   if (!everScanned) {
     return callout("warn", `We have not scanned ${c.name} yet`,
       h("p", null,
-        "This county has not come up in the rotation. A full pass over every " +
-        "county in the country takes weeks, so this is a gap in our coverage " +
-        "rather than a statement about the supply here."),
+        "A full pass over every county in the country takes weeks, so this is a " +
+        "gap in our coverage rather than a statement about the supply here."),
       h("p", null,
         "Bordering counties are worth checking, and so is anything a local " +
         "health department publishes directly."),
@@ -777,8 +775,8 @@ function mortalityBlock(m, county) {
       "they happened, which is not always where the person lived."),
     prior !== null && (now < 20 || prior < 20)
       ? h("p", { class: "sec__note" },
-          "Small numbers move a lot year to year on chance alone. Treat one year against " +
-          "one year as a hint, not a trend.")
+          "Small numbers move a lot on chance alone — treat one year against one year " +
+          "as a hint, not a trend.")
       : null,
 
     /* A big "0" is the one number on this page that can be read as a clean

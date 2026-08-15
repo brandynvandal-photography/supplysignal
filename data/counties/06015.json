@@ -4,9 +4,9 @@
   "state": "CA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-12T20:58:05.452Z",
+    "lastScan": "2026-08-15T20:30:52.863Z",
     "windowDays": 365,
-    "sourcesChecked": 27,
+    "sourcesChecked": 26,
     "sourcesFailed": [
       "la-ldh"
     ],

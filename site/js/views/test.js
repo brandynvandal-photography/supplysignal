@@ -107,8 +107,7 @@ export async function render(route, ctx) {
      choosing, buying, legality AND labs. The heading now does the grouping
      itself and the five sections sit directly under it, which also matches
      how the other two blocks on this page are built. */
-  wrap.appendChild(section("Which one to get",
-    "Which tool answers which question, where to buy it, whether it is legal where you are, and how to get a lab to check."));
+  wrap.appendChild(section("Which one to get", null));
 
   wrap.appendChild(
     frag([
@@ -299,8 +298,11 @@ export async function render(route, ctx) {
      open and the warning is still the first thing inside it. It is behind a
      longer page now, not behind a click. */
   wrap.appendChild(
+    /* The blurb stays, shortened. The preview list below it is aria-hidden, so
+       for a screen reader this line is the only thing between the group's name
+       and its children. */
     group("grp-reagents", "Reagent testing",
-      "What reagents do, what a set of colors adds up to, and how to run one safely.", [
+      "What reagents show, and how to run one safely.", [
       (
       /* "Reagents", not "Reagent testing" - the parent tile is already called
          Reagent testing, and a child repeating its parent's name tells a
@@ -786,9 +788,8 @@ function reverseLookup(matchFn, table, subs, go, charts) {
           ". The unknown-substance chart does not list that result."),
         h("p", { class: "sec__note" }, charts?.unknownRule || ""),
         h("p", { class: "sec__note" },
-          "If you have a substance in mind, pick it above — that turns this into "
-          + "a test with an expected answer. Otherwise everything the reading "
-          + "fits is listed below."));
+          "If you have a substance in mind, pick it above and this loads the "
+          + "test for it."));
     }
 
     /* A chart's sequence has run out. Either one completed, in which case the
@@ -801,10 +802,8 @@ function reverseLookup(matchFn, table, subs, go, charts) {
         h("p", { class: "sec__note" },
           led.live.length
             ? `The chart runs out here with ${listOf(names(led.live))} still `
-              + "open, and nothing left that separates them. Everything the "
-              + "readings fit is below."
-            : "Nothing on the charts follows from that combination. Everything "
-              + "the readings fit is below."));
+              + "open, and nothing left that separates them."
+            : "Nothing on the charts follows from that combination."));
     }
 
     const runNext = h("p", { class: "plan__hd" },
@@ -882,8 +881,8 @@ function reverseLookup(matchFn, table, subs, go, charts) {
         "Loaded the ",
         h("strong", null, `${name} test`),
         multi
-          ? ` — ${flow.steps.length} reagents, in the chart's order. Just say what each one did.`
-          : " — one reagent. Just say what it did."),
+          ? ` — ${flow.steps.length} reagents, in the chart's order.`
+          : " — one reagent."),
       h("ol", { class: "plan__steps" },
         flow.steps.map((s) => {
           const v = verdicts.get(s.reagent) || "pending";
@@ -920,8 +919,8 @@ function reverseLookup(matchFn, table, subs, go, charts) {
     return h("p", { class: "plan__hd" },
       "No published flowchart covers ",
       h("strong", null, nameOf(id)),
-      `, so there is no published order to follow. Loaded the reagents that `
-      + "have a result on record for it — say what they did, or change them.");
+      ", so there is no order to follow. Loaded the reagents that have a "
+      + "result on record for it — say what they did, or change them.");
   }
 
   /* The verdict, walked step by step down the chart.
@@ -1017,7 +1016,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
           ? `It did not do what ${name} is supposed to do. That is worth acting `
             + "on and it does not by itself say what you have instead — reagent "
             + "age, light and a faint reaction all move a color, and a mixture "
-            + "reacts as whatever dominates. Everything the readings fit is below."
+            + "reacts as whatever dominates."
           : "Nothing here rules out fentanyl at any step."),
 
       extra.length
@@ -1062,10 +1061,9 @@ function reverseLookup(matchFn, table, subs, go, charts) {
           " — ",
           (blanked || []).map((r) => `${reagentLabel(r)} is ${(blankColorsFor(r) || []).join("/")} in the bottle`)
             .join(", "),
-          ". That is what an unreacted reagent looks like, not a result, so it "
-          + "is not counted either way. A spent bottle, too little sample, or "
-          + "something that will not dissolve all look like this. Run it again "
-          + "on a fresh scraping.")
+          ". That is not a result, so it is not counted either way. A spent "
+          + "bottle, too little sample, or something that will not dissolve all "
+          + "look like this. Run it again on a fresh scraping.")
       : null;
 
     /* THE CHART, before anything has been run.
@@ -1160,8 +1158,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
               ? "It did not do what " + name + " is supposed to do. That is "
                 + "worth acting on and it does not by itself say what you have "
                 + "instead — reagent age, light and a faint reaction all move a "
-                + "color, and a mixture reacts as whatever dominates. What the "
-                + "readings do fit is below."
+                + "color, and a mixture reacts as whatever dominates."
               : "Nobody has published what " + name + " does with "
                 + (sold.unknown === sold.used ? "those reagents" : "one of the reagents you ran")
                 + ", so there is no expected result to compare yours against. "
@@ -1225,8 +1222,8 @@ function reverseLookup(matchFn, table, subs, go, charts) {
       out.appendChild(empty(
         `Nothing published matches ${allOf}.`,
         "That is a gap in what has been tested, not proof you have something new. "
-        + "Reagent age and light both change a color, so it is also worth "
-        + "checking whether one of the readings could go the other way."));
+        + "Reagent age and light both change a color, so check whether one of "
+        + "the readings could go the other way."));
     } else {
       out.appendChild(h("p", { class: "sec__note" },
         chartOnly.length && !consistent.length
@@ -1299,17 +1296,15 @@ function reverseLookup(matchFn, table, subs, go, charts) {
        the chart's reagents load in its order — so the first sentence is what
        to do, not what it is for. */
     h("p", { class: "sec__note" },
-      "Pick the substance you think it is — what it was sold as, or what you "
-      + "expect — and this loads the test for it: the right reagents, in the "
-      + "right order. Then say what each one did. Already ran some? Enter them "
-      + "in any order."),
+      "Pick what it was sold as, or what you think it is, and this loads the "
+      + "test for it: the right reagents, in the right order. Then say what "
+      + "each one did. Already ran some? Enter them in any order."),
     /* BOTH PATHS EXPLAINED BEFORE THE CONTROLS, not after them. This sentence
        sat under the empty picker, which is below the thing it is instructions
        for — a reader following it had already had to guess. */
     h("p", { class: "sec__note" },
       "No idea what it is? Leave it on ", h("em", null, "Not sure"),
-      " and start with Marquis. What it does decides which reagent comes next, "
-      + "and that one gets loaded for you."),
+      " and start with Marquis. What it does decides which reagent comes next."),
     /* No fentanyl callout here. It used to sit in this tool AND inside
        "Reagents", which is the same warning twice on one screen — and a
        warning a reader has already scrolled past once is a warning they skim
@@ -1468,7 +1463,7 @@ function stripCard(s, g) {
 
       s.dilution ? dilutionBlock(s.dilution) : null,
 
-      h("h4", null, "Limits you need to know"),
+      h("h4", null, "Limits"),
       (s.limits || []).map((l) =>
         h("div", { class: `limit ${l.severity === "critical" ? "limit--critical" : ""}` },
           h("h5", null, l.severity === "critical" ? h("span", { "aria-hidden": "true" }, "▲ ") : null, l.title),

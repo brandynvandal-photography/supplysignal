@@ -4,9 +4,9 @@
   "state": "AR",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-12T19:15:40.185Z",
+    "lastScan": "2026-08-15T20:30:52.774Z",
     "windowDays": 365,
-    "sourcesChecked": 27,
+    "sourcesChecked": 26,
     "sourcesFailed": [
       "la-ldh"
     ],
