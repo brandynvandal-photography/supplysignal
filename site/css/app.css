@@ -530,18 +530,6 @@ a { color: var(--brand); }
 #searchbtn { color: var(--ink); }
 .iconbtn__svg { display: block; }
 
-/* iPad, and only iPad.
- *
- * The icon was reported small on iPadOS and correct everywhere else, and
- * enlarging it outright was wrong twice: a tablet is a wide viewport, so it
- * gets the desktop layout, and 22px of line art is proportionally smaller on a
- * 1024pt screen than on a 375pt one while the surrounding text scales with the
- * page. A mouse at the same width does not have the problem - a pointer is
- * precise and a fingertip is not.
- *
- * So: wide AND coarse. Desktop keeps 22, phones keep 22, tablets in touch mode
- * get a mark sized for the screen they are actually on. CSS beats the width and
- * height attributes on the element, so the markup stays one size. */
 /* THE SEARCH ICON, twice over, because size was only half of it.
  *
  * CONTRAST FIRST. .iconbtn inherits --ink-2, the secondary ink - deliberately
