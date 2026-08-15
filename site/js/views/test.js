@@ -1299,7 +1299,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
       h("div", { class: "revslot" },
         h("div", { class: "mixslot" },
           h("label", { class: "pick__row" },
-            h("span", { class: "mixlabel" }, "substance"),
+            h("span", { class: "mixlabel" }, "Substance"),
             h("span", { class: "pick__field" }, soldAs))))),
     rows,
     h("div", { class: "mixadd" }, addBtn),
