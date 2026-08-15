@@ -1462,9 +1462,8 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
 .soldline--pending { color: var(--ink-2); }
 .soldline--pending .soldline__mark { color: var(--ink-3); }
 
-.revmisses { margin-top: var(--sp-2); }
-.revmiss { padding: 8px 0; font-size: .93rem; }
-.revmiss + .revmiss { border-top: 1px solid var(--glass-line); }
+/* .revmiss and .revmisses went with the contradicted-substances disclosure.
+   Nothing renders them, so nothing styles them. */
 
 /* ------------------------------------------------------------ accordion */
 

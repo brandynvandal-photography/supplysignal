@@ -43,9 +43,9 @@ export async function render(route, ctx) {
        per SUB-section too, which after grouping meant eleven chips, "Reagents"
        listed twice, and entries pointing inside collapsed parents. */
     jumpNav([
-      { id: "sec-strips", label: "Test strips" },
       { id: "sec-prevalence", label: "What's out there" },
       { id: "sec-compare", label: "Which one to get" },
+      { id: "sec-strips", label: "Test strips" },
       { id: "grp-reagents", label: "Reagents" },
       { id: "sec-whatisit", label: "What could this be?" },
       { id: "sec-storage", label: "Storing supplies" },
@@ -89,36 +89,6 @@ export async function render(route, ctx) {
      a reader's own experience, and once it fails they discount the warnings
      that are true. Real numbers hold up and are a better argument for
      testing than alarm is. */
-  /* ---- reading strips ----
-     The ONLY section open by default. "One line means positive" is inverted
-     from every strip most people have used, and a half-read explanation of it
-     is more dangerous than none. It does not get hidden behind a click. */
-  const fts = g.strips.find((s) => s.id === "fentanyl");
-  wrap.appendChild(
-    /* Open, but not toned urgent. disc--urgent only paints the summary in
-       --critical, which on THIS page is the colour of a positive fentanyl
-       result - spending it on a default-open explainer where nothing is wrong
-       made the real result cards below mean slightly less. */
-    /* ONE section, not two. "Reading a test strip" and "Test strips" were
-       separate top-level disclosures with the same subject: the first said how
-       to read one, the second held each type with its limits and accuracy - so
-       a reader had to know both existed, and the picker that decides the
-       reading sat in one while the strip it describes sat in the other. */
-    disclosure("sec-strips", "Test strips",
-      { open: true },
-      /* The verdict cards are rendered BY the picker now, from the product the
-         reader chose. They used to be printed once, above it, as though the
-         answer were the same for every strip - and then the section below
-         quietly said it was not. Two answers to one question on one screen is
-         worse than either answer alone. */
-      brandPicker(g.brands),
-      callout("warn", "Why one line means positive",
-        h("p", null, fts.reading.explain),
-        h("p", null, fts.reading.faintLine)),
-      /* Each type, under the reading it shares. */
-      g.strips.map((s) => stripCard(s, g)))
-  );
-
   /* The prevalence table is the page's center of gravity - the claims audit
      made visible, answering the question people actually arrive with. It was
      buried under the reagent block in a closed disclosure with its headline
@@ -289,6 +259,43 @@ export async function render(route, ctx) {
   );
 
   wrap.appendChild(section("Using it", null));
+
+  /* ---- reading strips ----
+     UNDER "Using it", not under "What a test can tell you". It sat second on
+     the page because "one line means positive" is inverted from every strip
+     most people have used and a half-read explanation of it is worse than
+     none — but the section is a how-to-use section, not framing: a strip
+     picker, how to read the result, and each type's limits. It reads as the
+     first thing you do once you have one, which is what this heading is.
+
+     Still the only strip section open by default, and the warning is still
+     the first thing inside it, so the reading explanation is not behind a
+     second click — only behind a shorter page above it. */
+  const fts = g.strips.find((s) => s.id === "fentanyl");
+  wrap.appendChild(
+    /* Open, but not toned urgent. disc--urgent only paints the summary in
+       --critical, which on THIS page is the colour of a positive fentanyl
+       result - spending it on a default-open explainer where nothing is wrong
+       made the real result cards below mean slightly less. */
+    /* ONE section, not two. "Reading a test strip" and "Test strips" were
+       separate top-level disclosures with the same subject: the first said how
+       to read one, the second held each type with its limits and accuracy - so
+       a reader had to know both existed, and the picker that decides the
+       reading sat in one while the strip it describes sat in the other. */
+    disclosure("sec-strips", "Test strips",
+      { open: true },
+      /* The verdict cards are rendered BY the picker now, from the product the
+         reader chose. They used to be printed once, above it, as though the
+         answer were the same for every strip - and then the section below
+         quietly said it was not. Two answers to one question on one screen is
+         worse than either answer alone. */
+      brandPicker(g.brands),
+      callout("warn", "Why one line means positive",
+        h("p", null, fts.reading.explain),
+        h("p", null, fts.reading.faintLine)),
+      /* Each type, under the reading it shares. */
+      g.strips.map((s) => stripCard(s, g)))
+  );
 
   wrap.appendChild(
     group("grp-reagents", "Reagent testing",
@@ -766,7 +773,7 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
 
     const flow = flowFor(soldAs.value, charts);
     const run = walk(flow, state);
-    const { consistent, partial, ruledOut, used } = matchFn(state, table);
+    const { consistent, used } = matchFn(state, table);
 
     /* THE CHART, before anything has been run.
      *
@@ -902,60 +909,25 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
       out.appendChild(h("div", { class: "list" }, ranked.slice(0, 12).map(hit)));
     }
 
-    /* NOT FOLDED INTO THE LIST ABOVE, AND NOT THROWN AWAY.
+    /* ONE LIST, AND IT IS THE ONE THAT MATCHES EVERYTHING.
      *
-     * These agree with everything they have been tested against and have no
-     * published result for at least one reagent used. Fentanyl is the case
-     * that decides how this is handled: the reference has three reagents for
-     * it and no more, so running a fourth leaves a gap, and a screen that
-     * silently dropped it would be telling somebody they do not have the thing
-     * most likely to kill them. */
-    if (partial.length) {
-      out.appendChild(
-        h("details", { class: "acc" },
-          h("summary", null,
-            h("span", null,
-              `${partial.length} more that fit, but have not been tested with `
-              + `every reagent you used`)),
-          h("div", { class: "acc__body" },
-            h("p", { class: "sec__note" },
-              "Nothing you saw contradicts these. Nobody has published what "
-              + "they do with one of the reagents you ran, so they cannot be "
-              + "confirmed — and they cannot be ruled out either. Fentanyl has "
-              + "three published reagents and no more, which is why a missing "
-              + "result is never treated as a clean result here."),
-            h("div", { class: "list" }, partial.slice(0, 12).map(hit)))));
-    }
-
-    if (ruledOut.length) {
-      out.appendChild(
-        h("details", { class: "acc" },
-          h("summary", null,
-            h("span", null, `${ruledOut.length} that do not match what is published`)),
-          h("div", { class: "acc__body" },
-            h("p", { class: "sec__note" },
-              "Kept here rather than hidden, and deliberately not called ruled "
-              + "out. One misread color should not delete the right answer, "
-              + "reagent age changes what you see, and sources genuinely "
-              + "disagree about faint reactions — DanceSafe records a light "
-              + "pink Marquis for cocaine where the reference behind this page "
-              + "records none at all. A faint reaction is exactly the kind one "
-              + "chart calls a color and another calls nothing."),
-            /* Plain lines, not .list. These are not tappable and .acc__body is
-               already a bordered box; a second frame inside it is the same
-               box-in-a-box the match rows had. */
-            h("div", { class: "revmisses" }, ruledOut.slice(0, 10).map((m) => {
-              const bad = m.detail.find((d) => d.verdict === "disagrees");
-              const doc = bad?.documented;
-              const was = doc?.none && doc?.colors?.length
-                ? `no reaction or ${doc.colors.join(" or ")}`
-                : doc?.none ? "no reaction" : (doc?.colors || []).join(" or ");
-              return h("div", { class: "revmiss" },
-                h("strong", null, nameOf(m.id)),
-                h("span", { class: "sec__note" },
-                  ` — you saw ${bad.observed} on ${reagentName(bad.reagent)}; published is ${was}`));
-            })))));
-    }
+     * There were three: full matches, then a disclosure for substances with an
+     * untested reagent, then another for ones a reading contradicted. Each was
+     * defensible on its own and together they were three answers to one
+     * question, in three different registers, two of them collapsed behind
+     * summaries a reader had to parse before knowing whether to open them. The
+     * screen is for somebody standing over a bag, and it now says the one thing
+     * it can say cleanly: here is what these readings fit, all of them.
+     *
+     * What was protecting against still holds and is still said, in the stop
+     * callout at the top of this tool rather than in a list at the bottom: no
+     * color here and no combination of them says a sample is free of fentanyl.
+     * Absence from a list is not evidence, which is why the list is framed as
+     * what MATCHES rather than as what it could be.
+     *
+     * reagentmatch.js still computes all three — the rule that an unpublished
+     * pair may never eliminate a substance is the module's core and is tested
+     * there. The UI simply does not render two of them. */
   }
 
   soldAs.addEventListener("change", () => {
@@ -971,10 +943,16 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
   check();
 
   return frag(
+    /* The old version opened "Ran a few reagents and want to know what they
+       add up to?", which described a tool you arrived at holding results. It
+       now sets the test up as well as reads it — say what it was sold as and
+       the chart's reagents load in its order — so the first sentence is what
+       to do, not what it is for. */
     h("p", { class: "sec__note" },
-      "Ran a few reagents and want to know what they add up to? Say what each "
-      + "one did. Colors are the plain ones on purpose — a spot plate under a "
-      + "kitchen light is not a laboratory."),
+      "Say what it was sold as and this loads DanceSafe's test for it — the "
+      + "right reagents, in the right order. Then say what each one did. "
+      + "Already ran some? Enter them in any order. Colors are the plain ones "
+      + "on purpose — a spot plate under a kitchen light is not a laboratory."),
     callout("stop", "This cannot rule out fentanyl",
       h("p", null,
         "A dose that kills is far below what any reagent shows, so no color "
