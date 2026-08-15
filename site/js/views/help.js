@@ -129,6 +129,7 @@ export async function render() {
       { id: "sec-response", label: "Overdose response" },
       { id: "sec-collapse", label: "Collapsed, cause unknown" },
       { id: "sec-festival", label: "At a festival" },
+      { id: "sec-club", label: "At a club or bar" },
       { id: "sec-ems", label: "When help arrives" },
       { id: "sec-law", label: "911 and the law" },
       { id: "sec-police", label: "If police come" },
@@ -413,6 +414,54 @@ export async function render() {
             "Medics carry naloxone whether or not you say the word. If you are "
             + "worried they will not, you can ask them to bring it — knowing "
             + "that asking may bring police too.")))));
+
+  /* ---- a nightclub or a bar ----
+     Not the festival section with the word changed. A festival has medics
+     inside the perimeter and a barrier crew whose job is spotting people; a
+     club has security, and security is not medical. The failure modes are
+     different enough to need their own list, and the one that kills people is
+     specific to the room: an overdose in a locked stall, found late. */
+  wrap.appendChild(
+    h("div", { id: "sec-club" },
+      section("At a club or a bar", null,
+        h("div", { class: "card" },
+          h("h3", null, "Security is not a medic, and that changes the first move"),
+          h("p", null,
+            "There is no medical tent. Door and floor staff are trained to "
+            + "remove a problem from the room, and somebody unconscious can be "
+            + "walked outside and left on the pavement while everyone assumes "
+            + "they are drunk. If staff are moving them, go with them and stay "
+            + "with them — the street outside is where being alone starts."),
+          h("p", { class: "sec__note" },
+            "Call 911 yourself. Do not assume the venue has, and do not wait to "
+            + "find out — a license is at stake for them and nothing is at "
+            + "stake for you.")),
+        h("div", { class: "card" },
+          h("h3", null, "The bathroom is where this happens"),
+          h("p", null,
+            "A locked stall, alone, is the most common way an overdose in a "
+            + "venue is found too late. If somebody went in and has been quiet "
+            + "a while, knock, then get staff to open it. Feeling awkward about "
+            + "being wrong costs nothing; being right and late costs everything."),
+          h("p", { class: "sec__note" },
+            "If you use in a venue bathroom, leave the latch off and tell "
+            + "somebody to check on you at a specific time.")),
+        h("div", { class: "card" },
+          h("h3", null, "You cannot assess anyone on the floor"),
+          h("p", null,
+            "It is too loud to hear breathing and too dark to see color "
+            + "changing. Get to a lit, quieter place if you can do it quickly. "
+            + "But if they are not breathing, that is where you are — start "
+            + "rescue breaths and give naloxone there. Moving somebody first "
+            + "costs the minutes that matter.")),
+        h("div", { class: "card" },
+          h("h3", null, "Naloxone at the door"),
+          h("p", null,
+            "Search staff often do not recognize it and sometimes take it. "
+            + "Keeping it in the pharmacy packaging helps, and so does saying "
+            + "what it is before they find it. If it is confiscated, ask "
+            + "whether the venue keeps its own — many now do, and the person "
+            + "on the door may not be the person who knows.")))));
 
 
   /* ---- what to tell EMS once they arrive ----
