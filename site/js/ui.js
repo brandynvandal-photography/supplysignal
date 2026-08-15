@@ -282,9 +282,34 @@ export function jumpNav(items) {
                 ? el
                 : el.querySelector("h1, h2, h3, h4, summary") || el;
               const target = head.tagName === "SUMMARY" ? head.parentElement : head;
-              target.scrollIntoView({ behavior: "smooth", block: "start" });
-              const s = el.querySelector("summary");
-              if (s) s.focus({ preventScroll: true });
+
+              /* MEASURE THE HEADER, AFTER THE LAYOUT SETTLES.
+               *
+               * This was scrollIntoView + a scroll-margin-top keyed on --bar-h,
+               * and it kept landing headings under the bar. Two reasons, and
+               * the fix has to cover both.
+               *
+               * The margin is a CSS constant and the header is not: it carries
+               * the early-access banner, and at 960 the tab bar moves into the
+               * row. Every one of those is a chance for the constant and the
+               * rendered height to disagree, and when they do the heading is
+               * the thing that goes under.
+               *
+               * And a smooth scroll commits to a destination when it is called,
+               * while this handler has just opened the target and every
+               * disclosure above it. Anything that expands ABOVE the target
+               * moves it after the browser has already decided where to stop.
+               * Two frames of waiting lets that reflow finish, and then the
+               * position is measured from the real header rather than assumed
+               * from a variable. */
+              requestAnimationFrame(() => requestAnimationFrame(() => {
+                const bar = document.querySelector(".topbar");
+                const barH = bar ? bar.getBoundingClientRect().height : 0;
+                const y = target.getBoundingClientRect().top + window.scrollY - barH - 14;
+                window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+                const s = el.querySelector("summary");
+                if (s) s.focus({ preventScroll: true });
+              }));
             },
           },
           label

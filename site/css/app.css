@@ -649,9 +649,26 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
  * headroom; below it the tab bar stays at the bottom, where it fits and where
  * thumbs are on a tablet anyway. */
 @media (min-width: 960px) {
+  /* CENTRED IN THE ROW, not shoved against the icons.
+   *
+   * `margin-left: auto` put the tabs hard against the right-hand buttons. That
+   * looked fine while the header shared the 820px content column, because
+   * there was barely any slack to be pushed through — then the row was widened
+   * to 1180 to stop it overflowing at 880, and the same auto margin carried the
+   * tabs 107px right of centre.
+   *
+   * Absolutely centred rather than balanced with flex: the left side is a
+   * 125px wordmark and the right is three 44px buttons, so no arrangement of
+   * `flex: 1` makes those two weigh the same, and every attempt lands a few
+   * pixels out. The spacer goes back to doing its job of holding the buttons
+   * right. Safe at the breakpoint itself: 564px of tabs centred in 960 leaves
+   * 198px a side, against 141 of wordmark and 148 of buttons. */
+  .topbar .wrap { position: relative; }
+  .topbar__spacer { display: block; }
   .nav {
-    position: static; border-top: 0; background: none;
-    padding: 0; margin-left: auto; width: auto;
+    position: absolute; left: 50%; transform: translateX(-50%);
+    border-top: 0; background: none;
+    padding: 0; margin: 0; width: auto;
   }
   .nav { gap: 4px; }
   .nav a {
@@ -663,7 +680,6 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   .nav a .ico { font-size: 1.02rem; width: auto; height: auto; background: none; }
   .nav a[aria-current="page"] .ico { background: none; }
   main { padding-bottom: var(--sp-5); }
-  .topbar__spacer { display: none; }
 }
 
 /* -------------------------------------------------------------- search */
