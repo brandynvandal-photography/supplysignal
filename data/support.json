@@ -664,5 +664,80 @@
         "note": "Free, confidential, 24/7, English and Spanish."
       }
     ]
+  },
+  "pregnancy": {
+    "headline": "Pregnant, or parenting",
+    "lastVerified": "2026-08-14",
+    "intro": "Written for the questions people actually ask, which are mostly legal and mostly about being reported. Nothing here is conditional on stopping, and none of it assumes what you have decided.",
+    "items": [
+      {
+        "t": "Stopping methadone or buprenorphine is the more dangerous option, not the safer one",
+        "b": "Staying on it is the standard of care in pregnancy — ACOG, SAMHSA and ASAM all say so. Abrupt withdrawal carries a risk of fetal distress and pregnancy loss, and the relapse risk afterwards is the bigger danger of the two. If you are already on methadone, switching to buprenorphine is specifically warned against because of precipitated withdrawal. A provider who tells you to taper off to protect the pregnancy is going against the guidelines their own field wrote.",
+        "sources": [
+          {
+            "name": "ACOG — Opioid use and opioid use disorder in pregnancy",
+            "url": "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2017/08/opioid-use-and-opioid-use-disorder-in-pregnancy"
+          },
+          {
+            "name": "SAMHSA — Clinical guidance for treating pregnant and parenting women with opioid use disorder",
+            "url": "https://library.samhsa.gov/sites/default/files/sma18-5054.pdf"
+          },
+          {
+            "name": "ASAM — Opioid use disorder in pregnancy",
+            "url": "https://www.asam.org/quality-care/clinical-recommendations/OUD-in-Pregnancy"
+          }
+        ]
+      },
+      {
+        "t": "A notification at birth is not a finding that you did anything",
+        "b": "Federal law requires a hospital to notify child welfare when an infant is affected by substance use or withdrawal, and that law says explicitly that the notification is not a determination of child abuse or neglect. What it triggers is a Plan of Safe Care — a written plan for the infant and for you. It is an administrative step, and it is not the same thing as a report.",
+        "note": "And here is the part that is genuinely different depending on where you are: roughly half of states separately treat substance use in pregnancy as child abuse or neglect under their own law, and a few allow civil commitment. Two people can have identical hospital records and completely different legal exposure. Look up your own state before you assume either way.",
+        "sources": [
+          {
+            "name": "Casey Family Programs — Plans of Safe Care",
+            "url": "https://www.casey.org/infant-plans-of-safe-care/"
+          },
+          {
+            "name": "LAPPA — substance use during pregnancy, state by state",
+            "url": "https://legislativeanalysis.org/knowledge-lab-state-maps/substance-use-during-pregnancy-and-family-care-plans/"
+          }
+        ]
+      },
+      {
+        "t": "Whether you are tested, and whether you were asked, are separate questions",
+        "b": "Testing practice at delivery varies by hospital and by state, and so does whether consent is sought for it. Some test on a written policy, some on a clinician's judgement, and the criteria used are documented to fall unevenly on poor and Black patients. You can ask what the policy is before you are in labor — a prenatal visit is a much better moment for that question than a delivery room.",
+        "sources": []
+      },
+      {
+        "t": "Prenatal care is protective even if nothing else changes",
+        "b": "The outcomes that get attributed to a drug are often the outcomes of no prenatal care, no nutrition and untreated infection. Going to appointments while still using improves things measurably. Programs exist that are built for exactly that and do not require abstinence to enrol.",
+        "sources": [
+          {
+            "name": "CDC — Opioid use and pregnancy",
+            "url": "https://www.cdc.gov/overdose-prevention/hcp/clinical-care/opioid-use-and-pregnancy.html"
+          }
+        ]
+      },
+      {
+        "t": "Withdrawal in a newborn is treatable, and you are usually part of the treatment",
+        "b": "Neonatal opioid withdrawal is expected on stable medication, it is managed, and it is not brain damage. Rooming-in and skin-to-skin reduce how much medication the baby needs and how long they stay. Breastfeeding is generally encouraged on stable methadone or buprenorphine, with the usual exceptions. Being present is not a courtesy extended to you — it is part of the care.",
+        "sources": [
+          {
+            "name": "SAMHSA — Clinical guidance for treating pregnant and parenting women with opioid use disorder",
+            "url": "https://library.samhsa.gov/sites/default/files/sma18-5054.pdf"
+          },
+          {
+            "name": "CDC — Opioid use and pregnancy",
+            "url": "https://www.cdc.gov/overdose-prevention/hcp/clinical-care/opioid-use-and-pregnancy.html"
+          }
+        ]
+      },
+      {
+        "t": "If child services are already involved",
+        "b": "Ask what specifically is being alleged and what the plan requires, in writing. A positive test is one fact and a plan is a list of tasks; they are not the same thing and the tasks are what you are actually measured against. Legal representation exists specifically for parents in these cases and it is usually free — ask the court for appointed counsel rather than going in alone.",
+        "sources": []
+      }
+    ],
+    "gap": "What this cannot tell you is your own state's law, and that is the part that decides most of it. It changes by legislature and the map linked above is the thing to check, not this page."
   }
 }

@@ -67,6 +67,7 @@ export async function render() {
       { id: "grp-help", label: "Finding help" },
       { id: "grp-now", label: "Staying safer now" },
       { id: "sec-trauma", label: "Trauma" },
+      { id: "sec-pregnancy", label: "Pregnant or parenting" },
       { id: "sec-loved", label: "Someone you love" },
       { id: "sec-communities", label: "Finding your people" },
     ])
@@ -104,6 +105,33 @@ export async function render() {
   wrap.appendChild(
     sectionOrPending("sec-trauma", "Trauma and mental health", g.trauma, renderTrauma)
   );
+
+  /* Pregnancy and parenting.
+   *
+   * Adoption was the original ask and this is deliberately not that. The
+   * organisations offering "adoption support" to pregnant people who use drugs
+   * include crisis pregnancy centres that are not neutral about the outcome,
+   * and putting a coercive referral inside an app whose promise is that
+   * nothing here is conditional would be worse than the gap.
+   *
+   * The need underneath it is legal, and it is answerable: what a hospital
+   * notification actually is, whether stopping medication is safer (it is not),
+   * what a Plan of Safe Care means, and where state law diverges. */
+  if (g.pregnancy) {
+    const P = g.pregnancy;
+    wrap.appendChild(
+      disclosure("sec-pregnancy", P.headline, null,
+        h("p", { class: "sec__note" }, P.intro),
+        frag(P.items.map((x) =>
+          h("div", { class: "card" },
+            h("h3", null, x.t),
+            h("p", null, x.b),
+            x.note ? h("p", { class: "sec__note" }, x.note) : null,
+            SRC.add(x.sources)))),
+        P.gap ? h("p", { class: "sec__note" }, P.gap) : null,
+        P.lastVerified
+          ? h("p", { class: "sec__note" }, `Checked ${P.lastVerified}.`) : null));
+  }
 
   wrap.appendChild(
     group("grp-help", "Finding help",
