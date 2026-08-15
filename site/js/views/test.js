@@ -334,11 +334,13 @@ export async function render(route, ctx) {
          sequences it: protect yourself, run it, clean up, and keep the kit
          alive for next time. */
       disclosure("sec-procedure", "How to run a reagent test", null,
+        /* The warning, and only the warning. A second line used to explain why
+           the warning was placed here rather than in a section of its own —
+           editorial reasoning about the app's own structure, printed at
+           somebody about to open a bottle of concentrated acid. That belongs
+           in a commit message, which is where it is now. */
         callout("stop", "Before you open a bottle",
-          h("p", null, g.safety.ppe),
-          h("p", { class: "sec__note" },
-            "These are strong acids. The warning belongs here rather than in a "
-            + "section of its own, because this is the moment it applies.")),
+          h("p", null, g.safety.ppe)),
 
         h("ol", { class: "steps" },
           g.procedure.map((p) => h("li", null, h("h4", null, p.title), h("p", null, p.body)))),
