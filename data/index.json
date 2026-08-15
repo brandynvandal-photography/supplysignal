@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-15T01:52:48.242Z",
+  "generated": "2026-08-15T03:56:06.042Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -6307,7 +6307,7 @@
       "s": "MD",
       "c": 0,
       "sev": null,
-      "t": "2026-08-15T01:52:48.180Z"
+      "t": "2026-08-15T03:56:05.973Z"
     },
     "25001": {
       "n": "Barnstable County",
@@ -12707,26 +12707,1412 @@
       "sev": null,
       "t": "2026-08-15T01:52:48.241Z"
     },
+    "40001": {
+      "n": "Adair County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.973Z"
+    },
+    "40003": {
+      "n": "Alfalfa County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.974Z"
+    },
+    "40005": {
+      "n": "Atoka County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.974Z"
+    },
+    "40007": {
+      "n": "Beaver County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.974Z"
+    },
+    "40009": {
+      "n": "Beckham County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.975Z"
+    },
+    "40011": {
+      "n": "Blaine County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.975Z"
+    },
+    "40013": {
+      "n": "Bryan County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.975Z"
+    },
+    "40015": {
+      "n": "Caddo County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.976Z"
+    },
+    "40017": {
+      "n": "Canadian County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.976Z"
+    },
+    "40019": {
+      "n": "Carter County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.977Z"
+    },
+    "40021": {
+      "n": "Cherokee County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.977Z"
+    },
+    "40023": {
+      "n": "Choctaw County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.977Z"
+    },
+    "40025": {
+      "n": "Cimarron County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.978Z"
+    },
+    "40027": {
+      "n": "Cleveland County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.978Z"
+    },
+    "40029": {
+      "n": "Coal County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.978Z"
+    },
+    "40031": {
+      "n": "Comanche County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.979Z"
+    },
+    "40033": {
+      "n": "Cotton County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.979Z"
+    },
+    "40035": {
+      "n": "Craig County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.979Z"
+    },
+    "40037": {
+      "n": "Creek County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.980Z"
+    },
+    "40039": {
+      "n": "Custer County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.980Z"
+    },
+    "40041": {
+      "n": "Delaware County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.980Z"
+    },
+    "40043": {
+      "n": "Dewey County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.981Z"
+    },
+    "40045": {
+      "n": "Ellis County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.981Z"
+    },
+    "40047": {
+      "n": "Garfield County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.981Z"
+    },
+    "40049": {
+      "n": "Garvin County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.982Z"
+    },
+    "40051": {
+      "n": "Grady County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.982Z"
+    },
+    "40053": {
+      "n": "Grant County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.982Z"
+    },
+    "40055": {
+      "n": "Greer County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.983Z"
+    },
+    "40057": {
+      "n": "Harmon County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.983Z"
+    },
+    "40059": {
+      "n": "Harper County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.983Z"
+    },
+    "40061": {
+      "n": "Haskell County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.984Z"
+    },
+    "40063": {
+      "n": "Hughes County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.984Z"
+    },
+    "40065": {
+      "n": "Jackson County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.984Z"
+    },
+    "40067": {
+      "n": "Jefferson County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.985Z"
+    },
+    "40069": {
+      "n": "Johnston County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.985Z"
+    },
+    "40071": {
+      "n": "Kay County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.985Z"
+    },
+    "40073": {
+      "n": "Kingfisher County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.986Z"
+    },
+    "40075": {
+      "n": "Kiowa County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.986Z"
+    },
+    "40077": {
+      "n": "Latimer County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.986Z"
+    },
+    "40079": {
+      "n": "Le Flore County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.987Z"
+    },
+    "40081": {
+      "n": "Lincoln County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.987Z"
+    },
+    "40083": {
+      "n": "Logan County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.987Z"
+    },
+    "40085": {
+      "n": "Love County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.987Z"
+    },
+    "40087": {
+      "n": "McClain County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.988Z"
+    },
+    "40089": {
+      "n": "McCurtain County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.988Z"
+    },
+    "40091": {
+      "n": "McIntosh County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.988Z"
+    },
+    "40093": {
+      "n": "Major County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.989Z"
+    },
+    "40095": {
+      "n": "Marshall County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.989Z"
+    },
+    "40097": {
+      "n": "Mayes County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.989Z"
+    },
+    "40099": {
+      "n": "Murray County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.990Z"
+    },
+    "40101": {
+      "n": "Muskogee County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.990Z"
+    },
+    "40103": {
+      "n": "Noble County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.990Z"
+    },
+    "40105": {
+      "n": "Nowata County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.991Z"
+    },
+    "40107": {
+      "n": "Okfuskee County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.991Z"
+    },
+    "40109": {
+      "n": "Oklahoma County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.991Z"
+    },
+    "40111": {
+      "n": "Okmulgee County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.992Z"
+    },
+    "40113": {
+      "n": "Osage County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.992Z"
+    },
+    "40115": {
+      "n": "Ottawa County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.993Z"
+    },
+    "40117": {
+      "n": "Pawnee County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.993Z"
+    },
+    "40119": {
+      "n": "Payne County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.993Z"
+    },
+    "40121": {
+      "n": "Pittsburg County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.994Z"
+    },
+    "40123": {
+      "n": "Pontotoc County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.994Z"
+    },
+    "40125": {
+      "n": "Pottawatomie County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.994Z"
+    },
+    "40127": {
+      "n": "Pushmataha County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.995Z"
+    },
+    "40129": {
+      "n": "Roger Mills County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.995Z"
+    },
+    "40131": {
+      "n": "Rogers County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.995Z"
+    },
+    "40133": {
+      "n": "Seminole County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.996Z"
+    },
+    "40135": {
+      "n": "Sequoyah County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.996Z"
+    },
+    "40137": {
+      "n": "Stephens County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.996Z"
+    },
+    "40139": {
+      "n": "Texas County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.997Z"
+    },
+    "40141": {
+      "n": "Tillman County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.997Z"
+    },
+    "40143": {
+      "n": "Tulsa County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.997Z"
+    },
+    "40145": {
+      "n": "Wagoner County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.998Z"
+    },
+    "40147": {
+      "n": "Washington County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.998Z"
+    },
+    "40149": {
+      "n": "Washita County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.998Z"
+    },
+    "40151": {
+      "n": "Woods County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.999Z"
+    },
+    "40153": {
+      "n": "Woodward County",
+      "s": "OK",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.999Z"
+    },
+    "41001": {
+      "n": "Baker County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:05.999Z"
+    },
+    "41003": {
+      "n": "Benton County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.000Z"
+    },
+    "41005": {
+      "n": "Clackamas County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.000Z"
+    },
+    "41007": {
+      "n": "Clatsop County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.000Z"
+    },
+    "41009": {
+      "n": "Columbia County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.001Z"
+    },
+    "41011": {
+      "n": "Coos County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.001Z"
+    },
+    "41013": {
+      "n": "Crook County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.001Z"
+    },
+    "41015": {
+      "n": "Curry County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.002Z"
+    },
+    "41017": {
+      "n": "Deschutes County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.002Z"
+    },
+    "41019": {
+      "n": "Douglas County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.003Z"
+    },
+    "41021": {
+      "n": "Gilliam County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.003Z"
+    },
+    "41023": {
+      "n": "Grant County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.003Z"
+    },
+    "41025": {
+      "n": "Harney County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.004Z"
+    },
+    "41027": {
+      "n": "Hood River County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.004Z"
+    },
+    "41029": {
+      "n": "Jackson County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.004Z"
+    },
+    "41031": {
+      "n": "Jefferson County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.005Z"
+    },
+    "41033": {
+      "n": "Josephine County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.005Z"
+    },
+    "41035": {
+      "n": "Klamath County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.005Z"
+    },
+    "41037": {
+      "n": "Lake County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.006Z"
+    },
+    "41039": {
+      "n": "Lane County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.006Z"
+    },
+    "41041": {
+      "n": "Lincoln County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.006Z"
+    },
+    "41043": {
+      "n": "Linn County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.007Z"
+    },
+    "41045": {
+      "n": "Malheur County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.007Z"
+    },
+    "41047": {
+      "n": "Marion County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.007Z"
+    },
+    "41049": {
+      "n": "Morrow County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.008Z"
+    },
     "41051": {
       "n": "Multnomah County",
       "s": "OR",
       "c": 0,
       "sev": null,
-      "t": "2026-08-15T01:52:48.179Z"
+      "t": "2026-08-15T03:56:05.972Z"
+    },
+    "41053": {
+      "n": "Polk County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.008Z"
+    },
+    "41055": {
+      "n": "Sherman County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.008Z"
+    },
+    "41057": {
+      "n": "Tillamook County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.009Z"
+    },
+    "41059": {
+      "n": "Umatilla County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.009Z"
+    },
+    "41061": {
+      "n": "Union County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.009Z"
+    },
+    "41063": {
+      "n": "Wallowa County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.010Z"
+    },
+    "41065": {
+      "n": "Wasco County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.010Z"
+    },
+    "41067": {
+      "n": "Washington County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.010Z"
+    },
+    "41069": {
+      "n": "Wheeler County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.011Z"
+    },
+    "41071": {
+      "n": "Yamhill County",
+      "s": "OR",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.011Z"
+    },
+    "42001": {
+      "n": "Adams County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.011Z"
     },
     "42003": {
       "n": "Allegheny County",
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-15T01:52:48.241Z"
+      "t": "2026-08-15T03:56:06.012Z"
+    },
+    "42005": {
+      "n": "Armstrong County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.012Z"
+    },
+    "42007": {
+      "n": "Beaver County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.013Z"
+    },
+    "42009": {
+      "n": "Bedford County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.013Z"
+    },
+    "42011": {
+      "n": "Berks County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.013Z"
+    },
+    "42013": {
+      "n": "Blair County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.014Z"
+    },
+    "42015": {
+      "n": "Bradford County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.014Z"
+    },
+    "42017": {
+      "n": "Bucks County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.014Z"
+    },
+    "42019": {
+      "n": "Butler County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.015Z"
+    },
+    "42021": {
+      "n": "Cambria County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.015Z"
+    },
+    "42023": {
+      "n": "Cameron County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.015Z"
+    },
+    "42025": {
+      "n": "Carbon County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.016Z"
+    },
+    "42027": {
+      "n": "Centre County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.016Z"
+    },
+    "42029": {
+      "n": "Chester County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.016Z"
+    },
+    "42031": {
+      "n": "Clarion County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.017Z"
+    },
+    "42033": {
+      "n": "Clearfield County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.017Z"
+    },
+    "42035": {
+      "n": "Clinton County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.018Z"
+    },
+    "42037": {
+      "n": "Columbia County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.018Z"
+    },
+    "42039": {
+      "n": "Crawford County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.018Z"
+    },
+    "42041": {
+      "n": "Cumberland County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.019Z"
+    },
+    "42043": {
+      "n": "Dauphin County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.019Z"
+    },
+    "42045": {
+      "n": "Delaware County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.019Z"
+    },
+    "42047": {
+      "n": "Elk County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.020Z"
+    },
+    "42049": {
+      "n": "Erie County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.020Z"
+    },
+    "42051": {
+      "n": "Fayette County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.020Z"
+    },
+    "42053": {
+      "n": "Forest County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.021Z"
+    },
+    "42055": {
+      "n": "Franklin County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.021Z"
+    },
+    "42057": {
+      "n": "Fulton County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.021Z"
+    },
+    "42059": {
+      "n": "Greene County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.022Z"
+    },
+    "42061": {
+      "n": "Huntingdon County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.022Z"
+    },
+    "42063": {
+      "n": "Indiana County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.022Z"
+    },
+    "42065": {
+      "n": "Jefferson County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.023Z"
+    },
+    "42067": {
+      "n": "Juniata County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.023Z"
+    },
+    "42069": {
+      "n": "Lackawanna County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.023Z"
+    },
+    "42071": {
+      "n": "Lancaster County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.024Z"
+    },
+    "42073": {
+      "n": "Lawrence County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.024Z"
+    },
+    "42075": {
+      "n": "Lebanon County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.024Z"
+    },
+    "42077": {
+      "n": "Lehigh County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.025Z"
+    },
+    "42079": {
+      "n": "Luzerne County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.025Z"
+    },
+    "42081": {
+      "n": "Lycoming County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.025Z"
+    },
+    "42083": {
+      "n": "McKean County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.026Z"
+    },
+    "42085": {
+      "n": "Mercer County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.026Z"
+    },
+    "42087": {
+      "n": "Mifflin County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.026Z"
+    },
+    "42089": {
+      "n": "Monroe County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.027Z"
+    },
+    "42091": {
+      "n": "Montgomery County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.027Z"
+    },
+    "42093": {
+      "n": "Montour County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.028Z"
+    },
+    "42095": {
+      "n": "Northampton County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.028Z"
+    },
+    "42097": {
+      "n": "Northumberland County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.028Z"
+    },
+    "42099": {
+      "n": "Perry County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.029Z"
+    },
+    "42101": {
+      "n": "Philadelphia County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.029Z"
+    },
+    "42103": {
+      "n": "Pike County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.029Z"
+    },
+    "42105": {
+      "n": "Potter County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.030Z"
+    },
+    "42107": {
+      "n": "Schuylkill County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.030Z"
+    },
+    "42109": {
+      "n": "Snyder County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.030Z"
+    },
+    "42111": {
+      "n": "Somerset County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.031Z"
+    },
+    "42113": {
+      "n": "Sullivan County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.031Z"
+    },
+    "42115": {
+      "n": "Susquehanna County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.031Z"
+    },
+    "42117": {
+      "n": "Tioga County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.032Z"
+    },
+    "42119": {
+      "n": "Union County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.032Z"
+    },
+    "42121": {
+      "n": "Venango County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.032Z"
+    },
+    "42123": {
+      "n": "Warren County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.032Z"
+    },
+    "42125": {
+      "n": "Washington County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.033Z"
+    },
+    "42127": {
+      "n": "Wayne County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.033Z"
+    },
+    "42129": {
+      "n": "Westmoreland County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.033Z"
+    },
+    "42131": {
+      "n": "Wyoming County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.034Z"
+    },
+    "42133": {
+      "n": "York County",
+      "s": "PA",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.034Z"
+    },
+    "44001": {
+      "n": "Bristol County",
+      "s": "RI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.035Z"
+    },
+    "44003": {
+      "n": "Kent County",
+      "s": "RI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.035Z"
+    },
+    "44005": {
+      "n": "Newport County",
+      "s": "RI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.035Z"
+    },
+    "44007": {
+      "n": "Providence County",
+      "s": "RI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.036Z"
+    },
+    "44009": {
+      "n": "Washington County",
+      "s": "RI",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.036Z"
+    },
+    "45001": {
+      "n": "Abbeville County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.037Z"
+    },
+    "45003": {
+      "n": "Aiken County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.037Z"
+    },
+    "45005": {
+      "n": "Allendale County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.037Z"
+    },
+    "45007": {
+      "n": "Anderson County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.038Z"
+    },
+    "45009": {
+      "n": "Bamberg County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.038Z"
+    },
+    "45011": {
+      "n": "Barnwell County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.038Z"
+    },
+    "45013": {
+      "n": "Beaufort County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.039Z"
+    },
+    "45015": {
+      "n": "Berkeley County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.039Z"
+    },
+    "45017": {
+      "n": "Calhoun County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.039Z"
+    },
+    "45019": {
+      "n": "Charleston County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.040Z"
+    },
+    "45021": {
+      "n": "Cherokee County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.040Z"
+    },
+    "45023": {
+      "n": "Chester County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.040Z"
+    },
+    "45025": {
+      "n": "Chesterfield County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.041Z"
+    },
+    "45027": {
+      "n": "Clarendon County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.041Z"
+    },
+    "45029": {
+      "n": "Colleton County",
+      "s": "SC",
+      "c": 0,
+      "sev": null,
+      "t": "2026-08-15T03:56:06.041Z"
     },
     "47065": {
       "n": "Hamilton County",
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-08-15T01:52:48.177Z"
+      "t": "2026-08-15T03:56:05.964Z"
     },
     "01001": {
       "n": "Autauga County",
