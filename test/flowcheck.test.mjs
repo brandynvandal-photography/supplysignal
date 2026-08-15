@@ -286,6 +286,69 @@ check("an off-chart reagent cannot empty a completed chart's answer", () => {
   return a.join() === b.join() ? null : `${a.join()} became ${b.join()}`;
 });
 
+/* ------------------------------- the router and the flows cannot disagree */
+
+check("a router leg accepts every color the flow it hands off to accepts", () => {
+  /* FOUND BY AUDIT, then reproduced. Chart 3's mescaline leg accepted only a
+     brown Liebermann while mescaline's own flow accepts brown OR black. So a
+     black Liebermann on an orange Marquis matched no leg at all, fell back to
+     every candidate, and the survivor tiebreak sent the reader to Simon's —
+     a reagent mescaline cannot react with, being a primary amine.
+
+     The general rule: if a leg hands off to a flow, and that flow has a step
+     for the same reagent the leg is keyed on, the leg must not be narrower.
+     Otherwise a reading the flow calls expected falls straight through the
+     router that is supposed to be routing it. */
+  const bad = [];
+  for (const b of CHARTS.unknown?.branches || []) {
+    for (const t of b.then || []) {
+      for (const id of t.leads || []) {
+        const step = (flowFor(id, CHARTS)?.steps || [])
+          .find((s) => s.reagent === t.reagent);
+        if (!step) continue;
+        const legColors = new Set(t.colors || []);
+        const missing = (step.colors || []).filter((c) => !legColors.has(c));
+        const noneGap = step.none === true && t.none !== true;
+        if (missing.length || noneGap) {
+          bad.push(`${id}: leg on ${t.reagent} misses `
+            + `${missing.join(",") || ""}${noneGap ? " no-reaction" : ""}`);
+        }
+      }
+    }
+  }
+  return bad.length ? bad.join("; ") : null;
+});
+
+check("a black Liebermann on an orange Marquis reaches mescaline", () => {
+  /* The concrete case, kept alongside the general rule because the general
+     rule is the kind that gets relaxed when it becomes inconvenient. */
+  for (const lieb of ["brown", "black"]) {
+    const g = guide({ Marquis: "orange", Liebermann: lieb }, CHARTS);
+    if (!g.live.some((w) => w.id === "mescaline")) return `${lieb} lost mescaline`;
+    if (g.next.join() !== "Froehde") return `${lieb} routed to ${g.next.join(", ")}`;
+  }
+  return null;
+});
+
+check("mescaline's Froehde accepts any of its colors on its own", () => {
+  /* The chart prints one four-word label there and it reads BOTH ways: any one
+     of those colors, or the drop moving through them as it develops. Confirmed
+     against the printed chart. So every one of the four has to complete the
+     step by itself — a reader who catches it early and a reader who catches it
+     late are both looking at mescaline. */
+  const step = flowFor("mescaline", CHARTS).steps
+    .find((s) => s.reagent === "Froehde");
+  const missing = ["yellow", "green", "brown", "black"]
+    .filter((c) => !(step.colors || []).includes(c));
+  if (missing.length) return `Froehde no longer accepts ${missing.join(", ")}`;
+  for (const c of ["yellow", "green", "brown", "black"]) {
+    const w = walk(flowFor("mescaline", CHARTS),
+      { Marquis: "orange", Froehde: c, Liebermann: "brown" });
+    if (w.status !== "expected") return `Froehde ${c} gave ${w.status}`;
+  }
+  return step.sequenceOrAny === true ? null : "the both-ways flag was dropped";
+});
+
 /* ------------------------------------------------------------ guardrails */
 
 check("nothing run is not a verdict", () => {

@@ -202,8 +202,9 @@
             "brown",
             "black"
           ],
-          "says": "yellow-green-brown-black",
-          "read": "0:45"
+          "says": "yellow, green, brown or black — any one of them, or the drop moving through them as it develops",
+          "read": "0:45",
+          "sequenceOrAny": true
         },
         {
           "reagent": "Liebermann",
@@ -404,9 +405,10 @@
             "reagent": "Liebermann",
             "colors": [
               "orange",
-              "red"
+              "red",
+              "yellow"
             ],
-            "says": "soft orange or orange-red",
+            "says": "soft orange, orange-red, or light yellow",
             "next": [
               "Morr"
             ],
@@ -464,9 +466,10 @@
           {
             "reagent": "Liebermann",
             "colors": [
-              "brown"
+              "brown",
+              "black"
             ],
-            "says": "yellow-brown",
+            "says": "yellow-brown, or brown-black",
             "next": [
               "Froehde"
             ],
