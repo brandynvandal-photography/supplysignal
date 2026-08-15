@@ -316,12 +316,11 @@ export async function render(route, ctx) {
            where it cannot read as permission. */
         callout("stop", "No reagent can tell you if fentanyl is in your drugs",
           h("p", null, g.reagentIntro.cannotDetectFentanyl)),
-        reagentFilter(g.reagents),
-        h("details", { class: "acc" },
-          h("summary", null, h("span", null, "Why a color can be hidden")),
-          h("div", { class: "acc__body" },
-            h("ul", null, g.reagentIntro.masking.map((m) => h("li", null, m))),
-            h("p", null, g.reagentIntro.mixtures))),
+        /* DIRECTLY UNDER THE CALLOUT, because it is the objection the callout
+           raises. "But it reacts with pure fentanyl, doesn't it?" is the first
+           thing a reader who knows any chemistry thinks, and it was four
+           screens down past the whole reagent table — long enough to look like
+           the app was avoiding it. Answered where it is asked. */
         g.reagentIntro.pureSampleNote
           ? h("details", { class: "acc" },
               h("summary", null,
@@ -330,7 +329,13 @@ export async function render(route, ctx) {
                 h("p", null, g.reagentIntro.pureSampleNote.a),
                 h("p", null, g.reagentIntro.pureSampleNote.b),
                 sourceRow(g.reagentIntro.pureSampleNote.sources)))
-          : null)
+          : null,
+        reagentFilter(g.reagents),
+        h("details", { class: "acc" },
+          h("summary", null, h("span", null, "Why a color can be hidden")),
+          h("div", { class: "acc__body" },
+            h("ul", null, g.reagentIntro.masking.map((m) => h("li", null, m))),
+            h("p", null, g.reagentIntro.mixtures))))
     ),
       (
       /* THE METHOD BEFORE THE TOOL. This sat below the picker on the reasoning
@@ -376,7 +381,7 @@ export async function render(route, ctx) {
       (
       /* The charts run backwards, and this is the tool the whole section is
          for — so it goes last, after what a reagent is and how to run one. */
-      disclosure("sec-whatisit", "What could this be?", null,
+      disclosure("sec-whatisit", "What could this be?", { open: true },
         reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go, g.reagents, FLOWS))
     ),
     ],
@@ -767,9 +772,32 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
         ? " — the reading could be either branch, so both are loaded below."
         : ", loaded below.");
 
+    /* THE FORK, DRAWN. This is the part of a flowchart that is a picture: one
+       reagent, and a different color for each thing it could still be. It was
+       a sentence — "Still open: Cocaine or Ketamine" — which says who is in the
+       running and not the one thing that decides it. Each candidate now shows
+       what it expects at the step being run, with the band beside it, so the
+       spot plate can be held against the answer rather than against a memory
+       of the wording. */
+    const fork = led.next.flatMap((reagent) =>
+      led.live.map((w) => {
+        const step = w.steps.find((s) => s.reagent === reagent && s.verdict === "pending");
+        return step ? { id: w.id, reagent, step } : null;
+      }).filter(Boolean));
+
     return h("div", { class: "plan" },
       opener,
       runNext,
+      fork.length
+        ? h("ul", { class: "plan__steps plan__steps--fork" },
+            fork.map((f) =>
+              h("li", { class: "plan__step plan__step--fork" },
+                h("span", { class: "plan__reagent" }, nameOf(f.id)),
+                h("span", { class: "plan__says" },
+                  led.next.length > 1 ? `${reagentName(f.reagent)}: ` : "",
+                  f.step.says),
+                bar(f.step.colors, f.step.none))))
+        : null,
       led.live.length
         ? h("p", { class: "sec__note" },
             led.live.length === 1
@@ -868,10 +896,13 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
                 h("em", null, `The chart expects ${s.says}.`))
             : h("span", null,
                 `${reagentName(s.reagent)} went `,
-                /* The observed reading gets the dot; the expected sequence has
-                   its bar in the plan panel above, so neither is drawn twice. */
                 h("strong", null, s.observed === "none" ? "nothing" : s.observed),
-                ` — the chart expects ${s.says}`)));
+                ` — the chart expects ${s.says}`)),
+        /* Every line carries its own band. The plan panel above has them too
+           when a substance was named, but the guided path has no plan panel at
+           all, and a verdict that only describes colors in words is the one
+           place on this screen where a band is most use. */
+        bar(s.colors, s.none));
 
     /* What these readings DO complete, which for the commonest failure is not
        a vague mismatch but the next line down on the same chart. */
@@ -904,12 +935,14 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
             ". That is the chart's own answer, not a guess from the colors.")
         : null,
 
+      /* "at a dose that kills" is gone. The stop callout at the top of this
+         tool already says reagents do not test for fentanyl; repeating the
+         stakes at every result is the kind of line that stops being read. */
       h("p", { class: "sec__note" },
         run.status === "expected"
           ? "That is the chart's endpoint, which is worth having and is not a "
             + "purity result. A reagent reads whatever reacts strongest, so "
-            + "anything else in there behaves like the majority and stays "
-            + "hidden — including fentanyl, at a dose that kills."
+            + "anything else in there behaves like the majority and stays hidden."
           : run.status === "unexpected"
           ? `It did not do what ${name} is supposed to do. That is worth acting `
             + "on and it does not by itself say what you have instead — reagent "
@@ -1033,8 +1066,7 @@ function reverseLookup(matchFn, table, subs, go, guideReagents, charts) {
               ? "That is the published reaction, which is worth having and is "
                 + "not a purity result. A reagent reads whatever reacts "
                 + "strongest, so anything else in there behaves like the "
-                + "majority and stays hidden — including fentanyl, at a dose "
-                + "that kills."
+                + "majority and stays hidden."
               : sold.status === "unexpected"
               ? "It did not do what " + name + " is supposed to do. That is "
                 + "worth acting on and it does not by itself say what you have "

@@ -11,7 +11,7 @@
  * and Census place names like "Centre County, Pennsylvania" must survive - the
  * earlier sweep broke exactly that and had to be reverted. */
 
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -111,15 +111,73 @@ check("no British spellings in reader-facing strings", () => {
   for (const [file, literals] of targets) {
     for (const lit of literals) {
       for (const [uk, us] of BRITISH) {
-        // Lowercase only. A capitalised "Centre"/"Grey" is a proper noun
-        // (Centre County PA, Grey County ON) and must be left alone.
-        const re = new RegExp(`\\b${uk}\\b`, "g");
+        /* LEADING boundary only, and this is the fix for a real miss.
+         *
+         * Both ends were anchored, so "litre" was caught and "millilitres" was
+         * not — and "Twenty millilitres" shipped in the strip dilution
+         * instructions and rode into topics.json from there. British spellings
+         * take suffixes and prefixes like any other word, and requiring a
+         * boundary on the right meant the list only ever caught the bare stem.
+         *
+         * The left boundary stays. It is what keeps "analyse" from firing on
+         * "analysis" and lets place names beginning mid-word survive. The
+         * proper-noun exception still comes from the lowercase match: a
+         * capitalised Centre County or Grey Eagle never reaches here. */
+        const re = new RegExp(`\\b${uk}`, "g");
         if (re.test(lit)) {
           bad.push(`${path.relative(ROOT, file)}: "${uk}" should be "${us}"`);
         }
       }
     }
   }
+  return bad.length ? [...new Set(bad)].join("; ") : null;
+});
+
+check("our own prose inside generated files is spell-checked too", () => {
+  /* The other half of the same miss. Generated files are excluded above and
+     should be — they carry Census place names (Centre County, Grey Eagle,
+     Discovery Harbour), third-party prose nobody here may rewrite, and real
+     street names like 4-HO-MET's "Colour". But some of them also carry OUR
+     writing, and excluding the whole file meant "half a litre of grapefruit
+     juice" was never looked at.
+
+     So this checks only the parts written here: combos.json's food section,
+     which is authored in build-combos.mjs and merged into TripSit's payload,
+     and topics.json, which is a concatenation of hand-written content files.
+
+     Not paracetamol. It is on the main list because it is the wrong word in
+     our own copy, but it is also the international generic name and TripSit
+     use it throughout — and their text is not ours to edit. */
+  const PROSE_ONLY = [
+    ["litre", "liter"], ["colour", "color"], ["behaviour", "behavior"],
+    ["anaesthe", "anesthe"], ["diarrhoea", "diarrhea"], ["oesophag", "esophag"],
+    ["paediatric", "pediatric"], ["defence", "defense"], ["licence", "license"],
+    ["draught", "draft"], ["organisation", "organization"],
+    ["recognise", "recognize"], ["metre", "meter"], ["fibre", "fiber"],
+  ];
+
+  const scan = (label, text) => {
+    const out = [];
+    for (const [uk, us] of PROSE_ONLY) {
+      for (const m of text.matchAll(new RegExp(`\\b${uk}`, "gi"))) {
+        /* Never inside a URL. EUDA publish a real /catalogue-page/ path and
+           rewriting a link breaks it. */
+        if (/https?:\/\/\S*$/.test(text.slice(Math.max(0, m.index - 120), m.index))) continue;
+        out.push(`${label}: "${uk}" should be "${us}"`);
+      }
+    }
+    return out;
+  };
+
+  const bad = [];
+  const combos = path.join(ROOT, "data/combos.json");
+  if (existsSync(combos)) {
+    const food = JSON.parse(readFileSync(combos, "utf8")).food;
+    if (food) bad.push(...scan("data/combos.json .food", JSON.stringify(food)));
+  }
+  const topics = path.join(ROOT, "data/topics.json");
+  if (existsSync(topics)) bad.push(...scan("data/topics.json", readFileSync(topics, "utf8")));
+
   return bad.length ? [...new Set(bad)].join("; ") : null;
 });
 

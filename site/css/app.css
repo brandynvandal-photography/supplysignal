@@ -1466,6 +1466,13 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
 .plan__step--done::before { content: "✓"; background: var(--ok-soft); color: var(--ok); }
 .plan__reagent { font-weight: 650; }
 .plan__says { color: var(--ink-2); }
+/* The fork is a list of possibilities, not an ordered procedure — so no step
+   numbers, and a dot instead. */
+.plan__steps--fork { counter-reset: none; }
+.plan__step--fork::before {
+  content: "·"; background: none; color: var(--ink-3);
+  font-size: 1.1rem; line-height: 14px;
+}
 .soldline--pending { color: var(--ink-2); }
 .soldline--pending .soldline__mark { color: var(--ink-3); }
 
@@ -2404,6 +2411,14 @@ details.disc[open] { margin-bottom: var(--sp-3); }
    color column somewhere different. */
 .reagtable--fixed { table-layout: fixed; }
 .reagtable--fixed th { width: 38%; white-space: normal; }
+/* No rules between rows. A filtered search returns cards holding one or two
+   drugs each, and a hairline under every row turned a two-line answer into a
+   ledger — the whitespace and the fixed columns already separate them. The
+   substance page keeps its rules: those tables run fifteen reagents deep, and
+   there the line is doing real work. */
+.reagtable--fixed tr + tr th, .reagtable--fixed tr + tr td { border-top: 0; }
+.reagtable--fixed tr + tr { border-top: 0; }
+.reagtable--fixed th, .reagtable--fixed td { padding-top: 4px; padding-bottom: 4px; }
 /* The word always accompanies the swatch - color is never the only signal,
    and reagent colors are exactly where a color-blind reader is most at risk
    of being failed. */
@@ -2511,10 +2526,21 @@ details.disc[open] { margin-bottom: var(--sp-3); }
  * beside every bar and the bar is aria-hidden - so nothing here is the only
  * signal, and nobody is matching a sample against an invented midpoint without
  * the named reference colours right there. */
+/* The overlap is a variable now, for two reasons.
+ *
+ * FLUIDITY: 18px across a 168px bar is a short ramp, and a four-band sequence
+ * read as four blocks with a seam rather than as one reaction travelling
+ * through shades. Wider is closer to what somebody watching the drop sees.
+ *
+ * AND IT HAD TO SCALE. The inline bars in the reverse lookup are 52 to 96px.
+ * At four bands that is 13px each, so a fixed 18px fade was wider than the
+ * band it was fading — the bands ate each other and the bar turned to mush. */
+.reagbar { --fade: 26px; }
+.reagbar--inline { --fade: 12px; }
 .reagbar > span + span {
-  margin-left: -18px;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 18px);
-  mask-image: linear-gradient(to right, transparent 0, #000 18px);
+  margin-left: calc(var(--fade) * -1);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade));
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--fade));
 }
 
 /* Black and white have to be re-stated for the BAND, and this is a legibility

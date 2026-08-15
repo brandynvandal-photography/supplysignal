@@ -1241,7 +1241,7 @@
           "stim": {
             "label": "Meth or MDMA",
             "water": "10 mg into 20 mL — four teaspoons. Four times the usual amount.",
-            "note": "The standard 5 mL puts the sample at 2 mg per mL, and this strip reads positive with no fentanyl present at 1.5 mg/mL of methamphetamine and 2 mg/mL of MDMA. The usual ratio is already at or above both. Twenty millilitres brings it to 0.5 mg per mL, under them and under diphenhydramine's 1 mg/mL as well. If it still reads positive, retest at ten times the water before acting on it — in a street-sample study that corrected every false positive.",
+            "note": "The standard 5 mL puts the sample at 2 mg per mL, and this strip reads positive with no fentanyl present at 1.5 mg/mL of methamphetamine and 2 mg/mL of MDMA. The usual ratio is already at or above both. Twenty milliliters brings it to 0.5 mg per mL, under them and under diphenhydramine's 1 mg/mL as well. If it still reads positive, retest at ten times the water before acting on it — in a street-sample study that corrected every false positive.",
             "sources": [
               {
                 "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
@@ -1472,7 +1472,7 @@
         "sample": "50 mg of drug into one teaspoon of water — 10 mg per mL, the same concentration as the other WHPM strips.",
         "water": "5 mL — one teaspoon — for every 50 mg.",
         "residue": "Testing residue instead — what is left in a cap, a cooker or the corner of a bag: add 2 mL of clean water, about half a teaspoon, and mix well.",
-        "dip": "Dip for 15 seconds, holding the coloured end. Grassroots does not restate the timings on its product page; these are the WHPM strip's published procedure.",
+        "dip": "Dip for 15 seconds, holding the colored end. Grassroots does not restate the timings on its product page; these are the WHPM strip's published procedure.",
         "dipLimit": "Do not dip above the dotted section.",
         "wait": "Wait 3 minutes, lying flat.",
         "positive": "ONE red line",

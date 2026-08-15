@@ -237,6 +237,73 @@ const SUPPLEMENT = [
   },
 ];
 
+/* FOOD AND DRINK THAT CHANGE A DRUG.
+ *
+ * This lived in data/combos.json directly, which is a file this script
+ * OVERWRITES on every run — so the next build would have deleted the whole
+ * section without a word. It belongs here, next to the payload it ships in,
+ * the same way build-reagents.mjs keeps its overrides.
+ *
+ * Not from TripSit. TripSit publish drug-on-drug interactions; this is a
+ * separate body of pharmacokinetic work and every item carries its own
+ * citation, which is why the attribution note below does not cover it. */
+const FOOD = {
+  "headline": "Food and drink that change a drug",
+  "blurb": "Not nutrition advice. Four things people eat and drink that alter what a dose actually does — three of them by changing how much of it reaches your blood.",
+  "items": [
+    {
+      "t": "Grapefruit, and it is not a small effect",
+      "d": "Grapefruit blocks the enzyme that clears a lot of drugs, so the same dose becomes a bigger one. In a controlled study grapefruit juice raised oxycodone exposure 1.7-fold and its peak level 1.5-fold. A man on 90 mg of methadone daily who drank about half a liter of grapefruit juice a day for three days was found unresponsive with pinpoint pupils — the first published case of that interaction going far enough to be an overdose.",
+      "note": "Also pomelo and Seville orange, which work the same way. Ordinary oranges do not. The effect can last a day or more after the last glass, so skipping it “on dosing days” does not clear it.",
+      "sources": [
+        {
+          "name": "Nieminen et al., Basic Clin Pharmacol Toxicol 2010 — grapefruit juice enhances exposure to oral oxycodone",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/20406214/"
+        },
+        {
+          "name": "Opioid toxidrome following grapefruit juice consumption on methadone maintenance, J Addict Med",
+          "url": "https://www.ovid.com/jnls/journaladdictionmedicine/abstract/10.1097/adm.0000000000000535~opioid-toxidrome-following-grapefruit-juice-consumption-in"
+        }
+      ]
+    },
+    {
+      "t": "Aged and fermented food, if anything you take is an MAOI",
+      "d": "Aged cheese, cured and fermented meat, soy sauce, miso, sauerkraut, yeast extract and some draft and craft beers carry tyramine. With an MAOI in you, tyramine is not broken down and blood pressure can spike hard and fast. This is not only prescribed antidepressants: harmala alkaloids in ayahuasca and Syrian rue are MAOIs, and so is moclobemide.",
+      "note": "The chart on this page already rates MAOIs against other drugs. This is the same mechanism arriving through dinner.",
+      "sources": []
+    },
+    {
+      "t": "Alcohol and the acetaminophen hiding in your pills",
+      "d": "Plenty of pressed and prescription opioid tablets are combination products — Percocet, Vicodin and their counterfeits pair the opioid with acetaminophen, called paracetamol outside the US. Taking several to get the opioid dose you want stacks the acetaminophen too, and alcohol multiplies what that does to the liver. The opioid is what stops your breathing; the acetaminophen is what quietly takes the liver, and the amount that does it is lower than most people think.",
+      "note": "A pressed pill that looks like a pharmacy tablet may contain neither ingredient in the stated amount, so the arithmetic is a floor rather than a figure.",
+      "sources": [
+        {
+          "name": "NIAAA — harmful interactions: mixing alcohol with medicines",
+          "url": "https://www.niaaa.nih.gov/publications/brochures-and-fact-sheets/harmful-interactions-mixing-alcohol-with-medicines"
+        }
+      ]
+    },
+    {
+      "t": "Thiamine, if you drink heavily",
+      "d": "Heavy drinking blocks thiamine — vitamin B1 — from being absorbed, and running low on it causes Wernicke's encephalopathy: confusion, unsteadiness, eye movement problems. Caught early it reverses with thiamine. Left alone it can become permanent memory damage. Thiamine costs almost nothing over the counter and there is no reason to wait for symptoms to start taking it.",
+      "note": "Symptoms get mistaken for being drunk, which is the reason it goes unnoticed until it does not reverse.",
+      "sources": [
+        {
+          "name": "NHS — Wernicke's encephalopathy and thiamine",
+          "url": "https://www.nhs.uk/conditions/wernickes-encephalopathy/"
+        }
+      ]
+    },
+    {
+      "t": "An empty stomach is a different dose",
+      "d": "Anything swallowed hits faster and harder on an empty stomach, and that is where redosing goes wrong — nothing happens for an hour, a second dose goes in, then both arrive together. Food slows and flattens the same amount. It does not reduce it.",
+      "note": "This is timing, not a safety margin: eating does not make a dose smaller.",
+      "sources": []
+    }
+  ],
+  "sourceNote": "Where an item has no link, it is standard pharmacology rather than a single study, and the mechanism is stated so it can be checked."
+};
+
 const payload = {
   generated: new Date().toISOString(),
   supplement: SUPPLEMENT,
@@ -258,6 +325,7 @@ const payload = {
   categories: CATEGORIES,
   matrix,
   drugs: drugList,
+  food: FOOD,
 };
 
 writeFileSync("data/combos.json", JSON.stringify(payload));
