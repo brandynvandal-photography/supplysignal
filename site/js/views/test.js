@@ -18,7 +18,7 @@ import {
 import * as data from "../data.js";
 import { match as reagentMatch, checkSoldAs } from "../reagentmatch.js";
 import { flowFor, walk, completedBy, offChart, guide } from "../flowcheck.js";
-import { reagentLabel } from "../reagentnames.js";
+import { reagentLabel, isBlankReading, blankColorsFor } from "../reagentnames.js";
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
@@ -307,30 +307,6 @@ export async function render(route, ctx) {
          reader nothing about which of the three sections they want. */
       disclosure("sec-reagents", "Reagents",
         null,
-        /* The heading is scoped to the question a reader actually asks -
-           "is fentanyl in MY drugs" - rather than to reagent chemistry.
-           Reference-grade fentanyl DOES react with Marquis, so the flat claim
-           "no reagent detects fentanyl" is refutable, and a rule that can be
-           refuted is a rule someone talks themselves out of at the wrong
-           moment. This version cannot be refuted and is the same sentence
-           DanceSafe publishes. The chemistry nuance lives below, collapsed,
-           where it cannot read as permission. */
-        callout("stop", "No reagent can tell you if fentanyl is in your drugs",
-          h("p", null, g.reagentIntro.cannotDetectFentanyl)),
-        /* DIRECTLY UNDER THE CALLOUT, because it is the objection the callout
-           raises. "But it reacts with pure fentanyl, doesn't it?" is the first
-           thing a reader who knows any chemistry thinks, and it was four
-           screens down past the whole reagent table — long enough to look like
-           the app was avoiding it. Answered where it is asked. */
-        g.reagentIntro.pureSampleNote
-          ? h("details", { class: "acc" },
-              h("summary", null,
-                h("span", null, g.reagentIntro.pureSampleNote.q)),
-              h("div", { class: "acc__body" },
-                h("p", null, g.reagentIntro.pureSampleNote.a),
-                h("p", null, g.reagentIntro.pureSampleNote.b),
-                sourceRow(g.reagentIntro.pureSampleNote.sources)))
-          : null,
         reagentFilter(g.reagents),
         h("details", { class: "acc" },
           h("summary", null, h("span", null, "Why a color can be hidden")),
@@ -389,7 +365,39 @@ export async function render(route, ctx) {
     /* The preview names what is inside. "Handling them safely" is gone
        because that section is gone — it is inside "Running a test" now. */
     ["Reagents", "Running a test", "What could this be?"],
-    { open: true })
+    {
+      open: true,
+      /* THE GROUP'S WARNING, not the first child's.
+       *
+       * This lived inside "Reagents", which meant a reader who opened "How to
+       * run a reagent test" or went straight to the picker never met it — and
+       * it is true of all three. It applies to reagent testing, so it sits on
+       * reagent testing, above every section it qualifies.
+       *
+       * The heading is scoped to the question a reader actually asks — "is
+       * fentanyl in MY drugs" — rather than to reagent chemistry.
+       * Reference-grade fentanyl DOES react with Marquis, so the flat claim
+       * "no reagent detects fentanyl" is refutable, and a rule that can be
+       * refuted is a rule somebody talks themselves out of at the wrong
+       * moment. This version cannot be refuted.
+       *
+       * The chemistry nuance sits directly under it, collapsed, because "but
+       * it reacts with pure fentanyl, doesn't it?" is the first thing a reader
+       * who knows any chemistry thinks — and answering it anywhere else looks
+       * like the app avoiding the question. */
+      intro: frag(
+        callout("stop", "No reagent can tell you if fentanyl is in your drugs",
+          h("p", null, g.reagentIntro.cannotDetectFentanyl)),
+        g.reagentIntro.pureSampleNote
+          ? h("details", { class: "acc" },
+              h("summary", null,
+                h("span", null, g.reagentIntro.pureSampleNote.q)),
+              h("div", { class: "acc__body" },
+                h("p", null, g.reagentIntro.pureSampleNote.a),
+                h("p", null, g.reagentIntro.pureSampleNote.b),
+                sourceRow(g.reagentIntro.pureSampleNote.sources)))
+          : null),
+    })
   );
 
   wrap.appendChild(strips);
@@ -1037,7 +1045,26 @@ function reverseLookup(matchFn, table, subs, go, charts) {
 
     const flow = flowFor(soldAs.value, charts);
     const run = walk(flow, state);
-    const { consistent, used } = matchFn(state, table);
+    const { consistent, used, blanked } = matchFn(state, table);
+
+    /* A READING THAT WAS THE BOTTLE, said out loud rather than dropped in
+       silence. Pink on Morris and orange on Simon's are what those reagents
+       look like unreacted, so they are not scored — but a reader who typed one
+       in and saw it vanish from the count would reasonably think the app had
+       ignored them. It tells them what happened and what to do about it. */
+    const blankNote = (blanked || []).length
+      ? h("p", { class: "sec__note" },
+          (blanked || []).map(reagentLabel).join(" and "),
+          (blanked || []).length === 1 ? " came back the color it already is"
+                                        : " came back the colors they already are",
+          " — ",
+          (blanked || []).map((r) => `${reagentLabel(r)} is ${(blankColorsFor(r) || []).join("/")} in the bottle`)
+            .join(", "),
+          ". That is what an unreacted reagent looks like, not a result, so it "
+          + "is not counted either way. A spent bottle, too little sample, or "
+          + "something that will not dissolve all look like this. Run it again "
+          + "on a fresh scraping.")
+      : null;
 
     /* THE CHART, before anything has been run.
      *
@@ -1190,6 +1217,8 @@ function reverseLookup(matchFn, table, subs, go, charts) {
     const allOf = used === 1 ? "that reading" : `all ${used} readings`;
     const total = chartOnly.length + consistent.length;
 
+    if (blankNote) out.appendChild(blankNote);
+
     if (!total) {
       out.appendChild(empty(
         `Nothing published matches ${allOf}.`,
@@ -1279,18 +1308,11 @@ function reverseLookup(matchFn, table, subs, go, charts) {
       "No idea what it is? Leave it on ", h("em", null, "not sure"),
       " and start with Marquis. What it does decides which reagent comes next, "
       + "and that one gets loaded for you."),
-    /* Four sentences down to three, and the title now says the thing instead
-       of gesturing at it. "This cannot rule out fentanyl" describes a
-       limitation of the tool; "reagents do not test for fentanyl" is the fact,
-       and it is shorter. Both caveats that matter are kept — the dose is below
-       detection, and a mixture reacts as whatever dominates — because either
-       one alone lets somebody talk themselves into a clean reading. */
-    callout("stop", "Reagents do not test for fentanyl",
-      h("p", null,
-        "They tell you what the strongest thing in a sample is. A dose of "
-        + "fentanyl that kills is far below what any color can show, and a "
-        + "mixture reacts as whatever dominates. Use a fentanyl test strip "
-        + "for that.")),
+    /* No fentanyl callout here. It used to sit in this tool AND inside
+       "Reagents", which is the same warning twice on one screen — and a
+       warning a reader has already scrolled past once is a warning they skim
+       the second time. It is at the top of the Reagent testing group now,
+       above every section it applies to, including this one. */
     /* The frame sits above the readings, in the same control, because what it
        was sold as changes how everything under it reads. Optional — the list
        works without it, and "not saying" is the default rather than a thing

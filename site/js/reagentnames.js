@@ -55,3 +55,59 @@ export function reagentLabel(key) {
 
 /** Every key this module can name. Used by the build to reject the rest. */
 export const NAMED_REAGENTS = Object.keys(LABELS);
+
+/* THE COLOR THE BOTTLE ALREADY IS.
+ *
+ * Three of these reagents are strongly coloured before they touch anything, and
+ * the picker's word for that colour does not mean "the reaction was this
+ * colour" — it means the reaction did not happen.
+ *
+ *   Morris is cobalt(II) thiocyanate. Unreacted it is the PINK octahedral
+ *   aquo-cobalt(II) species; the positive result is the deep blue
+ *   tetrathiocyanatocobaltate ion. 57 of its 58 rows in the table lead with
+ *   pink, across substances Morris has nothing to say about at all — MDMA,
+ *   heroin, oxycodone, LSD.
+ *
+ *   Simon's is sodium nitroprusside, which is amber. 36 of its coloured rows
+ *   lead with orange, and they include creatine, gabapentin and pregabalin —
+ *   none of which has a secondary amine, so none of which CAN react with it.
+ *
+ *   Scott is cobalt thiocyanate too, and 7 of its rows lead with pink.
+ *
+ * A colour that shows up on nearly every row of a reagent is describing the
+ * bottle, not the drug. Scored as an ordinary reading it does damage in both
+ * directions: it agrees with the forty-odd substances whose rows happen to list
+ * it, putting them forward as matches on the strength of a test that did
+ * nothing, and it contradicts every substance whose row does not — eliminating
+ * them because a reagent failed to react, which is exactly what a spent bottle,
+ * too little sample, or a sample that would not dissolve all look like.
+ *
+ * So it is not an observation. It is dropped from scoring, said out loud, and
+ * it confirms nobody and eliminates nobody.
+ *
+ * VERIFIED SAFE TO DISCARD: no substance in the file has any of these as its
+ * SOLE published colour for that reagent, so nothing unique is lost. A test
+ * asserts that, because it is the assumption this rests on.
+ */
+const BLANK = {
+  Simons: ["orange", "peach"],
+  Morr: ["pink"],
+  Scott: ["pink"],
+};
+
+/**
+ * Is this reading just the unreacted reagent?
+ *
+ * @param {string} reagent  a reagent key
+ * @param {string} reading  a colour word, or "none"
+ */
+export function isBlankReading(reagent, reading) {
+  const b = BLANK[reagent];
+  return !!b && b.includes(String(reading || "").toLowerCase());
+}
+
+/** What the bottle looks like unreacted, for the copy that explains it. */
+export const blankColorsFor = (reagent) => BLANK[reagent] || null;
+
+/** Every reagent that has a resting colour. */
+export const BLANK_REAGENTS = Object.keys(BLANK);

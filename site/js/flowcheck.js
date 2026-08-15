@@ -42,6 +42,8 @@
  * than everything — a malformed row must not manufacture agreement.
  */
 
+import { isBlankReading } from "./reagentnames.js";
+
 /** Does one observed reading satisfy one step of a chart? */
 function stepAgrees(step, observed) {
   if (!step || !observed) return false;
@@ -72,6 +74,14 @@ export function walk(flow, observations) {
     const observed = obs[s.reagent];
     if (!observed || observed === "skip") {
       return { ...s, observed: null, verdict: "pending" };
+    }
+    /* The unreacted bottle is not a result. Pink on Morris and orange on
+       Simon's mean the reaction did not happen — a spent reagent, too little
+       sample, something that would not dissolve — and a chart step must not be
+       failed by that. It stays PENDING: the reader is told to run it again,
+       rather than told their drug is not what the chart says. */
+    if (isBlankReading(s.reagent, observed)) {
+      return { ...s, observed, verdict: "pending", blank: true };
     }
     return { ...s, observed, verdict: stepAgrees(s, observed) ? "agrees" : "disagrees" };
   });

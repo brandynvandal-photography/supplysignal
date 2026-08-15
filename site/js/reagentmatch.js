@@ -59,6 +59,8 @@
  * whether they read the colour the way the source did.
  */
 
+import { isBlankReading } from "./reagentnames.js";
+
 /** One observation contradicts a documented result. */
 const DISAGREE = "disagrees";
 /** One observation matches a documented result. */
@@ -144,8 +146,11 @@ export function compare(row, observed) {
  */
 export function checkSoldAs(id, observations, table) {
   const rows = (table || {})[id];
+  const blanked = Object.entries(observations || {})
+    .filter(([r, v]) => v && v !== "skip" && isBlankReading(r, v))
+    .map(([r]) => r);
   const entries = Object.entries(observations || {})
-    .filter(([, v]) => v && v !== "skip");
+    .filter(([r, v]) => v && v !== "skip" && !isBlankReading(r, v));
   if (!rows || !entries.length) return null;
 
   const byReagent = new Map(rows.map((r) => [r.reagent, r]));
@@ -167,7 +172,7 @@ export function checkSoldAs(id, observations, table) {
   const status = disagrees > 0 ? "unexpected"
     : agrees === entries.length ? "expected" : "partial";
 
-  return { id, status, agrees, disagrees, unknown, used: entries.length, detail };
+  return { id, status, agrees, disagrees, unknown, used: entries.length, detail, blanked };
 }
 
 /**
@@ -178,9 +183,19 @@ export function checkSoldAs(id, observations, table) {
  * @returns {{consistent:Array, partial:Array, ruledOut:Array, used:number}}
  */
 export function match(observations, table) {
+  /* A reading that is just the unreacted reagent is dropped here, not scored.
+     See reagentnames.js: pink on Morris and orange on Simon's are what those
+     bottles look like before they touch anything, so they confirm nobody and
+     must eliminate nobody. Dropped from the DENOMINATOR too — counting them
+     would make every substance a partial match on a test that did nothing. */
+  const blanked = Object.entries(observations || {})
+    .filter(([r, v]) => v && v !== "skip" && isBlankReading(r, v))
+    .map(([r]) => r);
   const entries = Object.entries(observations || {})
-    .filter(([, v]) => v && v !== "skip");
-  if (!entries.length) return { consistent: [], partial: [], ruledOut: [], used: 0 };
+    .filter(([r, v]) => v && v !== "skip" && !isBlankReading(r, v));
+  if (!entries.length) {
+    return { consistent: [], partial: [], ruledOut: [], used: 0, blanked };
+  }
 
   const scored = [];
   for (const [id, rows] of Object.entries(table || {})) {
@@ -219,5 +234,6 @@ export function match(observations, table) {
     ruledOut: scored.filter((s) => s.disagrees > 0 && s.agrees > 0)
       .sort((a, b) => a.disagrees - b.disagrees || rank(a, b)),
     used: entries.length,
+    blanked,
   };
 }

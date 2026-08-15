@@ -475,5 +475,10 @@ export function group(id, title, blurb, children, preview = null, opts = null) {
           : null)),
     h("div", { class: "disc__body" },
       blurb ? h("p", { class: "sec__note groupnote" }, blurb) : null,
+      /* Content that belongs to the WHOLE group, above its children. The
+         fentanyl warning is the case: it applies to every section under here,
+         and while it lived inside the first child a reader who opened any of
+         the other two never met it. */
+      opts?.intro || null,
       h("div", { class: "groupkids" }, kids)));
 }

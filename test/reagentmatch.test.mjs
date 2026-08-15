@@ -14,7 +14,7 @@
  */
 
 import { match, compare, checkSoldAs } from "../site/js/reagentmatch.js";
-import { NAMED_REAGENTS as NAMED } from "../site/js/reagentnames.js";
+import { NAMED_REAGENTS as NAMED, BLANK_REAGENTS, isBlankReading } from "../site/js/reagentnames.js";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -372,6 +372,62 @@ check("alternatives are carried, never concatenated into one sequence", () => {
   if (!peth?.alts) return "pethidine/Mecke lost its conflicting readings";
   return peth.none && (peth.colors || []).length
     ? null : "pethidine/Mecke dropped one side of the conflict";
+});
+
+/* ------------------------------------------- the bottle is not a result */
+
+check("the unreacted reagent's own color is never the only thing published", () => {
+  /* THE ASSUMPTION THE WHOLE RULE RESTS ON. Pink on Morris and orange on
+     Simon's are discarded as readings because they are what the bottle looks
+     like before it touches anything — 57 of 58 Morris rows lead with pink,
+     across substances Morris has nothing to say about. That is only safe to
+     discard if no substance depends on it as its ONLY published color for that
+     reagent; if one ever did, discarding would delete a real result. */
+  const bad = [];
+  for (const [id, rows] of Object.entries(TABLE)) {
+    for (const r of rows) {
+      if (!BLANK_REAGENTS.includes(r.reagent)) continue;
+      const colors = r.colors || [];
+      if (!colors.length) continue;
+      if (colors.every((c) => isBlankReading(r.reagent, c))) {
+        bad.push(`${id}/${r.reagent}: ${colors.join(",")}`);
+      }
+    }
+  }
+  return bad.length ? `blank color is the only published one for ${bad.join("; ")}` : null;
+});
+
+check("a blank reading confirms nobody and eliminates nobody", () => {
+  /* Both directions matter. Scored as a color it AGREES with the forty-odd
+     substances whose rows happen to list it — putting them forward on the
+     strength of a test that did nothing — and DISAGREES with every substance
+     whose row does not, eliminating them because a reagent failed to react. */
+  const out = match({ Morr: "pink" }, TABLE);
+  if (out.used !== 0) return `a pink Morris counted as ${out.used} reading(s)`;
+  if (out.consistent.length) return `${out.consistent.length} substances matched on the bottle's own color`;
+  if (out.ruledOut.length) return `${out.ruledOut.length} substances eliminated by a reaction that did not happen`;
+  return (out.blanked || []).includes("Morr") ? null : "the discarded reading was not reported";
+});
+
+check("a blank reading does not water down a real one", () => {
+  /* It is dropped from the DENOMINATOR too. Counting it would turn every
+     substance into a partial match on a test that told nobody anything. */
+  const alone = match({ Marquis: "black" }, TABLE);
+  const withBlank = match({ Marquis: "black", Morr: "pink" }, TABLE);
+  if (withBlank.used !== alone.used) return `used went ${alone.used} -> ${withBlank.used}`;
+  const a = alone.consistent.map((x) => x.id).join();
+  const b = withBlank.consistent.map((x) => x.id).join();
+  return a === b ? null : "the match list changed when a blank reading was added";
+});
+
+check("Simon's own amber does not eliminate MDMA", () => {
+  /* The concrete case. Simon's is sodium nitroprusside and it is amber in the
+     bottle; MDMA's published Simon's is blue. Reporting orange used to
+     contradict MDMA outright — telling somebody their MDMA is not MDMA
+     because the reagent did nothing. */
+  const out = match({ Marquis: "black", Simons: "orange" }, TABLE);
+  if (out.ruledOut.some((x) => x.id === "mdma")) return "MDMA eliminated by an unreacted Simon's";
+  return out.consistent.some((x) => x.id === "mdma") ? null : "MDMA lost from the matches";
 });
 
 /* ------------------------------------------------------------------- run */
