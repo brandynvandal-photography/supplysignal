@@ -283,33 +283,49 @@ export function jumpNav(items) {
                 : el.querySelector("h1, h2, h3, h4, summary") || el;
               const target = head.tagName === "SUMMARY" ? head.parentElement : head;
 
-              /* MEASURE THE HEADER, AFTER THE LAYOUT SETTLES.
+              /* INSTANT, MEASURED, AND THEN CHECKED. Three attempts at this
+               * have now failed and each failed for its own reason, so this one
+               * removes the assumptions rather than replacing them.
                *
-               * This was scrollIntoView + a scroll-margin-top keyed on --bar-h,
-               * and it kept landing headings under the bar. Two reasons, and
-               * the fix has to cover both.
+               * It began as scrollIntoView plus a scroll-margin-top keyed on
+               * --bar-h. The margin is a CSS constant and the header is not:
+               * it carries the early-access banner, and at 960 the tab bar
+               * moves into the row. When the constant and the rendered height
+               * disagree the heading is what goes under. So it started
+               * measuring the header instead.
                *
-               * The margin is a CSS constant and the header is not: it carries
-               * the early-access banner, and at 960 the tab bar moves into the
-               * row. Every one of those is a chance for the constant and the
-               * rendered height to disagree, and when they do the heading is
-               * the thing that goes under.
+               * That still left SMOOTH, which is where it kept breaking, and
+               * Safari worst of all. A smooth scroll commits to a destination
+               * the moment it is called and then animates toward it — while
+               * this handler has just opened the target and every disclosure
+               * above it, so anything expanding above the target moves it after
+               * the browser has already decided where to stop. Waiting two
+               * frames helped and did not fix it, because there is no frame
+               * count that is correct for every engine.
                *
-               * And a smooth scroll commits to a destination when it is called,
-               * while this handler has just opened the target and every
-               * disclosure above it. Anything that expands ABOVE the target
-               * moves it after the browser has already decided where to stop.
-               * Two frames of waiting lets that reflow finish, and then the
-               * position is measured from the real header rather than assumed
-               * from a variable. */
-              requestAnimationFrame(() => requestAnimationFrame(() => {
+               * There is no animation to get stale now. The position is
+               * measured and jumped to, and then verified once on the next
+               * frame and corrected if the layout moved underneath it — which
+               * is the only claim that actually matters: the heading is below
+               * the bar when the scrolling stops. A jump chip is a destination
+               * request, not a scenic route; landing there immediately is also
+               * what the reader asked for. */
+              const place = () => {
                 const bar = document.querySelector(".topbar");
                 const barH = bar ? bar.getBoundingClientRect().height : 0;
-                const y = target.getBoundingClientRect().top + window.scrollY - barH - 14;
-                window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+                /* Relative, so it is correct whether or not a scroll is
+                   already in flight — no reading of window.scrollY to go
+                   stale between the measurement and the move. */
+                const delta = target.getBoundingClientRect().top - barH - 14;
+                if (Math.abs(delta) > 1) window.scrollBy({ top: delta, behavior: "auto" });
+                return Math.abs(delta);
+              };
+              place();
+              requestAnimationFrame(() => {
+                place();
                 const s = el.querySelector("summary");
                 if (s) s.focus({ preventScroll: true });
-              }));
+              });
             },
           },
           label
