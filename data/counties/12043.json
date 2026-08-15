@@ -4,11 +4,15 @@
   "state": "FL",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-13T10:19:57.313Z",
+    "lastScan": "2026-08-15T21:37:12.319Z",
     "windowDays": 365,
-    "sourcesChecked": 27,
+    "sourcesChecked": 32,
     "sourcesFailed": [
-      "la-ldh"
+      "la-ldh",
+      "nd-hhs",
+      "cook-me",
+      "santaclara-me",
+      "sandiego-me"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
