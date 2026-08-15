@@ -199,8 +199,13 @@ async function indexView(subs, combosP, { go }) {
    *
    * "Your situation" was the other candidate and it is the wrong shelf: every
    * item there answers "given this fact about me, what is different" — a
-   * prescription, a heart condition. Food is not a fact about you. */
-  const foodBlock = combos?.food
+   * prescription, a heart condition. Food is not a fact about you.
+   *
+   * Built from RESOLVED combos and filled into a slot below, because the index
+   * deliberately does not wait on that bundle. Reading `combos` directly here
+   * is what took the whole Drugs tab down: this function is handed combosP, a
+   * promise, and the name simply was not in scope. */
+  const foodBlockFrom = (combos) => (combos?.food
     ? disclosure("sec-food", combos.food.headline, null,
         h("p", { class: "sec__note" }, combos.food.blurb),
         frag(combos.food.items.map((x) =>
@@ -213,7 +218,7 @@ async function indexView(subs, combosP, { go }) {
               : null))),
         combos.food.sourceNote
           ? h("p", { class: "sec__note" }, combos.food.sourceNote) : null)
-    : null;
+    : null);
 
   const yoursGroup = group("grp-yours", "Does your situation change the picture?",
     "Prescribed medication and health conditions both change what a combination does.", [
@@ -227,7 +232,8 @@ async function indexView(subs, combosP, { go }) {
      context they can already get from Alerts by searching or tapping Near me,
      so leading with it here made the page repeat itself before answering the
      question it exists to answer. */
-  if (foodBlock) wrap.appendChild(foodBlock);
+  const foodSlot = h("div");
+  wrap.appendChild(foodSlot);
 
   const { regionalOverview, uncAttribution } = await regionalMod;
   const regional = await regionalOverview();
@@ -247,6 +253,8 @@ async function indexView(subs, combosP, { go }) {
     if (checker) mixSlot.replaceChildren(checker);
     else mixSlot.replaceChildren(yoursGroup);
     attrSlot.replaceChildren(attributionBlock(subs, combos, uncAttr));
+    const food = foodBlockFrom(combos);
+    if (food) foodSlot.replaceChildren(food);
   }).catch(() => {
     mixSlot.replaceChildren(yoursGroup);
     attrSlot.replaceChildren(attributionBlock(subs, null, uncAttr));
