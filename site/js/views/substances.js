@@ -91,6 +91,7 @@ async function indexView(subs, combosP, { go }) {
     jumpNav([
       { id: "sec-find", label: "Find a drug" },
       { id: "sec-checker", label: "Combination checker" },
+      { id: "sec-food", label: "Food and drink" },
       { id: "grp-yours", label: "Your situation" },
       { id: "sec-market", label: "In your region" },
     ]));
@@ -187,6 +188,33 @@ async function indexView(subs, combosP, { go }) {
 
   /* Built here, rendered inside the checker below - see the note in
      mixChecker for why it belongs with the result rather than after it. */
+  /* Food and drink, under the checker rather than under "your situation".
+   *
+   * The ask was a diet and wellbeing section. This is not that, and the
+   * difference is the whole point: "wellbeing" tells somebody to be healthier,
+   * which this app does not do, and generic nutrition advice is unusable at
+   * three in the morning. What survives the filter is the short list of things
+   * people eat and drink that change what a DOSE does — which makes them
+   * combinations, and puts them here, next to the chart that rates the others.
+   *
+   * "Your situation" was the other candidate and it is the wrong shelf: every
+   * item there answers "given this fact about me, what is different" — a
+   * prescription, a heart condition. Food is not a fact about you. */
+  const foodBlock = combos?.food
+    ? disclosure("sec-food", combos.food.headline, null,
+        h("p", { class: "sec__note" }, combos.food.blurb),
+        frag(combos.food.items.map((x) =>
+          h("div", { class: "card" },
+            h("h3", null, x.t),
+            h("p", null, x.d),
+            x.note ? h("p", { class: "sec__note" }, x.note) : null,
+            x.sources?.length
+              ? h("div", { class: "sources" }, x.sources.map((z) => extLink(z.url, z.name)))
+              : null))),
+        combos.food.sourceNote
+          ? h("p", { class: "sec__note" }, combos.food.sourceNote) : null)
+    : null;
+
   const yoursGroup = group("grp-yours", "Does your situation change the picture?",
     "Prescribed medication and health conditions both change what a combination does.", [
       await rxBlock(),
@@ -199,6 +227,8 @@ async function indexView(subs, combosP, { go }) {
      context they can already get from Alerts by searching or tapping Near me,
      so leading with it here made the page repeat itself before answering the
      question it exists to answer. */
+  if (foodBlock) wrap.appendChild(foodBlock);
+
   const { regionalOverview, uncAttribution } = await regionalMod;
   const regional = await regionalOverview();
   if (regional) wrap.appendChild(regional);

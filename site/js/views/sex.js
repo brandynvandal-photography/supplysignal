@@ -1,4 +1,4 @@
-/* Sex, and being out.
+/* Sexual health.
  *
  * The framing rule, which is the whole reason this page reads the way it does:
  * the standard nightlife safety list is not merely unevidenced, it is
@@ -94,11 +94,14 @@ export async function render() {
             + "each with a documented mechanism.")),
         frag(g.interactions.items.map(item)))));
 
-  wrap.appendChild(block("sec-out", g.out));
-
-  /* The nightlife block above says overheating and over-drinking in three
-     sentences, which is the right length for somebody skimming before they go
-     out and the wrong length for somebody using it on the night. */
+  /* "Long nights and hot days" moved to Learn, and its two halves went
+     separate ways because they were never one subject. The heat item is
+     prep-before-the-night and its every figure already appears verbatim on the
+     Heat page this block links to - it is on Learn now, next to the other
+     things worth knowing beforehand. "Long sessions" stayed here and moved
+     into Barriers, which is already the section about condoms and lube, and is
+     where somebody reading about lube should meet "a new one every 30
+     minutes" rather than three sections further down. */
   wrap.appendChild(
     h("a", { class: "bigptr", href: "#/heat" },
       h("span", { class: "bigptr__hd" }, "Heat, and water"),

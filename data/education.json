@@ -1,82 +1,99 @@
 {
- "note": "HAND-CURATED. Every URL live-verified on lastVerified.",
- "lastVerified": "2026-08-10",
- "intro": "Nobody is born knowing how to reverse an overdose. These are free, short, and designed for people with no medical background — and some of them come with naloxone in the box at the end.",
- "groups": [
-  {
-   "id": "naloxone",
-   "title": "Overdose response and naloxone",
-   "blurb": "The one to do first. Most take under an hour, several are free and mail you naloxone.",
-   "items": [
+  "note": "HAND-CURATED. Every URL live-verified on lastVerified.",
+  "lastVerified": "2026-08-10",
+  "intro": "Nobody is born knowing how to reverse an overdose. These are free, short, and designed for people with no medical background — and some of them come with naloxone in the box at the end.",
+  "groups": [
     {
-     "name": "End Overdose",
-     "url": "https://endoverdose.net/courses/",
-     "what": "Free online certification in opioid overdose response. Their opioid course lists a certificate of completion and a free naloxone kit as what you get for finishing — training and supply in one step. There is also a short game-based version.",
-     "cost": "Free",
-     "time": "Around 10–45 minutes"
+      "id": "naloxone",
+      "title": "Overdose response and naloxone",
+      "blurb": "The one to do first. Most take under an hour, several are free and mail you naloxone.",
+      "items": [
+        {
+          "name": "End Overdose",
+          "url": "https://endoverdose.net/courses/",
+          "what": "Free online certification in opioid overdose response. Their opioid course lists a certificate of completion and a free naloxone kit as what you get for finishing — training and supply in one step. There is also a short game-based version.",
+          "cost": "Free",
+          "time": "Around 10–45 minutes"
+        },
+        {
+          "name": "GetNaloxoneNow",
+          "url": "https://www.getnaloxonenow.org/",
+          "what": "Free online overdose response training, widely used by health departments and often the course a state program points you at.",
+          "cost": "Free",
+          "time": "About 30 minutes"
+        },
+        {
+          "name": "NEXT Distro",
+          "url": "https://nextdistro.org/naloxone",
+          "what": "Mail-based naloxone. Most states require you to complete their short online training before they ship — that is the norm for free-by-mail programs, not an obstacle they invented.",
+          "cost": "Free",
+          "time": "Training is brief; shipping takes days"
+        },
+        {
+          "name": "Your local syringe service program",
+          "url": "https://harmreduction.org/resource-center/harm-reduction-near-you/",
+          "what": "In-person training, usually same-day naloxone, and people who can answer questions a website cannot. Often the fastest route if there is one near you.",
+          "cost": "Free",
+          "time": "Same visit"
+        }
+      ]
     },
     {
-     "name": "GetNaloxoneNow",
-     "url": "https://www.getnaloxonenow.org/",
-     "what": "Free online overdose response training, widely used by health departments and often the course a state program points you at.",
-     "cost": "Free",
-     "time": "About 30 minutes"
+      "id": "cpr",
+      "title": "CPR",
+      "blurb": "Worth having for the overdose where there is no pulse — and for everything else in a life.",
+      "items": [
+        {
+          "name": "American Red Cross",
+          "url": "https://www.redcross.org/take-a-class/cpr",
+          "what": "In-person, blended and online CPR classes nationwide, with certification.",
+          "cost": "Paid; some community and employer programs cover it",
+          "time": "2–5 hours"
+        },
+        {
+          "name": "American Heart Association",
+          "url": "https://cpr.heart.org/",
+          "what": "Course finder for AHA CPR training, including Hands-Only CPR, which takes minutes to learn and needs no certification.",
+          "cost": "Varies; Hands-Only resources are free",
+          "time": "Minutes to hours"
+        }
+      ]
     },
     {
-     "name": "NEXT Distro",
-     "url": "https://nextdistro.org/naloxone",
-     "what": "Mail-based naloxone. Most states require you to complete their short online training before they ship — that is the norm for free-by-mail programs, not an obstacle they invented.",
-     "cost": "Free",
-     "time": "Training is brief; shipping takes days"
-    },
-    {
-     "name": "Your local syringe service program",
-     "url": "https://harmreduction.org/resource-center/harm-reduction-near-you/",
-     "what": "In-person training, usually same-day naloxone, and people who can answer questions a website cannot. Often the fastest route if there is one near you.",
-     "cost": "Free",
-     "time": "Same visit"
+      "id": "firstaid",
+      "title": "First aid",
+      "blurb": "Wounds, bleeding, seizures, and what to do while you wait for help.",
+      "items": [
+        {
+          "name": "American Red Cross — First Aid",
+          "url": "https://www.redcross.org/take-a-class/first-aid",
+          "what": "General first aid training and certification. Relevant here for wound care, bleeding, and seizure response.",
+          "cost": "Paid",
+          "time": "A few hours"
+        }
+      ]
     }
-   ]
+  ],
+  "why": {
+    "title": "Do you need training to use naloxone?",
+    "body": "Legally, no — naloxone nasal spray is available over the counter nationwide and you can use it on someone without any certification. Practically, training matters: it is the difference between knowing the steps and working them out while someone is not breathing. It also covers what naloxone does not fix, which is where people get caught out.",
+    "note": "Many free-naloxone programs do ask you to complete a short course before they ship. That is how the supply is funded and tracked — worth doing early rather than on the night you need it."
   },
-  {
-   "id": "cpr",
-   "title": "CPR",
-   "blurb": "Worth having for the overdose where there is no pulse — and for everything else in a life.",
-   "items": [
-    {
-     "name": "American Red Cross",
-     "url": "https://www.redcross.org/take-a-class/cpr",
-     "what": "In-person, blended and online CPR classes nationwide, with certification.",
-     "cost": "Paid; some community and employer programs cover it",
-     "time": "2–5 hours"
-    },
-    {
-     "name": "American Heart Association",
-     "url": "https://cpr.heart.org/",
-     "what": "Course finder for AHA CPR training, including Hands-Only CPR, which takes minutes to learn and needs no certification.",
-     "cost": "Varies; Hands-Only resources are free",
-     "time": "Minutes to hours"
-    }
-   ]
-  },
-  {
-   "id": "firstaid",
-   "title": "First aid",
-   "blurb": "Wounds, bleeding, seizures, and what to do while you wait for help.",
-   "items": [
-    {
-     "name": "American Red Cross — First Aid",
-     "url": "https://www.redcross.org/take-a-class/first-aid",
-     "what": "General first aid training and certification. Relevant here for wound care, bleeding, and seizure response.",
-     "cost": "Paid",
-     "time": "A few hours"
-    }
-   ]
+  "beforeTheNight": {
+    "headline": "Long nights and hot days",
+    "blurb": "The two that catch people out at an event, before the night rather than during it.",
+    "items": [
+      {
+        "t": "Overheating, and over-drinking",
+        "d": "Dancing in a hot room you can lose about a pint of water an hour, and stimulants make overheating more likely. Two to three cups an hour — about half a liter — is the ceiling while you are actually dancing, not a target, because past that the water dilutes the sodium in your blood until the brain starts to swell, and at events MDMA is the reason that happens so often. Eat something; food is what keeps your electrolytes where they should be.",
+        "note": "Heat stroke is not the one where they stop sweating — that is the heat wave kind. Somebody having one on a dancefloor is usually still pouring sweat. What tells you is that they stop making sense.",
+        "sources": [
+          {
+            "name": "NATA position statement — exertional heat illnesses (2015)",
+            "url": "https://www.nata.org/sites/default/files/externalheatillnesses.pdf"
+          }
+        ]
+      }
+    ]
   }
- ],
- "why": {
-  "title": "Do you need training to use naloxone?",
-  "body": "Legally, no — naloxone nasal spray is available over the counter nationwide and you can use it on someone without any certification. Practically, training matters: it is the difference between knowing the steps and working them out while someone is not breathing. It also covers what naloxone does not fix, which is where people get caught out.",
-  "note": "Many free-naloxone programs do ask you to complete a short course before they ship. That is how the supply is funded and tracked — worth doing early rather than on the night you need it."
- }
 }

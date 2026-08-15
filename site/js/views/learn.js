@@ -53,8 +53,9 @@ export async function render(route, { go }) {
          that is not on the page is worse than no chip. */
       ...(consent ? [{ id: "sec-consent", label: "Consent" },
                      { id: "sec-repair", label: "After you hurt someone" }] : []),
+      { id: "sec-before", label: "Long nights and hot days" },
       { id: "sec-stimulants", label: "Staying up" },
-      { id: "sec-sex", label: "Sex and being out" },
+      { id: "sec-sex", label: "Sexual health" },
       { id: "sec-heat", label: "Heat and water" },
       { id: "sec-policy", label: "The law" },
     ])
@@ -128,6 +129,20 @@ export async function render(route, { go }) {
   if (consent) wrap.appendChild(consent);
 
   wrap.appendChild(
+    /* Moved off the Sex page, where it sat under a heading about being out and
+       directly above a pointer to the long version on Heat. It is
+       before-the-night knowledge, which is what this page is for. */
+    ...(e.beforeTheNight ? [h("div", { id: "sec-before" },
+      section(e.beforeTheNight.headline, null,
+        h("p", { class: "sec__note" }, e.beforeTheNight.blurb),
+        frag(e.beforeTheNight.items.map((x) =>
+          h("div", { class: "card" },
+            h("h3", null, x.t),
+            h("p", null, x.d),
+            x.note ? h("p", { class: "sec__note" }, x.note) : null,
+            x.sources ? h("div", { class: "sources" },
+              x.sources.map((z) => extLink(z.url, z.name))) : null)))))] : []),
+
     h("div", { id: "sec-stimulants" },
       section("Staying up, and coming down", null,
         h("p", { class: "sec__note" },
@@ -141,12 +156,12 @@ export async function render(route, { go }) {
 
   wrap.appendChild(
     h("div", { id: "sec-sex" },
-      section("Sex, and being out", null,
+      section("Sexual health", null,
         h("p", { class: "sec__note" },
           "Barriers, PrEP and PEP, emergency contraception, and the mixes that "
           + "actually put people in the hospital."),
         h("a", { class: "bigptr", href: "#/sex" },
-          h("span", { class: "bigptr__hd" }, "Sex, and being out"),
+          h("span", { class: "bigptr__hd" }, "Sexual health"),
           h("span", { class: "bigptr__sub" },
             "Including an honest answer about drink test strips, which mostly "
             + "do not work.")))));

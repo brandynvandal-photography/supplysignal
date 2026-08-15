@@ -1,7 +1,7 @@
 {
   "note": "Hand-curated. Written for people who are going to be out, using, and having sex, because that is what happens. Nothing here is conditional on stopping any of it.",
   "verified": "2026-08-12",
-  "headline": "Sex, and being out",
+  "headline": "Sexual health",
   "blurb": "Barriers, PrEP and PEP, emergency contraception, the drug interactions that actually put people in the hospital, and an honest answer about drink testing.",
   "framing": {
     "headline": "Why this page is not a list of precautions",
@@ -99,6 +99,16 @@
       {
         "t": "Dental dams",
         "d": "The CDC recommends them and gives instructions, including how to cut one from a condom. Worth saying plainly: nobody has ever measured how much risk they remove. We are not going to borrow a condom's number for them."
+      },
+      {
+        "t": "Long sessions",
+        "d": "Friction over hours causes sores and bleeding, which is how HIV and hepatitis get passed on during sessions that were meant to be safe. Plenty of water-based lube, and a new condom every 30 minutes rather than every act.",
+        "sources": [
+          {
+            "name": "We Are With You — chemsex harm reduction",
+            "url": "https://www.wearewithyou.org.uk/media/ofvp5zf4/chemsex-booklet-revised-nov-2024_converted-copy-digital-1.pdf"
+          }
+        ]
       }
     ],
     "sources": [
@@ -233,32 +243,6 @@
           {
             "name": "DanceSafe — GHB",
             "url": "https://dancesafe.org/ghb/"
-          }
-        ]
-      }
-    ]
-  },
-  "out": {
-    "headline": "Long nights and hot days",
-    "items": [
-      {
-        "t": "Overheating, and over-drinking",
-        "d": "Dancing in a hot room you can lose about a pint of water an hour, and stimulants make overheating more likely. Two to three cups an hour — about half a liter — is the ceiling while you are actually dancing, not a target, because past that the water dilutes the sodium in your blood until the brain starts to swell, and at events MDMA is the reason that happens so often. Eat something; food is what keeps your electrolytes where they should be.",
-        "note": "Heat stroke is not the one where they stop sweating — that is the heat wave kind. Somebody having one on a dancefloor is usually still pouring sweat. What tells you is that they stop making sense.",
-        "sources": [
-          {
-            "name": "NATA position statement — exertional heat illnesses (2015)",
-            "url": "https://www.nata.org/sites/default/files/externalheatillnesses.pdf"
-          }
-        ]
-      },
-      {
-        "t": "Long sessions",
-        "d": "Friction over hours causes sores and bleeding, which is how HIV and hepatitis get passed on during sessions that were meant to be safe. Plenty of water-based lube, and a new condom every 30 minutes rather than every act.",
-        "sources": [
-          {
-            "name": "We Are With You — chemsex harm reduction",
-            "url": "https://www.wearewithyou.org.uk/media/ofvp5zf4/chemsex-booklet-revised-nov-2024_converted-copy-digital-1.pdf"
           }
         ]
       }
