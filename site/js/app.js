@@ -664,106 +664,101 @@ function mountBackToTop() {
  *
  * rAF-throttled and passive, same as the back-to-top button above it. */
 function watchBarShrink() {
-  /* Two states, not one.
+  /* Two states.
    *
    *   is-scrolled  the row tightens and drops the wordmark (94px -> 76px)
    *   is-bar-up    the whole header slides off the top
    *
-   * The second is what "move the top bar up" asks for, and it is gated on
-   * DIRECTION rather than position: down hides it, any upward scroll brings it
-   * straight back. That is the part that keeps Quick Exit honest. The X lives
-   * in that row and is the control somebody reaches for because a person just
-   * walked in - a bar that were simply gone below a threshold would put it
-   * behind a scroll to the top of a twelve-screen page. Behind one upward flick
-   * is a different thing, and it is the interaction every reader already knows.
+   * The second is HIDE WHILE MOVING, SHOW WHEN STOPPED. Any scroll past the
+   * first screen takes the header away immediately; a short quiet period brings
+   * it back wherever the reader happens to be.
    *
-   * --bar-h GOES TO ZERO with it. The jump strip and the search panel are both
-   * pinned to the bar's height by that token, so leaving it at 76 while the bar
-   * sat off-screen would hold them 76px down with nothing above them.
+   * Two earlier versions of this were wrong in opposite directions and both are
+   * worth remembering. Returning it on any upward scroll meant the bar flashed
+   * in and out the whole way back up a long page. Returning it only at the very
+   * top meant Quick Exit - the X in that row - was behind a scroll to the top of
+   * a twelve-screen page. Idle-to-restore is the version that keeps the X about
+   * a second away from anywhere while still giving the whole screen to reading.
    *
-   * A LATCH WITH A DEADBAND. A bare threshold flips state every frame for
-   * anyone resting near the line, and since the bar's height is what changes,
-   * each flip moves the page under the reader - which moves scrollY - which
-   * flips it back. The edges are far enough apart that the loop cannot close,
-   * and DELTA has to be cleared before a direction counts, so a one-pixel
-   * jitter never reveals the bar.
+   * THE LAYOUT DOES NOT MOVE when it hides or returns, which is what makes this
+   * safe to do mid-page. .topbar is sticky and keeps its box; only
+   * .topbar__slide is transformed, and a transform does not affect layout. So
+   * the bar slides over the content rather than pushing it, and a heading the
+   * reader is looking at stays exactly where it is.
    *
-   * rAF-throttled and passive, same as the back-to-top button above. */
-  const TIGHT_ON = 64;   // tighten once the page title has genuinely gone
-  const TIGHT_OFF = 42;  // and restore well before the top
+   * The hide is deliberately NOT rAF-throttled. It has to happen on the first
+   * scroll event of a gesture, and a frame of delay is visible as the header
+   * lagging behind the finger. Only the tighten - which is a layout change -
+   * goes through rAF. */
+  const TIGHT_ON = 64;    // tighten once the page title has genuinely gone
+  const TIGHT_OFF = 42;   // and restore well before the top
   const HIDE_AFTER = 220; // never hide within the first screenful
-  const DELTA = 6;        // ignore jitter smaller than this
+
+  /* Long enough that iOS momentum scrolling does not land inside it - a flick
+     keeps firing scroll events until it settles, so this timer only starts
+     counting once the page has genuinely stopped. Short enough that stopping to
+     read brings the header back without anybody waiting for it. */
+  const IDLE_MS = 220;
 
   let tight = false;
   let up = false;
-  let last = window.scrollY;
   let ticking = false;
+  let idle = 0;
 
-  const sync = () => {
+  const setUp = (v) => {
+    if (up === v) return;
+    up = v;
+    document.documentElement.classList.toggle("is-bar-up", v);
+  };
+
+  /* The tighten only. Layout work, so it waits for a frame. */
+  const syncTight = () => {
     ticking = false;
     const y = window.scrollY;
-    const moved = y - last;
-
     if (!tight && y > TIGHT_ON) tight = true;
     else if (tight && y < TIGHT_OFF) tight = false;
-
-    if (Math.abs(moved) >= DELTA) {
-      /* Down past the first screen hides it. Scrolling back UP does not bring
-         it back - only reaching the top does, which is the rule below.
-         Bounce at either end of the document is not a direction. */
-      if (moved > 0 && y > HIDE_AFTER) up = true;
-      last = y;
-    }
-    /* THE ONLY WAY BACK IS THE TOP.
-     *
-     * An earlier version returned the bar on any upward scroll, which is the
-     * common pattern and was asked to change: on a long page it means the
-     * header keeps appearing and disappearing while somebody reads their way
-     * back up, and each appearance shifts the content under them.
-     *
-     * Quick Exit is why this needs saying rather than just doing. The X lives
-     * in that row, and it is now behind a scroll to the top rather than behind
-     * one upward flick. The bottom tab bar never moves and SOS is on it, so the
-     * emergency path is untouched; what got further away is the privacy
-     * control. That is the trade, made deliberately. */
-    if (y <= TIGHT_OFF) up = false;
-
     document.documentElement.classList.toggle("is-scrolled", tight);
-    document.documentElement.classList.toggle("is-bar-up", up);
+  };
+
+  const rest = () => {
+    idle = 0;
+    /* Never leave it hidden once the page has stopped. */
+    setUp(false);
   };
 
   window.addEventListener("scroll", () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(sync);
+    /* Hide first, synchronously, before anything else in this handler. */
+    setUp(window.scrollY > HIDE_AFTER);
+
+    clearTimeout(idle);
+    idle = setTimeout(rest, IDLE_MS);
+
+    if (!ticking) { ticking = true; requestAnimationFrame(syncTight); }
   }, { passive: true });
 
   /* A new view starts at the top, so both states reset with it - otherwise a
      page reached from six screens down opens with no header on it. */
   onNavigate(() => {
-    tight = false; up = false; last = 0;
-    document.documentElement.classList.remove("is-scrolled", "is-bar-up");
+    clearTimeout(idle);
+    tight = false;
+    document.documentElement.classList.remove("is-scrolled");
+    setUp(false);
   });
 
-  /* A JUMP IS NOT A SCROLL DOWN.
+  /* A JUMP IS NOT A SCROLL.
    *
    * jumpTo() offsets its landing by the bar's height so the heading arrives
-   * just below it, and then its own scrollBy looked exactly like a reader
-   * scrolling down - so the bar hid itself, and the heading landed with ~95px
-   * of the previous section above it. Verified on four different chips.
-   *
-   * `last` is reseeded to where the jump actually ended, so the next real
-   * scroll is measured from there rather than producing a huge phantom delta.
-   * The bar is brought back rather than merely left alone: somebody who asked
-   * to be taken somewhere should arrive with the header in the state the
-   * landing was calculated for. */
+   * just below it, and its own scrollBy would otherwise read as a gesture and
+   * take the header away at the moment of arrival. The idle timer would return
+   * it a fifth of a second later either way - the layout does not move, so
+   * nothing would be mispositioned - but the header being present when the
+   * reader lands is what the offset was calculated for. */
   document.addEventListener("nl:jump", () => {
-    up = false;
-    last = window.scrollY;
-    document.documentElement.classList.remove("is-bar-up");
+    clearTimeout(idle);
+    setUp(false);
   });
 
-  sync();
+  syncTight();
 }
 
 /* ------------------------------------------------------------------- boot */
