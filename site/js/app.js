@@ -694,11 +694,19 @@ function watchBarShrink() {
   const TIGHT_OFF = 42;   // and restore well before the top
   const HIDE_AFTER = 220; // never hide within the first screenful
 
-  /* Long enough that iOS momentum scrolling does not land inside it - a flick
-     keeps firing scroll events until it settles, so this timer only starts
-     counting once the page has genuinely stopped. Short enough that stopping to
-     read brings the header back without anybody waiting for it. */
-  const IDLE_MS = 220;
+  /* A BEAT AFTER STOPPING, not the instant it stops.
+   *
+   * Two jobs. The floor is set by iOS momentum scrolling: a flick keeps firing
+   * scroll events until it settles, so anything shorter than about 200ms risks
+   * the header flashing back mid-glide. Above that floor the number is a
+   * judgement, and 420 is a deliberate pause rather than a reflex - the header
+   * arriving the same instant a thumb lifts feels like it was waiting to
+   * pounce, and a reader flicking through several screens in a row never sees
+   * it at all.
+   *
+   * It is the same control as how far Quick Exit is from the reader, so it does
+   * not go much beyond this: the X lives in that row. */
+  const IDLE_MS = 420;
 
   let tight = false;
   let up = false;

@@ -3806,9 +3806,53 @@ html, body { overscroll-behavior-y: none; }
   font-size: 1.45rem; font-weight: 650; letter-spacing: -.015em;
   color: var(--ink);
   opacity: 0;
-  animation: bootname .32s ease-out .12s forwards;
+  animation: bootname .74s var(--ease-float) .10s forwards;
 }
-@keyframes bootname { to { opacity: 1; } }
+
+/* OUT OF THE FOG.
+ *
+ * It used to be a plain opacity fade, which reads as a thing switching on. A
+ * lamp in fog does not switch on: it resolves. So both halves arrive blurred,
+ * slightly too large and slightly too spread, and settle into focus.
+ *
+ * The letter-spacing is the part that sells it on the word — text coming into
+ * focus contracts as it sharpens, and animating spacing alongside blur reads as
+ * the letters finding each other rather than as a filter being turned down.
+ *
+ * blur() is a compositor filter on WebKit and this is the very first frame of
+ * the app on a cold start, so it is deliberately short and on only two
+ * elements. The mark leads by 100ms; the name follows it out. */
+@keyframes bootname {
+  from { opacity: 0; filter: blur(9px); letter-spacing: .22em; transform: translate3d(0, 5px, 0); }
+  60%  { opacity: 1; }
+  to   { opacity: 1; filter: blur(0);   letter-spacing: -.015em; transform: none; }
+}
+
+.is-packaged .boot__logo {
+  animation: bootmark .78s var(--ease-float) both;
+}
+@keyframes bootmark {
+  from { opacity: 0; filter: blur(11px); transform: scale(1.13); }
+  55%  { opacity: 1; }
+  to   { opacity: 1; filter: blur(0);    transform: scale(1); }
+}
+
+/* The fog itself: a soft wash over the whole screen that thins as the mark
+   resolves. Painted rather than filtered — a backdrop-filter across the full
+   viewport on a cold start is the one place this app genuinely cannot afford
+   one, and a radial gradient costs nothing. */
+.is-packaged .boot::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 46%,
+    color-mix(in srgb, var(--glow) 13%, transparent),
+    transparent 62%);
+  animation: bootfog .95s var(--ease-float) both;
+}
+@keyframes bootfog {
+  from { opacity: 1; transform: scale(1.35); }
+  to   { opacity: 0; transform: scale(1); }
+}
 
 .is-packaged .boot__ring, .is-packaged .boot__core, .is-packaged .boot__halo { transform-origin: 16px 16px; }
 .boot__ring--outer { opacity: .3; }
@@ -3829,6 +3873,9 @@ html, body { overscroll-behavior-y: none; }
 /* Nothing to fade from and nothing to fade to: the mark is still there, it
    just does not move, and the whole thing is gone in a quarter of a second. */
 @media (prefers-reduced-motion: reduce) {
-  .is-packaged .boot__name { animation: none; opacity: 1; }
+  /* No fog, no blur, no scale. The mark and the word are simply there. */
+  .is-packaged .boot__name { animation: none; opacity: 1; letter-spacing: -.015em; }
+  .is-packaged .boot__logo { animation: none; opacity: 1; }
+  .is-packaged .boot::before { animation: none; opacity: 0; }
   .is-packaged .boot--out { transition: opacity .12s linear; }
 }
