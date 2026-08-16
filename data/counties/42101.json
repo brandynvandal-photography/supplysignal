@@ -2,20 +2,59 @@
   "fips": "42101",
   "name": "Philadelphia County",
   "state": "PA",
-  "clusters": [],
+  "clusters": [
+    {
+      "id": "54d1007ee07c1a6e",
+      "fips": "42101",
+      "state": "PA",
+      "headline": "Carfentanil is increasingly detected in drug supply and overdose deaths",
+      "eventDate": "2025-11-13",
+      "summary": "Philadelphia Department of Public Health update: Carfentanil is increasingly detected in drug supply and overdose deaths",
+      "severity": "critical",
+      "substances": [
+        "carfentanil",
+        "drug supply"
+      ],
+      "sourceCount": 1,
+      "confidence": 0.9615384615384616,
+      "sources": [
+        {
+          "name": "The Philadelphia Department of Public Health",
+          "url": "https://hip.phila.gov/document/5891/PDPH-HAN-Carfentanil-11.13.2025.pdf/",
+          "published": "2025-11-13T00:00:00.000Z",
+          "trust": 1,
+          "evidence": "official"
+        }
+      ],
+      "evidenceClasses": [
+        "official"
+      ],
+      "memberGrades": [
+        {
+          "severity": "critical",
+          "evidenceClass": "official"
+        }
+      ],
+      "rawSeverity": "critical",
+      "evidenceClass": "official",
+      "independent": 1
+    }
+  ],
   "coverage": {
-    "lastScan": "2026-08-15T03:56:06.029Z",
+    "lastScan": "2026-08-16T07:03:50.890Z",
     "windowDays": 365,
-    "sourcesChecked": 26,
+    "sourcesChecked": 33,
     "sourcesFailed": [
       "la-ldh",
-      "grassroots-hr",
       "cook-me",
       "santaclara-me",
-      "sandiego-me"
+      "sandiego-me",
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
   },
-  "newSinceLastRun": []
+  "newSinceLastRun": [
+    "54d1007ee07c1a6e"
+  ]
 }

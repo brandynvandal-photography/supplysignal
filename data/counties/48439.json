@@ -1,10 +1,10 @@
 {
-  "fips": "17161",
-  "name": "Rock Island County",
-  "state": "IL",
+  "fips": "48439",
+  "name": "Tarrant County",
+  "state": "TX",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-16T07:03:50.977Z",
+    "lastScan": "2026-08-16T07:03:50.903Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [

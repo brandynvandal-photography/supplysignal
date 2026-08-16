@@ -1,10 +1,10 @@
 {
-  "fips": "17161",
-  "name": "Rock Island County",
-  "state": "IL",
+  "fips": "53053",
+  "name": "Pierce County",
+  "state": "WA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-16T07:03:50.977Z",
+    "lastScan": "2026-08-16T07:03:50.904Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [

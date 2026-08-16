@@ -12,8 +12,8 @@
     "lastModified": "Tue, 11 Aug 2026 16:40:18 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1786813458-0\"",
-    "lastModified": "Sat, 15 Aug 2026 17:04:18 GMT"
+    "etag": "W/\"1786853712-0\"",
+    "lastModified": "Sun, 16 Aug 2026 04:15:12 GMT"
   },
   "de-dhss": {
     "etag": "\"38655ef03ebc42c19b857a2cfbf0ce2a-gzip\"",
@@ -37,18 +37,18 @@
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Sat, 15 Aug 2026 21:30:42 GMT"
+    "lastModified": "Sun, 16 Aug 2026 06:55:13 GMT"
   },
   "me-dhhs": {
     "etag": null,
     "lastModified": null
   },
   "mn-mdh": {
-    "etag": "W/\"1786774100\"",
-    "lastModified": "Sat, 15 Aug 2026 06:08:20 GMT"
+    "etag": "W/\"1786860397\"",
+    "lastModified": "Sun, 16 Aug 2026 06:06:37 GMT"
   },
   "ms-msdh": {
-    "etag": "\"803de86a252cdd1:0\"",
+    "etag": "\"4aa0476b252cdd1:0\"",
     "lastModified": "Fri, 14 Aug 2026 19:45:11 GMT"
   },
   "mt-dphhs": {
@@ -60,8 +60,8 @@
     "lastModified": "Sat, 15 Aug 2026 18:15:28 GMT"
   },
   "nd-hhs": {
-    "etag": "\"1786776578\"",
-    "lastModified": "Sat, 15 Aug 2026 06:49:38 GMT"
+    "etag": "\"1786863148\"",
+    "lastModified": "Sun, 16 Aug 2026 06:52:28 GMT"
   },
   "ri-doh": {
     "etag": "W/\"1786729449\"",
@@ -76,12 +76,12 @@
     "lastModified": "Fri, 14 Aug 2026 21:12:27 GMT"
   },
   "wa-doh": {
-    "etag": "\"1786828207\"",
-    "lastModified": "Sat, 15 Aug 2026 21:10:07 GMT"
+    "etag": "\"1786837207\"",
+    "lastModified": "Sat, 15 Aug 2026 23:40:07 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1786826949\"",
-    "lastModified": "Sat, 15 Aug 2026 20:49:09 GMT"
+    "etag": "\"1786837214\"",
+    "lastModified": "Sat, 15 Aug 2026 23:40:14 GMT"
   },
   "wv-oeps": {
     "etag": "\"1786723305\"",
@@ -100,8 +100,8 @@
     "lastModified": "Fri, 23 Jan 2026 22:04:25 GMT"
   },
   "sc-dph": {
-    "etag": "\"1786751004\"",
-    "lastModified": "Fri, 14 Aug 2026 23:43:24 GMT"
+    "etag": "\"1786837444\"",
+    "lastModified": "Sat, 15 Aug 2026 23:44:04 GMT"
   },
   "cdc-mmwr": {
     "etag": null,

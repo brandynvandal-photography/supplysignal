@@ -4,12 +4,15 @@
   "state": "IL",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-14T05:04:27.521Z",
+    "lastScan": "2026-08-16T07:03:50.950Z",
     "windowDays": 365,
-    "sourcesChecked": 26,
+    "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "cook-me"
+      "cook-me",
+      "santaclara-me",
+      "sandiego-me",
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
