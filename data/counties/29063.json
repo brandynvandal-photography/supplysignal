@@ -4,11 +4,14 @@
   "state": "MO",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-14T13:40:30.146Z",
+    "lastScan": "2026-08-16T21:40:39.521Z",
     "windowDays": 365,
-    "sourcesChecked": 26,
+    "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
+      "cook-me",
+      "santaclara-me",
+      "sandiego-me",
       "google-news"
     ],
     "scanned": true,

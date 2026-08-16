@@ -12,8 +12,8 @@
     "lastModified": "Tue, 11 Aug 2026 16:40:18 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1786901103-0\"",
-    "lastModified": "Sun, 16 Aug 2026 17:25:03 GMT"
+    "etag": "W/\"1786879398-0\"",
+    "lastModified": "Sun, 16 Aug 2026 11:23:18 GMT"
   },
   "de-dhss": {
     "etag": "\"38655ef03ebc42c19b857a2cfbf0ce2a-gzip\"",
@@ -37,7 +37,7 @@
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Sun, 16 Aug 2026 18:42:30 GMT"
+    "lastModified": "Sun, 16 Aug 2026 21:30:19 GMT"
   },
   "me-dhhs": {
     "etag": null,
@@ -48,7 +48,7 @@
     "lastModified": "Sun, 16 Aug 2026 06:06:37 GMT"
   },
   "ms-msdh": {
-    "etag": "\"803de86a252cdd1:0\"",
+    "etag": "\"4aa0476b252cdd1:0\"",
     "lastModified": "Fri, 14 Aug 2026 19:45:11 GMT"
   },
   "mt-dphhs": {
@@ -80,8 +80,8 @@
     "lastModified": "Sat, 15 Aug 2026 23:40:07 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1786837214\"",
-    "lastModified": "Sat, 15 Aug 2026 23:40:14 GMT"
+    "etag": "\"1786910227\"",
+    "lastModified": "Sun, 16 Aug 2026 19:57:07 GMT"
   },
   "wv-oeps": {
     "etag": "\"1786723305\"",
@@ -108,8 +108,8 @@
     "lastModified": null
   },
   "il-ccdph": {
-    "etag": "W/\"4a73a0f31d148bfc3c0a238a01a69a73-gzip\"",
-    "lastModified": "Thu, 13 Aug 2026 19:46:12 GMT"
+    "etag": "W/\"20897dc76dc5f08f8620f372cd75b399-gzip\"",
+    "lastModified": "Sun, 16 Aug 2026 19:14:38 GMT"
   },
   "il-willco": {
     "etag": "\"c5a715b88af693775751bd8938b62946-br\"",
