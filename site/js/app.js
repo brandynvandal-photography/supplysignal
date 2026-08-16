@@ -708,14 +708,25 @@ function watchBarShrink() {
     else if (tight && y < TIGHT_OFF) tight = false;
 
     if (Math.abs(moved) >= DELTA) {
-      /* Down and clear of the first screen hides it; up always returns it.
+      /* Down past the first screen hides it. Scrolling back UP does not bring
+         it back - only reaching the top does, which is the rule below.
          Bounce at either end of the document is not a direction. */
       if (moved > 0 && y > HIDE_AFTER) up = true;
-      else if (moved < 0) up = false;
       last = y;
     }
-    /* Never hidden at the top, whatever the last direction was. */
-    if (y <= HIDE_AFTER) up = false;
+    /* THE ONLY WAY BACK IS THE TOP.
+     *
+     * An earlier version returned the bar on any upward scroll, which is the
+     * common pattern and was asked to change: on a long page it means the
+     * header keeps appearing and disappearing while somebody reads their way
+     * back up, and each appearance shifts the content under them.
+     *
+     * Quick Exit is why this needs saying rather than just doing. The X lives
+     * in that row, and it is now behind a scroll to the top rather than behind
+     * one upward flick. The bottom tab bar never moves and SOS is on it, so the
+     * emergency path is untouched; what got further away is the privacy
+     * control. That is the trade, made deliberately. */
+    if (y <= TIGHT_OFF) up = false;
 
     document.documentElement.classList.toggle("is-scrolled", tight);
     document.documentElement.classList.toggle("is-bar-up", up);

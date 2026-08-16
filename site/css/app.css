@@ -3240,14 +3240,24 @@ details.disc .groupkids > details.disc > summary h2 {
    old 94px - the exact silent mismatch the token exists to prevent, arrived at
    from the other direction. 48px still clears all three 44px icon buttons.
 
-   `>` AND NOT A DESCENDANT, which the rule above .topbar .wrap already warns
-   about in as many words: the banner is inside .topbar and has a .wrap of its
-   own, so a descendant selector stretches the banner to the menu row's height
-   too. Written as a descendant this matched at (0,3,0) - equal to the banner's
-   own guard and later in the file, so it won - and the banner went 27px to
-   48px, making the header TALLER than before while the token said 76. The
-   menu row is a direct child; the banner's is a grandchild. */
-.is-scrolled .topbar > .wrap { min-height: 48px; }
+   THE PARENT IS .topbar__slide, NOT .topbar, and this selector has now been
+   wrong twice for opposite reasons.
+
+   Written as a descendant (`.is-scrolled .topbar .wrap`) it also matched the
+   BANNER's own .wrap - which the rule above .topbar .wrap warns about in as
+   many words - and stretched the banner from 27px to 48px, making the header
+   taller than before while the token said 76.
+
+   Rewritten with `>` against .topbar it was correct until the header was split
+   for the slide animation, which moved the menu row from `.topbar > .wrap` to
+   `.topbar > .topbar__slide > .wrap`. A child combinator does not reach a
+   grandchild, so it silently matched NOTHING: --bar-row-h still dropped to 49
+   on scroll while the bar kept rendering at 94, which is the token/render
+   disagreement this rule exists to prevent, arrived at from a third direction.
+
+   Anchored to the slide, `>` still excludes the banner - whose .wrap is a
+   grandchild of the slide - and reaches the menu row, which is a child of it. */
+.is-scrolled .topbar__slide > .wrap { min-height: 48px; }
 .is-scrolled .brand__name {
   /* Not display:none - the button keeps its accessible name from aria-label,
      and collapsing the width rather than the box lets it ease.
