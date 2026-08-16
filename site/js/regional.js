@@ -125,7 +125,23 @@ export async function regionalOverview() {
       h("summary", null,
         h("span", null, region),
         badge(`${counts[region] || 0} drugs`, "neutral")),
-      h("div", { class: "acc__body" }, top.map(substanceRow)));
+      h("div", { class: "acc__body" },
+        /* The same line the county page puts on this block, and it was missing
+           here. Opened cold, these rows are a drug name and a percentage with
+           nothing saying what the percentage IS - a reader can reasonably take
+           "62%" as "62% of samples here contained it" when it means 62% of that
+           drug's national signal landed in this region. The "Everywhere" block
+           below has carried its explanation all along; the four that need it
+           more had none.
+
+           Inside each block rather than once above them, for the same reason
+           the county page does it that way: these are collapsed by default, so
+           somebody opens one and reads it on its own. */
+        h("p", { class: "sec__note" },
+          `Substances that drug checking finds far more often in the ${region} ` +
+          "than elsewhere. The figure is that drug's share of the national " +
+          "signal, not how common it is here."),
+        top.map(substanceRow)));
     paintBars(block);
     wrap.appendChild(block);
   }

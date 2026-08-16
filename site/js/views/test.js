@@ -510,8 +510,18 @@ function reverseLookup(matchFn, table, subs, go, charts) {
   const rows = h("div", { class: "mixslots revslots" });
   const out = h("div", { class: "revout", role: "status", "aria-live": "polite" });
 
+  /* The reagent table carries a handful of ids that have no substance record —
+     they come straight from PsychonautWiki's colour data and were never given a
+     page. nameOf fell through to the raw id for those, so "cathinone", "coca",
+     "dox" and "phentermine" sat lowercase in a list where everything else was
+     a proper name. Title-casing the fallback fixes those and any future one;
+     the map is only for ids title-case would get wrong. */
+  const DISPLAY = { dox: "DOx" };
+  const titleCase = (id) =>
+    String(id).replace(/(^|[\s-])([a-z])/g, (_, sep, ch) => sep + ch.toUpperCase());
   const nameOf = (id) =>
-    (subs?.substances || []).find((x) => x.id === id)?.name || id;
+    (subs?.substances || []).find((x) => x.id === id)?.name
+    || DISPLAY[id] || titleCase(id);
 
   /* "a Amphetamine-like substance". The article has to follow the SOUND of the
      name, and drug names are the worst case for guessing it: initialisms are
@@ -548,8 +558,24 @@ function reverseLookup(matchFn, table, subs, go, charts) {
    * under it. Only substances with published reagent data are offered; the
    * rest cannot be answered either way and an option that always returns
    * "cannot say" is a dead control. */
+  /* ALPRAZOLAM IS NOT IN THIS GROUP, and it was.
+     A reagent kit answers almost nothing about a Xanax pill: four of its six
+     published reactions are "no reaction", there is no DanceSafe flow for it,
+     and the two that do react — Zimmermann blue, Morris pink-then-green —
+     say "a benzodiazepine is present", not which one. That matters because
+     the pill people actually want checked is a pressed one, where the risks
+     are fentanyl and a novel benzo like bromazolam: no reagent sees fentanyl
+     at all, and Zimmermann cannot tell bromazolam from alprazolam. Offering it
+     in the prominent group pointed people at a test that cannot answer the
+     question they arrived with. It is still in the full list below, with its
+     real data, for anyone who wants it.
+
+     The label is "Commonly checked" rather than "Most often tested" for the
+     same reason it got questioned: the old wording asserts a frequency
+     statistic, and there is no submission-count dataset behind this list. It
+     is an editorial short list of what reagent kits are bought for. */
   const COMMON = ["mdma", "mda", "cocaine", "heroin", "methamphetamine",
-                  "ketamine", "lsd", "fentanyl", "alprazolam"];
+                  "ketamine", "lsd", "fentanyl"];
   /* Table keys UNION chart ids. Mescaline is the case: DanceSafe publishes a
      three-step flow for it and PsychonautWiki has no reagent rows at all, so
      building this list from the table alone left a substance the app can
@@ -566,7 +592,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
   const soldAs = h("select", { class: "input", "aria-label": "Which substance to test for" },
     h("option", { value: "" }, "Not sure or groundscore"),
     common.length
-      ? h("optgroup", { label: "Most often tested" },
+      ? h("optgroup", { label: "Commonly checked" },
           common.map((id) => h("option", { value: id }, nameOf(id))))
       : null,
     h("optgroup", { label: "Everything with published reagent data" },
@@ -586,17 +612,32 @@ function reverseLookup(matchFn, table, subs, go, charts) {
     const first = (want && REAGENTS.includes(want) ? want : null)
       || REAGENTS.find((r) => !taken.has(r)) || REAGENTS[0];
 
+    /* BOTH LISTS ARE ALPHABETICAL IN THE DROPDOWN, whatever order the arrays
+       are in above.
+       REAGENTS is in chart-priority order and COLORS runs down the spectrum.
+       Both orders are meaningful to somebody who already knows the material and
+       invisible to somebody scanning eleven options for the word they want —
+       and scanning is what this control is for. The arrays keep their order,
+       because code elsewhere depends on it: REAGENTS[0] is the default first
+       row and REAGENTS.find picks the next unused one. Only the rendering is
+       sorted. */
     const reagent = h("select", { class: "input", "aria-label": `Reagent ${i + 1}` },
-      REAGENTS.map((r) =>
-        h("option", { value: r, selected: r === first || null }, reagentName(r))));
+      [...REAGENTS]
+        .sort((a, b) => reagentName(a).localeCompare(reagentName(b)))
+        .map((r) =>
+          h("option", { value: r, selected: r === first || null }, reagentName(r))));
     /* Capitalised. The values stay lowercase — they are keys into the reagent
        table — but a dropdown full of lowercase words next to "Marquis" and
        "Simon's" read as unfinished text rather than as choices. */
     const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
     const result = h("select", { class: "input", "aria-label": `What reagent ${i + 1} did` },
       h("option", { value: "" }, "Choose…"),
+      /* Pinned above the colours, not sorted into them. It is not a colour, and
+         it is the single most common answer — a reagent that does nothing is
+         the usual result for most substances. */
       h("option", { value: "none" }, "No reaction"),
-      COLORS.map((c) => h("option", { value: c }, cap(c))));
+      [...COLORS].sort((a, b) => a.localeCompare(b))
+        .map((c) => h("option", { value: c }, cap(c))));
     reagent.addEventListener("change", check);
     result.addEventListener("change", check);
 

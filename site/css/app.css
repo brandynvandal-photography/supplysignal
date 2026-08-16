@@ -1377,11 +1377,26 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 .callout--warn { background: var(--elevated-soft); border-color: color-mix(in srgb, var(--elevated) 30%, transparent); }
 .callout--stop { background: var(--critical-soft); border-color: color-mix(in srgb, var(--critical) 30%, transparent); }
 .callout--info { background: var(--brand-soft); border-color: color-mix(in srgb, var(--brand) 28%, transparent); }
-.callout h3 { margin: 0 0 3px; font-size: .92rem; letter-spacing: 0; }
+/* .card .callout h3, not .callout h3.
+   `.card h3, .acc__body h3 { font-size: 1.02rem }` sits later in this file and
+   at equal specificity, so any callout INSIDE a card lost its own heading size
+   and rendered at 16.32px against every other callout's 14.72px. That is what
+   knocked "Why this matters" out of alignment: the glyph is centred against
+   its sibling's box, and a heading 1.6px taller than the rest moved the title's
+   centre 4.5px below the glyph's while every other callout on the page sat at
+   zero. Sizing it explicitly at both depths puts them all back on one line. */
+.callout h3,
+.card .callout h3,
+.acc__body .callout h3 { margin: 0 0 3px; font-size: .92rem; letter-spacing: 0; }
 .callout p { font-size: .93rem; }
 .callout p:last-child { margin-bottom: 0; }
 .callout__hd { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
-.callout__hd h3 { margin: 0; }
+/* Matched to the specificity of the sizing rule above, or the 3px bottom margin
+   comes back inside a card — and align-items centres the MARGIN box, so 3px of
+   it below the text lifts the title 1.5px off the glyph's centre line. */
+.callout__hd h3,
+.card .callout__hd h3,
+.acc__body .callout__hd h3 { margin: 0; }
 
 /* ----------------------------------------------------------- empty/skel */
 
@@ -3051,6 +3066,16 @@ details.disc .groupkids > details.disc > summary h2 {
        three sets of padding, then a table or list going edge-to-edge anyway. */
 .card > :first-child, .callout > :first-child,
 .acc__body > :first-child, .disc__body > :first-child { margin-top: 0; }
+
+/* Except a heading, which needs a few pixels back.
+   Zeroing the margin is right for a paragraph — its line-height already leaves
+   space above the x-height. A heading is heavier and its cap-height starts at
+   the very top of its box, so the identical padding reads noticeably tighter:
+   "If it gets on you" sat 21px off the card's border while everything below it
+   in the same card breathed. This is optical, not measured — the number is
+   small on purpose. */
+.card > h3:first-child, .card > h4:first-child,
+.acc__body > h3:first-child, .acc__body > h4:first-child { margin-top: 5px; }
 .card > :last-child, .callout > :last-child,
 .acc__body > :last-child, .disc__body > :last-child { margin-bottom: 0; }
 
