@@ -15,7 +15,7 @@
 import { h, frag, section, callout, extLink, badge } from "./ui.js";
 import * as data from "./data.js";
 
-/** Substances most concentrated in `region`, strongest signal first. */
+/** Substances most concentrated in `region`, most concentrated first. */
 function topFor(doc, region, limit = 10) {
   const i = doc.regions.indexOf(region);
   if (i < 0) return [];
@@ -129,8 +129,8 @@ export async function regionalOverview() {
         /* The same line the county page puts on this block, and it was missing
            here. Opened cold, these rows are a drug name and a percentage with
            nothing saying what the percentage IS - a reader can reasonably take
-           "62%" as "62% of samples here contained it" when it means 62% of that
-           drug's national signal landed in this region. The "Everywhere" block
+           "62%" as "62% of samples here contained it" when it means 62% of the
+           times that drug was detected happened here. The "Everywhere" block
            below has carried its explanation all along; the four that need it
            more had none.
 
@@ -139,8 +139,8 @@ export async function regionalOverview() {
            somebody opens one and reads it on its own. */
         h("p", { class: "sec__note" },
           `Substances that drug checking finds far more often in the ${region} ` +
-          "than elsewhere. The figure is that drug's share of the national " +
-          "signal, not how common it is here."),
+          "than elsewhere. The figure is the share of that drug's detections " +
+          "that happened here, not how common it is here."),
         top.map(substanceRow)));
     paintBars(block);
     wrap.appendChild(block);
@@ -155,8 +155,9 @@ export async function regionalOverview() {
           badge(`${ubiq.length}`, "neutral")),
         h("div", { class: "acc__body" },
           h("p", { class: "sec__note" },
-            "These saturate the supply nationwide — no region holds more than a " +
-            "third of their signal. Fentanyl and methamphetamine are in this group."),
+            "These saturate the supply nationwide — no region accounts for more " +
+            "than a third of their detections. Fentanyl and methamphetamine are " +
+            "in this group."),
           h("div", { class: "tags" },
             ubiq.map((s) => h("span", { class: "tag" }, s.name)))))
     );

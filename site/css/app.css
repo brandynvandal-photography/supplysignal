@@ -616,6 +616,27 @@ a { color: var(--brand); }
 @media (min-width: 700px) and (max-width: 959px) {
   .iconbtn { font-size: 1.5rem; min-width: 52px; min-height: 52px; }
   #searchbtn .iconbtn__svg { width: 32px; height: 32px; }
+
+  /* AND THE TIGHT ROW HAS TO CLEAR THEM.
+   *
+   * --bar-row-h-tight is 49px = a 48px row plus the topbar's 1px border, which
+   * is honest everywhere the icon buttons are 44px. Here they are 52px, and a
+   * flex row cannot render shorter than its tallest item - so the scrolled bar
+   * measured 80px (27 banner + 52 row + 1 border) while the token said 76.
+   *
+   * Four pixels, and they were live: the search panel pins at
+   * calc(var(--bar-h) + var(--bar-top)) and sat 4px UNDER the header, and every
+   * jumped-to heading lost 4 of its 14px of clearance. This band is iPad
+   * portrait at 744-834 CSS px, which is the device this file has already taken
+   * three separate bar-geometry reports from.
+   *
+   * THE TOKEN, not the derived value. `.is-scrolled { --bar-row-h: ... }` lives
+   * 2,600 lines below this and would win on source order at equal specificity.
+   * Custom properties are resolved where they are USED, so redefining the input
+   * here reaches that rule wherever it sits. The row's min-height is left alone
+   * for the same reason it does not matter: 52px buttons floor the row at 52
+   * whatever the min-height says. */
+  :root { --bar-row-h-tight: 53px; }
 }
 
 /* ----------------------------------------------------------------- nav */
@@ -754,6 +775,12 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 /* --------------------------------------------------------------- chips */
 
 .chips { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+/* A caption under a row of buttons needs air. .chips carries no bottom margin
+   and .sec__note's top margin is zeroed as a first child, so a note explaining
+   the buttons above it sat at a measured gap of ZERO - the DrugsData archive
+   note under "Read more" was touching the button row. This is the same shape
+   wherever it appears, so it is fixed here rather than at the one call site. */
+.chips + .sec__note, .chips + p { margin-top: 10px; }
 .chip {
   font: inherit; font-size: .87rem; font-weight: 600;
   padding: 8px 14px; min-height: var(--tap);

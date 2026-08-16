@@ -96,7 +96,12 @@ const payload = {
     "Of 90 drugs detected routinely in mail-in drug checking, only 20 turn " +
     "up everywhere at similar rates. The other 70 are concentrated — some 80 to " +
     "90 percent confined to a single region. A drug is counted as regional " +
-    "when one region holds at least 35% of its national signal.",
+    /* "detections", not "signal". Signal is the word the underlying analysis
+       uses and it means nothing to a reader - it sounds like radio. What the
+       number actually counts is how many times a drug was DETECTED in
+       submitted samples, which is both plainer and more precise. */
+    "when one region accounts for at least 35% of the times it is detected " +
+    "nationally.",
   caveat:
     "This is not a random sample of the US drug supply. It is what reaches harm " +
     "reduction programs and drug-checking partners, and that coverage is uneven — " +

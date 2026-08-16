@@ -301,9 +301,28 @@ export function jumpTo(id) {
     if (Math.abs(delta) > 1) window.scrollBy({ top: delta, behavior: "auto" });
     return Math.abs(delta);
   };
+  /* TELL THE HEADER THIS IS A NAVIGATION, BEFORE MOVING.
+   *
+   * place() offsets by the bar's height so the heading lands below it. The bar
+   * hides itself on a downward scroll — and a jump IS a downward scroll, of
+   * exactly the size that trips it. So the sequence was: measure a 94px bar,
+   * scroll down, watcher sees the movement and slides the bar away, and the
+   * heading arrives 108px down with 95px of the PREVIOUS section sitting above
+   * it. Every long downward jump on a phone ended that way.
+   *
+   * Measuring the slide instead of the bar does not fix it either, because the
+   * hide happens AFTER this scroll, not before. What is wrong is the hiding, not
+   * the measurement: somebody who just asked to be taken to a section has not
+   * asked for the header to leave. app.js listens for this and reseeds its
+   * direction tracking at the destination. */
+  try { document.dispatchEvent(new CustomEvent("nl:jump")); } catch {}
+
   place();
   requestAnimationFrame(() => {
     place();
+    /* Again after the jump, because the scroll this function just performed is
+       what the watcher would otherwise read as "the reader scrolled down". */
+    try { document.dispatchEvent(new CustomEvent("nl:jump")); } catch {}
     const s = el.querySelector("summary");
     if (s) s.focus({ preventScroll: true });
   });

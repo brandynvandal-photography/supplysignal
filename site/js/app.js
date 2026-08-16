@@ -744,6 +744,25 @@ function watchBarShrink() {
     tight = false; up = false; last = 0;
     document.documentElement.classList.remove("is-scrolled", "is-bar-up");
   });
+
+  /* A JUMP IS NOT A SCROLL DOWN.
+   *
+   * jumpTo() offsets its landing by the bar's height so the heading arrives
+   * just below it, and then its own scrollBy looked exactly like a reader
+   * scrolling down - so the bar hid itself, and the heading landed with ~95px
+   * of the previous section above it. Verified on four different chips.
+   *
+   * `last` is reseeded to where the jump actually ended, so the next real
+   * scroll is measured from there rather than producing a huge phantom delta.
+   * The bar is brought back rather than merely left alone: somebody who asked
+   * to be taken somewhere should arrive with the header in the state the
+   * landing was calculated for. */
+  document.addEventListener("nl:jump", () => {
+    up = false;
+    last = window.scrollY;
+    document.documentElement.classList.remove("is-bar-up");
+  });
+
   sync();
 }
 
@@ -1046,7 +1065,25 @@ function reveal(anchor, label, wantRoute) {
       let settles = 0;
       const settle = () => {
         const top = target.getBoundingClientRect().top;
-        if (Math.abs(top) > 90) target.scrollIntoView({ behavior: "auto", block: "start" });
+        /* MEASURED AGAINST THE MARGIN, not against 90.
+         *
+         * scrollIntoView({block:"start"}) honours scroll-margin-top, so a
+         * PERFECTLY placed target does not report 0 - it reports the margin,
+         * which is calc(--bar-h + --bar-top + 14) and computes to 108px at
+         * rest. The old guard fired whenever |top| exceeded 90, which a
+         * correctly-landed heading always does, so this re-scrolled five more
+         * times on every single search result and jump. Harmless-looking and
+         * wrong: each of those is a layout pass, and any of them can land
+         * differently if something above is still filling in.
+         *
+         * Read rather than recomputed, because the margin moves with the bar -
+         * it is 108 at rest, 90 once the header tightens, and 22 with it
+         * hidden. Comparing to a constant could not have been right in more
+         * than one of those states. */
+        const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+        if (Math.abs(top - margin) > 24) {
+          target.scrollIntoView({ behavior: "auto", block: "start" });
+        }
         if (settles++ < 5) setTimeout(settle, 180);
       };
       setTimeout(settle, 180);
