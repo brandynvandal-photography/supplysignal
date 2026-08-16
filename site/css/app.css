@@ -2066,8 +2066,33 @@ select.input {
 }
 
 table.data caption {
-  text-align: left; padding: 10px 13px; font-weight: 650; font-size: .9rem;
+  /* --sp-3, the same inset the cells use. It was a hardcoded 13px against the
+     cells' 12, so every caption sat a pixel left of the column heading under
+     it — small, and visible precisely because they are stacked. */
+  text-align: left; padding: 10px var(--sp-3); font-weight: 650; font-size: .9rem;
   color: var(--ink-2); border-bottom: 1px solid var(--line);
+}
+
+/* ---- LABEL / VALUE TABLES THAT STACK ------------------------------------
+ *
+ * A substance page carries one dose table and one duration table PER ROUTE —
+ * four of each on 2C-B — one under another. Auto table layout sizes each one to
+ * its own content, so a table containing "Come-up" was wider in its first
+ * column than one that stopped at "Onset", and the value column started at a
+ * different x in every table: measured 201, 175, 201 and 181 down a single
+ * page. Read as a stack, that is a ragged edge with no meaning behind it.
+ *
+ * A fixed first column lines them all up. 11rem rather than a percentage
+ * because these labels are a closed set of short words — Threshold, Come-up,
+ * Offset — and a percentage would re-introduce the raggedness at a different
+ * width. It scales with the reader's type size because it is in rem. */
+table.data--pairs { table-layout: fixed; }
+table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { width: 11rem; }
+table.data--pairs th, table.data--pairs td { overflow-wrap: break-word; }
+
+/* Narrow phones cannot spare 11rem for a label column. */
+@media (max-width: 400px) {
+  table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { width: 8.5rem; }
 }
 
 /* License condition for PsychonautWiki (CC BY-SA) and TripSit (link-back

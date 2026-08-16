@@ -1319,6 +1319,13 @@ async function detailView(id, subs, combos, { go }) {
 }
 
 
+/* Route names arrive lowercase from PsychonautWiki - "oral", "insufflated",
+   "intravenous" - and were printed straight into a caption, so every duration
+   and dose table on a substance page opened with a lowercase word while
+   everything around it was sentence case. */
+const routeLabel = (n) =>
+  String(n || "").replace(/^([a-z])/, (m) => m.toUpperCase());
+
 function doseTable(r) {
   const d = r.dose;
   const fmt = (v) =>
@@ -1328,9 +1335,11 @@ function doseTable(r) {
     ["Strong", d.strong], ["Heavy", d.heavy],
   ].filter(([, v]) => v != null);
 
+  /* data--pairs: a fixed first column, so the four dose tables stacked on one
+     page all start their Amount column at the same x. See the note in app.css. */
   return h("div", { class: "tablewrap" },
-    h("table", { class: "data" },
-      h("caption", null, `${r.name} — dose`),
+    h("table", { class: "data data--pairs" },
+      h("caption", null, `${routeLabel(r.name)} — dose`),
       h("thead", null, h("tr", null,
         h("th", { scope: "col" }, "Tier"), h("th", { scope: "col" }, "Amount"))),
       h("tbody", null, rows.map(([k, v]) =>
@@ -1346,8 +1355,8 @@ function durationTable(r) {
   ].filter(([, v]) => v);
 
   return h("div", { class: "tablewrap" },
-    h("table", { class: "data" },
-      h("caption", null, `${r.name} — duration`),
+    h("table", { class: "data data--pairs" },
+      h("caption", null, `${routeLabel(r.name)} — duration`),
       h("thead", null, h("tr", null,
         h("th", { scope: "col" }, "Stage"), h("th", { scope: "col" }, "Time"))),
       h("tbody", null, rows.map(([k, v]) =>

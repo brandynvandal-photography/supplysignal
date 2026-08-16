@@ -116,7 +116,39 @@ async function pickerView(route, { go, data }) {
      handling - true, and not what somebody opened this to find out. It is a
      reassurance about a control they have already used by then, so it reads
      better after the answer than in front of it. */
-  wrap.appendChild(await everywhere({ data }, { limit: NATIONAL_PREVIEW }));
+  /* THE SAME WINDOW CONTROL THE COUNTY PAGE HAS.
+   *
+   * This list was pinned to 90 days with no way to change it, and the county
+   * page three taps away has offered 30/90/365 all along. That was invisible
+   * while the national list was empty and stopped being invisible the moment it
+   * was not: Philadelphia's carfentanil bulletin published at 277 days old, so
+   * it sat in the bundle, reachable on the county page at twelve months, and
+   * absent from the one screen most readers actually look at.
+   *
+   * The DEFAULT stays 90 days, because a nine-month-old bulletin is not "what
+   * is showing up near you" and this app does not get to blur that. What
+   * changes is that the reader can ask, and the count next to the heading names
+   * the window it is counting - so a longer list never looks like a busier
+   * month.
+   *
+   * Re-renders in place rather than routing, because the picker screen has no
+   * county in its URL and adding one would put a window in the address bar of a
+   * page that is deliberately about nowhere. */
+  const natHost = h("div");
+  let natDays = NATIONAL_DAYS;
+  const drawNational = async () => {
+    const chips = h("div", { class: "chips", role: "group", "aria-label": "Time window" },
+      WINDOWS.map((w) =>
+        h("button", {
+          type: "button", class: "chip", "aria-pressed": String(w.d === natDays),
+          onClick: () => { natDays = w.d; drawNational(); },
+        }, w.label)));
+    const list = await everywhere({ data }, { limit: NATIONAL_PREVIEW, days: natDays });
+    natHost.replaceChildren(chips, list);
+  };
+  await drawNational();
+  wrap.appendChild(natHost);
+
   wrap.appendChild(privacyNote);
   return wrap;
 }
@@ -632,8 +664,8 @@ const NATIONAL_DAYS = 90;
  * are never published by anyone. So what was actually looked at goes on the
  * screen beside the zero.
  */
-async function everywhere({ data }, { limit = 0 } = {}) {
-  const all = await data.alertsAll(NATIONAL_DAYS);
+async function everywhere({ data }, { limit = 0, days = NATIONAL_DAYS } = {}) {
+  const all = await data.alertsAll(days);
   const cov = await data.coverage();
   const scannedN = Number(cov.countiesScanned) || 0;
 
@@ -641,7 +673,7 @@ async function everywhere({ data }, { limit = 0 } = {}) {
     h("h2", null, t("alerts.everywhereTitle")),
     h("p", { class: "sec__note" },
       all.length
-        ? t("alerts.everywhereCount", { count: all.length, window: labelFor(NATIONAL_DAYS) })
+        ? t("alerts.everywhereCount", { count: all.length, window: labelFor(days) })
         : t("alerts.everywhereIntro")));
 
   if (!all.length) {
