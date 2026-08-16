@@ -2095,6 +2095,31 @@ table.data--pairs th, table.data--pairs td { overflow-wrap: break-word; }
   table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { width: 8.5rem; }
 }
 
+/* The window chips sit under the section heading and its count line, so they
+   need the air a heading block gets, not the tight stack a chip row inherits
+   when it follows a paragraph. */
+.chips--window { margin-top: 14px; }
+
+/* On a wide screen the pair drifts apart.
+ *
+ * A phone is the constraint these tables were shaped for, and there a 11rem
+ * label and the value beside it fill the row. On a desktop the same table is
+ * 875px wide, so the value column starts at a third and the right two-thirds of
+ * every row is empty - the reader's eye crosses a hand's width of nothing to
+ * get from "Offset" to "2.5-3.5 hours", four times a page.
+ *
+ * Meeting the two columns at the middle closes that gap without narrowing the
+ * table, so the header band and the row rules still run the full width of the
+ * card they sit in. Only above 700px: the phone layout is the verified one and
+ * has no gap to close. */
+@media (min-width: 700px) {
+  table.data--pairs th[scope="row"], table.data--pairs thead th:first-child {
+    width: 50%;
+    text-align: right;
+  }
+  table.data--pairs td, table.data--pairs thead th + th { text-align: left; }
+}
+
 /* License condition for PsychonautWiki (CC BY-SA) and TripSit (link-back
    plus source note). Styled quietly, but always present. */
 /* The rule that closes a page off before its sources.

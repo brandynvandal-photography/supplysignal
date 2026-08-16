@@ -136,15 +136,25 @@ async function pickerView(route, { go, data }) {
    * page that is deliberately about nowhere. */
   const natHost = h("div");
   let natDays = NATIONAL_DAYS;
-  const drawNational = async () => {
-    const chips = h("div", { class: "chips", role: "group", "aria-label": "Time window" },
+  const drawNational = async (focusChips = false) => {
+    const chips = h("div", { class: "chips chips--window", role: "group", "aria-label": "Time window" },
       WINDOWS.map((w) =>
         h("button", {
           type: "button", class: "chip", "aria-pressed": String(w.d === natDays),
-          onClick: () => { natDays = w.d; drawNational(); },
+          onClick: () => { natDays = w.d; drawNational(true); },
         }, w.label)));
-    const list = await everywhere({ data }, { limit: NATIONAL_PREVIEW, days: natDays });
-    natHost.replaceChildren(chips, list);
+    const list = await everywhere({ data }, {
+      limit: NATIONAL_PREVIEW, days: natDays, control: chips,
+      onWiden: (d) => { natDays = d; drawNational(true); },
+    });
+    natHost.replaceChildren(list);
+    /* The control the reader just used is replaced by this redraw, so without
+       this a keyboard or screen reader user is left on a button that no longer
+       exists with nothing said about what changed. */
+    if (focusChips) {
+      const pressed = natHost.querySelector('.chip[aria-pressed="true"]');
+      if (pressed) pressed.focus();
+    }
   };
   await drawNational();
   wrap.appendChild(natHost);
@@ -664,7 +674,7 @@ const NATIONAL_DAYS = 90;
  * are never published by anyone. So what was actually looked at goes on the
  * screen beside the zero.
  */
-async function everywhere({ data }, { limit = 0, days = NATIONAL_DAYS } = {}) {
+async function everywhere({ data }, { limit = 0, days = NATIONAL_DAYS, control = null, onWiden = null } = {}) {
   const all = await data.alertsAll(days);
   const cov = await data.coverage();
   const scannedN = Number(cov.countiesScanned) || 0;
@@ -676,15 +686,44 @@ async function everywhere({ data }, { limit = 0, days = NATIONAL_DAYS } = {}) {
         ? t("alerts.everywhereCount", { count: all.length, window: labelFor(days) })
         : t("alerts.everywhereIntro")));
 
+  /* Under the heading, not above it.
+     The window control belongs to this section, and floating it above the
+     section title made it read as a control over the search box directly
+     above - and sat a chip row hard against an h2 with no air between them. */
+  if (control) head.appendChild(control);
+
+  /* WHETHER TO RAISE THE DEFAULT, ANSWERED WITHOUT RAISING IT.
+   *
+   * The tempting fix for an empty-looking list is a longer default window, and
+   * it is the wrong one: this section is titled "everywhere else RIGHT NOW",
+   * and a nine-month-old bulletin quietly folded into that heading would make
+   * the app's freshest claim its least true one. The honest version of the same
+   * fix is to say what a longer window would add and let the reader ask for it.
+   *
+   * Counted, not guessed - the bundle is already loaded, so this costs nothing
+   * and can never advertise alerts that are not there. */
+  let widen = null;
+  if (onWiden && days < 365) {
+    const wider = await data.alertsAll(365);
+    const more = wider.length - all.length;
+    if (more > 0) {
+      widen = h("p", { class: "sec__note" },
+        h("button", { type: "button", class: "btn btn--ghost", onClick: () => onWiden(365) },
+          `${more} more published in the last 12 months`));
+    }
+  }
+
   if (!all.length) {
     return h("div", { id: "sec-everywhere" }, head,
       callout("warn", t("alerts.everywhereNoneTitle"),
         h("p", null, t("alerts.everywhereNoneBody")),
-        scannedN ? h("p", null, t("alerts.everywhereNoneScanned", { count: scannedN })) : null));
+        scannedN ? h("p", null, t("alerts.everywhereNoneScanned", { count: scannedN })) : null),
+      widen);
   }
 
   const wrap = h("div", { id: "sec-everywhere" }, head,
-    h("div", null, all.slice(0, limit || all.length).map((k) => card(k, true))));
+    h("div", null, all.slice(0, limit || all.length).map((k) => card(k, true))),
+    widen);
 
   if (!limit || all.length <= limit) return wrap;
 
