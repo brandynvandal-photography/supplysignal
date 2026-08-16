@@ -689,7 +689,14 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
        which pinned the tabs to the bottom edge of the header row instead of
        the bottom of the screen. Centred horizontally and vertically, and
        anchored to nothing else. */
-    position: absolute; left: 50%; top: 50%; right: auto; bottom: auto;
+    /* Anchored to .topbar, not to .topbar .wrap. The nav moved OUT of that row
+       in index.html so a transform on the sliding part could not capture it -
+       see .topbar__slide - and `absolute` resolves against the nearest
+       positioned ancestor, which is the sticky bar itself. Centring on the
+       whole bar would centre it against the banner too, so the offset is the
+       banner's height plus half the row. */
+    position: absolute; left: 50%; right: auto; bottom: auto;
+    top: calc(var(--bar-top) + var(--banner-h) + var(--bar-row-h) / 2);
     transform: translate(-50%, -50%);
     border-top: 0; background: none;
     padding: 0; margin: 0; width: auto;
@@ -2181,40 +2188,27 @@ details.disc--urgent > summary h2 { color: var(--critical); }
 
 /* ---------------------------------------------------------------- jump nav */
 
-/* PINNED, AND ONE ROW.
+/* ONE ROW, AND NOT PINNED.
  *
- * Test carries 42 disclosures and runs twelve screens with every one of them
- * shut; Learn has fifteen jump targets. The chips already existed and already
- * knew how to open a collapsed section on the way — they were just at the top
- * of the page, which is the one place a reader stops being able to reach them.
- * Sticking them makes distance cost nothing, which is most of what "there is
- * too much on this page" actually means.
+ * It was sticky for a while and is not any more, by request. What survives from
+ * that is the single scrolling row, and it survives on its own merits: wrapped,
+ * Learn's fifteen chips are four lines of navigation before a word of content,
+ * and on a page whose whole problem is length that is the wrong way round. The
+ * strip scrolls sideways instead — the same move .reagbar makes, with the same
+ * fade at the edge to say there is more.
  *
- * It has to be a SINGLE ROW to be worth pinning. Wrapped, fifteen chips are
- * four lines, and four lines of navigation welded under the header takes more
- * from the reader than the scrolling did. So the strip scrolls sideways
- * instead — the same move .reagbar makes, with the same fade at the edges to
- * say there is more.
- *
- * Same anchor and material as .searchpanel: both hang directly off the frosted
- * topbar, and painting either of them opaque would put a sheet of glass on a
- * solid slab. */
+ * Material is --bar-tint, so it reads as the same kind of surface as the bars
+ * even though it travels with the page. */
 .jump {
   display: flex; align-items: center; gap: 8px 10px;
-  /* No top margin. Sticky honours it, so the old 4px held the strip 4px clear
-     of the header once pinned and let a sliver of scrolling text run through
-     the gap. The separation it used to give from the h1 is padding now. */
   /* THE SAME SHELL AS .input, which is what every dropdown in the app wears:
-     one --glass-line border, --radius corners, --sp-3 of horizontal padding
-     and no shadow. It was a bare bottom rule and square corners, which read as
-     a divider rather than as a control - and pinned, it is the most persistent
-     element on the page, so being the only thing in the app not wearing the
-     house shell was conspicuous.
+     one --glass-line border, --sp-3 of horizontal padding and no shadow. It was
+     a bare bottom rule and square corners, which read as a divider rather than
+     as a control.
 
      Vertical padding is smaller than .input's 14px because the chips inside
-     already carry their own min-height: var(--tap). Matching it exactly would
-     stack two tap targets' worth of space and make the pinned strip taller
-     than the header it hangs off. */
+     already carry their own min-height: var(--tap); matching it exactly would
+     stack two tap targets' worth of space for no gain. */
   margin: 0 0 20px; padding: 8px var(--sp-3);
   border: 1px solid var(--glass-line);
   /* --radius-pill, not --radius. At 22px on a box only 66px tall the corners
@@ -2223,7 +2217,6 @@ details.disc--urgent > summary h2 { color: var(--critical); }
      same shape as its own contents and as every other bubble on the page. */
   border-radius: var(--radius-pill);
 
-  position: sticky; top: calc(var(--bar-h) + var(--bar-top) + 8px); z-index: 38;
 
   /* OPAQUE, not --bar-tint, and not frosted.
    *
@@ -2278,10 +2271,6 @@ details.disc--urgent > summary h2 { color: var(--critical); }
 .jump .chips::-webkit-scrollbar { display: none; }
 .jump .chip { flex: 0 0 auto; }
 
-/* A reader who has asked for less motion gets the strip in its old place. */
-@media (prefers-reduced-motion: reduce) {
-  .jump { position: static; }
-}
 
 /* ------------------------------------------------------------------ filter */
 
@@ -3280,18 +3269,60 @@ details.disc .groupkids > details.disc > summary h2 {
  * --bar-h GOES TO ZERO with it, because the jump strip and the search panel are
  * both pinned to the bar's height by that token. Left at 76 they would hold
  * their position with nothing above them. */
-.is-bar-up {
-  --bar-row-h: 0px;
-  --banner-h: 0px;
-}
-.is-bar-up .topbar {
-  transform: translateY(-100%);
-}
-/* The strip stays, and rises to meet the top edge as the bar leaves. It is the
-   navigation for a page long enough to need this in the first place. */
-.topbar { will-change: transform; }
-@media (prefers-reduced-motion: no-preference) {
-  .topbar { transition: transform var(--t-ease) var(--ease-float); }
+/* NO TRANSFORM ON .topbar, AND NO will-change: transform EITHER.
+ *
+ * This is the trap the two comments up at .topbar::before describe, and it was
+ * walked straight into: .nav is `position: fixed` and is a DESCENDANT of
+ * .topbar, so ANY containing-block property on the bar - transform, filter,
+ * perspective, contain: paint, will-change on any of them - re-anchors the
+ * fixed bottom tab bar to the header and throws it to the top of the screen.
+ * Reported on iOS Safari: the menu bar appeared at the top of the page.
+ *
+ * `top` moves a sticky element without establishing a containing block. The bar
+ * is `position: sticky; top: 0`, so pinning it at minus its own height parks it
+ * just off the top edge, and it is animatable in exactly the same way.
+ *
+ * The tokens are NOT zeroed here any more either. Doing that moved the jump
+ * strip up, which was the point, but it also silently moved the search panel
+ * and every scroll-margin on the page - three consumers, one of which was the
+ * thing being fixed. The strip is told to rise on its own line below. */
+/* TRANSFORM, AND ON THE SLIDE WRAPPER RATHER THAN THE BAR.
+ *
+ * Two constraints pull against each other here and both have already been paid
+ * for once.
+ *
+ * .nav is `position: fixed` on a phone. A containing-block property on any
+ * ANCESTOR of it - transform, filter, perspective, contain: paint - makes that
+ * fixed element resolve against the ancestor instead of the viewport, and the
+ * bottom tab bar lands at the top of the screen. Reported on iOS Safari.
+ *
+ * Animating `top` instead avoids that and is the wrong trade: `top` on a
+ * sticky element is a LAYOUT animation, recomputed on the main thread every
+ * frame, on a page carrying 43 disclosures. Reported as lag.
+ *
+ * So index.html splits the header: everything that moves is inside
+ * .topbar__slide, and .nav is a sibling of it. The transform is compositor-only
+ * and .nav is not underneath it. Both problems, one structural answer.
+ *
+ * translate3d and not translateY: it promotes the layer on WebKit, which is
+ * where the stutter was reported. */
+/* BELOW 960 ONLY, which is where the tab bar is pinned to the bottom of the
+ * screen and the header carries nothing but the wordmark and three buttons.
+ *
+ * At 960 and up the nav moves INTO the header row, so hiding the bar would
+ * take the app's primary navigation with it - verified: at 1280 the slide left
+ * and the nav stayed behind, floating over the content. Desktop also has the
+ * least need for this: 94px of an 800px window against a mouse and a scroll
+ * wheel is not the trade a phone is making. */
+@media (max-width: 959px) {
+  .topbar__slide { will-change: transform; }
+  .is-bar-up .topbar__slide {
+    transform: translate3d(0, -100%, 0);
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .topbar__slide { transition: transform var(--t-ease) var(--ease-float); }
+  }
 }
 @media (prefers-reduced-motion: no-preference) {
   .brand__name {
@@ -3445,7 +3476,7 @@ details.disc .groupkids > details.disc > summary h2 {
 
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   /* Saturation is what makes it read as glass rather than fog. */
-  .topbar::before, .nav, .jump {
+  .topbar::before, .nav {
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
   }
@@ -3489,7 +3520,7 @@ details.disc .groupkids > details.disc > summary h2 {
    * least afford to stutter. It was reported on its own, after the bars were
    * already fixed, because it was the one surface this rule had missed. */
   @media (hover: none) and (pointer: coarse) {
-    .topbar::before, .nav, .searchpanel, .jump {
+    .topbar::before, .nav, .searchpanel {
       -webkit-backdrop-filter: none; backdrop-filter: none;
       will-change: auto;
     }
