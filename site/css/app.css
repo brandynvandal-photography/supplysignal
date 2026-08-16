@@ -2095,6 +2095,11 @@ table.data--pairs th, table.data--pairs td { overflow-wrap: break-word; }
   table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { width: 8.5rem; }
 }
 
+/* The widen button had 14px above it and nothing below - it sat flush against
+   the privacy callout that follows the section, so it read as that callout's
+   first line rather than as the end of the list it belongs to. */
+.sec__note.widen { margin: var(--sp-3) 0 var(--sp-4); }
+
 /* The window chips sit under the section heading and its count line, so they
    need the air a heading block gets, not the tight stack a chip row inherits
    when it follows a paragraph. */

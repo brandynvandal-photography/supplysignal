@@ -707,7 +707,7 @@ async function everywhere({ data }, { limit = 0, days = NATIONAL_DAYS, control =
     const wider = await data.alertsAll(365);
     const more = wider.length - all.length;
     if (more > 0) {
-      widen = h("p", { class: "sec__note" },
+      widen = h("p", { class: "sec__note widen" },
         h("button", { type: "button", class: "btn btn--ghost", onClick: () => onWiden(365) },
           `${more} more published in the last 12 months`));
     }
