@@ -634,7 +634,25 @@ export async function substances() {
        join the aliases so searching "tusi" finds the page that says tusi is
        probably not this. */
     const w = nameWarn.warnings?.[s.id];
-    if (w) out = { ...out, nameWarning: w, aliases: [...(out.aliases || []), ...w.names] };
+    /* SEARCHABLE, BUT NOT "ALSO CALLED".
+     *
+     * These names have to reach the search index - somebody typing "tusi" or
+     * "pink cocaine" must find the page that corrects them, and that is the
+     * whole point of the file. But `aliases` is also what the substance page
+     * prints as "Also called:", and 2C-B was therefore announcing "Also called:
+     * Nexus, Bees, Tusi, Tucibi, Pink cocaine" directly above a warning
+     * explaining that it is almost never any of the last three. The page
+     * asserted the claim it exists to refute.
+     *
+     * So they go in a separate field. searchAliases is for matching; aliases
+     * stays what the substance is genuinely also called. */
+    if (w) {
+      out = {
+        ...out,
+        nameWarning: w,
+        searchAliases: [...(out.searchAliases || []), ...w.names],
+      };
+    }
     return out;
   });
 

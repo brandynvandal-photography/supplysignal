@@ -25,6 +25,16 @@ import { reagentLabel } from "../reagentnames.js";
    in the app's own mouth about a drug combination - the closest this app
    ever came to calling something safe. The labels state the mechanism
    instead and never grade safety. */
+/* Every name a substance can be FOUND by, which is not every name it should be
+   SHOWN as. data.js keeps misleading street names in `searchAliases` rather
+   than `aliases`, so that 2C-B can be reached by typing "tusi" without the page
+   claiming 2C-B is also called that. Matching uses both; display uses aliases. */
+const findableBy = (s) =>
+  [s.name, ...(s.aliases || []), ...(s.searchAliases || [])]
+    .filter(Boolean).map((x) => String(x).toLowerCase());
+
+const matches = (s, t) => findableBy(s).some((n) => n.includes(t));
+
 const RISK = {
   Dangerous: { kind: "critical", glyph: "▲", rank: 0, label: "Dangerous" },
   Unsafe: { kind: "critical", glyph: "▲", rank: 1, label: "Unsafe" },
@@ -144,9 +154,7 @@ async function indexView(subs, combosP, { go }) {
     }
 
     const hits = subs.substances
-      .filter((s) =>
-        s.name.toLowerCase().includes(t) ||
-        s.aliases.some((a) => a.toLowerCase().includes(t)))
+      .filter((s) => matches(s, t))
       .slice(0, 40);
 
     if (!hits.length) {
@@ -496,8 +504,7 @@ function classView(slug, subs, { go }) {
 
   const paint = (term) => {
     const t = term.trim().toLowerCase();
-    const hits = !t ? members : members.filter((s) =>
-      s.name.toLowerCase().includes(t) || s.aliases.some((a) => a.toLowerCase().includes(t)));
+    const hits = !t ? members : members.filter((s) => matches(s, t));
 
     clear(list);
     if (!hits.length) {
@@ -1001,7 +1008,8 @@ async function detailView(id, subs, combos, { go }) {
        the same substance twice, once as the drug and once as its own class. */
     const byName = (k) => (combos?.drugs || []).find(
       (x) => String(x.name || x.id).toLowerCase() === k
-        || (x.aliases || []).some((a) => String(a).toLowerCase() === k));
+        || [...(x.aliases || []), ...(x.searchAliases || [])]
+             .some((a) => String(a).toLowerCase() === k));
     return rows.filter((r, i) => {
       if (rows.findIndex((y) => y.key === r.key) !== i) return false;   // exact repeat
       const drug = byName(r.key);
