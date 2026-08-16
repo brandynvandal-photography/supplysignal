@@ -648,6 +648,94 @@ function mountBackToTop() {
   sync();
 }
 
+/* The header loses its wordmark once you are past the top of the page.
+ *
+ * 165px of every 812px screen is chrome before a word of content. The name is
+ * the part of it that stops earning its space immediately: it says which app
+ * this is, which matters on arrival and not six screens down. The X beside it
+ * is Quick Exit and never moves - the bar shrinks, it does not hide, because a
+ * safety control you have to scroll back to is not one.
+ *
+ * A LATCH WITH A DEADBAND, not a threshold. A bare `scrollY > n` flips state
+ * every frame for anyone resting near the line, and since the bar's height is
+ * what changes, each flip moves the page under the reader - which moves
+ * scrollY - which flips it back. The two edges are 22px apart, exactly the
+ * height the bar loses, so the feedback loop cannot close.
+ *
+ * rAF-throttled and passive, same as the back-to-top button above it. */
+function watchBarShrink() {
+  /* Two states, not one.
+   *
+   *   is-scrolled  the row tightens and drops the wordmark (94px -> 76px)
+   *   is-bar-up    the whole header slides off the top
+   *
+   * The second is what "move the top bar up" asks for, and it is gated on
+   * DIRECTION rather than position: down hides it, any upward scroll brings it
+   * straight back. That is the part that keeps Quick Exit honest. The X lives
+   * in that row and is the control somebody reaches for because a person just
+   * walked in - a bar that were simply gone below a threshold would put it
+   * behind a scroll to the top of a twelve-screen page. Behind one upward flick
+   * is a different thing, and it is the interaction every reader already knows.
+   *
+   * --bar-h GOES TO ZERO with it. The jump strip and the search panel are both
+   * pinned to the bar's height by that token, so leaving it at 76 while the bar
+   * sat off-screen would hold them 76px down with nothing above them.
+   *
+   * A LATCH WITH A DEADBAND. A bare threshold flips state every frame for
+   * anyone resting near the line, and since the bar's height is what changes,
+   * each flip moves the page under the reader - which moves scrollY - which
+   * flips it back. The edges are far enough apart that the loop cannot close,
+   * and DELTA has to be cleared before a direction counts, so a one-pixel
+   * jitter never reveals the bar.
+   *
+   * rAF-throttled and passive, same as the back-to-top button above. */
+  const TIGHT_ON = 64;   // tighten once the page title has genuinely gone
+  const TIGHT_OFF = 42;  // and restore well before the top
+  const HIDE_AFTER = 220; // never hide within the first screenful
+  const DELTA = 6;        // ignore jitter smaller than this
+
+  let tight = false;
+  let up = false;
+  let last = window.scrollY;
+  let ticking = false;
+
+  const sync = () => {
+    ticking = false;
+    const y = window.scrollY;
+    const moved = y - last;
+
+    if (!tight && y > TIGHT_ON) tight = true;
+    else if (tight && y < TIGHT_OFF) tight = false;
+
+    if (Math.abs(moved) >= DELTA) {
+      /* Down and clear of the first screen hides it; up always returns it.
+         Bounce at either end of the document is not a direction. */
+      if (moved > 0 && y > HIDE_AFTER) up = true;
+      else if (moved < 0) up = false;
+      last = y;
+    }
+    /* Never hidden at the top, whatever the last direction was. */
+    if (y <= HIDE_AFTER) up = false;
+
+    document.documentElement.classList.toggle("is-scrolled", tight);
+    document.documentElement.classList.toggle("is-bar-up", up);
+  };
+
+  window.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(sync);
+  }, { passive: true });
+
+  /* A new view starts at the top, so both states reset with it - otherwise a
+     page reached from six screens down opens with no header on it. */
+  onNavigate(() => {
+    tight = false; up = false; last = 0;
+    document.documentElement.classList.remove("is-scrolled", "is-bar-up");
+  });
+  sync();
+}
+
 /* ------------------------------------------------------------------- boot */
 
 /* Take the opening down.
@@ -783,6 +871,7 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
   }
 
   mountBackToTop();
+  watchBarShrink();
 
   /* Stamp this visit only after the first render, so the screen the reader is
      looking at is still measured against their PREVIOUS visit. seen.js captures

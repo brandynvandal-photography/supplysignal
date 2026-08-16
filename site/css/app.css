@@ -148,6 +148,14 @@
   --bar-row-h: 67px;
   --bar-h: calc(var(--bar-row-h) + var(--banner-h));
 
+  /* Scrolled, the row tightens to 48px + its 1px border. DERIVED, not chosen:
+     `.topbar .wrap` sets min-height 66px while its tallest in-flow child is the
+     47px brand button, so 19px of that row is slack and none of it is a tap
+     target. 48 keeps every button at its full 44px and takes the slack.
+     See .is-scrolled near the foot of this file for why the bar shrinks rather
+     than hides, and why this token has to move with the bar. */
+  --bar-row-h-tight: 49px;
+
   /* How much of the bar is status-bar clearance rather than bar.
    *
    * Zero in a browser tab, where the chrome already owns that strip. Non-zero
@@ -175,7 +183,16 @@
 
   /* Spacing scale. Generous on purpose - the room between things is most of
      what makes an interface feel calm rather than crowded. */
-  --sp-1: 6px;  --sp-2: 12px;  --sp-3: 20px;  --sp-4: 32px;  --sp-5: 48px;
+  /* DENSITY. --sp-3 was 20 and --sp-4 was 32.
+     Measured on Test at 375x812: the page ran 9,282px, of which 1,320 was card
+     padding, 1,064 disclosure-body padding and 378 card margins - 2,762px of
+     inset on a page whose chrome already takes 20.3% of every screen before
+     any content. Dropping the two large steps a notch takes roughly 15% off
+     every page in the app without touching a radius, a border, a font size or
+     a line-height, so nothing about the material changes.
+     --sp-1 and --sp-2 are untouched: they set the gaps inside controls, where
+     there was no slack to find. */
+  --sp-1: 6px;  --sp-2: 12px;  --sp-3: 16px;  --sp-4: 24px;  --sp-5: 48px;
 
   /* Motion vocabulary.
      One easing curve for everything, and it is deliberately NOT a snappy
@@ -1149,7 +1166,15 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .sec { margin: var(--sp-5) 0 var(--sp-2); }
 .sec__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin-bottom: 4px; }
 .sec__head h2 { margin: 0; }
-.sec__note { color: var(--ink-2); font-size: .88rem; line-height: 1.55; }
+/* .92rem, up from .88.
+   This is nominally the caption tier and it is not used like one: a large part
+   of what this app actually explains is written in .sec__note, sitting under a
+   heading as the real body of a section. At .88rem that content rendered at
+   14.08px against the 17px of an ordinary paragraph beside it - a three-pixel
+   gap that reads as "less important" for text that frequently is not. The
+   space it costs comes back several times over from the density change above.
+   Line-height stays at 1.55: WCAG 1.4.12 wants 1.5 and there is no slack. */
+.sec__note { color: var(--ink-2); font-size: .92rem; line-height: 1.55; }
 /* Only when STACKED. Inside .sec__head it sits beside the heading as a flex
    sibling and must not gain a top margin there. */
 h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 10px; }
@@ -2192,7 +2217,11 @@ details.disc--urgent > summary h2 { color: var(--critical); }
      than the header it hangs off. */
   margin: 0 0 20px; padding: 8px var(--sp-3);
   border: 1px solid var(--glass-line);
-  border-radius: var(--radius);
+  /* --radius-pill, not --radius. At 22px on a box only 66px tall the corners
+     read flatter than the chips sitting inside it, so the strip looked like a
+     squared-off panel wrapped around a row of pills. Fully rounded, it is the
+     same shape as its own contents and as every other bubble on the page. */
+  border-radius: var(--radius-pill);
 
   position: sticky; top: calc(var(--bar-h) + var(--bar-top) + 8px); z-index: 38;
 
@@ -2211,14 +2240,17 @@ details.disc--urgent > summary h2 { color: var(--critical); }
    * be opaque to be readable. It is a bordered, rounded surface now, so being
    * solid is consistent with the cards it sits above rather than a departure.
    *
-   * Rule 3 of the glass notes: every glass surface must survive having no blur
-   * and meet contrast without it. This one skips the blur entirely instead.
+   * --bar-tint, the same material as .topbar and .nav, and it is in the
+   * @supports block at the foot of this file alongside them so it gets the same
+   * frost where the platform can afford one and the same flat 90% where it
+   * cannot. This strip is a bar; it should be made of what the bars are made
+   * of.
    *
-   * It is the ONE place this strip departs from .input's shell above: a
-   * dropdown is never pinned over moving content, so --glass-card's 68% costs
-   * it nothing. At rest the two look identical, because both are sitting on
-   * the page background either way. */
-  background: var(--surface);
+   * The trade, stated because it is real: at 90% a little of the page shows
+   * through while it scrolls underneath. Rule 3 of the glass notes covers it —
+   * every glass surface has to meet contrast with no blur at all, and 90%
+   * does. */
+  background: var(--bar-tint);
 }
 .jump__label {
   font-size: .78rem; font-weight: 700; text-transform: uppercase;
@@ -2569,7 +2601,14 @@ a.nbr { text-decoration: none; color: inherit; }
   border-left: 3px solid var(--brand);
   border-radius: var(--radius);
 }
-.intro h2, .welcome h2 { margin: 0 0 6px; font-size: 1.25rem; letter-spacing: -0.01em; }
+/* 1.08rem, down from 1.25.
+   These two are the first thing on Alerts and on Test - "You're in the right
+   place." and "Testing finds red flags. It never gives a green light." - and
+   at 1.25rem each ran three lines on a phone and took most of the first
+   screen before any content. They are framing, not the page's own title, and
+   the h1 above them already carries that job. Same size as an h3 now, which is
+   the tier they actually sit at. */
+.intro h2, .welcome h2 { margin: 0 0 6px; font-size: 1.08rem; letter-spacing: -0.01em; }
 .intro p, .welcome p { margin: 0 0 10px; color: var(--ink-2); max-width: 58ch; }
 .intro p:last-child, .welcome p:last-child { margin-bottom: 0; }
 
@@ -3186,6 +3225,111 @@ details.disc .groupkids > details.disc > summary h2 {
 .card > :last-child, .callout > :last-child,
 .acc__body > :last-child, .disc__body > :last-child { margin-bottom: 0; }
 
+/* ------------------------------------------------- the bar, once you scroll
+ *
+ * 165px of every 812px screen is chrome before a word of content - a 94px
+ * header and a 71px tab bar, 20.3% of a phone, permanently. The header is the
+ * half with slack in it: the wordmark tells a reader which app they are in,
+ * which is worth a lot on arrival and nothing at all six screens down.
+ *
+ * IT SHRINKS, IT DOES NOT HIDE. The X in that row is Quick Exit, and a safety
+ * control that has to be scrolled back to is not one. Search, theme and the X
+ * all stay exactly where they were; only the name and the gap around it go.
+ *
+ * --bar-row-h MOVES WITH IT, and that is the part that would break silently.
+ * Three things are pinned to the bar's height by that token - the search
+ * panel, the jump strip, and the scroll-margin that keeps a jumped-to heading
+ * clear of the bar - so leaving it at 67 while the bar rendered at 45 would
+ * float all three 22px into empty space. One token, redefined here, and they
+ * follow. jumpTo() in ui.js measures the real bar instead, so it was already
+ * immune; these three were not. */
+.is-scrolled {
+  --bar-row-h: var(--bar-row-h-tight);
+}
+/* The row itself, which is what actually sets the height. Redefining the token
+   alone moved every offset that keys off it and left the bar rendering at its
+   old 94px - the exact silent mismatch the token exists to prevent, arrived at
+   from the other direction. 48px still clears all three 44px icon buttons.
+
+   `>` AND NOT A DESCENDANT, which the rule above .topbar .wrap already warns
+   about in as many words: the banner is inside .topbar and has a .wrap of its
+   own, so a descendant selector stretches the banner to the menu row's height
+   too. Written as a descendant this matched at (0,3,0) - equal to the banner's
+   own guard and later in the file, so it won - and the banner went 27px to
+   48px, making the header TALLER than before while the token said 76. The
+   menu row is a direct child; the banner's is a grandchild. */
+.is-scrolled .topbar > .wrap { min-height: 48px; }
+.is-scrolled .brand__name {
+  /* Not display:none - the button keeps its accessible name from aria-label,
+     and collapsing the width rather than the box lets it ease.
+     text-overflow: clip because .brand__name ellipsizes by default, and a
+     shrinking max-width with an ellipsis reads "Nig..." on the way out. */
+  max-width: 0; opacity: 0; overflow: hidden; text-overflow: clip;
+}
+.is-scrolled .brand { gap: 0; }
+
+/* ---- and off the top entirely, going down --------------------------------
+ *
+ * Direction, not position - see watchBarShrink() in app.js. Down hides the
+ * header, any upward scroll brings it straight back, and it is never hidden
+ * within the first screen. That is what keeps Quick Exit reachable: the X is
+ * the control somebody reaches for because a person just walked into the room,
+ * and one upward flick is a different thing from a scroll to the top of a
+ * twelve-screen page.
+ *
+ * --bar-h GOES TO ZERO with it, because the jump strip and the search panel are
+ * both pinned to the bar's height by that token. Left at 76 they would hold
+ * their position with nothing above them. */
+.is-bar-up {
+  --bar-row-h: 0px;
+  --banner-h: 0px;
+}
+.is-bar-up .topbar {
+  transform: translateY(-100%);
+}
+/* The strip stays, and rises to meet the top edge as the bar leaves. It is the
+   navigation for a page long enough to need this in the first place. */
+.topbar { will-change: transform; }
+@media (prefers-reduced-motion: no-preference) {
+  .topbar { transition: transform var(--t-ease) var(--ease-float); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .brand__name {
+    max-width: 12ch;
+    transition: max-width var(--t-ease) var(--ease-float),
+                opacity var(--t-ease) var(--ease-float);
+  }
+}
+
+/* ---- ONE INSET PER NESTING LEVEL, not one per surface -------------------
+ *
+ * The note above names this as a problem and only fixed the margins. The
+ * padding kept stacking: every one of the 33 cards on the Test page sits
+ * inside a disclosure body or a callout, so a reader looking at a card's text
+ * is looking through the body's inset AND the card's, and 980px of the page's
+ * 9,282 was that doubling.
+ *
+ * The outer surface already provides the gutter from the screen edge. What the
+ * inner card has to do is separate its own text from its own border, which is
+ * a smaller job and takes a smaller number. So a card nested in another
+ * surface keeps its full VERTICAL padding - that is what separates one card
+ * from the next - and takes a reduced horizontal one.
+ *
+ * Nothing about the material changes: same border, same radius, same
+ * background. The card is simply not paying twice for the same margin. */
+.disc__body > .card, .acc__body > .card, .callout > .card,
+.disc__body > * > .card, .acc__body > * > .card {
+  padding-left: var(--sp-3);
+  padding-right: var(--sp-3);
+}
+
+/* A body whose ONLY child is a card is two boxes drawing the same rectangle.
+   The inner one keeps its border and radius, which is what the reader sees;
+   the outer one stops adding a gutter around it. */
+.disc__body > .card:only-child, .acc__body > .card:only-child {
+  margin: 0;
+}
+
 /* A table inside a card was flush to the card's edge on both sides because
    .tablewrap scrolls. Give it the same inset as the text above it. */
 .card > .tablewrap, .acc__body > .tablewrap { padding: 2px 0; }
@@ -3301,7 +3445,7 @@ details.disc .groupkids > details.disc > summary h2 {
 
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   /* Saturation is what makes it read as glass rather than fog. */
-  .topbar::before, .nav {
+  .topbar::before, .nav, .jump {
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
   }
@@ -3345,7 +3489,7 @@ details.disc .groupkids > details.disc > summary h2 {
    * least afford to stutter. It was reported on its own, after the bars were
    * already fixed, because it was the one surface this rule had missed. */
   @media (hover: none) and (pointer: coarse) {
-    .topbar::before, .nav, .searchpanel {
+    .topbar::before, .nav, .searchpanel, .jump {
       -webkit-backdrop-filter: none; backdrop-filter: none;
       will-change: auto;
     }
