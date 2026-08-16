@@ -3324,46 +3324,71 @@ details.disc .groupkids > details.disc > summary h2 {
  * and the nav stayed behind, floating over the content. Desktop also has the
  * least need for this: 94px of an 800px window against a mouse and a scroll
  * wheel is not the trade a phone is making. */
+/* EVERY WIDTH, not just phones.
+ *
+ * This was scoped to max-width 959 because at 960 and up the tab bar moves INTO
+ * the header row, and hiding the bar took the app's primary navigation with it -
+ * verified at 1280, where the slide left and the nav stayed behind floating over
+ * the content. The scope made macOS behave differently from iOS, which is not a
+ * difference anybody asked for.
+ *
+ * The nav leaves WITH the header instead. Below 960 it is pinned to the foot of
+ * the screen and is not in the slide, so it is untouched. At 960 and up it is
+ * absolutely positioned in the row, so it takes the same journey - composed
+ * onto the centring transform it already carries rather than replacing it. */
+.topbar__slide { will-change: transform; }
+.is-bar-up .topbar__slide {
+  transform: translate3d(0, -100%, 0);
+  pointer-events: none;
+}
+
+/* THE FROSTED LAYER HAS TO TRAVEL TOO.
+ *
+ * .topbar paints nothing itself - `background: transparent` - and the tint
+ * lives on .topbar::before, which is a pseudo of the BAR and not part of the
+ * slide. So the content slid away and the frosted panel stayed exactly where it
+ * was: a bar-shaped strip left behind at the top of the screen, reported on iOS
+ * Safari as the header not fully disappearing.
+ *
+ * Safe to transform, and this is the one place in the header's subtree where
+ * that is true: a pseudo-element has no descendants, so it cannot become the
+ * containing block for .nav the way an ancestor would. */
+.is-bar-up .topbar::before {
+  transform: translate3d(0, -100%, 0);
+}
+
+/* The bar's own two visible pixels, and its hit area. The 1px rule is drawn by
+   .topbar rather than by the slide, so it outlives the animation the same way
+   the tint did. */
+.is-bar-up .topbar {
+  border-bottom-color: transparent;
+  pointer-events: none;
+}
+/* Below 960 the tab bar is painted at the foot of the screen and stays live -
+   it is still a CHILD of .topbar, so the line above would disable it. */
 @media (max-width: 959px) {
-  .topbar__slide { will-change: transform; }
-  .is-bar-up .topbar__slide {
-    transform: translate3d(0, -100%, 0);
-    pointer-events: none;
-  }
-
-  /* THE FROSTED LAYER HAS TO TRAVEL TOO.
-   *
-   * .topbar paints nothing itself - `background: transparent` - and the tint
-   * lives on .topbar::before, which is a pseudo of the BAR and not part of the
-   * slide. So the content slid away and the frosted panel stayed exactly where
-   * it was: a bar-shaped strip left behind at the top of the screen, reported
-   * on iOS Safari as the header not fully disappearing.
-   *
-   * Safe to transform, and this is the one place in this file where that is
-   * true of anything in the header's subtree: a pseudo-element has no
-   * descendants, so it cannot become the containing block for .nav the way an
-   * ancestor would. */
-  .is-bar-up .topbar::before {
-    transform: translate3d(0, -100%, 0);
-  }
-
-  /* The bar's own two visible pixels, and its hit area.
-     The 1px rule is drawn by .topbar, not by the slide, so it outlives the
-     animation the same way the tint did. pointer-events has to be restored on
-     .nav explicitly - below 960 the tab bar is still a CHILD of .topbar even
-     though it is painted at the foot of the screen. */
-  .is-bar-up .topbar {
-    border-bottom-color: transparent;
-    pointer-events: none;
-  }
   .is-bar-up .nav { pointer-events: auto; }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .topbar__slide,
-    .topbar::before { transition: transform var(--t-ease) var(--ease-float); }
-    .topbar { transition: border-bottom-color var(--t-ease) var(--ease-float); }
+}
+/* At 960 and up it is part of the row and leaves with it. --bar-h is the row
+   plus the banner; --bar-top is the status-bar clearance above both. Composed
+   after the centring translate, so the two do not fight. */
+@media (min-width: 960px) {
+  .is-bar-up .nav {
+    transform: translate(-50%, -50%)
+               translate3d(0, calc(-1 * (var(--bar-h) + var(--bar-top))), 0);
+    pointer-events: none;
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .topbar__slide,
+  .topbar::before { transition: transform var(--t-ease) var(--ease-float); }
+  .topbar { transition: border-bottom-color var(--t-ease) var(--ease-float); }
+  @media (min-width: 960px) {
+    .nav { transition: transform var(--t-ease) var(--ease-float); }
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .brand__name {
     max-width: 12ch;
