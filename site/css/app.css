@@ -3320,8 +3320,38 @@ details.disc .groupkids > details.disc > summary h2 {
     transform: translate3d(0, -100%, 0);
     pointer-events: none;
   }
+
+  /* THE FROSTED LAYER HAS TO TRAVEL TOO.
+   *
+   * .topbar paints nothing itself - `background: transparent` - and the tint
+   * lives on .topbar::before, which is a pseudo of the BAR and not part of the
+   * slide. So the content slid away and the frosted panel stayed exactly where
+   * it was: a bar-shaped strip left behind at the top of the screen, reported
+   * on iOS Safari as the header not fully disappearing.
+   *
+   * Safe to transform, and this is the one place in this file where that is
+   * true of anything in the header's subtree: a pseudo-element has no
+   * descendants, so it cannot become the containing block for .nav the way an
+   * ancestor would. */
+  .is-bar-up .topbar::before {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  /* The bar's own two visible pixels, and its hit area.
+     The 1px rule is drawn by .topbar, not by the slide, so it outlives the
+     animation the same way the tint did. pointer-events has to be restored on
+     .nav explicitly - below 960 the tab bar is still a CHILD of .topbar even
+     though it is painted at the foot of the screen. */
+  .is-bar-up .topbar {
+    border-bottom-color: transparent;
+    pointer-events: none;
+  }
+  .is-bar-up .nav { pointer-events: auto; }
+
   @media (prefers-reduced-motion: no-preference) {
-    .topbar__slide { transition: transform var(--t-ease) var(--ease-float); }
+    .topbar__slide,
+    .topbar::before { transition: transform var(--t-ease) var(--ease-float); }
+    .topbar { transition: border-bottom-color var(--t-ease) var(--ease-float); }
   }
 }
 @media (prefers-reduced-motion: no-preference) {
