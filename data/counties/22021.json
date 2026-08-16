@@ -4,13 +4,14 @@
   "state": "LA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-14T10:20:59.780Z",
+    "lastScan": "2026-08-16T15:42:59.941Z",
     "windowDays": 365,
-    "sourcesChecked": 26,
+    "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
-      "santaclara-me"
+      "santaclara-me",
+      "sandiego-me"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
