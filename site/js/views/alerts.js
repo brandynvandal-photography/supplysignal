@@ -89,29 +89,35 @@ async function pickerView(route, { go, data }) {
 
   wrap.appendChild(await searchBar({ go, data }));
 
-  wrap.appendChild(
-    /* From the locale files - a translated key already existed while this text
-       sat here hardcoded in English, which is exactly how the two drift. */
-    callout("info", t("alerts.locationPrivacyTitle"),
-      h("p", null, t("alerts.locationPrivacyBody")),
-      /* Storage now clears itself, so the X is no longer the mechanism - it is
-         the escape. Someone who thinks they must remember to press it will
-         worry when they forget, and someone who does not know it exists will
-         not reach for it when they need to leave in a hurry. Both facts, once,
-         in the callout that is already about privacy. */
-      h("p", null, h("strong", null, t("alerts.sessionTitle")), ". ",
-        t("alerts.sessionBody")))
-  );
+  /* From the locale files - a translated key already existed while this text
+     sat here hardcoded in English, which is exactly how the two drift. */
+  const privacyNote = callout("info", t("alerts.locationPrivacyTitle"),
+    h("p", null, t("alerts.locationPrivacyBody")),
+    /* Storage now clears itself, so the X is no longer the mechanism - it is
+       the escape. Someone who thinks they must remember to press it will
+       worry when they forget, and someone who does not know it exists will
+       not reach for it when they need to leave in a hurry. Both facts, once,
+       in the callout that is already about privacy. */
+    h("p", null, h("strong", null, t("alerts.sessionTitle")), ". ",
+      t("alerts.sessionBody")));
 
   const a = await data.alerts();
   if (!a.generated) {
     /* Both strings already existed in the locale file while these sat here in
        English. Same drift the location callout above had. */
     wrap.appendChild(empty(t("alerts.noScanTitle"), t("alerts.noScanBody")));
+    wrap.appendChild(privacyNote);
     return wrap;
   }
 
+  /* Alerts first, privacy promise under them.
+     It used to sit between the search row and the alerts, so the first thing
+     on the tab named "what's showing up near you" was a box about data
+     handling - true, and not what somebody opened this to find out. It is a
+     reassurance about a control they have already used by then, so it reads
+     better after the answer than in front of it. */
   wrap.appendChild(await everywhere({ data }, { limit: NATIONAL_PREVIEW }));
+  wrap.appendChild(privacyNote);
   return wrap;
 }
 
@@ -737,12 +743,20 @@ function mortalityBlock(m, county) {
   const rec = m?.counties?.[county.fips];
   const asOf = m?.asOf ? String(m.asOf).slice(0, 10) : null;
 
+  /* Population is a public fact about the place and is worth stating even when
+     the death count is withheld — it is also the thing that tells somebody
+     whether a withheld count of "under 10" is a small number or a tiny one. */
+  const pop = typeof rec?.pop === "number" ? rec.pop : null;
+  const people = pop === null ? null
+    : h("p", { class: "sec__note" }, `${pop.toLocaleString("en-US")} people live here.`);
+
   if (!rec || typeof rec.n !== "number") {
     return h("div", { class: "card mort" },
       h("h3", null, "Overdose deaths here"),
       h("p", { class: "sec__note" },
         "Not published for this county. Counts between 1 and 9 are withheld to protect " +
-        "privacy, so no number is not the same as no deaths."));
+        "privacy, so no number is not the same as no deaths."),
+      people);
   }
 
   const now = rec.n;
@@ -761,11 +775,25 @@ function mortalityBlock(m, county) {
       pct !== null && diff !== 0 ? ` (${pct}%)` : "");
   }
 
+  /* THE RATE, because the count alone invites a comparison it cannot support.
+     964 deaths in Cook County and 65 in Kent County, Delaware reads as one
+     place being fifteen times worse. Per head, Kent is nearly twice Cook. A
+     reader looking up their own county is doing that comparison whether or not
+     the page helps them, so the page should give them the number that makes it
+     valid. Rounded to one decimal, the precision every published overdose rate
+     uses. */
+  const rate = pop ? (now / pop) * 100000 : null;
+
   return h("div", { class: "card mort" },
     h("h3", null, "Overdose deaths here"),
     h("p", { class: "mort__n" }, `${now}`),
     h("p", { class: "mort__unit" },
       `in the 12 months to ${asOf || "the latest published date"}, in ${county.name}`),
+    rate !== null
+      ? h("p", { class: "mort__rate" },
+          h("strong", null, `${rate.toFixed(1)} per 100,000`),
+          ` — ${pop.toLocaleString("en-US")} people live here`)
+      : people,
     trend,
     /* The caveats are not small print. A provisional count that revises upward
        is the difference between "it is improving" and "we do not know yet". */

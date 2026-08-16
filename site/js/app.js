@@ -196,8 +196,25 @@ document.getElementById("exit").addEventListener("click", async () => {
      the reader's device, and it used to end at a third party — so the last step
      of a privacy feature was a request to a company that had no idea it was
      part of one. site/w/index.html is a clock: nothing branded, nothing said
-     about anything being cleared, nothing pointing back here. */
-  location.replace("/w");
+     about anything being cleared, nothing pointing back here.
+
+     RELATIVE IN THE APP, ABSOLUTE ON THE WEB, and this is the whole bug.
+     Capacitor serves the bundle from capacitor://localhost/ and falls back to
+     index.html for any path it does not recognise as a file. "/w" is such a
+     path, so pressing Quick Exit in the packaged app RELOADED NIGHTLIGHT —
+     splash and all — instead of leaving it. Verified on the simulator
+     2026-08-15: tap X, watch the sonar animation, land back on Alerts.
+
+     It failed silently and it is a safety control. Nothing threw, nothing
+     logged, and the one visible symptom was the opening animation playing at
+     the wrong moment, which reads as a cosmetic quirk rather than as the exit
+     not working. "w/index.html" names the file that is actually in the bundle,
+     so the local server serves it instead of the fallback.
+
+     The App plugin is not installed here (see the note in the wrapper repo), so
+     exitApp/minimizeApp above are always unavailable in this build and this
+     line is the ONLY exit the native app has. */
+  location.replace(isNative() ? "w/index.html" : "/w");
 });
 
 /* ---------------------------------------------------------------- routing
@@ -644,8 +661,25 @@ function mountBackToTop() {
  * A 650ms floor because a splash that flashes for 80ms on a warm cache reads
  * as a glitch rather than an opening — the app looks broken, not quick. */
 const BOOT_SHOWN_AT = Date.now();
-const BOOT_MIN_MS = 650;
-const BOOT_MAX_MS = 1600;
+
+/* Longer floor in the packaged app, because it is not the first thing shown.
+ *
+ * iOS puts Capacitor's own launch screen up first and hides it on a timer of
+ * its own. Everything this app needs is on local disk, so route() finishes in
+ * a couple of hundred milliseconds and the web splash was being dismissed
+ * WHILE the native one still covered it — the reader went from launch screen
+ * straight to Alerts and never saw the opening at all. The only time it did
+ * appear was on a second load inside an already-running app, which is exactly
+ * what pressing Quick Exit was accidentally doing.
+ *
+ * The native launch screen is the same flat #17150f as this one, so the handover
+ * is invisible; the floor just has to outlast it. Nothing here depends on
+ * knowing when it lifts, which matters more than precision: an approach that
+ * waited for a signal from the plugin would leave the reader on a logo forever
+ * if the signal never came, and this app has an SOS tab. */
+const BOOT_MIN_MS =
+  document.documentElement.classList.contains("is-packaged") ? 1500 : 650;
+const BOOT_MAX_MS = BOOT_MIN_MS + 950;
 let bootGone = false;
 
 function dismissBoot() {

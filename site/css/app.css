@@ -2517,13 +2517,12 @@ details.disc[open] { margin-bottom: var(--sp-3); }
   .badge { border: 1px solid #000; color: #000; background: #fff; }
 }
 
-/* A heading inside a grouped .list (the map's ranked counties) was inheriting
-   row chrome and looked broken. It is a label, not a row. */
-.list > .map__toph {
-  margin: 0; padding: 14px 18px 2px;
-  font-size: .9rem; font-weight: 650; color: var(--ink-2);
-  border: 0;
-}
+/* The map's ranked-counties heading used to be the first child of the .list and
+   needed this rule to stop it inheriting row chrome. It is a sibling above the
+   list now and takes the plain .map__toph treatment, so the rule only has to
+   keep an EMPTY heading from reserving space - renderTop clears it when there
+   is nothing to rank. */
+.map__toph:empty { display: none; }
 
 /* ------------------------------------------------------- detail stat tiles */
 
@@ -3327,6 +3326,11 @@ html, body { overscroll-behavior-y: none; }
   margin: 2px 0 2px; letter-spacing: -.02em;
 }
 .mort__unit { color: var(--ink-2); margin: 0 0 10px; font-size: min(.96rem, 16px); }
+/* The rate sits between the count and the trend, and reads a step above the
+   caption around it - it is the number that makes this county comparable to
+   any other, which the bare count is not. */
+.mort__rate { color: var(--ink-2); margin: 0 0 10px; font-size: min(.96rem, 16px); }
+.mort__rate strong { color: var(--ink); }
 .mort__trend { font-weight: 650; margin: 0 0 10px; }
 /* Direction is carried by the WORD ("Down from", "Up from") and by the arrow;
    colour only reinforces it. Down is not styled as good news - a provisional

@@ -204,6 +204,11 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   const hint = h("p", { class: "sec__note" });
   const notice = h("div");
   const legend = h("div", { class: "map__legend" });
+  /* The heading is a SIBLING of the list, not its first row.
+     Inside .list it inherited the grouped-card inset and read as a label
+     printed on the card rather than a heading naming what the card contains -
+     which is what every other section on the page does. */
+  const topHead = h("h3", { class: "map__toph" });
   const topList = h("div", { class: "list" });   // grouped inset list, like every other row list
 
   const resetBtn = h("button", {
@@ -228,6 +233,7 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
           h("p", { class: "map__help" },
             "Drag to move around. Scroll or pinch to zoom. Tap a county to open it. ",
             resetBtn),
+          topHead,
           topList)
   );
 
@@ -581,11 +587,12 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
       .slice(0, 10);
 
     clear(topList);
+    clear(topHead);
+    /* Cleared together: an empty result must not leave a heading standing over
+       nothing, which is what a separate element makes possible to get wrong. */
     if (!top.length) return;
-    topList.appendChild(
-      h("h3", { class: "map__toph" },
-        m.diverging ? "Largest changes" : `Highest — ${m.label.toLowerCase()}`)
-    );
+    topHead.appendChild(document.createTextNode(
+      m.diverging ? "Largest changes" : `Highest — ${m.label.toLowerCase()}`));
     for (const [fips, v] of top) {
       const c = byFips.get(fips);
       if (!c) continue;
