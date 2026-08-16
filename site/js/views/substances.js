@@ -362,8 +362,16 @@ function adulterantBody(wrap, s) {
       ? h("div", { class: "sources" }, sources.map((x) => extLink(x.url, x.name)))
       : null;
 
+  /* The heading is per-entry, because the four original adulterants and tusi
+     are opposite cases wearing the same page.
+     Xylazine, medetomidine, nitazenes and BTMPS are things nobody asked for,
+     mixed into something else — "found in the supply, not sold as itself" is
+     exactly right for them. Tusi is the reverse: it is sold as itself, under
+     its own name, at a premium, and the problem is that the name describes
+     something it does not contain. Telling a reader holding a bag of it that
+     it is "not sold as itself" would be the first false thing on the page. */
   wrap.appendChild(
-    callout("warn", "Found in the supply — not sold as itself",
+    callout("warn", s.soldAs || "Found in the supply — not sold as itself",
       h("p", null, s.summary))
   );
 
@@ -836,6 +844,18 @@ async function detailView(id, subs, combos, { go }) {
     wrap.appendChild(
       callout("warn", "Sold under a misleading name",
         h("p", null, s.nameWarning.text),
+        /* A WAY OUT, not just a correction.
+           The warning tells a reader that what they are holding is probably a
+           different substance, and then this page goes on to be entirely about
+           THIS one - its dose chart, its duration, its reagent colours, its
+           flowchart. Somebody who arrived holding pink powder was being told
+           "not this" and given no "then what". The named substance has its own
+           page now; this is the door to it. */
+        s.nameWarning.seeInstead
+          ? h("a", { class: "bigptr", href: `#/substances/${s.nameWarning.seeInstead.id}` },
+              h("span", { class: "bigptr__hd" }, s.nameWarning.seeInstead.label),
+              h("span", { class: "bigptr__sub" }, s.nameWarning.seeInstead.sub))
+          : null,
         h("div", { class: "sources" },
           s.nameWarning.sources.map((x) => extLink(x.url, x.name))))
     );

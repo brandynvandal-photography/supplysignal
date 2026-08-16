@@ -1,6 +1,6 @@
 {
  "note": "Street names that MISLEAD - the name says one drug, the market sells another. Renders as a warning on the substance page and the names become searchable aliases. Every entry needs a live-verified source; this file exists because a name can be the adulteration vector.",
- "lastVerified": "2026-08-10",
+ "lastVerified": "2026-08-16",
  "warnings": {
   "2c-b": {
    "names": [
@@ -22,7 +22,12 @@
      "name": "Peer-reviewed analysis, 2025",
      "url": "https://www.sciencedirect.com/science/article/pii/S0955395925003408"
     }
-   ]
+   ],
+   "seeInstead": {
+    "id": "tusi",
+    "label": "What pink powder usually is",
+    "sub": "Tusi has its own page — what is actually in it, why the ketamine matters more than the name, and what to do if somebody goes under."
+   }
   }
  }
 }
