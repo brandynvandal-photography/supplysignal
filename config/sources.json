@@ -1,582 +1,600 @@
 {
-  "_comment": "trust: 1 = official health authority, 2 = established news, 3 = aggregator. Every feed below was fetched and confirmed to return valid RSS/Atom with a 2026-dated item on 2026-08-09. Re-verify before trusting: state sites migrate CMS platforms often and feeds die silently. See _retired for URLs that were shipped but are dead.",
-  "_retired": [
-    {
-      "id": "tn-doh",
-      "url": "https://www.tn.gov/health/news.rss",
-      "died": "HTTP 404 as of 2026-08-09. www.tn.gov/health.feed returns valid Atom but is a page-tree index, not news."
-    },
-    {
-      "id": "or-oha",
-      "url": "https://www.oregon.gov/oha/news/RSS/newsroom.xml",
-      "died": "HTTP 404 as of 2026-08-09, SharePoint error page."
-    },
-    {
-      "id": "md-mdh",
-      "url": "https://health.maryland.gov/newsroom/rss.xml",
-      "died": "HTTP 404 as of 2026-08-09, SharePoint error page."
-    },
-    {
-      "id": "sc-dph",
-      "url": "https://dph.sc.gov/rss.xml",
-      "died": "Valid RSS but abandoned - newest item 2025-03-05."
-    },
-    {
-      "id": "vt-doh",
-      "url": "https://www.healthvermont.gov/taxonomy/term/126/feed",
-      "died": "Valid RSS but abandoned - newest item 2024-07-25."
-    },
-    {
-      "id": "tx-dshs",
-      "url": "https://www.dshs.texas.gov/rss.xml",
-      "died": "Valid RSS but abandoned - newest item 2023-01-05."
-    },
-    {
-      "id": "cdc-food-safety",
-      "url": "https://tools.cdc.gov/api/v2/resources/media/316422.rss",
-      "died": "Retired 2026-08-14, not dead: media 316422 is CDC Food Safety, confirmed by tools.cdc.gov/api/v2/resources/media/316422.json returning name \"Food Safety\". It shipped as id \"cdc-newsroom\" and was never the newsroom. Food recalls are off-topic for a drug-supply pipeline, and the real newsroom feed (media 132608) is live under that id now."
-    }
-  ],
-  "_wafNote": "Florida, Louisiana and Delaware sit behind Cloudflare/WAF and return 403 if hit twice in quick succession. Keep polling.requestDelayMs at or above 1500 and send the configured user agent. Arkansas, Massachusetts and New Hampshire block automated requests entirely - they may still have feeds, but they cannot be verified without a real browser.",
-  "feeds": [
-    {
-      "id": "cdc-newsroom",
-      "name": "CDC Online Newsroom",
-      "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "national"
-      },
-      "enabled": true,
-      "_note": "Media 132608 is CDC Online Newsroom. It was configured as \"cdc-han\" until 2026-08-14; it never was HAN. There is no working public HAN feed (413690.rss returns 0 items, the han web pages 403 every non-browser client) and HAN is national-altitude anyway. See docs/ALERT-SOURCES.md.",
-      "maxItems": 60,
-      "evidence": "official"
-    },
-    {
-      "id": "az-adhs-blog",
-      "name": "Arizona DHS Director's Blog",
-      "url": "https://directorsblog.health.azdhs.gov/feed/",
-      "kind": "rss",
-      "trust": 2,
-      "scope": {
-        "level": "state",
-        "state": "AZ"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "dc-doh",
-      "name": "DC Health",
-      "url": "https://dchealth.dc.gov/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "DC"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "de-dhss",
-      "name": "Delaware Health and Social Services",
-      "url": "https://news.delaware.gov/category/dhss/feed/",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "DE"
-      },
-      "enabled": true,
-      "maxItems": 60,
-      "evidence": "official"
-    },
-    {
-      "id": "fl-doh",
-      "name": "Florida Department of Health",
-      "url": "https://www.floridahealth.gov/feed/",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "FL"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "ga-dph",
-      "name": "Georgia Department of Public Health",
-      "url": "https://dph.georgia.gov/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "GA"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "hi-doh",
-      "name": "Hawaii Department of Health",
-      "url": "https://health.hawaii.gov/news/feed/",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "HI"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "id-dhw",
-      "name": "Idaho Department of Health and Welfare",
-      "url": "https://healthandwelfare.idaho.gov/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "ID"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "ks-kdhe",
-      "name": "Kansas Department of Health and Environment",
-      "url": "https://www.kdhe.ks.gov/RSSFeed.aspx?ModID=1&CID=All-0",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "KS"
-      },
-      "enabled": true,
-      "_note": "Unusually high signal - real advisories rather than press releases.",
-      "evidence": "official"
-    },
-    {
-      "id": "la-ldh",
-      "name": "Louisiana Department of Health",
-      "url": "https://ldh.la.gov/news/rss",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "LA"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "me-dhhs",
-      "name": "Maine Department of Health and Human Services",
-      "url": "https://www.maine.gov/dhhs/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "ME"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "mn-mdh",
-      "name": "Minnesota Department of Health",
-      "url": "https://www.health.state.mn.us/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "MN"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "ms-msdh",
-      "name": "Mississippi State Department of Health",
-      "url": "https://msdh.ms.gov/msdhsite/rssFeed.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "MS"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "mt-dphhs",
-      "name": "Montana DPHHS",
-      "url": "https://dphhs.mt.gov/News/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "MT"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "nc-dhhs",
-      "name": "North Carolina DHHS",
-      "url": "https://www.ncdhhs.gov/news/feed",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "NC"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "nd-hhs",
-      "name": "North Dakota Health and Human Services",
-      "url": "https://www.hhs.nd.gov/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "ND"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "ri-doh",
-      "name": "Rhode Island Department of Health",
-      "url": "https://health.ri.gov/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "RI"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "ut-dhhs",
-      "name": "Utah Department of Health and Human Services",
-      "url": "https://dhhs.utah.gov/feed/",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "UT"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "va-vdh",
-      "name": "Virginia Department of Health",
-      "url": "https://www.vdh.virginia.gov/news/feed/",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "VA"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "wa-doh",
-      "name": "Washington State Department of Health",
-      "url": "https://doh.wa.gov/newsroom/rss",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "WA"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "wi-dhs",
-      "name": "Wisconsin Department of Health Services",
-      "url": "https://www.dhs.wisconsin.gov/news/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "WI"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "wv-oeps",
-      "name": "WV Office of Epidemiology and Prevention Services",
-      "url": "https://oeps.wv.gov/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "WV"
-      },
-      "enabled": true,
-      "_note": "Epidemiology/HAN-style content - directly relevant.",
-      "evidence": "official"
-    },
-    {
-      "id": "wy-doh",
-      "name": "Wyoming Department of Health",
-      "url": "https://health.wyo.gov/news/feed/",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "WY"
-      },
-      "enabled": true,
-      "evidence": "official"
-    },
-    {
-      "id": "grassroots-hr",
-      "name": "Grassroots Harm Reduction",
-      "url": "https://grassrootsharmreduction.org/feed/",
-      "kind": "rss",
-      "trust": 2,
-      "scope": {
-        "level": "national"
-      },
-      "enabled": true,
-      "_note": "Community org, verified 2026-08-10. Socials are their primary channel; this feed is the machine-readable mirror - socials stay a human discovery layer, never a machine source.",
-      "evidence": "community"
-    },
-    {
-      "id": "rebel-hr",
-      "name": "Rebel Harm Reduction",
-      "url": "https://rebelharmreduction.org/feed/",
-      "kind": "rss",
-      "trust": 2,
-      "scope": {
-        "level": "state",
-        "state": "NY"
-      },
-      "enabled": true,
-      "_note": "NYC community drug checking. 406s a bare UA - needs the browser UA the ingest already sends. Verified 2026-08-10.",
-      "evidence": "community"
-    },
-    {
-      "id": "sc-dph",
-      "name": "South Carolina Department of Public Health",
-      "url": "https://dph.sc.gov/rss.xml",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "state",
-        "state": "SC"
-      },
-      "enabled": true,
-      "evidence": "official",
-      "_note": "Replaces the sc-dph retired in the earlier sweep. Verified 2026-08-15: 200, 10 items, newest 14 Aug 2026. The FIRST pubDate in this feed is the channel's own (Mar 2025) and two entries are static pages, so a freshness check that reads item[0] will call it dead when it is not. It also carries future-dated clinic listings - Dec 2026 - which are real, not clock skew."
-    },
-    {
-      "id": "cdc-mmwr",
-      "name": "CDC MMWR",
-      "url": "https://tools.cdc.gov/api/v2/resources/media/342778.rss",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "national"
-      },
-      "enabled": true,
-      "evidence": "official",
-      "maxItems": 60,
-      "_note": "Verified 2026-08-15: 200, newest item 13 Aug 2026. maxItems is NOT optional here - the feed is a 2,310-item archive back to 2019, and cdc-newsroom's own note records what happens when a CDC archive is parsed in full: 2,029 items dropped as outside_window in a single run. Mostly national epidemiology, but MMWR titles routinely name a county ('Santa Clara County, California'), which is more than most national sources give geotag."
-    },
-    {
-      "id": "il-ccdph",
-      "name": "Cook County Department of Public Health",
-      "url": "https://cookcountypublichealth.org/feed/",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "county",
-        "state": "IL",
-        "fips": "17031"
-      },
-      "enabled": true,
-      "evidence": "official",
-      "_note": "Verified 2026-08-15: 200, 15 items, newest 13 Aug 2026. The app's first COUNTY-scoped health department feed. Cook County is 5.1M people and its medical examiner publishes the overdose dataset this feed's items refer to."
-    },
-    {
-      "id": "il-willco",
-      "name": "Will County Health Department",
-      "url": "https://willcountyhealth.org/feed/",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "county",
-        "state": "IL",
-        "fips": "17197"
-      },
-      "enabled": true,
-      "evidence": "official",
-      "_note": "Verified 2026-08-15: 200, 10 items, newest 10 Aug 2026. URL is the CANONICAL host - www.willcountyhealth.org 301s here, and the redirect is why an earlier check read it as 0 items."
-    },
-    {
-      "id": "mo-ago",
-      "name": "Missouri Attorney General",
-      "url": "https://ago.mo.gov/feed/",
-      "kind": "rss",
-      "trust": 2,
-      "scope": {
-        "level": "state",
-        "state": "MO"
-      },
-      "enabled": true,
-      "evidence": "official",
-      "_note": "Verified 2026-08-15: 200, 10 items, newest 7 Aug 2026. Trust 2, not 1: an AG office publishes enforcement news, and a seizure is evidence about supply but it is not a health advisory."
-    },
-    {
-      "id": "ok-tulsa-thd",
-      "name": "Tulsa Health Department",
-      "url": "https://tulsa-health.org/feed/",
-      "kind": "rss",
-      "trust": 1,
-      "scope": {
-        "level": "county",
-        "state": "OK",
-        "fips": "40143"
-      },
-      "enabled": true,
-      "evidence": "official",
-      "_note": "Verified 2026-08-15: 200, 6 items, newest 29 Jul 2026. County-scoped, Tulsa County."
-    }
-  ],
-  "googleNews": {
-    "enabled": true,
-    "template": "https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en",
-    "windowOperator": "when:30d",
-    "trust": 2,
-    "minIntervalMs": 1500
+ "_comment": "trust: 1 = official health authority, 2 = established news, 3 = aggregator. Every feed below was fetched and confirmed to return valid RSS/Atom with a 2026-dated item on 2026-08-09. Re-verify before trusting: state sites migrate CMS platforms often and feeds die silently. See _retired for URLs that were shipped but are dead.",
+ "_retired": [
+  {
+   "id": "tn-doh",
+   "url": "https://www.tn.gov/health/news.rss",
+   "died": "HTTP 404 as of 2026-08-09. www.tn.gov/health.feed returns valid Atom but is a page-tree index, not news."
   },
-  "gdelt": {
-    "enabled": true,
-    "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc",
-    "trust": 3,
-    "minIntervalMs": 2000
+  {
+   "id": "or-oha",
+   "url": "https://www.oregon.gov/oha/news/RSS/newsroom.xml",
+   "died": "HTTP 404 as of 2026-08-09, SharePoint error page."
   },
-  "medicalExaminers": {
-    "_comment": "County medical-examiner open data. See src/sources/medex.mjs for what this is and is not, and docs/ALERT-SOURCES.md for the full survey of what else was checked. These are the only free public sources found that are county-granular, name specific adulterants, and are current within weeks. They are mortality data - a lagging indicator - so severity is capped at 'elevated' and every item states its own lag. Verified working 2026-08-14.",
-    "enabled": true,
-    "recentDays": 90,
-    "baselineDays": 365,
-    "minCount": 3,
-    "riseFactor": 2,
-    "maxLagDays": 210,
-    "sources": [
-      {
-        "id": "cook-me",
-        "name": "The Cook County Medical Examiner",
-        "county": "Cook County",
-        "fips": "17031",
-        "state": "IL",
-        "kind": "socrata",
-        "url": "https://datacatalog.cookcountyil.gov/resource/cjeq-bs86.json",
-        "landing": "https://datacatalog.cookcountyil.gov/d/cjeq-bs86",
-        "dateField": "incident_date",
-        "textFields": [
-          "primarycause",
-          "secondarycause"
-        ],
-        "where": "opioids=true",
-        "trust": 1,
-        "enabled": true,
-        "_note": "The boolean column is `opioids`. `opioid_related` is not a column and errors. $select names only the date and cause columns - the dataset also carries age, race, gender, incident_street, incident_zip, latitude and longitude, and none of it is ever requested.",
-        "denominator": "opioid-involved deaths",
-        "evidence": "lab"
-      },
-      {
-        "id": "allegheny-me",
-        "name": "The Allegheny County Medical Examiner",
-        "county": "Allegheny County",
-        "fips": "42003",
-        "state": "PA",
-        "kind": "ckan",
-        "endpoint": "https://data.wprdc.org/api/3/action/datastore_search",
-        "resource": "1c59b26a-1684-4bfb-92f7-205b947530cf",
-        "landing": "https://data.wprdc.org/dataset/allegheny-county-fatal-accidental-overdoses",
-        "dateField": "death_date_and_time",
-        "drugColumns": [
-          "combined_od1",
-          "combined_od2",
-          "combined_od3",
-          "combined_od4",
-          "combined_od5",
-          "combined_od6",
-          "combined_od7",
-          "combined_od8",
-          "combined_od9",
-          "combined_od10"
-        ],
-        "trust": 1,
-        "enabled": true,
-        "_note": "Drugs are pre-parsed into combined_od1..10. Plain datastore_search, NOT datastore_search_sql: that endpoint fails in bursts (verified 2026-08-14 - five consecutive runs failed every call, then recovered, while plain search stayed at 200 throughout) and the SQL path needed five calls per run. This is one call for all 7,751 rows. `fields` is a whitelist of the date and the ten drug columns, so age, sex, race and both ZIP columns are never requested - the same discipline $select gives the Socrata sources. Date field is death_date_and_time, not death_date.",
-        "denominator": "accidental overdose deaths",
-        "evidence": "lab",
-        "maxRows": 20000
-      },
-      {
-        "id": "santaclara-me",
-        "name": "The Santa Clara County Medical Examiner",
-        "county": "Santa Clara County",
-        "fips": "06085",
-        "state": "CA",
-        "kind": "socrata",
-        "url": "https://data.sccgov.org/resource/j8j2-ged9.json",
-        "landing": "https://data.sccgov.org/d/j8j2-ged9",
-        "dateField": "death_date",
-        "textFields": [
-          "cause_of_death"
-        ],
-        "where": "",
-        "trust": 1,
-        "enabled": true,
-        "_note": "Fentanyl-involved deaths only, so the denominator is narrower than Cook's and a share here means 'of fentanyl deaths', not 'of overdose deaths'. Same $select discipline: the dataset carries age, race, gender, zip and lat/lon. Every column in this dataset is typed text, dates included, so date literals must be date-only and month bucketing uses substring().",
-        "denominator": "fentanyl-involved deaths",
-        "dateType": "text",
-        "evidence": "lab"
-      },
-      {
-        "id": "sandiego-me",
-        "name": "The San Diego County Medical Examiner",
-        "county": "San Diego County",
-        "fips": "06073",
-        "state": "CA",
-        "kind": "socrata",
-        "url": "https://data.sandiegocounty.gov/resource/jkvb-n4p7.json",
-        "landing": "https://data.sandiegocounty.gov/d/jkvb-n4p7",
-        "dateField": "death_date",
-        "textFields": [
-          "cod_string"
-        ],
-        "where": "opioid_related IN ('Opioid','Opioid-Fentanyl')",
-        "trust": 1,
-        "enabled": true,
-        "_note": "`opioid_related` is a categorical string, not a boolean - the values are Opioid, Opioid-Fentanyl, Non-Opioid, Non-Disclosure. Querying it as `true` or 'Yes' returns zero rows, which is what made this dataset look unusable on first pass. It also has a real `death_date` (calendar_date); the `year`/`quarter` columns are a red herring. Verified 2026-08-14.",
-        "denominator": "opioid-involved deaths",
-        "evidence": "lab"
-      }
+  {
+   "id": "md-mdh",
+   "url": "https://health.maryland.gov/newsroom/rss.xml",
+   "died": "HTTP 404 as of 2026-08-09, SharePoint error page."
+  },
+  {
+   "id": "sc-dph",
+   "url": "https://dph.sc.gov/rss.xml",
+   "died": "Valid RSS but abandoned - newest item 2025-03-05."
+  },
+  {
+   "id": "vt-doh",
+   "url": "https://www.healthvermont.gov/taxonomy/term/126/feed",
+   "died": "Valid RSS but abandoned - newest item 2024-07-25."
+  },
+  {
+   "id": "tx-dshs",
+   "url": "https://www.dshs.texas.gov/rss.xml",
+   "died": "Valid RSS but abandoned - newest item 2023-01-05."
+  },
+  {
+   "id": "cdc-food-safety",
+   "url": "https://tools.cdc.gov/api/v2/resources/media/316422.rss",
+   "died": "Retired 2026-08-14, not dead: media 316422 is CDC Food Safety, confirmed by tools.cdc.gov/api/v2/resources/media/316422.json returning name \"Food Safety\". It shipped as id \"cdc-newsroom\" and was never the newsroom. Food recalls are off-topic for a drug-supply pipeline, and the real newsroom feed (media 132608) is live under that id now."
+  }
+ ],
+ "_wafNote": "Florida, Louisiana and Delaware sit behind Cloudflare/WAF and return 403 if hit twice in quick succession. Keep polling.requestDelayMs at or above 1500 and send the configured user agent. Arkansas, Massachusetts and New Hampshire block automated requests entirely - they may still have feeds, but they cannot be verified without a real browser.",
+ "feeds": [
+  {
+   "id": "cdc-newsroom",
+   "name": "CDC Online Newsroom",
+   "url": "https://tools.cdc.gov/api/v2/resources/media/132608.rss",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "national"
+   },
+   "enabled": true,
+   "_note": "Media 132608 is CDC Online Newsroom. It was configured as \"cdc-han\" until 2026-08-14; it never was HAN. There is no working public HAN feed (413690.rss returns 0 items, the han web pages 403 every non-browser client) and HAN is national-altitude anyway. See docs/ALERT-SOURCES.md.",
+   "maxItems": 60,
+   "evidence": "official"
+  },
+  {
+   "id": "az-adhs-blog",
+   "name": "Arizona DHS Director's Blog",
+   "url": "https://directorsblog.health.azdhs.gov/feed/",
+   "kind": "rss",
+   "trust": 2,
+   "scope": {
+    "level": "state",
+    "state": "AZ"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "dc-doh",
+   "name": "DC Health",
+   "url": "https://dchealth.dc.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "DC"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "de-dhss",
+   "name": "Delaware Health and Social Services",
+   "url": "https://news.delaware.gov/category/dhss/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "DE"
+   },
+   "enabled": true,
+   "maxItems": 60,
+   "evidence": "official"
+  },
+  {
+   "id": "fl-doh",
+   "name": "Florida Department of Health",
+   "url": "https://www.floridahealth.gov/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "FL"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "ga-dph",
+   "name": "Georgia Department of Public Health",
+   "url": "https://dph.georgia.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "GA"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "hi-doh",
+   "name": "Hawaii Department of Health",
+   "url": "https://health.hawaii.gov/news/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "HI"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "id-dhw",
+   "name": "Idaho Department of Health and Welfare",
+   "url": "https://healthandwelfare.idaho.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "ID"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "ks-kdhe",
+   "name": "Kansas Department of Health and Environment",
+   "url": "https://www.kdhe.ks.gov/RSSFeed.aspx?ModID=1&CID=All-0",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "KS"
+   },
+   "enabled": true,
+   "_note": "Unusually high signal - real advisories rather than press releases.",
+   "evidence": "official"
+  },
+  {
+   "id": "la-ldh",
+   "name": "Louisiana Department of Health",
+   "url": "https://ldh.la.gov/news/rss",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "LA"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "me-dhhs",
+   "name": "Maine Department of Health and Human Services",
+   "url": "https://www.maine.gov/dhhs/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "ME"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "mn-mdh",
+   "name": "Minnesota Department of Health",
+   "url": "https://www.health.state.mn.us/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "MN"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "ms-msdh",
+   "name": "Mississippi State Department of Health",
+   "url": "https://msdh.ms.gov/msdhsite/rssFeed.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "MS"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "mt-dphhs",
+   "name": "Montana DPHHS",
+   "url": "https://dphhs.mt.gov/News/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "MT"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "nc-dhhs",
+   "name": "North Carolina DHHS",
+   "url": "https://www.ncdhhs.gov/news/feed",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "NC"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "nd-hhs",
+   "name": "North Dakota Health and Human Services",
+   "url": "https://www.hhs.nd.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "ND"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "ri-doh",
+   "name": "Rhode Island Department of Health",
+   "url": "https://health.ri.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "RI"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "ut-dhhs",
+   "name": "Utah Department of Health and Human Services",
+   "url": "https://dhhs.utah.gov/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "UT"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "va-vdh",
+   "name": "Virginia Department of Health",
+   "url": "https://www.vdh.virginia.gov/news/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "VA"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "wa-doh",
+   "name": "Washington State Department of Health",
+   "url": "https://doh.wa.gov/newsroom/rss",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "WA"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "wi-dhs",
+   "name": "Wisconsin Department of Health Services",
+   "url": "https://www.dhs.wisconsin.gov/news/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "WI"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "wv-oeps",
+   "name": "WV Office of Epidemiology and Prevention Services",
+   "url": "https://oeps.wv.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "WV"
+   },
+   "enabled": true,
+   "_note": "Epidemiology/HAN-style content - directly relevant.",
+   "evidence": "official"
+  },
+  {
+   "id": "wy-doh",
+   "name": "Wyoming Department of Health",
+   "url": "https://health.wyo.gov/news/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "WY"
+   },
+   "enabled": true,
+   "evidence": "official"
+  },
+  {
+   "id": "grassroots-hr",
+   "name": "Grassroots Harm Reduction",
+   "url": "https://grassrootsharmreduction.org/feed/",
+   "kind": "rss",
+   "trust": 2,
+   "scope": {
+    "level": "national"
+   },
+   "enabled": true,
+   "_note": "Community org, verified 2026-08-10. Socials are their primary channel; this feed is the machine-readable mirror - socials stay a human discovery layer, never a machine source.",
+   "evidence": "community"
+  },
+  {
+   "id": "rebel-hr",
+   "name": "Rebel Harm Reduction",
+   "url": "https://rebelharmreduction.org/feed/",
+   "kind": "rss",
+   "trust": 2,
+   "scope": {
+    "level": "state",
+    "state": "NY"
+   },
+   "enabled": true,
+   "_note": "NYC community drug checking. 406s a bare UA - needs the browser UA the ingest already sends. Verified 2026-08-10.",
+   "evidence": "community"
+  },
+  {
+   "id": "sc-dph",
+   "name": "South Carolina Department of Public Health",
+   "url": "https://dph.sc.gov/rss.xml",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "state",
+    "state": "SC"
+   },
+   "enabled": true,
+   "evidence": "official",
+   "_note": "Replaces the sc-dph retired in the earlier sweep. Verified 2026-08-15: 200, 10 items, newest 14 Aug 2026. The FIRST pubDate in this feed is the channel's own (Mar 2025) and two entries are static pages, so a freshness check that reads item[0] will call it dead when it is not. It also carries future-dated clinic listings - Dec 2026 - which are real, not clock skew."
+  },
+  {
+   "id": "cdc-mmwr",
+   "name": "CDC MMWR",
+   "url": "https://tools.cdc.gov/api/v2/resources/media/342778.rss",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "national"
+   },
+   "enabled": true,
+   "evidence": "official",
+   "maxItems": 60,
+   "_note": "Verified 2026-08-15: 200, newest item 13 Aug 2026. maxItems is NOT optional here - the feed is a 2,310-item archive back to 2019, and cdc-newsroom's own note records what happens when a CDC archive is parsed in full: 2,029 items dropped as outside_window in a single run. Mostly national epidemiology, but MMWR titles routinely name a county ('Santa Clara County, California'), which is more than most national sources give geotag."
+  },
+  {
+   "id": "il-ccdph",
+   "name": "Cook County Department of Public Health",
+   "url": "https://cookcountypublichealth.org/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "county",
+    "state": "IL",
+    "fips": "17031"
+   },
+   "enabled": true,
+   "evidence": "official",
+   "_note": "Verified 2026-08-15: 200, 15 items, newest 13 Aug 2026. The app's first COUNTY-scoped health department feed. Cook County is 5.1M people and its medical examiner publishes the overdose dataset this feed's items refer to."
+  },
+  {
+   "id": "il-willco",
+   "name": "Will County Health Department",
+   "url": "https://willcountyhealth.org/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "county",
+    "state": "IL",
+    "fips": "17197"
+   },
+   "enabled": true,
+   "evidence": "official",
+   "_note": "Verified 2026-08-15: 200, 10 items, newest 10 Aug 2026. URL is the CANONICAL host - www.willcountyhealth.org 301s here, and the redirect is why an earlier check read it as 0 items."
+  },
+  {
+   "id": "mo-ago",
+   "name": "Missouri Attorney General",
+   "url": "https://ago.mo.gov/feed/",
+   "kind": "rss",
+   "trust": 2,
+   "scope": {
+    "level": "state",
+    "state": "MO"
+   },
+   "enabled": true,
+   "evidence": "official",
+   "_note": "Verified 2026-08-15: 200, 10 items, newest 7 Aug 2026. Trust 2, not 1: an AG office publishes enforcement news, and a seizure is evidence about supply but it is not a health advisory."
+  },
+  {
+   "id": "ok-tulsa-thd",
+   "name": "Tulsa Health Department",
+   "url": "https://tulsa-health.org/feed/",
+   "kind": "rss",
+   "trust": 1,
+   "scope": {
+    "level": "county",
+    "state": "OK",
+    "fips": "40143"
+   },
+   "enabled": true,
+   "evidence": "official",
+   "_note": "Verified 2026-08-15: 200, 6 items, newest 29 Jul 2026. County-scoped, Tulsa County."
+  }
+ ],
+ "googleNews": {
+  "enabled": true,
+  "template": "https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en",
+  "windowOperator": "when:30d",
+  "trust": 2,
+  "minIntervalMs": 1500
+ },
+ "gdelt": {
+  "enabled": true,
+  "endpoint": "https://api.gdeltproject.org/api/v2/doc/doc",
+  "trust": 3,
+  "minIntervalMs": 2000
+ },
+ "medicalExaminers": {
+  "_comment": "County medical-examiner open data. See src/sources/medex.mjs for what this is and is not, and docs/ALERT-SOURCES.md for the full survey of what else was checked. These are the only free public sources found that are county-granular, name specific adulterants, and are current within weeks. They are mortality data - a lagging indicator - so severity is capped at 'elevated' and every item states its own lag. Verified working 2026-08-14.",
+  "enabled": true,
+  "recentDays": 90,
+  "baselineDays": 365,
+  "minCount": 3,
+  "riseFactor": 2,
+  "maxLagDays": 210,
+  "sources": [
+   {
+    "id": "cook-me",
+    "name": "The Cook County Medical Examiner",
+    "county": "Cook County",
+    "fips": "17031",
+    "state": "IL",
+    "kind": "socrata",
+    "url": "https://datacatalog.cookcountyil.gov/resource/cjeq-bs86.json",
+    "landing": "https://datacatalog.cookcountyil.gov/d/cjeq-bs86",
+    "dateField": "incident_date",
+    "textFields": [
+     "primarycause",
+     "secondarycause"
     ],
-    "completeness": 0.7,
-    "_lagNote": "maxLagDays is measured from the last COMPLETE month, not the newest record - see completeThrough() in src/sources/medex.mjs. Allegheny's newest record is about 2 months old but it is still filling in cases from 4 months back, so its honest anchor is roughly 6 months and 150 would have silently dropped it. Every item states its own lag in the body text.",
-    "maxP": 0.001,
-    "_statsNote": "maxP is a Fisher exact one-sided p-value, replacing a z-test that treated the estimated baseline as a known rate and inflated the false-alarm rate 2.7x. 0.001 per test budgets roughly a quarter of one false alert per year across 11 substances x 4 counties x ~4 independent windows. See the header above exactP() in src/sources/medex.mjs.",
-    "_denominatorNote": "Cook and San Diego count opioid-involved deaths; Allegheny counts all accidental overdose deaths; Santa Clara counts fentanyl-involved deaths. Each alert states its own denominator in the body text, because a share means a different thing under each. WIDENING COOK AND SAN DIEGO WAS CONSIDERED AND REJECTED ON THE DATA (2026-08-14): the deaths their filters exclude are 382 and 315 respectively over 455 days - about 30% more denominator - and searching those excluded deaths for every watchlist substance found FOUR records in total (2 bromazolam in Cook, 1 xylazine and 1 nitazene in San Diego). Widening would have diluted every share that currently works, and cost statistical power at counts already small enough for minCount to bind, to recover four records nationally. The substances the widening was meant to expose - levamisole and BTMPS - are absent from all four sources including the unfiltered one; see the note above the watchlist in src/sources/medex.mjs."
-  },
-  "_evidenceNote": "Every source carries an evidence class - lab, official, community - read by src/evidence.mjs. Aggregators (googleNews, gdelt) deliberately have none: they are carriers, and their items are graded by the originator NAMED IN THE TEXT, or dropped if nobody is. The classes gate severity (community and unconfirmed media never publish critical) and set per-class confidence floors. See the header of src/evidence.mjs for why grading the originator rather than the carrier is the load-bearing idea."
+    "where": "opioids=true",
+    "trust": 1,
+    "enabled": true,
+    "_note": "The boolean column is `opioids`. `opioid_related` is not a column and errors. $select names only the date and cause columns - the dataset also carries age, race, gender, incident_street, incident_zip, latitude and longitude, and none of it is ever requested.",
+    "denominator": "opioid-involved deaths",
+    "evidence": "lab"
+   },
+   {
+    "id": "allegheny-me",
+    "name": "The Allegheny County Medical Examiner",
+    "county": "Allegheny County",
+    "fips": "42003",
+    "state": "PA",
+    "kind": "ckan",
+    "endpoint": "https://data.wprdc.org/api/3/action/datastore_search",
+    "resource": "1c59b26a-1684-4bfb-92f7-205b947530cf",
+    "landing": "https://data.wprdc.org/dataset/allegheny-county-fatal-accidental-overdoses",
+    "dateField": "death_date_and_time",
+    "drugColumns": [
+     "combined_od1",
+     "combined_od2",
+     "combined_od3",
+     "combined_od4",
+     "combined_od5",
+     "combined_od6",
+     "combined_od7",
+     "combined_od8",
+     "combined_od9",
+     "combined_od10"
+    ],
+    "trust": 1,
+    "enabled": true,
+    "_note": "Drugs are pre-parsed into combined_od1..10. Plain datastore_search, NOT datastore_search_sql: that endpoint fails in bursts (verified 2026-08-14 - five consecutive runs failed every call, then recovered, while plain search stayed at 200 throughout) and the SQL path needed five calls per run. This is one call for all 7,751 rows. `fields` is a whitelist of the date and the ten drug columns, so age, sex, race and both ZIP columns are never requested - the same discipline $select gives the Socrata sources. Date field is death_date_and_time, not death_date.",
+    "denominator": "accidental overdose deaths",
+    "evidence": "lab",
+    "maxRows": 20000
+   },
+   {
+    "id": "santaclara-me",
+    "name": "The Santa Clara County Medical Examiner",
+    "county": "Santa Clara County",
+    "fips": "06085",
+    "state": "CA",
+    "kind": "socrata",
+    "url": "https://data.sccgov.org/resource/j8j2-ged9.json",
+    "landing": "https://data.sccgov.org/d/j8j2-ged9",
+    "dateField": "death_date",
+    "textFields": [
+     "cause_of_death"
+    ],
+    "where": "",
+    "trust": 1,
+    "enabled": true,
+    "_note": "Fentanyl-involved deaths only, so the denominator is narrower than Cook's and a share here means 'of fentanyl deaths', not 'of overdose deaths'. Same $select discipline: the dataset carries age, race, gender, zip and lat/lon. Every column in this dataset is typed text, dates included, so date literals must be date-only and month bucketing uses substring().",
+    "denominator": "fentanyl-involved deaths",
+    "dateType": "text",
+    "evidence": "lab"
+   },
+   {
+    "id": "sandiego-me",
+    "name": "The San Diego County Medical Examiner",
+    "county": "San Diego County",
+    "fips": "06073",
+    "state": "CA",
+    "kind": "socrata",
+    "url": "https://data.sandiegocounty.gov/resource/jkvb-n4p7.json",
+    "landing": "https://data.sandiegocounty.gov/d/jkvb-n4p7",
+    "dateField": "death_date",
+    "textFields": [
+     "cod_string"
+    ],
+    "where": "opioid_related IN ('Opioid','Opioid-Fentanyl')",
+    "trust": 1,
+    "enabled": true,
+    "_note": "`opioid_related` is a categorical string, not a boolean - the values are Opioid, Opioid-Fentanyl, Non-Opioid, Non-Disclosure. Querying it as `true` or 'Yes' returns zero rows, which is what made this dataset look unusable on first pass. It also has a real `death_date` (calendar_date); the `year`/`quarter` columns are a red herring. Verified 2026-08-14.",
+    "denominator": "opioid-involved deaths",
+    "evidence": "lab"
+   }
+  ],
+  "completeness": 0.7,
+  "_lagNote": "maxLagDays is measured from the last COMPLETE month, not the newest record - see completeThrough() in src/sources/medex.mjs. Allegheny's newest record is about 2 months old but it is still filling in cases from 4 months back, so its honest anchor is roughly 6 months and 150 would have silently dropped it. Every item states its own lag in the body text.",
+  "maxP": 0.001,
+  "_statsNote": "maxP is a Fisher exact one-sided p-value, replacing a z-test that treated the estimated baseline as a known rate and inflated the false-alarm rate 2.7x. 0.001 per test budgets roughly a quarter of one false alert per year across 11 substances x 4 counties x ~4 independent windows. See the header above exactP() in src/sources/medex.mjs.",
+  "_denominatorNote": "Cook and San Diego count opioid-involved deaths; Allegheny counts all accidental overdose deaths; Santa Clara counts fentanyl-involved deaths. Each alert states its own denominator in the body text, because a share means a different thing under each. WIDENING COOK AND SAN DIEGO WAS CONSIDERED AND REJECTED ON THE DATA (2026-08-14): the deaths their filters exclude are 382 and 315 respectively over 455 days - about 30% more denominator - and searching those excluded deaths for every watchlist substance found FOUR records in total (2 bromazolam in Cook, 1 xylazine and 1 nitazene in San Diego). Widening would have diluted every share that currently works, and cost statistical power at counts already small enough for minCount to bind, to recover four records nationally. The substances the widening was meant to expose - levamisole and BTMPS - are absent from all four sources including the unfiltered one; see the note above the watchlist in src/sources/medex.mjs."
+ },
+ "_evidenceNote": "Every source carries an evidence class - lab, official, community - read by src/evidence.mjs. Aggregators (googleNews, gdelt) deliberately have none: they are carriers, and their items are graded by the originator NAMED IN THE TEXT, or dropped if nobody is. The classes gate severity (community and unconfirmed media never publish critical) and set per-class confidence floors. See the header of src/evidence.mjs for why grading the originator rather than the carrier is the load-bearing idea.",
+ "scrapers": [
+  {
+   "id": "pa-pdph",
+   "name": "The Philadelphia Department of Public Health",
+   "url": "https://www.substanceusephilly.com/alerts",
+   "landing": "https://hip.phila.gov/health-alerts/",
+   "kind": "scrape",
+   "trust": 1,
+   "scope": {
+    "level": "county",
+    "fips": "42101",
+    "state": "PA"
+   },
+   "enabled": true,
+   "evidence": "official",
+   "_note": "THE ONLY SCRAPED SOURCE. No feed exists: /feed/, /health-alerts/feed/ and /wp-json/wp/v2/posts all 404 on hip.phila.gov, ?format=rss returns \"Unknown response format\", and ?format=json returns an EMPTY mainContent for this page type - which looks like a clean API and carries nothing. Parsed from the JSON-escaped description blobs Squarespace embeds, so each anchor arrives with its own label. The YEAR exists only in the PDF filename and the visible label carries month/day, so the two are joined and any item where they disagree, or where the filename has no date at all, is DROPPED rather than dated by assumption. Verified 2026-08-15: 24 labelled anchors, 16 dated, 3 inside a 365-day window."
+  }
+ ]
 }

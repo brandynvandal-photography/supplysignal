@@ -4,16 +4,11 @@
   "state": "ID",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-16T04:02:00.875Z",
+    "lastScan": "2026-08-14T02:45:37.269Z",
     "windowDays": 365,
-    "sourcesChecked": 32,
+    "sourcesChecked": 27,
     "sourcesFailed": [
-      "la-ldh",
-      "il-willco",
-      "cook-me",
-      "santaclara-me",
-      "sandiego-me",
-      "google-news"
+      "la-ldh"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."

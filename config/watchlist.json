@@ -1,1 +1,31 @@
-{"counties":["47065","41051","24510"]}
+{
+ "_note": "Counties polled EVERY run rather than on the cold rotation, and the only ones GDELT is queried for at all - see the loop in src/ingest.mjs. Chosen on 2026-08-15 from data/mortality.json as the 25 counties with the most overdose deaths in the CDC 12-month window, which is where a supply change reaches the most people and where local reporting is most likely to exist. Deaths rather than rate: the rate leaders are small counties whose figures move on single-digit changes, and a watchlist is about volume of signal, not severity. 47065 (Hamilton County, TN) is kept regardless as the fixture county every routes and views test is written against. Cost is about 2s of GDELT per county per run; maxWatchedPerRun in settings.json is 120, so there is room to grow this.",
+ "counties": [
+  "47065",
+  "04013",
+  "06037",
+  "17031",
+  "42101",
+  "53033",
+  "32003",
+  "48201",
+  "06073",
+  "36005",
+  "48113",
+  "06065",
+  "26163",
+  "24510",
+  "36047",
+  "06067",
+  "06071",
+  "06075",
+  "06059",
+  "48439",
+  "08041",
+  "04019",
+  "53053",
+  "41051",
+  "08031",
+  "42003"
+ ]
+}

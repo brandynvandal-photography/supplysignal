@@ -13,6 +13,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchFeed, fetchCountyNews, fetchGdelt } from "./sources/index.mjs";
 import { fetchMedicalExaminer } from "./sources/medex.mjs";
+import { fetchPhilly } from "./sources/philly.mjs";
 import { gate1, gate2 } from "./recency.mjs";
 import { classifyDeterministic, band, classifyWithLLM, applyLLMVerdict } from "./classify.mjs";
 import { buildIndex, geotag } from "./geotag.mjs";
@@ -111,6 +112,36 @@ async function main() {
         console.error(`[medex:${src.id}] ${e.message}`);
         stats.sourcesFailed.push(src.id);
       }
+    }
+  }
+
+  /* ---- Philadelphia PDPH ----
+   *
+   * A scraped page rather than a feed, and the only one in this pipeline. It
+   * earns the exception on what it publishes: PDPH names adulterants ahead of
+   * almost everyone - xylazine 2022, nitazenes 2022, medetomidine 2024, BTMPS
+   * 2024, carfentanil 2025 - which is the leading indicator the rest of these
+   * sources cannot give. See src/sources/philly.mjs for why there is no feed
+   * to use instead and what it refuses to guess.
+   *
+   * Its items are ordinary official-class prose and go through the classifier,
+   * the evidence grade and the announcement filter like anything else. PDPH
+   * posts clinical practice guidance beside supply findings on the same page,
+   * and deciding between them is not this fetch's job. */
+  const philly = (sources.scrapers || []).find((s) => s.id === "pa-pdph" && s.enabled);
+  if (philly) {
+    try {
+      const r = await fetchPhilly(philly, settings);
+      raw.push(...r.items);
+      stats.fetched += r.items.length;
+      /* Philadelphia WAS looked at, so its page can say "nothing current"
+         rather than "not yet scanned" - the same distinction meReached keeps
+         for the medical examiners. */
+      meReached.add("42101");
+      stats.philly = { seen: r.seen.length, dated: r.items.length };
+    } catch (e) {
+      console.error(`[philly] ${e.message}`);
+      stats.sourcesFailed.push("pa-pdph");
     }
   }
 
