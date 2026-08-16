@@ -1,0 +1,1114 @@
+{
+ "note": "DRAFTS, not published copy. Written by scripts/build-wikipedia-descriptions.mjs. Each entry's identity claim was taken from an English Wikipedia lead and then confirmed to be about the right molecule by checking the article's title against PubChem's synonym list for the CID the app already holds a structure for. Effects, dose and legal status are stripped: the identity is what Wikipedia's lead sources well and PubChem can corroborate, and the rest is neither. Read these before merging any of them into data/descriptions.json.",
+ "generated": "2026-08-16",
+ "source": {
+  "text": {
+   "name": "English Wikipedia",
+   "url": "https://en.wikipedia.org/",
+   "license": "CC BY-SA 4.0"
+  },
+  "verification": {
+   "name": "PubChem, US National Library of Medicine",
+   "url": "https://pubchem.ncbi.nlm.nih.gov/",
+   "license": "Public domain (US Government)"
+  }
+ },
+ "skipped": {
+  "noCid": [
+   "25x-nboh",
+   "25x-nbome",
+   "2c-x",
+   "3-cl-pcp",
+   "4f-eph",
+   "a-php",
+   "benzodiazepines",
+   "cake",
+   "det",
+   "dpt",
+   "ept",
+   "hxe",
+   "maoi",
+   "mephenaqualone",
+   "mpt",
+   "mxipr",
+   "n-methylbisfluoromodafinil",
+   "pmma",
+   "psychedelic",
+   "rima",
+   "synthetic-cannabinoid",
+   "mt",
+   "k-2c-b"
+  ],
+  "noArticle": [
+   "2-fa",
+   "doc",
+   "doi",
+   "dom",
+   "mcpp",
+   "pma",
+   "tma-2",
+   "tma-6"
+  ],
+  "noPubChemMatch": [
+   "2-fea (wiki \"2-Furylethylamine\" not a PubChem synonym of CID 20027466)",
+   "apica (wiki \"APICA (synthetic cannabinoid drug)\" not a PubChem synonym of CID 71308155)",
+   "met (wiki \"Methylethyltryptamine\" not a PubChem synonym of CID 6137)",
+   "nep (wiki \"N-Ethylpentedrone\" not a PubChem synonym of CID 162642078)",
+   "pce (wiki \"Eticyclidine\" not a PubChem synonym of CID 31373)"
+  ],
+  "disambig": [],
+  "noIdentity": [
+   "1-4-butanediol",
+   "2m2b",
+   "5-mapb",
+   "desomorphine",
+   "gaboxadol",
+   "propylhexedrine",
+   "rolicyclidine",
+   "sts-135"
+  ],
+  "tooShort": []
+ },
+ "drafts": {
+  "1b-lsd": {
+   "text": "1B-LSD, also known as 1-butyryl-LSD, is a psychedelic drug of the lysergamide family and an acylated derivative of lysergic acid diethylamide (LSD) which has been sold as a designer drug.",
+   "verified": {
+    "pubchemCid": 145875086,
+    "wikipediaTitle": "1B-LSD",
+    "wikipediaRevision": "1368190836"
+   }
+  },
+  "1cp-al-lad": {
+   "text": "1cP-AL-LAD is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD).",
+   "verified": {
+    "pubchemCid": 162368406,
+    "wikipediaTitle": "1cP-AL-LAD",
+    "wikipediaRevision": "1368190979"
+   }
+  },
+  "1cp-lsd": {
+   "text": "1cP-LSD, or 1-CPA-LSD, also known as 1-cyclopropanoyl-LSD or as Curie, is a psychedelic drug of the lysergamide family and an acylated derivative of lysergic acid diethylamide (LSD) which has been sold as a designer drug.",
+   "verified": {
+    "pubchemCid": 155884675,
+    "wikipediaTitle": "1cP-LSD",
+    "wikipediaRevision": "1368191041"
+   }
+  },
+  "1cp-mipla": {
+   "text": "1cP-MiPLA, also known as 1-cyclopropanoyl-MiPLA or 1-cyclopropanoyl-N-methyl-N-isopropyllysergamide, is a presumed psychedelic drug of the lysergamide family. It is the 1-cyclopropanoyl derivative of MiPLA (N-methyl-N-isopropyllysergamide) and is thought to be a prodrug of MiPLA.",
+   "verified": {
+    "pubchemCid": 170763684,
+    "wikipediaTitle": "1cP-MiPLA",
+    "wikipediaRevision": "1339566280"
+   }
+  },
+  "1p-eth-lad": {
+   "text": "1P-ETH-LAD, also known as 1-propionyl-6-ethyl-6-nor-LSD, is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD). It is the 1-propionyl derivative of ETH-LAD and is thought to act as a prodrug of ETH-LAD analogously to how 1P-LSD acts as a prodrug of LSD.",
+   "verified": {
+    "pubchemCid": 119025859,
+    "wikipediaTitle": "1P-ETH-LAD",
+    "wikipediaRevision": "1368191384"
+   }
+  },
+  "1p-lsd": {
+   "text": "1P-LSD, also known as 1-propionyl-LSD, is a psychedelic drug of the lysergamide family related to LSD. It is an amide derivative of LSD and a homologue of ALD-52 (1A-LSD).",
+   "verified": {
+    "pubchemCid": 119025985,
+    "wikipediaTitle": "1P-LSD",
+    "wikipediaRevision": "1368191421"
+   }
+  },
+  "1v-lsd": {
+   "text": "1V-LSD, also known as 1-valeryl-LSD or by the nickname Valerie, is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD).",
+   "verified": {
+    "pubchemCid": 162368540,
+    "wikipediaTitle": "1V-LSD",
+    "wikipediaRevision": "1368191616"
+   }
+  },
+  "2-aminoindane": {
+   "text": "2-Aminoindane (2-AI) is a stimulant of the 2-aminoindane family which has been sold as a designer drug.",
+   "verified": {
+    "pubchemCid": 76310,
+    "wikipediaTitle": "2-Aminoindane",
+    "wikipediaRevision": "1340038244"
+   }
+  },
+  "2-fluorodeschloroketamine": {
+   "text": "2-Fluorodeschloroketamine is a dissociative anesthetic related to ketamine. Its sale and use as a designer drug has been reported in various countries.",
+   "verified": {
+    "pubchemCid": 13771618,
+    "wikipediaTitle": "2-Fluorodeschloroketamine",
+    "wikipediaRevision": "1343592060"
+   }
+  },
+  "2-fma": {
+   "text": "2-Fluoromethamphetamine (2-FMA) is a stimulant drug of the amphetamine family which has been used as a designer drug.",
+   "verified": {
+    "pubchemCid": 24257263,
+    "wikipediaTitle": "2-Fluoromethamphetamine",
+    "wikipediaRevision": "1335718198"
+   }
+  },
+  "2-5-dma": {
+   "text": "2,5-Dimethoxyamphetamine (2,5-DMA), also known as DMA-4 or as DOH, is a psychoactive drug of the phenethylamine and amphetamine families. The drug is notable in being the parent compound of the DOx (4-substituted-2,5-dimethoxyamphetamine) series of psychedelic drugs.",
+   "verified": {
+    "pubchemCid": 62787,
+    "wikipediaTitle": "2,5-Dimethoxyamphetamine",
+    "wikipediaRevision": "1367872643"
+   }
+  },
+  "25b-nboh": {
+   "text": "25B-NBOH, also known as N-(2-hydroxybenzyl)-4-bromo-2,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine, 2C, and N-benzylphenethylamine families related to 2C-B and 25B-NBOMe. It has been sold and encountered as a novel designer drug.",
+   "verified": {
+    "pubchemCid": 125181394,
+    "wikipediaTitle": "25B-NBOH",
+    "wikipediaRevision": "1362552586"
+   }
+  },
+  "25b-nbome": {
+   "text": "25B-NBOMe, also known as NBOMe-2C-B, Cimbi-36, or as N-(2-methoxybenzyl)-4-bromo-2,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine, 2C, and 25-NB (NBOMe) families. It is the N-(2-methoxybenzyl) derivative of 2C-B.",
+   "verified": {
+    "pubchemCid": 9977044,
+    "wikipediaTitle": "25B-NBOMe",
+    "wikipediaRevision": "1368916623"
+   }
+  },
+  "25c-nboh": {
+   "text": "25C-NBOH is a psychedelic drug and derivative of the phenethylamine derived hallucinogen 2C-C.",
+   "verified": {
+    "pubchemCid": 125181419,
+    "wikipediaTitle": "25C-NBOH",
+    "wikipediaRevision": "1338087019"
+   }
+  },
+  "25c-nbome": {
+   "text": "25C-NBOMe, also known as NBOMe-2C-C, 2C-C-NBOMe, or Cimbi-82, is a psychedelic drug and derivative of the psychedelic phenethylamine 2C-C. 25C-NBOMe was first described in the scientific literature by 2010.",
+   "verified": {
+    "pubchemCid": 46856354,
+    "wikipediaTitle": "25C-NBOMe",
+    "wikipediaRevision": "1367943520"
+   }
+  },
+  "25d-nbome": {
+   "text": "25D-NBOMe, also known as NBOMe-2C-D and \"divination\", is a derivative of the phenethylamine derived hallucinogen 2C-D. It acts in a similar manner to related compounds such as 25I-NBOMe, which is a potent agonist at the 5-HT2A receptor.",
+   "verified": {
+    "pubchemCid": 118536027,
+    "wikipediaTitle": "25D-NBOMe",
+    "wikipediaRevision": "1368833014"
+   }
+  },
+  "25e-nboh": {
+   "text": "25E-NBOH is a derivative of the phenethylamine derived hallucinogen 2C-E. It was first developed by Martin Hansen at the University of Copenhagen in 2010 as a brain imaging agent, but has subsequently been sold as a designer drug, first being identified in Brazil in 2018 on seized blotter paper, as well as in Slovenia and France.",
+   "verified": {
+    "pubchemCid": 135391539,
+    "wikipediaTitle": "25E-NBOH",
+    "wikipediaRevision": "1338070250"
+   }
+  },
+  "25i-nboh": {
+   "text": "25I-NBOH, also known as N-(2-hydroxybenzyl)-4-iodo-2,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine, 2C, and N-benzylphenethylamine families related to 2C-I and 25I-NBOMe. The drug is a known metabolite of 25I-NBOMe and has also been encountered as a novel designer drug.",
+   "verified": {
+    "pubchemCid": 10001761,
+    "wikipediaTitle": "25I-NBOH",
+    "wikipediaRevision": "1362291402"
+   }
+  },
+  "25i-nbome": {
+   "text": "25I-NBOMe, also known as 2C-I-NBOMe, Cimbi-5, and shortened to \"25I\", is a psychedelic drug of the phenethylamine, 2C, and NBOMe (25-NB) families. It is the most well-known member of the 25-NB family and the earliest member to be encountered as a novel recreational drug.",
+   "verified": {
+    "pubchemCid": 10251906,
+    "wikipediaTitle": "25I-NBOMe",
+    "wikipediaRevision": "1368833019"
+   }
+  },
+  "25n-nbome": {
+   "text": "25N-NBOMe, also known as 2C-N-NBOMe or NBOMe-2C-N, is a derivative of the hallucinogen 2C-N. The pharmacological properties of 25N-NBOMe have not been described in the scientific literature, but it is believed to act in a similar manner to related compounds such as 25I-NBOMe and 25C-NBOMe, which are potent agonists at the 5HT2A receptor.",
+   "verified": {
+    "pubchemCid": 118536028,
+    "wikipediaTitle": "25N-NBOMe",
+    "wikipediaRevision": "1368833025"
+   }
+  },
+  "2c-b-fly": {
+   "text": "2C-B-FLY is a psychedelic and designer drug of the phenethylamine, 2C, and FLY families. It was first described in 1995 by Aaron Monte, Professor of Chemistry at UW-La Crosse.",
+   "verified": {
+    "pubchemCid": 10265873,
+    "wikipediaTitle": "2C-B-FLY",
+    "wikipediaRevision": "1369001144"
+   }
+  },
+  "2c-c": {
+   "text": "2C-C, also known as 4-chloro-2,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine and 2C families.",
+   "verified": {
+    "pubchemCid": 29979100,
+    "wikipediaTitle": "2C-C",
+    "wikipediaRevision": "1333803608"
+   }
+  },
+  "2c-d": {
+   "text": "2C-D, also known as 4-methyl-2,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine and 2C families.",
+   "verified": {
+    "pubchemCid": 135740,
+    "wikipediaTitle": "2C-D",
+    "wikipediaRevision": "1360527410"
+   }
+  },
+  "2c-e": {
+   "text": "2C-E, also known as 4-ethyl-2,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine and 2C families.",
+   "verified": {
+    "pubchemCid": 24729233,
+    "wikipediaTitle": "2C-E",
+    "wikipediaRevision": "1359873786"
+   }
+  },
+  "2c-h": {
+   "text": "2C-H, also known as 2,5-dimethoxyphenethylamine (2,5-DMPEA) or as DMPEA-4, is a chemical compound of the phenethylamine and 2C families. It is the parent compound of the 2C drugs, which are also known as 4-substituted 2,5-dimethoxyphenethylamines.",
+   "verified": {
+    "pubchemCid": 76632,
+    "wikipediaTitle": "2C-H",
+    "wikipediaRevision": "1362552353"
+   }
+  },
+  "2c-i": {
+   "text": "2C-I, also known as 4-iodo-2,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine and 2C families.",
+   "verified": {
+    "pubchemCid": 10267191,
+    "wikipediaTitle": "2C-I",
+    "wikipediaRevision": "1368833048"
+   }
+  },
+  "2c-p": {
+   "text": "2C-P, also known as 4-propyl-2,5-dimethoxyphenethylamine or as Selene, is a psychedelic drug of the phenethylamine and 2C families.",
+   "verified": {
+    "pubchemCid": 44350080,
+    "wikipediaTitle": "2C-P",
+    "wikipediaRevision": "1342701722"
+   }
+  },
+  "2c-t": {
+   "text": "2C-T, or 2C-T-1, also known as 4-methylthio-2,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine and 2C families.",
+   "verified": {
+    "pubchemCid": 12315927,
+    "wikipediaTitle": "2C-T",
+    "wikipediaRevision": "1340517220"
+   }
+  },
+  "2c-t-2": {
+   "text": "2C-T-2, also known as 4-ethylthio-2,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine and 2C families.",
+   "verified": {
+    "pubchemCid": 12074193,
+    "wikipediaTitle": "2C-T-2",
+    "wikipediaRevision": "1359622550"
+   }
+  },
+  "2c-t-21": {
+   "text": "2C-T-21, also known as 4-(2-fluoroethylthio)-2,5-dimethoxyphenethylamine or as 2C-T-FE, is a psychedelic phenethylamine of the 2C family.",
+   "verified": {
+    "pubchemCid": 44349972,
+    "wikipediaTitle": "2C-T-21",
+    "wikipediaRevision": "1359589354"
+   }
+  },
+  "2c-t-7": {
+   "text": "2C-T-7, also known as 4-propylthio-2,5-dimethoxyphenethylamine or as Blue Mystic or 7th Heaven, is a psychedelic drug of the phenethylamine and 2C families.",
+   "verified": {
+    "pubchemCid": 24728635,
+    "wikipediaTitle": "2C-T-7",
+    "wikipediaRevision": "1359622321"
+   }
+  },
+  "3-fa": {
+   "text": "3-Fluoroamphetamine is a stimulant drug from the amphetamine family which acts as a monoamine releaser with similar potency to methamphetamine but more selectivity for dopamine and norepinephrine release over serotonin. It is self-administered by mice to a similar extent to related drugs such as 4-fluoroamphetamine and 3-methylamphetamine.",
+   "verified": {
+    "pubchemCid": 121501,
+    "wikipediaTitle": "3-Fluoroamphetamine",
+    "wikipediaRevision": "1340855494"
+   }
+  },
+  "3-fea": {
+   "text": "3-Fluoroethamphetamine (3-FEA) is a stimulant drug of the amphetamine class which acts as a releasing agent of the monoamine neurotransmitters norepinephrine, dopamine and serotonin.",
+   "verified": {
+    "pubchemCid": 57458869,
+    "wikipediaTitle": "3-Fluoroethamphetamine",
+    "wikipediaRevision": "1310627270"
+   }
+  },
+  "3-fma": {
+   "text": "3-Fluoromethamphetamine (3-FMA) is a stimulant drug related to methamphetamine and 3-fluoroamphetamine. It has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 58216164,
+    "wikipediaTitle": "3-Fluoromethamphetamine",
+    "wikipediaRevision": "1328683059"
+   }
+  },
+  "3-fpm": {
+   "text": "3-Fluorophenmetrazine is a phenylmorpholine-based stimulant and fluorinated analog of phenmetrazine that has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 54673723,
+    "wikipediaTitle": "3-Fluorophenmetrazine",
+    "wikipediaRevision": "1359869437"
+   }
+  },
+  "3-ho-pce": {
+   "text": "3-Hydroxyeticyclidine (3-HO-PCE) is a novel dissociative drug of the arylcyclohexylamine class, related to phencyclidine. It was first identified as a novel psychoactive substance in Sweden in 2017, and has subsequently been sold online as a research chemical.",
+   "verified": {
+    "pubchemCid": 137332171,
+    "wikipediaTitle": "3-HO-PCE",
+    "wikipediaRevision": "1368634167"
+   }
+  },
+  "3-ho-pcp": {
+   "text": "3-Hydroxyphencyclidine (3-HO-PCP) is a dissociative of the arylcyclohexylamine class related to phencyclidine (PCP) that has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 133277,
+    "wikipediaTitle": "3-HO-PCP",
+    "wikipediaRevision": "1365092314"
+   }
+  },
+  "3-meo-pce": {
+   "text": "3-Methoxyeticyclidine (3-MeO-PCE), also known as methoxieticyclidine, is a dissociative anesthetic that is qualitatively similar to PCE and PCP and has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 57461569,
+    "wikipediaTitle": "3-MeO-PCE",
+    "wikipediaRevision": "1364820786"
+   }
+  },
+  "3-meo-pcmo": {
+   "text": "3-MeO-PCMo is a dissociative anesthetic drug which is similar in structure to phencyclidine and has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 132605908,
+    "wikipediaTitle": "3-MeO-PCMo",
+    "wikipediaRevision": "1364821548"
+   }
+  },
+  "3-meo-pcp": {
+   "text": "3-Methoxyphencyclidine (3-MeO-PCP) is a dissociative hallucinogen of the arylcyclohexylamine class related to phencyclidine (PCP) which has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 11778080,
+    "wikipediaTitle": "3-MeO-PCP",
+    "wikipediaRevision": "1364711984"
+   }
+  },
+  "3-4-ctmp": {
+   "text": "3,4-dichloromethylphenidate is a potent stimulant drug from the phenidate class closely related to methylphenidate. It has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 44296390,
+    "wikipediaTitle": "3,4-Dichloromethylphenidate",
+    "wikipediaRevision": "1354506257"
+   }
+  },
+  "3c-e": {
+   "text": "3C-E, also known as 4-ethoxy-3,5-dimethoxyamphetamine or as α-methylescaline (3C-escaline), is a psychedelic drug of the phenethylamine, amphetamine, and 3C families related to 3,4,5-trimethoxyamphetamine (TMA). It is the amphetamine (3C) analog of escaline.",
+   "verified": {
+    "pubchemCid": 44350137,
+    "wikipediaTitle": "3C-E",
+    "wikipediaRevision": "1341368861"
+   }
+  },
+  "3c-p": {
+   "text": "3C-P, also known as 4-propoxy-3,5-dimethoxyamphetamine or as α-methylproscaline (3C-proscaline), is a psychedelic drug of the phenethylamine, amphetamine, and 3C families related to 3,4,5-trimethoxyamphetamine (TMA). It is the amphetamine (3C) analog of proscaline.",
+   "verified": {
+    "pubchemCid": 54929142,
+    "wikipediaTitle": "3C-P",
+    "wikipediaRevision": "1368833069"
+   }
+  },
+  "4-aco-det": {
+   "text": "4-AcO-DET, also known as 4-acetoxy-N,N-diethyltryptamine as well as ethacetin or ethylacybin, is a psychedelic tryptamine.",
+   "verified": {
+    "pubchemCid": 24801867,
+    "wikipediaTitle": "4-AcO-DET",
+    "wikipediaRevision": "1358661367"
+   }
+  },
+  "4-aco-dipt": {
+   "text": "4-AcO-DiPT, also known as 4-acetoxy-N,N-diisopropyltryptamine or as ipracetin, is a psychedelic drug of the tryptamine and 4-hydroxytryptamine families related to 4-AcO-DMT (psilacetin).",
+   "verified": {
+    "pubchemCid": 24801868,
+    "wikipediaTitle": "4-AcO-DiPT",
+    "wikipediaRevision": "1358909535"
+   }
+  },
+  "4-aco-dmt": {
+   "text": "4-Acetoxy-N,N-dimethyltryptamine, also known as O-acetylpsilocin or psilacetin, is a psychedelic drug of the tryptamine family related to psilocybin and psilocin. It is a synthetic derivative of psilocin (4-HO-DMT) in which the hydroxyl group has been acetylated, and is the analog of psilocybin (4-PO-DMT) in which the phosphate ester has been replaced with an acetate ester.",
+   "verified": {
+    "pubchemCid": 15429212,
+    "wikipediaTitle": "4-AcO-DMT",
+    "wikipediaRevision": "1365630606"
+   }
+  },
+  "4-aco-met": {
+   "text": "4-AcO-MET, also known as 4-acetoxy-N-methyl-N-ethyltryptamine or metacetin, is a psychedelic drug of the tryptamine family. The drug is a novel compound with very little history of human use.",
+   "verified": {
+    "pubchemCid": 71308138,
+    "wikipediaTitle": "4-AcO-MET",
+    "wikipediaRevision": "1334206510"
+   }
+  },
+  "4-aco-mipt": {
+   "text": "4-AcO-MiPT, also known as 4-acetoxy-N-methyl-N-isopropyltryptamine or as mipracetin, is a psychedelic tryptamine. It is closely related to 4-AcO-DMT and methylisopropyltryptamine (MiPT).",
+   "verified": {
+    "pubchemCid": 46783587,
+    "wikipediaTitle": "4-AcO-MiPT",
+    "wikipediaRevision": "1334210795"
+   }
+  },
+  "4-fa": {
+   "text": "4-Fluoroamphetamine, also known as para-fluoroamphetamine (PFA), is a psychoactive research chemical of the phenethylamine and substituted amphetamine chemical classes. As a recreational drug, 4-FA is sometimes sold along with related compounds such as 2-fluoroamphetamine and 4-fluoromethamphetamine.",
+   "verified": {
+    "pubchemCid": 9986,
+    "wikipediaTitle": "4-Fluoroamphetamine",
+    "wikipediaRevision": "1365055514"
+   }
+  },
+  "4-fma": {
+   "text": "4-Fluoromethamphetamine (4-FMA) is a stimulant drug related to methamphetamine and 4-fluoroamphetamine. It has been reported to be sold as a designer drug, but little is known about its pharmacology or toxicology.",
+   "verified": {
+    "pubchemCid": 11745017,
+    "wikipediaTitle": "4-Fluoromethamphetamine",
+    "wikipediaRevision": "1340552065"
+   }
+  },
+  "4-ho-det": {
+   "text": "4-HO-DET, also known as 4-hydroxy-N,N-diethyltryptamine as well as ethocin or CZ-74, is a psychedelic drug of the tryptamine and 4-hydroxytryptamine families related to psilocin (4-HO-DMT).",
+   "verified": {
+    "pubchemCid": 9991554,
+    "wikipediaTitle": "4-HO-DET",
+    "wikipediaRevision": "1348444009"
+   }
+  },
+  "4-ho-dipt": {
+   "text": "4-HO-DiPT, also known as 4-hydroxy-N,N-diisopropyltryptamine or as iprocin, is a psychedelic drug of the tryptamine and 4-hydroxytryptamine families related to psilocin (4-HO-DMT).",
+   "verified": {
+    "pubchemCid": 21854225,
+    "wikipediaTitle": "4-HO-DiPT",
+    "wikipediaRevision": "1368815649"
+   }
+  },
+  "4-ho-dpt": {
+   "text": "4-HO-DPT, also known as 4-hydroxy-N,N-dipropyltryptamine or as deprocin, is a psychedelic drug of the tryptamine and 4-hydroxytryptamine families related to psilocin (4-HO-DMT).",
+   "verified": {
+    "pubchemCid": 21854223,
+    "wikipediaTitle": "4-HO-DPT",
+    "wikipediaRevision": "1348443995"
+   }
+  },
+  "4-ho-ept": {
+   "text": "4-HO-EPT, also known as 4-hydroxy-N-ethyl-N-propyltryptamine or as eprocin, is a psychedelic drug of the tryptamine family, which is structurally related to psilocin (4-HO-DMT). It was encountered as a novel designer drug in Japan by 2021.",
+   "verified": {
+    "pubchemCid": 138454310,
+    "wikipediaTitle": "4-HO-EPT",
+    "wikipediaRevision": "1348443977"
+   }
+  },
+  "4-ho-met": {
+   "text": "4-HO-MET, also known as 4-hydroxy-N-methyl-N-ethyltryptamine, as well as metocin or methylcybin, is a psychedelic drug of the tryptamine and 4-hydroxytryptamine families related to psilocin (4-HO-DMT).",
+   "verified": {
+    "pubchemCid": 21786582,
+    "wikipediaTitle": "4-HO-MET",
+    "wikipediaRevision": "1365691153"
+   }
+  },
+  "4-ho-mipt": {
+   "text": "4-HO-MiPT, also known as 4-hydroxy-N-methyl-N-isopropyltryptamine or as miprocin, is a psychedelic drug of the tryptamine and 4-hydroxytryptamine families related to psilocin (4-HO-DMT).",
+   "verified": {
+    "pubchemCid": 10082683,
+    "wikipediaTitle": "4-HO-MiPT",
+    "wikipediaRevision": "1365469626"
+   }
+  },
+  "4-ho-mpt": {
+   "text": "4-HO-MPT, also known as 4-hydroxy-N-methyl-N-propyltryptamine or as meprocin, is a psychedelic drug of the tryptamine and 4-hydroxytryptamine families.",
+   "verified": {
+    "pubchemCid": 21786584,
+    "wikipediaTitle": "4-HO-MPT",
+    "wikipediaRevision": "1348443887"
+   }
+  },
+  "4-meo-pcp": {
+   "text": "4-Methoxyphencyclidine is a dissociative anesthetic drug that has been sold online as a research chemical. The synthesis of 4-MeO-PCP was first reported in 1965 by the Parke-Davis medicinal chemist Victor Maddox.",
+   "verified": {
+    "pubchemCid": 15100753,
+    "wikipediaTitle": "4-MeO-PCP",
+    "wikipediaRevision": "1364820212"
+   }
+  },
+  "4f-mph": {
+   "text": "4-Fluoromethylphenidate is a stimulant drug that acts as a higher potency dopamine reuptake inhibitor than the closely related methylphenidate.",
+   "verified": {
+    "pubchemCid": 52944002,
+    "wikipediaTitle": "4-Fluoromethylphenidate",
+    "wikipediaRevision": "1330402845"
+   }
+  },
+  "5-meo-dalt": {
+   "text": "5-MeO-DALT, also known as N,N-diallyl-5-methoxytryptamine or as foxtrot, is a psychedelic drug of the tryptamine and 5-methoxytryptamine families.",
+   "verified": {
+    "pubchemCid": 50878551,
+    "wikipediaTitle": "5-MeO-DALT",
+    "wikipediaRevision": "1367944231"
+   }
+  },
+  "5-meo-dibf": {
+   "text": "5-MeO-DiBF, also known as 5-methoxy-N,N-diisopropyl-3-(2-aminoethyl)benzofuran or as 1-oxa-5-MeO-DiPT, is a psychedelic drug of the benzofuran family related to the psychedelic tryptamine 5-MeO-DiPT. It is the analog and bioisostere of 5-MeO-DiPT in which the indole nitrogen has been replaced with an oxygen atom, making it a benzofuran rather than tryptamine.",
+   "verified": {
+    "pubchemCid": 125276632,
+    "wikipediaTitle": "5-MeO-DiBF",
+    "wikipediaRevision": "1341436183"
+   }
+  },
+  "5-meo-dipt": {
+   "text": "5-MeO-DiPT, also known as 5-methoxy-N,N-diisopropyltryptamine and sometimes as foxy methoxy or simply foxy, is an atypical psychedelic drug of the tryptamine and 5-methoxytryptamine families.",
+   "verified": {
+    "pubchemCid": 151182,
+    "wikipediaTitle": "5-MeO-DiPT",
+    "wikipediaRevision": "1368651251"
+   }
+  },
+  "5-meo-dmt": {
+   "text": "5-MeO-DMT, also known as 5-methoxy-N,N-dimethyltryptamine, as well as O-methylbufotenin or mebufotenin, is an atypical psychedelic drug, entheogen, and alkaloid of the tryptamine and 5-methoxytryptamine families.",
+   "verified": {
+    "pubchemCid": 1832,
+    "wikipediaTitle": "5-MeO-DMT",
+    "wikipediaRevision": "1368833157"
+   }
+  },
+  "5-meo-mipt": {
+   "text": "5-MeO-MiPT, also known as 5-methoxy-N-methyl-N-isopropyltryptamine or by its nickname Moxy, is an atypical psychedelic drug of the tryptamine and 5-methoxytryptamine families.",
+   "verified": {
+    "pubchemCid": 2763156,
+    "wikipediaTitle": "5-MeO-MiPT",
+    "wikipediaRevision": "1365691249"
+   }
+  },
+  "5f-akb48": {
+   "text": "5F-APINACA is an indazole-based synthetic cannabinoid that has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 71711119,
+    "wikipediaTitle": "5F-APINACA",
+    "wikipediaRevision": "1367163330"
+   }
+  },
+  "5f-pb-22": {
+   "text": "5F-PB-22 is a designer drug which acts as a cannabinoid agonist.",
+   "verified": {
+    "pubchemCid": 72710774,
+    "wikipediaTitle": "5F-PB-22",
+    "wikipediaRevision": "1361149535"
+   }
+  },
+  "6-apdb": {
+   "text": "6-APDB, also known as 6-(2-aminopropyl)-2,3-dihydrobenzofuran or as 4-desoxy-MDA, is an entactogen of the phenethylamine, amphetamine, and dihydrobenzofuran families. 5-APDB was developed by a team led by David E.",
+   "verified": {
+    "pubchemCid": 192599,
+    "wikipediaTitle": "6-APDB",
+    "wikipediaRevision": "1362688203"
+   }
+  },
+  "ab-fubinaca": {
+   "text": "AB-FUBINACA (Correctly named AMB-FUBINACA using EUDA nomenclature, however this name is erroneously associated with MMB-FUBINACA) is a psychoactive drug that acts as a potent agonist for the cannabinoid receptors, with Ki values of 0.9 nM at CB1 and 23.2 nM at CB2 and EC50 values of 1.8 nM at CB1 and 3.2 nM at CB2. It was originally developed by Pfizer in 2009 as an analgesic medication but was never pursued for human use.",
+   "verified": {
+    "pubchemCid": 58124325,
+    "wikipediaTitle": "AB-FUBINACA",
+    "wikipediaRevision": "1365308326"
+   }
+  },
+  "al-lad": {
+   "text": "AL-LAD, or ALLAD, also known as ALLY-LAD or as 6-allyl-6-nor-LSD, is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD).",
+   "verified": {
+    "pubchemCid": 15227511,
+    "wikipediaTitle": "AL-LAD",
+    "wikipediaRevision": "1368193752"
+   }
+  },
+  "ald-52": {
+   "text": "ALD-52, also known as 1-acetyl-LSD (1A-LSD) and falsely as \"Orange Sunshine\", is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD).",
+   "verified": {
+    "pubchemCid": 201111,
+    "wikipediaTitle": "ALD-52",
+    "wikipediaRevision": "1368193802"
+   }
+  },
+  "allylescaline": {
+   "text": "Allylescaline (AL), or allylmescaline, also known as 4-allyloxy-3,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine and scaline families related to mescaline.",
+   "verified": {
+    "pubchemCid": 44719469,
+    "wikipediaTitle": "Allylescaline",
+    "wikipediaRevision": "1355938500"
+   }
+  },
+  "bromantane": {
+   "text": "Bromantane, sold under the brand name Ladasten, is an atypical central nervous system (CNS) stimulant and anxiolytic drug of the adamantane family that is related to amantadine and memantine.",
+   "verified": {
+    "pubchemCid": 4660557,
+    "wikipediaTitle": "Bromantane",
+    "wikipediaRevision": "1358908028"
+   }
+  },
+  "bromo-dragonfly": {
+   "text": "Bromo-DragonFLY, also known as DOB-DragonFLY (DOB-DFLY), is a psychedelic drug of the phenethylamine, DOx, and FLY families.",
+   "verified": {
+    "pubchemCid": 10544447,
+    "wikipediaTitle": "Bromo-DragonFLY",
+    "wikipediaRevision": "1368836260"
+   }
+  },
+  "bufotenin": {
+   "text": "Bufotenin, also known as dimethylserotonin or as 5-hydroxy-N,N-dimethyltryptamine (5-HO-DMT), is a serotonergic psychedelic of the tryptamine family. It is a derivative of the psychedelic dimethyltryptamine (DMT) and of the neurotransmitter serotonin.",
+   "verified": {
+    "pubchemCid": 10257,
+    "wikipediaTitle": "Bufotenin",
+    "wikipediaRevision": "1367977900"
+   }
+  },
+  "butylone": {
+   "text": "Butylone, also known as β-keto-N-methylbenzodioxolylbutanamine (βk-MBDB), is a psychoactive drug of the phenethylamine, amphetamine, phenylisobutylamine, and cathinone families.",
+   "verified": {
+    "pubchemCid": 56843046,
+    "wikipediaTitle": "Butylone",
+    "wikipediaRevision": "1341020704"
+   }
+  },
+  "clonazolam": {
+   "text": "Clonazolam is a drug of the triazolobenzodiazepine (TBZD) class, which are benzodiazepines (BZDs) fused with a triazole ring.",
+   "verified": {
+    "pubchemCid": 12317881,
+    "wikipediaTitle": "Clonazolam",
+    "wikipediaRevision": "1333974805"
+   }
+  },
+  "coluracetam": {
+   "text": "Coluracetam is a purported nootropic agent of the racetam family. It contains a chemical group that is a bioisostere of the 9-amino-tetrahydroacridine family.",
+   "verified": {
+    "pubchemCid": 214346,
+    "wikipediaTitle": "Coluracetam",
+    "wikipediaRevision": "1330575555"
+   }
+  },
+  "cyclazodone": {
+   "text": "Cyclazodone is a centrally acting stimulant drug developed by American Cyanamid Company in the 1960s. The drug is related to other drugs such as pemoline and thozalinone.",
+   "verified": {
+    "pubchemCid": 135438121,
+    "wikipediaTitle": "Cyclazodone",
+    "wikipediaRevision": "1365300167"
+   }
+  },
+  "deschloroketamine": {
+   "text": "Deschloroketamine is a dissociative anesthetic that has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 437168,
+    "wikipediaTitle": "Deschloroketamine",
+    "wikipediaRevision": "1329613544"
+   }
+  },
+  "desoxypipradrol": {
+   "text": "Desoxypipradrol, also known as 2-⁠diphenylmethylpiperidine (2-DPMP), is a drug developed by Ciba in the 1950s which acts as a norepinephrine-dopamine reuptake inhibitor (NDRI).",
+   "verified": {
+    "pubchemCid": 160506,
+    "wikipediaTitle": "Desoxypipradrol",
+    "wikipediaRevision": "1340858181"
+   }
+  },
+  "dichloropane": {
+   "text": "Dichloropane ((−)-2β-Carbomethoxy-3β-(3,4-dichlorophenyl)tropane, RTI-111, O-401) is a stimulant of the phenyltropane class that acts as a serotonin–norepinephrine–dopamine reuptake inhibitor (SNDRI) with IC50 values of 3.13, 18, and 0.79 nM, respectively.",
+   "verified": {
+    "pubchemCid": 127024,
+    "wikipediaTitle": "Dichloropane",
+    "wikipediaRevision": "1343966707"
+   }
+  },
+  "diclazepam": {
+   "text": "Diclazepam (Ro5-3448), also known as chlorodiazepam and 2'-chloro-diazepam, is a benzodiazepine and functional analog of diazepam. It was first synthesized by Leo Sternbach and his team at Hoffman-La Roche in 1960.",
+   "verified": {
+    "pubchemCid": 76168,
+    "wikipediaTitle": "Diclazepam",
+    "wikipediaRevision": "1329563042"
+   }
+  },
+  "diphenidine": {
+   "text": "Diphenidine is a dissociative anesthetic that has been sold as a designer drug. Diphenidine was first synthesized in 1924 using a Bruylants reaction similar to the one later employed in the discovery of phencyclidine in 1956.",
+   "verified": {
+    "pubchemCid": 206666,
+    "wikipediaTitle": "Diphenidine",
+    "wikipediaRevision": "1359008367"
+   }
+  },
+  "dipt": {
+   "text": "Diisopropyltryptamine (DiPT), also known as N,N-diisopropyltryptamine, is a psychedelic drug of the tryptamine family related to dimethyltryptamine (DMT).",
+   "verified": {
+    "pubchemCid": 26903,
+    "wikipediaTitle": "DiPT",
+    "wikipediaRevision": "1355832001"
+   }
+  },
+  "dob": {
+   "text": "2,5-Dimethoxy-4-bromoamphetamine (DOB), also known as brolamfetamine, is a psychedelic drug of the phenethylamine, amphetamine, and DOx families. For many years, prior to the discovery of newer compounds, DOB was the most potent known phenethylamine psychedelic.",
+   "verified": {
+    "pubchemCid": 62065,
+    "wikipediaTitle": "2,5-Dimethoxy-4-bromoamphetamine",
+    "wikipediaRevision": "1368832445"
+   }
+  },
+  "efavirenz": {
+   "text": "Efavirenz (EFV), sold under the brand names Sustiva among others, is an antiretroviral medication used to treat and prevent HIV/AIDS. It is sold both by itself and in combination as efavirenz/emtricitabine/tenofovir.",
+   "verified": {
+    "pubchemCid": 64139,
+    "wikipediaTitle": "Efavirenz",
+    "wikipediaRevision": "1341952142"
+   }
+  },
+  "ephenidine": {
+   "text": "Ephenidine is a dissociative anesthetic that has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 110821,
+    "wikipediaTitle": "Ephenidine",
+    "wikipediaRevision": "1361477075"
+   }
+  },
+  "ephylone": {
+   "text": "N-Ethylpentylone is a substituted cathinone and stimulant drug which was developed in the 1960s.",
+   "verified": {
+    "pubchemCid": 57359308,
+    "wikipediaTitle": "N-Ethylpentylone",
+    "wikipediaRevision": "1341022092"
+   }
+  },
+  "escaline": {
+   "text": "Escaline (E), also known as 3,5-dimethoxy-4-ethoxyphenethylamine, is a psychedelic drug of the phenethylamine and scaline families related to mescaline. It is the 4-ethoxy analog of mescaline (3,4,5-trimethoxyphenethylamine) and the phenethylamine (non-α-methyl) analog of 3C-E (3,5-dimethoxy-4-ethoxyamphetamine).",
+   "verified": {
+    "pubchemCid": 38240,
+    "wikipediaTitle": "Escaline",
+    "wikipediaRevision": "1355938337"
+   }
+  },
+  "eth-cat": {
+   "text": "Ethcathinone, also known as ethylpropion or ETH-CAT, is a stimulant drug of the phenethylamine, amphetamine, and cathinone chemical classes. Ethcathinone has been identified as an ingredient in both quasi-legal \"party pills\", and, along with mephedrone, has also been reported as having been sold as \"ecstasy\" in the Australian city of Cairns.",
+   "verified": {
+    "pubchemCid": 458519,
+    "wikipediaTitle": "Ethcathinone",
+    "wikipediaRevision": "1358678393"
+   }
+  },
+  "eth-lad": {
+   "text": "ETH-LAD, or ETHLAD, also known as 6-ethyl-6-nor-LSD, is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide.",
+   "verified": {
+    "pubchemCid": 44457783,
+    "wikipediaTitle": "ETH-LAD",
+    "wikipediaRevision": "1368547967"
+   }
+  },
+  "ethylmorphine": {
+   "text": "Ethylmorphine is an opioid analgesic and antitussive.",
+   "verified": {
+    "pubchemCid": 5359271,
+    "wikipediaTitle": "Ethylmorphine",
+    "wikipediaRevision": "1359024613"
+   }
+  },
+  "ethylone": {
+   "text": "Ethylone, also known as 3,4-methylenedioxy-N-ethylcathinone, is a recreational designer drug of the phenethylamine, amphetamine, and cathinone chemical classes. Ethylone has only a short history of human use and is reported to be less potent than its relative methylone.",
+   "verified": {
+    "pubchemCid": 57252245,
+    "wikipediaTitle": "Ethylone",
+    "wikipediaRevision": "1363201311"
+   }
+  },
+  "ethylphenidate": {
+   "text": "Ethylphenidate (EPH) is a central nervous system (CNS) stimulant and the ethyl analog of methylphenidate.",
+   "verified": {
+    "pubchemCid": 3080846,
+    "wikipediaTitle": "Ethylphenidate",
+    "wikipediaRevision": "1368518148"
+   }
+  },
+  "fenethylline": {
+   "text": "Fenethylline or fenetylline (INN) is a codrug of amphetamine and theophylline and so a mutual prodrug of both. The drug has been marketed for use as a psychostimulant under the brand names Captagon, Biocapton, and Fitton.",
+   "verified": {
+    "pubchemCid": 19527,
+    "wikipediaTitle": "Fenethylline",
+    "wikipediaRevision": "1368878801"
+   }
+  },
+  "flubromazepam": {
+   "text": "Flubromazepam is a benzodiazepine derivative which was first synthesized in 1960, but was never marketed and did not receive any further attention or study until late 2012 when it appeared on the gray market as a novel designer drug.",
+   "verified": {
+    "pubchemCid": 12947024,
+    "wikipediaTitle": "Flubromazepam",
+    "wikipediaRevision": "1358617773"
+   }
+  },
+  "flunitrazolam": {
+   "text": "Flunitrazolam is a triazolobenzodiazepine (TBZD), which are benzodiazepine (BZD) derivatives, that has been sold online as a designer drug, and is a potent hypnotic and sedative drug similar to related compounds such as flunitrazepam, clonazolam and flubromazolam. It was first definitively identified and reported to the EMCDDA Early Warning System, by an analytical laboratory in Germany in October 2016, and had not been described in the scientific or patent literature before this.",
+   "verified": {
+    "pubchemCid": 137700379,
+    "wikipediaTitle": "Flunitrazolam",
+    "wikipediaRevision": "1274054254"
+   }
+  },
+  "hexedrone": {
+   "text": "Hexadrone is a stimulant of the substituted cathinone class which has been sold as a designer drug.",
+   "verified": {
+    "pubchemCid": 129844496,
+    "wikipediaTitle": "Hexedrone",
+    "wikipediaRevision": "1299706918"
+   }
+  },
+  "isopropylphenidate": {
+   "text": "Isopropylphenidate is a piperidine based stimulant drug, closely related to methylphenidate, but with the methyl ester replaced by an isopropyl ester.",
+   "verified": {
+    "pubchemCid": 68314762,
+    "wikipediaTitle": "Isopropylphenidate",
+    "wikipediaRevision": "1351108820"
+   }
+  },
+  "jwh-018": {
+   "text": "JWH-018, also known as 1-pentyl-3-(1-naphthoyl)indole, NA-PIMO, or AM-678, is a cannabinoid from the naphthoylindole family that acts as a full agonist at both the CB1 and CB2 cannabinoid receptors, with some selectivity for CB2.",
+   "verified": {
+    "pubchemCid": 10382701,
+    "wikipediaTitle": "JWH-018",
+    "wikipediaRevision": "1369378887"
+   }
+  },
+  "jwh-073": {
+   "text": "JWH-073, a synthetic cannabinoid, is an analgesic chemical from the naphthoylindole family that acts as a full agonist at both the CB1 and CB2 cannabinoid receptors.",
+   "verified": {
+    "pubchemCid": 10471670,
+    "wikipediaTitle": "JWH-073",
+    "wikipediaRevision": "1337884644"
+   }
+  },
+  "lae-32": {
+   "text": "Lysergic acid ethylamide, also known as N-ethyllysergamide, is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD).",
+   "verified": {
+    "pubchemCid": 101704,
+    "wikipediaTitle": "LAE-32",
+    "wikipediaRevision": "1354541505"
+   }
+  },
+  "lsm-775": {
+   "text": "LSM-775, also known as N-morpholinyllysergamide or as lysergic acid morpholide, is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD).",
+   "verified": {
+    "pubchemCid": 199507,
+    "wikipediaTitle": "LSM-775",
+    "wikipediaRevision": "1341406189"
+   }
+  },
+  "lsz": {
+   "text": "LSZ, also known as lysergic acid 2,4-dimethylazetidide or as LA-Azetidide (LA-Az), is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD).",
+   "verified": {
+    "pubchemCid": 71301249,
+    "wikipediaTitle": "LSZ",
+    "wikipediaRevision": "1349982662"
+   }
+  },
+  "mdpv": {
+   "text": "Methylenedioxypyrovalerone (MDPV) is a stimulant of the cathinone class that acts as a norepinephrine–dopamine reuptake inhibitor (NDRI).",
+   "verified": {
+    "pubchemCid": 20111961,
+    "wikipediaTitle": "Methylenedioxypyrovalerone",
+    "wikipediaRevision": "1348860248"
+   }
+  },
+  "meclofenoxate": {
+   "text": "Meclofenoxate is a cholinergic nootropic used as a dietary supplement.",
+   "verified": {
+    "pubchemCid": 4039,
+    "wikipediaTitle": "Meclofenoxate",
+    "wikipediaRevision": "1277097345"
+   }
+  },
+  "methallylescaline": {
+   "text": "Methallylescaline (MAL), also known as 4-methylallyloxy-3,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine and scaline families related to mescaline.",
+   "verified": {
+    "pubchemCid": 44350127,
+    "wikipediaTitle": "Methallylescaline",
+    "wikipediaRevision": "1356097244"
+   }
+  },
+  "methcathinone": {
+   "text": "Methcathinone is a central nervous system (CNS) stimulant and monoamine alkaloid, a substituted cathinone.",
+   "verified": {
+    "pubchemCid": 1576,
+    "wikipediaTitle": "Methcathinone",
+    "wikipediaRevision": "1361496377"
+   }
+  },
+  "methiopropamine": {
+   "text": "Methiopropamine (MPA), also known as N-methylthiopropamine, is an organic compound structurally related to methamphetamine. Originally reported in 1942, the molecule consists of a thiophene group with an alkyl amine substituent at the 2-position.",
+   "verified": {
+    "pubchemCid": 436156,
+    "wikipediaTitle": "Methiopropamine",
+    "wikipediaRevision": "1339781106"
+   }
+  },
+  "methoxetamine": {
+   "text": "Methoxetamine (MXE) is a dissociative hallucinogen that has been sold as a designer drug.",
+   "verified": {
+    "pubchemCid": 52911279,
+    "wikipediaTitle": "Methoxetamine",
+    "wikipediaRevision": "1355158862"
+   }
+  },
+  "methoxphenidine": {
+   "text": "Methoxphenidine is a dissociative of the diarylethylamine class that has been sold online as a designer drug. Methoxphenidine was first reported in a 1989 patent where it was tested as a treatment for neurotoxic injury.",
+   "verified": {
+    "pubchemCid": 67833251,
+    "wikipediaTitle": "Methoxphenidine",
+    "wikipediaRevision": "1352674423"
+   }
+  },
+  "methylnaphthidate": {
+   "text": "HDMP-28 or methylnaphthidate is a stimulant drug of the piperidine and naphthylaminopropane groups, closely related to methylphenidate (Ritalin), but with the benzene ring replaced by naphthalene. It has been sold as a designer drug since around 2015.",
+   "verified": {
+    "pubchemCid": 9817261,
+    "wikipediaTitle": "HDMP-28",
+    "wikipediaRevision": "1366465659"
+   }
+  },
+  "mexedrone": {
+   "text": "Mexedrone is a stimulant and an entactogen drug of the cathinone class that has been sold online as a designer drug. It is the alpha-methoxy derivative of Mephedrone.",
+   "verified": {
+    "pubchemCid": 129318262,
+    "wikipediaTitle": "Mexedrone",
+    "wikipediaRevision": "1268856172"
+   }
+  },
+  "mipla": {
+   "text": "MiPLA, also known as N-methyl-N-isopropyllysergamide or as lysergic acid methylisopropylamide, is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD). It is only somewhat less potent than LSD as a psychedelic.",
+   "verified": {
+    "pubchemCid": 102060927,
+    "wikipediaTitle": "MiPLA",
+    "wikipediaRevision": "1334194438"
+   }
+  },
+  "mipt": {
+   "text": "Methylisopropyltryptamine (MiPT), also known as N-methyl-N-isopropyltryptamine, is a psychedelic drug of the tryptamine family related to other psychedelics like dimethyltryptamine (DMT) and diisopropyltryptamine (DiPT).",
+   "verified": {
+    "pubchemCid": 29935323,
+    "wikipediaTitle": "MiPT",
+    "wikipediaRevision": "1360458180"
+   }
+  },
+  "n-ethylhexedrone": {
+   "text": "N-Ethylhexedrone (also known as α-ethylaminohexiophenone, α-EAHP, α-ethylamino-caprophenone, N-ethylnorhexedrone, Ethylnorhexedrone, Norhexedrone, Ethylhexedrone, hexen, and NEH) is a stimulant of the cathinone class that acts as a norepinephrine–dopamine reuptake inhibitor (NDRI) with IC50 inhibition values of 0.0978 and 0.0467 μM, respectively (97 nM and 46 nM). N-Ethylhexedrone was first mentioned in a series of patents by Boehringer Ingelheim in the 1960s which led to the development of the better-known drug methylenedioxypyrovalerone (MDPV).",
+   "verified": {
+    "pubchemCid": 134822125,
+    "wikipediaTitle": "N-Ethylhexedrone",
+    "wikipediaRevision": "1368683303"
+   }
+  },
+  "nifoxipam": {
+   "text": "Nifoxipam is a benzodiazepine that is a minor metabolite of flunitrazepam and has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 3058221,
+    "wikipediaTitle": "Nifoxipam",
+    "wikipediaRevision": "1330447051"
+   }
+  },
+  "nm-2-ai": {
+   "text": "NM-2-AI, or NM2AI, also known as N-methyl-2-aminoindane, is a stimulant of the 2-aminoindane family that has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 15023225,
+    "wikipediaTitle": "NM-2-AI",
+    "wikipediaRevision": "1330546029"
+   }
+  },
+  "o-pce": {
+   "text": "2-Oxo-PCE is a dissociative anesthetic of the arylcyclohexylamine class that is closely related to deschloroketamine and eticyclidine, and has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 132989542,
+    "wikipediaTitle": "2-Oxo-PCE",
+    "wikipediaRevision": "1364820914"
+   }
+  },
+  "omberacetam": {
+   "text": "Omberacetam, also known as N-phenylacetyl-l-prolylglycine ethyl ester, is promoted as a nootropic and is a prodrug of cyclic glycine-proline.",
+   "verified": {
+    "pubchemCid": 180496,
+    "wikipediaTitle": "Omberacetam",
+    "wikipediaRevision": "1366374016"
+   }
+  },
+  "opioids": {
+   "text": "Opioids are a class of drugs that derive from, or mimic, natural substances found in the opium poppy plant.",
+   "verified": {
+    "pubchemCid": 126961754,
+    "wikipediaTitle": "Opioid",
+    "wikipediaRevision": "1368497154"
+   }
+  },
+  "pargy-lad": {
+   "text": "PARGY-LAD, also known as 6-propynyl-6-nor-LSD or 6-propargyl-6-nor-LSD, is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD).",
+   "verified": {
+    "pubchemCid": 139030999,
+    "wikipediaTitle": "PARGY-LAD",
+    "wikipediaRevision": "1368192734"
+   }
+  },
+  "pentedrone": {
+   "text": "Pentedrone is a stimulant of the cathinone class that has been sold as a designer drug and has been found since 2010 as an ingredient in a number of \"bath salt\" mixes sold as legal highs.",
+   "verified": {
+    "pubchemCid": 57501499,
+    "wikipediaTitle": "Pentedrone",
+    "wikipediaRevision": "1368780500"
+   }
+  },
+  "pro-lad": {
+   "text": "PRO-LAD, or PROLAD, also known as 6-propyl-6-nor-LSD, is a psychedelic drug of the lysergamide family related to lysergic acid diethylamide (LSD).",
+   "verified": {
+    "pubchemCid": 44457803,
+    "wikipediaTitle": "PRO-LAD",
+    "wikipediaRevision": "1368192670"
+   }
+  },
+  "prolintane": {
+   "text": "Prolintane is a central nervous system (CNS) stimulant and norepinephrine–dopamine reuptake inhibitor (NDRI) of the phenylalkylpyrrolidine family developed in the 1950s. Being an amphetamine derivative, it is closely related in chemical structure to other drugs such as pyrovalerone, MDPV, and propylhexedrine, and has a similar mechanism of action.",
+   "verified": {
+    "pubchemCid": 14592,
+    "wikipediaTitle": "Prolintane",
+    "wikipediaRevision": "1356382868"
+   }
+  },
+  "proscaline": {
+   "text": "Proscaline, also known as 4-propoxy-3,5-dimethoxyphenethylamine, is a psychedelic drug of the phenethylamine and scaline families related to mescaline.",
+   "verified": {
+    "pubchemCid": 15102790,
+    "wikipediaTitle": "Proscaline",
+    "wikipediaRevision": "1368849878"
+   }
+  },
+  "pyrazolam": {
+   "text": "Pyrazolam (SH-I-04) is a benzodiazepine derivative originally developed by a team led by Leo Sternbach at Hoffman-La Roche in the 1970s. It has since been \"rediscovered\" and sold as a designer drug since 2012.",
+   "verified": {
+    "pubchemCid": 12562545,
+    "wikipediaTitle": "Pyrazolam",
+    "wikipediaRevision": "1327949154"
+   }
+  },
+  "thj-018": {
+   "text": "THJ-018 (SGT-17) is a synthetic cannabinoid that is the indazole analog of JWH-018 and has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 124518671,
+    "wikipediaTitle": "THJ-018",
+    "wikipediaRevision": "1366469456"
+   }
+  },
+  "thj-2201": {
+   "text": "THJ-2201 is an indazole-based synthetic cannabinoid that presumably acts as a potent agonist of the CB1 receptor and has been sold online as a designer drug.",
+   "verified": {
+    "pubchemCid": 91864533,
+    "wikipediaTitle": "THJ-2201",
+    "wikipediaRevision": "1329443053"
+   }
+  },
+  "tianeptine": {
+   "text": "Tianeptine, sold under the brand names Stablon, Tatinol, and Coaxil among others, is an atypical tricyclic antidepressant which is used mainly in the treatment of major depressive disorder, although it may also be used to treat anxiety, asthma, and irritable bowel syndrome.",
+   "verified": {
+    "pubchemCid": 68870,
+    "wikipediaTitle": "Tianeptine",
+    "wikipediaRevision": "1367854425"
+   }
+  }
+ }
+}

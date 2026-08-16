@@ -49,6 +49,20 @@ const UA = "Nightlight/1.0 (public health harm reduction; +https://nightlight.he
 const GAP = 260;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/* Name comparison for the CID check below. Punctuation and case carry no
+   meaning across PubChem's synonym list, our display names and our ids —
+   "25I-NBOMe", "25i-nbome" and "25I NBOMe" are one name. */
+/* Elements a psychoactive organic compound is built from. Anything outside this
+   set means the CID is a different kind of chemical entirely. */
+const DRUG_ELEMENTS = new Set(
+  ["C", "H", "N", "O", "F", "Cl", "Br", "I", "S", "P", "Na", "K", "Li", "B", "Si"]);
+
+/* A metal in the formula means the CID is a SALT of the drug rather than the
+   drug — morphine sulfate, zolpidem tartrate, sodium oxybate. Real compounds,
+   correctly resolved, and the wrong picture: a skeletal formula with a
+   counter-ion hanging off it is not what the reader is holding. */
+const SALT_METALS = new Set(["Na", "K", "Li", "Ca", "Mg", "Zn", "Fe", "Al"]);
+
 async function pug(url) {
   const res = await fetch(url, { headers: { "user-agent": UA } });
   if (!res.ok) return null;
@@ -111,18 +125,98 @@ async function main() {
 
   const structures = {};
   const missing = [];
+  /* Looked up, matched a CID, and REJECTED because the CID was a different
+     molecule. Kept separate from `missing` (never found at all) so the run log
+     distinguishes "PubChem has no record" from "PubChem had the wrong one". */
+  const unverified = [];
   let done = 0;
 
   for (const s of list) {
     done++;
     const label = `${done}/${list.length} ${s.name}`;
     try {
-      const cidRes = await pug(
-        `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(s.name)}/cids/TXT`);
-      await sleep(GAP);
-      if (!cidRes) { missing.push(s.name); continue; }
-      const cid = (await cidRes.text()).trim().split("\n")[0];
-      if (!/^\d+$/.test(cid)) { missing.push(s.name); continue; }
+      /* THE DISPLAY NAME, unless it is an abbreviation or it fails.
+       *
+       * Two different ways this goes wrong, and the fix for one is the cause of
+       * the other.
+       *
+       * Asking for `s.name` and taking the first CID unchecked shipped three
+       * wrong structures: pce drew tetrachloroethylene (a dry-cleaning
+       * solvent), met drew L-methionine (an amino acid), nep drew an
+       * organoarsenic compound. All three are short abbreviations that are
+       * legitimate names of something else, so a synonym check does not save
+       * them either — "Met" really is methionine's three-letter code.
+       *
+       * Asking for the LONGEST name instead fixes those three and breaks six
+       * more, because alias lists carry salt and brand names. Morphine became
+       * morphine sulfate pentahydrate, oxycodone the hydrochloride, zolpidem
+       * the tartrate, ghb sodium oxybate, memantine and tramadol their
+       * hydrochlorides — every one a real compound, correctly resolved, and
+       * the wrong drawing: a skeletal formula with a counter-ion hanging off it
+       * is not what the reader took.
+       *
+       * So: the display name is used unless it is short enough to be an
+       * abbreviation, and any candidate has to survive the chemistry check
+       * below. A longer alias is consulted only when the display name is an
+       * abbreviation or its CID fails — which is exactly the four cases that
+       * need it (pce, met, nep, and lsa, which had been drawing saccharin).
+       *
+       * THREE CHARACTERS, not four. At four, MDPV went to its aliases and came
+       * back with NRG-1 — a real designer-drug name that PubChem resolves to a
+       * different compound (C15H19NO3 against MDPV's C16H21NO3). Four-letter
+       * names in this app are drug names; three-letter ones are the collisions. */
+      const ABBREVIATION = 3;
+      const aliases = (s.aliases || []).filter(Boolean).sort((a, b) => b.length - a.length);
+      const order = s.name && s.name.length > ABBREVIATION
+        ? [s.name, ...aliases]
+        : [...aliases, s.name].filter(Boolean);
+
+      let cid = null;
+      let askedWith = null;
+      let lastReason = null;
+      for (const name of order) {
+        const res = await pug(
+          `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/cids/TXT`);
+        await sleep(GAP);
+        if (!res) continue;
+        const candidate = (await res.text()).trim().split("\n")[0];
+        if (!/^\d+$/.test(candidate)) continue;
+
+        /* CHECK THE CHEMISTRY BEFORE ACCEPTING IT.
+         *
+         * A psychoactive organic compound contains carbon and hydrogen, is
+         * built from a small set of elements, and is ONE molecule. A metal in
+         * the formula means a salt; arsenic means a different chemical
+         * entirely; no hydrogen at all means something like C2Cl4. None of
+         * these are judgement calls, and each one was a real wrong drawing. */
+        const propRes = await pug(
+          `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${candidate}/property/MolecularFormula/JSON`);
+        await sleep(GAP);
+        const formula = propRes
+          ? (await propRes.json())?.PropertyTable?.Properties?.[0]?.MolecularFormula || ""
+          : "";
+        const elements = [...formula.matchAll(/([A-Z][a-z]?)/g)].map((m) => m[1]);
+        const exotic = elements.filter((e) => !DRUG_ELEMENTS.has(e));
+        const metal = elements.filter((e) => SALT_METALS.has(e));
+
+        if (!formula) { lastReason = `${candidate}: no formula`; continue; }
+        if (!elements.includes("C") || !elements.includes("H")) {
+          lastReason = `CID ${candidate} is ${formula} — no carbon or no hydrogen`; continue;
+        }
+        if (exotic.length) {
+          lastReason = `CID ${candidate} is ${formula} — contains ${exotic.join(", ")}`; continue;
+        }
+        if (metal.length) {
+          lastReason = `CID ${candidate} is ${formula} — a ${metal.join("/")} salt`; continue;
+        }
+        cid = candidate; askedWith = name; break;
+      }
+
+      if (!cid) {
+        if (lastReason) unverified.push(`${s.id} (${lastReason})`);
+        else missing.push(s.name);
+        continue;
+      }
 
       const recRes = await pug(
         `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${cid}/record/JSON?record_type=2d`);

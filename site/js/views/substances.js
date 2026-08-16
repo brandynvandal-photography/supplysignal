@@ -289,8 +289,12 @@ async function marketBlock() {
   return h("details", { class: "disc", id: "sec-market" },
     h("summary", null, h("h2", null, m.headline)),
     h("div", { class: "disc__body" },
-      h("p", { class: "sec__note" }, m.intro),
-
+      /* No intro line. It said the section exists to give the reasoning behind
+         the rules - which is what the four mechanisms below do, at length and
+         with sources, immediately underneath. Opening a section by explaining
+         what the section is for delays the first real sentence by a paragraph,
+         and the heading already carries it: somebody who opened "Why the supply
+         is like this" knows why they opened it. */
       frag(m.blocks.map((b) =>
         h("div", { class: "card" },
           h("h3", null, b.title),

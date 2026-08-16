@@ -2179,11 +2179,46 @@ details.disc--urgent > summary h2 { color: var(--critical); }
   /* No top margin. Sticky honours it, so the old 4px held the strip 4px clear
      of the header once pinned and let a sliver of scrolling text run through
      the gap. The separation it used to give from the h1 is padding now. */
-  margin: 0 0 20px; padding: 12px 0 10px;
-  border-bottom: 1px solid var(--glass-line);
+  /* THE SAME SHELL AS .input, which is what every dropdown in the app wears:
+     one --glass-line border, --radius corners, --sp-3 of horizontal padding
+     and no shadow. It was a bare bottom rule and square corners, which read as
+     a divider rather than as a control - and pinned, it is the most persistent
+     element on the page, so being the only thing in the app not wearing the
+     house shell was conspicuous.
 
-  position: sticky; top: calc(var(--bar-h) + var(--bar-top)); z-index: 38;
-  background: var(--bar-tint);
+     Vertical padding is smaller than .input's 14px because the chips inside
+     already carry their own min-height: var(--tap). Matching it exactly would
+     stack two tap targets' worth of space and make the pinned strip taller
+     than the header it hangs off. */
+  margin: 0 0 20px; padding: 8px var(--sp-3);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius);
+
+  position: sticky; top: calc(var(--bar-h) + var(--bar-top) + 8px); z-index: 38;
+
+  /* OPAQUE, not --bar-tint, and not frosted.
+   *
+   * --bar-tint is the surface at 90% and the topbar's remaining 10% is covered
+   * by a backdrop-filter — which the @supports block at the foot of this file
+   * deliberately REMOVES on touch devices, because a live blur behind a pinned
+   * bar has to be re-sampled every frame and WebKit cannot do that on the
+   * scrolling thread. That trade is fine for the topbar: it sits at the very
+   * edge and content passes behind it briefly.
+   *
+   * This strip sits mid-page and never moves, so the same 10% read as a fault
+   * rather than as material — headings and body text were legible straight
+   * through it while the page scrolled underneath. A navigation control has to
+   * be opaque to be readable. It is a bordered, rounded surface now, so being
+   * solid is consistent with the cards it sits above rather than a departure.
+   *
+   * Rule 3 of the glass notes: every glass surface must survive having no blur
+   * and meet contrast without it. This one skips the blur entirely instead.
+   *
+   * It is the ONE place this strip departs from .input's shell above: a
+   * dropdown is never pinned over moving content, so --glass-card's 68% costs
+   * it nothing. At rest the two look identical, because both are sitting on
+   * the page background either way. */
+  background: var(--surface);
 }
 .jump__label {
   font-size: .78rem; font-weight: 700; text-transform: uppercase;
@@ -2202,10 +2237,11 @@ details.disc--urgent > summary h2 { color: var(--critical); }
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
-  /* Room for the fade so the last chip is not clipped mid-word. */
-  padding: 2px 14px 2px 0;
-  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent);
-  mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent);
+  /* Room for the fade so the last chip is not clipped mid-word. The fade ends
+     short of the strip's own rounded border rather than running into it. */
+  padding: 2px 16px 2px 0;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
 }
 .jump .chips::-webkit-scrollbar { display: none; }
 .jump .chip { flex: 0 0 auto; }
