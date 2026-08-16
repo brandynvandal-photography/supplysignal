@@ -2406,6 +2406,27 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
    wrap to a second line instead. */
 .nbr__sub--wrap { white-space: normal; }
 
+/* The step number on Learn's "Start here" rows.
+   A number rather than a bullet because the order is the whole point of that
+   block — every other list on the page is a set of parallel options, and this
+   one is a sequence. Fixed width so the titles line up whatever the digit. */
+.nbr__step {
+  flex: 0 0 auto;
+  display: grid; place-items: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--brand-soft); color: var(--brand);
+  font-size: .82rem; font-weight: 700; font-variant-numeric: tabular-nums;
+  /* Beside the TITLE, not the middle of the row. .nbr centres its children,
+     which is right for a one-line row and wrong here: these subtitles run to
+     four lines, so a centred number floated down next to the middle of the
+     description and stopped reading as that step's number. */
+  align-self: start;
+  margin-top: 1px;
+}
+/* .nbr is a button everywhere else in the app; as an <a> it needs the link
+   styling stripped back to what the row already provides. */
+a.nbr { text-decoration: none; color: inherit; }
+
 /* Accessory badges are secondary to the label they qualify. At full size they
    pulled the eye before the substance name did. */
 .list > .nbr .badge { font-size: .68rem; padding: 3px 8px; }

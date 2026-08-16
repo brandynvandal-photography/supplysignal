@@ -236,6 +236,80 @@ export function disclosure(id, title, opts, ...kids) {
 }
 
 /**
+ * Open a section and land on its heading.
+ *
+ * Extracted from jumpNav's click handler so anything else that navigates
+ * within a page gets the identical behavior — Learn's "Start here" path is the
+ * second caller. Three separate attempts at this scroll have failed in the
+ * past, each for its own reason (see the note inside), so a second copy of the
+ * logic is a second thing to get wrong rather than a convenience.
+ *
+ * Carries no dependency on where it was called from: give it an id, it opens
+ * the target and every disclosure above it and puts the heading below the bar.
+ * A missing id is a no-op, which is why every caller must also set data-jump on
+ * the control so test/views.test.mjs can prove the target exists.
+ */
+export function jumpTo(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.open = true;
+  /* Sections can be nested inside a parent group. Opening the target alone
+     would scroll to something still collapsed. */
+  for (let p = el.parentElement; p; p = p.parentElement) {
+    if (p.tagName === "DETAILS") p.open = true;
+  }
+  /* Scroll the HEADING, not the wrapper - the same resolution reveal() does
+     for search results, so a chip and a result for the same section land in
+     exactly the same place. Scrolling the wrapper happened to work while its
+     first child was always the heading; it stopped being true the moment a
+     section opened with a lead paragraph. */
+  const head = /^H[1-4]$/.test(el.tagName) || el.tagName === "SUMMARY"
+    ? el
+    : el.querySelector("h1, h2, h3, h4, summary") || el;
+  const target = head.tagName === "SUMMARY" ? head.parentElement : head;
+
+  /* INSTANT, MEASURED, AND THEN CHECKED. Three attempts at this have now
+   * failed and each failed for its own reason, so this one removes the
+   * assumptions rather than replacing them.
+   *
+   * It began as scrollIntoView plus a scroll-margin-top keyed on --bar-h. The
+   * margin is a CSS constant and the header is not: it carries the
+   * early-access banner, and at 960 the tab bar moves into the row. When the
+   * constant and the rendered height disagree the heading is what goes under.
+   * So it started measuring the header instead.
+   *
+   * That still left SMOOTH, which is where it kept breaking, and Safari worst
+   * of all. A smooth scroll commits to a destination the moment it is called
+   * and then animates toward it — while this handler has just opened the
+   * target and every disclosure above it, so anything expanding above the
+   * target moves it after the browser has already decided where to stop.
+   * Waiting two frames helped and did not fix it, because there is no frame
+   * count that is correct for every engine.
+   *
+   * There is no animation to get stale now. The position is measured and
+   * jumped to, and then verified once on the next frame and corrected if the
+   * layout moved underneath it — which is the only claim that actually
+   * matters: the heading is below the bar when the scrolling stops. A jump is
+   * a destination request, not a scenic route. */
+  const place = () => {
+    const bar = document.querySelector(".topbar");
+    const barH = bar ? bar.getBoundingClientRect().height : 0;
+    /* Relative, so it is correct whether or not a scroll is already in flight
+       — no reading of window.scrollY to go stale between the measurement and
+       the move. */
+    const delta = target.getBoundingClientRect().top - barH - 14;
+    if (Math.abs(delta) > 1) window.scrollBy({ top: delta, behavior: "auto" });
+    return Math.abs(delta);
+  };
+  place();
+  requestAnimationFrame(() => {
+    place();
+    const s = el.querySelector("summary");
+    if (s) s.focus({ preventScroll: true });
+  });
+}
+
+/**
  * Chips that jump to a section and open it on the way. Anchor links alone
  * would scroll to a collapsed section and appear to do nothing.
  */
@@ -263,70 +337,7 @@ export function jumpNav(items) {
              * test/views.test.mjs can render every screen and assert that every
              * chip still lands on a real heading. */
             "data-jump": id,
-            onClick: () => {
-              const el = document.getElementById(id);
-              if (!el) return;
-              el.open = true;
-              /* Sections can now be nested inside a parent group. Opening the
-                 target alone would scroll to something still collapsed. */
-              for (let p = el.parentElement; p; p = p.parentElement) {
-                if (p.tagName === "DETAILS") p.open = true;
-              }
-              /* Scroll the HEADING, not the wrapper - the same resolution
-                 reveal() does for search results, so a chip and a result for
-                 the same section land in exactly the same place. Scrolling the
-                 wrapper happened to work while its first child was always the
-                 heading; it stopped being true the moment a section opened
-                 with a lead paragraph. */
-              const head = /^H[1-4]$/.test(el.tagName) || el.tagName === "SUMMARY"
-                ? el
-                : el.querySelector("h1, h2, h3, h4, summary") || el;
-              const target = head.tagName === "SUMMARY" ? head.parentElement : head;
-
-              /* INSTANT, MEASURED, AND THEN CHECKED. Three attempts at this
-               * have now failed and each failed for its own reason, so this one
-               * removes the assumptions rather than replacing them.
-               *
-               * It began as scrollIntoView plus a scroll-margin-top keyed on
-               * --bar-h. The margin is a CSS constant and the header is not:
-               * it carries the early-access banner, and at 960 the tab bar
-               * moves into the row. When the constant and the rendered height
-               * disagree the heading is what goes under. So it started
-               * measuring the header instead.
-               *
-               * That still left SMOOTH, which is where it kept breaking, and
-               * Safari worst of all. A smooth scroll commits to a destination
-               * the moment it is called and then animates toward it — while
-               * this handler has just opened the target and every disclosure
-               * above it, so anything expanding above the target moves it after
-               * the browser has already decided where to stop. Waiting two
-               * frames helped and did not fix it, because there is no frame
-               * count that is correct for every engine.
-               *
-               * There is no animation to get stale now. The position is
-               * measured and jumped to, and then verified once on the next
-               * frame and corrected if the layout moved underneath it — which
-               * is the only claim that actually matters: the heading is below
-               * the bar when the scrolling stops. A jump chip is a destination
-               * request, not a scenic route; landing there immediately is also
-               * what the reader asked for. */
-              const place = () => {
-                const bar = document.querySelector(".topbar");
-                const barH = bar ? bar.getBoundingClientRect().height : 0;
-                /* Relative, so it is correct whether or not a scroll is
-                   already in flight — no reading of window.scrollY to go
-                   stale between the measurement and the move. */
-                const delta = target.getBoundingClientRect().top - barH - 14;
-                if (Math.abs(delta) > 1) window.scrollBy({ top: delta, behavior: "auto" });
-                return Math.abs(delta);
-              };
-              place();
-              requestAnimationFrame(() => {
-                place();
-                const s = el.querySelector("summary");
-                if (s) s.focus({ preventScroll: true });
-              });
-            },
+            onClick: () => jumpTo(id),
           },
           label
         )

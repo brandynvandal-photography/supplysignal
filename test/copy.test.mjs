@@ -46,6 +46,15 @@ function stringLiterals(src) {
 
 /* Word-boundary matched, so "centre" is caught but "Centre County" is not -
    the exception is handled below by allowing a capitalised proper noun. */
+/* Real proper nouns that happen to contain a British spelling. Nobody may
+   "correct" these — they are names of places and products. Matched from the
+   start of the hit, so "Centre County" is exempt and "Centre of the room" is
+   not. Add to this list rather than reaching for case sensitivity again. */
+const PROPER_NOUNS = [
+  "Centre County", "Grey Eagle", "Discovery Harbour", "Centre Hall",
+  "Centre Island", "Grey County", "Bay Centre", "Centre for Disease",
+];
+
 const BRITISH = [
   ["centre", "center"], ["colour", "color"], ["behaviour", "behavior"],
   ["favour", "favor"], ["labour", "labor"], ["organisation", "organization"],
@@ -120,12 +129,26 @@ check("no British spellings in reader-facing strings", () => {
          * boundary on the right meant the list only ever caught the bare stem.
          *
          * The left boundary stays. It is what keeps "analyse" from firing on
-         * "analysis" and lets place names beginning mid-word survive. The
-         * proper-noun exception still comes from the lowercase match: a
-         * capitalised Centre County or Grey Eagle never reaches here. */
-        const re = new RegExp(`\\b${uk}`, "g");
-        if (re.test(lit)) {
-          bad.push(`${path.relative(ROOT, file)}: "${uk}" should be "${us}"`);
+         * "analysis" and lets place names beginning mid-word survive. */
+
+        /* EITHER CASE ON THE FIRST LETTER, which is the third miss this test
+         * has had.
+         *
+         * It matched lowercase only, and the reason was sound: that is what
+         * kept a capitalised Centre County or Grey Eagle from firing. The cost
+         * was that a British spelling STARTING A SENTENCE was invisible, and
+         * "Practise both, now" duly shipped into Learn's Start-here block and
+         * passed a full run of this suite.
+         *
+         * So the first letter is now matched in either case and the proper
+         * nouns are named instead. A name on a list is a decision somebody
+         * made; a case-sensitivity rule silently covering for it is not, and it
+         * cannot tell a place from the first word of a sentence. */
+        const head = uk[0];
+        const re = new RegExp(`\\b[${head}${head.toUpperCase()}]${uk.slice(1)}`, "g");
+        for (const m of lit.matchAll(re)) {
+          if (PROPER_NOUNS.some((p) => lit.slice(m.index).startsWith(p))) continue;
+          bad.push(`${path.relative(ROOT, file)}: "${m[0]}" should be "${us}"`);
         }
       }
     }

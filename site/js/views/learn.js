@@ -15,7 +15,7 @@
  * bag", and every extra step in that chain loses people.
  */
 
-import { h, frag, section, callout, extLink, disclosure, jumpNav } from "../ui.js";
+import { h, frag, section, callout, extLink, disclosure, jumpNav, jumpTo } from "../ui.js";
 import * as data from "../data.js";
 import { practiceBlock } from "../practice.js";
 
@@ -43,6 +43,7 @@ export async function render(route, { go }) {
 
   wrap.appendChild(
     jumpNav([
+      { id: "sec-start", label: "Start here" },
       { id: "sec-practice", label: "Practice" },
       /* Points at the disclosure, not the section wrapper, because jumpNav
          OPENS a details on the way - landing on a collapsed section would
@@ -65,6 +66,8 @@ export async function render(route, { go }) {
     h("p", { class: "sec__note" },
       "Things worth knowing before the night you need them.")
   );
+
+  wrap.appendChild(startHere(e));
 
   /* Practice first. It is free, instant, needs no signup and no shipping
      address - and someone who tries it and finds they did not know the answer
@@ -220,6 +223,99 @@ export async function render(route, { go }) {
 
   void go; void route;
   return wrap;
+}
+
+/* "Start here" — a first-run walkthrough that is not a first run.
+ *
+ * WHY IT IS NOT A MODAL, AND WHY IT NEVER WILL BE.
+ *
+ * Detecting a first-time reader takes a durable flag on the device, and this
+ * app writes none: sessionStorage only, for theme and locale, and app.js calls
+ * localStorage.clear() at boot AND in Quick Exit. A "seen the tour" flag is
+ * exactly the trace Quick Exit exists to erase. Without one, a first-run
+ * overlay would fire on EVERY launch — a gate between somebody and the SOS tab,
+ * every time, in an app whose first session might be the emergency.
+ *
+ * So it is a section on a page, in reading order, that a reader chooses. It
+ * costs a hurrying reader one screen of scroll and nothing else, and it holds
+ * no state at all.
+ *
+ * It also adds no content. Every step points at something already written; the
+ * value here is only the ORDER, which is otherwise left for the reader to infer
+ * from a page of parallel sections. Ordered by what is most likely to matter at
+ * 3am, not by what is easiest: respond to an overdose, practise it, get the
+ * drug that reverses it, then testing.
+ *
+ * Each row carries data-jump even when it navigates off-page, so
+ * test/views.test.mjs proves the on-page targets exist. The off-page ones use
+ * href + data-reveal, the same mechanism .bigptr uses, and are checked by
+ * test/routes.test.mjs instead. */
+function startHere(e) {
+  /* An on-page step opens its section and lands on the heading, using the same
+     function the jump chips use — see jumpTo() in ui.js. An off-page step is a
+     real link, so it keeps middle-click and "open in new tab". */
+  const here = (id, n, title, sub) =>
+    h("button", { type: "button", class: "nbr", "data-jump": id,
+                  onClick: () => jumpTo(id) },
+      h("span", { class: "nbr__step", "aria-hidden": "true" }, String(n)),
+      h("span", { class: "nbr__text" },
+        h("span", { class: "nbr__name" }, title),
+        h("span", { class: "nbr__sub nbr__sub--wrap" }, sub)),
+      h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")));
+
+  const away = (href, reveal, n, title, sub) =>
+    h("a", { class: "nbr", href, ...(reveal ? { "data-reveal": reveal } : {}) },
+      h("span", { class: "nbr__step", "aria-hidden": "true" }, String(n)),
+      h("span", { class: "nbr__text" },
+        h("span", { class: "nbr__name" }, title),
+        h("span", { class: "nbr__sub nbr__sub--wrap" }, sub)),
+      h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")));
+
+  /* Only if the naloxone group actually rendered. A step pointing at a section
+     the education bundle did not supply is a dead row. */
+  const hasNaloxone = (e.groups || []).some((g) => g.id === "naloxone");
+
+  return h("div", { id: "sec-start" },
+    section("Start here", null,
+      h("p", { class: "sec__note" },
+        "New to this? These five, in this order, cover what most people need "
+        + "before a night out. Nothing is saved and there is nothing to sign "
+        + "up for — you can leave in the middle and come back to any of it."),
+
+      /* sec-response and sec-collapse, checked against what Emergency actually
+         RENDERS. The first draft pointed step 1 at sec-spot, which help.js
+         mentions — as the target of its link to the HEAT page. Grepping a view
+         for ids finds the ones it links away to as readily as the ones it
+         renders, and a data-reveal at a missing id fails the way every dead
+         target in this app fails: silently, landing the reader at the top of
+         the page as though the row were just a plain link. */
+      away("#/help", "sec-response", 1,
+        "Respond to an opioid overdose",
+        "The order matters and it changed recently — rescue breaths, naloxone, "
+        + "911, recovery position."),
+
+      away("#/help", "sec-collapse", 2,
+        "When you do not know what it is",
+        "Somebody is down and nobody can say what they took. What to do when "
+        + "the answer has to work either way."),
+
+      here("sec-practice", 3,
+        "Practice both, now",
+        "Two short exercises with nothing riding on them. Reading how to do "
+        + "something and being able to do it at 3am are different."),
+
+      hasNaloxone
+        ? here("sec-naloxone", 4,
+            "Get naloxone, free",
+            "Courses that mail you a kit at the end, and where to get it "
+            + "without one. It does nothing to somebody who has no opioids in "
+            + "them, which is why it is safe to carry and safe to give.")
+        : null,
+
+      away("#/test", null, hasNaloxone ? 5 : 4,
+        "What a test can and cannot tell you",
+        "Strips and reagents both answer narrower questions than people expect. "
+        + "Worth knowing before you rely on one.")));
 }
 
 /* Sitting with someone having a hard time.
