@@ -278,7 +278,7 @@ function startHere(e) {
   return h("div", { id: "sec-start" },
     section("Start here", null,
       h("p", { class: "sec__note" },
-        "New to this? These five, in this order, cover what most people need "
+        "New to this or need a refresher? These five, in this order, cover what most people need "
         + "before a night out. Nothing is saved and there is nothing to sign "
         + "up for — you can leave in the middle and come back to any of it."),
 

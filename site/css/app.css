@@ -2156,13 +2156,63 @@ details.disc--urgent > summary h2 { color: var(--critical); }
 
 /* ---------------------------------------------------------------- jump nav */
 
+/* PINNED, AND ONE ROW.
+ *
+ * Test carries 42 disclosures and runs twelve screens with every one of them
+ * shut; Learn has fifteen jump targets. The chips already existed and already
+ * knew how to open a collapsed section on the way — they were just at the top
+ * of the page, which is the one place a reader stops being able to reach them.
+ * Sticking them makes distance cost nothing, which is most of what "there is
+ * too much on this page" actually means.
+ *
+ * It has to be a SINGLE ROW to be worth pinning. Wrapped, fifteen chips are
+ * four lines, and four lines of navigation welded under the header takes more
+ * from the reader than the scrolling did. So the strip scrolls sideways
+ * instead — the same move .reagbar makes, with the same fade at the edges to
+ * say there is more.
+ *
+ * Same anchor and material as .searchpanel: both hang directly off the frosted
+ * topbar, and painting either of them opaque would put a sheet of glass on a
+ * solid slab. */
 .jump {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
-  margin: 4px 0 20px; padding-bottom: 16px; border-bottom: 1px solid var(--glass-line);
+  display: flex; align-items: center; gap: 8px 10px;
+  /* No top margin. Sticky honours it, so the old 4px held the strip 4px clear
+     of the header once pinned and let a sliver of scrolling text run through
+     the gap. The separation it used to give from the h1 is padding now. */
+  margin: 0 0 20px; padding: 12px 0 10px;
+  border-bottom: 1px solid var(--glass-line);
+
+  position: sticky; top: calc(var(--bar-h) + var(--bar-top)); z-index: 38;
+  background: var(--bar-tint);
 }
 .jump__label {
   font-size: .78rem; font-weight: 700; text-transform: uppercase;
   letter-spacing: .06em; color: var(--ink-3);
+  /* Never squeezed, never wrapped to "JUMP / TO". */
+  flex: 0 0 auto;
+}
+/* The scrolling half. .chips is flex-wrap:wrap everywhere else in the app and
+   must stay that way — this overrides it only inside the pinned strip. */
+.jump .chips {
+  flex: 1 1 auto; min-width: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  /* Momentum scrolling on iOS, and no vertical rubber-banding stolen from the
+     page underneath. */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  /* Room for the fade so the last chip is not clipped mid-word. */
+  padding: 2px 14px 2px 0;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent);
+}
+.jump .chips::-webkit-scrollbar { display: none; }
+.jump .chip { flex: 0 0 auto; }
+
+/* A reader who has asked for less motion gets the strip in its old place. */
+@media (prefers-reduced-motion: reduce) {
+  .jump { position: static; }
 }
 
 /* ------------------------------------------------------------------ filter */

@@ -45,7 +45,11 @@ export async function render(route, ctx) {
        listed twice, and entries pointing inside collapsed parents. */
     jumpNav([
       { id: "sec-prevalence", label: "What's out there" },
-      { id: "sec-compare", label: "Which one to get" },
+      /* The GROUP, not the first section inside it. The chip is labelled
+         "Which one to get" and that is now the tile's own name, so pointing it
+         at sec-compare landed the reader on a child with the tile's heading
+         scrolled off above them. */
+      { id: "grp-getting", label: "Which one to get" },
       { id: "grp-reagents", label: "Reagents" },
       { id: "sec-strips", label: "Test strips" },
       { id: "sec-whatisit", label: "What could this be?" },
@@ -101,16 +105,25 @@ export async function render(route, ctx) {
     );
   }
 
-  /* One level, not two. This was a section called "Getting hold of one"
-     wrapping a single tile called "Choosing a test" - a heading over one
-     child, with the two names disagreeing, over content that is really about
-     choosing, buying, legality AND labs. The heading now does the grouping
-     itself and the five sections sit directly under it, which also matches
-     how the other two blocks on this page are built. */
-  wrap.appendChild(section("Which one to get", null));
-
+  /* A GROUP TILE, not a bare heading over five disclosures.
+   *
+   * It was flattened for a good reason once - it had been a section wrapping a
+   * single tile, a heading over one child with the two names disagreeing - and
+   * flattening it fixed that and created a different problem. Test now carries
+   * 42 disclosures and twelve top-level ones, and runs twelve screens with
+   * every single one shut. Five of those twelve are these, and they answer one
+   * question between them: which test, where to buy it, whether it is legal,
+   * and how to get a lab. A reader who has already got their kit scrolls past
+   * five separate closed boxes to reach the part about using it.
+   *
+   * As a tile they are one box with their names listed on it, which is the
+   * same shape "Reagent testing" already uses below - so the page reads as
+   * three things to choose between rather than twelve. Not open by default:
+   * unlike reagent testing, this is the section somebody is done with once
+   * they own a kit. */
   wrap.appendChild(
-    frag([
+    group("grp-getting", "Which one to get",
+      "Which test answers which question, where to buy, and what it costs.", [
       /* The at-a-glance comparison leads: someone deciding WHICH test to use
          cannot answer that from four separate sections read in sequence - the
          differences only become visible side by side. */
@@ -255,7 +268,10 @@ export async function render(route, ctx) {
           h("p", { class: "sec__note" }, g.labs.how.bottom)
         ) : null)
     ),
-    ])
+    ],
+    /* The preview names what is inside, so the tile says what it holds without
+       being opened - same as the reagent tile below. */
+    ["Which test tells you what", "Buying one", "Legality", "Labs"])
   );
 
   wrap.appendChild(section("Using it", null));
