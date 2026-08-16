@@ -3365,7 +3365,18 @@ details.disc .groupkids > details.disc > summary h2 {
  * onto the centring transform it already carries rather than replacing it. */
 .topbar__slide { will-change: transform; }
 .is-bar-up .topbar__slide {
-  transform: translate3d(0, -100%, 0);
+  /* MINUS THE STATUS-BAR INSET AS WELL, and this only ever showed up on a
+     phone.
+     .topbar carries `padding-top: var(--bar-top)` for status-bar clearance, so
+     the slide does not start at the top of the bar - it starts --bar-top below
+     it. Moving it by 100% of its OWN height therefore lands its bottom edge at
+     exactly --bar-top rather than at zero, leaving that strip of the slide on
+     screen. The strip is the bottom of it, which is the menu row: the sonar
+     mark and the icon buttons stayed visible after the header "left".
+     Invisible in a browser, where env(safe-area-inset-top) is 0 and the
+     arithmetic happens to come out right. Reproduced by forcing --bar-top to
+     59px: the brand's bottom edge sat at +58 instead of -1. */
+  transform: translate3d(0, calc(-100% - var(--bar-top)), 0);
   pointer-events: none;
 }
 
