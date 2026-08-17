@@ -122,6 +122,59 @@ try {
   popVintage = null;
 }
 
+/* CONNECTICUT, WHICH STOPPED HAVING COUNTIES.
+ *
+ * The Census replaced Connecticut's eight counties with nine planning regions
+ * in 2022, so the vintage-2024 file above has no row for 09001-09015. The CDC
+ * still reports deaths by the old counties, and this app's gazetteer and map
+ * still draw them, so the join above silently produced eight counties with a
+ * death count and no population - which the county page renders as a number
+ * with the "per 100,000" line missing entirely. Three and a half million
+ * people whose page quietly lost its rate.
+ *
+ * The 2010-2020 series still carries the old counties, so the rate can be
+ * honest as long as the page says which year the denominator is from. Any
+ * county filled this way is stamped with its own vintage rather than inheriting
+ * the document's, because a 2020 denominator against a 2025 numerator is a
+ * different claim from a 2024 one and the reader is owed the difference.
+ *
+ * Written to survive the same thing happening elsewhere: it fills ANY county
+ * the current vintage is missing, not a Connecticut list. */
+const POP_CSV_OLD =
+  "https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/counties/totals/co-est2020.csv";
+const popOld = new Map();
+const POP_OLD_VINTAGE = 2020;
+if (popVintage) {
+  const missing = [...known].filter((f) => !pop.has(f));
+  if (missing.length) {
+    try {
+      const res = await fetch(POP_CSV_OLD, { headers: { "user-agent": UA } });
+      if (!res.ok) throw new Error(`Census ${res.status}`);
+      const text = new TextDecoder("latin1").decode(await res.arrayBuffer());
+      const [head, ...rows] = text.split(/\r?\n/);
+      const cols = head.split(",");
+      const iSum = cols.indexOf("SUMLEV");
+      const iSt = cols.indexOf("STATE");
+      const iCty = cols.indexOf("COUNTY");
+      const iPop = cols.indexOf("POPESTIMATE2020");
+      if (iSum < 0 || iSt < 0 || iCty < 0 || iPop < 0) throw new Error("columns moved");
+      const want = new Set(missing);
+      for (const line of rows) {
+        if (!line) continue;
+        const f = line.split(",");
+        if (f[iSum] !== "050") continue;
+        const fips = `${f[iSt].padStart(2, "0")}${f[iCty].padStart(3, "0")}`;
+        if (!want.has(fips)) continue;
+        const n = Number(f[iPop]);
+        if (Number.isFinite(n) && n > 0) popOld.set(fips, n);
+      }
+    } catch (e) {
+      console.error(`older population series: ${e.message} — those counties keep no rate`);
+      popOld.clear();
+    }
+  }
+}
+
 const counties = {};
 let reported = 0, suppressed = 0, unmatched = 0, rated = 0;
 
@@ -131,19 +184,22 @@ for (const r of now) {
 
   const n = val(r);
   const p = prevBy.get(fips) ?? null;
-  const pp = pop.get(fips) ?? null;
+  const pp = pop.get(fips) ?? popOld.get(fips) ?? null;
+  /* Only when it is NOT the document's vintage - the field exists to mark the
+     exception, so its presence is the signal. */
+  const py = pp != null && !pop.has(fips) && popOld.has(fips) ? POP_OLD_VINTAGE : null;
 
   if (n == null) {
     /* Suppressed, not zero. Recorded explicitly so the UI can say which it is.
        Population still rides along: it is a public fact about the place and is
        useful on the page even when the death count is withheld. */
-    counties[fips] = { s: true, ...(pp != null ? { pop: pp } : {}) };
+    counties[fips] = { s: true, ...(pp != null ? { pop: pp } : {}), ...(py ? { popYear: py } : {}) };
     suppressed++;
     continue;
   }
   reported++;
   if (pp != null) rated++;
-  counties[fips] = { n, ...(p != null ? { p } : {}), ...(pp != null ? { pop: pp } : {}) };
+  counties[fips] = { n, ...(p != null ? { p } : {}), ...(pp != null ? { pop: pp } : {}), ...(py ? { popYear: py } : {}) };
 }
 
 const payload = {
@@ -171,6 +227,11 @@ const payload = {
     ...(popVintage ? [
       `Rates use Census population estimates for ${popVintage}, a year earlier than the death window.`,
     ] : []),
+    ...(popOld.size ? [
+      `${popOld.size} counties are no longer in the current Census series — Connecticut's ` +
+      `eight became planning regions in 2022 — so their rates use ${POP_OLD_VINTAGE} estimates. ` +
+      `Those counties carry the year on the record.`,
+    ] : []),
   ],
   counties,
 };
@@ -184,6 +245,7 @@ console.log(
   `counties with a reported count: ${reported}\n` +
   `counties suppressed (1-9 deaths): ${suppressed}\n` +
   `counties with a population, so a rate: ${rated}\n` +
+  `  of those, filled from the ${POP_OLD_VINTAGE} series: ${popOld.size}\n` +
   `rows not in gazetteer: ${unmatched}\n` +
   `size: ${kb} KB`
 );

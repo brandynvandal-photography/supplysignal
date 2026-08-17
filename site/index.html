@@ -169,17 +169,27 @@
 
   <!-- Outside .topbar__slide on purpose - see the comment above it. -->
   <nav class="nav" aria-label="Sections">
-    <a href="/alerts"     data-tab="alerts"><span class="ico" aria-hidden="true">◉</span>Alerts</a>
-    <!-- Drugs before Test. Both are second-position candidates and Drugs is
-         the one everybody can actually use: looking a substance up and
-         checking a combination need nothing but the phone, while Test needs
-         strips or a reagent kit already bought and in hand. Ordering by what
-         the reader can do right now beats ordering by what is most
-         distinctive about the app. -->
+    <!-- LEARN FIRST, ALERTS SECOND TO LAST.
+         Learn is what somebody can use on any night, in any county, before
+         anything has gone wrong - and it is the tab that makes the rest of the
+         app legible. Alerts stays in the bar because it is the app's home and
+         has to be reachable from every other screen, but it is the tab that
+         most often has nothing to say: most counties have nothing published,
+         and leading with an empty answer is a poor first impression of an app
+         whose other five tabs are full.
+
+         Drugs before Test, unchanged and for the original reason: looking a
+         substance up needs nothing but the phone, while Test needs strips or a
+         reagent kit already bought and in hand.
+
+         SOS stays last. It is the one tab that is found by position under
+         pressure, and moving it would cost somebody seconds they do not
+         have. -->
+    <a href="/learn"      data-tab="learn"><span class="ico" aria-hidden="true">◇</span>Learn</a>
     <a href="/drugs"      data-tab="substances"><span class="ico" aria-hidden="true">◐</span>Drugs</a>
     <a href="/test"       data-tab="test"><span class="ico" aria-hidden="true">◈</span>Test</a>
-    <a href="/learn"      data-tab="learn"><span class="ico" aria-hidden="true">◇</span>Learn</a>
     <a href="/support"    data-tab="support"><span class="ico" aria-hidden="true">❋</span>Support</a>
+    <a href="/alerts"     data-tab="alerts"><span class="ico" aria-hidden="true">◉</span>Alerts</a>
     <a href="/sos"        data-tab="help" aria-label="Emergency"><span class="ico" aria-hidden="true">✚</span>SOS</a>
   </nav>
 </header>

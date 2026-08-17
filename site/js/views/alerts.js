@@ -315,7 +315,23 @@ async function searchBar({ go, data }) {
     if (!navigator.geolocation) return say("This browser can’t share location. Search by name instead.", true);
 
     locateBtn.disabled = true;
-    say("Asking your browser for a location…");
+    /* iOS ASKS TWICE, AND THE SECOND ONE LOOKS LIKE A TRICK.
+     *
+     * In the packaged app WKWebView runs the page on capacitor://localhost, so
+     * after the app's own permission sheet iOS shows a SECOND, per-origin one:
+     * “localhost” would like to use your current location. Nothing on screen
+     * connects that word to this app, and in an app whose promise is that
+     * nothing leaves the device, a box naming a website is precisely what a
+     * careful person declines - and then Near me does nothing, forever, with
+     * no way back from inside the app. Reproduced on an iPad, which is where
+     * it was reported.
+     *
+     * Saying it before it happens is the whole fix available from here. The
+     * real fix is the native geolocation plugin, one prompt with the app's own
+     * name on it, and it needs a working pod install. */
+    say(data.packaged()
+      ? "iOS will ask twice — once for the app, then once for the page. The second one says “localhost”: that is this app, not a website."
+      : "Asking your browser for a location…");
 
     let pos;
     try {
@@ -331,7 +347,9 @@ async function searchBar({ go, data }) {
          nor what would change it. Declining is never framed as a mistake. */
       return say(
         err.code === 1
-          ? "No problem — location stays off. Search by city or county name instead."
+          ? (data.packaged()
+              ? "Location stays off — that is a fine choice. If you meant to allow it, the “localhost” box was this app: iOS remembers a No, so it has to be turned back on in Settings › Nightlight › Location. Searching by name works just as well."
+              : "No problem — location stays off. Search by city or county name instead.")
         : err.code === 3
           ? "Location is taking too long. Try again, or search by name."
         : "Your device couldn’t work out where it is — location services may be " +
@@ -862,7 +880,12 @@ function mortalityBlock(m, county) {
     rate !== null
       ? h("p", { class: "mort__rate" },
           h("strong", null, `${rate.toFixed(1)} per 100,000`),
-          ` — ${pop.toLocaleString("en-US")} people live here`)
+          ` — ${pop.toLocaleString("en-US")} people live here`,
+          /* Connecticut, and anywhere else the Census stops counting the way
+             the CDC still reports. The denominator is from a different year
+             than every other county's, which is a small difference and not one
+             to hide inside a number that looks identical to its neighbours'. */
+          rec.popYear ? h("span", { class: "sec__note" }, ` (${rec.popYear} count)`) : null)
       : people,
     trend,
     /* The caveats are not small print. A provisional count that revises upward
