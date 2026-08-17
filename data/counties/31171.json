@@ -4,12 +4,11 @@
   "state": "NE",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-14T21:41:43.531Z",
+    "lastScan": "2026-08-17T02:01:51.272Z",
     "windowDays": 365,
-    "sourcesChecked": 26,
+    "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "me-dhhs",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
