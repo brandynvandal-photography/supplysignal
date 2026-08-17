@@ -12,8 +12,8 @@
     "lastModified": "Tue, 11 Aug 2026 16:40:18 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1786923449-0\"",
-    "lastModified": "Sun, 16 Aug 2026 23:37:29 GMT"
+    "etag": "W/\"1786945295-0\"",
+    "lastModified": "Mon, 17 Aug 2026 05:41:35 GMT"
   },
   "de-dhss": {
     "etag": "\"38655ef03ebc42c19b857a2cfbf0ce2a-gzip\"",
@@ -37,15 +37,15 @@
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Mon, 17 Aug 2026 01:50:55 GMT"
+    "lastModified": "Mon, 17 Aug 2026 07:12:25 GMT"
   },
   "me-dhhs": {
     "etag": null,
     "lastModified": null
   },
   "mn-mdh": {
-    "etag": "W/\"1786897033\"",
-    "lastModified": "Sun, 16 Aug 2026 16:17:13 GMT"
+    "etag": "W/\"1786948132\"",
+    "lastModified": "Mon, 17 Aug 2026 06:28:52 GMT"
   },
   "ms-msdh": {
     "etag": "\"4aa0476b252cdd1:0\"",
@@ -60,8 +60,8 @@
     "lastModified": "Sat, 15 Aug 2026 18:15:28 GMT"
   },
   "nd-hhs": {
-    "etag": "\"1786863148\"",
-    "lastModified": "Sun, 16 Aug 2026 06:52:28 GMT"
+    "etag": "\"1786949631\"",
+    "lastModified": "Mon, 17 Aug 2026 06:53:51 GMT"
   },
   "ri-doh": {
     "etag": "W/\"1786729449\"",
