@@ -3080,7 +3080,20 @@ details.disc .groupkids > details.disc[open] {
   padding: 0 var(--sp-3);
 }
 details.disc .groupkids > details.disc[open]:first-child { margin-top: 0; }
-details.disc .groupkids > details.disc[open]:last-child { margin-bottom: 0; }
+/* AN OPEN LAST CHILD KEEPS ITS FLOOR.
+ *
+ * These two lines trim the outer margins so a panel lines up with the group's
+ * own edges, and at the top that is right: the group body's 12px of padding is
+ * already there. At the bottom there is none - the rule above zeroes it so that
+ * SHUT rows sit flush - so a panel that is last and open had its border, and
+ * its 22px corner, resting directly on the group's border. Two rounded edges a
+ * pixel apart, which is what the reagent walkthrough looked like: slammed into
+ * the bottom of the box it lives in.
+ *
+ * 12px, matching the padding above it, so an open panel has the same air on
+ * both sides. Only when it is open; shut rows still end flush, which is the
+ * whole reason the padding is zero. */
+details.disc .groupkids > details.disc[open]:last-child { margin-bottom: var(--sp-2); }
 /* No hairline where a panel edge is already the divider. */
 details.disc .groupkids > details.disc[open] + details.disc,
 details.disc .groupkids > details.disc[open] { border-top-width: 1px; }

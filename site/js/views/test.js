@@ -1348,15 +1348,16 @@ function reverseLookup(matchFn, table, subs, go, charts) {
        the chart's reagents load in its order — so the first sentence is what
        to do, not what it is for. */
     h("p", { class: "sec__note" },
-      "Pick what it was sold as, or what you think it is, and this loads the "
-      + "test for it: the right reagents, in the right order. Then say what "
-      + "each one did. Already ran some? Enter them in any order."),
+      "Tell it what your drug was sold as, or what you think it is, and it "
+      + "lays out which reagents to run and what order to run them in. Then "
+      + "just say what each one did. Already run a few? Put those in, in any "
+      + "order."),
     /* BOTH PATHS EXPLAINED BEFORE THE CONTROLS, not after them. This sentence
        sat under the empty picker, which is below the thing it is instructions
        for — a reader following it had already had to guess. */
     h("p", { class: "sec__note" },
-      "No idea what it is? Leave it on ", h("em", null, "Not sure"),
-      " and start with Marquis. What it does decides which reagent comes next."),
+      "No idea what you have? Leave it on ", h("em", null, "Not sure"),
+      " and start with Marquis. What Marquis does decides what you run next."),
     /* No fentanyl callout here. It used to sit in this tool AND inside
        "Reagents", which is the same warning twice on one screen — and a
        warning a reader has already scrolled past once is a warning they skim
