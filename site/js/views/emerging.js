@@ -50,13 +50,13 @@ export async function render(route, { go }) {
   /* The framing has to do real work here, so it is a callout rather than fine
      print, and it is the first thing on the page. */
   wrap.appendChild(
-    callout("warn", "This is not about your area",
+    callout("warn", "None of this is about your area",
       h("p", null,
         "Everything below is ", h("strong", null, "national"),
-        " — from Canada’s drug-testing lab and from a US forensic science center. " +
-        "None of it says whether any of these drugs are in your county."),
+        " — from Canada’s drug-testing lab and a US forensic science center. " +
+        "None of it tells you whether any of these have reached your county."),
       h("p", null,
-        "This page exists so a drug is not new to you the first time it reaches you."))
+        "It is here so that a drug is not brand new to you the first time you meet it."))
   );
 
   /* ---- US alerts ---- */

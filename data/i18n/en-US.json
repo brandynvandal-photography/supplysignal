@@ -49,8 +49,8 @@
     "viewMap": "Map",
     "browseLabel": "How to browse",
     "countyMatches": "County matches",
-    "locationPrivacyTitle": "Your location stays on your device",
-    "locationPrivacyBody": "“Near me” matches your coordinates to a county inside this browser, using map data already downloaded with the page. No location service is contacted, and your coordinates are never sent anywhere.",
+    "locationPrivacyTitle": "Your location never leaves this device",
+    "locationPrivacyBody": "“Near me” works out your county inside this browser, using map data that came down with the page. Nothing is asked of a location service, and your coordinates are never sent anywhere.",
     "noScanTitle": "No scan has run yet.",
     "noScanBody": "Once the hourly job runs, alerts will appear here. Until then this page has nothing to report — which is not the same as nothing happening.",
     "windowLabel": "Time window",
@@ -91,8 +91,8 @@
     "everywhereCount": "{count} published anywhere in the country in the last {window}.",
     "everywhereSeeAll": "See all {count}",
     "everywhereNoneTitle": "Nothing published anywhere in the last {window}",
-    "everywhereNoneBody": "That is a statement about what has been published, not about what is in circulation. Most changes in a local drug supply are never announced by anyone, and the reporting that does happen runs weeks behind. A quiet list here means nobody has said anything — not that nothing is happening.",
-    "everywhereNoneScanned": "{count} counties have been scanned recently, out of 3,231. Most of the country has not been looked at at all."
+    "everywhereNoneBody": "That says what has been published, not what is going around. Most changes in a local drug supply are never announced by anyone, and the reporting that does happen runs weeks behind. A quiet list means nobody has said anything — not that nothing is happening.",
+    "everywhereNoneScanned": "We have looked at {count} counties recently, out of 3,231. Most of the country has not been looked at at all."
   },
   "severity": {
     "critical": "Critical",

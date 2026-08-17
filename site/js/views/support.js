@@ -209,7 +209,7 @@ function renderOptions(o) {
         m.note ? h("p", { class: "sec__note" }, m.note) : null,
         sourceRow(m.sources))),
     o.evidence
-      ? callout("info", "What the evidence shows", h("p", null, o.evidence.body),
+      ? callout("info", "What the research actually found", h("p", null, o.evidence.body),
           sourceRow(o.evidence.sources))
       : null,
     o.stimulants
@@ -267,7 +267,7 @@ function renderPeer(p) {
   return frag(
     p.intro ? h("p", null, p.intro) : null,
     p.medicationNote
-      ? callout("warn", "Before you walk in", h("p", null, p.medicationNote))
+      ? callout("warn", "Worth knowing before you walk in", h("p", null, p.medicationNote))
       : null,
     (p.groups || []).map((gp) =>
       h("details", { class: "acc" },
@@ -355,7 +355,7 @@ function renderSupplies(s) {
       ? callout("warn", s.closed.title,
           h("ul", null, s.closed.items.map((i) => h("li", null, i))))
       : null,
-    s.legalNote ? callout("warn", "Check your state first", h("p", null, s.legalNote)) : null,
+    s.legalNote ? callout("warn", "Check your own state first", h("p", null, s.legalNote)) : null,
     s.lastVerified
       ? h("p", { class: "sec__note" },
           `State programs verified ${s.lastVerified}. These change often — ` +
@@ -404,11 +404,11 @@ function stateLookup(bs) {
     if (!sel.value) return;
     const tier = byCode.get(sel.value);
     if (!tier) {
-      out.appendChild(callout("info", "Not confirmed either way",
+      out.appendChild(callout("info", "We could not confirm this one either way",
         h("p", null,
-          "We could not verify a statewide mail program here. The national " +
-          "finder above still covers you, and a local syringe service program " +
-          "is usually the fastest route.")));
+          "We could not find a statewide mail program here that we could verify. " +
+          "The national finder above still covers you, and a local syringe service " +
+          "program is usually the quickest route.")));
       return;
     }
     out.appendChild(
@@ -475,7 +475,7 @@ async function checkingBlock() {
     h("div", { class: "chips" },
       d.locators.map((l) => extLink(l.url, l.name, "btn btn--ghost btn--sm"))),
 
-    callout("info", "Is the equipment legal where you are?",
+    callout("info", "Is this legal where you live?",
       h("p", null, d.legality.text),
       h("div", { class: "sources" },
         d.legality.sources.map((x) => extLink(x.url, x.name)))),

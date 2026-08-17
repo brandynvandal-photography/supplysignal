@@ -183,12 +183,12 @@ export async function render() {
     disclosure("sec-response", "Responding to an opioid overdose",
       { open: true, tone: "urgent" },
       h("ol", { class: "steps" }, STEPS.map(step)),
-      callout("warn", "Naloxone does not reverse xylazine, benzodiazepines, or stimulants",
+      callout("warn", "Naloxone doesn’t work on tranq, benzos, or stimulants — give it anyway",
         h("p", null,
-          "Xylazine (“tranq”) is not an opioid, so naloxone will not lift its sedation. " +
-          "Give naloxone anyway — it reverses the fentanyl, and that is what stops " +
-          "breathing. Judge it by their breathing, not whether they wake up: if " +
-          "breathing improves, it worked even if they stay drowsy."),
+          "Xylazine (“tranq”) isn’t an opioid, so naloxone won’t lift its sedation. " +
+          "Give it anyway: it reverses the fentanyl, and the fentanyl is what stops " +
+          "the breathing. Watch their breathing, not whether they wake up. If the " +
+          "breathing gets better, it worked — even if they stay out of it."),
         /* Regional prevalence used to sit here, inside the always-open overdose
            response section. Nobody doing rescue breathing needs epidemiology; it
            diluted the one instruction that matters. It lives on the xylazine
@@ -516,9 +516,8 @@ export async function render() {
           li("In some states, immunity is not what you get.", "Some laws only give you a defense to raise in court after being charged.")),
         callout("info", "None of this is a reason not to call",
           h("p", null,
-            "It is a reason to know the specifics where you live. Someone dies from an " +
-            "overdose that nobody called about far more often than someone is prosecuted " +
-            "for calling.")),
+            "It is a reason to know how it works where you live. Far more people die " +
+            "because nobody called than are ever prosecuted for calling.")),
         h("p", { class: "sec__note" }, "This is information, not legal advice.")))
   );
 
@@ -536,9 +535,9 @@ export async function render() {
      it is the fastest way to turn a survivable night into a case. */
   wrap.appendChild(
     disclosure("sec-police", "If police come while you are helping", null,
-      callout("warn", "Care first. None of this is worth pausing for",
+      callout("warn", "Keep helping. None of this is worth stopping for",
         h("p", null,
-          "Keep doing what you are doing — rescue breaths, naloxone, staying with them.")),
+          "Carry on with what you are doing — rescue breaths, naloxone, staying with them.")),
 
       h("div", { class: "card" },
         h("h3", null, "What you can do"),
@@ -564,7 +563,7 @@ export async function render() {
 
         callout("info", "Calling is still the right call",
           h("p", null,
-            "The minutes before help arrives are minutes without oxygen, and that is " +
+            "Every minute before help arrives is a minute without oxygen, and that is " +
             "where the damage happens.")),
 
         h("div", { class: "sources" },
@@ -725,12 +724,12 @@ export function privacyBlock() {
           "shortcut, not a requirement — closing the tab clears the same things on " +
           "its own, and so does simply leaving."),
 
-        callout("warn", "What quick exit cannot do",
+        callout("warn", "What Quick Exit can’t do",
           h("p", null,
-            "It cannot erase pages already written into your browser’s history before " +
-            "you pressed it, and it cannot clear your browser’s cache. If someone else " +
-            "may check this device, open this site in a private or incognito window — " +
-            "that leaves no history entry at all."))))
+            "It can’t erase pages your browser wrote into its history before you " +
+            "pressed it, and it can’t clear the browser’s cache. If somebody else " +
+            "might check this device, open this site in a private or incognito " +
+            "window instead — that leaves no history at all."))))
   );
 
   }

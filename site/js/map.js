@@ -503,17 +503,15 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     if (!values.size) {
       notice.appendChild(
         state.metric === "alerts"
-          ? callout("warn", "No alerts published yet",
+          ? callout("warn", "Nothing to show yet",
               h("p", null,
-                "The scanner works through all 3,231 counties over about a week, and " +
-                "genuine supply advisories are rare in any given hour. Nothing has " +
-                "qualified so far."),
+                "We work through all 3,231 counties over about a week, and real supply " +
+                "warnings are rare in any given hour. Nothing has come through so far."),
               h("p", null,
-                "This is an absence of reporting, not evidence of a safe supply. " +
-                "Try “Change vs last year”, which has data for every county with a " +
-                "published figure."))
-          : callout("info", "No figures available for this measure",
-              h("p", null, "Nothing to map yet. Try another measure."))
+                "That is nobody reporting, not a safe supply. Try “Change vs last " +
+                "year” — it has something for every county with a published figure."))
+          : callout("info", "Nothing to map for this one",
+              h("p", null, "Try another measure."))
       );
     }
 

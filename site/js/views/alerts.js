@@ -600,21 +600,21 @@ function notHere(c, nearCount, win, everScanned) {
      so is the same rule the rest of this file already keeps: no information is
      not no risk, and the reader is owed the difference. */
   if (!everScanned) {
-    return callout("warn", `We have not scanned ${c.name} yet`,
+    return callout("warn", `We haven’t got to ${c.name} yet`,
       h("p", null,
-        "A full pass over every county in the country takes weeks, so this is a " +
-        "gap in our coverage rather than a statement about the supply here."),
+        "Working through every county in the country takes weeks. This is a gap " +
+        "in what we have looked at, not something we found about the supply here."),
       h("p", null,
-        "Bordering counties are worth checking, and so is anything a local " +
-        "health department publishes directly."),
+        "The counties next door are worth a look, and so is anything your local " +
+        "health department puts out."),
       nearLine);
   }
 
-  return callout("warn", `Nothing published for ${c.name} in the last ${labelFor(win)}`,
+  return callout("warn", `Nobody has published anything for ${c.name} in the last ${labelFor(win)}`,
     h("p", null,
-      "This does not mean the supply here is safe. Most changes in a local drug " +
-      "supply are never publicly announced, and reporting runs behind reality by " +
-      "weeks. Treat this as “no information”, not “no risk”."),
+      "That does not mean the supply here is safe. Most changes in a local drug " +
+      "supply are never announced by anyone, and the reporting that does happen " +
+      "runs weeks behind. Read this as “no information”, not “no risk”."),
     nearLine);
 }
 

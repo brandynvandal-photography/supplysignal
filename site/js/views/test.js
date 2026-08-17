@@ -246,7 +246,7 @@ export async function render(route, ctx) {
             h("li", null, h("strong", null, o.name), " — ", o.detail))),
           h("div", { class: "chips" },
             g.labs.options.map((o) => extLink(o.url, o.name, "btn btn--ghost btn--sm"))),
-          callout("warn", "DrugsData is not accepting samples", h("p", null, g.labs.note))),
+          callout("warn", "DrugsData has stopped taking samples", h("p", null, g.labs.note))),
 
         /* What the machines are. "Send it to a lab" is advice people are given
            constantly without ever being told what a lab does differently -
@@ -291,7 +291,7 @@ export async function render(route, ctx) {
          quietly said it was not. Two answers to one question on one screen is
          worse than either answer alone. */
       brandPicker(g.brands),
-      callout("warn", "Why one line means positive",
+      callout("warn", "One line means positive — yes, really",
         h("p", null, fts.reading.explain),
         h("p", null, fts.reading.faintLine)),
       /* Each type, under the reading it shares. */
@@ -353,7 +353,7 @@ export async function render(route, ctx) {
            editorial reasoning about the app's own structure, printed at
            somebody about to open a bottle of concentrated acid. That belongs
            in a commit message, which is where it is now. */
-        callout("stop", "Before you open a bottle",
+        callout("stop", "Before you open the bottle",
           h("p", null, g.safety.ppe)),
 
         h("ol", { class: "steps" },
@@ -402,7 +402,7 @@ export async function render(route, ctx) {
        * who knows any chemistry thinks — and answering it anywhere else looks
        * like the app avoiding the question. */
       intro: frag(
-        callout("stop", "No reagent can tell you if fentanyl is in your drugs",
+        callout("stop", "No reagent will tell you whether fentanyl is in there",
           h("p", null, g.reagentIntro.cannotDetectFentanyl)),
         g.reagentIntro.pureSampleNote
           ? h("details", { class: "acc" },
@@ -1468,7 +1468,7 @@ function prevalenceBlock(p) {
       h("h3", null, "Why the death statistics look different"),
       h("p", null, p.coUse),
       h("p", { class: "sec__note" }, p.regional),
-      callout("info", "Why this matters", h("p", null, p.bottomLine)),
+      callout("info", "What that means for you", h("p", null, p.bottomLine)),
       sourceRow(p.sources)));
 }
 
@@ -1522,14 +1522,14 @@ function stripCard(s, g) {
           h("p", null, l.body),
           l.nuance ? h("p", { class: "limit__nuance" }, l.nuance) : null)),
 
-      s.accuracy ? callout("info", "In real-world use", h("p", null, s.accuracy)) : null,
+      s.accuracy ? callout("info", "How well it does in real life", h("p", null, s.accuracy)) : null,
       sourceRow(s.sources)));
 }
 
 function dilutionBlock(d) {
   return frag(
     h("h4", null, "How much water"),
-    callout("info", "Why the amount changes by drug", h("p", null, d.why)),
+    callout("info", "Why the amount is different for each drug", h("p", null, d.why)),
 
     h("div", { class: "tablewrap" },
       h("table", { class: "data" },
@@ -1542,7 +1542,7 @@ function dilutionBlock(d) {
             h("th", { scope: "row" }, c.substance),
             h("td", null, c.threshold)))))),
 
-    callout("info", "If a stimulant tests positive",
+    callout("info", "If you were testing a stimulant and it came back positive",
       h("ul", null, d.guidance.slice(-1).map((x) => h("li", null, x)))),
 
     /* The "commonly published amount" table is gone, and it had to go rather

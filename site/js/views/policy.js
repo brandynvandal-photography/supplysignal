@@ -194,7 +194,7 @@ export async function render(route, { go }) {
       /* Said plainly rather than buried. Every other page in this app can
          promise nothing leaves the device; this one cannot, because the whole
          point is reaching someone outside it. */
-      callout("info", "These links leave Nightlight", h("p", null, v.who.privacy)),
+      callout("info", "These links take you off Nightlight", h("p", null, v.who.privacy)),
       SRC.add(v.sources))));
 
   /* ---- organizations ---- */

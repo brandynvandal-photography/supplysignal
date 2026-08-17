@@ -90,12 +90,12 @@ export async function render(route, { go }) {
         h("p", null,
           "Clinical claims here are meant to carry a source you can check. If one does not, " +
           "or the source does not say what we claim it says, that is a defect."),
-        callout("warn", "Before you write",
+        callout("warn", "Before you write to us",
           h("p", null,
-            "Anything you send is outside this app and its privacy promises. Do not include " +
-            "details about your own use, your location, or anyone else’s. A report can be " +
-            "completely anonymous and still be useful: the page, the claim, and what is wrong " +
-            "with it is all that is needed."))))
+            "Anything you send leaves this app, and our privacy promises do not follow " +
+            "it. Please leave out your own use, where you are, and anything about " +
+            "anyone else. A report works fine anonymously — the page, the claim, and " +
+            "what is wrong with it is all we need."))))
   );
 
   wrap.appendChild(

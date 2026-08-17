@@ -89,8 +89,8 @@ export async function render() {
   wrap.appendChild(
     h("div", { id: "sec-interactions" },
       section(g.interactions.headline, null,
-        callout("stop", "Specific combinations, not a general warning about mixing",
-          h("p", null, "Each one has a documented mechanism.")),
+        callout("stop", "These are specific pairs, not a blanket warning about mixing",
+          h("p", null, "Each one below has a documented reason behind it.")),
         frag(g.interactions.items.map(item)))));
 
   /* "Long nights and hot days" moved to Learn, and its two halves went

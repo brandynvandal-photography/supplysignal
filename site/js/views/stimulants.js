@@ -79,7 +79,7 @@ export async function render() {
               h("p", { class: "stat__n" }, s.t),
               h("p", null, s.d)))),
         h("div", { class: "card" }, hl.body.map((t) => h("p", null, t))),
-        callout("info", "If this is happening to you right now", h("p", null, hl.note)),
+        callout("info", "If this is you, right now", h("p", null, hl.note)),
         SRC.add(hl.sources))));
 
   wrap.appendChild(block("sec-interaction", g.interaction));

@@ -614,7 +614,7 @@ function mixChecker(combos, yours) {
     const unique = [...new Set(picked)];
 
     if (picked.length > unique.length) {
-      out.appendChild(callout("warn", "Same category chosen twice",
+      out.appendChild(callout("warn", "You picked the same category twice",
         h("p", null,
           "Taking more raises the dose. Redosing before the first amount has " +
           "fully come up is a common way people take far more than they meant " +
@@ -662,7 +662,7 @@ function mixChecker(combos, yours) {
     /* The warning the matrix cannot give. */
     if (deps.length >= 2) {
       out.appendChild(
-        callout("stop", `${deps.length} of these slow your breathing`,
+        callout("stop", `${deps.length} of these slow your breathing down`,
           h("p", null,
             deps.map(prettyCat).join(", ") + " all suppress breathing, and the " +
             "effects stack. Together they are more dangerous than any pair above " +
@@ -843,7 +843,7 @@ async function detailView(id, subs, combos, { go }) {
      anything else so the correction lands first. */
   if (s.nameWarning) {
     wrap.appendChild(
-      callout("warn", "Sold under a misleading name",
+      callout("warn", "This gets sold under a name that isn’t its own",
         h("p", null, s.nameWarning.text),
         /* A WAY OUT, not just a correction.
            The warning tells a reader that what they are holding is probably a
@@ -1053,10 +1053,10 @@ async function detailView(id, subs, combos, { go }) {
          worry about", which is the one thing it must never mean. */
       anything
         ? null
-        : callout("warn", "We have no interaction data for this one",
+        : callout("warn", "Nobody has published interaction data for this one",
             h("p", null,
-              "That is a gap in what has been published, not a finding that it "
-              + "mixes safely. Anything combined with it is an unknown."))));
+              "That is a hole in what has been published, not a finding that it "
+              + "mixes safely. Anything you combine it with is an unknown."))));
 
   /* ---- FDA boxed warning, where it applies ---- */
   const isOpioid = cls.some((c) => /opioid/i.test(c));
@@ -1102,7 +1102,7 @@ async function detailView(id, subs, combos, { go }) {
     wrap.appendChild(
       callout("warn", "A reagent can’t tell you what this is",
         h("p", null,
-          "Reagent colors are worked out on powders and crystals. DanceSafe puts it " +
+          "Reagent colors were worked out on powders and crystals. DanceSafe says it " +
           "plainly: plant matter and fungi are difficult, if not impossible, to test " +
           "with at-home tools."),
         /* No reagent is named here any more. Naming one - and this said
@@ -1169,12 +1169,12 @@ async function detailView(id, subs, combos, { go }) {
 
     wrap.appendChild(
       section("Expected reagent reactions", "From PsychonautWiki",
-        callout("warn", "This identifies the main drug — it cannot find what is mixed in",
+        callout("warn", "This reads the main drug. It can’t see what else is in there",
           h("p", null,
-            "These are the colors a reagent gives with this drug on its own. " +
-            "The expected reaction failing to appear is strong information — walk away. " +
-            "The expected color appearing is weak information: it tells you the bulk of " +
-            "the sample, not what else is in there."),
+            "These are the colors you get from this drug on its own. If the expected " +
+            "reaction doesn’t show up, that tells you a lot — walk away. If it does " +
+            "show up, that tells you very little: it speaks for the bulk of what you " +
+            "have, not for everything in it."),
           h("p", null,
             "A reagent cannot find fentanyl mixed into something else. Fentanyl is " +
             "active in microgram amounts, far below the amount a color change can show, " +
@@ -1243,10 +1243,10 @@ async function detailView(id, subs, combos, { go }) {
        better reading order for a person as well as for a reviewer. */
     wrap.appendChild(
       section("Dose", "Ranges reported by PsychonautWiki — not a recommendation",
-        callout("warn", "A street supply is not a measured dose",
-          h("p", null, "These ranges assume a pure, correctly identified drug. " +
-            "Anything from an unregulated supply may be a different drug, a different " +
-            "strength, or unevenly mixed. Start far below the low end.")),
+        callout("warn", "Nothing off the street comes measured",
+          h("p", null, "These ranges assume a pure drug that is what it says it is. " +
+            "What you have may be a different drug, a different strength, or mixed " +
+            "unevenly through the batch. Start well below the low end.")),
         disclosure("sec-dose", "Show reported dose ranges", { open: false },
           dosed.map((r) => doseTable(r))))
     );
@@ -1414,7 +1414,7 @@ async function rxBlock() {
                 h("p", null, it.claim),
                 h("div", { class: "sources" },
                   (it.sources || []).map((x) => extLink(x.url, x.name))))))))),
-      callout("info", "What nobody has good data on",
+      callout("info", "Where the honest answer is “nobody knows”",
         h("p", null, d.unresolved)),
       h("p", { class: "sec__note" },
         `Sources verified ${d.lastVerified}. Never stop a prescribed medication ` +
