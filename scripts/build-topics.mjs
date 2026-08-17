@@ -59,8 +59,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
  * no longer deployed. test/privacy.test.mjs asserts they match.
  */
 export const TOPICS = [
-  "after", "adulterants", "checking", "communities", "conditions", "consent",
-  "descriptions", "education", "emerging", "heat", "index", "market",
+  "after", "adulterants", "checking", "comedown", "communities", "conditions",
+  "consent", "descriptions", "education", "emerging", "heat", "index", "market",
   "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
   "sex", "sitting", "stimulants", "supervision", "support", "testing",
 ];

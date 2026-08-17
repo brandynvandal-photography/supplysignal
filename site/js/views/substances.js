@@ -1072,7 +1072,26 @@ async function detailView(id, subs, combos, { go }) {
     );
   }
 
-  /* ---- at-a-glance duration tiles ----
+  /* WHICH COMEDOWN ENTRY BELONGS TO THIS SUBSTANCE.
+ *
+ * The substance's own id wins, then the first psychoactive class with an
+ * entry. Class names come from PsychonautWiki and are exactly what
+ * substances.json holds - "Psychedelic" and "Depressant" singular, "Stimulants"
+ * and "Opioids" plural - so these keys are matched against the taxonomy rather
+ * than against what reads well in English. Getting that wrong is silent: the
+ * section simply never appears. */
+function comedownFor(doc, s) {
+  if (!doc) return null;
+  const byId = doc.bySubstance?.[s.id];
+  if (byId) return byId;
+  for (const c of s.class?.psychoactive || []) {
+    const hit = doc.byClass?.[c];
+    if (hit) return hit;
+  }
+  return null;
+}
+
+/* ---- at-a-glance duration tiles ----
      The three numbers someone actually scans for, lifted out of the tables.
      First route with duration data wins; the full per-route tables remain
      below for the rest. */
@@ -1125,8 +1144,14 @@ async function detailView(id, subs, combos, { go }) {
               "coming from ordinary thyme and oregano, and no spot test detects synthetic " +
               "cannabinoids at all."),
         h("p", { class: "sec__note" },
-          "A lab service is the only way to identify this material or measure its strength. " +
-          "Where to send it is on the Test page."))
+          "A lab service is the only way to identify this material or measure its strength."),
+        /* The sentence used to end "...is on the Test page" as plain text, on a
+           page that could link there. A reader following an instruction should
+           not have to go and find the thing they were just told to use. */
+        h("a", { class: "bigptr", href: "#/test" },
+          h("span", { class: "bigptr__hd" }, "Where to send it"),
+          h("span", { class: "bigptr__sub" },
+            "Mail-in labs, what each method can actually identify, and what it costs.")))
     );
   }
 
@@ -1256,6 +1281,37 @@ async function detailView(id, subs, combos, { go }) {
   const timed = s.roas.filter((r) => r.duration);
   if (timed.length) {
     wrap.appendChild(section("How long it lasts", null, timed.map((r) => durationTable(r))));
+  }
+
+  /* ---- coming down ----
+   *
+   * After duration, because it is the question the duration table raises: the
+   * table says when the effects stop, and this says what the hours after that
+   * are like. Before detection windows, which are about somebody else testing
+   * you rather than about you.
+   *
+   * RENDERS ONLY WHERE THERE IS SOMETHING TO SAY. data/comedown.json has an
+   * entry for six psychoactive classes and a handful of substances; the other
+   * 48 substances get no section at all. Padding every drug page with "drink
+   * water and get some sleep" would teach the reader to scroll past the one
+   * page where the advice is specific to what they took - and this app does
+   * not fill space with things that are true of everything.
+   *
+   * Awaited rather than appended asynchronously, unlike the mortality block:
+   * comedown lives in topics.json, which is already in flight from boot, so
+   * there is nothing to wait for by the time this runs. */
+  const cd = comedownFor(await data.comedown(), s);
+  if (cd) {
+    wrap.appendChild(
+      section("Coming down", null,
+        cd.lead ? h("p", { class: "leadin" }, cd.lead) : null,
+        frag(cd.items.map((it) =>
+          h("div", { class: "card" },
+            h("h3", null, it.t),
+            h("p", null, it.d),
+            it.sources?.length
+              ? h("div", { class: "sources" }, it.sources.map((x) => extLink(x.url, x.name)))
+              : null)))));
   }
 
   /* How long it stays DETECTABLE, which is a different question from how long

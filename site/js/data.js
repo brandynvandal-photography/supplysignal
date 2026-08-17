@@ -30,8 +30,8 @@ const inflight = new Map();
  * TOPICS in scripts/build-topics.mjs; test/privacy.test.mjs asserts they match.
  */
 const TOPICS = new Set([
-  "after", "adulterants", "checking", "communities", "conditions", "consent",
-  "descriptions", "education", "emerging", "heat", "index", "market",
+  "after", "adulterants", "checking", "comedown", "communities", "conditions",
+  "consent", "descriptions", "education", "emerging", "heat", "index", "market",
   "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
   "sex", "sitting", "stimulants", "supervision", "support", "testing",
 ]);
@@ -540,6 +540,12 @@ export async function stimulants() {
 /** Heat illness and water. */
 export async function heat() {
   return load("heat", null);
+}
+
+/** What to do once the drug has worn off. Null for anything with no entry —
+    a substance page renders no section rather than generic advice. */
+export async function comedown() {
+  return load("comedown", null);
 }
 
 /** Sex, barriers, PrEP and PEP, and being out. */
