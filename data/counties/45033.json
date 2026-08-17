@@ -4,9 +4,9 @@
   "state": "SC",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-15T09:41:49.621Z",
+    "lastScan": "2026-08-17T13:13:42.008Z",
     "windowDays": 365,
-    "sourcesChecked": 26,
+    "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
