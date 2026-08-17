@@ -192,7 +192,6 @@ export async function practiceBlock() {
 
   return frag(
     section("Practice", null,
-      h("p", { class: "sec__note" }, p.intro),
 
       h("details", { class: "acc" },
         h("summary", null, h("span", null, p.strip.title)),

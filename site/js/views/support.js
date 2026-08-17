@@ -121,7 +121,6 @@ export async function render() {
     const P = g.pregnancy;
     wrap.appendChild(
       disclosure("sec-pregnancy", P.headline, null,
-        h("p", { class: "sec__note" }, P.intro),
         frag(P.items.map((x) =>
           h("div", { class: "card" },
             h("h3", null, x.t),
@@ -337,7 +336,6 @@ function renderSupplies(s) {
     s.grassroots
       ? frag(
           h("h3", null, "Peer-run and grassroots"),
-          h("p", { class: "sec__note" }, s.grassroots.intro),
           s.grassroots.items.map((v) =>
             h("div", { class: "card" },
               h("div", { class: "card__top" },
@@ -426,7 +424,6 @@ function stateLookup(bs) {
 
   return frag(
     h("h3", null, "What your state offers"),
-    h("p", { class: "sec__note" }, bs.intro),
     h("div", { class: "filter" }, h("div", { class: "filter__row" }, sel)),
     out
   );
@@ -463,7 +460,6 @@ async function checkingBlock() {
         e.social ? extLink(e.social, "Instagram") : null));
 
   return disclosure("sec-checking", "Getting your supply checked", null,
-    h("p", { class: "sec__note" }, d.reality),
 
     h("h3", null, "Mail-in and national"),
     frag(d.national.map(entry)),
@@ -520,7 +516,6 @@ function lovedBlock(g) {
       h("p", null, x.b));
 
   return disclosure("sec-loved", L.headline, null,
-    h("p", { class: "sec__note" }, L.intro),
 
     callout("info", L.keeping.title,
       h("p", null, L.keeping.body),

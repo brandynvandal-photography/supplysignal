@@ -91,7 +91,6 @@ export async function render(route, { go }) {
 
 function survivorBlock(s, src) {
   return disclosure("sec-survivor", s.title, { open: true },
-    h("p", { class: "sec__note" }, s.intro),
 
     /* The re-overdose window is the only thing on this page that is urgent,
        so it renders before anything reflective. */
@@ -105,7 +104,6 @@ function survivorBlock(s, src) {
     s.watch
       ? frag(
           h("h3", null, s.watch.title),
-          h("p", { class: "sec__note" }, s.watch.intro),
           frag((s.watch.items || []).map((w) =>
             h("div", { class: "card" },
               h("h4", null, w.sign),
@@ -154,7 +152,6 @@ function survivorBlock(s, src) {
 
 function witnessBlock(w, src) {
   return disclosure("sec-witness", w.title, { open: false },
-    h("p", { class: "sec__note" }, w.intro),
 
     w.anger
       ? callout("info", w.anger.title,

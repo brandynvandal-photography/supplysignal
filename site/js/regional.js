@@ -170,7 +170,10 @@ export async function regionalOverview() {
      grey metadata in the middle of the reading. See uncAttribution() below,
      which the Substances page folds into that list.
 
-     The short subtitle stays. "Only 20 of 90 drugs turn up everywhere" is
-     the finding itself, not provenance, and it costs one line. */
-  return section("Drugs are regional", "Only 20 of 90 drugs turn up everywhere", wrap);
+     The subtitle no longer renders either - section() stopped drawing its note
+     when the descriptor lines came out of the whole app. It is left in the call
+     because every other call site still passes one, and because "Only 20 of 90
+     drugs turn up everywhere" is the finding rather than provenance: if the
+     descriptor line ever comes back, this is the one that should. */
+  return section("Drugs by region", "Only 20 of 90 drugs turn up everywhere", wrap);
 }

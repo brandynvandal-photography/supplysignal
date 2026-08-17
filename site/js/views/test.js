@@ -129,7 +129,6 @@ export async function render(route, ctx) {
          differences only become visible side by side. */
       g.compare ? (
         disclosure("sec-compare", g.compare.headline, null,
-          h("p", { class: "sec__note" }, g.compare.intro),
 
           /* .card + .reagtable, the same shape the reagent tables and the
              fentanyl-prevalence table use, so every data block on this page
@@ -186,7 +185,6 @@ export async function render(route, ctx) {
          four links. Its own section, straight after. */
       g.buying?.storefronts ? (
         disclosure("sec-shops", g.buying.storefronts.title, null,
-          h("p", { class: "sec__note" }, g.buying.storefronts.intro),
           frag(g.buying.storefronts.shops.map((sh) =>
             h("div", { class: "card" },
               h("h3", null, sh.name),
@@ -202,7 +200,6 @@ export async function render(route, ctx) {
          their supply. */
       g.buying ? (
         disclosure("sec-buying", g.buying.headline, null,
-          h("p", { class: "sec__note" }, g.buying.intro),
   
           callout("stop", g.buying.trap.title,
             h("p", null, g.buying.trap.body),
@@ -258,7 +255,6 @@ export async function render(route, ctx) {
            questions, and why services run both. */
         g.labs.how ? frag(
           h("h3", null, g.labs.how.title),
-          h("p", { class: "sec__note" }, g.labs.how.intro),
           frag(g.labs.how.methods.map((m) =>
             h("div", { class: "card" },
               h("h4", null, m.name),
@@ -425,7 +421,6 @@ export async function render(route, ctx) {
   if (g.storage) {
     wrap.appendChild(
       disclosure("sec-storage", g.storage.headline, null,
-        h("p", { class: "sec__note" }, g.storage.intro),
         frag(g.storage.items.map((it) =>
           h("div", { class: "card" },
             h("h3", null, it.what),
@@ -1733,7 +1728,6 @@ function brandPicker(brands) {
   paint();
 
   return frag(
-    brands.intro ? h("p", { class: "sec__note" }, brands.intro) : null,
     /* .pick, not .mixslot. The combination checker's slot puts its label
        BESIDE the select, which works there because "A" and "B" are one
        character. "Strip" and "Testing" took 101px of a 375px screen and left

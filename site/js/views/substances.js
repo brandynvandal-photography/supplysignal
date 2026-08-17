@@ -217,7 +217,6 @@ async function indexView(subs, combosP, { go }) {
    * promise, and the name simply was not in scope. */
   const foodBlockFrom = (combos) => (combos?.food
     ? disclosure("sec-food", combos.food.headline, null,
-        h("p", { class: "sec__note" }, combos.food.blurb),
         frag(combos.food.items.map((x) =>
           h("div", { class: "card" },
             h("h3", null, x.t),
@@ -1400,7 +1399,6 @@ async function rxBlock() {
   return h("details", { class: "disc", id: "sec-rx" },
     h("summary", null, h("h2", null, "On prescribed medication?")),
     h("div", { class: "disc__body" },
-      h("p", { class: "sec__note" }, d.intro),
       frag(d.meds.map((m) =>
         h("details", { class: "acc" },
           h("summary", null, h("span", null, m.name)),

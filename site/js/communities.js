@@ -43,7 +43,6 @@ export async function communitiesBlock({ open = false } = {}) {
   return h("details", { class: "disc", id: "sec-communities", open: open || null },
     h("summary", null, h("h2", null, c.headline)),
     h("div", { class: "disc__body" },
-      h("p", { class: "sec__note" }, c.intro),
 
       /* Before any phone number: which of these can send police. */
       callout("warn", c.keyNote.title,
@@ -63,7 +62,6 @@ function groupBlock(g) {
       h("span", null, g.title),
       badge(String((g.items || []).length), "neutral")),
     h("div", { class: "acc__body" },
-      g.blurb ? h("p", { class: "sec__note" }, g.blurb) : null,
 
       frag((g.items || []).map(resourceCard)),
 

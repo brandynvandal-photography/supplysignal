@@ -98,7 +98,6 @@ export async function render(route, { go }) {
      belonging to it. A heading restores the page's rhythm - every other block
      here opens on one - and gives e.intro somewhere it is actually true. */
   wrap.appendChild(section("Free courses", null,
-    h("p", { class: "sec__note" }, e.intro),
 
     /* Does training gate naloxone? Answered up front, because the honest
        answer is "no, but" - and someone who believes they need a certificate
@@ -109,7 +108,6 @@ export async function render(route, { go }) {
 
     frag(e.groups.map((g) =>
       disclosure(`sec-${g.id}`, g.title, { open: g.id === "naloxone" },
-        h("p", { class: "sec__note" }, g.blurb),
         frag(g.items.map((it) =>
           h("div", { class: "card" },
             h("h3", null, it.name),
@@ -130,7 +128,6 @@ export async function render(route, { go }) {
        before-the-night knowledge, which is what this page is for. */
     ...(e.beforeTheNight ? [h("div", { id: "sec-before" },
       section(e.beforeTheNight.headline, null,
-        h("p", { class: "sec__note" }, e.beforeTheNight.blurb),
         frag(e.beforeTheNight.items.map((x) =>
           h("div", { class: "card" },
             h("h3", null, x.t),
@@ -272,11 +269,6 @@ function startHere(e) {
 
   return h("div", { id: "sec-start" },
     section("Start here", null,
-      h("p", { class: "sec__note" },
-        "New to this or need a refresher? These five, in this order, cover what most people need "
-        + "before a night out. Nothing is saved and there is nothing to sign "
-        + "up for — you can leave in the middle and come back to any of it."),
-
       /* sec-response and sec-collapse, checked against what Emergency actually
          RENDERS. The first draft pointed step 1 at sec-spot, which help.js
          mentions — as the target of its link to the HEAT page. Grepping a view
@@ -334,7 +326,6 @@ async function sittingBlock() {
   return h("details", { class: "disc", id: "sec-sitting" },
     h("summary", null, h("h2", null, s.headline)),
     h("div", { class: "disc__body" },
-      h("p", { class: "sec__note" }, s.intro),
 
       /* Before anything else. */
       /* A list, not a sentence. This was six conditions chained by five
@@ -430,7 +421,6 @@ async function consentBlock() {
     const s = c.consent;
     blocks.push(
       disclosure("sec-consent", s.title, { open: false },
-        s.intro ? h("p", { class: "sec__note" }, s.intro) : null,
         /* The hard line first, before any nuance about gray areas. */
         s.callout
           ? callout("stop", s.callout.title, h("p", null, s.callout.body),
@@ -454,7 +444,6 @@ async function consentBlock() {
     const r = c.repair;
     blocks.push(
       disclosure("sec-repair", r.title, { open: false },
-        r.intro ? h("p", { class: "sec__note" }, r.intro) : null,
 
         /* DanceSafe's guidance leads, and Mingus's framework follows as the
            map. Two reasons, both from checking the sources: theirs is written
