@@ -1197,7 +1197,11 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 
 /* ------------------------------------------------------------- section */
 
-.sec { margin: var(--sp-5) 0 var(--sp-2); }
+/* --sp-4 above, not --sp-5. Nine section boundaries on a substance page were
+   spending 480px on separation alone. 24px still reads as a break between
+   subjects - the heading's own weight does most of that work - and gives back
+   roughly a third of a screen on a long page. */
+.sec { margin: var(--sp-4) 0 var(--sp-2); }
 .sec__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin-bottom: 4px; }
 .sec__head h2 { margin: 0; }
 /* .92rem, up from .88.
@@ -1723,8 +1727,15 @@ ol.steps p { font-size: .95rem; color: var(--ink-2); }
  * A future wide table should take its own modifier rather than putting the
  * floor back here. */
 table.data { border-collapse: collapse; width: 100%; font-size: .92rem; }
+/* 9px, not 13. A one-line row - "Onset · 5-15 minutes" - was costing 51px with
+   half of that air, and a drug page carries up to eight of these tables: on
+   ketamine the table cells alone accounted for 1,564px of a 5,831px page, a
+   quarter of the scroll. Rows are still 41px, comfortably above the 44px tap
+   target where a row is tappable and well clear of the 24px minimum for
+   readable line spacing. The horizontal inset does not move: that is what keeps
+   the label column off the card edge. */
 table.data th, table.data td {
-  text-align: left; padding: 13px var(--sp-3); border-bottom: 1px solid var(--line); vertical-align: top;
+  text-align: left; padding: 9px var(--sp-3); border-bottom: 1px solid var(--line); vertical-align: top;
 }
 table.data thead th {
   position: sticky; top: 0; background: var(--surface-2);
