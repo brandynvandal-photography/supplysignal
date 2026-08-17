@@ -4,9 +4,9 @@
   "state": "OH",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-15T01:52:48.227Z",
+    "lastScan": "2026-08-17T10:04:37.654Z",
     "windowDays": 365,
-    "sourcesChecked": 26,
+    "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
