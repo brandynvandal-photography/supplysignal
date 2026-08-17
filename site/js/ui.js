@@ -134,18 +134,31 @@ export function badge(text, kind = "neutral") {
 
 /* ---------------------------------------------------------------- layout */
 
+/* THE DESCRIPTOR LINE UNDER A HEADING IS NOT RENDERED.
+ *
+ * `note` is the slot that held a section's "here is what is in this section"
+ * line - "Barriers, PrEP and PEP, emergency contraception, and an honest answer
+ * about drink testing" under a heading that already says what it is. On a phone
+ * each one cost two or three lines above the content it described, and the
+ * reader had usually already decided to read the section by the time they got
+ * to the sentence explaining why they might.
+ *
+ * The parameter stays. Something over a hundred call sites pass it, several
+ * build it from data, and dropping it from all of them would be a large silent
+ * edit to files this change is not otherwise touching - while keeping it means
+ * this decision is undone by deleting one line rather than re-authoring a
+ * hundred. It is deliberately not rendered, which is different from unused.
+ *
+ * What is NOT this: every other .sec__note on the site. Dates ("Checked
+ * 2026-08-04"), source attributions, statistical caveats ("Provisional CDC
+ * counts... usually an undercount"), safety notes ("Breathing is the target,
+ * not waking up") and the lines that tell a reader how to work a control all
+ * carry something the reader cannot get from the heading. They stay. */
 export function section(title, note, ...kids) {
+  void note;
   return frag(
-    h(
-      "div",
-      { class: "sec" },
-      h(
-        "div",
-        { class: "sec__head" },
-        h("h2", null, title),
-        note ? h("span", { class: "sec__note" }, note) : null
-      )
-    ),
+    h("div", { class: "sec" },
+      h("div", { class: "sec__head" }, h("h2", null, title))),
     ...kids
   );
 }
@@ -520,7 +533,8 @@ export function group(id, title, blurb, children, preview = null, opts = null) {
                      h("span", { class: "disc__previtem" }, label))))
           : null)),
     h("div", { class: "disc__body" },
-      blurb ? h("p", { class: "sec__note groupnote" }, blurb) : null,
+      /* Not rendered, same reason as section()'s note above: the group's own
+         title and its preview list already name what is inside it. */
       /* Content that belongs to the WHOLE group, above its children. The
          fentanyl warning is the case: it applies to every section under here,
          and while it lived inside the first child a reader who opened any of

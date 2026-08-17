@@ -83,8 +83,7 @@ async function pickerView(route, { go, data }) {
 
   wrap.appendChild(
     h("div", { class: "county-head" },
-      h("h1", null, t("alerts.heading")),
-      h("p", { class: "sec__note" }, t("alerts.intro")))
+      h("h1", null, t("alerts.heading")))
   );
 
   wrap.appendChild(await searchBar({ go, data }));

@@ -64,8 +64,6 @@ export async function render() {
       { id: "sec-coming", label: "Coming down" },
     ]));
 
-  wrap.appendChild(h("p", { class: "sec__note" }, g.blurb));
-
   wrap.appendChild(block("sec-sleep", g.sleep));
 
   /* The timeline gets its own treatment rather than being prose. Somebody

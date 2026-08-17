@@ -114,11 +114,6 @@ async function indexView(subs, combosP, { go }) {
       { id: "sec-market", label: "In your region" },
     ]));
 
-  wrap.appendChild(
-    h("p", { class: "sec__note" },
-      "What something is, what it does, how long it lasts, which combinations " +
-      "carry the most risk, and what a reagent can and cannot tell you."));
-
   /* ---- search ---- */
   const input = h("input", {
     class: "input", type: "text", autocomplete: "off", spellcheck: "false",

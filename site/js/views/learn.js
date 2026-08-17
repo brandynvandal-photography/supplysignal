@@ -62,11 +62,6 @@ export async function render(route, { go }) {
     ])
   );
 
-  wrap.appendChild(
-    h("p", { class: "sec__note" },
-      "Things worth knowing before the night you need them.")
-  );
-
   wrap.appendChild(startHere(e));
 
   /* Practice first. It is free, instant, needs no signup and no shipping

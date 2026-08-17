@@ -62,8 +62,6 @@ export async function render() {
       { id: "sec-hair", label: "Hair tests" },
     ]));
 
-  wrap.appendChild(h("p", { class: "sec__note" }, g.blurb));
-
   /* Said once, at the top, so nobody reads the page hoping for something it
      will not give them - and worn as an opener, not a callout. This is a
      scope note that warns of nothing, and a filled info panel spent a severity

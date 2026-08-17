@@ -82,8 +82,6 @@ export async function render() {
       { id: "sec-risk", label: "Who it hits hardest" },
     ]));
 
-  wrap.appendChild(h("p", { class: "sec__note" }, g.blurb));
-
   /* The ladder gets the statgrid treatment rather than prose, for the same
      reason the sleep timeline does: somebody looking at a person right now
      needs to find which rung they are on in one glance, not read to it. */

@@ -63,8 +63,6 @@ export async function render() {
          when tapped. */
     ]));
 
-  wrap.appendChild(h("p", { class: "sec__note" }, g.blurb));
-
   const f = g.framing;
   wrap.appendChild(
     h("div", { id: "sec-framing" },

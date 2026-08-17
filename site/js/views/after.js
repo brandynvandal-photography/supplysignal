@@ -53,8 +53,6 @@ export async function render(route, { go }) {
   if (d.witness) jumps.push({ id: "sec-witness", label: "If you were there" });
   if (jumps.length > 1) wrap.appendChild(jumpNav(jumps));
 
-  wrap.appendChild(h("p", { class: "sec__note" }, d.intro));
-
   const src = sourceSink();
 
   if (d.survivor) wrap.appendChild(survivorBlock(d.survivor, src));
