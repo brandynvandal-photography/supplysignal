@@ -695,10 +695,10 @@ async function everywhere({ data }, { limit = 0, days = NATIONAL_DAYS, control =
   /* WHETHER TO RAISE THE DEFAULT, ANSWERED WITHOUT RAISING IT.
    *
    * The tempting fix for an empty-looking list is a longer default window, and
-   * it is the wrong one: this section is titled "everywhere else RIGHT NOW",
-   * and a nine-month-old bulletin quietly folded into that heading would make
-   * the app's freshest claim its least true one. The honest version of the same
-   * fix is to say what a longer window would add and let the reader ask for it.
+   * it is the wrong one: every count line here names a window, and a
+   * nine-month-old bulletin folded silently into a 90-day count would make the
+   * app's freshest claim its least true one. The honest version of the same fix
+   * is to say what a longer window would add and let the reader ask for it.
    *
    * Counted, not guessed - the bundle is already loaded, so this costs nothing
    * and can never advertise alerts that are not there. */
@@ -715,7 +715,7 @@ async function everywhere({ data }, { limit = 0, days = NATIONAL_DAYS, control =
 
   if (!all.length) {
     return h("div", { id: "sec-everywhere" }, head,
-      callout("warn", t("alerts.everywhereNoneTitle"),
+      callout("warn", t("alerts.everywhereNoneTitle", { window: labelFor(days) }),
         h("p", null, t("alerts.everywhereNoneBody")),
         scannedN ? h("p", null, t("alerts.everywhereNoneScanned", { count: scannedN })) : null),
       widen);

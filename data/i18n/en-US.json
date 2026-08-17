@@ -86,11 +86,11 @@
     "locateNoData": "Couldn’t load the map data. Search by name instead.",
     "sessionTitle": "Nothing you do here is saved",
     "sessionBody": "No account, and nothing kept between visits — close the tab and it is gone. The ✕ in the corner is for when you need to leave this second: it clears what this site stored, walks the back button back over where you have been, and sends you to a weather site. What it cannot do is erase the browser's own history — for that, use a private window.",
-    "everywhereTitle": "Everywhere else right now",
+    "everywhereTitle": "National alerts",
     "everywhereIntro": "Every alert published anywhere in the country, newest and most serious first.",
     "everywhereCount": "{count} published anywhere in the country in the last {window}.",
     "everywhereSeeAll": "See all {count}",
-    "everywhereNoneTitle": "Nothing published anywhere in the last 90 days",
+    "everywhereNoneTitle": "Nothing published anywhere in the last {window}",
     "everywhereNoneBody": "That is a statement about what has been published, not about what is in circulation. Most changes in a local drug supply are never announced by anyone, and the reporting that does happen runs weeks behind. A quiet list here means nobody has said anything — not that nothing is happening.",
     "everywhereNoneScanned": "{count} counties have been scanned recently, out of 3,231. Most of the country has not been looked at at all."
   },

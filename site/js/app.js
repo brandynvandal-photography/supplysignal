@@ -669,16 +669,23 @@ function watchBarShrink() {
    *   is-scrolled  the row tightens and drops the wordmark (94px -> 76px)
    *   is-bar-up    the whole header slides off the top
    *
-   * The second is HIDE WHILE MOVING, SHOW WHEN STOPPED. Any scroll past the
-   * first screen takes the header away immediately; a short quiet period brings
-   * it back wherever the reader happens to be.
+   * The second is THE HEADER BELONGS TO THE TOP OF THE PAGE. Any scroll away
+   * from the top takes it with the page; it comes back when the reader comes
+   * back, and at no other time.
    *
-   * Two earlier versions of this were wrong in opposite directions and both are
-   * worth remembering. Returning it on any upward scroll meant the bar flashed
-   * in and out the whole way back up a long page. Returning it only at the very
-   * top meant Quick Exit - the X in that row - was behind a scroll to the top of
-   * a twelve-screen page. Idle-to-restore is the version that keeps the X about
-   * a second away from anywhere while still giving the whole screen to reading.
+   * This is the third rule this has had and the reasoning for each is worth
+   * keeping, because they trade the same two things against each other. Return
+   * it on any upward scroll and it flashes in and out the whole way up a long
+   * page. Return it after a pause and the reader gets a header arriving under
+   * their thumb a beat after they stop, on a page they were only pausing to
+   * read. Return it only at the top and the screen is entirely the reader's
+   * everywhere else - which is the version chosen here.
+   *
+   * The cost of this one is named so it is not rediscovered later: Quick Exit,
+   * the X, lives in that row and is the only copy of it. Under this rule it is
+   * a scroll-to-top away from anywhere below the first screen rather than a
+   * pause away. Everything else in the header is navigation the bottom bar
+   * duplicates; that control is not duplicated anywhere.
    *
    * THE LAYOUT DOES NOT MOVE when it hides or returns, which is what makes this
    * safe to do mid-page. .topbar is sticky and keeps its box; only
@@ -692,26 +699,17 @@ function watchBarShrink() {
    * goes through rAF. */
   const TIGHT_ON = 64;    // tighten once the page title has genuinely gone
   const TIGHT_OFF = 42;   // and restore well before the top
-  const HIDE_AFTER = 220; // never hide within the first screenful
 
-  /* A BEAT AFTER STOPPING, not the instant it stops.
-   *
-   * Two jobs. The floor is set by iOS momentum scrolling: a flick keeps firing
-   * scroll events until it settles, so anything shorter than about 200ms risks
-   * the header flashing back mid-glide. Above that floor the number is a
-   * judgement, and 420 is a deliberate pause rather than a reflex - the header
-   * arriving the same instant a thumb lifts feels like it was waiting to
-   * pounce, and a reader flicking through several screens in a row never sees
-   * it at all.
-   *
-   * It is the same control as how far Quick Exit is from the reader, so it does
-   * not go much beyond this: the X lives in that row. */
-  const IDLE_MS = 420;
+  /* "All the way to the top" with a few pixels of slack, because it has to be
+     reachable in practice: iOS rubber-band settles a hair off zero, a restored
+     scroll position lands a subpixel off, and a header that needs EXACTLY 0 is
+     a header the reader cannot always get back. Small enough that nothing but
+     the top of the page satisfies it. */
+  const AT_TOP = 6;
 
   let tight = false;
   let up = false;
   let ticking = false;
-  let idle = 0;
 
   const setUp = (v) => {
     if (up === v) return;
@@ -728,18 +726,9 @@ function watchBarShrink() {
     document.documentElement.classList.toggle("is-scrolled", tight);
   };
 
-  const rest = () => {
-    idle = 0;
-    /* Never leave it hidden once the page has stopped. */
-    setUp(false);
-  };
-
   window.addEventListener("scroll", () => {
     /* Hide first, synchronously, before anything else in this handler. */
-    setUp(window.scrollY > HIDE_AFTER);
-
-    clearTimeout(idle);
-    idle = setTimeout(rest, IDLE_MS);
+    setUp(window.scrollY > AT_TOP);
 
     if (!ticking) { ticking = true; requestAnimationFrame(syncTight); }
   }, { passive: true });
@@ -747,23 +736,22 @@ function watchBarShrink() {
   /* A new view starts at the top, so both states reset with it - otherwise a
      page reached from six screens down opens with no header on it. */
   onNavigate(() => {
-    clearTimeout(idle);
     tight = false;
     document.documentElement.classList.remove("is-scrolled");
     setUp(false);
   });
 
-  /* A JUMP IS NOT A SCROLL.
+  /* A JUMP IS NOT A SCROLL, and under this rule that is nearly all it is.
    *
    * jumpTo() offsets its landing by the bar's height so the heading arrives
-   * just below it, and its own scrollBy would otherwise read as a gesture and
-   * take the header away at the moment of arrival. The idle timer would return
-   * it a fifth of a second later either way - the layout does not move, so
-   * nothing would be mispositioned - but the header being present when the
-   * reader lands is what the offset was calculated for. */
+   * just below it. Its own scrollBy still reads as a gesture, and the header
+   * still goes away with it - correctly, because the reader is no longer at the
+   * top. The one case that matters is a jump to a target at the very top of the
+   * page, where the offset was calculated for a header that must therefore be
+   * there. So the state is recomputed from where the jump landed rather than
+   * forced either way. */
   document.addEventListener("nl:jump", () => {
-    clearTimeout(idle);
-    setUp(false);
+    setUp(window.scrollY > AT_TOP);
   });
 
   syncTight();
