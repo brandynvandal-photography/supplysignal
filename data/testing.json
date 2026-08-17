@@ -13,6 +13,8 @@
       "Tell you how pure it is",
       "Confirm what is in it",
       "Tell you everything that is in it",
+      "Tell you whether fentanyl is in it — it is active in microgram amounts, and the main drug's own color reaction covers up any trace, so an expected color is not an all-clear on a powder or a pill. A fentanyl test strip is the tool for that, and it only clears the portion you tested",
+      "Read a bag the way a lab reads a reference sample — pure fentanyl does produce a color change in a forensic lab, but drug checking in Los Angeles found consumer fentanyl averaged 10% fentanyl by weight and pills 1.4%, so what you have is mostly filler, which is exactly the case a reagent cannot read",
       "Make anything safe"
     ],
     "ruleInRuleOut": "A test can rule a substance IN. It cannot rule every other substance OUT.",

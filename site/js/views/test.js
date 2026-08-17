@@ -74,7 +74,7 @@ export async function render(route, ctx) {
      floated in a row and nothing told a reader where one idea ended and the
      next began. Three headings, in the order the questions actually arrive:
      what a test can tell me, which one do I get, how do I run it. */
-  wrap.appendChild(section("What a test can tell you", null));
+  wrap.appendChild(section("Testing", null));
 
   wrap.appendChild(
     disclosure("sec-limits", "What testing can and cannot tell you", null,
@@ -401,9 +401,14 @@ export async function render(route, ctx) {
        * it reacts with pure fentanyl, doesn't it?" is the first thing a reader
        * who knows any chemistry thinks — and answering it anywhere else looks
        * like the app avoiding the question. */
+      /* THE FENTANYL CALLOUT AND ITS FOLLOW-UP BOTH MOVED UP THE PAGE, into
+         "What testing can and cannot tell you", which is the list a reader
+         consults before they own a reagent rather than after. Two facts about
+         what a reagent cannot see belong in the inventory of what a test cannot
+         see; leaving them here made the reader meet them only if they opened
+         the reagent section, and put a stop-severity panel on top of a section
+         that is otherwise instructions. */
       intro: frag(
-        callout("stop", "No reagent will tell you whether fentanyl is in there",
-          h("p", null, g.reagentIntro.cannotDetectFentanyl)),
         g.reagentIntro.pureSampleNote
           ? h("details", { class: "acc" },
               h("summary", null,
@@ -1056,10 +1061,9 @@ function reverseLookup(matchFn, table, subs, go, charts) {
          stakes at every result is the kind of line that stops being read. */
       h("p", { class: "sec__note" },
         run.status === "expected" || found
-          ? "It behaved the way that drug behaves. That is not the same as "
-            + `being it — a reagent reads whatever reacts strongest, so an `
-            + "analogue with the same reactive group walks the same path, and "
-            + "anything weaker in the mix hides behind it."
+          ? "Expected reactions rule out red flags and do not give green "
+            + "lights. This confirms what the primary substance is and is not "
+            + "definitive."
           : run.status === "expected"
           ? "That is the chart's endpoint, which is worth having and is not a "
             + "purity result. A reagent reads whatever reacts strongest, so "
@@ -1202,10 +1206,9 @@ function reverseLookup(matchFn, table, subs, go, charts) {
           h("ul", { class: "soldlines" }, sold.detail.map(line)),
           h("p", { class: "sec__note" },
             sold.status === "expected"
-              ? "It behaved the way " + name + " behaves. That is not the same "
-                + "as being it — a reagent reads whatever reacts strongest, so "
-                + "an analogue with the same reactive group reads the same, and "
-                + "anything weaker in the mix hides behind it."
+              ? "Expected reactions rule out red flags and do not give green "
+                + "lights. This confirms what the primary substance is and is "
+                + "not definitive."
               : sold.status === "unexpected"
               ? "It did not do what " + name + " is supposed to do. That is "
                 + "worth acting on and it does not by itself say what you have "
@@ -1292,19 +1295,11 @@ function reverseLookup(matchFn, table, subs, go, charts) {
         ...chartOnly.map((w) => hit({ id: w.id }, "matches the chart")),
         ...ranked.slice(0, 12).map((m) => hit(m)),
       ]));
-      /* THE CHARTS ARE THE FLOWS. Everything else in this list got here by
-         having the right colors in its row, which is a weaker thing and has to
-         read as one — the charts are a published sequence somebody validated,
-         and a color table is a lookup. Neither identifies anything. */
-      out.appendChild(h("p", { class: "sec__note" },
-        "None of this confirms what you have. A reagent color says a sample "
-        + "behaves like a substance, not that it is one, and every analogue "
-        + "with the same reactive group behaves the same way."
-        + (chartOnly.length || chartedIds.size
-            ? " Rows marked as matching the chart completed a published test "
-              + "sequence; the rest are here because their published colors "
-              + "fit, which is weaker."
-            : "")));
+      /* The paragraph that used to close this list is gone. It said a third
+         time, in a longer form, what the verdict above each result already
+         says: expected reactions rule out red flags rather than giving green
+         lights. A caveat a reader has already met twice on one screen is a
+         caveat they skim. */
     }
 
     /* ONE LIST, AND IT IS THE ONE THAT MATCHES EVERYTHING.

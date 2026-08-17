@@ -2136,6 +2136,13 @@ table.data--pairs th, table.data--pairs td { overflow-wrap: break-word; }
   table.data--pairs td, table.data--pairs thead th + th { text-align: left; }
 }
 
+/* What a callout demoted. Reads as the paragraph it always was, indented to
+   the same measure as the box above it so the two stay one thought, with the
+   air a paragraph gets rather than the padding a panel gets. */
+.callout__after { margin: var(--sp-2) 0 var(--sp-3); }
+.callout__after > * + * { margin-top: 10px; }
+.callout__after > ul { padding-left: 1.15rem; }
+
 /* License condition for PsychonautWiki (CC BY-SA) and TripSit (link-back
    plus source note). Styled quietly, but always present. */
 /* The rule that closes a page off before its sources.

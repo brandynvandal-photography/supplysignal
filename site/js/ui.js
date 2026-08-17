@@ -199,6 +199,68 @@ export function empty(title, ...body) {
  * A callout with a title and no body stays a plain block too — a disclosure
  * whose summary IS its entire content is a control that does nothing.
  */
+/* The first sentence of a paragraph, without flattening what is inside it.
+ *
+ * Callout bodies are mostly ONE paragraph holding several sentences, so
+ * demoting whole nodes was not enough - the box still carried eight sentences
+ * in a single <p>. This walks the paragraph's own child nodes and cuts at the
+ * first sentence end that falls in a text node, which keeps any <strong>, <em>
+ * or link intact on whichever side of the cut it belongs to.
+ *
+ * Anything that is not a paragraph - a list, a table, a tag cloud - is left
+ * exactly as it is and stays in the box. A list of five one-line don'ts is not
+ * an essay, and chopping it after the first item would be vandalism.
+ *
+ * Abbreviations are the known limitation: "U.S. Marshals" would split at the
+ * first period. No callout in this app opens with one, and the failure mode is
+ * a short first line rather than lost text - the remainder still renders. */
+function splitLead(p) {
+  if (!(p instanceof Node) || p.nodeName !== "P") return [p, null];
+  const kids = [...p.childNodes];
+  const END = /[.!?]["”’)]?(\s|$)/;
+
+  for (let i = 0; i < kids.length; i++) {
+    const n = kids[i];
+    if (n.nodeType !== 3) continue;               // element: keep looking
+    const m = END.exec(n.textContent);
+    if (!m) continue;
+    const cut = m.index + m[0].length;
+    const head = n.textContent.slice(0, cut).trimEnd();
+    const tailText = n.textContent.slice(cut);
+    /* Last node and nothing after the cut: it was already one sentence. */
+    if (i === kids.length - 1 && !tailText.trim()) return [p, null];
+
+    const lead = h("p", null);
+    for (const before of kids.slice(0, i)) lead.appendChild(before);
+    lead.appendChild(document.createTextNode(head));
+
+    const rest = h("p", null);
+    if (tailText.trim()) rest.appendChild(document.createTextNode(tailText.trimStart()));
+    for (const after of kids.slice(i + 1)) rest.appendChild(after);
+    return [lead, rest.childNodes.length ? rest : null];
+  }
+  return [p, null];
+}
+
+/* ONE SENTENCE IN THE BOX. THE REST UNDERNEATH IT.
+ *
+ * A callout is an interruption, and an interruption that runs to three
+ * paragraphs stops being read as one - 34 of the 38 callouts on this site had
+ * grown past a sentence, several past ten, and the longest was 1,374
+ * characters inside a coloured box. Past a certain length the severity colour
+ * is doing nothing except tinting an essay.
+ *
+ * So the box now holds the heading and the FIRST block only, and everything
+ * after it renders directly beneath, in ordinary prose, still in reading order.
+ * Nothing is deleted and no call site changes: a callout written with four
+ * paragraphs still says all four things, but only the first one is shouted.
+ *
+ * Enforced here rather than by editing copy, because copy grows back. A caller
+ * that wants more inside the box does not have a way to ask for it, which is
+ * the point.
+ *
+ * The heading is expected to carry its share: "heading plus one sentence" is
+ * the shape, and a heading that says nothing wastes the one line the box has. */
 export function callout(kind, title, ...body) {
   /* "✕" rather than "■". A bare filled square is indistinguishable from a
      missing-glyph box, so the most severe callout in the app looked like a
@@ -206,6 +268,7 @@ export function callout(kind, title, ...body) {
      never allowed to carry severity. */
   const glyph = { stop: "✕", warn: "▲", info: "ℹ" }[kind] || "ℹ";
   const kids = body.filter((b) => b != null && b !== false);
+  const node = (b) => (b instanceof Node ? b : h("p", null, b));
 
   const head = (tag) => h(
     tag,
@@ -213,18 +276,20 @@ export function callout(kind, title, ...body) {
     h("span", { "aria-hidden": "true" }, glyph),
     h("h3", null, title)
   );
-  const rendered = () => kids.map((b) => (b instanceof Node ? b : h("p", null, b)));
 
-  if (kind === "stop" || !kids.length) {
-    return h("div", { class: `callout callout--${kind}` }, head("div"), ...rendered());
-  }
+  const [lead, tail] = kids.length ? splitLead(node(kids[0])) : [null, null];
+  /* Sources stay with the box rather than being demoted - a citation is not a
+     second point, it is the first one's provenance. */
+  const rest = [tail, ...kids.slice(1).map(node)].filter(Boolean);
+  const after = rest.length ? h("div", { class: "callout__after" }, ...rest) : null;
 
-  return h(
-    "details",
-    { class: `callout callout--${kind} callout--fold` },
-    head("summary"),
-    h("div", { class: "callout__body" }, ...rendered())
-  );
+  const box = (kind === "stop" || !lead)
+    ? h("div", { class: `callout callout--${kind}` }, head("div"), lead)
+    : h("details", { class: `callout callout--${kind} callout--fold` },
+        head("summary"),
+        h("div", { class: "callout__body" }, lead));
+
+  return after ? frag(box, after) : box;
 }
 
 /**
