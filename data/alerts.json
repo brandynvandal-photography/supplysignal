@@ -1,19 +1,18 @@
 {
-  "generated": "2026-08-18T01:57:48.513Z",
+  "generated": "2026-08-18T04:05:18.409Z",
   "windowDays": 365,
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "countyCount": 3231,
   "coverage": {
-    "lastScan": "2026-08-18T01:57:47.838Z",
+    "lastScan": "2026-08-18T04:05:17.769Z",
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
       "santaclara-me",
-      "sandiego-me",
-      "google-news"
+      "sandiego-me"
     ],
-    "countiesScanned": 204
+    "countiesScanned": 223
   },
   "clusters": [
     {
