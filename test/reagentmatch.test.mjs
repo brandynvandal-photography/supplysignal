@@ -14,7 +14,7 @@
  */
 
 import { match, compare, checkSoldAs } from "../site/js/reagentmatch.js";
-import { NAMED_REAGENTS as NAMED, BLANK_REAGENTS, isBlankReading } from "../site/js/reagentnames.js";
+import { NAMED_REAGENTS as NAMED, BLANK_REAGENTS, isBlankReading, reagentHowTo, TWO_PART_REAGENTS } from "../site/js/reagentnames.js";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -428,6 +428,39 @@ check("Simon's own amber does not eliminate MDMA", () => {
   const out = match({ Marquis: "black", Simons: "orange" }, TABLE);
   if (out.ruledOut.some((x) => x.id === "mdma")) return "MDMA eliminated by an unreacted Simon's";
   return out.consistent.some((x) => x.id === "mdma") ? null : "MDMA lost from the matches";
+});
+
+/* ------------------------------------------------- two-part procedures */
+
+/* The Morris bug, encoded. The Reagents guide knew Morris was two bottles, a
+   double sample and a 20-second stir; the tracker offered it as a plain row
+   and said none of it. These hold the data and the map together so a two-part
+   reagent cannot ship card-only again. */
+
+check("every twoPart reagent card has run instructions in reagentnames", () => {
+  const guide = JSON.parse(readFileSync(path.join(ROOT, "data/testing.json"), "utf8"));
+  /* Card ids are long ("morris"); picker/table keys are short ("Morr"). This
+     map is the join, and the check below fails loudly when a new two-part
+     card is added without extending it. */
+  const KEY = { simons: "Simons", morris: "Morr" };
+  for (const r of guide.reagents) {
+    if (!r.twoPart) continue;
+    const key = KEY[r.id];
+    if (!key) return `two-part card "${r.id}" has no picker-key mapping in this test - add it and a HOWTO entry`;
+    if (!reagentHowTo(key)) return `two-part card "${r.id}" (${key}) has no reagentHowTo entry`;
+  }
+  return null;
+});
+
+check("every HOWTO reagent is offered by the tracker's picker", () => {
+  const src = readFileSync(path.join(ROOT, "site/js/views/test.js"), "utf8");
+  const m = src.match(/const REAGENTS = \[([^\]]+)\]/);
+  if (!m) return "could not find the picker's REAGENTS list in test.js";
+  for (const key of TWO_PART_REAGENTS) {
+    if (!m[1].includes(`"${key}"`)) return `HOWTO key "${key}" is not in the picker`;
+  }
+  /* And the tracker actually renders it - the map is useless if nothing asks. */
+  return src.includes("reagentHowTo(") ? null : "test.js never calls reagentHowTo";
 });
 
 /* ------------------------------------------------------------------- run */

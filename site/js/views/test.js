@@ -18,7 +18,7 @@ import {
 import * as data from "../data.js";
 import { match as reagentMatch, checkSoldAs } from "../reagentmatch.js";
 import { flowFor, walk, completedBy, offChart, guide } from "../flowcheck.js";
-import { reagentLabel, isBlankReading, blankColorsFor } from "../reagentnames.js";
+import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo } from "../reagentnames.js";
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
@@ -323,6 +323,17 @@ export async function render(route, ctx) {
       disclosure("sec-reagents", "Reagents",
         null,
         reagentFilter(g.reagents),
+        /* The picker and the colour tables know six reagents this guide does
+           not teach: the table has rows for them, so readings count, but no
+           source in this repo says how they are supplied or run. Said here
+           rather than left for a reader to discover as a gap - and pointed at
+           the one instruction sheet that is always correct for the bottle in
+           their hand. */
+        h("p", { class: "sec__note" },
+          "Hofmann, Zimmermann, Scott, Gallic, Robadope and Folin appear in the "
+          + "color tables and the tracker, but this guide does not cover them "
+          + "yet. Their readings still count. Follow the instructions that came "
+          + "with your kit."),
         h("details", { class: "acc" },
           h("summary", null, h("span", null, "Why a color can be hidden")),
           h("div", { class: "acc__body" },
@@ -655,7 +666,18 @@ function reverseLookup(matchFn, table, subs, go, charts) {
       h("option", { value: "none" }, "No reaction"),
       [...COLORS].sort((a, b) => a.localeCompare(b))
         .map((c) => h("option", { value: c }, cap(c))));
-    reagent.addEventListener("change", check);
+    /* The run instructions, at the moment of choosing. A reader met "Morris"
+       here as a plain row and had no way to know it is two bottles, a double
+       sample and a stir - that lived only in the guide further down. Synced on
+       change so switching to Marquis clears it. */
+    const howto = h("p", { class: "sec__note revhow", hidden: true });
+    const syncHow = () => {
+      const t = reagentHowTo(reagent.value);
+      howto.textContent = t || "";
+      howto.hidden = !t;
+    };
+    syncHow();
+    reagent.addEventListener("change", () => { syncHow(); check(); });
     result.addEventListener("change", check);
 
     /* THE COMBINATION CHECKER'S ROW, twice.
@@ -679,6 +701,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
     const row = h("div", { class: "revslot" },
       pair(i === 0 ? "I used" : "and", reagent),
       pair("it went", result),
+      howto,
       /* Every reagent past the first can go. The combination checker keeps two
          because a combination of one is not a combination; one reagent is a
          real question with a real answer, so the floor here is one. */
@@ -1047,7 +1070,8 @@ function reverseLookup(matchFn, table, subs, go, charts) {
         ? h("p", { class: "sec__note" },
             `Nothing so far contradicts ${name}, and the test is not finished. `
             + `Run ${reagentName(run.next)} on a fresh sample — that is the step `
-            + "that decides it.")
+            + "that decides it."
+            + (reagentHowTo(run.next) ? " " + reagentHowTo(run.next) : ""))
         : null,
 
       others.length
@@ -1358,8 +1382,9 @@ function reverseLookup(matchFn, table, subs, go, charts) {
        contradicting the bottle in somebody's hand. */
     h("p", { class: "sec__note" },
       h("strong", null, "NOTE:"),
-      " Each reagent needs its own sample. A two-part test (Simon's, Morris — "
-      + "two bottles, one after the other) is run on a single sample."),
+      " Each reagent needs its own sample. A two-part test (Simon's, Morris) "
+      + "puts both bottles on one sample. Morris also needs a double sample "
+      + "and a 20-second stir."),
     /* No fentanyl callout here. It used to sit in this tool AND inside
        "Reagents", which is the same warning twice on one screen — and a
        warning a reader has already scrolled past once is a warning they skim

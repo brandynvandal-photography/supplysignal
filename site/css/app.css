@@ -1539,6 +1539,9 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
   gap: 8px; align-items: center;
 }
 .revslot .mixslot { grid-column: 1; }
+/* The two-part instructions sit under both halves of the row, inside the same
+   grid, so removing the row removes its instructions with it. */
+.revslot .revhow { grid-column: 1 / -1; margin: 0; }
 .revslot .mixslot__x { grid-column: 2; grid-row: 1 / span 2; }
 /* The label column is reserved to the WIDEST label, not to the widest of the
    reagent rows. "Substance" is 71px and the column was 65.6, so that one field

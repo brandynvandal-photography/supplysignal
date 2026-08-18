@@ -56,6 +56,40 @@ export function reagentLabel(key) {
 /** Every key this module can name. Used by the build to reject the rest. */
 export const NAMED_REAGENTS = Object.keys(LABELS);
 
+/* HOW A REAGENT IS ACTUALLY RUN, WHERE IT DIFFERS FROM "ONE DROP, WATCH".
+ *
+ * Found by a reader: the tracker offered Morris as a plain row - pick it, pick
+ * a colour - while the Reagents guide two sections down says Morris is two
+ * bottles, a double-size sample, a 20-second stir with a toothpick, and a
+ * five-minute read. Somebody following the tracker alone would run it like
+ * Marquis and read a half-mixed result. Simon's has the same shape: both
+ * bottles go on ONE sample, and running them on two is a common, invalidating
+ * mistake.
+ *
+ * So the procedure lives here, in the one map file every reagent-showing
+ * screen already imports, keyed by the same keys the picker and the colour
+ * table use. The tracker renders it under the row the moment the reagent is
+ * chosen, and appends it when it tells somebody to go run one.
+ *
+ * ONLY VERIFIED PROCEDURES. These two come from data/testing.json's reagent
+ * cards, and DanceSafe's own flowchart corroborates the Morris read window
+ * (its Morris steps carry read: "5:00"). Hofmann, Zimmermann and Scott are in
+ * the picker because the colour table has rows for them, but no source in
+ * this repo describes how they are supplied or run - so they say nothing here
+ * rather than something guessed, and the Reagents section says so out loud.
+ * test/reagentmatch.test.mjs holds this map and the twoPart flags together. */
+const HOWTO = {
+  Simons: "Simon's is two bottles on one sample: bottle A, then bottle B on the same spot.",
+  Morr: "Morris is two bottles on one sample: use double the sample, add both bottles, then stir " +
+        "20 seconds with a toothpick. Read within 5 minutes.",
+};
+
+/** The run instructions for a reagent, where they differ from the default. */
+export const reagentHowTo = (reagent) => HOWTO[reagent] || null;
+
+/** Every reagent with special handling. */
+export const TWO_PART_REAGENTS = Object.keys(HOWTO);
+
 /* THE COLOR THE BOTTLE ALREADY IS.
  *
  * Three of these reagents are strongly coloured before they touch anything, and
