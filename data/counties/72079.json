@@ -1,0 +1,21 @@
+{
+  "fips": "72079",
+  "name": "Lajas Municipio",
+  "state": "PR",
+  "clusters": [],
+  "coverage": {
+    "lastScan": "2026-08-18T01:57:47.812Z",
+    "windowDays": 365,
+    "sourcesChecked": 32,
+    "sourcesFailed": [
+      "la-ldh",
+      "cook-me",
+      "santaclara-me",
+      "sandiego-me",
+      "google-news"
+    ],
+    "scanned": true,
+    "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
+  },
+  "newSinceLastRun": []
+}
