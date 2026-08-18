@@ -23,7 +23,7 @@
     "body": [
       "The line between the second rung and the third is not temperature. It is whether they are still thinking straight. Emergency medicine uses the same test: heat stroke is diagnosed on confusion or worse, not on how hot somebody feels to the touch.",
       "Almost every first-aid page you will read says heat stroke means hot, dry skin and no sweating. That describes the kind that happens to an elderly person in a heat wave. The kind that happens to somebody who has been dancing is a different thing, and most people having one are still pouring sweat. If you wait for somebody to stop sweating, you will wait through the entire emergency.",
-      "The real threshold is a core temperature around 104°F, and you cannot measure it. Core temperature means a rectal reading. On somebody who has been dancing, an oral thermometer reads roughly 1 to 3°F low and a forehead or armpit one can be off by 2 to 4°F — so a reading of 101°F is entirely compatible with a core of 104. A normal-looking number rules nothing out. Do not spend the time."
+      "On somebody who has been dancing, an oral thermometer reads about 1 to 3°F low. A forehead or armpit one can be off by 2 to 4°F. So a reading of 101°F fits perfectly well with a core of 104."
     ],
     "emergency": {
       "title": "Call 911 when they stop making sense",
@@ -68,7 +68,7 @@
       },
       {
         "t": "If you have ice, put it in the right places",
-        "d": "Cheeks, palms and the soles of the feet. This is the opposite of what most first aid says, and the measurements are not close: ice packs on the neck, armpits and groin move core temperature at about a fifth of the rate that counts as adequate — barely better than doing nothing. Ice is a supplement to soaking them. It is never the plan.",
+        "d": "This is the opposite of what most first aid says, and the measurements are not close. Ice packs on the neck, armpits and groin move core temperature at about a fifth of the rate that counts as good enough. That is barely better than nothing.",
         "note": "If somebody hands you cold packs and nothing else, keep soaking and fanning anyway."
       },
       {
@@ -112,7 +112,7 @@
     "items": [
       {
         "t": "What it looks like",
-        "d": "The early signs are the heat exhaustion signs — headache, nausea, vomiting, dizziness, confusion. Three things belong to this one and not to heat: they look puffy, especially the fingers and the face, and rings or shoes feel tight; they have gained weight rather than lost it after hours of exertion; and they have not urinated in a long time despite drinking steadily.",
+        "d": "Three signs belong to this one and not to heat. They look puffy, especially the fingers and face, and rings or shoes feel tight. They have gained weight, not lost it, after hours of effort. And they have not peed in a long time, even though they keep drinking.",
         "note": "The most useful thing you have is not a sign, it is the story. If somebody has been drinking water for hours, say that to the medics out loud. It is what makes a clinician check their sodium instead of treating them for something else."
       },
       {
@@ -149,12 +149,12 @@
     "items": [
       {
         "t": "Two to three cups an hour, not four",
-        "d": "About half a liter an hour while you are actually dancing, and less when you are not. That is lower than most party advice, including the number this site used to give. A liter an hour is the entire amount a healthy person's kidneys can clear while doing nothing at all — it was never a safety ceiling, it was an estimate of how much a dancer sweats — and MDMA lowers what you can clear.",
+        "d": "A liter an hour is everything a healthy person's kidneys can clear while doing nothing at all. It was never a safety ceiling. It was an estimate of how much a dancer sweats. And MDMA lowers what you can clear.",
         "note": "People have become seriously ill at intakes as low as about two cups an hour. There is no volume that is guaranteed safe; there is only less risk."
       },
       {
         "t": "Thirst is a better guide than a schedule",
-        "d": "Thirst tracks what your body actually needs. The advice to get ahead of it came out of workplaces and endurance sport, and in dance settings it is the specific instruction that has put people in hospital — in the case reports \"stay ahead of thirst\" keeps coming back from the people who followed it. Losing up to about 3% of your body weight in fluid does you no harm.",
+        "d": "The advice to get ahead of it came from workplaces and endurance sport. In dance settings it is the exact instruction that has put people in hospital. In the case reports, “stay ahead of thirst” keeps coming back from the people who followed it.",
         "sources": [
           {
             "name": "Hew-Butler et al. — EAH consensus, drinking behavior",
@@ -224,7 +224,7 @@
       },
       {
         "t": "Medication, with a caveat about how sure anyone is",
-        "d": "The standard warning list is longer than the evidence for it. When researchers pooled 35 heat-stress experiments, only strong anticholinergics and non-selective beta blockers actually raised core temperature; antidepressants, antihistamines and antipsychotics did not. But the real-world data disagrees with the lab: among older adults, heat waves plus antipsychotics, loop diuretics or anticholinergics meant clearly more heat hospitalizations, and during the BC heat dome, people with schizophrenia taking antipsychotics had roughly 2.4 times the odds of dying.",
+        "d": "The standard warning list is longer than the evidence for it. When researchers pooled 35 heat-stress experiments, only strong anticholinergics and non-selective beta blockers actually raised core temperature; antidepressants, antihistamines and antipsychotics did not. The real-world data disagrees with the lab. Among older adults, heat waves plus antipsychotics, loop diuretics or anticholinergics meant clearly more heat hospitalizations. During the BC heat dome, people with schizophrenia taking antipsychotics had roughly 2.4 times the odds of an accident.",
         "note": "The one with a warning printed on the label is topiramate, sold as Topamax and used for seizures and migraine: it can reduce sweating, most often in children. Do not stop a prescribed medication over this. Take the heat more seriously instead.",
         "sources": [
           {

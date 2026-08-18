@@ -11,9 +11,9 @@
     ],
     "callout": {
       "title": "On federal supervision, contesting it is what triggers confirmation",
-      "body": "Federal law requires a confirmed result before a screen can cost you your liberty, and the courts' own guide says that when an instant screening result is positive and contested by the person under supervision, the sample must be sent for GC/MS confirmation. The trigger is you saying you dispute it. Say it immediately, say it plainly, and ask for it in writing."
+      "body": "Federal law requires a confirmed result before a screen can cost you your liberty. The courts' own guide says it plainly: if an instant screen is positive and you contest it, the sample has to be sent for GC/MS confirmation."
     },
-    "caveat": "This is federal supervision. State probation and parole rules vary and we have not verified them state by state — ask your attorney or public defender what your state requires, and ask before you need it.",
+    "caveat": "State probation and parole rules vary, and we have not checked them state by state. Ask your attorney or public defender what your state requires. Ask before you need it.",
     "sources": [
       {
         "name": "18 U.S.C. § 3583 — supervised release",
@@ -43,7 +43,7 @@
       },
       {
         "t": "Gabapentin, kratom and most novel benzos are invisible by default",
-        "d": "None are on the federal panel. Novel benzodiazepines are assay-dependent — a benzodiazepine screen will often flag etizolam or flualprazolam, sometimes at several times the sensitivity of its own calibrator, but a negative screen does not rule out bromazolam. Which ones get caught depends on the manufacturer's platform."
+        "d": "Novel benzodiazepines depend on the assay. A benzodiazepine screen will often flag etizolam or flualprazolam, sometimes several times more sensitively than its own calibrator. A negative screen does not rule out bromazolam."
       }
     ],
     "sources": [
@@ -135,7 +135,7 @@
       {
         "drug": "Methamphetamine and amphetamine",
         "urine": "Highly cutoff-dependent. In controlled dosing, dropping to the lower of two common thresholds extended detection by up to 24 hours for methamphetamine and up to 34 hours overall.",
-        "note": "Prescribed amphetamine can sometimes be distinguished from illicit by testing which mirror-image form is present, but we could not verify any specific threshold a lab uses to make that call — do not assume it will be done.",
+        "note": "Prescribed amphetamine can sometimes be told apart from illicit by testing which mirror-image form is there. We could not verify any threshold a lab uses to make that call. Do not assume it will be done.",
         "ids": [
           "methamphetamine",
           "amphetamine"
@@ -226,7 +226,7 @@
     "items": [
       {
         "t": "Hand sanitizer can produce a positive alcohol test",
-        "d": "In a study of 11 people using ethanol hand sanitizer through the day for three days and drinking nothing, urine EtG reached 2,001 ng/mL — four times the cutoff most labs use, and twenty times the sensitive clinical one. The authors concluded plainly that current EtG cutoffs do not distinguish drinking from incidental exposure. A useful tell: EtG went high while EtS stayed low.",
+        "d": "In one study, 11 people used ethanol hand sanitizer through the day for three days and drank nothing. Their urine EtG reached 2,001 ng/mL. That is four times the cutoff most labs use, and twenty times the sensitive clinical one.",
         "sources": [
           {
             "name": "Reisfield et al., J Anal Toxicol 2011",
@@ -285,11 +285,11 @@
     "body": [
       "If you are prescribed methadone or buprenorphine, a court, a probation officer, a drug court or a jail telling you to taper off it is on very weak legal ground.",
       "Federal law says so directly: medication taken under the supervision of a licensed health care professional is not “illegal use of drugs”. That is the statute, not a guideline — and the Americans with Disabilities Act covers courts, prisons and jails.",
-      "This has been enforced. The Justice Department settled with Pennsylvania's court system in January 2024 over exactly this, and with the Massachusetts Parole Board in 2021 over a person being pushed onto a different medication than the one that was working."
+      "The Justice Department settled with Pennsylvania's court system in January 2024 over exactly this. It settled with the Massachusetts Parole Board in 2021, over a person being pushed onto a different medication than the one that was working."
     ],
     "callout": {
       "title": "If it is happening to you",
-      "body": "Get it in writing if you can — an order, a condition sheet, a message. Then contact a disability rights organization or your public defender. The Legal Action Center works on exactly this and keeps a list of the cases. Tapering because you were told to is the option with the most risk in it — stopping medication is the single largest overdose risk there is, and the order is on weak legal ground to begin with."
+      "body": "Tapering because you were told to carries the most risk of any option here. Stopping medication is the single biggest overdose risk there is. And the order is on weak legal ground to start with."
     },
     "caveat": "The Justice Department's guidance document says on its face that it does not carry the force of law. The statute it rests on does. Cite the statute.",
     "links": [
@@ -315,7 +315,7 @@
     "items": [
       {
         "t": "Technical violations are the bulk of it",
-        "d": "In 2021, 44% of state prison admissions came from violations of probation or parole — and technical violations alone, things like a missed appointment with a supervision officer or a failed drug test, account for nearly a quarter of every admission to state prison. Not a new offense. A quarter.",
+        "d": "In 2021, 44% of state prison admissions came from probation or parole violations. Technical violations alone are nearly a quarter of every admission to state prison. Those are things like a missed appointment or a failed drug test.",
         "sources": [
           {
             "name": "CSG Justice Center — Confined and Costly (2021 admissions data)",
@@ -340,7 +340,7 @@
     "body": [
       "Tolerance falls fast during any break in use, and jail or prison is a break in use. The dose that was normal before is not normal now.",
       "In a study following 30,237 people released from Washington State prisons, the risk of fatal overdose in the first two weeks after release was 129 times that of the general population. A later North Carolina study, covering 2016 to 2018, found overdose deaths in the first two weeks after release at 46.6 times the expected rate.",
-      "The three things those numbers turn on are naloxone in hand on day one, somebody else in the room, and an amount well below what used to be normal — tolerance is what changed, not the drug."
+      "Those numbers turn on three things. Naloxone in your hand on day one. Somebody else in the room. And an amount well below what used to be normal, because your tolerance changed, not the drug."
     ],
     "sources": [
       {
@@ -370,7 +370,7 @@
         }
       ]
     },
-    "thc": "One more: finding cannabis metabolites in hair does not prove someone used cannabis. A controlled dosing study found them in hair segments that had already grown before the person ever took any, and in people who had not used at all — transferred by hand, sweat and smoke from someone who had.",
+    "thc": "A controlled study found them in hair that had already grown before the person took anything. It also found them in people who had not used at all. It came from hands, sweat and smoke from someone who had.",
     "sources": [
       {
         "name": "HHS proposed hair testing guidelines, 85 FR 56108",

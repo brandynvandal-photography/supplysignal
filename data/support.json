@@ -12,7 +12,7 @@
     "headline": "What is often underneath",
     "body": [
       "For a lot of people, substance use is not the first thing that happened. It is the thing that made something else survivable.",
-      "That is not an excuse and it is not a diagnosis — it is a pattern common enough that the research on it is unambiguous, and it means the useful question is often not “how do I stop” but “what am I carrying, and what would help me put it down”."
+      "That is not an excuse, and it is not a diagnosis. It is a pattern, and the research on it is clear. It means the useful question is often not “how do I stop”. It is “what am I carrying, and what would help me put it down”."
     ],
     "note": "Support for that exists separately from anything to do with drugs, and you can go looking for it without ever discussing your use."
   },
@@ -35,7 +35,7 @@
         "name": "Methadone",
         "what": "A full agonist, long acting, and the most studied of the three. It works for many people for whom buprenorphine does not.",
         "how": "Only through a licensed opioid treatment program — that restriction is federal law, not a medical judgment about you. Find one through SAMHSA's directory below.",
-        "note": "Take-home rules loosened permanently in 2024: up to 7 days of take-homes in the first two weeks, up to 14 through the first month, and up to 28 days after that, based on your clinician's judgment rather than a fixed checklist. The old requirement to have used opioids for a year before being admitted is gone.",
+        "note": "Take-home rules loosened for good in 2024. Up to 7 days of take-homes in the first two weeks. Up to 14 through the first month. Up to 28 days after that. It is your clinician's judgment now, not a fixed checklist.",
         "sources": [
           {
             "name": "SAMHSA — methadone",
@@ -70,7 +70,7 @@
       ]
     },
     "stimulants": {
-      "body": "There is no approved medication for methamphetamine or cocaine use disorder. The approach with by far the strongest evidence is contingency management — structured, modest rewards for meeting goals you agreed to. It is mostly funded through state Medicaid programs, so availability depends on where you live; California, Delaware, Hawaii, Montana and Washington had approved programs as of early 2025 and more may have been added since. Ask a local provider or call the SAMHSA line below.",
+      "body": "It is mostly funded through state Medicaid programs, so it depends where you live. California, Delaware, Hawaii, Montana and Washington had approved programs as of early 2025. More may have been added since.",
       "sources": [
         {
           "name": "SAMHSA TIP 33 — Treatment for Stimulant Use Disorders",
@@ -345,7 +345,7 @@
   },
   "cost": {
     "headline": "If you cannot pay",
-    "body": "Cost, insurance, immigration status, a record, or no ID stop more people than lack of wanting. Most of these routes have a version that does not require money or paperwork: the SAMHSA line refers to state-funded and sliding-scale programs without asking who you are, community health centers cannot turn you away over money, and Medicaid has no enrollment deadline.",
+    "body": "Most of these routes have a version that needs no money and no paperwork. The SAMHSA line refers you to state-funded and sliding-scale programs without asking who you are. Community health centers cannot turn you away over money. Medicaid has no enrollment deadline.",
     "note": "Community health centers are required to see people regardless of ability to pay."
   },
   "supplies": {
@@ -514,7 +514,7 @@
       "items": [
         "Oklahoma discontinued its mail-order fentanyl test strip program, and the statewide naloxone vending machines were removed in September 2024.",
         "Idaho repealed authorization for syringe service programs; all programs closed on June 30, 2024.",
-        "Federal grant funds can no longer be used to buy fentanyl or xylazine test strips as of April 2026, so state-funded strip programs are the most likely of any listing here to disappear."
+        "As of April 2026, federal grant money can no longer buy fentanyl or xylazine test strips. So state-funded strip programs are the likeliest listing here to disappear."
       ]
     },
     "legalNote": "Fentanyl test strips are legal in most states but not all, and xylazine strips are covered in fewer. Ordering by mail does not change your state's law. See the legality section on the Test tab before you order.",
@@ -549,7 +549,7 @@
         },
         {
           "name": "Brave",
-          "what": "Peer-built overdose detection hardware — a button you press when you are about to use alone, and sensors for bathrooms and private rooms, both wired to a responder who checks on you. Sold to organizations rather than individuals, so this is one to ask your local program about.",
+          "what": "Overdose detection hardware, built by peers. A button you press before you use alone, plus sensors for bathrooms and private rooms. Both are wired to a responder who checks on you.",
           "cost": "Devices are purchased, not free — configuration fee on a first order.",
           "delivery": "Devices, installed by a program or building",
           "url": "https://www.brave.coop/"
@@ -571,7 +571,7 @@
     "intro": "Being close to someone who uses is its own kind of hard, and most of the advice people are handed makes things worse. What follows is what the research actually supports, not what feels decisive.",
     "keeping": {
       "title": "Keep the relationship. It is the thing that works.",
-      "body": "The approach with the strongest evidence for families is CRAFT — Community Reinforcement and Family Training. It teaches communication and support rather than confrontation, and across randomized trials it engaged roughly two-thirds of people whose families had been told nothing would work, compared with about 13% for Al-Anon-style facilitation and 23% for the confrontational “intervention” approach. It also measurably improves the wellbeing of the family member doing it, whether or not their person ever enters treatment.",
+      "body": "It teaches communication and support instead of confrontation. Across randomized trials it reached about two-thirds of people whose families had been told nothing would work. Al-Anon-style facilitation reached about 13%. The confrontational “intervention” approach reached 23%.",
       "sources": [
         {
           "name": "Meta-analysis of CRAFT trials (PubMed)",
@@ -690,8 +690,8 @@
       },
       {
         "t": "A notification at birth is not a finding that you did anything",
-        "b": "Federal law requires a hospital to notify child welfare when an infant is affected by substance use or withdrawal, and that law says explicitly that the notification is not a determination of child abuse or neglect. What it triggers is a Plan of Safe Care — a written plan for the infant and for you. It is an administrative step, and it is not the same thing as a report.",
-        "note": "And here is the part that is genuinely different depending on where you are: roughly half of states separately treat substance use in pregnancy as child abuse or neglect under their own law, and a few allow civil commitment. Two people can have identical hospital records and completely different legal exposure. Look up your own state before you assume either way.",
+        "b": "Federal law requires a hospital to notify child welfare when an infant is affected by substance use or withdrawal. That same law says plainly that the notification is not a finding of abuse or neglect.",
+        "note": "Here is the part that really does depend on where you are. About half of states treat substance use in pregnancy as child abuse or neglect under their own law. A few allow civil commitment.",
         "sources": [
           {
             "name": "Casey Family Programs — Plans of Safe Care",

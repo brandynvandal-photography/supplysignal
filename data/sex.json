@@ -7,7 +7,7 @@
     "headline": "Why this page is not a list of precautions",
     "body": [
       "The usual nightlife advice — watch your drink, don't go out alone, don't wear that — has a measured effect, and it is not the one intended.",
-      "In a review of research on preventing sexual harm in nightlife, people who were given victim-focused prevention tips went on to blame victims MORE than people given tips aimed at potential perpetrators. Only 8 of 35 studies evaluated whether an intervention worked at all.",
+      "One review looked at research on preventing sexual harm in nightlife. People given victim-focused tips went on to blame victims MORE than people given tips aimed at potential perpetrators.",
       "So this page is built the other way around: what you can do for other people, what actually reduces risk, and what to do afterwards."
     ],
     "sources": [
@@ -23,7 +23,7 @@
     "items": [
       {
         "t": "The drug most likely to be involved is alcohol",
-        "d": "In a US study of 144 people reporting sexual assault, drugs were found in 61.8% — but only 4.9% were the classic “date-rape” drugs, and 4.2% were assessed as having been drugged without knowing. In 100 people at an Oslo clinic who suspected spiking, GHB was found in exactly none. Across the research, the substance most often involved is alcohol, sometimes more of it than the person ordered.",
+        "d": "A US study looked at 144 people reporting sexual assault. Drugs were found in 61.8%. Only 4.9% were the classic “date-rape” drugs. In 4.2%, the person was assessed as having been drugged without knowing.",
         "note": "This is not a reason to relax. It is a reason to point your attention at the right thing — how much you have actually had, and who is topping you up.",
         "sources": [
           {
@@ -38,7 +38,7 @@
       },
       {
         "t": "Drink test strips and coasters mostly do not work",
-        "d": "Detection coasters showed 0% sensitivity for ketamine in laboratory testing, and their “GHB” reagent turned out to be bromocresol green — a pH indicator that responds to any drink above about pH 5.5, not to GHB. Consumer kits tested at 37.5% and 69% sensitivity. In the strongest test, 236 drinks collected from real venues were clean by mass spectrometry across 39 drugs, and the color kits called up to 97% of them positive.",
+        "d": "Detection coasters found ketamine 0% of the time in lab testing. Their “GHB” reagent turned out to be bromocresol green. That is a pH indicator. It responds to any drink above about pH 5.5, not to GHB.",
         "note": "Massachusetts' health department reviewed these and recommended against buying and distributing them. California, meanwhile, requires bars to offer them — and in the same law immunizes everyone against a wrong result. A state mandate is not an efficacy finding.",
         "sources": [
           {
@@ -58,7 +58,7 @@
       },
       {
         "t": "If you think it happened",
-        "d": "Urine is worth collecting up to 96 hours after, which is longer than most sources say — sooner is much better, and the first time you pee is the best sample. You do not have to decide about police to have evidence taken, and the exam must not be made conditional on agreeing to a toxicology test. The National Sexual Assault Hotline is 800-656-4673.",
+        "d": "Urine is worth collecting up to 96 hours after. That is longer than most sources say. Sooner is much better, and the first time you pee is the best sample.",
         "note": "Voluntary drug use does not make it not an assault, and does not disqualify a case. The federal examination protocol says so directly to clinicians.",
         "sources": [
           {
@@ -84,7 +84,7 @@
     "items": [
       {
         "t": "Condoms, and what actually breaks them",
-        "d": "About 98% effective with perfect use and around 87% in real life — meaning roughly 13 of every 100 people using them as their only birth control get pregnant in a year. Breakage is about 2 per 100 condoms; failure is usually about use rather than the rubber.",
+        "d": "About 98% effective used perfectly, and around 87% in real life. That means roughly 13 of every 100 people using them as their only birth control get pregnant in a year.",
         "note": "New one every time, on before any genital contact, pinch the air out of the tip, hold the base coming out. Not in a wallet, not two at once, never past the expiry."
       },
       {
@@ -159,7 +159,7 @@
       },
       {
         "t": "Testing, and how often",
-        "d": "Anyone sharing injecting equipment: HIV at least once a year. Men who have sex with men: syphilis, chlamydia and gonorrhea at least yearly at every site of contact regardless of condom use, and every 3 to 6 months with multiple partners — including if you are on PrEP. Free and low-cost testing is findable at gettested.cdc.gov.",
+        "d": "Men who have sex with men: test for syphilis, chlamydia and gonorrhea at least once a year. Test at every site of contact, condom or not. With several partners, every 3 to 6 months. That includes while you are on PrEP.",
         "sources": [
           {
             "name": "CDC — STI testing",
@@ -178,7 +178,7 @@
       },
       {
         "t": "The one thing everybody agrees on about body weight",
-        "d": "Whether the pills work less well at higher body weights is genuinely contested — one US label mentions it only as a subgroup buried in its clinical studies rather than as a warning, and the European regulator reviewed the same evidence back in 2014 and deleted its weight statements outright, and the study behind the numbers people quote was small. What is not contested: the copper IUD's effectiveness does not vary with body weight.",
+        "d": "Whether the pills work less well at higher body weights is genuinely unsettled. One US label mentions it only deep inside its clinical studies, not as a warning. The European regulator looked at the same evidence in 2014 and deleted its weight statements. And the study behind the numbers people quote was small.",
         "note": "If levonorgestrel is what you can actually get hold of, take it. Taking it beats not taking it."
       },
       {
@@ -233,7 +233,7 @@
       },
       {
         "t": "GHB and GBL — the margin is the problem",
-        "d": "The dose that gives the effect people want and the dose that stops breathing are only about five times apart, in a drug usually measured by eye from a squeeze bottle. Alcohol narrows that further and was involved in 76% of GHB emergency visits. There is no antidote — treatment is keeping the airway open.",
+        "d": "The dose people want and the dose that stops breathing are only about five times apart. And it is usually measured by eye, out of a squeeze bottle.",
         "note": "GBL can be two to three times stronger than GHB by volume, so swapping one for the other at the same amount is an overdose. A marked oral syringe measures it; two hours is the usual gap before redosing. Alcohol, benzos, ketamine and meth stack with it — the depressant effects add up, and that combination is where most GHB overdoses come from. Withdrawal from regular use can start within hours of the last dose and bring on seizures and delirium that need a hospital — do not stop abruptly alone.",
         "sources": [
           {
@@ -254,7 +254,7 @@
     "items": [
       {
         "t": "Testing too early tells you about last year, not last week",
-        "b": "Every test has a window: the gap between an exposure and the point the test can see it. Test three days after a risk and a negative is real information about everything BEFORE that exposure and says nothing at all about it. For HIV: a lab nucleic-acid test can find it 10 to 33 days after, a lab antigen/antibody test 18 to 45 days, and a rapid finger-stick or at-home antibody test 23 to 90 days. The faster the result, the longer the window."
+        "b": "For HIV, the wait depends on the test. A lab nucleic-acid test can find it 10 to 33 days after. A lab antigen/antibody test, 18 to 45 days. A rapid finger-stick or at-home antibody test, 23 to 90 days."
       },
       {
         "t": "Which test you get is not the same question as how fast you get it",

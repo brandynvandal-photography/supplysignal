@@ -7,7 +7,7 @@
     "intro": "You are probably being handled right now — by people who are frightened, or relieved, or angry at you for scaring them. Here is the part nobody sits down and explains.",
     "window": {
       "title": "The next few hours are the risky part",
-      "body": "Naloxone wears off after 30 to 90 minutes. Most opioids keep working for longer than that — methadone for many hours — so it is possible to be brought back and then go under again as the naloxone leaves before the drug does. This is not a rare thing and it is not a sign anything was done wrong.",
+      "body": "Most opioids keep working for longer than that. Methadone works for many hours. So a person can be brought back and then go under again, as the naloxone leaves before the drug does.",
       "detail": "Federal guidance is that someone stays with you for at least four hours from the last dose of naloxone. If nobody can stay, be with someone who has naloxone on hand. If you use again in that window, the naloxone already in you may blunt it — and people have taken more to get past that, which is how the four hours turn dangerous.",
       "sources": [
         {
@@ -92,7 +92,7 @@
     "brain": {
       "title": "About your head",
       "body": "Among 205 emergency department visits for fentanyl overdose in one US hospital system, 14% of people were diagnosed with encephalopathy or anoxic brain injury and 20% reported memory loss afterwards. Those are people whose overdose brought them to an emergency department, not everyone who overdoses.",
-      "detail": "If you are foggy, losing words, or cannot remember the day, that is worth telling a doctor and it is not proof of permanent damage. A review of 79 studies found outcomes running the whole range from full recovery to lasting problems, and no one can currently give you a number. Fluid on the lungs, for its part, cleared within a day in about three quarters of cases and within two days in the rest — though a third of that group needed a breathing machine first.",
+      "detail": "Fluid on the lungs cleared within a day in about three quarters of cases, and within two days in the rest. A third of that group needed a breathing machine first.",
       "sources": [
         {
           "name": "Fentanyl overdose ED outcomes, Drug and Alcohol Dependence Reports",
@@ -129,7 +129,7 @@
         },
         {
           "t": "Your tolerance is not what it was",
-          "b": "If you spent time in a hospital, a cell, or detox — anywhere you used less or not at all — the amount that was normal before is now enough to stop your breathing. This is the single most common way people die after surviving."
+          "b": "Did you spend time in a hospital, a cell, or detox? Anywhere you used less, or not at all? Then the amount that was normal before is now enough to stop your breathing."
         }
       ]
     },
@@ -141,7 +141,7 @@
     "anger": {
       "title": "If they woke up angry at you",
       "body": "This is the part that makes people swear they will never do it again — and there is research on it that almost nobody has heard. In a study of 47 overdose reversals by trained bystanders in New York City, anger afterwards was strongly tied to how the responder spoke to the person, not to whether they were in withdrawal. The researchers found no evidence that people with withdrawal symptoms were any more likely to be angry.",
-      "detail": "What helped: talking to them, explaining what had happened, trying to calm them. What made it much worse: criticizing, scolding, or reacting angrily when they were upset. So if it went badly it was not because you saved them, and next time there is something you can actually do — tell them what happened and stay gentle, even though your own adrenaline is screaming.",
+      "detail": "So if it went badly, it was not because you saved them. And next time there is something you can do: tell them what happened, and stay gentle, even while your own adrenaline is screaming.",
       "sources": [
         {
           "name": "Neale et al., J Substance Abuse Treatment (2020)",
@@ -160,7 +160,7 @@
       },
       {
         "t": "You should not be the only one holding this",
-        "b": "If you are the person who always has the naloxone, the one who checks, the one who answers at 3am — that is a real weight and it does not lift because you love them. Train one more person. Two people who know what to do is better than one who never gets to be off duty."
+        "b": "Maybe you are the one who always has the naloxone. The one who checks. The one who answers at 3am. That is a real weight, and it does not lift because you love them."
       },
       {
         "t": "You did not cause it and you cannot guarantee the next one",
@@ -168,7 +168,7 @@
       },
       {
         "t": "More naloxone is not better naloxone",
-        "b": "In one CDC study of 354 police administrations, people given 8 mg of nasal naloxone were about two and a half times as likely to go into withdrawal as those given 4 mg, with survival essentially identical. Give a dose, wait, give another if breathing has not improved. The goal is breathing, not consciousness."
+        "b": "One CDC study looked at 354 police administrations. People given 8 mg of nasal naloxone were about two and a half times as likely to go into withdrawal as those given 4 mg. Survival was essentially the same."
       }
     ],
     "grief": {

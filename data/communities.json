@@ -194,7 +194,7 @@
           "hours": "24/7",
           "what": "Anonymous unless you give your name and location.",
           "policy": "rescue",
-          "policyQuote": "In their words, if you share your name and location and are under 18 or a vulnerable adult, they are “required by law to report to authorities.” Staying anonymous keeps the session confidential."
+          "policyQuote": "In their words: if you share your name and location, and you are under 18 or a vulnerable adult, they are “required by law to report to authorities.” Staying anonymous keeps the session confidential."
         },
         {
           "name": "The Deaf Hotline",
@@ -276,7 +276,7 @@
       ],
       "law": {
         "title": "What the law actually says",
-        "body": "Federal law requires hospitals to notify child welfare about a newborn affected by substance use, and to make a written “Plan of Safe Care.” Federal law also says that this notification is not by itself a finding of child abuse.",
+        "body": "Federal law requires hospitals to tell child welfare about a newborn affected by substance use, and to write a “Plan of Safe Care.” The same law says that notice is not, by itself, a finding of child abuse.",
         "detail": "What happens after that depends on your state, and states differ a great deal. We are not going to guess yours. The Repro Legal Helpline above is free and will tell you.",
         "sources": [
           {
@@ -329,7 +329,7 @@
     {
       "id": "reentry",
       "title": "Leaving jail or prison",
-      "blurb": "This is the most dangerous window in the whole app. Tolerance drops fast inside, and the amount that was normal before is now enough to cause an accident on the first day out — the risk of a fatal opioid overdose in the first two weeks after release has been measured at about 40 times the general population's — that is the first two weeks after release, from a North Carolina study following 229,274 people. Almost nothing is built for this moment, so most of what follows is a general line that will take your call rather than a reentry service, because reentry services with phone numbers largely do not exist.",
+      "blurb": "This is the most dangerous window in the whole app. Tolerance drops fast inside. The amount that was normal before is now enough to cause an accident on your first day out. A North Carolina study followed 229,274 people. In the first two weeks after release, the risk of a fatal opioid overdose was about 40 times the general population's. Almost nothing is built for this moment. So most of what follows is a general line that will take your call, rather than a reentry service. Reentry services with phone numbers mostly do not exist.",
       "items": [
         {
           "name": "Never Use Alone",
@@ -433,7 +433,7 @@
           }
         ]
       },
-      "gap": "There is no national reentry helpline, no national peer line staffed by people who have been inside, no national program handing out naloxone at release, no national emergency housing line unless you are a veteran, and no national reentry legal helpline. 988 lists twelve populations it has tailored support for and formerly incarcerated people are not one of them. If you are on supervision and required to abstain while still using, we could not find a single organization anywhere in the country offering guidance you can phone for. These are absences we verified, not things you failed to find."
+      "gap": "There is no national reentry helpline. No national peer line staffed by people who have been inside. No national program handing out naloxone at release. No national emergency housing line unless you are a veteran. And no national reentry legal helpline."
     },
     {
       "id": "youth",
@@ -509,7 +509,7 @@
           "url": "https://drugfree.org/",
           "hours": "Monday–Friday, 10am–8pm Eastern. Text CONNECT to 55753.",
           "what": "Free coaching for families. Harm reduction inclusive in their own words — they will talk about using more safely or cutting back, not only about stopping.",
-          "caution": "In their own words they are not affiliated with any treatment provider and will not refer to programs they have not vetted — which is worth knowing, because most “helplines” you find by searching are paid referral services."
+          "caution": "In their own words, they are not tied to any treatment provider, and they will not refer you to programs they have not checked. That is worth knowing. Most “helplines” you find by searching are paid referral services."
         }
       ],
       "gap": "No organization in the US runs a staffed phone line for families wanting harm reduction guidance. The two groups above meet on a schedule; there is nothing for a parent awake at 2am. We looked hard for one."
