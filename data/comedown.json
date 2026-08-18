@@ -212,6 +212,349 @@
           ]
         }
       ]
+    },
+    "mdma": {
+      "lead": "MDMA empties a serotonin supply that takes weeks to rebuild, and everything below follows from that.",
+      "items": [
+        {
+          "t": "Drink to thirst, not to a schedule",
+          "d": "MDMA makes the body hold water, and drinking steadily through a night is how people end up with dangerously low blood sodium — headache, confusion, vomiting, seizures. Somebody who has been drinking a lot of water and becomes confused needs medics told exactly that, because it is treated in the opposite direction from dehydration.",
+          "sources": [
+            {
+              "name": "Atila et al., JAMA Netw Open 2024 — MDMA and hyponatremia",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11568463/"
+            },
+            {
+              "name": "Hew-Butler et al. — exercise-associated hyponatremia consensus",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/26102445/"
+            }
+          ]
+        },
+        {
+          "t": "Days two to four are the flat ones",
+          "d": "The dip is not a mood you talked yourself into: serotonin is genuinely low for a few days while it rebuilds. Plan nothing that needs enthusiasm, and do not read the flatness as information about your life."
+        },
+        {
+          "t": "The four-to-six-week gap is the whole harm reduction plan for this drug",
+          "d": "Spacing is what separates people who come out of a decade of MDMA fine from people who do not. Rolling again inside a month is a worse dose of a flatter drug and a longer low afterwards."
+        },
+        {
+          "t": "Jaw, neck and back the next day",
+          "d": "Hours of clenching leaves real muscle soreness. Heat and rest fix it; nothing else needs to."
+        },
+        {
+          "t": "The after-care supplements sold for this are not established",
+          "d": "Pre-loads, recovery packs and 5-HTP protocols are marketed on protecting your brain and curing the dip, and none of that is shown in people. Some are serotonergic themselves, which is the one direction you do not want. This app has nothing to sell you."
+        }
+      ]
+    },
+    "mda": {
+      "lead": "MDA is not MDMA with a different letter: it runs several hours longer and finishes more like a stimulant, which changes the whole shape of the day after.",
+      "items": [
+        {
+          "t": "It outlasts a night out",
+          "d": "Eight to ten hours is normal, against four to six for MDMA. The tail lands at an hour when there is nowhere to be and nothing open, and it is a common reason people take something else to get through it."
+        },
+        {
+          "t": "Sleep is the hard part, and it is the thing that matters",
+          "d": "The stimulant end of MDA keeps you awake well past the point the empathy has gone. Losing a whole night is what makes the next two days bad, more than the drug itself does.",
+          "sources": [
+            {
+              "name": "Van Dongen et al., Sleep 2003 — cumulative cost of sleep restriction",
+              "url": "https://academic.oup.com/sleep/article-abstract/26/2/117/2709164"
+            }
+          ]
+        },
+        {
+          "t": "Same water rule as MDMA",
+          "d": "It holds water the same way, and low blood sodium presents as headache, confusion and vomiting. Drink when thirsty rather than steadily.",
+          "sources": [
+            {
+              "name": "Atila et al., JAMA Netw Open 2024 — MDMA and hyponatremia",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11568463/"
+            },
+            {
+              "name": "Hew-Butler et al. — exercise-associated hyponatremia consensus",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/26102445/"
+            }
+          ]
+        },
+        {
+          "t": "The flat days come too, and later",
+          "d": "Because the drug runs longer, the dip tends to start a day further out than people expect from MDMA."
+        },
+        {
+          "t": "What is sold as MDA is frequently not MDA",
+          "d": "This is one of the most substituted names on the market, which means an unexpected comedown may be a different drug's comedown."
+        }
+      ]
+    },
+    "lsd": {
+      "lead": "A trip is eight to twelve hours, so the comedown is mostly about a day that has been long, and a brain that will not go to sleep on cue.",
+      "items": [
+        {
+          "t": "You will be awake for hours after it is over",
+          "d": "Even once the effects have gone the residual stimulation keeps sleep away. Do not fight it with alcohol or a benzodiazepine — plan for a short night instead."
+        },
+        {
+          "t": "Tolerance is immediate and takes one to two weeks",
+          "d": "Taking more the next day does almost nothing. This is a property of the receptor, not of the batch."
+        },
+        {
+          "t": "The afterglow is real, and so is the opposite",
+          "d": "Some people get a settled, open few days; some get raw, tearful and thin-skinned. Both fade. Sleep, food and daylight do more than analysis.",
+          "sources": [
+            {
+              "name": "Zendo Project — working with difficult psychedelic experiences",
+              "url": "https://zendoproject.org/bulletin/understanding-and-working-with-difficult-psychedelic-experiences/"
+            }
+          ]
+        },
+        {
+          "t": "If a hard one is still with you days later",
+          "d": "Persistent fear, unreality or an inability to sleep at all after several days is worth a clinician rather than waiting it out.",
+          "sources": [
+            {
+              "name": "Zendo Project — working with difficult psychedelic experiences",
+              "url": "https://zendoproject.org/bulletin/understanding-and-working-with-difficult-psychedelic-experiences/"
+            }
+          ]
+        }
+      ]
+    },
+    "psilocybin-mushrooms": {
+      "lead": "Four to six hours, so the day is usually recoverable — the aftercare is about the body and the evening, not the week.",
+      "items": [
+        {
+          "t": "Tiredness rather than a crash",
+          "d": "Most people finish flat and heavy-limbed rather than low, and it lifts with one night's sleep."
+        },
+        {
+          "t": "Eat afterwards",
+          "d": "Nausea early in a trip means most people have eaten nothing for many hours by the time it ends."
+        },
+        {
+          "t": "Tolerance lasts about a week",
+          "d": "Taking them again in the next few days mostly wastes them."
+        },
+        {
+          "t": "A hard one deserves company, not analysis",
+          "d": "Talking it through with somebody who was there beats trying to resolve it alone at 4am.",
+          "sources": [
+            {
+              "name": "Zendo Project — working with difficult psychedelic experiences",
+              "url": "https://zendoproject.org/bulletin/understanding-and-working-with-difficult-psychedelic-experiences/"
+            }
+          ]
+        }
+      ]
+    },
+    "cocaine": {
+      "lead": "Cocaine leaves quickly, which is why the comedown starts while the night is still going and why the decision that matters is about the next line.",
+      "items": [
+        {
+          "t": "The crash arrives in hours, not days",
+          "d": "A short half-life means the drop is sharp and early. It is the drug leaving rather than something being wrong."
+        },
+        {
+          "t": "Redosing is the trap this drug is built around",
+          "d": "Each line buys less time than the one before and adds to what is owed. The crash is the same size whenever you stop.",
+          "sources": [
+            {
+              "name": "Cochrane — treatment for amphetamine withdrawal",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/19370579/"
+            }
+          ]
+        },
+        {
+          "t": "Chest pain afterwards is an emergency, not a comedown",
+          "d": "Pain, pressure or a heart that will not settle after using needs an emergency department, and telling them what you took changes the treatment."
+        },
+        {
+          "t": "Drinking alongside it makes a third drug",
+          "d": "Cocaine and alcohol together form cocaethylene, which lasts longer than cocaine and puts more strain on the heart. A night of both leaves more behind than either alone."
+        },
+        {
+          "t": "If the low turns into thoughts of not being here",
+          "d": "That is part of a heavy crash rather than a verdict on your life, and it lifts. Tell one person, or call or text 988.",
+          "sources": [
+            {
+              "name": "National Harm Reduction Coalition — responding to stimulant overamping",
+              "url": "https://harmreduction.org/issues/overdose-prevention/overview/stimulant-overamping-basics/responding-to-stimulant-overamping/"
+            }
+          ]
+        }
+      ]
+    },
+    "methamphetamine": {
+      "lead": "With meth the comedown is measured in days, and almost all of it is sleep debt rather than the drug itself.",
+      "items": [
+        {
+          "t": "The debt is the whole thing",
+          "d": "Low mood, no energy, huge appetite and enormous sleep are the documented withdrawal picture, worst in the first days and mostly settled over a week or so. No medication shortens it.",
+          "sources": [
+            {
+              "name": "Srisurapanont et al., 2003 (N=168) — amphetamine withdrawal course",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/14604449/"
+            },
+            {
+              "name": "Cochrane — treatment for amphetamine withdrawal",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/19370579/"
+            }
+          ]
+        },
+        {
+          "t": "Seeing or hearing things clears with sleep",
+          "d": "Stimulant psychosis is more likely the heavier and longer the run, and sleep is the strongest single thing that resolves it. If it does not clear after sleeping, that is a reason to be seen.",
+          "sources": [
+            {
+              "name": "McKetin et al., JAMA Psychiatry 2013 — psychosis and methamphetamine use",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/23303471/"
+            },
+            {
+              "name": "Arunogiri et al., 2018 — systematic review",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/29338289/"
+            }
+          ]
+        },
+        {
+          "t": "Somewhere to sleep matters more than anything else on this page",
+          "d": "Days awake degrade attention as badly as being legally drunk, and it compounds for as long as it goes on.",
+          "sources": [
+            {
+              "name": "Van Dongen et al., Sleep 2003 — cumulative cost of sleep restriction",
+              "url": "https://academic.oup.com/sleep/article-abstract/26/2/117/2709164"
+            },
+            {
+              "name": "Dawson & Reid, Nature 1997 — sleep loss and impairment",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/9230429/"
+            }
+          ]
+        },
+        {
+          "t": "Eat before you feel like it",
+          "d": "Appetite comes back slowly and days without food is why the crash feels bodily. Something with salt in it goes down easier than a meal."
+        }
+      ]
+    },
+    "ketamine": {
+      "lead": "The two things that matter afterwards are coordination coming back later than the feeling of being sober, and what frequent use does to the bladder.",
+      "items": [
+        {
+          "t": "Do not drive, and do not trust your balance",
+          "d": "Stairs, baths and roads are where this hurts people, well after the dissociation has faded."
+        },
+        {
+          "t": "Pain when you pee is a stop sign",
+          "d": "Frequent use damages the bladder, and needing to go constantly with pain is how it starts. Stopping early is what keeps it from becoming permanent, and it is worth a clinician even though the conversation is awkward."
+        },
+        {
+          "t": "Cramps that arrive weeks in",
+          "d": "Sharp abdominal pain in regular users is a known pattern and another reason to take a break rather than a stronger painkiller."
+        }
+      ]
+    },
+    "alcohol": {
+      "lead": "The hangover is not the important part of this page; the second half is.",
+      "items": [
+        {
+          "t": "Water and food, and nothing sold as a cure",
+          "d": "No product shortens a hangover. Rehydration, something to eat and sleep are what there is."
+        },
+        {
+          "t": "The rebound night",
+          "d": "Alcohol wrecks the second half of a night's sleep and pays it back as broken sleep and sharp anxiety the following night. It passes, and another drink makes it longer."
+        },
+        {
+          "t": "If you drink daily, stopping suddenly is the dangerous part",
+          "d": "Physical dependence means abrupt stopping can cause seizures. That is a taper worked out with a clinician, not a resolution made on a bad morning.",
+          "sources": [
+            {
+              "name": "FDA benzodiazepine boxed warning (2020)",
+              "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requiring-boxed-warning-updated-improve-safe-use-benzodiazepine-drug-class"
+            }
+          ]
+        },
+        {
+          "t": "Months of heavy drinking, and thiamine",
+          "d": "Sustained heavy drinking depletes thiamine, and that deficiency causes a brain injury that starts as confusion, unsteadiness and eye-movement problems. It is preventable and treatable, and worth seeing somebody about.",
+          "sources": [
+            {
+              "name": "NHS — Wernicke's encephalopathy and thiamine",
+              "url": "https://www.nhs.uk/conditions/wernickes-encephalopathy/"
+            }
+          ]
+        }
+      ]
+    },
+    "heroin": {
+      "lead": "Two things decide how the hours after go: whether anyone is still there, and what a break has done to your tolerance.",
+      "items": [
+        {
+          "t": "After naloxone, somebody stays",
+          "d": "Naloxone wears off in roughly 30 to 90 minutes and most opioids outlast it, so someone who woke up can go back under. If breathing slows again, give another dose.",
+          "sources": [
+            {
+              "name": "FDA — naloxone nasal spray label",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1fc091cf-a492-2750-e063-6294a90a0aa8"
+            }
+          ]
+        },
+        {
+          "t": "A break resets what your usual amount does",
+          "d": "After jail, hospital, treatment or illness, what was normal before can cause an accident. Start far below it, and not alone."
+        },
+        {
+          "t": "Withdrawal is miserable and is not the dangerous part",
+          "d": "What makes it dangerous is what it drives — using at an old dose, or using alone to get it over with. Buprenorphine and methadone are the treatments that work."
+        }
+      ]
+    },
+    "fentanyl": {
+      "lead": "Fentanyl outlasts naloxone, which is the single most important thing about the hours after.",
+      "items": [
+        {
+          "t": "After naloxone, somebody stays",
+          "d": "Naloxone wears off in roughly 30 to 90 minutes and most opioids outlast it, so someone who woke up can go back under. If breathing slows again, give another dose.",
+          "sources": [
+            {
+              "name": "FDA — naloxone nasal spray label",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1fc091cf-a492-2750-e063-6294a90a0aa8"
+            }
+          ]
+        },
+        {
+          "t": "A break resets what your usual amount does",
+          "d": "After jail, hospital, treatment or illness, what was normal before can cause an accident. Start far below it, and not alone."
+        },
+        {
+          "t": "Withdrawal is miserable and is not the dangerous part",
+          "d": "What makes it dangerous is what it drives — using at an old dose, or using alone to get it over with. Buprenorphine and methadone are the treatments that work."
+        }
+      ]
+    },
+    "alprazolam": {
+      "lead": "Xanax is short-acting, and that is exactly why the day after is sharper than with other benzodiazepines.",
+      "items": [
+        {
+          "t": "Rebound anxiety is the drug leaving",
+          "d": "A short half-life means the return is abrupt and can feel worse than the anxiety it was taken for. It is temporary, and another dose restarts the cycle."
+        },
+        {
+          "t": "Gaps in the evening are expected",
+          "d": "It interferes with laying down memories while it is active. Missing hours is the drug rather than a sign of something worse having happened."
+        },
+        {
+          "t": "Daily use changes the situation entirely",
+          "d": "Physical dependence builds quickly, and abrupt stopping can cause seizures — the FDA's boxed warning says so plainly. Coming off means a taper with a clinician.",
+          "sources": [
+            {
+              "name": "FDA benzodiazepine boxed warning (2020)",
+              "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requiring-boxed-warning-updated-improve-safe-use-benzodiazepine-drug-class"
+            }
+          ]
+        }
+      ]
     }
   }
 }

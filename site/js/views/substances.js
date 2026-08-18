@@ -1084,7 +1084,21 @@ function comedownFor(doc, s) {
   if (!doc) return null;
   const byId = doc.bySubstance?.[s.id];
   if (byId) return byId;
-  for (const c of s.class?.psychoactive || []) {
+  /* MOST SPECIFIC CLASS FIRST, NOT FIRST-LISTED.
+   *
+   * PsychonautWiki lists MDA as ["Psychedelic", "Entactogen", "Stimulants"],
+   * so taking the first match handed MDA the psychedelic entry - the same
+   * advice LSD gets, for a drug that runs four hours longer and finishes like
+   * a stimulant. The order below is by how much the comedown actually differs:
+   * a drug that is both an entactogen and a psychedelic has an entactogen's
+   * week, and one that is both a stimulant and something else has a
+   * stimulant's crash. */
+  const ORDER = ["Opioids", "Depressant", "Entactogen", "Dissociatives", "Stimulants", "Psychedelic"];
+  const classes = s.class?.psychoactive || [];
+  for (const c of ORDER) {
+    if (classes.includes(c) && doc.byClass?.[c]) return doc.byClass[c];
+  }
+  for (const c of classes) {
     const hit = doc.byClass?.[c];
     if (hit) return hit;
   }
