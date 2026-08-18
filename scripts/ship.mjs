@@ -88,6 +88,12 @@ const OURS_DIRS = ["site", "scripts", "test", "src", "docs"];
 const OURS_FILES = ["netlify.toml", "package.json", "README.md", "PRIVACY.md",
                     "EVIDENCE.md", "DESIGN-BRIEF.md", "OUTREACH.md"];
 
+/* The staging-only netlify.toml injection, shared by the writer and by the
+   prod gate, which must strip it before comparing trees - otherwise staging
+   can never equal prod byte-for-byte and the gate would refuse every
+   legitimate promotion. Found on the first real promotion attempt. */
+const MARK = "# --- staging-only: injected by scripts/ship.mjs, never on main ---";
+
 /* The bot's files. Never shipped, never deleted on the remote by us. */
 const BOT_EXCLUDES = [
   "alerts.json", "index.json", "runs.json", "counties",
@@ -223,6 +229,13 @@ if (env === "prod") {
     run(`git -C "${CLONE}" fetch origin staging`);
     const tmp = mkdtempSync(path.join(os.tmpdir(), "nl-staging-"));
     execSync(`git -C "${CLONE}" archive origin/staging | tar -x -C "${tmp}"`);
+    // Strip our own staging-only injection before comparing.
+    const t = path.join(tmp, "netlify.toml");
+    if (existsSync(t)) {
+      const raw = readFileSync(t, "utf8");
+      const cut = raw.indexOf("\n" + MARK);
+      if (cut > -1) writeFileSync(t, raw.slice(0, cut + 1));
+    }
     stagingHash = shipTreeHash(tmp);
     rmSync(tmp, { recursive: true, force: true });
   } catch {
@@ -264,7 +277,6 @@ for (const f of OURS_FILES) {
 if (env === "staging") {
   const tomlPath = path.join(CLONE, "netlify.toml");
   let toml = readFileSync(tomlPath, "utf8");
-  const MARK = "# --- staging-only: injected by scripts/ship.mjs, never on main ---";
   if (!toml.includes(MARK)) {
     toml += `\n${MARK}\n[[headers]]\n  for = "/*"\n  [headers.values]\n    X-Robots-Tag = "noindex"\n`;
     writeFileSync(tomlPath, toml);
