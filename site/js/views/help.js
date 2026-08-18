@@ -27,6 +27,20 @@ const LINES = [
  * these: every number, caveat and reason from the longer version is still
  * here, moved to the line beneath the instruction instead of buried inside a
  * paragraph with it. */
+/* PLAIN WORDS, SHORT SENTENCES, ONE IDEA EACH.
+ *
+ * These six steps get read by somebody kneeling on a floor at 3am, and they
+ * were written at about a high-school reading level: 20-word sentences,
+ * subordinate clauses, asides inside em-dashes. Fear takes reading age down
+ * several grades on its own, so the version that has to work is the one a
+ * frightened fourteen-year-old can follow.
+ *
+ * The rules applied here, worth keeping for anything added later: no sentence
+ * much over twelve words, one instruction per sentence, the common word over
+ * the correct-but-longer one ("wears off", not "duration of action"), no
+ * em-dash asides, and the verb first when it is a thing to do. Every fact and
+ * every protocol decision is unchanged. The reasoning stays in the comments,
+ * which is where reasoning belongs. */
 const STEPS = [
   /* Breathing is checked FIRST, before responsiveness. This is the 2025
      protocol change from Philadelphia DPH / PA DOH (HAN #794, verbatim: "the
@@ -39,49 +53,50 @@ const STEPS = [
      the adulterant pages taught the new one - the contradiction was found by
      review, not by luck. */
   {
-    title: "Check their breathing, then try to wake them",
-    body: "Look at their chest. Breathing slow, stopped, or sounding like snoring or gurgling? " +
-          "Act — go to the next step. Then shout their name and rub your knuckles hard on their breastbone.",
-    note: "Breathing comes first: sedatives now mixed into the supply (xylazine, medetomidine) " +
-          "can make someone impossible to wake even when breathing is fine. Bad breathing OR " +
-          "no response — either one — treat it as an overdose.",
+    title: "Look at their chest, then try to wake them",
+    body: "Is their breathing slow or stopped? Does it sound like snoring or gurgling? " +
+          "Then go to step 2. Shout their name. Rub your knuckles hard on their breastbone.",
+    note: "Check breathing first. Some drugs in the supply now (xylazine, medetomidine) can " +
+          "make a person impossible to wake up even when they are breathing fine. " +
+          "Bad breathing or no waking up: treat it as an overdose.",
   },
   {
     title: "Call 911",
-    body: "Say they are not breathing, or will not wake up.",
+    body: "Tell them: not breathing, or will not wake up.",
     /* PA's medetomidine protocol orders naloxone before the call; CDC's
        classic steps call first. Both are one sentence here rather than a
        silently picked winner: with naloxone already in hand, seconds of
        spray beat seconds of hold music. */
-    note: "You do not have to say what they took. Naloxone already in your hand and you’re " +
-          "alone? Give it first, then call. Two people — one calls while one doses.",
+    note: "You do not have to say what they took. Alone, with naloxone in your hand? " +
+          "Give it first, then call. Two of you? One calls, one gives it.",
   },
   {
     title: "Give naloxone",
-    body: "Nozzle into one nostril. Press the plunger all the way.",
-    note: "Give it even if you are unsure. It only works on opioids, and it cannot harm " +
-          "someone who has not taken any. No pulse? Start CPR first.",
+    body: "Put the nozzle in one nostril. Push the plunger all the way in.",
+    note: "Give it even if you are not sure. It only works on opioids. It cannot hurt a " +
+          "person who has not taken any. No pulse? Do CPR first.",
   },
   {
     title: "Help them breathe",
     /* The nose pinch is not optional - without it the breath escapes and does
        nothing. It was missing here while the xylazine page taught it correctly
        from CDC guidance, so the main steps were the incomplete version. */
-    body: "Tilt the head back, lift the chin, pinch their nose shut. One breath every 5 seconds.",
-    note: "Lack of oxygen is what causes the damage.",
+    body: "Tip their head back. Lift their chin. Pinch their nose shut. " +
+          "Give one breath every 5 seconds.",
+    note: "Going without air is what does the damage.",
   },
   {
-    title: "Breathing hasn’t improved in 2–3 minutes? Give another dose",
-    body: "Nasal naloxone takes 2–3 minutes. Judge by their chest, not their eyes.",
-    note: "One or two standard doses reverse most overdoses, fentanyl included — fentanyl is " +
-          "not resistant to naloxone. Someone can keep sleeping after it has already worked; " +
-          "that is the sedative, not a failed dose, and not a reason to keep dosing.",
+    title: "No better after 2–3 minutes? Give another dose",
+    body: "Naloxone in the nose takes 2–3 minutes to work. Watch their chest, not their eyes.",
+    note: "One or two doses fix most overdoses, fentanyl included. Fentanyl is not immune to " +
+          "naloxone. They may stay asleep after it has worked. That is the other drugs, not a " +
+          "failed dose. Do not keep giving more.",
   },
   {
-    title: "Stay, and roll them on their side",
-    body: "The recovery position stops them choking if they vomit.",
-    note: "Naloxone wears off in 30–90 minutes and most opioids last longer, so they can " +
-          "go under again. A full return is uncommon — it is still why you do not leave.",
+    title: "Stay with them, and roll them on their side",
+    body: "On their side, they will not choke if they throw up.",
+    note: "Naloxone wears off in 30–90 minutes. Most opioids last longer, so they can go under " +
+          "again. It does not happen often. It is still why you stay.",
   },
 ];
 
