@@ -387,3 +387,9 @@
   for = "/feeds/*"
   [headers.values]
     Cache-Control = "no-store"
+
+# --- staging-only: injected by scripts/ship.mjs, never on main ---
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
