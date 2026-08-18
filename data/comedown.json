@@ -7,7 +7,7 @@
       "items": [
         {
           "t": "Sleep is the treatment, and it takes more than one night",
-          "d": "Cocaine, methamphetamine and amphetamines all borrow sleep and the debt is repaid with interest. Low mood, no energy, hunger and heavy sleep are the documented withdrawal picture; the worst of it is in the first few days and most of it settles over a week or so. Nothing shortens it — no medication has been shown to treat the crash — so the plan is a place to sleep and nobody expecting anything of you.",
+          "d": "Cocaine, meth and amphetamines all borrow sleep, and the debt comes back with interest. Expect low mood, no energy, hunger and heavy sleep. The worst is in the first few days. Most of it settles over a week or so. Nothing shortens it. No medicine treats the crash. So the plan is a place to sleep and nobody expecting anything of you.",
           "sources": [
             {
               "name": "Srisurapanont et al., 2003 (N=168) — amphetamine withdrawal course",
@@ -21,7 +21,7 @@
         },
         {
           "t": "Redosing to hold the crash off makes it longer",
-          "d": "The low is the debt coming due. Another dose defers it and adds to it, and this is the point in a run where sleep loss starts to matter more than the drug: staying awake past about a day and a half degrades attention as much as being legally drunk, and it keeps compounding for as long as it goes on.",
+          "d": "The low is the debt coming due. Another dose puts it off and makes it bigger. This is also where lost sleep starts to matter more than the drug. Past about a day and a half awake, your attention is as bad as being legally drunk. It keeps getting worse the longer it goes.",
           "sources": [
             {
               "name": "Van Dongen et al., Sleep 2003 — cumulative cost of sleep restriction",
@@ -39,7 +39,7 @@
         },
         {
           "t": "If the low turns into thoughts of not being here",
-          "d": "That is a known part of a heavy stimulant crash rather than a verdict on your life, and it lifts. Being alone with it is the risk. Tell one person, or call or text 988 — you do not have to be in danger to use it.",
+          "d": "That is part of a heavy crash, not a verdict on your life. It lifts. Being alone with it is the risk. Tell one person, or call or text 988. You do not have to be in danger to use it.",
           "sources": [
             {
               "name": "National Harm Reduction Coalition — responding to stimulant overamping",
@@ -49,7 +49,7 @@
         },
         {
           "t": "Seeing or hearing things after a long run",
-          "d": "Stimulant psychosis is more likely with heavier and more frequent use, and sleep is the strongest single thing that resolves it. If it does not clear after sleep, or you are frightened of yourself, that is a reason to be seen rather than to wait it out.",
+          "d": "Stimulant psychosis is more likely the heavier and more often you use. Sleep is the strongest thing that clears it. If it does not clear after sleep, or you are frightened of yourself, go and be seen.",
           "sources": [
             {
               "name": "McKetin et al., JAMA Psychiatry 2013 — psychosis and methamphetamine use",
@@ -68,7 +68,7 @@
       "items": [
         {
           "t": "Water: the danger is too much, not too little",
-          "d": "MDMA makes the body hold water, and drinking to a schedule rather than to thirst is how people end up with dangerously low blood sodium — confusion, headache, vomiting, seizures. Drink when thirsty. If someone who has been drinking a lot of water becomes confused or unwell, that is an emergency and worth saying out loud to the medics, because it is treated in the opposite direction from dehydration.",
+          "d": "MDMA makes the body hold water. Drinking on a schedule instead of when you are thirsty is how people end up with dangerously low blood sodium. That looks like headache, confusion, vomiting and seizures. Drink when thirsty. If someone who has been drinking a lot of water gets confused, tell the medics exactly that. It is treated the opposite way to dehydration.",
           "sources": [
             {
               "name": "Atila et al., JAMA Netw Open 2024 — MDMA and hyponatremia",
@@ -86,11 +86,11 @@
         },
         {
           "t": "The flat few days are expected, and they end",
-          "d": "Low mood, blunted feeling and poor sleep in the days after are common enough to be planned around: nothing important scheduled, people you like, and no conclusions drawn about your life while you are in it."
+          "d": "Low mood, flat feelings and poor sleep in the days after are common. Plan for them. Nothing important scheduled, people you like, and no big conclusions about your life while you are in it."
         },
         {
           "t": "What the supplements sold for this are not",
-          "d": "There is a whole market of pre-loads, after-care packs and 5-HTP protocols sold on the promise of protecting your brain or curing the comedown. They are not established in people — no product here has been shown to prevent the low or the neurotoxicity it is sold against. Worse, some of them are serotonergic themselves, which is the one direction you do not want to push. This app has nothing to sell you and no reason to pretend otherwise."
+          "d": "There is a whole market of pre-loads, after-care packs and 5-HTP plans. They are sold on protecting your brain or curing the low. None of that is shown in people. Some are serotonergic themselves, which is the direction you do not want. This app has nothing to sell you."
         }
       ]
     },
@@ -99,7 +99,7 @@
       "items": [
         {
           "t": "If you use most days, stopping suddenly is the risk",
-          "d": "For alcohol and benzodiazepines both, daily use builds a dependence where abrupt stopping can cause seizures — this is the thing that puts people in hospital, and the FDA's own boxed warning says it plainly. Coming down from one night is not this. If you are physically dependent, a taper worked out with a clinician is the safe route, and stopping alone is the thing not to do.",
+          "d": "For alcohol and benzodiazepines both, using daily builds real dependence. Stopping suddenly can cause seizures. That is what puts people in hospital, and the FDA's own boxed warning says so. Coming down from one night is not this. If you are dependent, work out a taper with a clinician. Do not stop alone.",
           "sources": [
             {
               "name": "FDA benzodiazepine boxed warning (2020)",
@@ -109,7 +109,7 @@
         },
         {
           "t": "Rebound: the night after is the mirror of the night before",
-          "d": "Sleep that comes from alcohol or a benzodiazepine is paid back as broken sleep and sharp anxiety the following night. It is the drug leaving rather than the anxiety returning, it passes, and the treatment that makes it worse is another dose."
+          "d": "Sleep from alcohol or a benzodiazepine is paid back the next night as broken sleep and sharp anxiety. That is the drug leaving, not your anxiety coming back. It passes. Another dose makes it last longer."
         },
         {
           "t": "You are impaired longer than you feel it",
@@ -132,7 +132,7 @@
       "items": [
         {
           "t": "After naloxone, somebody stays",
-          "d": "Naloxone wears off well before fentanyl does — the label puts its effect at roughly half an hour to an hour and a half — so someone who woke up can go back under afterwards. Do not leave them, and if breathing slows again, give another dose. This is the single most useful thing to know about the hours after.",
+          "d": "Naloxone wears off well before fentanyl does. The label puts it at about 30 to 90 minutes. So a person who woke up can go back under. Do not leave them. If their breathing slows again, give another dose.",
           "sources": [
             {
               "name": "FDA — naloxone nasal spray label",
@@ -146,7 +146,7 @@
         },
         {
           "t": "Withdrawal is miserable, and it is not the dangerous part",
-          "d": "Unlike alcohol or benzodiazepines, opioid withdrawal on its own is rarely life-threatening — the danger is what it drives: using again at an old dose, or using alone to get it over with. Fluids matter, and buprenorphine or methadone are the treatments that actually work if you want off."
+          "d": "Unlike alcohol or benzodiazepines, opioid withdrawal on its own is rarely life-threatening. The danger is what it drives: using again at an old dose, or using alone to get it over with. Fluids help. Buprenorphine and methadone are the treatments that work if you want off."
         }
       ]
     },
@@ -159,7 +159,7 @@
         },
         {
           "t": "Pain when you pee is a stop sign, not a phase",
-          "d": "Frequent ketamine use damages the bladder, and the early signs are needing to go constantly and pain doing it. It can become permanent, and stopping early is what prevents that — this is worth a clinician even though the conversation is awkward."
+          "d": "Using ketamine often damages the bladder. It starts as needing to go all the time, and pain when you do. It can become permanent. Stopping early is what prevents that. It is worth seeing a clinician even though the conversation is awkward."
         }
       ]
     },
@@ -172,7 +172,7 @@
         },
         {
           "t": "A hard trip does not end when the effects do",
-          "d": "Shakiness, dread or a raw, tender feeling the next day is common after a difficult experience. Sleep, food, daylight and one person who was there help more than analysis does. If fear or unreality is still there days later, or you cannot sleep at all, that is worth a clinician.",
+          "d": "Feeling shaky, full of dread or raw the next day is common after a hard trip. Sleep, food, daylight and one person who was there help more than picking it apart does. If fear or unreality is still there days later, or you cannot sleep at all, see a clinician.",
           "sources": [
             {
               "name": "Zendo Project — working with difficult psychedelic experiences",

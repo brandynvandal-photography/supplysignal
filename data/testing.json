@@ -175,7 +175,7 @@
         {
           "title": "It does not mix evenly",
           "body": "Fentanyl mixed into another drug is not distributed evenly. One side of a bag can hold none and the other enough to stop someone breathing. The strongest protection is to dissolve everything you intend to take, test that solution, and then take it. Second best: crush the whole batch to a fine powder and mix it thoroughly before taking a test portion.",
-          "nuance": "One study of 352 subsamples from street opioid batches found most distributed around an average rather than in dramatic hot spots. That study looked at batches where fentanyl was the main drug — the hot-spot risk is greatest when fentanyl is a contaminant in something else, and in pressed pills."
+          "nuance": "That study looked at batches where fentanyl was the main drug. Hot spots are a bigger risk when fentanyl is a contaminant in something else, and in pressed pills."
         },
         {
           "title": "It misses some analogues",
@@ -189,13 +189,13 @@
         },
         {
           "title": "Sensitivity varies between batches",
-          "body": "Labels claim 10–20 ng/mL, but independent testing has found real-world thresholds as poor as 200 ng/mL, and one study found 2017 lots hit 20 ng/mL while 2021 lots of the same product only reached 200 ng/mL. Lot-to-lot variation is documented and real."
+          "body": "Labels claim 10–20 ng/mL. Independent testing has found real thresholds as poor as 200 ng/mL. One study found 2017 lots hit 20 ng/mL, while 2021 lots of the same product only reached 200 ng/mL."
         },
         {
           "severity": "critical",
           "title": "The strip you buy today may be weaker than the one a study tested",
           "body": "Comparing BTNX lots, 2017 strips detected fentanyl at 20 ng/mL while 2021 lots needed 200 ng/mL — a tenfold loss of sensitivity. Cross-reactivity moved the same way: false positives from diphenhydramine started at 100 mg/mL in the old lots and as low as 0.5 mg/mL in the new ones.",
-          "nuance": "This is why an accuracy number from a 2018 paper may not describe the strip in your hand in 2026, and why dilution matters more than brand loyalty. The 20 ng/mL figure printed on the box is a URINE cutoff — for checking a substance the practical floor is nearer 200 ng/mL.",
+          "nuance": "So an accuracy number from a 2018 paper may not describe the strip in your hand in 2026. It is also why diluting properly matters more than which brand you buy.",
           "sources": [
             {
               "name": "Halifax et al. 2024 — five BTNX lots",
@@ -204,7 +204,7 @@
           ]
         }
       ],
-      "accuracy": "Tested against 210 forensic samples, BTNX strips gave a 3.7% false-negative rate and a 9.6% false-positive rate — so roughly 96% sensitivity and 90% specificity, with a detection limit of 100 ng/mL. Good, not perfect, and the limits below are the reason a negative still needs care.",
+      "accuracy": "It was tested against 210 forensic samples. It missed 3.7% of the positives and called 9.6% positive when they were not. That is about 96% sensitivity and 90% specificity, down to 100 ng/mL.",
       "sources": [
         {
           "name": "Green et al. 2020 — 210 forensic samples",
@@ -366,7 +366,7 @@
     }
   ],
   "reagentIntro": {
-    "cannotDetectFentanyl": "No reagent can tell you whether fentanyl is in your drugs. Fentanyl is active in microgram amounts, and the main drug's own color reaction covers up any trace — so an expected color is not an all-clear, on a powder or a pill. Use a fentanyl test strip, and know it only clears the portion you tested.",
+    "cannotDetectFentanyl": "Fentanyl works in amounts far too small for a reagent to see. The main drug's own color covers up any trace. So the color you expect is not an all-clear, on a powder or a pill.",
     "masking": [
       "Not every drug reacts with every reagent",
       "A darker color hides a lighter one",
@@ -376,7 +376,7 @@
     "pureSampleNote": {
       "q": "But doesn’t pure fentanyl react with a reagent?",
       "a": "In a forensic lab, yes — reference-grade fentanyl does produce a color change. It is irrelevant to anyone holding a bag. Drug checking in Los Angeles found consumer fentanyl averaged 10% fentanyl by weight, pills averaged 1.4%, and 42.5% of samples sold as fentanyl were under 5%. What you have is mostly filler, which is exactly the case reagents cannot read.",
-      "b": "DanceSafe scraped a public lab database and found that fentanyl-adulterated oxycodone gives the same reagent colors as clean oxycodone — the pills that came back from overdose deaths looked correct. That is why the rule stays flat: reagents look for red flags, never green lights.",
+      "b": "DanceSafe went through a public lab database. Oxycodone with fentanyl in it gave the same reagent colors as clean oxycodone. The pills that came back from overdose deaths looked correct.",
       "sources": [
         {
           "name": "DanceSafe — drug checking",
@@ -784,9 +784,9 @@
         }
       ],
       "caveats": [
-        "CRITICAL: 25I-NBOMe and other NBOMes, 2C-x, and DOx compounds give NO reaction. A negative result on blotter does not mean nothing is there — it is fully consistent with an NBOMe, which is exactly what gets substituted for LSD and is far more dangerous. Ehrlich's rules an indole in; it cannot rule a substituted phenethylamine out. Always pair with Marquis or Froehde.",
+        "A negative result on blotter does not mean nothing is there. It fits an NBOMe just as well. That is the thing most often sold as LSD, and it is far more dangerous.",
         "Slow reagent — can take up to 5 minutes, and stays readable for up to an hour.",
-        "Not for mushrooms. Ehrlich's does turn purple for psilocybin, but it turns purple for indoles generally — ordinary supermarket mushrooms and death cap included — so it cannot tell you a species. Fungal material cannot be identified with an at-home test at all."
+        "Ehrlich's does turn purple for psilocybin. It also turns purple for indoles in general, including supermarket mushrooms and death cap. So it cannot tell you a species."
       ],
       "criticalCaveat": true
     },
@@ -870,7 +870,7 @@
   },
   "legal": {
     "headline": "Test strips are legal in most, but not all, states",
-    "body": "As of July 2026, fentanyl test strips sit outside paraphernalia law in 47 states plus DC and four territories. The same carve-out covers xylazine strips in 36 states plus DC — Ohio and Florida joined after the earlier count — and reagent kits in fewer still, so the strip that is legal for one drug may not be for another. In several states it depends on who is holding it or what it is used for.",
+    "body": "The same carve-out covers xylazine strips in 36 states plus DC. Ohio and Florida joined after the earlier count. Reagent kits are covered in fewer states still. So a strip that is legal for one drug may not be legal for another.",
     "stale": "Lists circulating online are out of date. Idaho changed in July 2024 and Indiana in 2025, so the commonly repeated five-state list is wrong. As of July 2026 the three remaining states where possessing drug-checking equipment may still be criminal are Iowa, North Dakota and Texas.",
     "advice": "Check your own state's current law. Nothing here is legal advice.",
     "source": {
@@ -977,7 +977,7 @@
   "compare": {
     "headline": "Which test tells you what",
     "intro": "No single tool answers every question, and the differences between them are not small. This is the short version; each tool has its own section below with the detail and the sources.",
-    "note": "“Confidence” is about how much weight a NEGATIVE deserves. Every one of these is more trustworthy saying yes than saying no — and lab performance is consistently better than performance on real street samples, so the field numbers are the ones used here.",
+    "note": "Every one of these is better at saying yes than at saying no. They also do better in a lab than on real street samples. The numbers here are the street ones.",
     "rows": [
       {
         "tool": "Fentanyl strips",
@@ -1026,7 +1026,7 @@
   "buying": {
     "headline": "Buying it over the counter",
     "lastVerified": "2026-08-11",
-    "intro": "Some of this is genuinely on a pharmacy shelf now. But the same shelf carries a product that looks almost identical and answers a completely different question — so it is worth knowing exactly what to pick up. And buying is not the only option — a local program will usually give you the same things free.",
+    "intro": "The same shelf carries a product that looks almost the same and answers a completely different question. So it is worth knowing exactly what to pick up.",
     "trap": {
       "title": "Most “fentanyl test strips” sold in stores test a person, not a drug",
       "body": "A urine drug screen tells you whether someone has already taken something. It cannot tell you what is in a bag. Both are strips in a pouch, both are immunoassays, and they sit in the same aisle under nearly the same words.",
@@ -1090,7 +1090,7 @@
         "what": "Free, from a harm reduction program",
         "where": "Local programs and peer-run networks — no purchase at all",
         "price": "Free",
-        "note": "This is usually the only route for xylazine, benzodiazepine and nitazene strips, and it costs nothing. Programs stock up through Grassroots Harm Reduction, a buyers’ club open to any organization giving supplies away free — so if you run or want to start a program, that is where supply comes from. If you are looking for yourself, start with the locator.",
+        "note": "Programs stock up through Grassroots Harm Reduction. It is a buyers' club, open to any group that gives supplies away free. If you run a program, or want to start one, that is where the supply comes from.",
         "verified": true,
         "links": [
           {
@@ -1147,7 +1147,7 @@
     ],
     "storefronts": {
       "title": "Where to buy from a legitimate source",
-      "intro": "These are the sellers worth trusting: harm reduction organizations that publish what their products do and do not detect, rather than marketplaces where accuracy claims are written by whoever is selling.",
+      "intro": "These sellers are worth trusting. They are harm reduction groups that publish what their products do and do not detect. On a marketplace, the accuracy claims are written by whoever is selling.",
       "shops": [
         {
           "name": "Grassroots Harm Reduction",
@@ -1182,10 +1182,10 @@
   },
   "brands": {
     "headline": "Which strip do you have?",
-    "intro": "The brand on the packet changes the numbers. Two fentanyl strips in wide harm reduction use want five times different amounts of water and are read two minutes apart — and they do not detect the same things.",
+    "intro": "Two fentanyl strips are in wide use. One wants five times more water than the other. They are read two minutes apart. And they do not find the same things.",
     "notInterchangeable": {
       "title": "The two fentanyl brands miss different drugs",
-      "body": "A laboratory screen of 251 synthetic opioids found that one third of the fentanyl analogues tested are detectable by one brand and not the other. Each is blind to a different part of the molecule. That is not a reason to distrust the one you have — it is the reason a negative is weaker evidence than a positive, and the reason programs that can hand out both do.",
+      "body": "That is not a reason to distrust the one you have. It is the reason a negative result is weaker than a positive one. It is also why programs hand out both when they can.",
       "source": {
         "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
@@ -1200,14 +1200,14 @@
         "maker": "Made by BTNX. Commonly what a syringe service program or health department hands out.",
         "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
         "water": "5 mL of water for every 10 mg — one teaspoon. If you cook a shot, that is a full cooker.",
-        "residue": "Testing residue instead — what is left in a cap, a cooker or the corner of a bag: add 2 mL of clean water, about half a teaspoon, and mix well.",
+        "residue": "Testing residue instead? That is what is left in a cap, a cooker, or the corner of a bag. Add 2 mL of clean water, about half a teaspoon, and mix well.",
         "dip": "Dip for 15 seconds, holding the dark blue end.",
         "dipLimit": "Do not dip past the wavy blue lines.",
         "wait": "Wait 5 minutes.",
         "positive": "ONE red line",
         "negative": "TWO red lines — look closely, the second can be very faint",
         "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
-        "blindSpot": "Blind to bulky changes on the phenethyl part of the molecule, particularly dimethoxy substitutions. It missed 52 of the fentanyl analogues in the laboratory screen — more misses than the other brand, but it detected more compounds overall at high concentrations (173 against 149).",
+        "blindSpot": "It missed 52 of the fentanyl analogues in the lab screen. That is more misses than the other brand. It did find more compounds overall at high amounts: 173 against 149.",
         "sources": [
           {
             "name": "Washington State DOH — Using BTNX Rapid Response Fentanyl Test Strips (DOH 150-240)",
@@ -1238,7 +1238,7 @@
           "stim": {
             "label": "Meth or MDMA",
             "water": "10 mg into 20 mL — four teaspoons. Four times the usual amount.",
-            "note": "The standard 5 mL puts the sample at 2 mg per mL, and this strip reads positive with no fentanyl present at 1.5 mg/mL of methamphetamine and 2 mg/mL of MDMA. The usual ratio is already at or above both. Twenty milliliters brings it to 0.5 mg per mL, under them and under diphenhydramine's 1 mg/mL as well. If it still reads positive, retest at ten times the water before acting on it — in a street-sample study that corrected every false positive.",
+            "note": "The usual 5 mL puts the sample at 2 mg per mL. At that strength this strip reads positive with no fentanyl in it at all: 1.5 mg/mL of methamphetamine, or 2 mg/mL of MDMA, is enough to do it.",
             "sources": [
               {
                 "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
@@ -1249,7 +1249,7 @@
           "ketamine": {
             "label": "Ketamine",
             "water": "10 mg into 20 mL — four teaspoons.",
-            "note": "Ketamine was not one of the substances the cross-reaction study tested, so there is no published figure saying it is safe at the standard strength and none saying it is not. The reason to dilute anyway is that ketamine is usually taken alongside something else — and whatever else is in the bag is what the tested list is about. Four teaspoons costs nothing and answers the question for both.",
+            "note": "Ketamine was not in the cross-reaction study, so there is no published number either way. Dilute anyway: ketamine is usually taken with something else, and that something else is what the list is about.",
             "sources": [
               {
                 "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
@@ -1260,7 +1260,7 @@
           "unknown": {
             "label": "An unknown powder",
             "water": "10 mg into 20 mL — four teaspoons.",
-            "note": "Diphenhydramine — Benadryl — fools this strip from 1 mg per mL, lower than meth or MDMA do, and it is a common cut in powders sold as anything. If you do not know what you have, dilute as though it were a stimulant.",
+            "note": "Diphenhydramine — Benadryl — fools this strip from 1 mg per mL. That is lower than meth or MDMA. It is also a common cut in powders sold as anything.",
             "sources": [
               {
                 "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
@@ -1289,17 +1289,17 @@
         "id": "whpm-fentanyl",
         "strip": "fentanyl",
         "name": "DanceSafe",
-        "maker": "Made by WHPM in Irwindale, California, and developed with DanceSafe specifically for checking drugs rather than urine. Since 12 March 2026 the storefront and shipping are run by Transparency, the organization behind Bunk Police — the strip and its instructions did not change, but the packet may arrive with a different name on it.",
+        "maker": "Since 12 March 2026 the store and the shipping are run by Transparency, the group behind Bunk Police. The strip and its instructions did not change. The packet may just arrive with a different name on it.",
         "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
         "water": "1 mL of water for every 10 mg — about 20 drops, or a fifth of a teaspoon.",
-        "residue": "Testing residue instead — what is left in a cap, a cooker or the corner of a bag: add 2 mL of clean water, about half a teaspoon, and mix well.",
+        "residue": "Testing residue instead? That is what is left in a cap, a cooker, or the corner of a bag. Add 2 mL of clean water, about half a teaspoon, and mix well.",
         "dip": "Dip for 15 seconds, holding the yellow end.",
         "dipLimit": "Do not dip past the dotted area.",
         "wait": "Wait 3 minutes, with the strip face up on a flat surface.",
         "positive": "ONE red line",
         "negative": "TWO red lines — look closely, the second can be very faint",
         "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
-        "blindSpot": "Blind to bulky changes on the carbonyl part of the molecule — isobutyryl, tetrahydrofuran and cyclopentyl replacements. It missed 28 of the fentanyl analogues in the laboratory screen, but it was the more sensitive of the two at low concentrations, finding almost 2.5 times as many compounds at 200 ng/mL.",
+        "blindSpot": "It missed 28 of the fentanyl analogues in the lab screen. But it was the better of the two at low amounts: at 200 ng/mL it found almost 2.5 times as many.",
         "sources": [
           {
             "name": "Washington State DOH — Using DanceSafe Fentanyl Test Strips (DOH 150-239)",
@@ -1334,7 +1334,7 @@
           "stim": {
             "label": "Meth or MDMA",
             "water": "No change — 10 mg per mL, the same as above.",
-            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the biggest practical difference between the two.",
+            "note": "Lab testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL. That is twenty times the amount where meth starts fooling the BTNX strip.",
             "sources": [
               {
                 "name": "Grassroots Harm Reduction — fentanyl test strips",
@@ -1382,7 +1382,7 @@
         "maker": "The same WHPM strip DanceSafe sells, under Bunk Police's own packaging. Their older DARK blue strips were BTNX and take the BTNX ratio instead — check which one is in your hand before measuring.",
         "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
         "water": "1 mL of water for every 10 mg — about 20 drops. One teaspoon holds 50 mg.",
-        "residue": "Testing residue instead — what is left in a cap, a cooker or the corner of a bag: add 2 mL of clean water, about half a teaspoon, and mix well.",
+        "residue": "Testing residue instead? That is what is left in a cap, a cooker, or the corner of a bag. Add 2 mL of clean water, about half a teaspoon, and mix well.",
         "dip": "Dip for 15 seconds, holding the blue end.",
         "dipLimit": "Do not dip above the top of the dotted section.",
         "wait": "Wait 3 minutes, lying flat.",
@@ -1410,7 +1410,7 @@
           "stim": {
             "label": "Meth or MDMA",
             "water": "No change — 10 mg per mL, the same as above.",
-            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the biggest practical difference between the two.",
+            "note": "Lab testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL. That is twenty times the amount where meth starts fooling the BTNX strip.",
             "sources": [
               {
                 "name": "Grassroots Harm Reduction — fentanyl test strips",
@@ -1468,7 +1468,7 @@
         "maker": "Also the WHPM strip, made in Irwindale, California and built for drug checking rather than urine screening. Cut-off 10 ng/mL.",
         "sample": "50 mg of drug into one teaspoon of water — 10 mg per mL, the same concentration as the other WHPM strips.",
         "water": "5 mL — one teaspoon — for every 50 mg.",
-        "residue": "Testing residue instead — what is left in a cap, a cooker or the corner of a bag: add 2 mL of clean water, about half a teaspoon, and mix well.",
+        "residue": "Testing residue instead? That is what is left in a cap, a cooker, or the corner of a bag. Add 2 mL of clean water, about half a teaspoon, and mix well.",
         "dip": "Dip for 15 seconds, holding the colored end. Grassroots does not restate the timings on its product page; these are the WHPM strip's published procedure.",
         "dipLimit": "Do not dip above the dotted section.",
         "wait": "Wait 3 minutes, lying flat.",
@@ -1496,7 +1496,7 @@
           "stim": {
             "label": "Meth or MDMA",
             "water": "No change — 10 mg per mL, the same as above.",
-            "note": "The WHPM strip is the one built for this. Laboratory testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL — twenty times the concentration at which meth starts fooling the BTNX strip. It is the biggest practical difference between the two.",
+            "note": "Lab testing found no false positives from methamphetamine, MDMA, lidocaine or levamisole at 10 mg per mL. That is twenty times the amount where meth starts fooling the BTNX strip.",
             "sources": [
               {
                 "name": "Grassroots Harm Reduction — fentanyl test strips",
@@ -1590,7 +1590,7 @@
         }
       }
     ],
-    "gap": "Only products whose own instructions were read are listed. Wondfo, DetectaChem, Lochness Medical and MD-Bio are not here yet, and neither are benzodiazepine or nitazene strips: printing a number that has not been read off the sheet it came from is the failure this section exists to prevent. If yours is not listed, your packet is the authority.",
+    "gap": "Wondfo, DetectaChem, Lochness Medical and MD-Bio are not here yet. Neither are benzodiazepine or nitazene strips. We only print a number once we have read it off the sheet it came from.",
     "drugHeadline": "What are you testing?",
     "notListed": "Not listed? Most strips sold for harm reduction in the US are made by one of two companies — BTNX or WHPM — whatever name is on the front. DanceSafe, Bunk Police and Grassroots all sell the same WHPM strip. Look for the maker on the packet, the box or the insert and use that row. If it names neither, your insert is the authority.",
     "lotsTitle": "Read the instructions that came with your strips",
