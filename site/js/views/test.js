@@ -1059,11 +1059,14 @@ function reverseLookup(matchFn, table, subs, go, charts) {
       h("div", { class: "card__top" },
         h("span", { class: `badge badge--${look.badge}` },
           h("span", { "aria-hidden": "true" }, look.glyph), look.label),
-        /* "sold as MDA" is a quote of something the reader said. On the guided
-           path they said nothing — the chart got here on its own — so the meta
-           names the chart instead of putting words in their mouth. */
-        h("span", { class: "card__meta" },
-          found ? (flow.chart ? `chart ${flow.chart.split(" ")[0]}` : "") : `testing for ${name}`)),
+        /* The chart name, when the guided path arrived here on its own. When
+           the reader picked the substance themselves the meta used to say
+           "testing for MDMA" - repeating the choice they made two inches up
+           the screen. The verdict lines underneath name the substance in
+           every sentence, so the label carried nothing. Removed. */
+        found && flow.chart
+          ? h("span", { class: "card__meta" }, `chart ${flow.chart.split(" ")[0]}`)
+          : null),
       h("ul", { class: "soldlines" }, run.steps.map(line)),
 
       run.status === "ontrack"
@@ -1226,8 +1229,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
         h("div", { class: `card card--${look.card}` },
           h("div", { class: "card__top" },
             h("span", { class: `badge badge--${look.badge}` },
-              h("span", { "aria-hidden": "true" }, look.glyph), look.label),
-            h("span", { class: "card__meta" }, `testing for ${name}`)),
+              h("span", { "aria-hidden": "true" }, look.glyph), look.label)),
           h("ul", { class: "soldlines" }, sold.detail.map(line)),
           h("p", { class: "sec__note" },
             sold.status === "expected"
