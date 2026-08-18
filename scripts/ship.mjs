@@ -51,7 +51,13 @@ import os from "node:os";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const CLONE = path.join(ROOT, ".deploy-clone");
+/* OUTSIDE THE WORKING COPY, on purpose. The first run put the scratch clone
+   and the ship receipts at the repo root, and test/publish.test.mjs flagged
+   both as unruled top-level paths inside five minutes - the allowlist doing
+   its job against the deploy tool itself. State lives in the cache dir where
+   nothing serves it and no test walks it. */
+const STATE = path.join(os.homedir(), ".cache", "nightlight");
+const CLONE = path.join(STATE, "deploy-clone");
 const REMOTE = "https://github.com/brandynvandal-photography/supplysignal.git";
 
 /* ------------------------------------------------------------------ args */
@@ -192,6 +198,7 @@ if (skipTests) {
 /* -------------------------------------------------- 3. fresh clone */
 
 const run = (cmd, opts = {}) => execSync(cmd, { stdio: "pipe", ...opts }).toString().trim();
+execSync(`mkdir -p "${STATE}"`);
 if (existsSync(CLONE)) {
   try {
     run(`git -C "${CLONE}" fetch origin --prune`);
@@ -279,7 +286,7 @@ if (!status) {
 }
 
 const sha = run(`git -C "${CLONE}" rev-parse HEAD`);
-writeFileSync(path.join(ROOT, `.shipped-${env}.json`),
+writeFileSync(path.join(STATE, `shipped-${env}.json`),
   JSON.stringify({ env, branch: BRANCH, sha, tree: localHash, when: new Date().toISOString() }, null, 2) + "\n");
 
 console.log(`\nshipped ${env}  tree=${localHash}  ${sha.slice(0, 8)}`);
