@@ -2125,6 +2125,25 @@ table.data--pairs th, table.data--pairs td { overflow-wrap: break-word; }
    when it follows a paragraph. */
 .chips--window { margin-top: 14px; }
 
+/* HOW LONG IT LASTS, READ DOWN THE RIGHT EDGE.
+ *
+ * A duration table is five times in a column - 1-5 minutes, 15-30 minutes,
+ * 2-3 hours - and the useful comparison is between them, which is a comparison
+ * the eye makes down an edge rather than across a gap. Left-aligned, every time
+ * started at the same x and ENDED wherever its own text ran out, so the ragged
+ * edge fell exactly where the reader is scanning. Flush right puts the boundary
+ * back on the numbers.
+ *
+ * Dose tables keep their existing alignment: those are ranges the reader takes
+ * one at a time rather than a series they compare down the page. */
+table.data--right td { text-align: right; }
+table.data--right thead th + th { text-align: right; }
+@media (min-width: 700px) {
+  /* Beats the centred pair rule below, which is written for the same cells. */
+  table.data--pairs.data--right td,
+  table.data--pairs.data--right thead th + th { text-align: right; }
+}
+
 /* On a wide screen the pair drifts apart.
  *
  * A phone is the constraint these tables were shaped for, and there a 11rem
