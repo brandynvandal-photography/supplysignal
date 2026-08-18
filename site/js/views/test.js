@@ -1344,16 +1344,22 @@ function reverseLookup(matchFn, table, subs, go, charts) {
        the chart's reagents load in its order — so the first sentence is what
        to do, not what it is for. */
     h("p", { class: "sec__note" },
-      "Tell it what your drug was sold as, or what you think it is, and it "
-      + "lays out which reagents to run and what order to run them in. Then "
-      + "just say what each one did. Already run a few? Put those in, in any "
-      + "order."),
+      "Wanna test something? Put it into the reagent tracker to run a reagent "
+      + "test. Just say what each color reaction was to each reagent. If you do "
+      + "not know what the substance is, say not sure. The tracker will walk you "
+      + "through the process."),
     /* BOTH PATHS EXPLAINED BEFORE THE CONTROLS, not after them. This sentence
        sat under the empty picker, which is below the thing it is instructions
        for — a reader following it had already had to guess. */
+    /* The sample rule, said where the tool is rather than only in the
+       procedure section: a reader who runs three reagents off one drop is
+       reading the first reagent three times, not the drug. Simon's and Morris
+       are the exceptions, and they are named so the rule does not read as
+       contradicting the bottle in somebody's hand. */
     h("p", { class: "sec__note" },
-      "No idea what you have? Leave it on ", h("em", null, "Not sure"),
-      " and start with Marquis. What Marquis does decides what you run next."),
+      h("strong", null, "NOTE:"),
+      " Each reagent needs its own sample. A two-part test (Simon's, Morris — "
+      + "two bottles, one after the other) is run on a single sample."),
     /* No fentanyl callout here. It used to sit in this tool AND inside
        "Reagents", which is the same warning twice on one screen — and a
        warning a reader has already scrolled past once is a warning they skim
