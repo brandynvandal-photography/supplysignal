@@ -13,8 +13,8 @@
       "Tell you how pure it is",
       "Confirm what is in it",
       "Tell you everything that is in it",
-      "Tell you whether fentanyl is in it — it is active in microgram amounts, and the main drug's own color reaction covers up any trace, so an expected color is not an all-clear on a powder or a pill. A fentanyl test strip is the tool for that, and it only clears the portion you tested",
-      "Read a bag the way a lab reads a reference sample — pure fentanyl does produce a color change in a forensic lab, but drug checking in Los Angeles found consumer fentanyl averaged 10% fentanyl by weight and pills 1.4%, so what you have is mostly filler, which is exactly the case a reagent cannot read",
+      "Tell you whether fentanyl is in it",
+      "Read a bag the way a lab reads a reference sample",
       "Make anything safe"
     ],
     "ruleInRuleOut": "A test can rule a substance IN. It cannot rule every other substance OUT.",
@@ -31,7 +31,6 @@
   },
   "prevalence": {
     "headline": "How often fentanyl actually turns up",
-    "why": "You will hear that fentanyl is in everything. That is true of some things and not others, and the difference matters — if you are told everything is contaminated and your supply keeps testing clean, you stop believing the warnings that are real. Here is what drug-checking programs actually find.",
     "rows": [
       {
         "what": "Sold as heroin or another opioid",
@@ -932,7 +931,7 @@
   },
   "companion": [
     "A smaller amount first, with time before any more, is what tells you about a batch before it tells you the hard way. It matters most with something new, or after any time away — tolerance drops faster than people expect.",
-    "Using alone is what turns most overdoses fatal — not the dose, the fact that nobody was there to notice. If there is no one around, Never Use Alone answers 24/7 at 1-800-484-3731 and sends help if you stop responding.",
+    "Using alone is what turns most overdoses into accidents — not the dose, the fact that nobody was there to notice. If there is no one around, Never Use Alone answers 24/7 at 1-800-484-3731 and sends help if you stop responding.",
     "Carry naloxone, and make sure whoever is with you knows where it is.",
     "Fentanyl and nitazenes are opioids — naloxone works on both. It may take more than one dose."
   ],

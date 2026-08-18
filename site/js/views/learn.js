@@ -170,7 +170,7 @@ export async function render(route, { go }) {
     h("div", { id: "sec-heat" },
       section("Heat, and water", null,
         h("p", { class: "sec__note" },
-          "More people die of overheating at events than of anything else."),
+          "More accidents at events come from overheating than from anything else."),
         h("a", { class: "bigptr", href: "#/heat" },
           h("span", { class: "bigptr__hd" }, "Heat, and water"),
           h("span", { class: "bigptr__sub" },
@@ -252,7 +252,10 @@ function startHere(e) {
       h("span", { class: "nbr__step", "aria-hidden": "true" }, String(n)),
       h("span", { class: "nbr__text" },
         h("span", { class: "nbr__name" }, title),
-        h("span", { class: "nbr__sub nbr__sub--wrap" }, sub)),
+        /* Only when there is one. An empty span still occupies a row in the
+           flex column and pushed the title off centre against the step
+           number. */
+        sub ? h("span", { class: "nbr__sub nbr__sub--wrap" }, sub) : null),
       h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")));
 
   const away = (href, reveal, n, title, sub) =>
@@ -260,7 +263,7 @@ function startHere(e) {
       h("span", { class: "nbr__step", "aria-hidden": "true" }, String(n)),
       h("span", { class: "nbr__text" },
         h("span", { class: "nbr__name" }, title),
-        h("span", { class: "nbr__sub nbr__sub--wrap" }, sub)),
+        sub ? h("span", { class: "nbr__sub nbr__sub--wrap" }, sub) : null),
       h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")));
 
   /* Only if the naloxone group actually rendered. A step pointing at a section
@@ -276,33 +279,18 @@ function startHere(e) {
          renders, and a data-reveal at a missing id fails the way every dead
          target in this app fails: silently, landing the reader at the top of
          the page as though the row were just a plain link. */
-      away("#/help", "sec-response", 1,
-        "Respond to an opioid overdose",
-        "The order matters and it changed recently — rescue breaths, naloxone, "
-        + "911, recovery position."),
+      away("#/help", "sec-response", 1, "Respond to an opioid overdose", null),
 
-      away("#/help", "sec-collapse", 2,
-        "When you do not know what it is",
-        "Somebody is down and nobody can say what they took. What to do when "
-        + "the answer has to work either way."),
+      away("#/help", "sec-collapse", 2, "When you do not know what it is", null),
 
-      here("sec-practice", 3,
-        "Practice both, now",
-        "Two short exercises with nothing riding on them. Reading how to do "
-        + "something and being able to do it at 3am are different."),
+      here("sec-practice", 3, "Practice both, now", null),
 
       hasNaloxone
-        ? here("sec-naloxone", 4,
-            "Get naloxone, free",
-            "Courses that mail you a kit at the end, and where to get it "
-            + "without one. It does nothing to somebody who has no opioids in "
-            + "them, which is why it is safe to carry and safe to give.")
+        ? here("sec-naloxone", 4, "Get naloxone, free", null)
         : null,
 
       away("#/test", null, hasNaloxone ? 5 : 4,
-        "What a test can and cannot tell you",
-        "Strips and reagents both answer narrower questions than people expect. "
-        + "Worth knowing before you rely on one.")));
+        "What a test can and cannot tell you", null)));
 }
 
 /* Sitting with someone having a hard time.

@@ -1,174 +1,174 @@
 {
- "note": "HAND-WRITTEN. Practice exercises, not a quiz. There is no score, no timer, no streak and no fail state anywhere in this file, and adding one would break the thing it is for. Content mirrors the real guidance in site/js/views/help.js and data/testing.json — if those change, this must change with them.",
- "lastVerified": "2026-08-11",
- "intro": "Reading how to do something and being able to do it at 3am are different. These let you practice, with nothing riding on it.",
- "strip": {
-  "title": "Read the strip",
-  "why": "One line means positive. That is backwards from every other test people have used, and it is the single most misread result in drug checking. Worth getting wrong here, where it costs nothing.",
-  "prompt": "What does this result mean?",
-  "options": [
-   {
-    "id": "positive",
-    "label": "Fentanyl detected"
-   },
-   {
-    "id": "negative",
-    "label": "Not detected"
-   },
-   {
-    "id": "invalid",
-    "label": "Invalid — test again"
-   }
-  ],
-  "cards": [
-   {
-    "id": "one",
-    "lines": 1,
-    "answer": "positive",
-    "alt": "A test strip showing one line, in the control area only.",
-    "right": "One line is POSITIVE — fentanyl is in the sample.",
-    "explain": "The strip works by competition: fentanyl in the sample blocks the test line from forming. The drug being present makes a line disappear. That is why it reads backwards from a pregnancy test."
-   },
-   {
-    "id": "two",
-    "lines": 2,
-    "answer": "negative",
-    "alt": "A test strip showing two lines.",
-    "right": "Two lines is NEGATIVE — nothing detected in what you tested.",
-    "explain": "A second line can be very faint and still count as negative. Wait the full time your instructions give before deciding — a faint line can appear and then fade. And a negative is about the sample you dissolved, not the rest of the bag."
-   },
-   {
-    "id": "none",
-    "lines": 0,
-    "answer": "invalid",
-    "alt": "A test strip showing no lines at all.",
-    "right": "No lines means the test failed — it tells you nothing.",
-    "explain": "No lines, or a line only on the end you dipped, means the strip did not run properly. Too much liquid, too little, or a bad strip. Use a new one; do not read it as negative."
-   }
-  ]
- },
- "overdose": {
-  "title": "Walk through an overdose",
-  "why": "The order matters more than people expect, and it changed recently. Nothing here is timed and nothing is scored — take as long as you want on each one.",
-  "steps": [
-   {
-    "id": "first",
-    "scene": "Someone is slumped over and not moving. You are the only person there.",
-    "ask": "What do you do first?",
+  "note": "HAND-WRITTEN. Practice exercises, not a quiz. There is no score, no timer, no streak and no fail state anywhere in this file, and adding one would break the thing it is for. Content mirrors the real guidance in site/js/views/help.js and data/testing.json — if those change, this must change with them.",
+  "lastVerified": "2026-08-11",
+  "intro": "Reading how to do something and being able to do it at 3am are different. These let you practice, with nothing riding on it.",
+  "strip": {
+    "title": "Read the strip",
+    "why": "One line means positive. That is backwards from every other test people have used, and it is the single most misread result in drug checking. Worth getting wrong here, where it costs nothing.",
+    "prompt": "What does this result mean?",
     "options": [
-     {
-      "id": "breath",
-      "label": "Look at their chest for breathing",
-      "ok": true
-     },
-     {
-      "id": "shake",
-      "label": "Shake them and shout their name"
-     },
-     {
-      "id": "call",
-      "label": "Call 911 right away"
-     },
-     {
-      "id": "naloxone",
-      "label": "Give naloxone immediately"
-     }
+      {
+        "id": "positive",
+        "label": "Fentanyl detected"
+      },
+      {
+        "id": "negative",
+        "label": "Not detected"
+      },
+      {
+        "id": "invalid",
+        "label": "Invalid — test again"
+      }
     ],
-    "right": "Breathing first. Look at their chest.",
-    "explain": "This changed in 2025. Sedatives now common in the supply — xylazine, medetomidine — can leave someone impossible to wake while their breathing is fine. Checking whether they respond first can mislead you in both directions. Bad breathing or no response, either one, means act.",
-    "onWrong": {
-     "shake": "Reasonable, and it used to be step one. But someone can be unwakeable and breathing fine on a sedative — the chest tells you more than the shoulder does.",
-     "call": "You will call, and soon. But look at their chest first so you can tell the dispatcher whether they are breathing, which is the thing that changes what happens next.",
-     "naloxone": "Not wrong, and if it is already in your hand it costs seconds. But look at the chest first — you need to know what you are treating and whether it is working."
-    }
-   },
-   {
-    "id": "breathing",
-    "scene": "Their breathing is slow and sounds like snoring. They do not wake when you shout or rub their breastbone.",
-    "ask": "What now?",
-    "options": [
-     {
-      "id": "naloxone",
-      "label": "Give naloxone and call 911",
-      "ok": true
-     },
-     {
-      "id": "wait",
-      "label": "Wait a few minutes to see if they come to"
-     },
-     {
-      "id": "coffee",
-      "label": "Try to walk them around or give them a cold shower"
-     },
-     {
-      "id": "sleep",
-      "label": "Put them to bed on their side and check later"
-     }
+    "cards": [
+      {
+        "id": "one",
+        "lines": 1,
+        "answer": "positive",
+        "alt": "A test strip showing one line, in the control area only.",
+        "right": "One line is POSITIVE — fentanyl is in the sample.",
+        "explain": "The strip works by competition: fentanyl in the sample blocks the test line from forming. The drug being present makes a line disappear. That is why it reads backwards from a pregnancy test."
+      },
+      {
+        "id": "two",
+        "lines": 2,
+        "answer": "negative",
+        "alt": "A test strip showing two lines.",
+        "right": "Two lines is NEGATIVE — nothing detected in what you tested.",
+        "explain": "A second line can be very faint and still count as negative. Wait the full time your instructions give before deciding — a faint line can appear and then fade. And a negative is about the sample you dissolved, not the rest of the bag."
+      },
+      {
+        "id": "none",
+        "lines": 0,
+        "answer": "invalid",
+        "alt": "A test strip showing no lines at all.",
+        "right": "No lines means the test failed — it tells you nothing.",
+        "explain": "No lines, or a line only on the end you dipped, means the strip did not run properly. Too much liquid, too little, or a bad strip. Use a new one; do not read it as negative."
+      }
+    ]
+  },
+  "overdose": {
+    "title": "Walk through an overdose",
+    "why": "The order matters more than people expect, and it changed recently. Nothing here is timed and nothing is scored — take as long as you want on each one.",
+    "steps": [
+      {
+        "id": "first",
+        "scene": "Someone is slumped over and not moving. You are the only person there.",
+        "ask": "What do you do first?",
+        "options": [
+          {
+            "id": "breath",
+            "label": "Look at their chest for breathing",
+            "ok": true
+          },
+          {
+            "id": "shake",
+            "label": "Shake them and shout their name"
+          },
+          {
+            "id": "call",
+            "label": "Call 911 right away"
+          },
+          {
+            "id": "naloxone",
+            "label": "Give naloxone immediately"
+          }
+        ],
+        "right": "Breathing first. Look at their chest.",
+        "explain": "This changed in 2025. Sedatives now common in the supply — xylazine, medetomidine — can leave someone impossible to wake while their breathing is fine. Checking whether they respond first can mislead you in both directions. Bad breathing or no response, either one, means act.",
+        "onWrong": {
+          "shake": "Reasonable, and it used to be step one. But someone can be unwakeable and breathing fine on a sedative — the chest tells you more than the shoulder does.",
+          "call": "You will call, and soon. But look at their chest first so you can tell the dispatcher whether they are breathing, which is the thing that changes what happens next.",
+          "naloxone": "Not wrong, and if it is already in your hand it costs seconds. But look at the chest first — you need to know what you are treating and whether it is working."
+        }
+      },
+      {
+        "id": "breathing",
+        "scene": "Their breathing is slow and sounds like snoring. They do not wake when you shout or rub their breastbone.",
+        "ask": "What now?",
+        "options": [
+          {
+            "id": "naloxone",
+            "label": "Give naloxone and call 911",
+            "ok": true
+          },
+          {
+            "id": "wait",
+            "label": "Wait a few minutes to see if they come to"
+          },
+          {
+            "id": "coffee",
+            "label": "Try to walk them around or give them a cold shower"
+          },
+          {
+            "id": "sleep",
+            "label": "Put them to bed on their side and check later"
+          }
+        ],
+        "right": "Naloxone, and call 911.",
+        "explain": "Snoring or gurgling breathing is an obstructed airway, not sleep. If you are alone and naloxone is in your hand, give it first, then call — with two people, one calls while the other doses.",
+        "onWrong": {
+          "wait": "Waiting is the thing that does the damage here. Lack of oxygen is what causes it, and it is happening while you wait.",
+          "coffee": "These do not work and they waste the minutes that do. Cold water and walking cannot make someone breathe.",
+          "sleep": "Leaving someone in this state is how the airway closes the rest of the way and the breathing stops, with nobody in the room. Snoring here is the airway, not sleep."
+        }
+      },
+      {
+        "id": "waiting",
+        "scene": "You gave one dose of naloxone. Two minutes later their breathing is better but they are still asleep and confused.",
+        "ask": "What does this mean?",
+        "options": [
+          {
+            "id": "worked",
+            "label": "It worked — watch them and stay",
+            "ok": true
+          },
+          {
+            "id": "more",
+            "label": "It failed — give more doses until they wake up"
+          },
+          {
+            "id": "leave",
+            "label": "They are stable now, so you can head off"
+          }
+        ],
+        "right": "It worked. Breathing is the measure, not waking.",
+        "explain": "Judge by their chest, not their eyes. Someone can stay asleep after a reversal that already worked — that is the sedative, not a failed dose. Naloxone wears off in 30–90 minutes and most opioids last longer, so they can go under again.",
+        "onWrong": {
+          "more": "Understandable, but stacking doses to force someone awake can throw them into hard withdrawal for no gain. If breathing improved, it worked.",
+          "leave": "This is the most common mistake that turns a successful reversal into an accident. Naloxone wears off before the drug does, and if you have gone, no one is there when their breathing drops again."
+        }
+      },
+      {
+        "id": "xylazine",
+        "scene": "A different night. You gave naloxone, breathing improved, but they are still deeply sedated — and you know tranq is around.",
+        "ask": "What does naloxone do about the xylazine?",
+        "options": [
+          {
+            "id": "nothing",
+            "label": "Nothing — but you still give it",
+            "ok": true
+          },
+          {
+            "id": "reverses",
+            "label": "It reverses xylazine too"
+          },
+          {
+            "id": "skip",
+            "label": "Skip naloxone if you think it is xylazine"
+          }
+        ],
+        "right": "Nothing for the xylazine — and you give it anyway.",
+        "explain": "Xylazine and medetomidine are not opioids, so naloxone cannot lift their sedation. It still reverses the fentanyl that is almost always with them, and the fentanyl is what stops breathing. Watch their breathing rather than whether they wake up.",
+        "onWrong": {
+          "reverses": "It does not — they are alpha-2 agonists, a different receptor entirely. That is why someone stays sedated after a reversal that worked.",
+          "skip": "This is the dangerous version of knowing about xylazine. Skipping naloxone leaves the fentanyl unreversed, and the fentanyl is the part that stops breathing."
+        }
+      }
     ],
-    "right": "Naloxone, and call 911.",
-    "explain": "Snoring or gurgling breathing is an obstructed airway, not sleep. If you are alone and naloxone is in your hand, give it first, then call — with two people, one calls while the other doses.",
-    "onWrong": {
-     "wait": "Waiting is the thing that does the damage here. Lack of oxygen is what causes it, and it is happening while you wait.",
-     "coffee": "These do not work and they waste the minutes that do. Cold water and walking cannot make someone breathe.",
-     "sleep": "Leaving someone in this state is how the airway closes the rest of the way and the breathing stops, with nobody in the room. Snoring here is the airway, not sleep."
+    "close": {
+      "title": "That is the whole protocol",
+      "body": "Breathing first. Naloxone even when unsure. Judge by the chest. Stay. If you want the full version with sources, it is on the Emergency tab — and a real course with a certificate, often with free naloxone at the end, is one tap away below."
     }
-   },
-   {
-    "id": "waiting",
-    "scene": "You gave one dose of naloxone. Two minutes later their breathing is better but they are still asleep and confused.",
-    "ask": "What does this mean?",
-    "options": [
-     {
-      "id": "worked",
-      "label": "It worked — watch them and stay",
-      "ok": true
-     },
-     {
-      "id": "more",
-      "label": "It failed — give more doses until they wake up"
-     },
-     {
-      "id": "leave",
-      "label": "They are stable now, so you can head off"
-     }
-    ],
-    "right": "It worked. Breathing is the measure, not waking.",
-    "explain": "Judge by their chest, not their eyes. Someone can stay asleep after a reversal that already worked — that is the sedative, not a failed dose. Naloxone wears off in 30–90 minutes and most opioids last longer, so they can go under again.",
-    "onWrong": {
-     "more": "Understandable, but stacking doses to force someone awake can throw them into hard withdrawal for no gain. If breathing improved, it worked.",
-     "leave": "This is the most common fatal mistake after a successful reversal. Naloxone wears off before the drug does, and if you have gone, no one is there when their breathing drops again."
-    }
-   },
-   {
-    "id": "xylazine",
-    "scene": "A different night. You gave naloxone, breathing improved, but they are still deeply sedated — and you know tranq is around.",
-    "ask": "What does naloxone do about the xylazine?",
-    "options": [
-     {
-      "id": "nothing",
-      "label": "Nothing — but you still give it",
-      "ok": true
-     },
-     {
-      "id": "reverses",
-      "label": "It reverses xylazine too"
-     },
-     {
-      "id": "skip",
-      "label": "Skip naloxone if you think it is xylazine"
-     }
-    ],
-    "right": "Nothing for the xylazine — and you give it anyway.",
-    "explain": "Xylazine and medetomidine are not opioids, so naloxone cannot lift their sedation. It still reverses the fentanyl that is almost always with them, and the fentanyl is what stops breathing. Watch their breathing rather than whether they wake up.",
-    "onWrong": {
-     "reverses": "It does not — they are alpha-2 agonists, a different receptor entirely. That is why someone stays sedated after a reversal that worked.",
-     "skip": "This is the dangerous version of knowing about xylazine. Skipping naloxone leaves the fentanyl unreversed, and the fentanyl is the part that stops breathing."
-    }
-   }
-  ],
-  "close": {
-   "title": "That is the whole protocol",
-   "body": "Breathing first. Naloxone even when unsure. Judge by the chest. Stay. If you want the full version with sources, it is on the Emergency tab — and a real course with a certificate, often with free naloxone at the end, is one tap away below."
   }
- }
 }

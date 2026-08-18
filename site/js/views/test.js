@@ -291,9 +291,10 @@ export async function render(route, ctx) {
          quietly said it was not. Two answers to one question on one screen is
          worse than either answer alone. */
       brandPicker(g.brands),
-      callout("warn", "One line means positive — yes, really",
-        h("p", null, fts.reading.explain),
-        h("p", null, fts.reading.faintLine)),
+      /* The one-line-means-positive panel is gone too. It sat directly above
+         the strip diagram that shows exactly this, labelled. */
+      h("p", null, fts.reading.explain),
+      h("p", { class: "sec__note" }, fts.reading.faintLine),
       /* Each type, under the reading it shares. */
       g.strips.map((s) => stripCard(s, g)))
   );
@@ -1464,7 +1465,9 @@ function prevalenceBlock(p) {
       h("h3", null, "Why the death statistics look different"),
       h("p", null, p.coUse),
       h("p", { class: "sec__note" }, p.regional),
-      callout("info", "What that means for you", h("p", null, p.bottomLine)),
+      /* "What that means for you" is gone. The table above it is the argument,
+         and a coloured box restating the argument underneath is the third time
+         a reader meets it on one screen. */
       sourceRow(p.sources)));
 }
 

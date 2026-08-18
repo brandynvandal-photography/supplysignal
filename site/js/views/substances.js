@@ -1344,8 +1344,9 @@ function comedownFor(doc, s) {
           s.tolerance?.half ? h("p", null, h("strong", null, "Tolerance halves in: "), s.tolerance.half) : null,
           s.tolerance?.zero ? h("p", null, h("strong", null, "Back to baseline: "), s.tolerance.zero) : null,
           h("p", { class: "sec__note" },
-            "Tolerance dropping is a leading cause of fatal overdose. After any break — " +
-            "jail, hospital, treatment, illness — a previously normal amount can be fatal.")))
+            "Tolerance dropping is a leading cause of overdose accidents. After any " +
+            "break — jail, hospital, treatment, illness — a previously normal amount can " +
+            "cause one.")))
     );
   }
 

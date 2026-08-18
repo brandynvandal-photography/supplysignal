@@ -277,17 +277,31 @@ export function callout(kind, title, ...body) {
     h("h3", null, title)
   );
 
+  /* A FOLD IS ALREADY ONE LINE. Only the boxes that cannot close get split.
+   *
+   * info and warn callouts render as <details>: shut, they show a heading and
+   * nothing else, which is already inside the rule. Demoting their tail out of
+   * the box broke that - the "Your location never leaves this device" panel sat
+   * closed on the Alerts screen with two paragraphs of its own content stranded
+   * underneath it, which is a worse thing than the length ever was. Caught on an
+   * iPad before the build went out.
+   *
+   * A stop callout has no fold: it is always open, always on screen, and it is
+   * the one a reader is most likely to be reading in a hurry. That is the box
+   * the rule is for. */
+  const folds = kind !== "stop" && kids.length;
+  if (folds) {
+    return h("details", { class: `callout callout--${kind} callout--fold` },
+      head("summary"),
+      h("div", { class: "callout__body" }, ...kids.map(node)));
+  }
+
   const [lead, tail] = kids.length ? splitLead(node(kids[0])) : [null, null];
   /* Sources stay with the box rather than being demoted - a citation is not a
      second point, it is the first one's provenance. */
   const rest = [tail, ...kids.slice(1).map(node)].filter(Boolean);
   const after = rest.length ? h("div", { class: "callout__after" }, ...rest) : null;
-
-  const box = (kind === "stop" || !lead)
-    ? h("div", { class: `callout callout--${kind}` }, head("div"), lead)
-    : h("details", { class: `callout callout--${kind} callout--fold` },
-        head("summary"),
-        h("div", { class: "callout__body" }, lead));
+  const box = h("div", { class: `callout callout--${kind}` }, head("div"), lead);
 
   return after ? frag(box, after) : box;
 }

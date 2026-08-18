@@ -1,7 +1,6 @@
 {
   "_doc": "Coming down — what to do after the effects have worn off. Keyed by substance id first, then by psychoactive class. A substance with no entry renders NO section: the rule for this file is that an absence is better than a guess, and 'drink water and rest' padded onto every drug page would teach the reader to skip the one page where the advice is specific. Every item carries a source that was read at source. Nothing here is a product, a supplement stack or a 'detox' — where those are marketed and unevidenced, the file says so rather than staying silent, because silence is what lets the marketing stand.",
   "lastVerified": "2026-08-17",
-
   "byClass": {
     "Stimulants": {
       "lead": "The crash is not a separate illness. It is the same drug leaving, and it follows a shape that is fairly well described.",
@@ -10,16 +9,28 @@
           "t": "Sleep is the treatment, and it takes more than one night",
           "d": "Cocaine, methamphetamine and amphetamines all borrow sleep and the debt is repaid with interest. Low mood, no energy, hunger and heavy sleep are the documented withdrawal picture; the worst of it is in the first few days and most of it settles over a week or so. Nothing shortens it — no medication has been shown to treat the crash — so the plan is a place to sleep and nobody expecting anything of you.",
           "sources": [
-            { "name": "Srisurapanont et al., 2003 (N=168) — amphetamine withdrawal course", "url": "https://pubmed.ncbi.nlm.nih.gov/14604449/" },
-            { "name": "Cochrane — treatment for amphetamine withdrawal", "url": "https://pubmed.ncbi.nlm.nih.gov/19370579/" }
+            {
+              "name": "Srisurapanont et al., 2003 (N=168) — amphetamine withdrawal course",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/14604449/"
+            },
+            {
+              "name": "Cochrane — treatment for amphetamine withdrawal",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/19370579/"
+            }
           ]
         },
         {
           "t": "Redosing to hold the crash off makes it longer",
           "d": "The low is the debt coming due. Another dose defers it and adds to it, and this is the point in a run where sleep loss starts to matter more than the drug: staying awake past about a day and a half degrades attention as much as being legally drunk, and it keeps compounding for as long as it goes on.",
           "sources": [
-            { "name": "Van Dongen et al., Sleep 2003 — cumulative cost of sleep restriction", "url": "https://academic.oup.com/sleep/article-abstract/26/2/117/2709164" },
-            { "name": "Dawson & Reid, Nature 1997 — sleep loss and impairment", "url": "https://pubmed.ncbi.nlm.nih.gov/9230429/" }
+            {
+              "name": "Van Dongen et al., Sleep 2003 — cumulative cost of sleep restriction",
+              "url": "https://academic.oup.com/sleep/article-abstract/26/2/117/2709164"
+            },
+            {
+              "name": "Dawson & Reid, Nature 1997 — sleep loss and impairment",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/9230429/"
+            }
           ]
         },
         {
@@ -30,20 +41,28 @@
           "t": "If the low turns into thoughts of not being here",
           "d": "That is a known part of a heavy stimulant crash rather than a verdict on your life, and it lifts. Being alone with it is the risk. Tell one person, or call or text 988 — you do not have to be in danger to use it.",
           "sources": [
-            { "name": "National Harm Reduction Coalition — responding to stimulant overamping", "url": "https://harmreduction.org/issues/overdose-prevention/overview/stimulant-overamping-basics/responding-to-stimulant-overamping/" }
+            {
+              "name": "National Harm Reduction Coalition — responding to stimulant overamping",
+              "url": "https://harmreduction.org/issues/overdose-prevention/overview/stimulant-overamping-basics/responding-to-stimulant-overamping/"
+            }
           ]
         },
         {
           "t": "Seeing or hearing things after a long run",
           "d": "Stimulant psychosis is more likely with heavier and more frequent use, and sleep is the strongest single thing that resolves it. If it does not clear after sleep, or you are frightened of yourself, that is a reason to be seen rather than to wait it out.",
           "sources": [
-            { "name": "McKetin et al., JAMA Psychiatry 2013 — psychosis and methamphetamine use", "url": "https://pubmed.ncbi.nlm.nih.gov/23303471/" },
-            { "name": "Arunogiri et al., 2018 — systematic review", "url": "https://pubmed.ncbi.nlm.nih.gov/29338289/" }
+            {
+              "name": "McKetin et al., JAMA Psychiatry 2013 — psychosis and methamphetamine use",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/23303471/"
+            },
+            {
+              "name": "Arunogiri et al., 2018 — systematic review",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/29338289/"
+            }
           ]
         }
       ]
     },
-
     "Entactogen": {
       "lead": "The days after are more predictable than the night itself, and the two things that hurt people are water and impatience.",
       "items": [
@@ -51,9 +70,18 @@
           "t": "Water: the danger is too much, not too little",
           "d": "MDMA makes the body hold water, and drinking to a schedule rather than to thirst is how people end up with dangerously low blood sodium — confusion, headache, vomiting, seizures. Drink when thirsty. If someone who has been drinking a lot of water becomes confused or unwell, that is an emergency and worth saying out loud to the medics, because it is treated in the opposite direction from dehydration.",
           "sources": [
-            { "name": "Atila et al., JAMA Netw Open 2024 — MDMA and hyponatremia", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11568463/" },
-            { "name": "Hew-Butler et al. — exercise-associated hyponatremia consensus", "url": "https://pubmed.ncbi.nlm.nih.gov/26102445/" },
-            { "name": "Almond et al., N Engl J Med 2005 — hyponatremia among marathon runners", "url": "https://pubmed.ncbi.nlm.nih.gov/15829535/" }
+            {
+              "name": "Atila et al., JAMA Netw Open 2024 — MDMA and hyponatremia",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11568463/"
+            },
+            {
+              "name": "Hew-Butler et al. — exercise-associated hyponatremia consensus",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/26102445/"
+            },
+            {
+              "name": "Almond et al., N Engl J Med 2005 — hyponatremia among marathon runners",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/15829535/"
+            }
           ]
         },
         {
@@ -66,7 +94,6 @@
         }
       ]
     },
-
     "Depressant": {
       "lead": "Coming off a depressant is the one comedown that can be medically dangerous on its own — not from the drug, but from what the body does without it.",
       "items": [
@@ -74,7 +101,10 @@
           "t": "If you use most days, stopping suddenly is the risk",
           "d": "For alcohol and benzodiazepines both, daily use builds a dependence where abrupt stopping can cause seizures — this is the thing that puts people in hospital, and the FDA's own boxed warning says it plainly. Coming down from one night is not this. If you are physically dependent, a taper worked out with a clinician is the safe route, and stopping alone is the thing not to do.",
           "sources": [
-            { "name": "FDA benzodiazepine boxed warning (2020)", "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requiring-boxed-warning-updated-improve-safe-use-benzodiazepine-drug-class" }
+            {
+              "name": "FDA benzodiazepine boxed warning (2020)",
+              "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requiring-boxed-warning-updated-improve-safe-use-benzodiazepine-drug-class"
+            }
           ]
         },
         {
@@ -89,12 +119,14 @@
           "t": "Heavy drinking over months, and thiamine",
           "d": "Sustained heavy drinking depletes thiamine, and that deficiency causes a brain injury that starts as confusion, unsteadiness and eye movement problems. It is preventable and treatable, and it is a genuine reason to see a clinician rather than to ride out a bad week.",
           "sources": [
-            { "name": "NHS — Wernicke's encephalopathy and thiamine", "url": "https://www.nhs.uk/conditions/wernickes-encephalopathy/" }
+            {
+              "name": "NHS — Wernicke's encephalopathy and thiamine",
+              "url": "https://www.nhs.uk/conditions/wernickes-encephalopathy/"
+            }
           ]
         }
       ]
     },
-
     "Opioids": {
       "lead": "The hours after are about two things: that naloxone does not last as long as the drug it reversed, and that a break changes what your usual amount does.",
       "items": [
@@ -102,12 +134,15 @@
           "t": "After naloxone, somebody stays",
           "d": "Naloxone wears off well before fentanyl does — the label puts its effect at roughly half an hour to an hour and a half — so someone who woke up can go back under afterwards. Do not leave them, and if breathing slows again, give another dose. This is the single most useful thing to know about the hours after.",
           "sources": [
-            { "name": "FDA — naloxone nasal spray label", "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1fc091cf-a492-2750-e063-6294a90a0aa8" }
+            {
+              "name": "FDA — naloxone nasal spray label",
+              "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=1fc091cf-a492-2750-e063-6294a90a0aa8"
+            }
           ]
         },
         {
           "t": "A break lowers your tolerance faster than it feels like it should",
-          "d": "After jail, hospital, treatment, illness or any stretch without using, the amount that was normal before can be fatal. This is one of the most common ways people die. Start far below what you used to take, and not alone."
+          "d": "After jail, hospital, treatment, illness or any stretch without using, the amount that was normal before can cause an accident. This is one of the most common ways accidents happen. Start far below what you used to take, and not alone."
         },
         {
           "t": "Withdrawal is miserable, and it is not the dangerous part",
@@ -115,7 +150,6 @@
         }
       ]
     },
-
     "Dissociatives": {
       "lead": "The two things that matter afterwards are not the ones people expect: how long your coordination stays off, and what repeated use does to the bladder.",
       "items": [
@@ -129,7 +163,6 @@
         }
       ]
     },
-
     "Psychedelic": {
       "lead": "Mostly this is about sleep, food, and not treating the day after as a verdict on anything.",
       "items": [
@@ -141,13 +174,15 @@
           "t": "A hard trip does not end when the effects do",
           "d": "Shakiness, dread or a raw, tender feeling the next day is common after a difficult experience. Sleep, food, daylight and one person who was there help more than analysis does. If fear or unreality is still there days later, or you cannot sleep at all, that is worth a clinician.",
           "sources": [
-            { "name": "Zendo Project — working with difficult psychedelic experiences", "url": "https://zendoproject.org/bulletin/understanding-and-working-with-difficult-psychedelic-experiences/" }
+            {
+              "name": "Zendo Project — working with difficult psychedelic experiences",
+              "url": "https://zendoproject.org/bulletin/understanding-and-working-with-difficult-psychedelic-experiences/"
+            }
           ]
         }
       ]
     }
   },
-
   "bySubstance": {
     "ghb": {
       "lead": "GHB is the depressant where the round-the-clock pattern, not the single night, is what puts people in intensive care.",
@@ -156,15 +191,24 @@
           "t": "Dosing through the night builds dependence in weeks",
           "d": "People who dose every few hours around the clock can become dependent quickly, and that withdrawal — agitation, confusion, a racing heart, delirium — is a medical emergency treated in hospital rather than at home. It is one of the few withdrawals that kills.",
           "sources": [
-            { "name": "Le & Richards, StatPearls — GHB toxicity", "url": "https://www.ncbi.nlm.nih.gov/books/NBK430781/" },
-            { "name": "DanceSafe — GHB", "url": "https://dancesafe.org/ghb/" }
+            {
+              "name": "Le & Richards, StatPearls — GHB toxicity",
+              "url": "https://www.ncbi.nlm.nih.gov/books/NBK430781/"
+            },
+            {
+              "name": "DanceSafe — GHB",
+              "url": "https://dancesafe.org/ghb/"
+            }
           ]
         },
         {
           "t": "Sleeping it off is not the same as being asleep",
           "d": "Deep GHB sedation looks like sleep and is not. Someone should be on their side, and someone should be with them.",
           "sources": [
-            { "name": "GHB case (PubMed 10527300)", "url": "https://pubmed.ncbi.nlm.nih.gov/10527300/" }
+            {
+              "name": "GHB case (PubMed 10527300)",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/10527300/"
+            }
           ]
         }
       ]

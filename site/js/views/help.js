@@ -685,7 +685,7 @@ export function saferUseBlock() {
         // This framing used to sit in the section caption. The captions are
         // gone, and it was the only place this was said, so it moves into the
         // body rather than being lost.
-        h("p", null, "None of this makes drug use safe. It lowers the odds of dying."),
+        h("p", null, "None of this makes drug use safe. It lowers the odds of an accident."),
         h("ul", null,
           li("Don’t use alone.", "If no one can be there, call Never Use Alone (1-800-484-3731) or use an app that will send help if you stop responding."),
           li("Start with much less than usual.", "Potency varies wildly between batches and even within one batch. A tolerance from last month does not apply to a new supply."),
