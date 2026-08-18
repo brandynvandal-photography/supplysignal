@@ -233,8 +233,11 @@ if (env === "prod") {
     const t = path.join(tmp, "netlify.toml");
     if (existsSync(t)) {
       const raw = readFileSync(t, "utf8");
+      /* The injection is "\n" + MARK + block appended to a file already
+         ending in a newline. Stripping must remove that added "\n" too, or
+         the gate compares X against X-plus-one-byte forever. It did. */
       const cut = raw.indexOf("\n" + MARK);
-      if (cut > -1) writeFileSync(t, raw.slice(0, cut + 1));
+      if (cut > -1) writeFileSync(t, raw.slice(0, cut));
     }
     stagingHash = shipTreeHash(tmp);
     rmSync(tmp, { recursive: true, force: true });
