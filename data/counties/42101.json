@@ -41,11 +41,13 @@
     }
   ],
   "coverage": {
-    "lastScan": "2026-08-18T09:54:20.196Z",
+    "lastScan": "2026-08-18T13:15:17.113Z",
     "windowDays": 365,
     "sourcesChecked": 33,
     "sourcesFailed": [
       "la-ldh",
+      "mt-dphhs",
+      "grassroots-hr",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
