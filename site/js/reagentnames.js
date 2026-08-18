@@ -78,6 +78,12 @@ export const NAMED_REAGENTS = Object.keys(LABELS);
  * this repo describes how they are supplied or run - so they say nothing here
  * rather than something guessed, and the Reagents section says so out loud.
  * test/reagentmatch.test.mjs holds this map and the twoPart flags together. */
+/* Card ids in data/testing.json are long ("morris"); picker and table keys
+   are short ("Morr"). This is the one join, used by the Reagents cards and by
+   the guard test - a second copy of it is how the two drift. */
+const CARD_KEYS = { simons: "Simons", morris: "Morr" };
+export const reagentKeyForCard = (id) => CARD_KEYS[String(id || "").toLowerCase()] || null;
+
 const HOWTO = {
   Simons: "Simon's is two bottles on one sample: bottle A, then bottle B on the same spot.",
   Morr: "Morris is two bottles on one sample: use double the sample, add both bottles, then stir " +
@@ -123,9 +129,22 @@ export const TWO_PART_REAGENTS = Object.keys(HOWTO);
  * SOLE published colour for that reagent, so nothing unique is lost. A test
  * asserts that, because it is the assumption this rests on.
  */
+/* MORRIS HAS TWO NOTHING-COLORS, NOT ONE.
+ *
+ * Pink is the droplet - the aquo-cobalt(II) species, the color the reagent
+ * already is. But Morris is two bottles stirred together, and the mixed test
+ * with nothing reactive in it settles to a pale sea-foam green: the guide's
+ * own card says "know this color", and the table encodes the same fact as a
+ * pink-then-green progression on 44 of Morris's 58 rows - substances Morris
+ * has nothing to say about at all. Scoring green as a real reading matched a
+ * reader against those 44 on the strength of a test that did nothing.
+ *
+ * VERIFIED SAFE: green is the sole published Morris color for zero substances
+ * - cocaine keeps blue, ketamine keeps purple - and the sole-color test below
+ * this map holds for every entry in it. */
 const BLANK = {
   Simons: ["orange", "peach"],
-  Morr: ["pink"],
+  Morr: ["pink", "green"],
   Scott: ["pink"],
 };
 

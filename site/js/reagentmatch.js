@@ -59,7 +59,7 @@
  * whether they read the colour the way the source did.
  */
 
-import { isBlankReading } from "./reagentnames.js";
+import { isBlankReading, blankColorsFor } from "./reagentnames.js";
 
 /** One observation contradicts a documented result. */
 const DISAGREE = "disagrees";
@@ -95,7 +95,24 @@ export function compare(row, observed) {
   if (!row) return UNKNOWN;
   const colors = (row.colors || []).map((c) => String(c).toLowerCase());
   const hit = () => colors.includes(String(observed).toLowerCase());
-  const mayBeNone = row.none === true;
+  /* A ROW PUBLISHED AS ONLY THE REAGENT'S OWN COLORS IS A DOCUMENTED
+   * NO-REACTION. 43 of Morris's 58 rows are exactly ["pink", "green"] - the
+   * droplet's own pink and the sea-foam green the stirred two-part mix settles
+   * to with nothing reactive in it. PsychonautWiki published the unreacted
+   * progression as if it were a result, and reading it as one made a truthful
+   * "no reaction" on Morris CONTRADICT heroin, LSD and MDMA - eliminating, on
+   * the strength of a reagent that does nothing to them, the substance the
+   * person may actually be holding. That is the one failure this file exists
+   * to prevent, hiding in the data rather than the code.
+   *
+   * So a blank-only row takes the same branch as `none: true` with colors:
+   * "no reaction" agrees, the blank colors agree (and are already discarded
+   * upstream), and only a real color - cocaine's blue against heroin's
+   * nothing - contradicts. */
+  const blankOnly = colors.length > 0
+    && !!blankColorsFor(row.reagent)
+    && colors.every((c) => isBlankReading(row.reagent, c));
+  const mayBeNone = row.none === true || blankOnly;
   const observedNone = observed === "none";
 
   /* BOTH is a real state, not a contradiction.

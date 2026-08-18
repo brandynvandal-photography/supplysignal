@@ -14,7 +14,7 @@
  */
 
 import { match, compare, checkSoldAs } from "../site/js/reagentmatch.js";
-import { NAMED_REAGENTS as NAMED, BLANK_REAGENTS, isBlankReading, reagentHowTo, TWO_PART_REAGENTS } from "../site/js/reagentnames.js";
+import { NAMED_REAGENTS as NAMED, BLANK_REAGENTS, isBlankReading, reagentHowTo, TWO_PART_REAGENTS, reagentKeyForCard, blankColorsFor } from "../site/js/reagentnames.js";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -376,25 +376,29 @@ check("alternatives are carried, never concatenated into one sequence", () => {
 
 /* ------------------------------------------- the bottle is not a result */
 
-check("the unreacted reagent's own color is never the only thing published", () => {
-  /* THE ASSUMPTION THE WHOLE RULE RESTS ON. Pink on Morris and orange on
-     Simon's are discarded as readings because they are what the bottle looks
-     like before it touches anything — 57 of 58 Morris rows lead with pink,
-     across substances Morris has nothing to say about. That is only safe to
-     discard if no substance depends on it as its ONLY published color for that
-     reagent; if one ever did, discarding would delete a real result. */
-  const bad = [];
+check("a row of only the reagent's own colors behaves as a documented no-reaction", () => {
+  /* 43 of Morris's 58 rows are exactly ["pink","green"] - the unreacted
+     droplet and the settled two-part baseline, published as if they were
+     results. The old guard forbade blank colors from being a row's whole
+     story; the truth is those rows ARE the no-reaction story, and the matcher
+     now reads them that way. Assert it end to end: a truthful "no reaction"
+     must never eliminate a substance whose row is blank-only, and must count
+     as agreement with it. */
+  let checked = 0;
   for (const [id, rows] of Object.entries(TABLE)) {
-    for (const r of rows) {
-      if (!BLANK_REAGENTS.includes(r.reagent)) continue;
-      const colors = r.colors || [];
-      if (!colors.length) continue;
-      if (colors.every((c) => isBlankReading(r.reagent, c))) {
-        bad.push(`${id}/${r.reagent}: ${colors.join(",")}`);
-      }
+    for (const row of rows) {
+      const blanks = blankColorsFor(row.reagent);
+      if (!blanks || !(row.colors || []).length) continue;
+      if (!(row.colors || []).every((c) => isBlankReading(row.reagent, String(c).toLowerCase()))) continue;
+      checked++;
+      const out = match({ [row.reagent]: "none" }, TABLE);
+      if (out.ruledOut.some((x) => x.id === id))
+        return `${id}/${row.reagent} is blank-only (${row.colors}) yet "no reaction" ruled it out`;
+      if (!out.consistent.some((x) => x.id === id) && !out.partial.some((x) => x.id === id))
+        return `${id}/${row.reagent}: "no reaction" neither consistent nor partial`;
     }
   }
-  return bad.length ? `blank color is the only published one for ${bad.join("; ")}` : null;
+  return checked >= 40 ? null : `only ${checked} blank-only rows found - the Morris data changed, re-check this`;
 });
 
 check("a blank reading confirms nobody and eliminates nobody", () => {
@@ -442,11 +446,10 @@ check("every twoPart reagent card has run instructions in reagentnames", () => {
   /* Card ids are long ("morris"); picker/table keys are short ("Morr"). This
      map is the join, and the check below fails loudly when a new two-part
      card is added without extending it. */
-  const KEY = { simons: "Simons", morris: "Morr" };
   for (const r of guide.reagents) {
     if (!r.twoPart) continue;
-    const key = KEY[r.id];
-    if (!key) return `two-part card "${r.id}" has no picker-key mapping in this test - add it and a HOWTO entry`;
+    const key = reagentKeyForCard(r.id);
+    if (!key) return `two-part card "${r.id}" has no entry in reagentnames' CARD_KEYS - add it and a HOWTO entry`;
     if (!reagentHowTo(key)) return `two-part card "${r.id}" (${key}) has no reagentHowTo entry`;
   }
   return null;

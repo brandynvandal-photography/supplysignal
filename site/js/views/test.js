@@ -18,7 +18,7 @@ import {
 import * as data from "../data.js";
 import { match as reagentMatch, checkSoldAs } from "../reagentmatch.js";
 import { flowFor, walk, completedBy, offChart, guide } from "../flowcheck.js";
-import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo } from "../reagentnames.js";
+import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
@@ -1140,7 +1140,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
           (blanked || []).length === 1 ? " came back the color it already is"
                                         : " came back the colors they already are",
           " — ",
-          (blanked || []).map((r) => `${reagentLabel(r)} is ${(blankColorsFor(r) || []).join("/")} in the bottle`)
+          (blanked || []).map((r) => `${reagentLabel(r)} is ${(blankColorsFor(r) || []).join("/")} when nothing reacts`)
             .join(", "),
           ". That is not a result, so it is not counted either way. A spent "
           + "bottle, too little sample, or something that will not dissolve all "
@@ -1606,6 +1606,13 @@ function reagentCard(r) {
     h("div", { class: "acc__body" },
       h("p", { class: "sec__note" }, r.base),
       h("p", null, h("strong", null, "Use for: "), r.useFor),
+      /* The run instructions, up front rather than buried in the caveats -
+         reported for Morris, whose stir lived at the foot of the card while
+         the tracker said nothing at all. Same map the tracker uses. */
+      reagentHowTo(reagentKeyForCard(r.id))
+        ? h("p", null, h("strong", null, "How to run it: "),
+            reagentHowTo(reagentKeyForCard(r.id)))
+        : null,
 
       /* .card + .reagtable, exactly what a drug page uses for the same thing -
          not a lookalike built out of .tablewrap and .data. Those two carry a
