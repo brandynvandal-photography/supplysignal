@@ -88,24 +88,21 @@ async function pickerView(route, { go, data }) {
 
   wrap.appendChild(await searchBar({ go, data }));
 
-  /* From the locale files - a translated key already existed while this text
-     sat here hardcoded in English, which is exactly how the two drift. */
-  const privacyNote = callout("info", t("alerts.locationPrivacyTitle"),
-    h("p", null, t("alerts.locationPrivacyBody")),
-    /* Storage now clears itself, so the X is no longer the mechanism - it is
-       the escape. Someone who thinks they must remember to press it will
-       worry when they forget, and someone who does not know it exists will
-       not reach for it when they need to leave in a hurry. Both facts, once,
-       in the callout that is already about privacy. */
-    h("p", null, h("strong", null, t("alerts.sessionTitle")), ". ",
-      t("alerts.sessionBody")));
+  /* THE PRIVACY PANEL IS GONE FROM THIS SCREEN.
+   *
+   * It was a box about data handling and two paragraphs about session storage,
+   * sitting under the one list a reader opened this tab to see. The promise
+   * itself is not gone: the welcome card at the top of a first visit still says
+   * nothing you look up here leaves this device, About carries the same block
+   * in full with the mechanism behind it, and Emergency explains Quick Exit
+   * where somebody in a hurry would look for it. Said once, in the places
+   * someone goes to ask, rather than a third time under the alerts. */
 
   const a = await data.alerts();
   if (!a.generated) {
     /* Both strings already existed in the locale file while these sat here in
        English. Same drift the location callout above had. */
     wrap.appendChild(empty(t("alerts.noScanTitle"), t("alerts.noScanBody")));
-    wrap.appendChild(privacyNote);
     return wrap;
   }
 
@@ -157,8 +154,6 @@ async function pickerView(route, { go, data }) {
   };
   await drawNational();
   wrap.appendChild(natHost);
-
-  wrap.appendChild(privacyNote);
   return wrap;
 }
 
@@ -673,7 +668,16 @@ function freshLine(items, win, c) {
    whole picture and the reader never needs to expand, short enough that a bad
    one does not bury the search box this page exists for. */
 const NATIONAL_PREVIEW = 8;
-const NATIONAL_DAYS = 90;
+/* TWELVE MONTHS, NOT NINETY DAYS.
+ *
+ * The 90-day default was the honest choice while this screen had no control:
+ * "everywhere else right now" should not quietly include a nine-month-old
+ * bulletin. With the window switcher on the section and the count line naming
+ * the window it counted, the honesty is in the label rather than in the
+ * default - and at 90 days the national list showed one alert out of the two
+ * this app holds. A list that hides half of what exists teaches a reader there
+ * is nothing to see. */
+const NATIONAL_DAYS = 365;
 
 /**
  * Everything published anywhere, on the screen someone lands on.
