@@ -2125,23 +2125,26 @@ table.data--pairs th, table.data--pairs td { overflow-wrap: break-word; }
    when it follows a paragraph. */
 .chips--window { margin-top: 14px; }
 
-/* HOW LONG IT LASTS, READ DOWN THE RIGHT EDGE.
+/* HOW LONG IT LASTS, READ DOWN THE LEFT EDGE.
  *
- * A duration table is five times in a column - 1-5 minutes, 15-30 minutes,
- * 2-3 hours - and the useful comparison is between them, which is a comparison
- * the eye makes down an edge rather than across a gap. Left-aligned, every time
- * started at the same x and ENDED wherever its own text ran out, so the ragged
- * edge fell exactly where the reader is scanning. Flush right puts the boundary
- * back on the numbers.
+ * A duration table is five times in a column - 1-3 minutes, 5-15 minutes,
+ * 15-45 minutes - and the comparison the reader is making is between them, down
+ * the page. That needs ONE edge to run down, and the left edge is the one the
+ * eye already starts from: every value begins at the same x, and the ragged
+ * ends fall away from where the scanning happens.
  *
- * Dose tables keep their existing alignment: those are ranges the reader takes
- * one at a time rather than a series they compare down the page. */
-table.data--right td { text-align: right; }
-table.data--right thead th + th { text-align: right; }
+ * Written as its own rule rather than left to the default, because the centred
+ * pair rule below targets these same cells above 700px and would otherwise pull
+ * the value column to meet the label in the middle. Duration tables opt out of
+ * that at every width.
+ *
+ * Dose tables are unaffected: those are ranges taken one at a time rather than
+ * a series compared down a column. */
+table.data--right td,
+table.data--right thead th + th { text-align: left; }
 @media (min-width: 700px) {
-  /* Beats the centred pair rule below, which is written for the same cells. */
   table.data--pairs.data--right td,
-  table.data--pairs.data--right thead th + th { text-align: right; }
+  table.data--pairs.data--right thead th + th { text-align: left; }
 }
 
 /* On a wide screen the pair drifts apart.
