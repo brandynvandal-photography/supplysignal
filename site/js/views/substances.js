@@ -842,9 +842,13 @@ async function detailView(id, subs, combos, { go }) {
      front - see data.reagentsFor. This is the only view that renders them, and
      loading them for all 302 was costing the Drugs list 111KB before it could
      paint. Attached to a local copy so the cached bundle stays untouched. */
-  const [rg, plantMatrix, detect, structs] = await Promise.all([
+  /* The structures bundle is STARTED here and AWAITED AFTER THE FIRST PAINT -
+     see the figure below. It was in this Promise.all, so every drug page
+     waited on a 29 KB file whose only job is a diagram before it could show
+     the name, the mix warning or the dose. Nothing above the figure needs it. */
+  const structsP = data.structures().catch(() => null);
+  const [rg, plantMatrix, detect] = await Promise.all([
     data.reagentsFor(id), data.isPlantOrFungal(id), data.detectionFor(id),
-    data.structures().catch(() => null),
   ]);
   const s = rg ? { ...base, reagentResults: rg } : base;
 
@@ -871,20 +875,31 @@ async function detailView(id, subs, combos, { go }) {
    * changes at the phenethyl end while WHPM's is blind at the carbonyl, which
    * is the practical difference between the two brands and is unreadable as
    * prose unless you already know which end is which. */
+  /* FILLED IN AFTER THE FIRST PAINT, INTO A BOX THAT IS ALREADY THE RIGHT
+     SIZE. The figure is appended now, empty, at the height the drawing and
+     its caption will take (.struct__fig reserves it in CSS), and the SVG
+     lands in it when the bundle arrives - so the page paints without waiting
+     for structures.json and nothing below the figure moves when it loads.
+     The 22 entries with no structure (families and plants: "2C-x", Cannabis,
+     Ayahuasca) get the box removed once that is known, which is the one
+     shift this trades for never blocking the page; a box that stayed empty
+     would be worse than a one-time collapse on those pages. */
   {
-    const packed = structs?.structures?.[id];
-    if (packed) {
-      const svg = drawStructure(packed, 200);
-      if (svg) {
-        wrap.appendChild(
-          h("figure", { class: "struct__fig" }, svg,
-            h("figcaption", { class: "sec__note" },
-              "2D structure from ",
-              extLink(`https://pubchem.ncbi.nlm.nih.gov/compound/${packed.cid}`,
-                      `PubChem CID ${packed.cid}`),
-              ". Hydrogens on carbon are not drawn.")));
-      }
-    }
+    const fig = h("figure", { class: "struct__fig struct__fig--pending", "aria-busy": "true" });
+    wrap.appendChild(fig);
+    structsP.then((structs) => {
+      const packed = structs?.structures?.[id];
+      const svg = packed ? drawStructure(packed, 200) : null;
+      if (!svg) { fig.remove(); return; }
+      fig.append(svg,
+        h("figcaption", { class: "sec__note" },
+          "2D structure from ",
+          extLink(`https://pubchem.ncbi.nlm.nih.gov/compound/${packed.cid}`,
+                  `PubChem CID ${packed.cid}`),
+          ". Hydrogens on carbon are not drawn."));
+      fig.classList.remove("struct__fig--pending");
+      fig.removeAttribute("aria-busy");
+    }).catch(() => fig.remove());
   }
 
   const cls = [...(s.class.psychoactive || []), ...(s.class.chemical || [])];

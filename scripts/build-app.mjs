@@ -38,10 +38,11 @@
 // strictly better than fetching it: no network at all for a lookup, and the
 // app works from a cold start with no signal.
 
-import { cp, rm, mkdir, readdir, stat, writeFile, readFile } from "node:fs/promises";
+import { rm, mkdir, writeFile, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { stageShell, stageData, dirSize } from "./assets.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "www");
@@ -53,18 +54,19 @@ const SKIP_IN_DATA = new Set([
   ".rotation.json",
   ".medex.json",       // one-look-per-data-state cache
   "runs.json",
+  "descriptions.wikipedia.json",  // unmerged drafts; see build-site.mjs
 ]);
 
-async function dirSize(dir) {
-  let total = 0;
-  for (const entry of await readdir(dir, { withFileTypes: true })) {
-    const p = path.join(dir, entry.name);
-    total += entry.isDirectory() ? await dirSize(p) : (await stat(p)).size;
-  }
-  return total;
-}
-
 const kb = (b) => `${(b / 1024).toFixed(0)} KB`;
+
+/** Write a staged file map under `base`, creating directories as needed. */
+async function emit(base, files) {
+  for (const { out, body } of files.values()) {
+    const to = path.join(base, out);
+    await mkdir(path.dirname(to), { recursive: true });
+    await writeFile(to, body);
+  }
+}
 
 async function main() {
   if (!existsSync(path.join(ROOT, "site", "index.html"))) {
@@ -74,8 +76,16 @@ async function main() {
   await rm(OUT, { recursive: true, force: true });
   await mkdir(OUT, { recursive: true });
 
-  /* The app, at the root of the bundle. */
-  await cp(path.join(ROOT, "site"), OUT, { recursive: true });
+  /* The app, at the root of the bundle.
+   *
+   * MINIFIED, NOT RENAMED. The shell's JS and CSS go through the same esbuild
+   * pass the web deploy uses (scripts/assets.mjs) - the source keeps its
+   * comments, the bundle does not carry them - but the files keep their
+   * source names. There is no HTTP cache between a bundle on disk and the
+   * reader, so a content hash would buy nothing, and the offline test
+   * resolves every path the app can ask for by its source name. */
+  const staged = await stageShell({ site: path.join(ROOT, "site"), hash: false });
+  await emit(OUT, staged.files);
 
   /* The service worker does not come with it.
    *
@@ -87,21 +97,19 @@ async function main() {
    * registration in a packaged build for the same reason. */
   await rm(path.join(OUT, "sw.js"), { force: true });
 
-  /* The national bundles, beside it, so "../data/..." still resolves. */
+  /* The national bundles, beside it, so "../data/..." still resolves. By their
+     own names - see the note on the shell above; the packaged app never sees
+     a content-hashed path. */
   const dataOut = path.join(OUT, "data");
   await mkdir(dataOut, { recursive: true });
-  let shipped = 0, skipped = 0;
   /* Same reasoning as the web deploy: content ships only inside topics.json,
      so a screen cannot quietly fetch a page-naming file again. */
   const { TOPICS } = await import("./build-topics.mjs");
   const topicFiles = new Set(TOPICS.map((t) => `${t}.json`));
-
-  for (const entry of await readdir(path.join(ROOT, "data"), { withFileTypes: true })) {
-    if (SKIP_IN_DATA.has(entry.name) || topicFiles.has(entry.name)) { skipped++; continue; }
-    const from = path.join(ROOT, "data", entry.name);
-    await cp(from, path.join(dataOut, entry.name), { recursive: true });
-    shipped++;
-  }
+  const data = await stageData(path.join(ROOT, "data"), { skip: SKIP_IN_DATA, topics: topicFiles, hash: false });
+  await emit(dataOut, data.files);
+  const shipped = data.files.size;
+  const skipped = SKIP_IN_DATA.size + topicFiles.size;
 
   /* The shell's asset paths are absolute (/site/css/app.css) because on the
      web the document is served at /alerts, /test and the rest, where a
@@ -167,8 +175,9 @@ async function main() {
 
   const total = await dirSize(OUT);
   console.log(`www/ assembled`);
-  console.log(`  app       ${kb(await dirSize(path.join(ROOT, "site")))}`);
-  console.log(`  data      ${kb(await dirSize(dataOut))}  (${shipped} entries, ${skipped} skipped)`);
+  const dataSize = await dirSize(dataOut);
+  console.log(`  app       ${kb(total - dataSize)}  (minified; source is ${kb(await dirSize(path.join(ROOT, "site")))})`);
+  console.log(`  data      ${kb(dataSize)}  (${shipped} files, ${skipped} names skipped)`);
   console.log(`  TOTAL     ${kb(total)}`);
   if (total > 40 * 1024 * 1024) {
     console.warn(`  WARNING: over 40 MB. The App Store cellular download limit is 200 MB,`);

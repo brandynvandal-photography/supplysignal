@@ -147,14 +147,12 @@
      If either row's height changes, change it here and nowhere else. */
   --bar-row-h: 67px;
   --bar-h: calc(var(--bar-row-h) + var(--banner-h));
-
-  /* Scrolled, the row tightens to 48px + its 1px border. DERIVED, not chosen:
-     `.topbar .wrap` sets min-height 66px while its tallest in-flow child is the
-     47px brand button, so 19px of that row is slack and none of it is a tap
-     target. 48 keeps every button at its full 44px and takes the slack.
-     See .is-scrolled near the foot of this file for why the bar shrinks rather
-     than hides, and why this token has to move with the bar. */
-  --bar-row-h-tight: 49px;
+  /* There is deliberately no "tightened" value of this token. The bar used to
+     shrink to 49px on scroll (an .is-scrolled state) before it learned to slide
+     off the top entirely; once it slid, the tighten was an invisible
+     intermediate state that still cost two relayouts and an 18px WebKit jolt
+     at the start of every scroll gesture. Removed 2026-08-19. The bar has one
+     height at rest and is off-screen otherwise - see watchBarShrink in app.js. */
 
   /* How much of the bar is status-bar clearance rather than bar.
    *
@@ -649,9 +647,8 @@ details.acc > summary:focus-visible,
   --exit-right: max(12px, env(safe-area-inset-right, 0px));
   position: fixed; z-index: 46;              /* over .nav (45): the pill wins */
   right: var(--exit-right);
-  /* 66px is `.topbar .wrap`'s min-height - the row's height at rest, and the
-     only state in which the pill and the row are seen together (the row only
-     tightens once the bar has already gone). Centred on that. */
+  /* 66px is `.topbar .wrap`'s min-height - the row's height at rest, which
+     is now its only height (the scroll tighten is gone). Centred on that. */
   top: calc(var(--bar-top) + var(--banner-h) + (66px - var(--exit-size)) / 2);
   width: var(--exit-size); height: var(--exit-size);
   min-width: 0; min-height: 0;               /* .iconbtn's floor; width rules here */
@@ -721,26 +718,10 @@ details.acc > summary:focus-visible,
     padding-right: calc(max(12px, env(safe-area-inset-right, 0px)) + 52px + 14px);
   }
 
-  /* AND THE TIGHT ROW HAS TO CLEAR THEM.
-   *
-   * --bar-row-h-tight is 49px = a 48px row plus the topbar's 1px border, which
-   * is honest everywhere the icon buttons are 44px. Here they are 52px, and a
-   * flex row cannot render shorter than its tallest item - so the scrolled bar
-   * measured 80px (27 banner + 52 row + 1 border) while the token said 76.
-   *
-   * Four pixels, and they were live: the search panel pins at
-   * calc(var(--bar-h) + var(--bar-top)) and sat 4px UNDER the header, and every
-   * jumped-to heading lost 4 of its 14px of clearance. This band is iPad
-   * portrait at 744-834 CSS px, which is the device this file has already taken
-   * three separate bar-geometry reports from.
-   *
-   * THE TOKEN, not the derived value. `.is-scrolled { --bar-row-h: ... }` lives
-   * 2,600 lines below this and would win on source order at equal specificity.
-   * Custom properties are resolved where they are USED, so redefining the input
-   * here reaches that rule wherever it sits. The row's min-height is left alone
-   * for the same reason it does not matter: 52px buttons floor the row at 52
-   * whatever the min-height says. */
-  :root { --bar-row-h-tight: 53px; }
+  /* No tightened-row override here any more: the row never tightens (see
+     --bar-row-h), so the 52px buttons have nothing to clear. When it did, the
+     token needed bumping to 53px in this band or the search panel sat 4px
+     under the header. */
 }
 
 /* ----------------------------------------------------------------- nav */
@@ -848,10 +829,11 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   #exit {
     position: absolute; bottom: auto;
     right: calc((100% - min(1180px, 100%)) / 2 + max(var(--sp-3), env(safe-area-inset-right, 0px)));
-    /* 33px = half the row's 66px rest height, as a constant and NOT
-       --bar-row-h / 2 the way .nav is centred: that token drops to the tight
-       value once the page is 64px down, and a pinned control that jolts 9px
-       when the row it is no longer in tightens would look broken. */
+    /* 33px = half the row's 66px rest height, as a constant. It was a
+       constant rather than --bar-row-h / 2 so the pinned X would not jolt
+       when the row tightened on scroll; the tighten is gone, but a pinned
+       control keyed to nothing but the rest height is still the honest
+       form. */
     top: calc(var(--bar-top) + var(--banner-h) + 33px);
     transform: translateY(-50%);
   }
@@ -1623,8 +1605,24 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
  * coordinates rather than shipped as an image, which would have been baked to
  * one colour and wrong in the other. */
 .struct__fig { margin: var(--sp-3) 0 var(--sp-2); text-align: center; }
-.struct { display: inline-block; max-width: 100%; height: auto; color: var(--ink-2); }
+/* Block, not inline-block: an inline SVG sits on the text baseline and the line
+   box adds a descender's worth of height under it that varies with the font,
+   which made the reservation below inexact by a few pixels. A block is 200px
+   tall and nothing else. */
+.struct { display: block; margin: 0 auto; max-width: 100%; height: auto; color: var(--ink-2); }
 .struct__fig figcaption { margin-top: 6px; }
+/* RESERVED BEFORE THE DRAWING ARRIVES. substances.js appends this figure empty
+   and fills it once structures.json lands, so the page can paint without that
+   file on its critical path. The box has to be the drawing's eventual height
+   from the start or everything below it jumps when the SVG lands: 200px of
+   SVG, the caption's 6px margin and two lines of .sec__note (.92rem x 1.55) -
+   the caption wraps to two lines on a 390px phone. On a wide screen the
+   caption is one line and the box carries ~23px of slack under it, which is
+   invisible; a shift would not be. The pending state shows nothing: a shimmer
+   square where a molecule will be reads as a broken image, and the wait is a
+   few hundred milliseconds at most (and nothing at all once the bundle is in
+   the HTTP cache, which after the first drug page it is). */
+.struct__fig { min-height: calc(206px + 2 * .92rem * 1.55); }
 
 /* A collapsible callout.
  *
@@ -3503,59 +3501,21 @@ details.disc .groupkids > details.disc > summary h2 {
 /* ------------------------------------------------- the bar, once you scroll
  *
  * 165px of every 812px screen is chrome before a word of content - a 94px
- * header and a 71px tab bar, 20.3% of a phone, permanently. The header is the
- * half with slack in it: the wordmark tells a reader which app they are in,
- * which is worth a lot on arrival and nothing at all six screens down.
+ * header and a 71px tab bar, 20.3% of a phone, permanently. The answer is the
+ * block below: the header slides off the top on any scroll and returns only at
+ * the top of the page.
  *
- * IT SHRINKS, IT DOES NOT HIDE. This was the rule when Quick Exit still lived
- * in the row: a safety control that has to be scrolled back to is not one, so
- * search, theme and the X stayed exactly where they were and only the name and
- * the gap around it went. The header now also slides away entirely (the block
- * below), and the X survives that because it is no longer in the row at all -
- * it is a pinned pill, see "Quick Exit, pinned" near .iconbtn. The tighten
- * remains as the intermediate state.
- *
- * --bar-row-h MOVES WITH IT, and that is the part that would break silently.
- * Three things are pinned to the bar's height by that token - the search
- * panel, the jump strip, and the scroll-margin that keeps a jumped-to heading
- * clear of the bar - so leaving it at 67 while the bar rendered at 45 would
- * float all three 22px into empty space. One token, redefined here, and they
- * follow. jumpTo() in ui.js measures the real bar instead, so it was already
- * immune; these three were not. */
-.is-scrolled {
-  --bar-row-h: var(--bar-row-h-tight);
-}
-/* The row itself, which is what actually sets the height. Redefining the token
-   alone moved every offset that keys off it and left the bar rendering at its
-   old 94px - the exact silent mismatch the token exists to prevent, arrived at
-   from the other direction. 48px still clears all three 44px icon buttons.
-
-   THE PARENT IS .topbar__slide, NOT .topbar, and this selector has now been
-   wrong twice for opposite reasons.
-
-   Written as a descendant (`.is-scrolled .topbar .wrap`) it also matched the
-   BANNER's own .wrap - which the rule above .topbar .wrap warns about in as
-   many words - and stretched the banner from 27px to 48px, making the header
-   taller than before while the token said 76.
-
-   Rewritten with `>` against .topbar it was correct until the header was split
-   for the slide animation, which moved the menu row from `.topbar > .wrap` to
-   `.topbar > .topbar__slide > .wrap`. A child combinator does not reach a
-   grandchild, so it silently matched NOTHING: --bar-row-h still dropped to 49
-   on scroll while the bar kept rendering at 94, which is the token/render
-   disagreement this rule exists to prevent, arrived at from a third direction.
-
-   Anchored to the slide, `>` still excludes the banner - whose .wrap is a
-   grandchild of the slide - and reaches the menu row, which is a child of it. */
-.is-scrolled .topbar__slide > .wrap { min-height: 48px; }
-.is-scrolled .brand__name {
-  /* Not display:none - the button keeps its accessible name from aria-label,
-     and collapsing the width rather than the box lets it ease.
-     text-overflow: clip because .brand__name ellipsizes by default, and a
-     shrinking max-width with an ellipsis reads "Nig..." on the way out. */
-  max-width: 0; opacity: 0; overflow: hidden; text-overflow: clip;
-}
-.is-scrolled .brand { gap: 0; }
+ * THERE IS NO INTERMEDIATE "TIGHTENED" STATE ANY MORE. Until 2026-08-19 an
+ * .is-scrolled class also shrank the row from 67px to 49px and collapsed the
+ * wordmark, redefining --bar-row-h so the search panel, the jump strip and
+ * every scroll-margin followed. That was the rule from when Quick Exit lived
+ * in the row and the bar could not be allowed to hide. Once the bar slid away
+ * entirely, the tighten was invisible - it fired under a header that was
+ * already off screen - and still cost two relayouts plus an 18px WebKit jolt
+ * at the start of every scroll gesture, because changing the sticky bar's
+ * height moves the page under the reader's thumb. Deleted outright: the
+ * token, the min-height, the wordmark collapse, the iPad override, and
+ * syncTight() in app.js. The header now only hides and shows. */
 
 /* ---- and off the top entirely, going down --------------------------------
  *
@@ -3690,14 +3650,6 @@ details.disc .groupkids > details.disc > summary h2 {
   .topbar { transition: border-bottom-color var(--t-ease) var(--ease-float); }
   @media (min-width: 960px) {
     .nav { transition: transform var(--t-ease) var(--ease-float); }
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .brand__name {
-    max-width: 12ch;
-    transition: max-width var(--t-ease) var(--ease-float),
-                opacity var(--t-ease) var(--ease-float);
   }
 }
 

@@ -357,26 +357,91 @@
     # this app never uses is denied outright, including the ad-targeting APIs.
     Permissions-Policy = "geolocation=(self), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), midi=(), browsing-topics=(), interest-cohort=()"
 
-# Unversioned filenames, so revalidate rather than trust age. A stale app.js
-# after a deploy is not hypothetical - it is exactly what served the old name
-# for a while after the Nightlight rename. ETags make this a cheap 304.
+# ------------------------------------------------------------- caching
+#
+# TWO REGIMES, AND THE PATTERNS NEVER OVERLAP. That last part is the design
+# constraint: Netlify's documentation does not say which header wins when two
+# rules match one path, so the rules below are written so that no path is
+# matched by both a no-cache rule and an immutable one. There is no "/site/*"
+# and no "/data/*" any more - each directory is enumerated.
+#
+# 1. IMMUTABLE: anything whose name is its contents. scripts/build-site.mjs
+#    renames every file under site/js/ and site/css/, and every national data
+#    bundle (placed under data/h/), by a hash of its bytes, and rewrites every
+#    reference to match. A changed file is a new name, so a cached copy can
+#    never be stale; the browser may keep it for a year and never ask again.
+#    This is what lets a returning reader boot with one conditional request
+#    (index.html) instead of one per file. The hashed data bundles live in
+#    their own directory precisely so this rule cannot touch alerts.json.
+#
+# 2. NO-CACHE: the entry points and everything the ingest rewrites in place.
+#    index.html names the current hashes, so it must be revalidated on every
+#    load or a reader could be handed a shell whose files are gone. sw.js for
+#    the same reason and because a stale worker is the bug test/sw.test.mjs
+#    exists for. alerts.json and counties/ are rebuilt every few hours under
+#    the same names. ETags make every one of these a cheap 304.
+#
 # The service worker is served from /site/ but the pages it controls are at
 # the root now (/alerts, /test). A worker's scope defaults to its own directory,
-# so without this header it would silently control nothing and every returning
-# reader would lose offline access.
+# so without Service-Worker-Allowed it would silently control nothing and every
+# returning reader would lose offline access.
 [[headers]]
   for = "/site/sw.js"
   [headers.values]
     Service-Worker-Allowed = "/"
+    Cache-Control = "no-cache"
 
 [[headers]]
-  for = "/site/*"
+  for = "/site/index.html"
   [headers.values]
     Cache-Control = "no-cache"
 
-# Rebuilt hourly by the ingest workflow.
 [[headers]]
-  for = "/data/*"
+  for = "/site/manifest.webmanifest"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+# Icons and the quick-exit page: fixed names, rarely change, revalidate.
+[[headers]]
+  for = "/site/img/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/site/w/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+# Content-hashed. Every file under these two directories carries its hash in
+# its name - test/dist.test.mjs fails the build if one does not.
+[[headers]]
+  for = "/site/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/site/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/data/h/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Rebuilt every few hours by the ingest workflow, under fixed names.
+[[headers]]
+  for = "/data/alerts.json"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/data/index.json"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/data/counties/*"
   [headers.values]
     Cache-Control = "no-cache"
 

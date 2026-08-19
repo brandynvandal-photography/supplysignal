@@ -5,8 +5,12 @@ import { h, clear, skeleton } from "./ui.js";
 import * as data from "./data.js";
 import * as i18n from "./i18n.js";
 import { markVisit } from "./seen.js";
-import { mountKindBar } from "./kindness.js";
 import * as R from "./routes.js";
+/* kindness.js is NOT imported here. Its one use is behind KIND_BAR below,
+   which is off, so a static import made every boot fetch and parse a module
+   whose only export is never called. It is imported dynamically at that use.
+   The static list above is mirrored by the <link rel="modulepreload"> set in
+   index.html, and test/preload.test.mjs holds the two together. */
 const { t } = i18n;
 
 const view = document.getElementById("view");
@@ -453,15 +457,44 @@ async function route() {
     if (mine === token && !view.childElementCount) view.appendChild(skeleton(3));
   }, 120);
 
+  let mod = null;
   try {
-    const mod = await VIEWS[tab]();
+    mod = await VIEWS[tab]();
     if (mine !== token) return;                 // a newer navigation won
     const node = await mod.render(r, { go, data });
     if (mine !== token) return;
     linkify(node);
     clear(view).appendChild(node);
+    /* A clean render clears the reload marker below, so the next deploy that
+       lands under this session is allowed its one reload too. */
+    if (history.state?.nlReloaded) { try { history.replaceState(null, "", here()); } catch {} }
   } catch (err) {
     if (mine !== token) return;
+    /* A MODULE THAT VANISHED UNDERNEATH A LIVE SESSION.
+     *
+     * On the web the shell's files are served under content-hashed names
+     * (scripts/assets.mjs): this copy of app.js asks for views/test.<hash>.js,
+     * and a deploy that changes that file also changes its name and removes
+     * the old one. A tab that was open across the deploy - or a boot served
+     * from the service worker's stale index.html - then asks for a file that
+     * no longer exists, and gets a 404 that looks exactly like a dropped
+     * connection. "Try again" cannot help: it asks for the same name.
+     *
+     * What does help is reloading: index.html is never cached past a
+     * revalidation, so a reload fetches the current shell with the current
+     * names, and the URL still carries the route and the fragment, so the
+     * reader lands on the same page. But only when it IS that case and not a
+     * dead network - offline, a reload would throw away the screen the
+     * reader had for a blank one. So before reloading, the server is asked
+     * for one small unhashed file that is always there; if that fails, this
+     * is a network problem and the error state below is the honest answer.
+     *
+     * ONCE. The attempt is recorded in history.state, which survives a reload
+     * where sessionStorage does not (the pagehide wipe clears it), so a
+     * shell that is genuinely broken after the reload shows the error state
+     * instead of reloading forever. Never in the packaged app, whose files
+     * are on disk and cannot vanish. */
+    if (!mod && await recoverStaleShell()) return;
     /* A WAY BACK. This state had no control on it: on the web a reader could
        reload, in the packaged app there is no reload, so a failed import - a
        dropped connection at the moment of the tap - left "This section could
@@ -483,6 +516,33 @@ async function route() {
     clearTimeout(skel);
     if (mine === token) view.setAttribute("aria-busy", "false");
   }
+}
+
+/* The one file the stale-shell check asks for: the worker itself. Unhashed,
+   tiny, same-origin, and always on the web server. WEB ONLY - the packaged
+   bundle deliberately ships no worker, and recoverStaleShell() returns before
+   it can ask; test/offline.test.mjs checks that guard rather than the bundle
+   containing this file. */
+const SHELL_PROBE = "/site/sw.js";
+
+/* See the note in route()'s catch. Resolves true only if the page is about to
+   reload - the caller must then do nothing, because the screen is going away. */
+async function recoverStaleShell() {
+  if (data.packaged()) return false;
+  if (navigator.onLine === false) return false;
+  if (history.state?.nlReloaded) return false;
+  try {
+    /* HEAD goes past the service worker's fetch handler (it only answers
+       GETs), so this is a real question to the real server - and a HEAD is
+       not a registration and caches nothing. */
+    const r = await fetch(SHELL_PROBE, { method: "HEAD", cache: "no-store", credentials: "omit" });
+    if (!r.ok) return false;
+  } catch {
+    return false;
+  }
+  try { history.replaceState({ nlReloaded: true }, "", here()); } catch { return false; }
+  location.reload();
+  return true;
 }
 
 /* Focus lands on the heading of the new view, not the top of the document, so
@@ -702,33 +762,34 @@ function mountBackToTop() {
   sync();
 }
 
-/* The header loses its wordmark once you are past the top of the page.
+/* The header leaves the screen once you are past the top of the page.
  *
- * 165px of every 812px screen is chrome before a word of content. The name is
- * the part of it that stops earning its space immediately: it says which app
- * this is, which matters on arrival and not six screens down. Quick Exit, the
- * X, is no longer in that row at all: index.html puts it beside .nav as a
+ * 165px of every 812px screen is chrome before a word of content. Quick Exit,
+ * the X, is no longer in that row at all: index.html puts it beside .nav as a
  * direct child of the bar and app.css pins it as a fixed pill, so it is on
  * screen at every scroll position whatever the rest of the header does. A
  * safety control you have to scroll back to is not one, and that used to be
  * the argument for shrinking the bar rather than hiding it.
  *
- * A LATCH WITH A DEADBAND, not a threshold. A bare `scrollY > n` flips state
- * every frame for anyone resting near the line, and since the bar's height is
- * what changes, each flip moves the page under the reader - which moves
- * scrollY - which flips it back. The two edges are 22px apart, exactly the
- * height the bar loses, so the feedback loop cannot close.
- *
- * rAF-throttled and passive, same as the back-to-top button above it. */
+ * Synchronous and passive. The name is historical: this used to also SHRINK
+ * the bar (see below) and now only hides it. */
 function watchBarShrink() {
-  /* Two states.
+  /* One state.
    *
-   *   is-scrolled  the row tightens and drops the wordmark (94px -> 76px)
    *   is-bar-up    the whole header slides off the top
    *
-   * The second is THE HEADER BELONGS TO THE TOP OF THE PAGE. Any scroll away
-   * from the top takes it with the page; it comes back when the reader comes
-   * back, and at no other time.
+   * THE HEADER BELONGS TO THE TOP OF THE PAGE. Any scroll away from the top
+   * takes it with the page; it comes back when the reader comes back, and at
+   * no other time.
+   *
+   * There used to be a second, earlier state - is-scrolled, which tightened
+   * the row from 94px to 76px and collapsed the wordmark behind a latch with a
+   * 22px deadband. It was removed on 2026-08-19: once the bar slid away
+   * entirely the tighten happened under a header that was already off screen,
+   * and still cost two relayouts plus an 18px WebKit jolt at the start of
+   * every scroll gesture, because changing the sticky bar's height moves the
+   * page under the reader's thumb. The CSS went with it (app.css, "the bar,
+   * once you scroll").
    *
    * This is the third rule this has had and the reasoning for each is worth
    * keeping, because they trade the same two things against each other. Return
@@ -753,10 +814,8 @@ function watchBarShrink() {
    *
    * The hide is deliberately NOT rAF-throttled. It has to happen on the first
    * scroll event of a gesture, and a frame of delay is visible as the header
-   * lagging behind the finger. Only the tighten - which is a layout change -
-   * goes through rAF. */
-  const TIGHT_ON = 64;    // tighten once the page title has genuinely gone
-  const TIGHT_OFF = 42;   // and restore well before the top
+   * lagging behind the finger. It is a transform, not a layout change, so
+   * there is nothing here that needs to wait for a frame. */
 
   /* "All the way to the top" with a few pixels of slack, because it has to be
      reachable in practice: iOS rubber-band settles a hair off zero, a restored
@@ -765,9 +824,7 @@ function watchBarShrink() {
      the top of the page satisfies it. */
   const AT_TOP = 6;
 
-  let tight = false;
   let up = false;
-  let ticking = false;
 
   const setUp = (v) => {
     if (up === v) return;
@@ -775,29 +832,13 @@ function watchBarShrink() {
     document.documentElement.classList.toggle("is-bar-up", v);
   };
 
-  /* The tighten only. Layout work, so it waits for a frame. */
-  const syncTight = () => {
-    ticking = false;
-    const y = window.scrollY;
-    if (!tight && y > TIGHT_ON) tight = true;
-    else if (tight && y < TIGHT_OFF) tight = false;
-    document.documentElement.classList.toggle("is-scrolled", tight);
-  };
-
   window.addEventListener("scroll", () => {
-    /* Hide first, synchronously, before anything else in this handler. */
     setUp(window.scrollY > AT_TOP);
-
-    if (!ticking) { ticking = true; requestAnimationFrame(syncTight); }
   }, { passive: true });
 
-  /* A new view starts at the top, so both states reset with it - otherwise a
+  /* A new view starts at the top, so the state resets with it - otherwise a
      page reached from six screens down opens with no header on it. */
-  onNavigate(() => {
-    tight = false;
-    document.documentElement.classList.remove("is-scrolled");
-    setUp(false);
-  });
+  onNavigate(() => setUp(false));
 
   /* A JUMP IS NOT A SCROLL, and under this rule that is nearly all it is.
    *
@@ -812,7 +853,7 @@ function watchBarShrink() {
     setUp(window.scrollY > AT_TOP);
   });
 
-  syncTight();
+  setUp(window.scrollY > AT_TOP);
 }
 
 /* -------------------------------------------------------- warm the shell
@@ -920,14 +961,33 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
      the reader would see as the whole page shifting down. */
   if (isNative()) document.documentElement.classList.add("is-native");
 
-  await i18n.init();
-  applyStrings();
+  /* EVERYTHING THE FIRST PAINT NEEDS IS ASKED FOR NOW, before anything is
+     awaited. Boot used to be a chain: await the locale file, THEN ask for the
+     topics bundle, THEN route() - which is where the view module's import()
+     and that view's own data fetches begin. On a cold open that was five to
+     seven dependent round trips before a word of content. The locale file,
+     the topics bundle and the view module do not depend on each other, so
+     they go out together and the awaits below mostly find them landed.
 
+     The view import is deliberately the same import() route() will make:
+     the module map dedupes it, so this is a head start and not a second
+     fetch. It is not awaited and its failure is swallowed here - route()
+     awaits the same promise and owns the error state (and the Try again
+     button) if it fails. The tab is read off the raw URL before
+     canonicalize() runs; canonicalising only changes the URL's form, never
+     which tab it names. */
   /* Start the one content request immediately, from every screen, so the
      access log carries the same shape for every reader regardless of what
      they open. See TOPICS in data.js. Not awaited: nothing on the first paint
      depends on it, and a slow network must not delay the emergency page. */
   data.primeTopics?.();
+  try {
+    const early = parseRoute().tab;
+    (VIEWS[early] || VIEWS.alerts)().catch(() => {});
+  } catch { /* a malformed URL is route()'s problem, not boot's */ }
+
+  await i18n.init();
+  applyStrings();
 
   /* Before the first render, so lastRoute below is seeded with the canonical
      URL rather than the one that is about to be replaced. */
@@ -966,6 +1026,10 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
        the slow fade exists to avoid. */
     const inner = document.createElement("div");
     kindbar.appendChild(inner);
+    /* Loaded here and only here - see the import block at the top of the
+       file. While the bar is off this line never runs and the module is
+       never fetched. */
+    const { mountKindBar } = await import("./kindness.js");
     mountKindBar(inner);
 
     const syncKind = () => {
@@ -1201,9 +1265,9 @@ function reveal(anchor, label, wantRoute) {
          * differently if something above is still filling in.
          *
          * Read rather than recomputed, because the margin moves with the bar -
-         * it is 108 at rest, 90 once the header tightens, and 22 with it
-         * hidden. Comparing to a constant could not have been right in more
-         * than one of those states. */
+         * it is 108 at rest and 22 with the header hidden (and, until the
+         * tighten was removed, 90 in between). Comparing to a constant could
+         * not have been right in more than one of those states. */
         const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
         if (Math.abs(top - margin) > 24) {
           target.scrollIntoView({ behavior: "auto", block: "start" });

@@ -65,13 +65,38 @@ export const TOPICS = [
   "sex", "sitting", "stimulants", "supervision", "support", "testing",
 ];
 
+/**
+ * What the app reads out of data/index.json: which counties the scanner has
+ * ever reached. Nothing else.
+ *
+ * The file itself carries a `generated` clock, and per county a name, a
+ * count, a severity and a `t` scan timestamp - and the ingest rewrites those
+ * timestamps on every run whether or not it found anything. Bundled whole,
+ * that made topics.json a different file after every ingest while every
+ * byte a reader could see was identical: every returning visitor re-downloaded
+ * 160 KB for a clock reading, and no cache anywhere could hold it. The only
+ * consumer is data.scanned(), which wants the set of FIPS codes, so that is
+ * what ships: a sorted array of them, which is the same bytes for the same
+ * coverage. The name, count and severity were never read from here - the
+ * county page gets all three from alerts.json and the gazetteer.
+ *
+ * Byte-stability is the property, and it is checked the direct way - build
+ * twice, compare - rather than by reading the code, because a test that only
+ * reads the code cannot tell a timestamp from a string. Run this script twice
+ * and diff data/topics.json; it must be identical.
+ */
+function packIndex(doc) {
+  return Object.keys(doc?.counties || {}).sort();
+}
+
 async function main() {
   const bundle = {};
   const missing = [];
   for (const name of TOPICS) {
     const p = path.join(ROOT, "data", `${name}.json`);
     if (!existsSync(p)) { missing.push(name); continue; }
-    bundle[name] = JSON.parse(await readFile(p, "utf8"));
+    const doc = JSON.parse(await readFile(p, "utf8"));
+    bundle[name] = name === "index" ? packIndex(doc) : doc;
   }
   if (missing.length) {
     throw new Error(`topic datasets missing: ${missing.join(", ")}`);

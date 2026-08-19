@@ -31,11 +31,20 @@ let MESH = null;
  * after a 1.06s parse of county-shapes.json - measured, and several times
  * worse on a phone. Nothing in that work depends on anything the browser
  * knows, so scripts/build-mesh.mjs does it once and ships the answer:
- * county-mesh.bin (172KB of packed Float32 rings) plus a 41KB index.
+ * county-mesh.bin (86KB of packed Uint16 rings) plus a 41KB index.
  *
  * The index holds only what cannot be recovered from the blob - fips and ring
- * lengths. Offsets accumulate here, and centroid, size and bbox are one pass
- * over 22k points, which is about a millisecond and saves 300KB of JSON.
+ * lengths, and the quantisation scale. Offsets accumulate here, and centroid,
+ * size and bbox are one pass over 22k points, which is about a millisecond
+ * and saves 300KB of JSON.
+ *
+ * UINT16, NOT FLOAT32. The blob was 172KB of floats and the host does not
+ * compress application/octet-stream, so every county page paid all 172KB on
+ * the wire for a precision the screen cannot show. Each value is now
+ * round(v * scale) and is divided back out here into one Float32Array, so
+ * the rest of this file - and mesh.js's hit testing - sees exactly the shape
+ * it always did. Worst-case error is half a step, ~0.03px on a county page
+ * and ~0.2px at the national map's maximum zoom; the generator prints both.
  *
  * The fallback is deliberate. If the artifact is missing or a rebuild was
  * forgotten, the map is slow rather than broken, which is the right failure
@@ -45,10 +54,15 @@ async function loadPrecomputedMesh() {
     fetch("../data/county-mesh.json", { credentials: "omit" }).then((r) => (r.ok ? r.json() : null)),
     fetch("../data/county-mesh.bin", { credentials: "omit" }).then((r) => (r.ok ? r.arrayBuffer() : null)),
   ]);
-  if (!idx || !buf) return null;
+  if (!idx || !buf || !(idx.scale > 0)) return null;
 
-  const all = new Float32Array(buf);
-  if (all.length !== idx.floats) return null;      // stale pair; rebuild below
+  const packed = new Uint16Array(buf);
+  if (packed.length !== idx.values) return null;    // stale pair; rebuild below
+
+  /* Dequantise once, into the one array every ring becomes a view over. */
+  const all = new Float32Array(packed.length);
+  const inv = 1 / idx.scale;
+  for (let i = 0; i < packed.length; i++) all[i] = packed[i] * inv;
 
   let at = 0;
   const counties = [];
@@ -327,9 +341,24 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     const minSize = 0.7 / u;
     const hairline = Math.max(0.4, dpr * 0.35);
 
+    /* ONLY WHAT THE BUFFER CAN SHOW. At the county page's zoom of 6 the base
+       buffer covers about a twelfth of the mesh, and every one of the other
+       ~3,000 counties was still being traced and filled off its edges - the
+       canvas clipped them, but only after the path had been built and
+       rasterised. The visible window in mesh units is the buffer's own
+       rectangle run backwards through the transform; a county whose bounding
+       box misses it cannot put a pixel down and is skipped before tracePath.
+       A hairline's worth of slack so a county whose box ends exactly at the
+       edge still draws its stroke. */
+    const slack = (hairline + 1) / u;
+    const vx0 = (0 - x0) / u - slack, vx1 = (c.canvas.width - x0) / u + slack;
+    const vy0 = (0 - y0) / u - slack, vy1 = (c.canvas.height - y0) / u + slack;
+
     for (let i = 0; i < mesh.counties.length; i++) {
       const co = mesh.counties[i];
       if (co.size < minSize) continue;
+      const b = co.bb;
+      if (b[2] < vx0 || b[0] > vx1 || b[3] < vy0 || b[1] > vy1) continue;
 
       tracePath(c, co, u, x0, y0);
       c.fillStyle = colorFor(values.get(co.fips), scale, diverging);
@@ -439,10 +468,25 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     ctx2d.restore();
   }
 
+  /* Has anything ever reached the screen? The settle loop below uses this to
+     make sure the first connected frame paints even when nothing about the
+     canvas size changes between the detached measurement and the real one. */
+  let painted = false;
+
   function draw(target) {
+    /* NOT WHILE DETACHED. mountMap runs before its host is in the document
+       (countyView fires it with a bare import().then()), so the first draw
+       used to trace all 3,231 counties into a 640x384 fallback canvas that
+       nothing would ever see, and the centring pass threw that paint away a
+       moment later. Measured as two discarded full renderBase() passes per
+       county page. While the stage is out of the document there is nothing to
+       measure against and nobody looking, so wait: the settle loop and the
+       ResizeObserver both call back in once layout exists. */
+    if (!stage.isConnected) return;
     const dpr = sizeCanvas();
 
     if (baseStale(dpr)) renderBase(dpr);
+    painted = true;
 
     const W = canvas.width, H = canvas.height;
     ctx2d.setTransform(1, 0, 0, 1, 0, 0);
@@ -533,12 +577,13 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
         + "below this map gives the same information as text, and the search box "
         + "opens any county directly.");
 
+    /* Centre on the located county BEFORE the first draw, not after it.
+       centerOnFocus() sizes the canvas itself, so it has the dimensions
+       transform() needs without a paint having happened first - the old
+       draw-centre-draw sequence was a full renderBase() at national zoom
+       discarded by the zoomed one immediately behind it. One pass now. */
+    if (focus) centerOnFocus();
     draw();
-    /* Center and zoom on the located county. Runs after the first draw so the
-       canvas has real dimensions - transform() needs them, and before the
-       first paint they are zero. */
-    if (focus) { centerOnFocus(); draw(); }
-
   }
 
   function renderLegend(m) {
@@ -843,19 +888,26 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
    * computed against the fallback dimensions and are meaningless once the
    * canvas changes size. */
   let tries = 0;
+  let settleTimer = 0;
   const settle = () => {
     const beforeW = canvas.width, beforeH = canvas.height;
-    sizeCanvas();
+    /* Nothing to measure until the host is in the document; sizing a detached
+       stage only records the fallback and makes the comparison below lie. */
+    const connected = stage.isConnected;
+    if (connected) sizeCanvas();
     /* Only when something actually changed. Assigning canvas.width or .height
        CLEARS the canvas, so repainting has to be part of the same step - and
        it has to be a direct draw() rather than scheduleDraw(), because that
        queues through requestAnimationFrame, which does not run in a background
        tab. Clearing on a timer and repainting on rAF leaves a blank map until
-       the reader switches to it. */
-    if (canvas.width !== beforeW || canvas.height !== beforeH) {
-      centerOnFocus();
-      draw();
-    }
+       the reader switches to it.
+
+       And once when nothing changed but nothing has painted yet either: draw()
+       refuses to run while the stage is detached, so the first connected tick
+       has to paint even if the real size happens to equal the fallback. */
+    const resized = canvas.width !== beforeW || canvas.height !== beforeH;
+    if (resized) centerOnFocus();
+    if (resized || (connected && !painted)) draw();
     /* Keep looking until the host is genuinely laid out. Two frames was not
        enough: countyView starts this with a bare import().then(), so it can
        finish before the view is ever appended, and every measurement until
@@ -866,14 +918,17 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
        left the height on its fallback. sizeCanvas is a no-op when nothing has
        changed, so ~3s of 75ms checks costs nothing and guarantees the map
        corrects itself whenever layout actually lands. */
-    if (tries++ < 40) setTimeout(settle, 75);
+    if (tries++ < 40) settleTimer = setTimeout(settle, 75);
   };
   /* setTimeout rather than requestAnimationFrame, deliberately: rAF does not
      fire at all while a tab is in the background, so a map opened in a
      background tab would never size itself and would still be showing the
      640x384 fallback when the reader switched to it. Timers are throttled
      there but they do run. */
-  setTimeout(settle, 0);
+  settleTimer = setTimeout(settle, 0);
 
-  return () => { ro.disconnect(); cancelAnimationFrame(rafId); };
+  /* Teardown. The settle timer is cleared too: it re-arms itself up to forty
+     times, and a map torn down while it was still polling kept measuring and
+     repainting a canvas nobody could see. */
+  return () => { ro.disconnect(); cancelAnimationFrame(rafId); clearTimeout(settleTimer); };
 }

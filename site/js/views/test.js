@@ -22,19 +22,29 @@ import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo, reagentKeyF
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
+
+  /* STARTED BEFORE THE GUIDE IS AWAITED, not after. The guide lives in the
+     topics bundle, which boot already has in flight; the reagent table, the
+     substance list and the flowcharts are three separate national files. Awaiting
+     the guide first and only then asking for the three serialised a second
+     round trip behind the first on every cold open of this tab - the page
+     could not paint until the second wave landed. Kicked off here, all four
+     requests are in the air together (substances.js does the same), and the
+     await below mostly finds them already resolved. The reverse lookup needs
+     the whole reagent table rather than one substance's row, and the
+     substance list only to turn an id into a name a reader recognises. */
+  const bundles = Promise.all([
+    data.reagentTable().catch(() => ({})),
+    data.substances().catch(() => ({ substances: [] })),
+    data.reagentFlows().catch(() => ({ flows: [] })),
+  ]);
+
   const g = await data.testingGuide();
   if (!g) return empty("The testing guide could not load.", "Check your connection and try again.");
 
   SRC = sourceSink();          // fresh per render; see the note on sourceRow
 
-  /* Both national bundles, fetched together. The reverse lookup needs the
-     whole reagent table rather than one substance's row, and the substance
-     list only to turn an id into a name a reader recognises. */
-  const [REAGENT_TABLE, SUBS, FLOWS] = await Promise.all([
-    data.reagentTable().catch(() => ({})),
-    data.substances().catch(() => ({ substances: [] })),
-    data.reagentFlows().catch(() => ({ flows: [] })),
-  ]);
+  const [REAGENT_TABLE, SUBS, FLOWS] = await bundles;
   const wrap = h("div");
 
   wrap.appendChild(h("h1", null, "Test your supply"));

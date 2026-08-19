@@ -36,7 +36,7 @@
    that copy still imported the old src/locate.mjs path that the /src/* 404
    rule had killed. Verified in the live cache - cachedImportsOldPath: true.
    A comment saying "remember to bump this" is not a mechanism. */
-const VERSION = "nl-d21dbdd3";
+const VERSION = "nl-6cbd8209";
 
 /* The minimum set that makes every screen renderable offline. Data files are
    picked up on first use by the runtime cache.
@@ -98,11 +98,17 @@ self.addEventListener("activate", (e) => {
    "alerts.heading". Still one file per language, still identical for every
    reader, so nothing about the allowlist's guarantee changes. */
 /* .bin as well as .json: the precomputed county mesh ships as a packed
-   Float32 blob (data/county-mesh.bin). Same national, byte-identical shape
+   Uint16 blob (data/county-mesh.bin). Same national, byte-identical shape
    as every other bundle here - it says nothing about who looked at what -
    and without it the map falls back to rebuilding the mesh from
    county-shapes.json, which is a 3.9s main-thread freeze. */
-const CACHEABLE = /^\.?\/?(index\.html|css\/|js\/|img\/|data\/(i18n\/)?[^/]+\.(json|bin)$|manifest\.webmanifest)/;
+/* data/h/ as well as data/: on the web the national bundles are served under
+   content-hashed names in that directory (scripts/assets.mjs), so that the
+   host can mark them immutable without touching alerts.json beside them.
+   Same files, same national shape - only the directory and the suffix are
+   new - and without this group the runtime cache would have silently stopped
+   holding every bundle the moment the deploy started hashing them. */
+const CACHEABLE = /^\.?\/?(index\.html|css\/|js\/|img\/|data\/(h\/)?(i18n\/)?[^/]+\.(json|bin)$|manifest\.webmanifest)/;
 
 function mayCache(url) {
   const path = url.pathname.replace(/^.*\/site\//, "");

@@ -52,13 +52,39 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Nightlight">
 <link rel="stylesheet" href="/site/css/app.css">
+<!-- THE MODULE GRAPH, ANNOUNCED UP FRONT. app.js is a module script at the
+     foot of the body, and it imports five more modules that the browser cannot
+     know about until app.js itself has arrived and been parsed - so a cold
+     open paid a serial round trip for app.js, then another for these, then a
+     third for the view. Preloading them here lets the preload scanner fetch
+     them alongside the stylesheet, which turns two of those waves into one.
+
+     THIS LIST IS app.js's STATIC IMPORTS, and test/preload.test.mjs fails if
+     the two drift: a module preloaded but no longer imported is a wasted
+     request on every boot, and an import not listed here is a wave that has
+     quietly come back. Only the static imports - the views are loaded on
+     demand by route and must not all be pulled on every open. -->
+<link rel="modulepreload" href="/site/js/ui.js">
+<link rel="modulepreload" href="/site/js/data.js">
+<link rel="modulepreload" href="/site/js/i18n.js">
+<link rel="modulepreload" href="/site/js/seen.js">
+<link rel="modulepreload" href="/site/js/routes.js">
 <!-- Favicon mirrors the header mark: halo + core in --l-glow. No animation and
      no halo alpha subtleties survive at 16px, so it is drawn flat. -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23b8720f' stroke-width='2' opacity='.4'/><circle cx='16' cy='16' r='8.5' fill='none' stroke='%23b8720f' stroke-width='2.4' opacity='.65'/><circle cx='16' cy='16' r='7' fill='%23b8720f' opacity='.25'/><circle cx='16' cy='16' r='4.5' fill='%23b8720f'/></svg>">
 <!-- Blocking, and in the head on purpose. It decides whether the opening
      splash renders at all, and that decision has to be made before the body
-     paints. See the file. -->
-<script src="js/native-flag.js"></script>
+     paints. See the file.
+
+     ABSOLUTE, like the four links above, and for the same reason. It was
+     written relative ("js/native-flag.js"), which resolves against the
+     document's own URL - /alerts, /test - to /js/native-flag.js, a path that
+     does not exist on the web. So every web boot paid a blocking round trip
+     for a 404 in the head before a pixel of the body could paint; the app
+     still worked only because the web never needs the flag. The packaged
+     build, where it matters, rewrites /site/ to / (scripts/build-app.mjs) so
+     this resolves to the bundled file there too. -->
+<script src="/site/js/native-flag.js"></script>
 </head>
 <body>
 

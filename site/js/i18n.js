@@ -15,6 +15,14 @@
 
 const DEFAULT = "en-US";
 
+/* Content-hashed locale paths, filled in by the web build and empty everywhere
+   else - the same arrangement, and the same marker, as HASHED in data.js; the
+   full note is there. Kept here rather than imported from data.js so this
+   module stays free of imports, which is what lets the boot preload it
+   alongside the others rather than behind one of them. */
+const HASHED = {};
+const url = (rel) => `../data/${HASHED[rel] || rel}`;
+
 /* Add a locale here once data/i18n/<code>.json exists. `dir` drives the
    document's text direction, so an RTL translation works without CSS changes. */
 /* A LOCALE IS OFFERED ONLY ONCE IT IS REVIEWED.
@@ -62,7 +70,7 @@ function resolve() {
 
 async function fetchLocale(code) {
   try {
-    const r = await fetch(`../data/i18n/${code}.json`, { credentials: "omit" });
+    const r = await fetch(url(`i18n/${code}.json`), { credentials: "omit" });
     if (!r.ok) throw new Error(String(r.status));
     return await r.json();
   } catch {
