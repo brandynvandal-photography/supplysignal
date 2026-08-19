@@ -607,7 +607,11 @@ const TRACKER_INTRO =
  * Order: the way out, the name, the two warnings that apply to every reagent
  * test, the method one tap away, then the tool. */
 function trackerView(startId, g, { REAGENT_TABLE, SUBS, FLOWS, go }) {
-  const wrap = h("div");
+  /* .tracker exists for its rhythm: this screen appends its blocks directly
+     (no section() wrappers), so they sat at their own card margins - 8 to
+     13px apart, visibly tighter than any tab page. app.css gives the class
+     the site's in-section gap. */
+  const wrap = h("div", { class: "tracker" });
 
   /* The same ghost button a drug page wears to return to the index. A
      navigation, not history.back(): somebody who arrived from a drug page's
@@ -2006,8 +2010,12 @@ function dilutionBlock(d) {
             h("th", { scope: "row" }, c.substance),
             h("td", null, c.threshold)))))),
 
+    /* A paragraph, not a list. This held a <ul> with exactly one <li> - a
+       lone bullet is a list that never happened, and its 22px indent set the
+       text off the title's left edge, crowding the fold's border for no
+       meaning (removed on request, 2026-08-19). */
     callout("info", "If you were testing a stimulant and it came back positive",
-      h("ul", null, d.guidance.slice(-1).map((x) => h("li", null, x)))),
+      ...d.guidance.slice(-1).map((x) => h("p", null, x))),
 
     /* The "commonly published amount" table is gone, and it had to go rather
        than merely being redundant: it gave one middle-ground figure per drug

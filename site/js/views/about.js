@@ -111,7 +111,7 @@ export async function render(route, { go }) {
     section("Built on other people’s work", null,
       h("p", { class: "sec__note" },
         "The organizations below do the actual work, most of them on very little money."),
-      h("div", { class: "chips" },
+      h("div", { class: "chips chips--links" },
         extLink("https://harmreduction.org/", "National Harm Reduction Coalition", "btn btn--ghost btn--sm"),
         extLink("https://dancesafe.org/", "DanceSafe", "btn btn--ghost btn--sm"),
         extLink("https://psychonautwiki.org/", "PsychonautWiki", "btn btn--ghost btn--sm"),

@@ -1034,6 +1034,14 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    note under "Read more" was touching the button row. This is the same shape
    wherever it appears, so it is fixed here rather than at the one call site. */
 .chips + .sec__note, .chips + p { margin-top: 10px; }
+/* Rows of small link-buttons (Support's programs and locators, About's
+   organisations) reuse .chips for wrapping and inherited a gap sized for
+   chip pills. Buttons are taller and read as separate controls, and at 7px
+   a wrapped row of them nearly touched - "Find something closer", reported
+   2026-08-19. Named at the call sites rather than inferred with :has(),
+   because the iOS floor is 15.0 and :has() arrived in WebKit at 15.4 - the
+   selector would silently drop the rule exactly where it is needed most. */
+.chips--links { gap: 10px; }
 .chip {
   font: inherit; font-size: .87rem; font-weight: 600;
   padding: 8px 14px; min-height: var(--tap);
@@ -1813,6 +1821,11 @@ details.callout--fold[open] > summary::after { transform: rotate(-90deg); }
    the body's own spacing rather than doubling it. */
 details.callout--fold > .callout__body > :first-child { margin-top: 10px; }
 details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
+/* Open, the body's last line sat exactly one --sp-2 from the bottom border,
+   and the 16px corner radius eats into that gap at the edges - reported as
+   the stimulant-retest fold crowding its border (2026-08-19). Four more
+   pixels when open only; closed folds keep the tap-height summary. */
+details.callout--fold[open] { padding-bottom: var(--sp-3); }
 
 /* The reverse reagent lookup's results.
  *
@@ -1832,6 +1845,12 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
 /* A wider gap BETWEEN reagents than within one, or four rows of dropdowns read
    as one undifferentiated stack. */
 .revslots { gap: 15px; }
+/* The reagent tracker's sub-screen appends its blocks bare - button, h1,
+   warnings, method row, tool - so nothing supplied the between-block gap a
+   tab page gets from its sections, and the stack read 8-13px tight (reported
+   2026-08-19). One owl at the site's in-section rhythm; the card margins
+   underneath collapse into it rather than adding. */
+.tracker > * + * { margin-top: var(--sp-3); }
 .revslot {
   display: grid; grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px; align-items: center;
