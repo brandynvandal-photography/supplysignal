@@ -31,7 +31,7 @@ const inflight = new Map();
  */
 const TOPICS = new Set([
   "after", "adulterants", "checking", "comedown", "communities", "conditions",
-  "consent", "descriptions", "education", "emerging", "heat", "index", "market",
+  "consent", "descriptions", "education", "emerging", "harm", "heat", "index", "market",
   "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
   "sex", "sitting", "stimulants", "supervision", "support", "testing",
 ]);
@@ -482,6 +482,12 @@ export async function practice() {
  *  everything else - nobody's interest in this page reaches a server. */
 export async function consent() {
   return load("consent", null);
+}
+
+/** Harm between people: accountability, abuse, and public allegations from
+    all three seats. Rendered on Learn beside consent. */
+export async function harm() {
+  return load("harm", null);
 }
 
 /** Training and courses. */
