@@ -36,10 +36,16 @@
    that copy still imported the old src/locate.mjs path that the /src/* 404
    rule had killed. Verified in the live cache - cachedImportsOldPath: true.
    A comment saying "remember to bump this" is not a mechanism. */
-const VERSION = "nl-5f9f4f43";
+const VERSION = "nl-d21dbdd3";
 
 /* The minimum set that makes every screen renderable offline. Data files are
-   picked up on first use by the runtime cache. */
+   picked up on first use by the runtime cache.
+
+   MIRRORED IN app.js (its WARM list) and test/sw.test.mjs holds the two
+   together. The page re-fetches this set after its boot cache sweep, because
+   `install` runs once per worker version and the sweep runs on every load:
+   on a reload the worker is already installed, nothing re-precaches, and
+   whatever the sweep deleted stays gone until a reader happens to open it. */
 const SHELL = [
   "./",
   "./index.html",
@@ -49,6 +55,11 @@ const SHELL = [
      paint of every offline launch. It decides whether the opening splash
      renders — see the file. */
   "./js/native-flag.js",
+  /* The emergency page, precached rather than picked up on first use: it is
+     the one screen a reader may open for the first time with no connection,
+     and "This section could not load" is the worst thing it can say. Its
+     imports (ui.js, i18n.js) are already in the runtime cache from boot. */
+  "./js/views/help.js",
 ];
 
 self.addEventListener("install", (e) => {

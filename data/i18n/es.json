@@ -9,6 +9,7 @@
     "language": "Idioma",
     "loadFailed": "No se pudo cargar esta sección.",
     "loadFailedHint": "Revisa tu conexión e inténtalo de nuevo.",
+    "tryAgain": "Intentar de nuevo",
     "name": "Nightlight",
     "earlyTitle": "Acceso anticipado — avísanos si algo aquí está mal",
     "earlyBody": "Esto es nuevo y algo puede ser incorrecto. Cada afirmación clínica se verifica con una fuente antes de publicarse, y eso todavía no es lo mismo que estar en lo cierto. Si ves algo inexacto — sobre todo algo que pueda hacerle daño a alguien — dínoslo.",
@@ -132,5 +133,9 @@
     "title": "Parte de esta página solo está en inglés",
     "body": "La información clínica de abajo todavía no está traducida. No falta nada en la versión en inglés.",
     "lines": "Las líneas de crisis del pie de página atienden en español además de en inglés."
+  },
+  "callout": {
+    "stop": "Advertencia",
+    "warn": "Precaución"
   }
 }

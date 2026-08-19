@@ -536,7 +536,40 @@ function reverseLookup(matchFn, table, subs, go, charts) {
    * empty row reads as a requirement rather than an option. */
   const slots = [];
   const rows = h("div", { class: "mixslots revslots" });
-  const out = h("div", { class: "revout", role: "status", "aria-live": "polite" });
+  /* NOT A LIVE REGION. This held role="status", so every change to a select
+     re-read the entire verdict tree - plan card, verdict card, every soldline,
+     the count and the match list - to a screen-reader user, and re-read it
+     from the top. The results render here in silence and the one-line region
+     beneath says what changed. */
+  const out = h("div", { class: "revout" });
+  /* ONE SENTENCE PER CHANGE, verdict first. Atomic, so it is read whole rather
+     than as a diff, and off-screen, so the visible screen is unchanged. Node
+     replacement rather than textContent, so an identical sentence still counts
+     as a change to the region and is announced again - the same reading
+     entered a second time is still an answer. */
+  const live = h("p", { class: "sr-only", role: "status", "aria-live": "polite", "aria-atomic": "true" });
+  const announce = (parts) => {
+    const text = parts.filter(Boolean).join(" ");
+    clear(live);
+    if (text) live.appendChild(document.createTextNode(text));
+  };
+  /* Take a row out without stranding focus. The × sits inside the row it
+     removes, so removing it dropped keyboard focus to <body> and the next Tab
+     started from the top of the document. Focus goes to the row that takes
+     its place, else the one before it, else the add button - and only when it
+     was inside the row, so a mouse user's focus is left alone. syncUnknown()
+     can also drop a row the reader is standing in (changing an unanswered
+     row's reagent to one the chart no longer asks for), so both paths use
+     this. */
+  const dropRow = (row) => {
+    const active = document.activeElement;
+    if (active && row.contains?.(active)) {
+      const near = row.nextElementSibling || row.previousElementSibling;
+      const target = near?.querySelector?.("select, button") || addBtn;
+      target?.focus?.({ preventScroll: true });
+    }
+    row.remove();
+  };
 
   /* The reagent table carries a handful of ids that have no substance record —
      they come straight from PsychonautWiki's colour data and were never given a
@@ -712,10 +745,13 @@ function reverseLookup(matchFn, table, subs, go, charts) {
             onClick: () => {
               const at = slots.findIndex((x) => x.reagent === reagent);
               if (at > -1) slots.splice(at, 1);
-              row.remove();
+              /* The label the row wore when it was pressed, for the region -
+                 relabel() below renumbers what is left. */
+              const was = at > -1 ? at + 1 : i + 1;
+              dropRow(row);
               relabel();
               addBtn.disabled = slots.length >= MAX;
-              check();
+              check(`Reagent ${was} removed.`);
             },
           }, "×")
         : null);
@@ -831,7 +867,8 @@ function reverseLookup(matchFn, table, subs, go, charts) {
       if (keep.has(s.reagent.value)) continue;
       const at = slots.indexOf(s);
       if (at > -1) slots.splice(at, 1);
-      rows.children[at]?.remove();
+      const row = rows.children[at];
+      if (row) dropRow(row);
     }
     const have = new Set(slots.map((s) => s.reagent.value));
     for (const r of led?.next || []) if (!have.has(r)) addSlot(r);
@@ -1113,8 +1150,17 @@ function reverseLookup(matchFn, table, subs, go, charts) {
         : null);
   }
 
-  function check() {
+  /* `tail` is a clause for the live region - the removal, when a × was
+     pressed. Anything else that arrives here (a change event, from the
+     listeners that pass check straight through) is not a clause. */
+  function check(tail) {
     clear(out);
+    /* What the region will say: the card's exact label first, then the rest
+       in the order it appears on screen. Assembled as the cards are built so
+       the words are the cards' own words, never a paraphrase of them. */
+    let verdict = null;
+    const notes = [];
+    const done = () => announce([verdict, ...notes, typeof tail === "string" ? tail : null]);
 
     /* With nothing said about what it is, the rows follow chart 3 from the
        Marquis reading. Done before the state is read: adding a row adds an
@@ -1137,6 +1183,15 @@ function reverseLookup(matchFn, table, subs, go, charts) {
        look like unreacted, so they are not scored — but a reader who typed one
        in and saw it vanish from the count would reasonably think the app had
        ignored them. It tells them what happened and what to do about it. */
+    /* The blank-bottle clause for the region, in the note's own opening
+       words; pushed where the note is appended so it is heard in the order it
+       is seen. */
+    const blankClause = (blanked || []).length
+      ? (blanked || []).map(reagentLabel).join(" and ")
+        + ((blanked || []).length === 1
+            ? " came back the color it already is and is not counted."
+            : " came back the colors they already are and are not counted.")
+      : null;
     const blankNote = (blanked || []).length
       ? h("p", { class: "sec__note" },
           (blanked || []).map(reagentLabel).join(" and "),
@@ -1155,22 +1210,41 @@ function reverseLookup(matchFn, table, subs, go, charts) {
      * This is the answer to "which reagents do I need", and it has to come
      * before the results rather than with them — somebody who has not started
      * yet is standing over a bag deciding what to open. */
-    if (flow) out.appendChild(planCard(flow, run));
-    else if (soldAs.value) out.appendChild(tablePlanNote(soldAs.value));
-    else if (led) out.appendChild(routeCard(led));
+    if (flow) {
+      out.appendChild(planCard(flow, run));
+      /* Before any reading, the change was the test being loaded - say so in
+         the plan card's words. Once there are readings the verdict speaks. */
+      if (!used) notes.push(`Loaded the ${nameOf(flow.id)} test`
+        + (flow.steps.length > 1 ? ` — ${flow.steps.length} reagents, in the chart's order.` : " — one reagent."));
+    } else if (soldAs.value) {
+      out.appendChild(tablePlanNote(soldAs.value));
+      if (!used) notes.push(`No published flowchart covers ${nameOf(soldAs.value)}. `
+        + "Loaded the reagents that have a result on record for it.");
+    } else if (led) {
+      out.appendChild(routeCard(led));
+      /* The chart's next instruction, or its end - the route card's own
+         sentences, shortened to the one that tells the reader what to do. */
+      const route = led.route || {};
+      const said = route.reading === "none" ? "nothing" : route.reading;
+      if (!route.matched) notes.push(`Marquis went ${said}. The unknown-substance chart does not list that result.`);
+      else if (led.next.length) notes.push(`Run ${led.next.map(reagentName).join(" or ")} next.`);
+      else if (!led.finished.length) notes.push(`Marquis went ${said}. The chart runs out here.`);
+    }
 
     /* The guided walk landed on a chart's endpoint. Same card the sold-as path
        uses, labelled as a sequence that completed rather than as a claim that
        held — nobody claimed anything here. */
     for (const w of led?.finished || []) {
       out.appendChild(flowCard(flowFor(w.id, charts), w, state, true));
+      /* The card's badge, verbatim, and first. */
+      if (!verdict) verdict = `Consistent with ${aLike(w.id)}.`;
     }
 
     /* The "start with Marquis" line used to sit here, under the empty picker,
        which is below the controls it is instructions for. It is in the intro
        at the top of the section now, where somebody reads before touching
        anything. */
-    if (!used) return;
+    if (!used) { done(); return; }
 
     /* THE CHART'S VERDICT WINS WHERE THERE IS ONE.
      *
@@ -1183,6 +1257,16 @@ function reverseLookup(matchFn, table, subs, go, charts) {
      * broader scope, and it is where an unexpected result gets explained. */
     if (run && run.status !== "none") {
       out.appendChild(flowCard(flow, run, state));
+      /* The same label flowCard puts on its badge, so what is heard is what is
+         printed. */
+      if (!verdict) {
+        const name = nameOf(flow.id);
+        verdict = {
+          expected:   `Consistent with ${aLike(flow.id)}.`,
+          ontrack:    `So far, ${name}-like.`,
+          unexpected: `Unexpected for ${name}.`,
+        }[run.status] || null;
+      }
     }
 
     /* THE TABLE'S VERDICT, for the 196 substances no chart covers.
@@ -1205,6 +1289,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
         partial:    { card: "advisory", badge: "neutral",  glyph: "?",
                       label: `No published answer` },
       }[sold.status];
+      if (!verdict) verdict = `${look.label}.`;
 
       const line = (d) => {
         const doc = d.documented;
@@ -1298,15 +1383,20 @@ function reverseLookup(matchFn, table, subs, go, charts) {
     const allOf = used === 1 ? "that reading" : `all ${used} readings`;
     const total = chartOnly.length + consistent.length;
 
-    if (blankNote) out.appendChild(blankNote);
+    if (blankNote) { out.appendChild(blankNote); notes.push(blankClause); }
 
     if (!total) {
+      notes.push(`Nothing published matches ${allOf}.`);
       out.appendChild(empty(
         `Nothing published matches ${allOf}.`,
         "That is a gap in what has been tested, not proof you have something new. "
         + "Reagent age and light both change a color, so check whether one of "
         + "the readings could go the other way."));
     } else {
+      /* The count line, as printed. */
+      notes.push(chartOnly.length && !consistent.length
+        ? `${chartOnly.length === 1 ? "One substance" : `${chartOnly.length} substances`} completed a published test sequence.`
+        : `${total} substance${total === 1 ? "" : "s"} match${total === 1 ? "es" : ""} ${allOf}.`);
       out.appendChild(h("p", { class: "sec__note" },
         chartOnly.length && !consistent.length
           /* The chart answered and the table cannot corroborate it, because no
@@ -1348,6 +1438,7 @@ function reverseLookup(matchFn, table, subs, go, charts) {
      * reagentmatch.js still computes all three — the rule that an unpublished
      * pair may never eliminate a substance is the module's core and is tested
      * there. The UI simply does not render two of them. */
+    done();
   }
 
   function onSoldAs() {
@@ -1404,7 +1495,8 @@ function reverseLookup(matchFn, table, subs, go, charts) {
             h("span", { class: "pick__field" }, soldAs))))),
     rows,
     h("div", { class: "mixadd" }, addBtn),
-    out);
+    out,
+    live);
 }
 
 function reagentFilter(reagents) {

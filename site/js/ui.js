@@ -270,11 +270,26 @@ export function callout(kind, title, ...body) {
   const kids = body.filter((b) => b != null && b !== false);
   const node = (b) => (b instanceof Node ? b : h("p", null, b));
 
+  /* THE SEVERITY IS SAID, not only coloured and glyphed.
+   *
+   * The glyph is aria-hidden and the colour is a border, so a screen reader
+   * heard "Only for fentanyl" as a plain heading - the same as an info box, the
+   * same as a section title - and the one thing the box exists to convey was
+   * silent. An off-screen prefix inside the h3 makes it "Warning: Only for
+   * fentanyl", read as part of the heading rather than as a stray word before
+   * it. stop and warn only: an info box has nothing to warn about, and
+   * prefixing everything would teach a reader to skip the prefix. Through
+   * t() so it follows the interface language; the visible title is untouched.
+   * reveal() in app.js matches search results to headings by their VISIBLE
+   * text for exactly this reason - see visibleText there. */
+  const sev = kind === "stop" || kind === "warn" ? t(`callout.${kind}`) : null;
   const head = (tag) => h(
     tag,
     { class: "callout__hd" },
     h("span", { "aria-hidden": "true" }, glyph),
-    h("h3", null, title)
+    h("h3", null,
+      sev ? h("span", { class: "sr-only" }, `${sev}: `) : null,
+      title)
   );
 
   /* A FOLD IS ALREADY ONE LINE. Only the boxes that cannot close get split.
@@ -415,8 +430,22 @@ export function jumpTo(id) {
     /* Again after the jump, because the scroll this function just performed is
        what the watcher would otherwise read as "the reader scrolled down". */
     try { document.dispatchEvent(new CustomEvent("nl:jump")); } catch {}
-    const s = el.querySelector("summary");
-    if (s) s.focus({ preventScroll: true });
+    /* FOCUS THE HEAD THE SCROLL LANDED ON, not the first summary in the tree.
+     *
+     * `el.querySelector("summary")` was right while every jump target was a
+     * details - its summary IS its head. On a div-wrapped target it found the
+     * first summary INSIDE the section instead (an accordion several
+     * paragraphs down, or nothing at all), so the page scrolled to the heading
+     * and a keyboard or screen-reader user was left focused somewhere else, or
+     * still on the chip. Emergency's "Collapsed" section was the reported
+     * case. `head` is what place() measured, so focus and scroll now agree.
+     * A heading is not focusable until it is given tabindex=-1; a summary
+     * already is, and is left alone. The ring is suppressed for programmatic
+     * heading focus by the app.css rule under "programmatic focus". */
+    if (head.tagName !== "SUMMARY" && !head.hasAttribute("tabindex")) {
+      head.setAttribute("tabindex", "-1");
+    }
+    head.focus({ preventScroll: true });
   });
 }
 

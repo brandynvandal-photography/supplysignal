@@ -100,7 +100,8 @@
        two comments at .topbar::before describe, and which shipped once.
 
        So the header is split: everything that moves lives in here, and the nav
-       sits beside it as a direct child of the bar. That lets the slide use a
+       sits beside it as a direct child of the bar - as does Quick Exit, for a
+       different reason given at the button. That lets the slide use a
        transform, which the compositor can run on its own thread, instead of
        animating `top` and forcing layout on every frame. -->
   <div class="topbar__slide">
@@ -155,17 +156,29 @@
       <button class="iconbtn" id="theme" aria-label="Switch color theme" title="Switch color theme">
         <span aria-hidden="true">◐</span>
       </button>
-
-      <!-- The threat is often in the same room. One tap clears what this site
-           stored, unregisters the service worker, overwrites the back stack and
-           leaves. It cannot delete browser history — no API can — so the copy
-           says "overwrites", not "removes". -->
-      <button class="iconbtn" id="exit" aria-label="Quick exit — leave this site now and clear local traces"
-              title="Quick exit">
-        <span aria-hidden="true">✕</span>
-      </button>
     </div>
   </div>
+
+  <!-- QUICK EXIT IS NOT IN THE SLIDE, and that is the whole reason it sits
+       here rather than beside the theme button where it reads as belonging.
+
+       The threat is often in the same room. One tap clears what this site
+       stored, unregisters the service worker, overwrites the back stack and
+       leaves. It cannot delete browser history — no API can — so the copy
+       says "overwrites", not "removes".
+
+       The header slides off the top on any scroll and comes back only at the
+       top of the page (see watchBarShrink in app.js). While the X lived in the
+       slide it left with it, so the one control that exists for the moment
+       somebody walks in was a scroll-to-top away from anywhere below the first
+       screen. As a direct child of the bar it stays: the stylesheet pins it as
+       a fixed pill at the top-right on a phone and positions it into the row
+       on a wide screen, the same way .nav is handled below. Before .nav so the
+       tab order is unchanged: brand, search, theme, exit, then the tabs. -->
+  <button class="iconbtn" id="exit" aria-label="Quick exit — leave this site now and clear local traces"
+          title="Quick exit">
+    <span aria-hidden="true">✕</span>
+  </button>
 
   <!-- Outside .topbar__slide on purpose - see the comment above it. -->
   <nav class="nav" aria-label="Sections">

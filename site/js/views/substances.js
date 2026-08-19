@@ -555,12 +555,42 @@ function mixChecker(combos, yours) {
   const cats = combos.categories || [];
   const slots = [];
   const rows = h("div", { class: "mixslots" });
-  const out = h("div", { class: "mixout", role: "status", "aria-live": "polite" });
+  /* NOT A LIVE REGION. It carried role="status", so every change to a select
+     re-read the whole verdict - card, badge, definition, the depressant
+     callout and every pair - from the top. The results render here in
+     silence; the one-line region below says what changed. Same shape as the
+     reagent tracker on Test, which shares this control. */
+  const out = h("div", { class: "mixout" });
+  /* ONE SENTENCE PER CHANGE, verdict first: the card's exact badge, then the
+     depressant heading verbatim when it is shown, then a removal if a × was
+     pressed. Atomic so it is read whole; off-screen so nothing visible moves.
+     Node replacement so an identical verdict is still announced. */
+  const live = h("p", { class: "sr-only", role: "status", "aria-live": "polite", "aria-atomic": "true" });
+  const announce = (parts) => {
+    const text = parts.filter(Boolean).join(" ");
+    clear(live);
+    if (text) live.appendChild(document.createTextNode(text));
+  };
 
   const addBtn = h("button", {
     type: "button", class: "btn btn--ghost btn--sm",
     onClick: () => { addSlot(); check(); },
   }, "+ Add another drug");
+
+  /* Take a row out without stranding focus. The × is inside the row it
+     removes, so a keyboard user's focus fell to <body> and their next Tab
+     started from the top of the page. Focus moves to the row that takes its
+     place, else the one before, else the add button - and only if it was in
+     the row, so a mouse user's focus is left where it is. */
+  const dropRow = (row) => {
+    const active = document.activeElement;
+    if (active && row.contains?.(active)) {
+      const near = row.nextElementSibling || row.previousElementSibling;
+      const target = near?.querySelector?.("select, button") || addBtn;
+      target?.focus?.({ preventScroll: true });
+    }
+    row.remove();
+  };
 
   function makeSelect(i) {
     const sel = h("select", { class: "input", "aria-label": `Substance ${i + 1}` },
@@ -589,9 +619,12 @@ function mixChecker(combos, yours) {
             onClick: () => {
               const at = slots.indexOf(sel);
               if (at > -1) slots.splice(at, 1);
-              row.remove();
+              /* The number the row wore when pressed; relabel() renumbers
+                 what is left. */
+              const was = at > -1 ? at + 1 : i + 1;
+              dropRow(row);
               relabel();
-              check();
+              check(`Drug ${was} removed.`);
             },
           }, "×")
         : null);
@@ -608,19 +641,27 @@ function mixChecker(combos, yours) {
     addBtn.disabled = slots.length >= MAX_MIX;
   }
 
-  function check() {
+  /* `tail` is a clause for the live region - the removal, when a × was
+     pressed. A change event arriving here from the select listeners is not
+     one. */
+  function check(tail) {
     clear(out);
+    /* Assembled as the cards are built, in their own words. */
+    let verdict = null;
+    const notes = [];
+    const done = () => announce([verdict, ...notes, typeof tail === "string" ? tail : null]);
     const picked = slots.map((s) => s.value).filter(Boolean);
     const unique = [...new Set(picked)];
 
     if (picked.length > unique.length) {
+      notes.push("You picked the same category twice.");
       out.appendChild(callout("warn", "You picked the same category twice",
         h("p", null,
           "Taking more raises the dose. Redosing before the first amount has " +
           "fully come up is a common way people take far more than they meant " +
           "to.")));
     }
-    if (unique.length < 2) return;
+    if (unique.length < 2) { done(); return; }
 
     /* Every pair, worst first. */
     const results = [];
@@ -639,6 +680,14 @@ function mixChecker(combos, yours) {
 
     /* Overall verdict. Deliberately says "at least" - the pairs are a floor,
        not the whole picture. */
+    /* The badge, exactly as printed, then the pairing it is about. When no
+       pair has data there is no card, but every pair row wears the "No data"
+       badge, and that is what a sighted reader sees - so it is what is said. */
+    {
+      const meta = worst ? RISK[worst] || RISK.Unknown : RISK.Unknown;
+      verdict = `${worst && unique.length > 2 ? `At least: ${meta.label}` : meta.label}. `
+        + `${unique.map(prettyCat).join(" + ")}.`;
+    }
     if (worst) {
       const meta = RISK[worst] || RISK.Unknown;
       out.appendChild(
@@ -661,6 +710,8 @@ function mixChecker(combos, yours) {
 
     /* The warning the matrix cannot give. */
     if (deps.length >= 2) {
+      /* The callout's heading, verbatim. */
+      notes.push(`${deps.length} of these slow your breathing down.`);
       out.appendChild(
         callout("stop", `${deps.length} of these slow your breathing down`,
           h("p", null,
@@ -696,6 +747,8 @@ function mixChecker(combos, yours) {
                   "not be alone.")))
       );
     }
+    if (unique.length > 2) notes.push(`${results.length} pairs checked.`);
+    done();
   }
 
   addSlot();
@@ -717,7 +770,8 @@ function mixChecker(combos, yours) {
         h("strong", null, "benzodiazepines"), "."),
       rows,
       h("div", { class: "chips" }, addBtn),
-      out),
+      out,
+      live),
     /* Directly under the result. This used to sit outside the section, which
        looked adjacent on an empty page and was a screenful away the moment a
        combination produced results - moving out of sight exactly when it

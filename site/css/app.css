@@ -318,6 +318,25 @@ a { color: var(--brand); }
 }
 :focus:not(:focus-visible) { outline: none; }
 
+/* INSET RINGS UNDER CLIPPING CONTAINERS.
+ *
+ * The ring above is drawn OUTSIDE the box, 2px out. Every container in this
+ * list clips its children: details.disc and .list carry overflow: hidden to
+ * hold a hover fill to their radius, .jump .chips is overflow-x: auto under a
+ * fade mask, and details.acc clips the same way. So a summary, a list row or a
+ * jump chip that received keyboard focus painted its ring into the clip and
+ * showed nothing - and closed disclosures are most of the controls on Test,
+ * Support and Learn, so tabbing through those pages looked like focus had
+ * been lost (WCAG 2.4.7). Drawn 3px INSIDE the box instead, the ring lands on
+ * the element's own pixels and no container can eat it. The pill-shaped tabs
+ * take the same treatment for the row's sake. Asserted by test/css.test.mjs
+ * so it cannot be tidied away. */
+details.disc > summary:focus-visible,
+details.acc > summary:focus-visible,
+.list > .nbr:focus-visible,
+.jump .chip:focus-visible,
+.nav a:focus-visible { outline-offset: -3px; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .01ms !important;
@@ -591,6 +610,84 @@ a { color: var(--brand); }
 #searchbtn { color: var(--ink); }
 #searchbtn .iconbtn__svg { stroke-width: 2.4; }
 
+/* ---- Quick Exit, pinned -------------------------------------------------
+ *
+ * The X is not in the header row any more - index.html puts it beside .nav as
+ * a direct child of .topbar, outside .topbar__slide. The slide leaves on any
+ * downward scroll and comes back only at the top of the page (see the
+ * .is-bar-up rules near the foot of this file), and while the X rode in it
+ * the one control that exists for the moment somebody walks into the room was
+ * a scroll-to-top away from anywhere below the first screen. Measured on Test
+ * at 390px: five to eight flicks back up before it could be tapped.
+ *
+ * FIXED, like .nav is on a phone, and for the same reason it is safe: .topbar
+ * carries no transform, filter or will-change: transform (the two comments at
+ * .topbar::before say why), so a fixed child resolves against the viewport.
+ *
+ * At rest it sits exactly where it used to - the right end of the menu row,
+ * on the row's centre line - so the header looks unchanged. The row keeps a
+ * hole for it: the theme button stops one gap short of the pill, otherwise
+ * the two overlap now that the X is out of the flex flow. When the header
+ * leaves, the pill rides up to the corner with it and stops there. It is
+ * `top` that moves and not a transform, deliberately: this is ONE fixed box
+ * that is out of flow, so changing its offset lays out nothing but itself -
+ * the objection to animating `top` elsewhere in this file is about the sticky
+ * bar, whose height every jump target and the search panel key off. And
+ * keeping transform free leaves the press-scale on .iconbtn:active working.
+ *
+ * A pill of the bar's own material - --bar-tint on a hairline - so that over
+ * the header it all but disappears and over content it reads as a control
+ * that stayed. It is the only glass in the header that is a button, and it
+ * gets the blur only where the bar itself does: see the @supports block at
+ * the foot, which excludes touch devices, and the reduced-transparency rule
+ * beneath it. */
+#exit {
+  --exit-size: var(--tap);
+  /* The bar has 12px of side inset on a notchless phone; the pill sits at the
+     same edge the row's padding gives its neighbours, and inside the notch
+     when there is one. */
+  --exit-right: max(12px, env(safe-area-inset-right, 0px));
+  position: fixed; z-index: 46;              /* over .nav (45): the pill wins */
+  right: var(--exit-right);
+  /* 66px is `.topbar .wrap`'s min-height - the row's height at rest, and the
+     only state in which the pill and the row are seen together (the row only
+     tightens once the bar has already gone). Centred on that. */
+  top: calc(var(--bar-top) + var(--banner-h) + (66px - var(--exit-size)) / 2);
+  width: var(--exit-size); height: var(--exit-size);
+  min-width: 0; min-height: 0;               /* .iconbtn's floor; width rules here */
+  border-radius: var(--radius-pill);
+  background: var(--bar-tint); border-color: var(--glass-line);
+  will-change: backdrop-filter;             /* declared once, at the foot - see .nav */
+  /* Live regardless of the bar. .is-bar-up .topbar turns pointer-events off
+     for the whole bar and .nav opts back in below 960 - this does the same at
+     every width, because unlike the tabs the pill is on screen at every
+     width. */
+  pointer-events: auto;
+}
+/* #exit outranks .iconbtn:hover on specificity, so the hover fill is restated. */
+#exit:hover { background: var(--surface-2); color: var(--ink); }
+/* Once the header has gone, up to the corner: the bar's status-bar clearance
+   plus a small inset, so it hugs the top edge over content. */
+.is-bar-up #exit { top: calc(var(--bar-top) + 8px); }
+/* The hole in the row, below 960 - the pill's own offset, its width, and the
+   row's 14px gap. Padding rather than a spacer element so the header markup
+   carries nothing that exists only for layout. */
+@media (max-width: 959px) {
+  .topbar__slide > .wrap {
+    padding-right: calc(max(12px, env(safe-area-inset-right, 0px)) + var(--tap) + 14px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* The same curve and duration as the slide, so the ride to the corner is
+     the header's own motion continued rather than a second animation. The
+     .iconbtn transition list is restated because this replaces it. */
+  #exit {
+    transition: top var(--t-ease) var(--ease-float),
+                transform .12s ease, background-color .18s ease,
+                border-color .18s ease, color .18s ease;
+  }
+}
+
 /* At tablet width the app is still serving PHONE-SIZED CHROME, which is the
  * thing five attempts at the magnifier were actually chasing. Measured at 820px
  * — an iPad in portrait — the header carries an 18.6px wordmark, 11.5px tab
@@ -616,6 +713,13 @@ a { color: var(--brand); }
 @media (min-width: 700px) and (max-width: 959px) {
   .iconbtn { font-size: 1.5rem; min-width: 52px; min-height: 52px; }
   #searchbtn .iconbtn__svg { width: 32px; height: 32px; }
+  /* The pinned X grows with its neighbours. Its size is its own token because
+     #exit sets width outright (the .iconbtn min-* floor above cannot reach
+     it), and the row's hole has to grow by the same 8px. */
+  #exit { --exit-size: 52px; }
+  .topbar__slide > .wrap {
+    padding-right: calc(max(12px, env(safe-area-inset-right, 0px)) + 52px + 14px);
+  }
 
   /* AND THE TIGHT ROW HAS TO CLEAR THEM.
    *
@@ -732,6 +836,34 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   .nav a .ico { font-size: 1.02rem; width: auto; height: auto; background: none; }
   .nav a[aria-current="page"] .ico { background: none; }
   main { padding-bottom: var(--sp-5); }
+
+  /* QUICK EXIT JOINS THE ROW the same way the tabs do: absolute against the
+     sticky bar, on the row's centre line, at the right edge of the same
+     centred column the row uses - `.topbar .wrap` is min(1180px, 100%) wide
+     with --sp-3 of padding, so the pill's right edge lands where the row's
+     last button used to. Absolute rather than fixed here because the bar's
+     box is always at the top of a desktop window and there is no corner to
+     ride to: when the header slides, the bar keeps its box and the pill keeps
+     its place, now over content. So the phone's .is-bar-up ride is undone. */
+  #exit {
+    position: absolute; bottom: auto;
+    right: calc((100% - min(1180px, 100%)) / 2 + max(var(--sp-3), env(safe-area-inset-right, 0px)));
+    /* 33px = half the row's 66px rest height, as a constant and NOT
+       --bar-row-h / 2 the way .nav is centred: that token drops to the tight
+       value once the page is 64px down, and a pinned control that jolts 9px
+       when the row it is no longer in tightens would look broken. */
+    top: calc(var(--bar-top) + var(--banner-h) + 33px);
+    transform: translateY(-50%);
+  }
+  .is-bar-up #exit { top: calc(var(--bar-top) + var(--banner-h) + 33px); }
+  /* The press-scale, composed onto the centring translate rather than
+     replacing it. */
+  #exit:active { transform: translateY(-50%) scale(.96); }
+  /* The hole in the row: pill width plus the row's gap, past the column's own
+     padding. */
+  .topbar__slide > .wrap {
+    padding-right: calc(max(var(--sp-3), env(safe-area-inset-right, 0px)) + var(--tap) + 14px);
+  }
 }
 
 /* -------------------------------------------------------------- search */
@@ -1681,7 +1813,8 @@ details.acc > summary::after {
   transform: translateY(-50%) rotate(90deg); transition: transform .18s;
 }
 details.acc[open] > summary::after { transform: translateY(-50%) rotate(-90deg); }
-details.acc > summary:hover { background: var(--surface-2); }
+details.acc > summary:hover,
+details.acc > summary:focus-visible { background: var(--surface-2); }   /* focus = hover, as .disc */
 /* Top padding, not zero.
    The first child's margin is killed on the line below, so padding was the
    only thing separating the body from the summary above it - and there was
@@ -2246,7 +2379,10 @@ details.disc > summary {
   cursor: pointer; list-style: none; padding: var(--sp-3) var(--sp-4);
   display: flex; align-items: center; gap: 11px; min-height: var(--tap);
 }
-details.disc > summary:hover { background: var(--glass-strong); }
+/* Focus fills like hover does. A keyboard user gets the same "this is the
+   one" surface a mouse user gets, on top of the inset ring above. */
+details.disc > summary:hover,
+details.disc > summary:focus-visible { background: var(--glass-strong); }
 details.disc > summary::-webkit-details-marker { display: none; }
 details.disc > summary h2 { margin: 0; font-size: 1.16rem; }
 details.disc > summary::after {
@@ -2257,7 +2393,8 @@ details.disc > summary::after {
   font-size: 1.15rem; font-weight: 600; line-height: 1;
 }
 details.disc[open] > summary::after { content: "\2212"; background: var(--brand); color: var(--brand-ink); }
-details.disc > summary:hover h2 { color: var(--brand); }
+details.disc > summary:hover h2,
+details.disc > summary:focus-visible h2 { color: var(--brand); }
 /* Matches .acc__body. The two disclosure types were on 6px and 12px of top
    padding respectively, which is exactly the kind of difference nobody can
    name but everybody feels when the same control is used twice on one page. */
@@ -2562,7 +2699,8 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
 /* Pressed, not hovered. Touch has no hover, and a whole-row tint is the native
    feedback. */
 .list > .nbr:active { background: color-mix(in srgb, var(--ink) 7%, transparent); }
-.list > .nbr:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.list > .nbr:hover,
+.list > .nbr:focus-visible { background: color-mix(in srgb, var(--ink) 4%, transparent); }
 .list > .nbr:focus-visible { border-radius: 0; }
 /* An empty state or a grid of tiles inside a list container is not a grouped
    list, so it must not inherit the group frame.
@@ -3101,7 +3239,8 @@ details.disc .groupkids > details.disc {
   padding: 0;
   overflow: visible;
 }
-details.disc .groupkids > details.disc > summary:hover { background: none; }
+details.disc .groupkids > details.disc > summary:hover,
+details.disc .groupkids > details.disc > summary:focus-visible { background: none; }
 details.disc .groupkids > details.disc + details.disc {
   border-top: 1px solid var(--glass-line);
 }
@@ -3368,9 +3507,13 @@ details.disc .groupkids > details.disc > summary h2 {
  * half with slack in it: the wordmark tells a reader which app they are in,
  * which is worth a lot on arrival and nothing at all six screens down.
  *
- * IT SHRINKS, IT DOES NOT HIDE. The X in that row is Quick Exit, and a safety
- * control that has to be scrolled back to is not one. Search, theme and the X
- * all stay exactly where they were; only the name and the gap around it go.
+ * IT SHRINKS, IT DOES NOT HIDE. This was the rule when Quick Exit still lived
+ * in the row: a safety control that has to be scrolled back to is not one, so
+ * search, theme and the X stayed exactly where they were and only the name and
+ * the gap around it went. The header now also slides away entirely (the block
+ * below), and the X survives that because it is no longer in the row at all -
+ * it is a pinned pill, see "Quick Exit, pinned" near .iconbtn. The tighten
+ * remains as the intermediate state.
  *
  * --bar-row-h MOVES WITH IT, and that is the part that would break silently.
  * Three things are pinned to the bar's height by that token - the search
@@ -3416,12 +3559,15 @@ details.disc .groupkids > details.disc > summary h2 {
 
 /* ---- and off the top entirely, going down --------------------------------
  *
- * Direction, not position - see watchBarShrink() in app.js. Down hides the
- * header, any upward scroll brings it straight back, and it is never hidden
- * within the first screen. That is what keeps Quick Exit reachable: the X is
- * the control somebody reaches for because a person just walked into the room,
- * and one upward flick is a different thing from a scroll to the top of a
- * twelve-screen page.
+ * Position, not direction - see watchBarShrink() in app.js. Any scroll away
+ * from the top hides the header, and only the top of the page brings it back.
+ * Quick Exit is NOT what makes that affordable: it used to be, when the X rode
+ * in the slide and an earlier direction-based rule ("any upward scroll brings
+ * it back") existed to keep it one flick away. The X is a pinned pill outside
+ * the slide now (see "Quick Exit, pinned" near .iconbtn), on screen at every
+ * scroll position, so the header can belong to the top of the page without
+ * costing the one control somebody reaches for because a person just walked
+ * into the room.
  *
  * --bar-h GOES TO ZERO with it, because the jump strip and the search panel are
  * both pinned to the bar's height by that token. Left at 76 they would hold
@@ -3603,10 +3749,16 @@ details.disc .groupkids > details.disc > summary h2 {
    paint a focus ring - a green box around the page title on every route
    change looks like a bug and is one. Screen reader announcement is
    unaffected: it comes from focus, not from the outline. */
+/* h3 and h4 as well: jumpTo() in ui.js now focuses whatever heading a jump
+   chip lands on, and a chip's target is not always an h2. */
 #view h1[tabindex="-1"]:focus,
 #view h1[tabindex="-1"]:focus-visible,
 #view h2[tabindex="-1"]:focus,
 #view h2[tabindex="-1"]:focus-visible,
+#view h3[tabindex="-1"]:focus,
+#view h3[tabindex="-1"]:focus-visible,
+#view h4[tabindex="-1"]:focus,
+#view h4[tabindex="-1"]:focus-visible,
 #main[tabindex="-1"]:focus,
 #main[tabindex="-1"]:focus-visible { outline: none; box-shadow: none; }
 
@@ -3698,8 +3850,10 @@ details.disc .groupkids > details.disc > summary h2 {
       meets contrast. */
 
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  /* Saturation is what makes it read as glass rather than fog. */
-  .topbar::before, .nav {
+  /* Saturation is what makes it read as glass rather than fog. #exit is the
+     pinned Quick Exit pill - the bar's own material as a button, so it takes
+     and loses the blur exactly when the bar does. */
+  .topbar::before, .nav, #exit {
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
   }
@@ -3743,7 +3897,7 @@ details.disc .groupkids > details.disc > summary h2 {
    * least afford to stutter. It was reported on its own, after the bars were
    * already fixed, because it was the one surface this rule had missed. */
   @media (hover: none) and (pointer: coarse) {
-    .topbar::before, .nav, .searchpanel {
+    .topbar::before, .nav, .searchpanel, #exit {
       -webkit-backdrop-filter: none; backdrop-filter: none;
       will-change: auto;
     }
@@ -3757,10 +3911,10 @@ details.disc .groupkids > details.disc > summary h2 {
 /* Reduced transparency is an accessibility setting, not a preference for a
    different look: someone who turns it on needs opaque surfaces. */
 @media (prefers-reduced-transparency: reduce) {
-  .topbar::before, .nav, .searchpanel {
+  .topbar::before, .nav, .searchpanel, #exit {
     -webkit-backdrop-filter: none; backdrop-filter: none;
   }
-  .nav, .searchpanel { background: var(--surface); }
+  .nav, .searchpanel, #exit { background: var(--surface); }
   :root {
     --glass: var(--surface); --glass-strong: var(--surface);
     --glass-card: var(--surface);

@@ -62,8 +62,10 @@ document.getElementById("theme").addEventListener("click", (e) => {
  *
  * The cost, stated plainly because it is a real one: the offline cache no
  * longer survives a session, so opening the app cold always needs a network.
- * Within a session, caching still works and Emergency still renders offline.
- */
+ * Within a session, caching still works and Emergency renders offline - and
+ * not only once it has been opened: warmShell() below re-fills the shell,
+ * emergency page included, after every sweep, and boot imports the page at
+ * idle. */
 
 async function wipeCaches() {
   try {
@@ -263,6 +265,18 @@ function canonicalize() {
  * Explicitly instant, never smooth. A navigation is not a journey, and
  * animating it means watching the old page leave.
  */
+/* Reduce Motion, asked once and honoured everywhere this file animates a
+   scroll. The CSS side is already covered - the prefers-reduced-motion block
+   in app.css zeroes every transition and animation - but a `behavior:
+   "smooth"` passed to scrollIntoView is JavaScript's own animation and the
+   stylesheet cannot reach it, so a reader who turned motion off still watched
+   the page glide when a section opened or a search result landed. Read live
+   rather than cached: the setting can change while the tab is open. */
+function motionOK() {
+  try { return !window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+  catch { return true; }
+}
+
 function toTop() {
   try { window.scrollTo({ top: 0, left: 0, behavior: "instant" }); }
   catch { window.scrollTo(0, 0); }
@@ -275,23 +289,36 @@ export function go(hash, replace = false) {
   const url = toUrl(hash);
   const changed = routeIdentity(url) !== routeIdentity(here());
 
+  /* FOCUS FOLLOWS EVERY DIRECT CALL TO route(), the same as it follows the
+     event path. The hashchange/popstate handler below has always done
+     route() then focusView(), so on the native build a tab tap announced the
+     new screen. Under path routing go() calls route() itself and did not - so
+     on nightlight.help tapping a tab announced nothing, and a go() from a
+     button inside the view (the tracker's result rows, the class grid) left
+     focus on an element that had just been thrown away, which is focus on
+     body. Every branch that reaches route() directly now ends the same way.
+     The scroll stays gated on `changed`; focus is not - a filter chip
+     re-renders the whole view, so the thing that was focused is gone either
+     way and the heading is the honest place to land. */
+  const routed = () => route().then(focusView);
+
   if (!pathRouting()) {
     /* The hash branch reaches route() through the hashchange event, which
        scrolls for itself - except when the URL is unchanged and no event
        fires, or when replaceState is used, which also fires nothing. */
-    if (location.hash === url) { toTop(); return route(); }
-    if (replace) { history.replaceState(null, "", url); toTop(); route(); }
+    if (location.hash === url) { toTop(); return routed(); }
+    if (replace) { history.replaceState(null, "", url); toTop(); routed(); }
     else location.hash = url;
     return;
   }
 
-  if (url === here()) { toTop(); return route(); }
+  if (url === here()) { toTop(); return routed(); }
   /* pushState fires neither popstate nor hashchange, so route() is called
      directly - and so is the scroll, which the event handler would otherwise
      have done. Back and forward DO fire popstate, which is wired up below. */
   history[replace ? "replaceState" : "pushState"](null, "", url);
   if (changed) toTop();
-  route();
+  routed();
 }
 
 const VIEWS = {
@@ -366,7 +393,7 @@ document.addEventListener("click", (e) => {
        the page under a finger that did not ask for it is worse than a small
        imperfection. */
     if (top >= 0 && top < 160) return;
-    summary.scrollIntoView({ behavior: "smooth", block: "start" });
+    summary.scrollIntoView({ behavior: motionOK() ? "smooth" : "auto", block: "start" });
   }));
 });
 
@@ -408,7 +435,23 @@ async function route() {
   }
 
   view.setAttribute("aria-busy", "true");
-  clear(view).appendChild(skeleton(3));
+
+  /* THE SKELETON WAITS A BEAT. Most renders finish in well under 120ms - the
+     module is already in the cache and the data is already parsed - and a
+     skeleton mounted at once was on screen for one or two frames, which reads
+     as a flicker on every tab tap rather than as a loading state. Now the old
+     content clears at once, and the placeholder rows arrive only if the new
+     screen has not. Boot is the exception: index.html ships a skeleton in
+     #view so there is something on screen at first paint, and that one is
+     left in place rather than removed and re-added. The timer checks the
+     token so a navigation that has since been superseded cannot drop a
+     skeleton into a screen that belongs to a newer one. */
+  const bootSkel = view.childElementCount === 1
+    && view.firstElementChild.classList.contains("skel");
+  if (!bootSkel) clear(view);
+  const skel = setTimeout(() => {
+    if (mine === token && !view.childElementCount) view.appendChild(skeleton(3));
+  }, 120);
 
   try {
     const mod = await VIEWS[tab]();
@@ -419,13 +462,25 @@ async function route() {
     clear(view).appendChild(node);
   } catch (err) {
     if (mine !== token) return;
+    /* A WAY BACK. This state had no control on it: on the web a reader could
+       reload, in the packaged app there is no reload, so a failed import - a
+       dropped connection at the moment of the tap - left "This section could
+       not load" and nothing to do about it but leave the tab and come back.
+       The button re-runs this function for the same URL and lands focus on
+       whatever it renders, the same as any other navigation. */
     clear(view).appendChild(
       h("div", { class: "empty" },
         h("h3", null, t("app.loadFailed")),
-        h("p", null, t("app.loadFailedHint")))
+        h("p", null, t("app.loadFailedHint")),
+        h("p", null,
+          h("button", {
+            type: "button", class: "btn",
+            onClick: () => { route().then(focusView); },
+          }, t("app.tryAgain"))))
     );
     console.error(err);
   } finally {
+    clearTimeout(skel);
     if (mine === token) view.setAttribute("aria-busy", "false");
   }
 }
@@ -620,8 +675,7 @@ function mountBackToTop() {
     type: "button", class: "totop", hidden: true,
     "aria-label": "Back to top",
     onClick: () => {
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+      window.scrollTo({ top: 0, behavior: motionOK() ? "smooth" : "auto" });
       focusView();
     },
   }, h("span", { "aria-hidden": "true" }, "↑"));
@@ -652,9 +706,12 @@ function mountBackToTop() {
  *
  * 165px of every 812px screen is chrome before a word of content. The name is
  * the part of it that stops earning its space immediately: it says which app
- * this is, which matters on arrival and not six screens down. The X beside it
- * is Quick Exit and never moves - the bar shrinks, it does not hide, because a
- * safety control you have to scroll back to is not one.
+ * this is, which matters on arrival and not six screens down. Quick Exit, the
+ * X, is no longer in that row at all: index.html puts it beside .nav as a
+ * direct child of the bar and app.css pins it as a fixed pill, so it is on
+ * screen at every scroll position whatever the rest of the header does. A
+ * safety control you have to scroll back to is not one, and that used to be
+ * the argument for shrinking the bar rather than hiding it.
  *
  * A LATCH WITH A DEADBAND, not a threshold. A bare `scrollY > n` flips state
  * every frame for anyone resting near the line, and since the bar's height is
@@ -681,11 +738,12 @@ function watchBarShrink() {
    * read. Return it only at the top and the screen is entirely the reader's
    * everywhere else - which is the version chosen here.
    *
-   * The cost of this one is named so it is not rediscovered later: Quick Exit,
-   * the X, lives in that row and is the only copy of it. Under this rule it is
-   * a scroll-to-top away from anywhere below the first screen rather than a
-   * pause away. Everything else in the header is navigation the bottom bar
-   * duplicates; that control is not duplicated anywhere.
+   * The cost this rule USED to carry is named so it is not rediscovered
+   * later: while Quick Exit, the X, lived in the slide it left with it, and
+   * was a scroll-to-top away from anywhere below the first screen rather than
+   * a pause away. It is out of the slide now - a fixed pill beside .nav, see
+   * index.html and "Quick Exit, pinned" in app.css - so hiding the header
+   * costs nothing that is not duplicated by the bottom bar.
    *
    * THE LAYOUT DOES NOT MOVE when it hides or returns, which is what makes this
    * safe to do mid-page. .topbar is sticky and keeps its box; only
@@ -755,6 +813,51 @@ function watchBarShrink() {
   });
 
   syncTight();
+}
+
+/* -------------------------------------------------------- warm the shell
+ *
+ * MIRRORS SHELL IN site/sw.js, and test/sw.test.mjs fails if the two lists
+ * disagree. Written out here rather than read from the worker because a
+ * classic worker script cannot be imported by the page, and a comment saying
+ * "keep these in step" is not a mechanism - the test is.
+ *
+ * WHY THE PAGE HAS TO DO THIS AT ALL. The worker precaches SHELL in its
+ * `install` handler, which runs once per worker VERSION. The boot sweep above
+ * (wipeCaches) runs on every load. So on any load after the first, the worker
+ * is already installed, `install` does not run again, and everything the sweep
+ * just deleted - index.html included, which is what an offline navigation
+ * falls back to - stays gone until a reader happens to request it. The
+ * emergency page in particular was only ever cached once somebody had opened
+ * it. Fetching the set from the page sends each request through the worker's
+ * fetch handler, which puts it back.
+ *
+ * Waits for the worker to CONTROL the page, not merely to exist: a fetch made
+ * before clients.claim() has taken effect goes straight to the network and
+ * caches nothing. Silent throughout - this is an enhancement to an offline
+ * enhancement, and nothing about it may surface to somebody mid-crisis. */
+const WARM = [
+  "./",
+  "./index.html",
+  "./css/app.css",
+  "./js/app.js",
+  "./js/native-flag.js",
+  "./js/views/help.js",
+];
+
+async function warmShell() {
+  try {
+    const sw = navigator.serviceWorker;
+    await sw.ready;
+    if (!sw.controller) {
+      await new Promise((res) => sw.addEventListener("controllerchange", res, { once: true }));
+    }
+    /* Resolved against the worker's own location, exactly as the worker
+       resolves SHELL, so the cache keys are the same URLs. */
+    const base = new URL("/site/sw.js", location.href);
+    await Promise.all(WARM.map((p) =>
+      fetch(new URL(p, base), { credentials: "omit" }).catch(() => {})));
+  } catch { /* no worker, or one that never took control - nothing to warm */ }
 }
 
 /* ------------------------------------------------------------------- boot */
@@ -927,6 +1030,7 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
       /* Offline support is an enhancement; failing to get it is not an error
          worth surfacing to someone mid-crisis. */
     });
+    warmShell();
   }
   if (first) first = false;
 
@@ -958,6 +1062,19 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
 
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
   idle(() => { renderFooterMeta().catch(() => {}); });
+
+  /* THE EMERGENCY PAGE IS LOADED BEFORE IT IS ASKED FOR.
+   *
+   * SOS was a dynamic import like every other tab, so the first tap on it in
+   * a session cost a network round trip - and a reader who reaches for that
+   * tab from another one, on a connection that has just dropped, got "This
+   * section could not load" instead of the overdose steps. Importing it here
+   * parses it into the module cache (so the tap is instant for the rest of
+   * the session) and, on the web, pulls it through the service worker's fetch
+   * handler into the offline cache - the belt to warmShell()'s braces. At
+   * idle, so it never races the screen the reader actually opened; a failure
+   * is silent because the tap itself will try again. */
+  idle(() => { VIEWS.help().catch(() => {}); });
 
   /* The packaged app carries the alerts that existed on the day it was built.
      Everything else in the bundle stays true; alerts are a claim about now.
@@ -995,11 +1112,26 @@ function reveal(anchor, label, wantRoute) {
   const want = String(label || "").trim().toLowerCase();
   let tries = 0;
 
+  /* What a sighted reader sees of a heading, which is what the search index
+     was built from. textContent would also pick up off-screen text - the
+     "Warning: " / "Caution: " prefix ui.js puts inside every stop and warn
+     callout's h3 for screen readers - and every one of those callout titles
+     is in search.json, so matching on textContent silently stopped resolving
+     the very results that carry the most severe content. */
+  const visibleText = (n) => {
+    let s = "";
+    for (const c of n.childNodes) {
+      if (c.nodeType === 3) s += c.textContent;
+      else if (c.nodeType === 1 && !c.classList.contains("sr-only")) s += visibleText(c);
+    }
+    return s;
+  };
+
   const findByText = () => {
     const nodes = document.querySelectorAll(
       "#view h1, #view h2, #view h3, #view h4, #view summary");
     for (const n of nodes) {
-      if (n.textContent.trim().toLowerCase() === want) return n;
+      if (visibleText(n).trim().toLowerCase() === want) return n;
     }
     return null;
   };
@@ -1046,7 +1178,8 @@ function reveal(anchor, label, wantRoute) {
          page move instead of reading the thing they asked for. Smooth is only
          worth it when the distance is short enough to be legible as motion. */
       const far = Math.abs(target.getBoundingClientRect().top) > window.innerHeight * 2;
-      target.scrollIntoView({ behavior: far ? "auto" : "smooth", block: "start" });
+      /* And never smooth for a reader who has asked for no motion. */
+      target.scrollIntoView({ behavior: far || !motionOK() ? "auto" : "smooth", block: "start" });
 
       /* Then settle. Content above the target can still be arriving - a
          disclosure opening, a deferred block filling in - and each of those

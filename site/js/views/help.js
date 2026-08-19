@@ -733,8 +733,14 @@ export function privacyBlock() {
           li("Nothing outlives the session.", "No account, no cookies, no record of what you searched or which counties you opened. Your light/dark choice and your language are held only until you close the tab, and the offline copy is deleted when you leave. Nothing is left on this device for next time.")),
 
         h("h3", null, "Quick exit"),
+        /* "At the top right", not "in the header". The X used to ride in the
+           header row and left the screen with it on scroll; it is a pinned
+           pill now (index.html, app.css "Quick Exit, pinned") and is at the
+           top right whether or not the header is showing. Same rule as the
+           inventory above: this line describes a control, so it has to match
+           where the control actually is. */
         h("p", null,
-          "The ✕ button in the header clears everything immediately, removes this " +
+          "The ✕ button at the top right clears everything immediately, removes this " +
           "page from your Back button, and sends you to a weather site. It is a " +
           "shortcut, not a requirement — closing the tab clears the same things on " +
           "its own, and so does simply leaving."),
