@@ -17,10 +17,24 @@ const DEFAULT = "en-US";
 
 /* Add a locale here once data/i18n/<code>.json exists. `dir` drives the
    document's text direction, so an RTL translation works without CSS changes. */
+/* A LOCALE IS OFFERED ONLY ONCE IT IS REVIEWED.
+ *
+ * data/i18n/es.json has carried "_reviewed": false and a note reading "NEEDS
+ * NATIVE-SPEAKER REVIEW before this is promoted anywhere" since it was drafted
+ * - and resolve() below was auto-selecting it for every device that reports
+ * es-*. An unreviewed translation of a harm-reduction app was the default for
+ * every Spanish-speaking reader. Found by the 2026-08-18 audit; under the
+ * information-integrity rule that is a release defect, not a polish item.
+ *
+ * `reviewed` gates BOTH auto-selection and the language menu. The file stays
+ * shipped so a reviewer can flip the flag in one place; until then Spanish
+ * devices get en-US, which is accurate, rather than es, which is unverified.
+ * A test asserts every listed locale's flag matches its file. */
 export const LOCALES = [
-  { code: "en-US", name: "English (US)", dir: "ltr" },
-  { code: "es", name: "Español", dir: "ltr" },
+  { code: "en-US", name: "English (US)", dir: "ltr", reviewed: true },
+  { code: "es", name: "Español", dir: "ltr", reviewed: false },
 ];
+export const OFFERED = LOCALES.filter((l) => l.reviewed);
 
 const KEY = "ss.lang";
 
@@ -32,15 +46,15 @@ const listeners = new Set();
 function resolve() {
   let saved = null;
   try { saved = sessionStorage.getItem(KEY); } catch { /* storage blocked */ }
-  if (saved && LOCALES.some((l) => l.code === saved)) return saved;
+  if (saved && OFFERED.some((l) => l.code === saved)) return saved;
 
   for (const want of navigator.languages || [navigator.language || ""]) {
     if (!want) continue;
-    const exact = LOCALES.find((l) => l.code.toLowerCase() === want.toLowerCase());
+    const exact = OFFERED.find((l) => l.code.toLowerCase() === want.toLowerCase());
     if (exact) return exact.code;
     // "es-MX" should find "es".
     const base = want.split("-")[0].toLowerCase();
-    const loose = LOCALES.find((l) => l.code.split("-")[0].toLowerCase() === base);
+    const loose = OFFERED.find((l) => l.code.split("-")[0].toLowerCase() === base);
     if (loose) return loose.code;
   }
   return DEFAULT;
