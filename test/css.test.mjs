@@ -81,6 +81,29 @@ for (const sel of INSET) {
   if (!re.test(code)) insetFails.push(`\`${sel}\` does not carry outline-offset: -3px — its focus ring is clipped by its container`);
 }
 
+/* The smallest text comes from the token, never from a literal.
+ *
+ * --fs-xs is the floor for anything a reader has to read: 12.5px at the
+ * default size. Before it existed the small tiers were typed out by hand -
+ * .72rem here, .74 there, .76 in a third place - and the smallest of them sat
+ * at 12.24px. A literal below the token is how that creeps back one rule at
+ * a time, so every bare rem font-size in the file has to clear it. Only bare
+ * literals are checked: a capped value like the tab bar's min(.72rem, 13px)
+ * is chrome that deliberately stops scaling and is not a reading size. */
+const fsFails = [];
+{
+  const floor = parseFloat(code.match(/--fs-xs:\s*([\d.]+)rem/)?.[1]);
+  if (!Number.isFinite(floor)) fsFails.push("--fs-xs is not declared as a rem value in the token block");
+  else {
+    code.split("\n").forEach((raw, n) => {
+      const m = raw.match(/font-size:\s*([\d.]+)rem/);
+      if (m && parseFloat(m[1]) < floor) {
+        fsFails.push(`line ${n + 1}: font-size ${m[1]}rem is below --fs-xs (${floor}rem) - use the token`);
+      }
+    });
+  }
+}
+
 console.log("CSS\n");
 if (fails.length) {
   for (const f of fails) console.log("  not ok " + f);
@@ -88,9 +111,13 @@ if (fails.length) {
 if (insetFails.length) {
   for (const f of insetFails) console.log("  not ok " + f);
 }
-const total = 2;
-const failed = (fails.length ? 1 : 0) + (insetFails.length ? 1 : 0);
+if (fsFails.length) {
+  for (const f of fsFails) console.log("  not ok " + f);
+}
+const total = 3;
+const failed = (fails.length ? 1 : 0) + (insetFails.length ? 1 : 0) + (fsFails.length ? 1 : 0);
 if (!fails.length) console.log("  ok   app.css parses: comments balanced, braces balanced, no loose prose");
 if (!insetFails.length) console.log(`  ok   inset focus rings on ${INSET.length} clipped controls`);
+if (!fsFails.length) console.log("  ok   no font-size literal below --fs-xs");
 console.log(`\n${total - failed} passed, ${failed} failed`);
 if (failed) process.exit(1);

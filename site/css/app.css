@@ -40,6 +40,18 @@
   --l-ok: #2a6b45;        --l-ok-soft: #e6f2ea;
   --l-shadow: 0 1px 2px rgba(70,55,40,.04), 0 6px 24px rgba(70,55,40,.06);
   --l-shadow-lg: 0 12px 40px rgba(70,55,40,.14);
+  /* The map's own palette, as the canvas reads it. map.js cannot use a CSS
+     colour function - it paints with getComputedStyle() values, and a custom
+     property's computed value keeps color-mix() unresolved - so these are
+     literal colours, and the five the shading interpolates between are bare
+     r g b triplets it can lerp. The same five numbers it used to carry as
+     constants; the dark set is new, and is what lets a dark-theme map stop
+     looking like a light map on a dark card. */
+  --l-map-flat: 214 204 190;  --l-map-up: 179 48 28;      --l-map-down: 42 107 69;
+  --l-map-seq-lo: 238 230 218; --l-map-seq-hi: 45 106 95;
+  --l-map-none: rgba(160,148,132,.34);  --l-map-line: rgba(90,78,64,.22);
+  --l-map-halo: rgba(255,255,255,.95);  --l-map-hover: rgba(60,50,40,.55);
+  --l-map-pin: #2d6a5f;                 --l-map-pin-ink: #ffffff;
 
   /* Dark — warm charcoal, not blue-black. Lamplight rather than a control
      room; this gets opened at 3am more than at noon. */
@@ -55,6 +67,14 @@
   --d-ok: #74c994;        --d-ok-soft: #152a1e;
   --d-shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.28);
   --d-shadow-lg: 0 12px 40px rgba(0,0,0,.45);
+  /* See --l-map-*. Up and down are the dark severity/ok inks; the flat and
+     the sequential floor are the dark surfaces, so an unshaded county reads
+     as "nothing" rather than as a pale tile. */
+  --d-map-flat: 74 66 56;     --d-map-up: 255 138 114;    --d-map-down: 116 201 148;
+  --d-map-seq-lo: 43 39 32;   --d-map-seq-hi: 127 203 184;
+  --d-map-none: rgba(160,150,138,.22);  --d-map-line: rgba(242,236,226,.16);
+  --d-map-halo: rgba(23,21,15,.9);      --d-map-hover: rgba(242,236,226,.6);
+  --d-map-pin: #7fcbb8;                 --d-map-pin-ink: #12271f;
 
   /* Active tokens. Light is the default. Severity keeps full contrast in both
      themes - a calm interface must never make a warning easier to miss.
@@ -86,6 +106,12 @@
   --advisory: var(--l-brand);        --advisory-soft: var(--l-brand-soft);
   --ok: var(--l-ok);                 --ok-soft: var(--l-ok-soft);
   --shadow: var(--l-shadow);         --shadow-lg: var(--l-shadow-lg);
+  --map-flat: var(--l-map-flat);     --map-up: var(--l-map-up);
+  --map-down: var(--l-map-down);     --map-seq-lo: var(--l-map-seq-lo);
+  --map-seq-hi: var(--l-map-seq-hi); --map-none: var(--l-map-none);
+  --map-line: var(--l-map-line);     --map-halo: var(--l-map-halo);
+  --map-hover: var(--l-map-hover);   --map-pin: var(--l-map-pin);
+  --map-pin-ink: var(--l-map-pin-ink);
 
   /* Translucency. Transparency is what this app promises its readers, so it
      is also how it looks: surfaces sit lightly over the page rather than
@@ -122,9 +148,40 @@
      dark, 3.46 light), so tappable rows are findable while every static
      surface keeps the airy feel. */
 
-  --radius: 18px;
-  --radius-sm: 13px;
+  /* Softer corners throughout - the single biggest lever on whether a surface
+     reads as a panel or a pebble. Tap targets keep their --edge boundary at
+     3:1; nothing here touches contrast. ONE declaration: these were 18/13
+     here and re-declared as 22/15 near the foot of the file, so the values
+     everything actually rendered with were the ones a reader of this block
+     never saw. */
+  --radius: 22px;
+  --radius-sm: 15px;
   --radius-pill: 999px;
+
+  /* Depth, which reads as float even when nothing is moving: a tight contact
+     shadow plus a wide soft one. A single blurred shadow reads as a sticker;
+     two layers read as an object with air under it. One token, because the
+     pair was written out by hand in six rules and had to agree. */
+  --shadow-float:
+    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+
+  /* The left rule that carries severity - on an alert card, a critical limit,
+     the early-access caveat. One width, so a 4px rule and a 3px rule on the
+     same page cannot read as two levels that were never meant. */
+  --sev-rule: 4px;
+
+  /* Type scale for the SMALL tiers only. Body text is set in rem on body and
+     the headings below it; these name the sizes under it that kept being
+     typed out as near-duplicates (.72, .74, .76 ...). --fs-xs is the floor:
+     12.5px at the 17px default, lifted from 12.24, because nothing a reader
+     has to read should be smaller, and test/css.test.mjs holds the line.
+     Deliberately NOT a full remap of every rem in the file - the mid-tier
+     sizes were tuned by measurement, one at a time, and a sweep would undo
+     that. */
+  --fs-xs: .735rem;
+  --fs-sm: .78rem;
+  --fs-caption: .84rem;
 
   --tap: 44px;              /* WCAG 2.5.5 minimum target */
   --wrap: 820px;
@@ -237,6 +294,12 @@
     --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
     --ok: var(--d-ok);                 --ok-soft: var(--d-ok-soft);
     --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
+    --map-flat: var(--d-map-flat);     --map-up: var(--d-map-up);
+    --map-down: var(--d-map-down);     --map-seq-lo: var(--d-map-seq-lo);
+    --map-seq-hi: var(--d-map-seq-hi); --map-none: var(--d-map-none);
+    --map-line: var(--d-map-line);     --map-halo: var(--d-map-halo);
+    --map-hover: var(--d-map-hover);   --map-pin: var(--d-map-pin);
+    --map-pin-ink: var(--d-map-pin-ink);
     --glass: color-mix(in srgb, var(--surface) 62%, transparent);
     --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
     --glass-card: color-mix(in srgb, var(--surface) 68%, transparent);
@@ -259,6 +322,12 @@
   --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
   --ok: var(--d-ok);                 --ok-soft: var(--d-ok-soft);
   --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
+  --map-flat: var(--d-map-flat);     --map-up: var(--d-map-up);
+  --map-down: var(--d-map-down);     --map-seq-lo: var(--d-map-seq-lo);
+  --map-seq-hi: var(--d-map-seq-hi); --map-none: var(--d-map-none);
+  --map-line: var(--d-map-line);     --map-halo: var(--d-map-halo);
+  --map-hover: var(--d-map-hover);   --map-pin: var(--d-map-pin);
+  --map-pin-ink: var(--d-map-pin-ink);
   --glass: color-mix(in srgb, var(--surface) 62%, transparent);
   --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
   --glass-card: color-mix(in srgb, var(--surface) 68%, transparent);
@@ -270,6 +339,17 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html { -webkit-text-size-adjust: 100%; }
+
+/* DYNAMIC TYPE, in the packaged app. A WKWebView's root font size does not
+   follow the reader's iOS text size on its own; -apple-system-body is the
+   one font value that does, and setting it on the root makes every rem in
+   this file scale with the Larger Text slider, the same as a native app.
+   Body then takes 1rem rather than 1.0625: the system body size is already
+   17pt at the default, and 1.0625 of it was 18 - a size nobody asked for.
+   `.native` is set by app.js when Capacitor is present and never on the web,
+   where the browser's own text-size setting already reaches the rem. */
+html.native { font: -apple-system-body; }
+html.native body { font-size: 1rem; }
 
 body {
   margin: 0;
@@ -284,12 +364,11 @@ body {
      on flat --bg; the second is warm light rising from the floor, which is
      both the thing that makes Apple Weather's city view read as one continuous
      sky and, here, literally the name of the app. */
-  background-image:
-    radial-gradient(120% 70% at 50% -10%,
-      color-mix(in srgb, var(--brand) 7%, transparent) 0%, transparent 60%),
-    linear-gradient(to bottom,
-      transparent 55%, color-mix(in srgb, var(--glow) 4%, transparent) 100%);
-  background-attachment: fixed;
+  /* The gradients themselves are on body::before, below - not here with
+     background-attachment: fixed, which iOS Safari does not honour on the
+     body (it repaints the whole wash on every scroll frame and on older
+     WebKit simply scrolls it). A fixed pseudo-element is what "fixed" was
+     asking for, and it costs one composited layer that never changes. */
   color: var(--ink);
   font-family: var(--font-sans);
   /* rem, not px, so the OS / browser text-size setting actually applies.
@@ -299,6 +378,20 @@ body {
   line-height: 1.65;            /* open leading; text should not feel packed */
   -webkit-font-smoothing: antialiased;
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* The atmosphere, as one fixed layer under everything. z-index -1 puts it
+   behind the content and in front of the page background; nothing on it is
+   interactive and nothing about it changes, so it is painted once. The
+   reduced-motion drift layer (body::after, near the foot) sits over this one
+   on desktop. */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    radial-gradient(120% 70% at 50% -10%,
+      color-mix(in srgb, var(--brand) 7%, transparent) 0%, transparent 60%),
+    linear-gradient(to bottom,
+      transparent 55%, color-mix(in srgb, var(--glow) 4%, transparent) 100%);
 }
 
 h1, h2, h3, h4 { line-height: 1.25; margin: 0; font-weight: 650; letter-spacing: -.015em; }
@@ -445,7 +538,7 @@ details.acc > summary:focus-visible,
 .earlybar {
   background: color-mix(in srgb, var(--elevated) 16%, var(--surface));
   border-bottom: 1px solid color-mix(in srgb, var(--elevated) 28%, transparent);
-  font-size: .72rem; line-height: 1;
+  font-size: var(--fs-xs); line-height: 1;
 }
 /* (0,3,0), so it beats `.topbar .wrap` no matter where either sits in the
    file. The banner IS inside .topbar, so that rule matches it too and would
@@ -462,8 +555,26 @@ details.acc > summary:focus-visible,
 .earlybar a {
   color: var(--elevated); font-weight: 700; text-decoration: underline;
   text-underline-offset: 2px; white-space: nowrap;
+  /* The link fills the row's height rather than its own line box: the
+     banner is 26px tall and the text was a 12px target inside it. The row
+     does not grow - --banner-h is load-bearing for every scroll-margin - so
+     the target grows to meet it, with a little side padding pulled back by
+     a negative margin so nothing in the row moves. */
+  display: inline-flex; align-items: center; align-self: stretch;
+  min-height: calc(var(--banner-h) - 1px);
+  padding: 0 6px; margin: 0 -6px;
 }
-.earlybar a:hover { color: var(--ink); }
+/* HOVER IS GUARDED, HERE AND EVERYWHERE BELOW. A touch screen has no hover,
+   but WebKit applies :hover to the last thing tapped and leaves it there until
+   the next tap lands somewhere else - so every cosmetic hover fill in this
+   file was a highlight that stuck to a row, a chip or a summary after the
+   finger lifted. Reported on the simulator as rows staying lit. Behind
+   (hover: hover) the fill only exists for a pointer that can actually hover;
+   touch gets the :active tints instead. Focus-visible stays unguarded
+   wherever it shared a rule with hover - a keyboard has no such problem. */
+@media (hover: hover) {
+  .earlybar a:hover { color: var(--ink); }
+}
 
 /* At 375px the sentence and the link stop fitting on one line together. The
    sentence truncates rather than wrapping, because a two-line banner is no
@@ -547,6 +658,13 @@ details.acc > summary:focus-visible,
     0%, 100% { transform: scale(.88); opacity: .16; }
     45%      { transform: scale(1);   opacity: .62; }
   }
+  /* PAUSED WHILE THE HEADER IS OFF SCREEN. Four SVG transforms ticking at
+     60fps under a bar that has slid away is work nobody sees, on the phones
+     this has to run on; paused rather than stopped so the breath resumes
+     from where it was when the header comes back, instead of restarting. */
+  .is-bar-up .brand__core,
+  .is-bar-up .brand__halo,
+  .is-bar-up .brand__ring { animation-play-state: paused; }
 }
 /* nowrap: at in-between widths the flex row squeezed the name and "Supply"
    stacked on top of "Check". A wordmark never wraps - the row must yield
@@ -577,7 +695,9 @@ details.acc > summary:focus-visible,
   background: none; border: 1px solid transparent; border-radius: var(--radius-sm);
   color: var(--ink-2); cursor: pointer; font-size: 1.15rem;
 }
-.iconbtn:hover { background: var(--surface-2); color: var(--ink); }
+@media (hover: hover) {
+  .iconbtn:hover { background: var(--surface-2); color: var(--ink); }
+}
 /* The search icon is the only one people go looking for rather than stumble
    on, so it gets real presence: a drawn glass rather than a text glyph, and
    full ink weight instead of the muted colour the theme and exit buttons use. */
@@ -662,7 +782,9 @@ details.acc > summary:focus-visible,
   pointer-events: auto;
 }
 /* #exit outranks .iconbtn:hover on specificity, so the hover fill is restated. */
-#exit:hover { background: var(--surface-2); color: var(--ink); }
+@media (hover: hover) {
+  #exit:hover { background: var(--surface-2); color: var(--ink); }
+}
 /* Once the header has gone, up to the corner: the bar's status-bar clearance
    plus a small inset, so it hugs the top edge over content. */
 .is-bar-up #exit { top: calc(var(--bar-top) + 8px); }
@@ -739,7 +861,7 @@ details.acc > summary:focus-visible,
   flex: 1; min-height: var(--nav-h);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 5px; padding: 10px 4px; text-decoration: none; color: var(--ink-2);
-  font-size: .74rem; font-weight: 600; letter-spacing: .005em;
+  font-size: var(--fs-xs); font-weight: 600; letter-spacing: .005em;
   position: relative;
 }
 .nav a .ico {
@@ -748,6 +870,19 @@ details.acc > summary:focus-visible,
   width: 34px; height: 26px; border-radius: var(--radius-pill);
   transition: background .2s ease, color .2s ease;
 }
+/* The tab icons are drawn (app.js, icon()) rather than typed. The glyph
+   characters they replace - ◇ ◐ ◈ ❋ ◉ ✚ - came out of whichever font the
+   platform fell back to, so the bar looked different on iOS, Android and
+   Windows, and ❋ was a different weight from its neighbours everywhere.
+   Sized in em so they follow the .ico font-size and the Dynamic Type cap
+   below exactly as the characters did. */
+.ico__svg { width: 1.1em; height: 1.1em; display: block; }
+/* The pinned X, same helper; sized to the button's font so it grows with the
+   700-959 band like the glyph did. */
+#exit .ico__svg { width: 1.05em; height: 1.05em; }
+/* The starting-points label sits between the field and the list now (see
+   index.html); a little air under the field, none above the list's own gap. */
+#searchhead { margin-top: var(--sp-2); }
 /* The active tab gets a soft lozenge behind the icon rather than a hard
    color flip - it reads as a resting place instead of a selection. */
 .nav a[aria-current="page"] { color: var(--brand); }
@@ -812,7 +947,9 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
     flex: none; flex-direction: row; gap: 9px; min-height: var(--tap);
     padding: 0 var(--sp-2); border-radius: var(--radius-pill); font-size: .93rem;
   }
-  .nav a:hover { background: var(--glass-strong); color: var(--ink); }
+  @media (hover: hover) {
+    .nav a:hover { background: var(--glass-strong); color: var(--ink); }
+  }
   .nav a[aria-current="page"] { background: var(--brand-soft); color: var(--brand); }
   .nav a .ico { font-size: 1.02rem; width: auto; height: auto; background: none; }
   .nav a[aria-current="page"] .ico { background: none; }
@@ -874,11 +1011,13 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   background: none; border: 0; cursor: pointer; font: inherit; color: var(--ink);
   padding: 13px var(--sp-2); border-radius: var(--radius-sm); min-height: var(--tap);
 }
-.listbox button:hover,
 .listbox button[aria-selected="true"] { background: var(--brand-soft); }
+@media (hover: hover) {
+  .listbox button:hover { background: var(--brand-soft); }
+}
 .listbox .st { color: var(--ink-3); font-size: .88rem; }
 .listbox .cnt {
-  margin-left: auto; font-size: .76rem; font-weight: 700;
+  margin-left: auto; font-size: var(--fs-xs); font-weight: 700;
   padding: 2px 9px; border-radius: var(--radius-pill);
   /* Neutral, not critical: alerts.js builds this count from a severity-blind
      tally, so painting it red claimed a severity the number does not carry -
@@ -901,11 +1040,12 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   border-radius: var(--radius-pill); cursor: pointer;
   border: 1px solid var(--glass-line); background: var(--glass); color: var(--ink-2);
   display: inline-flex; align-items: center; gap: 6px;
-  transition: background .18s, border-color .18s, color .18s;
 }
-.chip:hover {
-  border-color: color-mix(in srgb, var(--brand) 45%, transparent);
-  background: var(--glass-strong); color: var(--brand);
+@media (hover: hover) {
+  .chip:hover {
+    border-color: color-mix(in srgb, var(--brand) 45%, transparent);
+    background: var(--glass-strong); color: var(--brand);
+  }
 }
 .chip[aria-pressed="true"], .chip[aria-current="true"] {
   background: var(--brand); border-color: var(--brand); color: var(--brand-ink);
@@ -916,20 +1056,22 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .viewtoggle { margin-bottom: var(--sp-4); }
 
 /* ------------------------------------------------------- microinteractions
-   Small, physical feedback on touch. Every transition here is switched off by
-   the prefers-reduced-motion rule above, so this is additive comfort and never
-   a requirement for understanding state. */
+   Small, physical feedback on touch. The TRANSITIONS for these controls live
+   in one place - the sanctuary block near the foot of this file, inside
+   prefers-reduced-motion: no-preference - rather than here. They were
+   declared here, then again there with different timings, and a third time
+   on .chip and .classcard at their own rules; which one won depended on
+   source order and nobody could say from reading any one of them. The press
+   transforms stay here: they are instantaneous state, not motion. */
 
-.btn, .chip, .nbr, .iconbtn, .listbox button, .hotline a {
-  transition: transform .12s ease, background-color .18s ease,
-              border-color .18s ease, box-shadow .18s ease, color .18s ease;
-}
 /* Press: a small, immediate give. Reads as a physical control rather than a
    link, which is most of what makes a web app feel native. */
 .btn:active, .chip:active, .iconbtn:active { transform: scale(.96); }
 .nbr:active, .listbox button:active, .hotline a:active { transform: scale(.985); }
 
-.nbr:hover, .hotline a:hover { box-shadow: var(--shadow); }
+@media (hover: hover) {
+  .nbr:hover, .hotline a:hover { box-shadow: var(--shadow); }
+}
 
 /* Disclosures open with a soft fade rather than a jump. */
 @media (prefers-reduced-motion: no-preference) {
@@ -950,10 +1092,12 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   border-radius: var(--radius); border: 1.5px solid transparent;
   background: var(--brand); color: var(--brand-ink); text-decoration: none;
 }
-.btn:hover:not(:disabled) { background: var(--brand-hover); }
 .btn:disabled { opacity: .5; cursor: default; }
 .btn--ghost { background: var(--surface); border-color: var(--line-2); color: var(--ink); }
-.btn--ghost:hover:not(:disabled) { background: var(--surface-2); border-color: var(--brand); }
+@media (hover: hover) {
+  .btn:hover:not(:disabled) { background: var(--brand-hover); }
+  .btn--ghost:hover:not(:disabled) { background: var(--surface-2); border-color: var(--brand); }
+}
 /* var(--tap), not 38px. These are the jump-nav chips on the emergency page,
    the time-window switch, and "free naloxone by mail" - exactly what a shaking
    hand reaches for. Lightness comes from padding and weight, never from making
@@ -974,7 +1118,9 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
      without reading. The paired token is 6.26:1 light and 7.94:1 dark. */
   font-size: 1.12rem; font-weight: 750; letter-spacing: .01em;
 }
-.callbtn:hover { filter: brightness(1.06); }
+@media (hover: hover) {
+  .callbtn:hover { filter: brightness(1.06); }
+}
 .callbtn:active { transform: scale(.985); }
 
 /* ---------------------------------------------------------------- card */
@@ -982,10 +1128,10 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .card {
   background: var(--glass-strong); border: 1px solid var(--glass-line);
   border-radius: var(--radius);
-  /* Layered soft depth. Deliberately NOT full neomorphism: that style relies
-     on low-contrast embossing and cannot meet WCAG, so we take the softness
-     and keep the contrast. */
-  box-shadow: var(--shadow), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+  /* The shadow is set once, near the foot of the file with the other floating
+     surfaces (see --shadow-float). A two-layer shadow plus an inset highlight
+     used to sit here and was dead: the later rule won on source order, so the
+     inset never painted. Deleted rather than left to mislead. */
   padding: var(--sp-3) var(--sp-4); margin-bottom: 14px;
 }
 /* ---- letter --------------------------------------------------------------
@@ -1146,9 +1292,12 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   border-radius: var(--radius); padding: 12px var(--sp-3);
   min-height: var(--tap);
 }
-.sresult:hover, .sresult:focus-visible { background: var(--glass-strong); border-color: var(--line-2); }
+.sresult:focus-visible { background: var(--glass-strong); border-color: var(--line-2); }
+@media (hover: hover) {
+  .sresult:hover { background: var(--glass-strong); border-color: var(--line-2); }
+}
 .sresult__kind {
-  display: block; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+  display: block; font-size: var(--fs-xs); letter-spacing: .06em; text-transform: uppercase;
   color: var(--ink-3); margin-bottom: 3px;
 }
 .sresult__label { display: block; font-weight: 620; }
@@ -1215,16 +1364,16 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    "led by people who use drugs" is not a badge, it is the thing that decides
    whether the organization asks for what they actually need. */
 .org__tags {
-  color: var(--ink-2); font-size: .84rem; font-weight: 600;
+  color: var(--ink-2); font-size: var(--fs-caption); font-weight: 600;
   margin: 0 0 6px; letter-spacing: .01em;
 }
 .org__links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 10px 0 0; }
 
 /* Severity reads as a soft edge rather than a warning stripe. The badge and
    its word still carry the signal at full contrast. */
-.card--critical { border-left: 4px solid var(--critical); }
-.card--elevated { border-left: 4px solid var(--elevated); }
-.card--advisory { border-left: 4px solid var(--advisory); }
+.card--critical { border-left: var(--sev-rule) solid var(--critical); }
+.card--elevated { border-left: var(--sev-rule) solid var(--elevated); }
+.card--advisory { border-left: var(--sev-rule) solid var(--advisory); }
 
 .card__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 11px; }
 /* (removed) .card h3 { margin: 0 0 10px } was completely defeated by the
@@ -1233,7 +1382,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    dead one rather than scoping the live one, so nothing moves. */
 /* Its own breathing room above and below, not just the heading's bottom
    margin. This is the line that answers "what am I looking at". */
-.card__meta { color: var(--ink-3); font-size: .84rem; line-height: 1.5; margin: 8px 0; }
+.card__meta { color: var(--ink-3); font-size: var(--fs-caption); line-height: 1.5; margin: 8px 0; }
 .card__meta:first-child { margin-top: 0; }
 .card__meta:last-child { margin-bottom: 0; }
 
@@ -1246,7 +1395,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    glyph and the word itself, so it survives greyscale and color blindness. */
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
-  font-size: .78rem; font-weight: 700; letter-spacing: .01em;
+  font-size: var(--fs-sm); font-weight: 700; letter-spacing: .01em;
   padding: 5px 11px; border-radius: var(--radius-pill);
 
   /* NOT nowrap. A badge holds a severity token most of the time - "critical",
@@ -1281,7 +1430,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    language - the shouty styling was most of what made this feel like a
    readout instead of a page written for a person. */
 .badge--critical, .badge--elevated {
-  text-transform: uppercase; letter-spacing: .05em; font-size: .72rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .05em; font-size: var(--fs-xs); font-weight: 800;
 }
 .badge--critical { background: var(--critical-soft); color: var(--critical); }
 .badge--elevated { background: var(--elevated-soft); color: var(--elevated); }
@@ -1291,7 +1440,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
 .tag {
-  font-size: .78rem; font-weight: 650; padding: 4px 10px;
+  font-size: var(--fs-sm); font-weight: 650; padding: 4px 10px;
   border-radius: var(--radius-pill); background: var(--surface-2); color: var(--ink-2);
 }
 
@@ -1307,7 +1456,9 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   display: inline-flex; align-items: center; min-height: var(--tap);
   padding: 4px 2px;
 }
-.sources a:hover { text-decoration: underline; }
+@media (hover: hover) {
+  .sources a:hover { text-decoration: underline; }
+}
 
 /* ------------------------------------------------------------- section */
 
@@ -1476,14 +1627,13 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
   border-radius: var(--radius); padding: var(--sp-3) var(--sp-3);
   min-height: var(--tap); cursor: pointer;
   font: inherit; color: inherit; text-align: left;
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
-  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+  box-shadow: var(--shadow-float);
 }
-.classcard:hover {
-  background: var(--glass-strong); border-color: var(--line-2);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .classcard:hover {
+    background: var(--glass-strong); border-color: var(--line-2);
+    transform: translateY(-1px);
+  }
 }
 .classcard:active { transform: scale(.985); }
 /* No severity colour anywhere here. These are subject areas, not a ranking of
@@ -1527,16 +1677,16 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 .nbr {
   display: flex; align-items: center; gap: 11px; width: 100%;
   background: var(--glass); border: 1px solid var(--glass-line);
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: var(--shadow-float);
   border-radius: var(--radius); padding: 16px var(--sp-3); margin-bottom: 8px;
   cursor: pointer; font: inherit; color: inherit; text-align: left;
   min-height: var(--tap);
 }
-.nbr:hover { border-color: var(--brand); background: var(--surface-2); }
+@media (hover: hover) {
+  .nbr:hover { border-color: var(--brand); background: var(--surface-2); }
+}
 .nbr__name { font-weight: 650; }
-.nbr__dist { color: var(--ink-3); font-size: .84rem; }
+.nbr__dist { color: var(--ink-3); font-size: var(--fs-caption); }
 .nbr__right { margin-left: auto; display: flex; align-items: center; gap: 9px; }
 
 /* ---------------------------------------------------------- callout box */
@@ -1684,12 +1834,13 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
    without being obvious enough to explain itself. Every select in the picker
    lines up on one edge or the rows stop reading as one control. */
 .revslot .mixlabel { min-width: 4.6rem; }
-/* .mixslot's flex basis is set on the SELECT, which works for the combination
-   checker because its select is the flex item. Here the select sits inside
-   .pick__field, so the basis has to go on the wrapper — without it the field
-   is sized by its widest option, and "Dextropropoxyphene" in the sold-as list
-   pushed the whole control onto a second line. */
-.revslot .pick__field { flex: 1 1 8rem; min-width: 0; }
+/* .mixslot's flex basis was set on the SELECT, from when the select was the
+   flex item. It sits inside .pick__field now - in the tracker AND the
+   combination checker, which share the row (slots.js) - so the basis has to
+   go on the wrapper: without it the field is sized by its widest option, and
+   "Dextropropoxyphene" in the sold-as list, or a checker row that also
+   carries a ×, pushed the whole control onto a second line. */
+.mixslot .pick__field { flex: 1 1 8rem; min-width: 0; }
 
 /* The sold-as verdict: one line per reading, with the mark carrying the
    answer as a shape as well as a colour. */
@@ -1749,7 +1900,7 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
   content: counter(plan); position: absolute; left: 0; top: 7px;
   width: 18px; height: 18px; border-radius: 50%;
   background: var(--surface-2); color: var(--ink-2);
-  font-size: .72rem; font-weight: 700; line-height: 18px; text-align: center;
+  font-size: var(--fs-xs); font-weight: 700; line-height: 18px; text-align: center;
 }
 /* The mark carries the verdict, not merely "answered". A step ticked purely
    for having a value in it put a green check beside a reading the card below
@@ -1764,7 +1915,7 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
    dimmed because it qualifies the expected color rather than competing with
    it — but never hidden: a Morris judged at 45 seconds has not finished. */
 .plan__read {
-  font-family: var(--font-mono); font-size: .78rem; color: var(--ink-3);
+  font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--ink-3);
   white-space: nowrap; flex: none;
 }
 /* The fork is a list of possibilities, not an ordered procedure — so no step
@@ -1805,6 +1956,11 @@ details.acc > summary {
   padding-right: calc(var(--sp-4) + 12px);
 }
 details.acc > summary::-webkit-details-marker { display: none; }
+/* A card's summary names the card with an h3 now - a strip, a reagent - so
+   the outline has it and a screen reader's heading list can reach it. The
+   reset keeps it looking exactly as the span did: the summary's own weight
+   and size, not a heading's. */
+details.acc > summary h3 { margin: 0; font: inherit; letter-spacing: inherit; }
 /* Pinned rather than laid out. As a flex item with margin-left:auto it was the
    last thing in the row, so the moment the badge wrapped, the chevron followed
    it down to line two and the row lost its right edge. It is furniture, not
@@ -1816,8 +1972,10 @@ details.acc > summary::after {
   transform: translateY(-50%) rotate(90deg); transition: transform .18s;
 }
 details.acc[open] > summary::after { transform: translateY(-50%) rotate(-90deg); }
-details.acc > summary:hover,
 details.acc > summary:focus-visible { background: var(--surface-2); }   /* focus = hover, as .disc */
+@media (hover: hover) {
+  details.acc > summary:hover { background: var(--surface-2); }
+}
 /* Top padding, not zero.
    The first child's margin is killed on the line below, so padding was the
    only thing separating the body from the summary above it - and there was
@@ -1878,7 +2036,7 @@ table.data th, table.data td {
 }
 table.data thead th {
   position: sticky; top: 0; background: var(--surface-2);
-  font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-2);
+  font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .05em; color: var(--ink-2);
 }
 table.data tbody tr:last-child td { border-bottom: 0; }
 table.data th[scope="row"] { font-weight: 650; }
@@ -1947,7 +2105,9 @@ table.data th[scope="row"] { font-weight: 650; }
 }
 /* The label must be allowed to shrink, or flex refuses to wrap at all. */
 .hotline a > span:first-child { flex: 1 1 12ch; min-width: 0; }
-.hotline a:hover { border-color: var(--brand); background: var(--surface-2); }
+@media (hover: hover) {
+  .hotline a:hover { border-color: var(--brand); background: var(--surface-2); }
+}
 .hotline .num { margin-left: auto; font-weight: 750; color: var(--brand); white-space: nowrap; flex: none; }
 .hotline .lbl { font-weight: 650; }
 .hotline .sub { display: block; font-size: .83rem; color: var(--ink-3); font-weight: 400; }
@@ -1987,7 +2147,7 @@ table.data th[scope="row"] { font-weight: 650; }
 .twocol { display: grid; gap: 18px; }
 @media (min-width: 620px) { .twocol { grid-template-columns: 1fr 1fr; gap: 26px; } }
 
-.cellnote { display: block; margin-top: 7px; font-size: .84rem; line-height: 1.45; color: var(--ink-3); }
+.cellnote { display: block; margin-top: 7px; font-size: var(--fs-caption); line-height: 1.45; color: var(--ink-3); }
 
 ol.steps--tight > li { padding-bottom: 12px; }
 ol.steps--tight > li h4 { margin-top: 2px; }
@@ -2055,7 +2215,7 @@ ol.steps--tight > li h4 { margin-top: 2px; }
 /* ------------------------------------------------------------------ limits */
 
 .limit {
-  border-left: 3px solid var(--line-2); padding: 2px 0 2px 13px; margin: 0 0 13px;
+  border-left: var(--sev-rule) solid var(--line-2); padding: 2px 0 2px 13px; margin: 0 0 13px;
 }
 .limit--critical { border-left-color: var(--critical); }
 .limit h5 { font-weight: 700; }
@@ -2114,7 +2274,7 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
 .pick { display: grid; gap: 12px; margin: 14px 0 16px; }
 .pick__row { display: grid; gap: 6px; }
 .pick__row label {
-  font-size: .78rem; font-weight: 700; text-transform: uppercase;
+  font-size: var(--fs-sm); font-weight: 700; text-transform: uppercase;
   letter-spacing: .06em; color: var(--ink-3);
 }
 
@@ -2179,7 +2339,9 @@ select.input {
    16px control with 17px options shows a truncated menu over an untruncated
    one. */
 .pick__row select option, select.input option { font-size: var(--dropdown-fs); }
-.pick__row select:hover, select.input:hover { background: var(--surface-2); }
+@media (hover: hover) {
+  .pick__row select:hover, select.input:hover { background: var(--surface-2); }
+}
 .pick__row select:focus-visible, select.input:focus-visible {
   border-color: var(--brand); outline-offset: 0;
 }
@@ -2246,13 +2408,23 @@ table.data caption {
  * Offset — and a percentage would re-introduce the raggedness at a different
  * width. It scales with the reader's type size because it is in rem. */
 table.data--pairs { table-layout: fixed; }
-table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { width: 11rem; }
-table.data--pairs th, table.data--pairs td { overflow-wrap: break-word; }
-
-/* Narrow phones cannot spare 11rem for a label column. */
-@media (max-width: 400px) {
-  table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { width: 8.5rem; }
-}
+/* 42%, not a rem. The label column used to scale with the reader's type
+   size (11rem), which is right until the type is very large: at the iOS
+   accessibility sizes an 11rem column took most of a 390px table and the
+   value - "5-15 minutes" - was squeezed to a word a line. A share of the
+   table instead: the labels may take 42% and the values always keep the
+   other 58%, so a dose reads on one line at every size the OS offers. On a
+   phone that is 129-150px, within a few pixels of the 8.5rem the narrowest
+   phones already had. NOT min(8.5rem, 42%), which would have been the
+   precise version: Chromium resolves a min() that mixes a length and a
+   percentage on a table cell to auto, and under table-layout: fixed auto is
+   an even split - measured at 50% on 2026-08-19, the rule silently doing
+   nothing. */
+table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { width: 42%; }
+/* break-word on the LABEL only. On the value cell it let "minutes" break as
+   "minu/tes" at large type, which reads as damage; values wrap at their
+   spaces. */
+table.data--pairs th { overflow-wrap: break-word; }
 
 /* The widen button had 14px above it and nothing below - it sat flush against
    the privacy callout that follows the section, so it read as that callout's
@@ -2374,9 +2546,7 @@ details.disc {
   border-radius: var(--radius);
   margin: 0 0 10px;
   overflow: hidden;                 /* clips the summary's hover fill to the radius */
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: var(--shadow-float);
 }
 details.disc > summary {
   cursor: pointer; list-style: none; padding: var(--sp-3) var(--sp-4);
@@ -2384,20 +2554,41 @@ details.disc > summary {
 }
 /* Focus fills like hover does. A keyboard user gets the same "this is the
    one" surface a mouse user gets, on top of the inset ring above. */
-details.disc > summary:hover,
 details.disc > summary:focus-visible { background: var(--glass-strong); }
+@media (hover: hover) {
+  details.disc > summary:hover { background: var(--glass-strong); }
+}
 details.disc > summary::-webkit-details-marker { display: none; }
 details.disc > summary h2 { margin: 0; font-size: 1.16rem; }
+/* THE SAME CHEVRON details.acc DRAWS, in the circle this control already had.
+   It was a + that became a - on open, while the accordion two lines down the
+   same page turned a chevron: two disclosure types, two vocabularies for
+   "this opens". One glyph now - the angle quote, pointing down when shut and
+   up when open - and the circle still fills with the brand colour on open, so
+   the open state reads at a glance with or without the rotation. */
 details.disc > summary::after {
-  content: "+"; margin-left: auto; flex: none;
+  content: "\203A"; margin-left: auto; flex: none;
   width: 30px; height: 30px; border-radius: 50%;
   background: var(--surface-2); color: var(--ink-2);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.15rem; font-weight: 600; line-height: 1;
+  font-size: 1.3rem; font-weight: 600; line-height: 1;
+  transform: rotate(90deg); transition: transform .18s;
 }
-details.disc[open] > summary::after { content: "\2212"; background: var(--brand); color: var(--brand-ink); }
-details.disc > summary:hover h2,
+details.disc[open] > summary::after {
+  transform: rotate(-90deg); background: var(--brand); color: var(--brand-ink);
+}
 details.disc > summary:focus-visible h2 { color: var(--brand); }
+@media (hover: hover) {
+  details.disc > summary:hover h2 { color: var(--brand); }
+}
+/* Pressed, not hovered - the touch counterpart of the hover fill above, and
+   the same tint the grouped list rows use. Not on a group's nested children:
+   those are flush rows inside the parent's bubble (see the groupkids rules),
+   and a tint that ran edge to edge inside it painted a stripe that did not
+   match the row's own width. */
+details.disc > summary:active,
+details.acc > summary:active { background: color-mix(in srgb, var(--ink) 7%, transparent); }
+details.disc .groupkids > details.disc > summary:active { background: none; }
 /* Matches .acc__body. The two disclosure types were on 6px and 12px of top
    padding respectively, which is exactly the kind of difference nobody can
    name but everybody feels when the same control is used twice on one page. */
@@ -2520,7 +2711,7 @@ details.disc--urgent > summary h2 { color: var(--critical); }
   background: var(--bar-tint);
 }
 .jump__label {
-  font-size: .78rem; font-weight: 700; text-transform: uppercase;
+  font-size: var(--fs-sm); font-weight: 700; text-transform: uppercase;
   letter-spacing: .06em; color: var(--ink-3);
   /* Never squeezed, never wrapped to "JUMP / TO". */
   flex: 0 0 auto;
@@ -2566,10 +2757,14 @@ tr[hidden], details[hidden] { display: none !important; }
 
 .map { margin-top: 16px; }
 .map__controls { margin-bottom: 8px; }
+/* Glass, like every other surface. The stage was the last opaque --surface
+   panel with a hard --line border on a page where everything else floats;
+   the canvas paints with alpha, so the wash shows through the water the same
+   way it shows through a card. */
 .map__stage {
   position: relative; width: 100%; margin: 12px 0 10px;
-  border: 1px solid var(--line); border-radius: var(--radius);
-  background: var(--surface); overflow: hidden;
+  border: 1px solid var(--glass-line); border-radius: var(--radius);
+  background: var(--glass-card); overflow: hidden;
 }
 .map__canvas { display: block; width: 100%; touch-action: none; cursor: grab; }
 .map__canvas:active { cursor: grabbing; }
@@ -2578,7 +2773,7 @@ tr[hidden], details[hidden] { display: none !important; }
   position: absolute; pointer-events: none; transform: translate(12px, -34px);
   background: var(--ink); color: var(--bg);
   padding: 6px 10px; border-radius: var(--radius-sm);
-  font-size: .84rem; font-weight: 600; white-space: nowrap; z-index: 5;
+  font-size: var(--fs-caption); font-weight: 600; white-space: nowrap; z-index: 5;
   box-shadow: var(--shadow);
 }
 
@@ -2619,6 +2814,19 @@ tr[hidden], details[hidden] { display: none !important; }
 @media (forced-colors: active) {
   .card, .nbr, .callout, .empty, details.acc, .hotline a { border: 1px solid CanvasText; }
   .badge { border: 1px solid CanvasText; }
+  /* State that was carried by a fill. A pressed chip and the selected half
+     of the List/Map switch were the brand colour on brand-ink, and forced
+     colours flatten both to Canvas - so every chip looked unpressed and the
+     switch had no selected side. Highlight/HighlightText is the system's own
+     "selected" pair, and forced-color-adjust: none is what lets it apply. */
+  .chip[aria-pressed="true"], .chip[aria-current="true"],
+  .viewtoggle .chip[aria-pressed="true"] {
+    forced-color-adjust: none;
+    background: Highlight; color: HighlightText; border-color: Highlight;
+  }
+  /* The current tab was a tinted lozenge behind the icon; here it is a box
+     the system can draw. */
+  .nav a[aria-current="page"] { outline: 2px solid CanvasText; outline-offset: -3px; }
 }
 
 /* ------------------------------------------------------------ lead-in copy */
@@ -2680,15 +2888,16 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
   border: 1px solid var(--glass-line);
   border-radius: var(--radius);
   overflow: hidden;                /* clips the child corners to the group */
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: var(--shadow-float);
 }
 .list > .nbr {
   border: 0;
   border-radius: 0;
   margin-bottom: 0;
   background: transparent;
+  /* The group casts the shadow; a row inside it must not, or every hairline
+     between two rows sits on a band of the row above's shadow. */
+  box-shadow: none;
 }
 /* Hairline between rows, inset from the leading edge so it aligns under the
    label rather than cutting the full width - the detail that most separates a
@@ -2702,8 +2911,10 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
 /* Pressed, not hovered. Touch has no hover, and a whole-row tint is the native
    feedback. */
 .list > .nbr:active { background: color-mix(in srgb, var(--ink) 7%, transparent); }
-.list > .nbr:hover,
 .list > .nbr:focus-visible { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+@media (hover: hover) {
+  .list > .nbr:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+}
 .list > .nbr:focus-visible { border-radius: 0; }
 /* An empty state or a grid of tiles inside a list container is not a grouped
    list, so it must not inherit the group frame.
@@ -2811,7 +3022,7 @@ a.nbr { text-decoration: none; color: inherit; }
 
 /* Accessory badges are secondary to the label they qualify. At full size they
    pulled the eye before the substance name did. */
-.list > .nbr .badge { font-size: .68rem; padding: 3px 8px; }
+.list > .nbr .badge { font-size: var(--fs-xs); padding: 3px 8px; }
 
 /* ---- overdose steps: action first, reason second ------------------------- */
 
@@ -2960,7 +3171,7 @@ details.disc[open] { margin-bottom: var(--sp-3); }
   background: var(--glass); border: 1px solid var(--glass-line);
   border-radius: var(--radius-sm); padding: 9px 14px;
 }
-.stattile__label { font-size: .74rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+.stattile__label { font-size: var(--fs-xs); color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
 .stattile__v { font-weight: 650; font-size: 1.02rem; }
 .stattiles__roa { color: var(--ink-3); font-size: .82rem; }
 
@@ -3363,15 +3574,22 @@ details.disc .groupkids > details.disc > summary h2 {
   }
 
   /* Surfaces lift toward the finger rather than depressing away from it.
-     Cards do not move at all - only the things you can actually press. */
-  .nbr, .classcard, .chip, .btn {
+     Cards do not move at all - only the things you can actually press.
+     THE ONE TRANSITION RULE for every pressable control - see the
+     microinteractions note. `color` is in the list because the hover and
+     pressed states change ink as well as fill, and an ink that snapped while
+     the fill eased read as two things happening. */
+  .nbr, .classcard, .chip, .btn, .iconbtn, .listbox button, .hotline a {
     transition:
       transform var(--t-tap) var(--ease-float),
       box-shadow var(--t-ease) var(--ease-float),
       background-color var(--t-ease) var(--ease-float),
-      border-color var(--t-ease) var(--ease-float);
+      border-color var(--t-ease) var(--ease-float),
+      color var(--t-ease) var(--ease-float);
   }
-  .nbr:hover, .classcard:hover { transform: translate3d(0, -1px, 0); }
+  @media (hover: hover) {
+    .nbr:hover, .classcard:hover { transform: translate3d(0, -1px, 0); }
+  }
   .nbr:active, .classcard:active { transform: translate3d(0, 0, 0) scale(.995); }
 
   /* The page's ambient wash drifts, very slowly and very slightly. This is the
@@ -3379,19 +3597,29 @@ details.disc .groupkids > details.disc > summary h2 {
      behind it is not quite still. 40 seconds a cycle and a 2% translation -
      below the threshold where peripheral vision registers movement, which
      matters because a bystander must not notice this screen. */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: -20%;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(38% 30% at 22% 18%,
-        color-mix(in srgb, var(--brand) 9%, transparent) 0%, transparent 70%),
-      radial-gradient(34% 26% at 78% 72%,
-        color-mix(in srgb, var(--brand) 6%, transparent) 0%, transparent 70%);
-    animation: drift 40s var(--ease-float) infinite alternate;
-    will-change: transform;
+  /* DESKTOP ONLY: (hover: hover) and at least 880 wide. A full-viewport fixed
+     layer with a running transform is a permanently composited surface of
+     its own, repainted on every scroll frame, and on a phone that is the
+     single most expensive thing on the page for a wash nobody is supposed to
+     notice. A pointer that can hover is a laptop or a desktop with a GPU and
+     a wall socket. The inset was -20%, a fifth of the viewport on every side
+     for a 1.5% travel; -4% covers the travel with room to spare and stops
+     compositing a layer almost twice the screen. */
+  @media (min-width: 880px) and (hover: hover) {
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -4%;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(38% 30% at 22% 18%,
+          color-mix(in srgb, var(--brand) 9%, transparent) 0%, transparent 70%),
+        radial-gradient(34% 26% at 78% 72%,
+          color-mix(in srgb, var(--brand) 6%, transparent) 0%, transparent 70%);
+      animation: drift 40s var(--ease-float) infinite alternate;
+      will-change: transform;
+    }
   }
   @keyframes drift {
     from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
@@ -3405,19 +3633,14 @@ details.disc .groupkids > details.disc > summary h2 {
   }
 }
 
-/* Depth, which reads as float even when nothing is moving: a tight contact
-   shadow plus a wide soft one. A single blurred shadow reads as a sticker;
-   two layers read as an object with air under it. */
-.card, .classcard, .list, details.disc {
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
-}
-
-/* Softer corners throughout - the single biggest lever on whether a surface
-   reads as a panel or a pebble. Tap targets keep their --edge boundary at
-   3:1; nothing here touches contrast. */
-:root { --radius: 22px; --radius-sm: 15px; }
+/* Depth: see --shadow-float. .classcard, .list and details.disc carry the
+   token at their own rules; .card takes it here. TOP-LEVEL cards only - a
+   card inside a disclosure body, an accordion body or a callout is already
+   sitting on a floating surface, and a shadow under a shadow is what read as
+   boxes inside a box. The nested card keeps its border and its radius, which
+   is what the reader sees; it stops casting. */
+.card { box-shadow: var(--shadow-float); }
+.disc__body .card, .acc__body .card, .callout .card, .card .card { box-shadow: none; }
 
 /* The mix checker's decoder line sits flush with the top of its card. */
 .mixnote { margin-top: 0; }
@@ -3754,11 +3977,15 @@ details.disc .groupkids > details.disc > summary h2 {
   box-shadow: 0 6px 20px -8px color-mix(in srgb, var(--ink) 30%, transparent);
 }
 .totop[hidden] { display: none; }
-.totop:hover { color: var(--ink); border-color: var(--edge); }
+@media (hover: hover) {
+  .totop:hover { color: var(--ink); border-color: var(--edge); }
+}
 @media (prefers-reduced-motion: no-preference) {
   .totop { transition: color var(--t-tap) ease, border-color var(--t-tap) ease,
                        transform var(--t-ease) var(--ease-float); }
-  .totop:hover { transform: translateY(-2px); }
+  @media (hover: hover) {
+    .totop:hover { transform: translateY(-2px); }
+  }
 }
 /* Wide: no bottom bar (it is in the header), so the ordinary bottom-right. */
 @media (min-width: 960px) {
@@ -3775,9 +4002,7 @@ details.disc .groupkids > details.disc > summary h2 {
   background: var(--glass);
   border: 1px solid var(--glass-line);
   border-radius: var(--radius);
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: var(--shadow-float);
 }
 .bigptr__hd {
   display: block; font-weight: 700; color: var(--brand);
@@ -3788,7 +4013,9 @@ details.disc .groupkids > details.disc > summary h2 {
 .bigptr__sub { display: block; color: var(--ink-2); font-size: min(.94rem, 16px); }
 @media (prefers-reduced-motion: no-preference) {
   .bigptr { transition: transform var(--t-ease) var(--ease-float); }
-  .bigptr:hover { transform: translateY(-1px); }
+  @media (hover: hover) {
+    .bigptr:hover { transform: translateY(-1px); }
+  }
 }
 
 /* Directory entries. The policy badge sits on the title row, because whether
@@ -4017,7 +4244,7 @@ html, body { overscroll-behavior-y: none; }
    look like a dismissed banner either. */
 #foot-early {
   margin: 0 0 14px; padding: 12px 0 12px 14px;
-  border-left: 3px solid var(--elevated);
+  border-left: var(--sev-rule) solid var(--elevated);
   color: var(--ink-2); font-size: min(.9rem, 15px); line-height: 1.6;
 }
 #foot-early strong { color: var(--ink); display: block; margin-bottom: 3px; }

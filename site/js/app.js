@@ -123,6 +123,75 @@ try {
    label is filled in by applyStrings once i18n has loaded. */
 syncThemeControl();
 
+/* THE TAB BAR AND QUICK EXIT ICONS, drawn the same way.
+ *
+ * index.html ships them as characters - ◇ ◐ ◈ ❋ ◉ ✚ and ✕ - and a character
+ * is rendered by whatever font the platform falls back to for it, which is a
+ * different font on iOS, Android and Windows. The bar looked different on
+ * each, and ❋ in particular came out a weight heavier than its neighbours
+ * wherever it landed. These are the same shapes as line art on one 24-unit
+ * grid, currentColor throughout so every existing colour rule still applies
+ * (the SOS disc, the current-tab tint, the hover ink), and the characters
+ * stay in the HTML as the no-JS fallback. Built with createElementNS like the
+ * theme glyph above - never from a markup string, which the CSP would be
+ * right to distrust. */
+const ICONS = {
+  /* Learn: the open diamond. */
+  learn: [["path", { d: "M12 3.5 20.5 12 12 20.5 3.5 12Z" }]],
+  /* Drugs: the half-filled disc. */
+  substances: [
+    ["circle", { cx: "12", cy: "12", r: "8.5" }],
+    ["path", { d: "M12 3.5A8.5 8.5 0 0 0 12 20.5Z", fill: "currentColor", stroke: "none" }],
+  ],
+  /* Test: a diamond with a filled one inside. */
+  test: [
+    ["path", { d: "M12 3.5 20.5 12 12 20.5 3.5 12Z" }],
+    ["path", { d: "M12 8.3 15.7 12 12 15.7 8.3 12Z", fill: "currentColor", stroke: "none" }],
+  ],
+  /* Support: the six-spoked asterisk. */
+  support: [
+    ["line", { x1: "12", y1: "3.5", x2: "12", y2: "20.5" }],
+    ["line", { x1: "4.64", y1: "7.75", x2: "19.36", y2: "16.25" }],
+    ["line", { x1: "4.64", y1: "16.25", x2: "19.36", y2: "7.75" }],
+  ],
+  /* Alerts: the bullseye. */
+  alerts: [
+    ["circle", { cx: "12", cy: "12", r: "8.5" }],
+    ["circle", { cx: "12", cy: "12", r: "3.6", fill: "currentColor", stroke: "none" }],
+  ],
+  /* SOS: the cross, heavier - it sits in a filled disc and has to read there. */
+  help: [
+    ["line", { x1: "12", y1: "5.5", x2: "12", y2: "18.5", "stroke-width": "3" }],
+    ["line", { x1: "5.5", y1: "12", x2: "18.5", y2: "12", "stroke-width": "3" }],
+  ],
+  /* Quick Exit: the X. */
+  exit: [
+    ["line", { x1: "6.5", y1: "6.5", x2: "17.5", y2: "17.5", "stroke-width": "2.2" }],
+    ["line", { x1: "17.5", y1: "6.5", x2: "6.5", y2: "17.5", "stroke-width": "2.2" }],
+  ],
+};
+function icon(name) {
+  const svg = svgEl("svg", {
+    class: "ico__svg", viewBox: "0 0 24 24", width: "20", height: "20",
+    fill: "none", stroke: "currentColor", "stroke-width": "1.9",
+    "stroke-linecap": "round", "stroke-linejoin": "round",
+    "aria-hidden": "true", focusable: "false",
+  });
+  for (const [tag, attrs] of ICONS[name] || []) svg.appendChild(svgEl(tag, attrs));
+  return svg;
+}
+/* Drawn now, at parse, not in applyStrings: the module runs before first
+   paint in practice, and applyStrings waits on the locale file. applyStrings
+   keeps the .ico element when it rebuilds each tab, so this is done once. */
+for (const a of navLinks) {
+  const ico = a.querySelector(".ico");
+  if (ico && ICONS[a.dataset.tab]) clear(ico).appendChild(icon(a.dataset.tab));
+}
+{
+  const glyph = document.querySelector("#exit [aria-hidden]");
+  if (glyph) clear(glyph).appendChild(icon("exit"));
+}
+
 /* -------------------------------------------------------- session lifetime
  * Nothing this app writes may outlive the session. Quick Exit still exists,
  * but it is now a shortcut rather than the mechanism - pressing it should
@@ -543,6 +612,19 @@ async function route() {
     if (mine !== token) return;
     linkify(node);
     clear(view).appendChild(node);
+    /* THE LANGUAGE THE VIEW IS ACTUALLY IN. The document carries the interface
+       locale (i18n applyDocument), but the clinical bodies - every tab except
+       Alerts - are English until a reviewer translates them, and a Spanish
+       screen reader told the page is "es" reads English prose with Spanish
+       pronunciation rules, which is close to unintelligible. Marking the view
+       root "en" when it is English under a non-English interface gives the
+       synthesiser the right voice; englishOnlyNotice() inside it carries the
+       interface locale back, because that notice IS translated. Nothing is
+       set for an English interface, where the document's lang is already
+       right. */
+    const en = /^en/i.test(String(i18n.locale()));
+    if (!en && tab !== "alerts") view.setAttribute("lang", "en");
+    else view.removeAttribute("lang");
     /* A clean render clears the reload marker below, so the next deploy that
        lands under this session is allowed its one reload too. */
     if (history.state?.nlReloaded) { try { history.replaceState(null, "", here()); } catch {} }
@@ -1013,9 +1095,28 @@ const BOOT_SHOWN_AT = Date.now();
  * knowing when it lifts, which matters more than precision: an approach that
  * waited for a signal from the plugin would leave the reader on a logo forever
  * if the signal never came, and this app has an SOS tab. */
-const BOOT_MIN_MS =
-  document.documentElement.classList.contains("is-packaged") ? 1500 : 650;
+/* 650 in the packaged app too, since 2026-08-19. The floor was 1500 there to
+   outlast Capacitor's own launch screen, which hid itself on a 400ms timer
+   of its own and was still covering this one when it left. The handover is
+   ours now: the native config keeps the launch screen up for ~2s as a
+   FAILSAFE (launchShowDuration) and hideNativeSplash() below takes it down
+   the moment the first view has rendered, so this opening is on screen from
+   that moment and holds the same floor as the web. launchAutoHide stays on -
+   a splash that waits for a signal is a logo forever if the signal never
+   comes, and this app has an SOS tab. */
+const BOOT_MIN_MS = 650;
 const BOOT_MAX_MS = BOOT_MIN_MS + 950;
+
+/* Capacitor's launch screen, taken down on first render - the plugin is
+   optional and may be absent, and its promise rejects asynchronously, so it
+   is awaited inside its own catch. Web: nothing to do. */
+function hideNativeSplash() {
+  if (!data.packaged()) return;
+  try {
+    const p = globalThis.Capacitor?.Plugins?.SplashScreen?.hide?.();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+  } catch { /* no plugin, or no native side - the failsafe timer covers it */ }
+}
 let bootGone = false;
 
 function dismissBoot() {
@@ -1043,6 +1144,14 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
      the bar is never laid out at the wrong height and then corrected, which
      the reader would see as the whole page shifting down. */
   if (isNative()) document.documentElement.classList.add("is-native");
+  /* Dynamic Type. app.css keys `html.native { font: -apple-system-body }` off
+     this class and nothing else - the one font value a WKWebView scales with
+     the reader's iOS text size. Only when Capacitor is present: on the web the
+     browser's own text-size setting already reaches the rem and the system
+     font keyword would override it. A class of its own rather than reusing
+     .is-native, so the stylesheet's status-bar rules and its type rules can
+     be read - and removed - independently. */
+  if (isNative()) document.documentElement.classList.add("native");
 
   /* EVERYTHING THE FIRST PAINT NEEDS IS ASKED FOR NOW, before anything is
      awaited. Boot used to be a chain: await the locale file, THEN ask for the
@@ -1081,6 +1190,7 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
   lastRoute = here();
 
   await route();
+  hideNativeSplash();
   dismissBoot();
 
   /* The kindness bar: rendered once, above the content, and never touched
@@ -1226,7 +1336,7 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
   /* The packaged app carries the alerts that existed on the day it was built.
      Everything else in the bundle stays true; alerts are a claim about now.
      No-ops on the website and offline. See data.refreshAlerts. */
-  idle(() => {
+  const refreshAlertsNow = () => {
     data.refreshAlerts().then((updated) => {
       if (!updated) return;
       renderFooterMeta().catch(() => {});
@@ -1239,6 +1349,19 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
       try { tab = parseRoute().tab; } catch { tab = null; }
       if (tab === "alerts" && window.scrollY < 40) route().catch(() => {});
     }).catch(() => {});
+  };
+  idle(refreshAlertsNow);
+
+  /* AND ON EVERY RETURN TO THE FOREGROUND. An app left open in the switcher
+     for a week and brought back is, to the reader, freshly opened - and it
+     was showing the alerts from the day it was last launched. visibilitychange
+     is the one signal that fires for that on iOS (a WKWebView gets no
+     resume event of its own), and it fires for a plain tab switch on the web
+     too - where refreshAlerts() returns at once, because the website serves
+     the file fresh. Same redraw rule as boot: only the alerts screen, only at
+     its top. */
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") refreshAlertsNow();
   });
 })();
 
@@ -1328,6 +1451,16 @@ function reveal(anchor, label, wantRoute) {
       /* And never smooth for a reader who has asked for no motion. */
       target.scrollIntoView({ behavior: far || !motionOK() ? "auto" : "smooth", block: "start" });
 
+      /* FOCUS LANDS WITH THE SCROLL. The navigation that brought the reader
+         here focused the page's h1 (focusView), so a screen reader user who
+         picked a result was told the page's title while the screen showed the
+         section - and their next Tab started from the top of the page. The
+         same move jumpTo() makes for a chip: the heading it scrolled to, made
+         focusable if it was not (a summary already is), and the ring is
+         suppressed by app.css's programmatic-focus rule. */
+      if (el.tagName !== "SUMMARY" && !el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+      el.focus({ preventScroll: true });
+
       /* Then settle. Content above the target can still be arriving - a
          disclosure opening, a deferred block filling in - and each of those
          pushes the heading further down AFTER we have scrolled to it. Landing
@@ -1397,6 +1530,11 @@ document.addEventListener("click", (e) => {
   const input = document.getElementById("searchinput");
   const results = document.getElementById("searchresults");
   const status = document.getElementById("searchstatus");
+  /* The "If you are not sure what to look for" line lives OUTSIDE the listbox
+     now (index.html): inside it, a <p> was a child of a role=listbox that was
+     not an option, which some screen readers announce as an item and others
+     drop, and the count they give of the list was one off either way. */
+  const head = document.getElementById("searchhead");
   let mod = null;
 
   /* THE PAGE BEHIND SEARCH DOES NOT MOVE.
@@ -1443,6 +1581,7 @@ document.addEventListener("click", (e) => {
     input.setAttribute("aria-expanded", "false");
     input.value = "";
     clear(results);
+    if (head) head.hidden = true;
     status.textContent = "";
     /* Guarded: Quick Exit and Escape both call this, and unlocking a body that
        was never locked would scroll the page to a stale offset. */
@@ -1474,6 +1613,31 @@ document.addEventListener("click", (e) => {
   };
 
   btn.addEventListener("click", () => (panel.hidden ? open() : close()));
+
+  /* ARROW KEYS walk the results. The results are links, so Tab reaches them
+     already; this is the combobox convention - Down from the field lands on
+     the first result, Up and Down move between them, Up from the first goes
+     back to the field - for the keyboard user who expects it. Focus moves to
+     the real element rather than being faked with aria-activedescendant, so
+     Enter opens whatever is focused with no extra wiring. */
+  const options = () => [...results.querySelectorAll(".sresult")];
+  input.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown") return;
+    const o = options();
+    if (!o.length) return;
+    e.preventDefault();
+    o[0].focus();
+  });
+  results.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    const o = options();
+    const i = o.indexOf(document.activeElement);
+    if (i < 0) return;
+    e.preventDefault();
+    if (e.key === "ArrowDown") (o[i + 1] || o[i]).focus();
+    else if (i === 0) input.focus();
+    else o[i - 1].focus();
+  });
 
   /* Escape closes from anywhere in the panel, which is the behaviour a
      keyboard user expects and the quickest way out on a phone keyboard. */
@@ -1517,9 +1681,10 @@ document.addEventListener("click", (e) => {
   /* One renderer for typed results and for the starting points, so a starter
      behaves in every way like the result it becomes once you type its words. */
   function renderResults(rs, variant) {
-    if (variant === "start" && rs.length) {
-      results.appendChild(
-        h("p", { class: "sresult__head" }, "If you are not sure what to look for"));
+    if (head) {
+      const starting = variant === "start" && rs.length > 0;
+      if (starting && !head.textContent) head.textContent = "If you are not sure what to look for";
+      head.hidden = !starting;
     }
     for (const r of rs) {
       /* Both branches were identical. The anchor is applied by reveal()

@@ -12,13 +12,14 @@
 
 import {
   h, frag, clear, section, callout, badge, extLink, empty, englishOnlyNotice, group,
-  jumpNav, disclosure, sourcesDisclosure, skeleton,
+  jumpNav, disclosure, sourcesDisclosure, skeleton, SEV_GLYPH,
 } from "../ui.js";
 import * as data from "../data.js";
 import { CLASSES, classInfo, groupAll } from "../taxonomy.js";
 import { draw as drawStructure } from "../structure.js";
 import { reagentLabel } from "../reagentnames.js";
 import { matchSubstance } from "../substancematch.js";
+import { liveRegion, dropRow, slotLabel, removeButton, relabelRows } from "../slots.js";
 
 /* `label` is what renders; the KEY is TripSit's verbatim status, kept for
    data fidelity and shown in the definitions block. The raw terms are chart
@@ -37,9 +38,9 @@ import { matchSubstance } from "../substancematch.js";
 const matches = (s, t) => matchSubstance(s, t) !== null;
 
 const RISK = {
-  Dangerous: { kind: "critical", glyph: "▲", rank: 0, label: "Dangerous" },
-  Unsafe: { kind: "critical", glyph: "▲", rank: 1, label: "Unsafe" },
-  Caution: { kind: "elevated", glyph: "●", rank: 2, label: "Caution" },
+  Dangerous: { kind: "critical", glyph: SEV_GLYPH.critical, rank: 0, label: "Dangerous" },
+  Unsafe: { kind: "critical", glyph: SEV_GLYPH.critical, rank: 1, label: "Unsafe" },
+  Caution: { kind: "elevated", glyph: SEV_GLYPH.elevated, rank: 2, label: "Caution" },
   /* "Reduce"/"Amplify each other", not "EFFECTS reduce each other". The longer
      pair needed 203px and the badge gets 183-200px at 375px - three nested
      card paddings deep, that is all the room there is - so both wrapped to two
@@ -47,9 +48,9 @@ const RISK = {
      word: the badge sits on a combination result, so what is reducing or
      amplifying is not in question. The mechanism is still stated and neither
      one grades safety, which is the rule this table exists to keep. */
-  "Low Risk & Decrease": { kind: "neutral", glyph: "○", rank: 3, label: "Reduce each other" },
-  "Low Risk & No Synergy": { kind: "neutral", glyph: "○", rank: 4, label: "No known interaction" },
-  "Low Risk & Synergy": { kind: "neutral", glyph: "○", rank: 5, label: "Amplify each other" },
+  "Low Risk & Decrease": { kind: "neutral", glyph: SEV_GLYPH.neutral, rank: 3, label: "Reduce each other" },
+  "Low Risk & No Synergy": { kind: "neutral", glyph: SEV_GLYPH.neutral, rank: 4, label: "No known interaction" },
+  "Low Risk & Synergy": { kind: "neutral", glyph: SEV_GLYPH.neutral, rank: 5, label: "Amplify each other" },
   Unknown: { kind: "neutral", glyph: "?", rank: 6, label: "No data" },
 };
 
@@ -241,12 +242,16 @@ async function indexView(subs, combosP, { go }) {
           ? h("p", { class: "sec__note" }, combos.food.sourceNote) : null)
     : null);
 
+  /* Open with the lens when the lens has picks (see conditionLens): an open
+     child inside a shut parent is still a shut box, and the picks a reader
+     left applied would be hidden behind two taps instead of none. */
   const yoursGroup = group("grp-yours", "Does your situation change the picture?",
     "Prescribed medication and health conditions both change what a combination does.", [
       await rxBlock(),
       await conditionLens(),
     ],
-    ["Prescribed medication", "Health conditions"]);
+    ["Prescribed medication", "Health conditions"],
+    { open: lensPicks.size > 0 });
 
   /* Regional patterns come AFTER the search box. Someone who arrived knowing
      what they took needs the lookup first; "what is common in this region" is
@@ -509,12 +514,22 @@ function classView(slug, subs, { go }) {
     placeholder: `Filter ${info.label.toLowerCase()}…`,
   });
   const list = h("div", { class: "list" });
+  /* A live count for the screen reader. The list re-renders on every
+     keystroke in silence, so a reader typing "ket" into a class of ninety had
+     no way to hear it narrow until they tabbed into it. Off-screen: the
+     visible page already shows the rows, and the empty state below already
+     says "No match" in words. The same wording the class tile under the grid
+     uses for its own count. */
+  const count = h("p", { class: "sr-only", role: "status", "aria-live": "polite" });
 
   const paint = (term) => {
     const t = term.trim().toLowerCase();
     const hits = !t ? members : members.filter((s) => matches(s, t));
 
     clear(list);
+    count.textContent = !t ? "" : hits.length
+      ? `${hits.length} drug${hits.length === 1 ? "" : "s"}`
+      : "No match in this class.";
     if (!hits.length) {
       list.appendChild(empty("No match in this class.",
         "Clear the filter, or search the Drugs screen to look across all classes."));
@@ -524,7 +539,7 @@ function classView(slug, subs, { go }) {
   };
   input.addEventListener("input", () => paint(input.value));
 
-  wrap.appendChild(h("div", { class: "search" }, h("div", { class: "search__row" }, input)));
+  wrap.appendChild(h("div", { class: "search" }, h("div", { class: "search__row" }, input), count));
   wrap.appendChild(list);
   paint("");
 
@@ -577,37 +592,19 @@ function mixChecker(combos, yours) {
   const out = h("div", { class: "mixout" });
   /* ONE SENTENCE PER CHANGE, verdict first: the card's exact badge, then the
      depressant heading verbatim when it is shown, then a removal if a × was
-     pressed. Atomic so it is read whole; off-screen so nothing visible moves.
-     Node replacement so an identical verdict is still announced. */
-  const live = h("p", { class: "sr-only", role: "status", "aria-live": "polite", "aria-atomic": "true" });
-  const announce = (parts) => {
-    const text = parts.filter(Boolean).join(" ");
-    clear(live);
-    if (text) live.appendChild(document.createTextNode(text));
-  };
+     pressed. The shared region in slots.js - off-screen, atomic, re-announced
+     even when the sentence repeats. */
+  const { el: live, announce } = liveRegion();
 
   const addBtn = h("button", {
     type: "button", class: "btn btn--ghost btn--sm",
     onClick: () => { addSlot(); check(); },
   }, "+ Add another drug");
 
-  /* Take a row out without stranding focus. The × is inside the row it
-     removes, so a keyboard user's focus fell to <body> and their next Tab
-     started from the top of the page. Focus moves to the row that takes its
-     place, else the one before, else the add button - and only if it was in
-     the row, so a mouse user's focus is left where it is. */
-  const dropRow = (row) => {
-    const active = document.activeElement;
-    if (active && row.contains?.(active)) {
-      const near = row.nextElementSibling || row.previousElementSibling;
-      const target = near?.querySelector?.("select, button") || addBtn;
-      target?.focus?.({ preventScroll: true });
-    }
-    row.remove();
-  };
-
-  function makeSelect(i) {
-    const sel = h("select", { class: "input", "aria-label": `Substance ${i + 1}` },
+  function makeSelect() {
+    /* No aria-label - slotLabel() puts the visible word ("I took", "and") on
+       the select as its name, with the row number off-screen beside it. */
+    const sel = h("select", { class: "input" },
       h("option", { value: "" }, "Choose…"),
       cats.map((c) => h("option", { value: c }, prettyCat(c))));
     sel.addEventListener("change", check);
@@ -617,44 +614,35 @@ function mixChecker(combos, yours) {
   function addSlot(want) {
     if (slots.length >= MAX_MIX) return;
     const i = slots.length;
-    const sel = makeSelect(i);
+    const sel = makeSelect();
     /* A value carried across from a previous render (rehydrate below). Only a
        real category is honoured; anything else leaves the row on "Choose…". */
     if (want && cats.includes(want)) sel.value = want;
-    /* Same control as the strip picker on Test: label above, the select
-       wearing a disclosure row, the chevron centred on it by .pick__field.
-       These were the app's only other dropdowns and they were the last two
-       still dressed as search fields. */
+    /* The shared slot row (slots.js): label, then the select wearing a
+       disclosure row, the chevron centred on it by .pick__field - the same
+       control the reagent tracker on Test is built from. The × goes on the
+       rows past the floor of two; a combination of one is not a combination. */
     const row = h("div", { class: "mixslot" },
-      h("label", { class: "pick__row" },
-        h("span", { class: "mixlabel" }, i === 0 ? "I took" : "and"),
-        h("span", { class: "pick__field" }, sel)),
+      slotLabel(i === 0 ? "I took" : "and", sel, i + 1, "drug"),
       i > 1
-        ? h("button", {
-            type: "button", class: "iconbtn mixslot__x",
-            "aria-label": `Remove drug ${i + 1}`,
-            onClick: () => {
-              const at = slots.indexOf(sel);
-              if (at > -1) slots.splice(at, 1);
-              /* The number the row wore when pressed; relabel() renumbers
-                 what is left. */
-              const was = at > -1 ? at + 1 : i + 1;
-              dropRow(row);
-              relabel();
-              check(`Drug ${was} removed.`);
-            },
-          }, "×")
+        ? removeButton(`Remove drug ${i + 1}`, () => {
+            const at = slots.indexOf(sel);
+            if (at > -1) slots.splice(at, 1);
+            /* The number the row wore when pressed; relabel() renumbers
+               what is left. */
+            const was = at > -1 ? at + 1 : i + 1;
+            dropRow(row, addBtn);
+            relabel();
+            check(`Drug ${was} removed.`);
+          })
         : null);
     slots.push(sel);
     rows.appendChild(row);
-    addBtn.disabled = slots.length >= MAX_MIX;
+    relabel();                                  // numbered by position
   }
 
   function relabel() {
-    [...rows.children].forEach((row, i) => {
-      const lab = row.querySelector(".mixlabel");
-      if (lab) lab.textContent = i === 0 ? "I took" : "and";
-    });
+    relabelRows(rows, "I took", "and", "drug");
     addBtn.disabled = slots.length >= MAX_MIX;
   }
 
@@ -1704,8 +1692,23 @@ async function conditionLens() {
 
   const body = h("div");
 
+  /* HOW MANY ARE PICKED, on the summary, so a shut lens is not a shut box.
+     The picks survive a trip to a drug page and Back (lensPicks is
+     module-scoped), and a reader returning to a closed "Health conditions"
+     row had no way to see that two of theirs were still applied under it.
+     A neutral badge with the number - the same accessory the strip cards
+     wear for their limit count - in the heading itself, so the summary says
+     it. Hidden at zero rather than reading "0". */
+  const count = h("span", { class: "badge badge--neutral", hidden: true });
+  const syncCount = () => {
+    const n = lensPicks.size;
+    count.hidden = !n;
+    count.textContent = n ? String(n) : "";
+  };
+
   const paint = () => {
     clear(body);
+    syncCount();
     const active = d.conditions.filter((c) => lensPicks.has(c.id));
     for (const c of active) {
       body.appendChild(
@@ -1737,8 +1740,13 @@ async function conditionLens() {
 
   paint();
 
-  return h("details", { class: "disc", id: "sec-lens" },
-    h("summary", null, h("h2", null, "Health conditions")),
+  /* OPEN WHEN ANYTHING IS PICKED. The lens starts shut - nothing is applied,
+     nothing to show - but a reader who picked conditions, left for a drug
+     page and came Back had them re-applied inside a closed row, which is the
+     one state where the shut box hides something the reader did. Picks mean
+     open. */
+  return h("details", { class: "disc", id: "sec-lens", open: lensPicks.size ? true : null },
+    h("summary", null, h("h2", null, "Health conditions", " ", count)),
     h("div", { class: "disc__body" },
       h("p", { class: "sec__note" },
         "Pick anything that applies. Nothing you select here is saved — not on " +

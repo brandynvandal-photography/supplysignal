@@ -91,7 +91,9 @@
     "locateOutside": "Esa ubicación no está dentro de un condado de EE. UU. Busca por nombre.",
     "locateNoData": "No se pudieron cargar los datos del mapa. Busca por nombre.",
     "sessionTitle": "Nada de lo que hagas aquí se guarda",
-    "sessionBody": "Sin cuenta y sin guardar nada entre visitas — cierra la pestaña y desaparece. La ✕ es para cuando necesitas salir en el momento: quita esta página de tu historial y te lleva a un sitio del tiempo."
+    "sessionBody": "Sin cuenta y sin guardar nada entre visitas — cierra la pestaña y desaparece. La ✕ es para cuando necesitas salir en el momento: quita esta página de tu historial y te lleva a un sitio del tiempo.",
+    "dataUpdated": "datos de alertas actualizados el {date}",
+    "refresh": "Actualizar"
   },
   "severity": {
     "critical": "Crítica",

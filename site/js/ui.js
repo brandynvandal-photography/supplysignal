@@ -82,7 +82,10 @@ export function extLink(url, label, cls = null) {
       referrerpolicy: "no-referrer",
     },
     label,
-    h("span", { "aria-hidden": "true" }, " ↗")
+    /* U+FE0E after the arrow asks for the TEXT presentation. Without it some
+       platforms (Android, and iOS in a few fonts) render ↗ as a blue emoji
+       tile, which is a different colour and weight from the link beside it. */
+    h("span", { "aria-hidden": "true" }, " ↗\uFE0E")
   );
 }
 
@@ -107,10 +110,32 @@ export const isoDate = (iso) => String(iso || "").slice(0, 10);
 
 /* -------------------------------------------------------------- severity */
 
+/* ONE GLYPH PER SEVERITY, everywhere it is drawn.
+ *
+ * Badges said ▲ for critical and ● for elevated; callouts said ▲ for WARN and
+ * ✕ for stop; the tracker's "Unexpected" badge said ▲ for elevated. So the
+ * same triangle meant two different levels on the Test page alone, and a
+ * reader who learned it from an alert card was taught wrong by the callout
+ * under it. The two severity callouts already take the badge palette - stop
+ * paints --critical, warn paints --elevated - so they take the badge shapes
+ * too. Shapes, not fills: ▲ ● ○ stay tellable apart in greyscale and through
+ * any colour-blind filter, and ℹ︎ (text presentation, U+FE0E, so it never
+ * comes up as an emoji tile) marks the info box, which is not a severity at
+ * all. ✕ is gone: in a pill badge it read as a dismiss control, and a bare ■
+ * is indistinguishable from a missing-glyph box. Badge callers that carry a
+ * severity - the combination checker's RISK table, the tracker's verdict
+ * cards - read their glyph from here rather than typing one. */
+export const SEV_GLYPH = {
+  critical: "▲", elevated: "●", advisory: "○",
+  ok: "✓", neutral: "○", info: "ℹ\uFE0E",
+};
+/* The callout kinds, mapped onto the levels above. */
+const CALLOUT_LEVEL = { stop: "critical", warn: "elevated", info: "info" };
+
 const SEV = {
-  critical: { label: "Critical", glyph: "▲" },
-  elevated: { label: "Elevated", glyph: "●" },
-  advisory: { label: "Advisory", glyph: "○" },
+  critical: { label: "Critical", glyph: SEV_GLYPH.critical },
+  elevated: { label: "Elevated", glyph: SEV_GLYPH.elevated },
+  advisory: { label: "Advisory", glyph: SEV_GLYPH.advisory },
 };
 
 /**
@@ -262,11 +287,10 @@ function splitLead(p) {
  * The heading is expected to carry its share: "heading plus one sentence" is
  * the shape, and a heading that says nothing wastes the one line the box has. */
 export function callout(kind, title, ...body) {
-  /* "✕" rather than "■". A bare filled square is indistinguishable from a
-     missing-glyph box, so the most severe callout in the app looked like a
-     font failure. Each kind keeps a distinct shape, because colour alone is
-     never allowed to carry severity. */
-  const glyph = { stop: "✕", warn: "▲", info: "ℹ" }[kind] || "ℹ";
+  /* The shared severity glyph - see SEV_GLYPH for why the callout no longer
+     has a set of its own. Each kind keeps a distinct shape, because colour
+     alone is never allowed to carry severity. */
+  const glyph = SEV_GLYPH[CALLOUT_LEVEL[kind] || "info"];
   const kids = body.filter((b) => b != null && b !== false);
   const node = (b) => (b instanceof Node ? b : h("p", null, b));
 
@@ -515,9 +539,15 @@ export function skeleton(n = 3) {
  */
 export function englishOnlyNotice() {
   if (String(i18nLocale()).toLowerCase().startsWith("en")) return null;
-  return callout("info", t("content.title"),
+  const n = callout("info", t("content.title"),
     h("p", null, t("content.body")),
     h("p", null, t("content.lines")));
+  /* The view root is marked lang="en" under a non-English interface (app.js
+     route()) because the clinical body IS English; this notice is the one
+     translated thing inside it, so it carries the interface locale back down
+     or a Spanish synthesiser reads Spanish with English rules. */
+  n.setAttribute?.("lang", String(i18nLocale()));
+  return n;
 }
 
 /**

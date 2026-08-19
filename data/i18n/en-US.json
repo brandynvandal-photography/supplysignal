@@ -97,7 +97,9 @@
     "everywhereSeeAll": "See all {count}",
     "everywhereNoneTitle": "Nothing published anywhere in the last {window}",
     "everywhereNoneBody": "That says what has been published, not what is going around. Most changes in a local drug supply are never announced by anyone, and the reporting that does happen runs weeks behind. A quiet list means nobody has said anything — not that nothing is happening.",
-    "everywhereNoneScanned": "We have looked at {count} counties recently, out of 3,231. Most of the country has not been looked at at all."
+    "everywhereNoneScanned": "We have looked at {count} counties recently, out of 3,231. Most of the country has not been looked at at all.",
+    "dataUpdated": "alerts data updated {date}",
+    "refresh": "Refresh"
   },
   "severity": {
     "critical": "Critical",

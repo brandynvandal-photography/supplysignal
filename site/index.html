@@ -203,6 +203,7 @@
        tab order is unchanged: brand, search, theme, exit, then the tabs. -->
   <button class="iconbtn" id="exit" aria-label="Quick exit — leave this site now and clear local traces"
           title="Quick exit">
+    <!-- The character is the no-JS fallback; app.js draws the X (see .nav). -->
     <span aria-hidden="true">✕</span>
   </button>
 
@@ -223,7 +224,14 @@
 
          SOS stays last. It is the one tab that is found by position under
          pressure, and moving it would cost somebody seconds they do not
-         have. -->
+         have.
+
+         THE GLYPH CHARACTERS ARE THE NO-JS FALLBACK. app.js replaces each
+         .ico's character with the same shape drawn as inline SVG (icon() in
+         app.js) the moment it runs, because a character is rendered by
+         whatever font the platform falls back to and the bar looked
+         different on iOS, Android and Windows. Keep the characters: they are
+         what shows if the script never arrives. -->
     <a href="/learn"      data-tab="learn"><span class="ico" aria-hidden="true">◇</span>Learn</a>
     <a href="/drugs"      data-tab="substances"><span class="ico" aria-hidden="true">◐</span>Drugs</a>
     <a href="/test"       data-tab="test"><span class="ico" aria-hidden="true">◈</span>Test</a>
@@ -241,6 +249,11 @@
            role="combobox" aria-expanded="false" aria-controls="searchresults"
            aria-label="Search Nightlight"
            placeholder="A drug, its street name, or a question">
+    <!-- The starting-points label, a SIBLING of the listbox: a <p> inside a
+         role=listbox is a child that is not an option, which screen readers
+         count as an item or drop. app.js fills it and shows it only while the
+         starting points are what is listed. -->
+    <p id="searchhead" class="sresult__head" hidden></p>
     <div id="searchresults" class="searchresults" role="listbox" aria-label="Results"></div>
     <!-- A SIBLING of the listbox, not a child: clear(results) wipes children on
          every keystroke, so a status message living inside it could never be

@@ -166,22 +166,56 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const mix = (c1, c2, t) =>
   `rgb(${Math.round(lerp(c1[0], c2[0], t))},${Math.round(lerp(c1[1], c2[1], t))},${Math.round(lerp(c1[2], c2[2], t))})`;
 
-/* Warm neutrals to match the rest of the app. Colour is the only visual
-   encoding now that height is gone, so the tooltip and the ranked list below
-   carry the actual numbers - nothing here depends on colour alone. */
-const FLAT = [214, 204, 190];
-const UP = [179, 48, 28];
-const DOWN = [42, 107, 69];
-const SEQ_LO = [238, 230, 218];
-const SEQ_HI = [45, 106, 95];
+/* THE PALETTE COMES FROM THE STYLESHEET. These were five RGB constants and a
+   handful of literal strokes written here, which made the map the one surface
+   in the app that did not know which theme it was on: warm light neutrals on
+   a dark card, a white pin halo over a charcoal page. app.css declares a
+   --map-* token per colour, once per theme (see the --l-map-* block), and this
+   reads them with getComputedStyle at mount and again whenever the theme
+   changes. The five the shading interpolates between are "r g b" triplets so
+   they can be lerped; the rest are whole colours the canvas takes as-is.
+
+   The fallbacks are the old light constants, so a stylesheet that has not
+   loaded yet - or a test shim with no computed style - paints what it always
+   did rather than nothing. Colour is still the only visual encoding now that
+   height is gone, so the tooltip and the ranked list below carry the actual
+   numbers - nothing here depends on colour alone. */
+const FALLBACK = {
+  flat: [214, 204, 190], up: [179, 48, 28], down: [42, 107, 69],
+  seqLo: [238, 230, 218], seqHi: [45, 106, 95],
+  none: "rgba(160,148,132,.34)", line: "rgba(90,78,64,.22)",
+  halo: "rgba(255,255,255,.95)", hover: "rgba(60,50,40,.55)",
+  pin: "#2d6a5f", pinInk: "#ffffff",
+};
+let pal = FALLBACK;
+
+function readPalette() {
+  let cs = null;
+  try { cs = globalThis.getComputedStyle?.(document.documentElement); } catch { cs = null; }
+  if (!cs?.getPropertyValue) return FALLBACK;
+  const raw = (name) => String(cs.getPropertyValue(name) || "").trim();
+  const trip = (name, fb) => {
+    const m = raw(name).match(/^(\d+)\s+(\d+)\s+(\d+)$/);
+    return m ? [+m[1], +m[2], +m[3]] : fb;
+  };
+  const col = (name, fb) => raw(name) || fb;
+  return {
+    flat: trip("--map-flat", FALLBACK.flat), up: trip("--map-up", FALLBACK.up),
+    down: trip("--map-down", FALLBACK.down), seqLo: trip("--map-seq-lo", FALLBACK.seqLo),
+    seqHi: trip("--map-seq-hi", FALLBACK.seqHi),
+    none: col("--map-none", FALLBACK.none), line: col("--map-line", FALLBACK.line),
+    halo: col("--map-halo", FALLBACK.halo), hover: col("--map-hover", FALLBACK.hover),
+    pin: col("--map-pin", FALLBACK.pin), pinInk: col("--map-pin-ink", FALLBACK.pinInk),
+  };
+}
 
 function colorFor(v, scale, diverging) {
-  if (v == null) return "rgba(160,148,132,.34)";
+  if (v == null) return pal.none;
   if (diverging) {
     const t = Math.min(1, Math.abs(v) / scale);
-    return mix(FLAT, v >= 0 ? UP : DOWN, 0.18 + t * 0.82);
+    return mix(pal.flat, v >= 0 ? pal.up : pal.down, 0.18 + t * 0.82);
   }
-  return mix(SEQ_LO, SEQ_HI, Math.min(1, v / scale));
+  return mix(pal.seqLo, pal.seqHi, Math.min(1, v / scale));
 }
 
 /* ------------------------------------------------------------------ view */
@@ -253,6 +287,7 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
 
   const mesh = await buildMesh();
   const ctx2d = canvas.getContext("2d", { alpha: true });
+  pal = readPalette();
 
   /* Offscreen base layer.
    *
@@ -270,6 +305,29 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   const MARGIN = 0.32;                 // extra buffer beyond the viewport
   let baseState = null;                // {zoom, panX, panY, w, h, metric}
 
+  /* THE THEME CAN CHANGE UNDER A LIVE MAP - the toggle in the header, or the
+     OS flipping at dusk while this tab is open - and the base buffer was
+     painted in the old palette. Re-read the tokens, throw the buffer away
+     (baseState null forces renderBase on the next draw), and repaint the
+     legend, whose swatches are the same colours in DOM. Two sources, because
+     the toggle writes data-theme on <html> and the OS change fires nowhere
+     but matchMedia. Guarded for the test shim, which has neither. */
+  const onTheme = () => {
+    pal = readPalette();
+    baseState = null;
+    renderLegend(METRICS[state.metric]);
+    draw();
+  };
+  let themeObs = null;
+  try {
+    themeObs = new MutationObserver(onTheme);
+    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  } catch { themeObs = null; }
+  let themeMq = null;
+  try {
+    themeMq = window.matchMedia?.("(prefers-color-scheme: dark)") || null;
+    themeMq?.addEventListener?.("change", onTheme);
+  } catch { themeMq = null; }
 
   let values = new Map();
   let scale = 1;
@@ -365,7 +423,7 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
       c.fill();
 
       {
-        c.strokeStyle = "rgba(90,78,64,.22)";
+        c.strokeStyle = pal.line;
         c.lineWidth = hairline;
         c.stroke();
       }
@@ -430,10 +488,10 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
 
     tracePath(ctx2d, co, unit, ox, oy);
     ctx2d.save();
-    ctx2d.strokeStyle = "rgba(255,255,255,.95)";
+    ctx2d.strokeStyle = pal.halo;
     ctx2d.lineWidth = dpr * 3.5;
     ctx2d.stroke();
-    ctx2d.strokeStyle = "#2d6a5f";
+    ctx2d.strokeStyle = pal.pin;
     ctx2d.lineWidth = dpr * 2;
     ctx2d.stroke();
 
@@ -452,16 +510,16 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
        down. A square badge says the same thing. */
     if (ctx2d.roundRect) ctx2d.roundRect(bx, by, w, hgt, dpr * 13);
     else ctx2d.rect(bx, by, w, hgt);
-    ctx2d.fillStyle = "#2d6a5f";
+    ctx2d.fillStyle = pal.pin;
     ctx2d.fill();
     ctx2d.beginPath();                       // stem down to the county
     ctx2d.moveTo(cx, by + hgt);
     ctx2d.lineTo(cx, cy - dpr * 4);
-    ctx2d.strokeStyle = "#2d6a5f";
+    ctx2d.strokeStyle = pal.pin;
     ctx2d.lineWidth = dpr * 2;
     ctx2d.stroke();
 
-    ctx2d.fillStyle = "#ffffff";
+    ctx2d.fillStyle = pal.pinInk;
     ctx2d.textAlign = "center";
     ctx2d.textBaseline = "middle";
     ctx2d.fillText(label, cx, by + hgt / 2 + dpr * 0.5);
@@ -513,10 +571,10 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
       if (co) {
         const { unit, ox, oy } = transform(W, H, dpr);
         tracePath(ctx2d, co, unit, ox, oy);
-        ctx2d.strokeStyle = "rgba(255,255,255,.95)";
+        ctx2d.strokeStyle = pal.halo;
         ctx2d.lineWidth = dpr * 2;
         ctx2d.stroke();
-        ctx2d.strokeStyle = "rgba(60,50,40,.55)";
+        ctx2d.strokeStyle = pal.hover;
         ctx2d.lineWidth = dpr * 0.8;
         ctx2d.stroke();
       }
@@ -930,5 +988,9 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   /* Teardown. The settle timer is cleared too: it re-arms itself up to forty
      times, and a map torn down while it was still polling kept measuring and
      repainting a canvas nobody could see. */
-  return () => { ro.disconnect(); cancelAnimationFrame(rafId); clearTimeout(settleTimer); };
+  return () => {
+    ro.disconnect(); cancelAnimationFrame(rafId); clearTimeout(settleTimer);
+    themeObs?.disconnect();
+    try { themeMq?.removeEventListener?.("change", onTheme); } catch {}
+  };
 }

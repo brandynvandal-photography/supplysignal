@@ -13,13 +13,14 @@
 
 import {
   h, frag, clear, section, callout, badge, extLink, empty, disclosure, jumpNav,
-  group, sourceSink,
+  group, sourceSink, SEV_GLYPH,
 } from "../ui.js";
 import * as data from "../data.js";
 import { match as reagentMatch, checkSoldAs } from "../reagentmatch.js";
 import { flowFor, walk, completedBy, offChart, guide } from "../flowcheck.js";
 import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
 import { findSubstances, synthesize } from "../substancematch.js";
+import { liveRegion, dropRow, slotLabel, removeButton, relabelRows } from "../slots.js";
 
 /* ------------------------------------------------------------ session state
  *
@@ -702,6 +703,14 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
   const COLORS = ["yellow", "orange", "peach", "red", "pink", "magenta",
                   "purple", "blue", "green", "olive", "brown", "gray", "black"];
   const MAX = REAGENTS.length;
+  /* What each verdict mark MEANS, for the screen reader. The ✓ ✗ · – marks are
+     aria-hidden (they are the glyph half of a glyph-plus-colour signal), so
+     without this the line read as a colour and a chart reference with no
+     verdict. "unknown" is left to the sentence itself, which already says
+     nothing is published. */
+  const SR_VERDICT = {
+    agrees: "Matches. ", disagrees: "Does not match. ", pending: "Not run. ", unknown: "",
+  };
 
   /* SAME SHAPE AS THE COMBINATION CHECKER, deliberately.
    *
@@ -722,34 +731,10 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
      from the top. The results render here in silence and the one-line region
      beneath says what changed. */
   const out = h("div", { class: "revout" });
-  /* ONE SENTENCE PER CHANGE, verdict first. Atomic, so it is read whole rather
-     than as a diff, and off-screen, so the visible screen is unchanged. Node
-     replacement rather than textContent, so an identical sentence still counts
-     as a change to the region and is announced again - the same reading
-     entered a second time is still an answer. */
-  const live = h("p", { class: "sr-only", role: "status", "aria-live": "polite", "aria-atomic": "true" });
-  const announce = (parts) => {
-    const text = parts.filter(Boolean).join(" ");
-    clear(live);
-    if (text) live.appendChild(document.createTextNode(text));
-  };
-  /* Take a row out without stranding focus. The × sits inside the row it
-     removes, so removing it dropped keyboard focus to <body> and the next Tab
-     started from the top of the document. Focus goes to the row that takes
-     its place, else the one before it, else the add button - and only when it
-     was inside the row, so a mouse user's focus is left alone. syncUnknown()
-     can also drop a row the reader is standing in (changing an unanswered
-     row's reagent to one the chart no longer asks for), so both paths use
-     this. */
-  const dropRow = (row) => {
-    const active = document.activeElement;
-    if (active && row.contains?.(active)) {
-      const near = row.nextElementSibling || row.previousElementSibling;
-      const target = near?.querySelector?.("select, button") || addBtn;
-      target?.focus?.({ preventScroll: true });
-    }
-    row.remove();
-  };
+  /* ONE SENTENCE PER CHANGE, verdict first - the shared region in slots.js,
+     which is also the combination checker's. Off-screen, atomic, re-announced
+     even when the sentence repeats. */
+  const { el: live, announce } = liveRegion();
 
   /* The reagent table carries a handful of ids that have no substance record —
      they come straight from PsychonautWiki's colour data and were never given a
@@ -839,7 +824,9 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
      soldAs.value and listens for its change event, so this select stays the
      source of truth; the chips and the alias search below are two faster ways
      to set it, not a replacement for it. */
-  const soldAs = h("select", { class: "input", "aria-label": "Which substance to test for" },
+  /* No aria-label: the select sits inside the visible "Substance" label at
+     the foot of this function, and that is its name. */
+  const soldAs = h("select", { class: "input" },
     h("option", { value: "" }, "Not sure or groundscore"),
     common.length
       ? h("optgroup", { label: "Commonly checked" },
@@ -950,7 +937,13 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
        because code elsewhere depends on it: REAGENTS[0] is the default first
        row and REAGENTS.find picks the next unused one. Only the rendering is
        sorted. */
-    const reagent = h("select", { class: "input", "aria-label": `Reagent ${i + 1}` },
+    /* NO aria-label. Each select sits inside a <label> that a sighted reader
+       sees - "I used", "it went" - and an aria-label on top of it REPLACED
+       that name for a screen reader, so the spoken name ("Reagent 1") and the
+       visible one never matched (WCAG 2.5.3). The number a reader needs to
+       tell two rows apart goes into the label instead, off-screen, and
+       relabel() keeps it right as rows come and go. */
+    const reagent = h("select", { class: "input" },
       [...REAGENTS]
         .sort((a, b) => reagentName(a).localeCompare(reagentName(b)))
         .map((r) =>
@@ -959,7 +952,7 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
        table — but a dropdown full of lowercase words next to "Marquis" and
        "Simon's" read as unfinished text rather than as choices. */
     const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-    const result = h("select", { class: "input", "aria-label": `What reagent ${i + 1} did` },
+    const result = h("select", { class: "input" },
       h("option", { value: "" }, "Choose…"),
       /* Pinned above the colours, not sorted into them. It is not a colour, and
          it is the single most common answer — a reagent that does nothing is
@@ -981,7 +974,8 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
     reagent.addEventListener("change", () => { syncHow(); check(); });
     result.addEventListener("change", check);
 
-    /* THE COMBINATION CHECKER'S ROW, twice.
+    /* THE COMBINATION CHECKER'S ROW, twice - slotLabel() in slots.js, which
+     * both tools build from.
      *
      * Its slot is a label carrying a word and a field: "I took [Opioids]".
      * A reagent takes two answers rather than one, so it gets two of those
@@ -991,14 +985,9 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
      * They were side by side with the word "went" between them, which is not
      * the same control: two bare fields on a line, no label, and at 393px both
      * of them too narrow to show "no reaction". */
-    const pair = (word, sel) =>
-      h("div", { class: "mixslot" },
-        h("label", { class: "pick__row" },
-          h("span", { class: "mixlabel" }, word),
-          h("span", { class: "pick__field" }, sel)));
-
     /* The × is a sibling of both halves, not a child of either, so it can
        centre beside the pair and take the same width off both rows. */
+    const pair = (word, sel) => h("div", { class: "mixslot" }, slotLabel(word, sel, i + 1, "reagent"));
     const row = h("div", { class: "revslot" },
       pair(i === 0 ? "I used" : "and", reagent),
       pair("it went", result),
@@ -1007,35 +996,38 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
          because a combination of one is not a combination; one reagent is a
          real question with a real answer, so the floor here is one. */
       i > 0
-        ? h("button", {
-            type: "button", class: "iconbtn mixslot__x",
-            "aria-label": `Remove reagent ${i + 1}`,
-            onClick: () => {
-              const at = slots.findIndex((x) => x.reagent === reagent);
-              if (at > -1) slots.splice(at, 1);
-              /* The label the row wore when it was pressed, for the region -
-                 relabel() below renumbers what is left. */
-              const was = at > -1 ? at + 1 : i + 1;
-              dropRow(row);
-              relabel();
-              addBtn.disabled = slots.length >= MAX;
-              check(`Reagent ${was} removed.`);
-            },
-          }, "×")
+        ? removeButton(`Remove reagent ${i + 1}`, () => {
+            const at = slots.findIndex((x) => x.reagent === reagent);
+            if (at > -1) slots.splice(at, 1);
+            /* The label the row wore when it was pressed, for the region -
+               relabel() below renumbers what is left. */
+            const was = at > -1 ? at + 1 : i + 1;
+            dropRow(row, addBtn);
+            relabel();
+            check(`Reagent ${was} removed.`);
+          })
         : null);
 
     slots.push({ reagent, result });
     rows.appendChild(row);
-    addBtn.disabled = slots.length >= MAX;
+    /* After every add, not only after a removal: a row added once another
+       has gone takes its number from its position, not from the count at the
+       moment it was built. */
+    relabel();
   }
 
   /* Removing the first reagent would otherwise leave the list starting on
      "and", the same way the combination checker's would. */
+  /* relabelRows re-words EVERY .mixlabel__word in a row, and a reagent row
+     has two - "I used"/"and" on the first and "it went" on the second. The
+     second is restored after, so the shared helper stays the simple thing it
+     is for the checker and the tracker's second line keeps its own word. */
   function relabel() {
-    [...rows.children].forEach((row, i) => {
-      const lab = row.querySelector(".mixlabel");
-      if (lab) lab.textContent = i === 0 ? "I used" : "and";
-    });
+    relabelRows(rows, "I used", "and", "reagent");
+    for (const row of rows.children) {
+      const words = row.querySelectorAll?.(".mixlabel__word") || [];
+      if (words[1]) words[1].textContent = "it went";
+    }
     addBtn.disabled = slots.length >= MAX;
   }
 
@@ -1136,7 +1128,7 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
       const at = slots.indexOf(s);
       if (at > -1) slots.splice(at, 1);
       const row = rows.children[at];
-      if (row) dropRow(row);
+      if (row) dropRow(row, addBtn);
     }
     const have = new Set(slots.map((s) => s.reagent.value));
     for (const r of led?.next || []) if (!have.has(r)) addSlot(r);
@@ -1332,7 +1324,7 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
                       label: `Consistent with ${like}` },
         ontrack:    { card: "advisory", badge: "neutral",  glyph: "›",
                       label: `So far, ${name}-like` },
-        unexpected: { card: "elevated", badge: "elevated", glyph: "▲",
+        unexpected: { card: "elevated", badge: "elevated", glyph: SEV_GLYPH.elevated,
                       label: `Unexpected for ${name}` },
       }[run.status];
 
@@ -1340,6 +1332,11 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
     const line = (s) =>
       h("li", { class: `soldline soldline--${s.verdict}` },
         h("span", { class: "soldline__mark", "aria-hidden": "true" }, mark[s.verdict]),
+        /* The mark is aria-hidden and its colour is the verdict, so a screen
+           reader heard "Marquis went black - the chart expects black" with no
+           word for whether that is the answer or the problem. Said off-screen,
+           before the reading; the visible line is unchanged. */
+        h("span", { class: "sr-only" }, SR_VERDICT[s.verdict]),
         h("span", null,
           s.verdict === "pending"
             ? h("span", null, `${reagentName(s.reagent)} — not run yet. `,
@@ -1557,7 +1554,7 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
       const look = {
         expected:   { card: "advisory", badge: "ok",       glyph: "✓",
                       label: `Consistent with ${aLike(sold.id)}` },
-        unexpected: { card: "elevated", badge: "elevated", glyph: "▲",
+        unexpected: { card: "elevated", badge: "elevated", glyph: SEV_GLYPH.elevated,
                       label: `Unexpected for ${name}` },
         partial:    { card: "advisory", badge: "neutral",  glyph: "?",
                       label: `No published answer` },
@@ -1572,6 +1569,8 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
         const mark = { agrees: "✓", disagrees: "✗", unknown: "–" }[d.verdict];
         return h("li", { class: `soldline soldline--${d.verdict}` },
           h("span", { class: "soldline__mark", "aria-hidden": "true" }, mark),
+          /* See SR_VERDICT: the mark carries the answer to the eye only. */
+          h("span", { class: "sr-only" }, SR_VERDICT[d.verdict]),
           h("span", null,
             `${reagentName(d.reagent)} went `,
             h("strong", null, d.observed === "none" ? "nothing" : d.observed),
@@ -1949,7 +1948,10 @@ function stripCard(s, g) {
 
   return h("details", { class: "acc" },
     h("summary", null,
-      h("span", null, s.name),
+      /* An h3, not a span: the card's name is a heading in the page's outline
+         and a screen reader's heading list reaches it. app.css resets it to
+         the summary's own type so nothing visible changes. */
+      h("h3", null, s.name),
       critical.length ? badge(`${critical.length} major limit${critical.length > 1 ? "s" : ""}`, "critical") : null),
     h("div", { class: "acc__body" },
       h("p", null, h("strong", null, "Detects: "), s.detects),
@@ -1974,7 +1976,13 @@ function stripCard(s, g) {
       h("h4", null, "Limits"),
       (s.limits || []).map((l) =>
         h("div", { class: `limit ${l.severity === "critical" ? "limit--critical" : ""}` },
-          h("h5", null, l.severity === "critical" ? h("span", { "aria-hidden": "true" }, "▲ ") : null, l.title),
+          /* "Major limit:" is said, not only glyphed and coloured - the ▲ is
+             aria-hidden and the red is a border, so a screen reader heard a
+             critical limit as any other h5. Off-screen, inside the heading. */
+          h("h5", null,
+            l.severity === "critical" ? h("span", { "aria-hidden": "true" }, `${SEV_GLYPH.critical} `) : null,
+            l.severity === "critical" ? h("span", { class: "sr-only" }, "Major limit: ") : null,
+            l.title),
           h("p", null, l.body),
           l.nuance ? h("p", { class: "limit__nuance" }, l.nuance) : null)),
 
@@ -2026,7 +2034,7 @@ const KNOWN_COLORS = new Set([
 function reagentCard(r) {
   return h("details", { class: `acc ${r.criticalCaveat ? "acc--flag" : ""}` },
     h("summary", null,
-      h("span", null, r.name),
+      h("h3", null, r.name),                    // see stripCard
       r.twoPart ? badge("two-part", "neutral") : null,
       r.criticalCaveat ? badge("read the caveat", "critical") : null),
     h("div", { class: "acc__body" },
@@ -2088,7 +2096,11 @@ function reagentCard(r) {
         ? frag(h("h4", null, "Watch out for"),
             r.caveats.map((c) =>
               h("div", { class: `limit ${r.criticalCaveat ? "limit--critical" : ""}` },
-                h("p", null, c))))
+                /* Same as the strip limits: the red rule says "major" to the
+                   eye, so it is said to the ear as well. */
+                h("p", null,
+                  r.criticalCaveat ? h("span", { class: "sr-only" }, "Major limit: ") : null,
+                  c))))
         : null));
 }
 
