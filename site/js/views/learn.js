@@ -40,6 +40,7 @@ export async function render(route, { go }) {
   }
 
   const consent = await consentBlock();
+  const harm = await harmBlock();
 
   wrap.appendChild(
     jumpNav([
@@ -54,6 +55,9 @@ export async function render(route, { go }) {
          that is not on the page is worse than no chip. */
       ...(consent ? [{ id: "sec-consent", label: "Consent" },
                      { id: "sec-repair", label: "After you hurt someone" }] : []),
+      ...(harm ? [{ id: "sec-accountable", label: "Staying accountable" },
+                  { id: "sec-abuse", label: "When someone close hurts you" },
+                  { id: "sec-named", label: "If someone says you hurt them" }] : []),
       { id: "sec-before", label: "Long nights and hot days" },
       { id: "sec-stimulants", label: "Staying up" },
       { id: "sec-sex", label: "Sexual health" },
@@ -121,6 +125,11 @@ export async function render(route, { go }) {
      to find a naloxone class should not be met by a section about hurting
      people; someone who came looking for this will use the jump chip. */
   if (consent) wrap.appendChild(consent);
+  /* Directly after consent and repair, because it continues them: repair
+     covers the first five minutes after you hurt someone; this is what comes
+     after that, and the two other seats - being hurt, and being the person
+     they told. */
+  if (harm) wrap.appendChild(harm);
 
   wrap.appendChild(
     /* Moved off the Sex page, where it sat under a heading about being out and
@@ -503,4 +512,64 @@ async function consentBlock() {
   }
 
   return section(c.headline, c.blurb, ...blocks);
+}
+
+/* HARM BETWEEN PEOPLE, from three seats.
+ *
+ * data/harm.json holds five sections that were researched, drafted and
+ * refuted as a unit: every item's text was written only from claims a
+ * researcher had read at source, and a second agent re-fetched each cited
+ * source and REMOVED anything it did not support. What a reader might want
+ * that no source covered was left out, and each section's notThis says so.
+ * The house rule applies with extra force here: do not edit prose in that
+ * file without re-reading the cited source.
+ *
+ * Rendered as five disclosures, all shut, in the order somebody is likely to
+ * need them: the accountability piece continues "After you hurt someone"
+ * directly above it; abuse comes next because it is the largest audience;
+ * then the three seats of a public allegation - accused, disclosing, and the
+ * friend or crew who was told - grouped under one heading so the app is
+ * visibly not taking a side. Everything uses consent's own idiom (.card,
+ * callout, .sources) so it reads as one section, not an annex. */
+async function harmBlock() {
+  const d = await data.harm();
+  if (!d) return null;
+
+  const src = (list) => (list?.length
+    ? h("div", { class: "sources" }, list.map((x) => extLink(x.url, x.name)))
+    : null);
+  const item = (it) => h("div", { class: "card" },
+    h("h4", null, it.t), h("p", null, it.d), src(it.sources));
+  const body = (sec) => frag(
+    sec.intro ? h("p", null, sec.intro) : null,
+    sec.callout
+      ? callout(sec.calloutKind || "warn", sec.callout.title, h("p", null, sec.callout.body))
+      : null,
+    ...(sec.groups || []).map((g) => frag(
+      h("h3", null, g.title),
+      ...(g.items || []).map(item))),
+    /* The stated absence, closing every section: what the sources did not
+       cover is named rather than left for a reader to discover as a gap. */
+    sec.notThis
+      ? callout("info", sec.notThis.title, h("p", null, sec.notThis.body))
+      : null,
+    src(sec.sources));
+
+  const blocks = [];
+  if (d.accountability) blocks.push(disclosure("sec-accountable", d.accountability.title, { open: false }, body(d.accountability)));
+  if (d.abuse)          blocks.push(disclosure("sec-abuse", d.abuse.title, { open: false }, body(d.abuse)));
+
+  /* One heading, three seats. The h3 sits outside the disclosures so the
+     grouping is visible while they are shut. */
+  const seats = [
+    ["sec-named", d.accused], ["sec-told", d.disclosing], ["sec-bystander", d.bystander],
+  ].filter(([, sec]) => sec);
+  if (seats.length) {
+    blocks.push(h("h3", { class: "sec__note mixsupp" }, "When someone is named"));
+    for (const [id, sec] of seats) blocks.push(disclosure(id, sec.title, { open: false }, body(sec)));
+  }
+
+  if (d.lastVerified) blocks.push(h("p", { class: "sec__note" }, `Checked ${d.lastVerified}.`));
+  if (!blocks.length) return null;
+  return section("Harm between people", null, ...blocks);
 }
