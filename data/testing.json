@@ -366,7 +366,7 @@
     }
   ],
   "reagentIntro": {
-    "cannotDetectFentanyl": "Fentanyl works in amounts far too small for a reagent to see. The main drug's own color covers up any trace. So the color you expect is not an all-clear, on a powder or a pill.",
+    "cannotDetectFentanyl": "Fentanyl works in amounts far too small for a reagent to see. Reagents react to the majority substance, not trace substances. Lab testing is what determines exactly what a substance is: FTIR for the bulk, GC-MS for traces like fentanyl.",
     "masking": [
       "Not every drug reacts with every reagent",
       "A darker color hides a lighter one",
