@@ -109,7 +109,7 @@ export async function render(route, ctx) {
        Each chip sits exactly where its section sits. */
     jumpNav([
       { id: "sec-strips", label: "Test strips" },
-      { id: "sec-whatisit", label: "What could this be?" },
+      { id: "sec-whatisit", label: "Conduct a reagent test" },
       { id: "sec-companion", label: "Whatever the test says" },
       { id: "sec-prevalence", label: "What's out there" },
       /* The GROUP, not the first section inside it. The chip is labelled
@@ -198,7 +198,7 @@ export async function render(route, ctx) {
          resolved to. The heading is the section's; the launcher below it is
          the same shape Learn uses to hand off to a page of its own. */
       h("div", { id: "sec-whatisit" },
-        section("What could this be?", null,
+        section("Conduct a reagent test", null,
           trackerLauncher()))
     ),
       (
@@ -266,7 +266,7 @@ export async function render(route, ctx) {
     ),
     ],
     /* The preview names what is inside, in the order it is inside. */
-    ["What could this be?", "Running a test", "Reagents"],
+    ["Conduct a reagent test", "Running a test", "Reagents"],
     {
       open: true,
       /* THE GROUP'S WARNINGS, not the first child's.
@@ -494,7 +494,7 @@ export async function render(route, ctx) {
           h("p", null, g.labs.intro),
           h("ul", null, g.labs.options.map((o) =>
             h("li", null, h("strong", null, o.name), " — ", o.detail))),
-          h("div", { class: "chips" },
+          h("div", { class: "chips chips--links" },
             g.labs.options.map((o) => extLink(o.url, o.name, "btn btn--ghost btn--sm"))),
           callout("warn", "DrugsData has stopped taking samples", h("p", null, g.labs.note))),
 
@@ -582,7 +582,7 @@ function reagentWarnings(g) {
    says. */
 function trackerLauncher() {
   return h("a", { class: "bigptr", href: TRACKER },
-    h("span", { class: "bigptr__hd" }, "What could this be?"),
+    h("span", { class: "bigptr__hd" }, "Conduct a reagent test"),
     h("span", { class: "bigptr__sub" }, TRACKER_INTRO));
 }
 
@@ -623,7 +623,7 @@ function trackerView(startId, g, { REAGENT_TABLE, SUBS, FLOWS, go }) {
 
   /* The h1 is what focusView() lands on after any navigation here, so the
      heading a screen reader hears is the tool's own name. */
-  wrap.appendChild(h("h1", null, "What could this be?"));
+  wrap.appendChild(h("h1", null, "Conduct a reagent test"));
 
   wrap.appendChild(reagentWarnings(g));
 

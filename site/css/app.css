@@ -1034,6 +1034,11 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    note under "Read more" was touching the button row. This is the same shape
    wherever it appears, so it is fixed here rather than at the one call site. */
 .chips + .sec__note, .chips + p { margin-top: 10px; }
+/* A callout after a button row was not in that list, so the "DrugsData has
+   stopped taking samples" fold sat flush against the lab links above it
+   (reported 2026-08-19). Callouts are div or details but always .callout,
+   so one selector covers both shapes. */
+.chips + .callout { margin-top: 12px; }
 /* Rows of small link-buttons (Support's programs and locators, About's
    organisations) reuse .chips for wrapping and inherited a gap sized for
    chip pills. Buttons are taller and read as separate controls, and at 7px
