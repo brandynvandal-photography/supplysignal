@@ -1241,9 +1241,11 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
      resize. The constant --nav-h is 64 and the bar actually renders about 71 —
      the links carry their own padding and the bar a top border — so anchoring
      to the token left a seven-pixel overlap, which is precisely the kind of
-     number this file keeps getting wrong by guessing. The calc() stays as the
-     fallback for the moment before the measurement lands. */
-  bottom: var(--nav-real, calc(var(--nav-h) + env(safe-area-inset-bottom)));
+     number this file keeps getting wrong by guessing. The calc() is the
+     floor rather than the fallback: the inset in it is live (iOS Safari grows
+     it as its own bar minimises) while the measurement can lag a frame, so
+     the larger of the two is what the panel stops at - see .totop. */
+  bottom: max(var(--nav-real, 0px), calc(var(--nav-h) + env(safe-area-inset-bottom, 0px)));
   display: flex; flex-direction: column;
   overflow: hidden;                  /* the list scrolls, never the panel */
   border-bottom: 0;
@@ -3957,15 +3959,27 @@ details.disc .groupkids > details.disc > summary h2 {
    rather than announcing itself: it is an exit, not an action.
 
    ON THE PHONE it is bottom-LEFT, lifted above the tab bar by the bar's
-   measured height plus 12px, so it clears the bar and never sits under the
-   pinned Quick Exit pill at the top right. --nav-real is set by app.js on
-   load and resize; the fallback covers the first paint before it is measured.
+   measured height plus one --sp-3, so it clears the bar and never sits under
+   the pinned Quick Exit pill at the top right. --nav-real is the bar's live
+   border-box height, kept current by a ResizeObserver in app.js.
+
+   max() OF THE MEASUREMENT AND A LIVE FLOOR. The bar's padding-bottom is
+   env(safe-area-inset-bottom), and in iOS Safari that inset grows as the
+   browser's bottom bar minimises on scroll - so any measurement can be a
+   frame stale, and on iOS < 15.4 the observer cannot see padding at all.
+   The second operand recomputes the bar from the token and the SAME env()
+   the bar uses, so it tracks the inset with no JS in the loop; it under-
+   counts the bar's real height by the links' own padding (64 vs ~71), which
+   is why it is the floor and not the value. Whichever is larger wins, and
+   the button sits in the bar under neither. Reported 2026-08-19: the button
+   overlapped the bar on iOS - the old 12px clearance minus a stale inset.
    On a wide screen the tab bar is in the header, not at the foot, so the
    button takes the ordinary bottom-right corner instead (below). */
 .totop {
   position: fixed; z-index: 35;
   left: var(--sp-3); right: auto;
-  bottom: calc(var(--nav-real, calc(var(--nav-h) + env(safe-area-inset-bottom))) + 12px);
+  bottom: max(calc(var(--nav-real, 0px) + var(--sp-3)),
+              calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + var(--sp-3)));
   width: 46px; height: 46px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.15rem; line-height: 1; cursor: pointer;

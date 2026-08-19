@@ -1302,10 +1302,20 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
   /* The tab bar's REAL height, published to CSS.
    *
    * --nav-h is 64 and the bar renders about 71: the links carry padding and
-   * the bar a top border. The open search panel anchors its bottom edge to
-   * the bar, and anchoring to the token left the last result seven pixels
-   * under it. Measuring removes the guess, and re-measuring on resize keeps
-   * it right when the safe-area inset changes with orientation. */
+   * the bar a top border. The open search panel and the back-to-top button
+   * both anchor to the bar's top edge, and anchoring to the token left the
+   * last result seven pixels under it. Measuring removes the guess.
+   *
+   * MEASURED LIVE, not once. The bar's height is not a constant even on one
+   * device: its bottom padding is env(safe-area-inset-bottom), and in iOS
+   * Safari that inset GROWS as the browser's own bottom bar minimises on
+   * scroll - the tab bar gets some 50px taller after the page has loaded.
+   * A load-time number plus a resize listener left --nav-real short by the
+   * difference, and the back-to-top button (bottom = bar + clearance) ended
+   * up sitting in the bar. A ResizeObserver on the BORDER box reports every
+   * change to the bar's outer size, padding included (content-box, the
+   * default, would miss the inset entirely). resize/orientationchange stay
+   * as the fallback for WebKit before the `box` option (iOS < 15.4). */
   const navEl = document.querySelector(".nav");
   if (navEl) {
     const measureNav = () => {
@@ -1313,6 +1323,9 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
       if (px > 0) document.documentElement.style.setProperty("--nav-real", `${px}px`);
     };
     measureNav();
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(measureNav).observe(navEl, { box: "border-box" });
+    }
     window.addEventListener("resize", measureNav);
     window.addEventListener("orientationchange", measureNav);
   }
