@@ -41,11 +41,11 @@
     }
   ],
   "coverage": {
-    "lastScan": "2026-08-19T07:12:14.563Z",
+    "lastScan": "2026-08-19T09:54:11.233Z",
     "windowDays": 365,
     "sourcesChecked": 33,
     "sourcesFailed": [
-      "ks-kdhe",
+      "cdc-newsroom",
       "la-ldh",
       "cook-me",
       "santaclara-me",

@@ -4,10 +4,11 @@
   "state": "ND",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-17T07:23:50.080Z",
+    "lastScan": "2026-08-19T09:54:11.275Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
+      "cdc-newsroom",
       "la-ldh",
       "cook-me",
       "santaclara-me",
