@@ -110,3 +110,20 @@ the ASC web UI.
 - Nothing is packaged that was not shipped (trace gate).
 - The bot's data is never overwritten by a deploy, in either environment.
 - Staging is never indexed.
+
+## The offline policy, decided once (2026-08-19)
+
+**Cold open needs network. That is a privacy requirement, not an accident.**
+
+The app wipes Cache Storage at every boot (app.js boot sweep) so a phone that
+is seized or shared after a force-quit does not carry a readable copy of what
+was looked at — PRIVACY.md §4 names the threat. The cost is that the offline
+cache never survives a session. Within a session, caching works and Emergency
+is warmed into the cache on open, which is the part that matters at 3am.
+
+Consequences for the pipeline: `no-cache` on entry points and the boot sweep
+stay; the content-hashed assets (B4) are cached `immutable` within a session
+and re-fetched cold, by design. The one reader-facing line that implied
+cross-session offline ("works offline once loaded", About) was corrected to
+state the real policy. Do not "fix" the cold-open network need without
+re-opening PRIVACY.md §4.

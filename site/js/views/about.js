@@ -41,9 +41,18 @@ export async function render(route, { go }) {
         "A free, open reference that collects what public sources have already " +
         "published about the drug supply in each US county — and puts the harm " +
         "reduction basics next to it."),
+      /* "Works offline once loaded" was true only within a session and read
+         as a promise across them. The app clears its own cache at every boot
+         on purpose - a seized or shared phone must not carry a readable copy
+         of what was looked at (PRIVACY.md section 4) - so a cold open needs a
+         connection. That is the right trade and it is stated here instead of
+         implied away. The overdose steps on Emergency are warmed into the
+         cache the moment the app is open, which is the part that matters. */
       h("p", null,
-        "No account, no tracking, no ads, nothing to buy. It works offline once " +
-        "loaded."))
+        "No account, no tracking, no ads, nothing to buy. While it is open it " +
+        "keeps working without signal, Emergency included. It clears its own " +
+        "cache every time it starts, on purpose, so a phone that is taken or " +
+        "shared does not carry a copy of what you looked at."))
   );
 
 

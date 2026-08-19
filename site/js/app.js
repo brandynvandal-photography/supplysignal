@@ -1388,20 +1388,44 @@ function reveal(anchor, label, wantRoute) {
      callout's h3 for screen readers - and every one of those callout titles
      is in search.json, so matching on textContent silently stopped resolving
      the very results that carry the most severe content. */
+  /* Skips sr-only AND aria-hidden children. The second was missing, and a
+     critical strip limit renders "▲ " in an aria-hidden span before its
+     title - so the visible text never equalled the indexed title and the
+     result landed nowhere. The index is built from the words; the match has
+     to read the words. */
   const visibleText = (n) => {
     let s = "";
     for (const c of n.childNodes) {
       if (c.nodeType === 3) s += c.textContent;
-      else if (c.nodeType === 1 && !c.classList.contains("sr-only")) s += visibleText(c);
+      else if (c.nodeType === 1
+        && !c.classList.contains("sr-only")
+        && c.getAttribute("aria-hidden") !== "true") s += visibleText(c);
     }
     return s;
   };
 
+  /* THE HEADINGS OF RECORD ARE NOT ONLY h1-h4.
+     A test that rendered every route and tried to land every search result
+     found 149 of 591 went nowhere - a quarter of search. None had a bad
+     anchor; they were all real headings in tags this list did not include:
+     strip limits are h5, hotline names are .lbl inside a link, list items
+     carry their name in h4 on a card. The index builder was right; the
+     resolver was narrower than the app. Widened to what the app actually
+     renders as a title, and test/views.test.mjs now mirrors this list so the
+     two cannot drift apart again. */
+  const HEADINGS = "#view h1, #view h2, #view h3, #view h4, #view h5, #view summary, #view .lbl";
   const findByText = () => {
-    const nodes = document.querySelectorAll(
-      "#view h1, #view h2, #view h3, #view h4, #view summary");
+    const nodes = document.querySelectorAll(HEADINGS);
     for (const n of nodes) {
       if (visibleText(n).trim().toLowerCase() === want) return n;
+      /* A summary that carries a count badge after its title - every
+         Communities group does: "Survivors of abuse and violence" + "14" -
+         never equals the indexed title as a whole. Its first span is the
+         title; match that too. */
+      if (n.tagName === "SUMMARY") {
+        const first = n.querySelector(":scope > span");
+        if (first && visibleText(first).trim().toLowerCase() === want) return n;
+      }
     }
     return null;
   };
@@ -1413,8 +1437,8 @@ function reveal(anchor, label, wantRoute) {
      opens with instead of at its title. Always end on the heading itself. */
   const toHeading = (el) => {
     if (!el) return null;
-    if (/^H[1-4]$/.test(el.tagName) || el.tagName === "SUMMARY") return el;
-    return el.querySelector("h1, h2, h3, h4, summary") || el;
+    if (/^H[1-5]$/.test(el.tagName) || el.tagName === "SUMMARY" || el.classList.contains("lbl")) return el;
+    return el.querySelector("h1, h2, h3, h4, h5, summary, .lbl") || el;
   };
 
   const tick = () => {
