@@ -1194,6 +1194,20 @@ function comedownFor(doc, s) {
       h("span", { class: "reagrow__words" },
         colors.map((c, i) => frag(i ? ", then " : null, c))));
 
+    /* One reading, however it is published: colors, a settling sequence, no
+       reaction, or - the case that was silently dropped - no reaction OR
+       colors, joined by "or" exactly as the tracker's own copy phrases it. */
+    const reading = (x) => {
+      const colored = (x.colors || []).length
+        ? frag(seq(x.colors),
+            x.to ? h("span", { class: "reag__settles" }, "settling to") : null,
+            x.to ? seq(x.to) : null)
+        : null;
+      const none = h("span", { class: "reag__none" }, "No reaction expected");
+      if (x.none && colored) return frag(none, h("span", { class: "reag__settles" }, "or"), colored);
+      return x.none ? none : (colored || h("span", { class: "reag__none" }, "—"));
+    };
+
     /* This callout used to say flatly "reagents do not detect fentanyl" - on
        the fentanyl page, directly above a table of fentanyl's own reagent
        colors. Both facts are true at different scales, and the old wording
@@ -1249,20 +1263,24 @@ function comedownFor(doc, s) {
                        readings joined by "or" — never merged into a single
                        sequence, which would invent a reaction neither source
                        reported. */
+                    /* BOTH-WAYS ROWS SAY BOTH. A row can carry `none: true` AND
+                       colors - cocaine on Marquis (PsychonautWiki: no reaction;
+                       DanceSafe's 2023 chart: light pink or peach) and MDA on
+                       Simon's (no reaction; or gray-green since ~2021). The
+                       reaction is faint and genuinely reported both ways, and
+                       the tracker and the flowchart already score it both
+                       ways. This cell tested `none` first and never reached
+                       the colors, so the drug page told a reader "no reaction
+                       expected" while the tracker two tabs over told them
+                       peach was fine. Reported from the live site: same
+                       reagent, same drug, two answers. One helper renders any
+                       reading, so the plain row and the alternatives can no
+                       longer disagree with each other either. */
                     r.alts
                       ? frag(r.alts.map((a, i) => frag(
                           i ? h("span", { class: "reag__settles" }, "or") : null,
-                          a.none
-                            ? h("span", { class: "reag__none" }, "No reaction expected")
-                            : frag(seq(a.colors),
-                                a.to ? h("span", { class: "reag__settles" }, "settling to") : null,
-                                a.to ? seq(a.to) : null))))
-                      : r.none
-                      ? h("span", { class: "reag__none" }, "No reaction expected")
-                      : frag(
-                          seq(r.colors),
-                          r.to ? h("span", { class: "reag__settles" }, "settling to") : null,
-                          r.to ? seq(r.to) : null))))))))
+                          reading(a))))
+                      : reading(r))))))))
     );
   }
 

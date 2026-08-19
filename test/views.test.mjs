@@ -198,6 +198,7 @@ const SCREENS = [
   ["substances", {}],                          // the index
   ["substances", { id: "fentanyl" }],          // a detail page
   ["substances", { id: "class", sub: "opioids" }],
+  ["substances", { id: "cocaine" }],
   ["support", {}],
   ["learn", {}],
   ["policy", {}],
@@ -285,6 +286,36 @@ for (const [name, route] of SCREENS) {
   }
 }
 
+/* THE DRUG PAGE AND THE TRACKER READ THE SAME TABLE AND MUST SAY THE SAME
+ * THING. Reported from the live site: cocaine on Marquis is published both
+ * ways (PsychonautWiki no reaction; DanceSafe light pink or peach), the
+ * tracker scored either as fine, and the drug page said only "No reaction
+ * expected" - an if/else that tested `none` first and never reached the
+ * colors. Two screens, one drug, two answers. For every row in the table that
+ * carries none AND colors, the rendered page must show both. */
+{
+  const T = JSON.parse(readFileSync(path.join(ROOT, "data/reagents.json"), "utf8")).reagents;
+  const both = [];
+  for (const [id, rows] of Object.entries(T))
+    for (const r of rows) if (r.none === true && (r.colors || []).length && !r.alts) both.push([id, r]);
+  if (!both.length) fails.push("no both-ways reagent rows found - the table shape changed, re-check this test");
+  const mod = await import("../site/js/views/substances.js");
+  for (const [id, r] of both) {
+    try {
+      const node = await mod.render({ id }, ctx);
+      const label = r.reagent === "Morr" ? "Morris" : r.reagent === "Simons" ? "Simon" : r.reagent;
+      const rowEl = walkEls(node).find((el) => el.tag === "tr"
+        && el.children[0]?.tag === "th"
+        && new RegExp(`^${label}`, "i").test(el.children[0].textContent));
+      const text = rowEl ? String(rowEl.textContent) : "";
+      if (!rowEl) { fails.push(`${id}: no ${r.reagent} row rendered`); continue; }
+      if (!/No reaction expected/.test(text)) fails.push(`${id}/${r.reagent}: page dropped the "no reaction" reading`);
+      for (const c of r.colors) if (!text.toLowerCase().includes(c)) fails.push(`${id}/${r.reagent}: page dropped published color "${c}" (row reads: ${text.trim().slice(0, 80)})`);
+    } catch (e) { fails.push(`${id}/${r.reagent}: THREW ${e.message}`); }
+  }
+  console.log(`  ok   both-ways reagent rows say both (${both.length} checked)`);
+}
+
 for (const f of fails) console.log("  not ok " + f);
-console.log(`\n${SCREENS.length - fails.length} passed, ${fails.length} failed`);
+console.log(`\n${SCREENS.length + 1 - fails.length} passed, ${fails.length} failed`);
 if (fails.length) process.exit(1);
