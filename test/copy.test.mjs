@@ -224,6 +224,25 @@ check("our own prose inside generated files is spell-checked too", () => {
 
 /* ------------------------------------------------------------------- run */
 
+
+/* A LOCALE IS OFFERED ONLY IF ITS FILE SAYS IT WAS REVIEWED.
+   es.json shipped with "_reviewed": false and was auto-selected for every
+   Spanish device anyway. i18n.js now gates on a `reviewed` flag per locale;
+   this holds the flag to the file so nobody can flip one without the other. */
+check("every offered locale's reviewed flag matches its file", () => {
+  const src = readFileSync(path.join(SITE, "i18n.js"), "utf8");
+  const list = [...src.matchAll(/code:\s*"([^"]+)"[^}]*reviewed:\s*(true|false)/g)];
+  if (list.length < 2) return `could not read LOCALES from i18n.js (found ${list.length})`;
+  for (const [, code, flag] of list) {
+    const f = path.join(ROOT, "data", "i18n", `${code}.json`);
+    const doc = JSON.parse(readFileSync(f, "utf8"));
+    const fileSays = doc._reviewed !== false;   // absent = the source language, reviewed by definition
+    if ((flag === "true") !== fileSays)
+      return `${code}: i18n.js says reviewed=${flag} but ${code}.json says _reviewed=${doc._reviewed}`;
+  }
+  return null;
+});
+
 console.log("\nCOPY");
 let pass = 0, fail = 0;
 for (const c of cases) {
