@@ -65,7 +65,7 @@ cd ~/Downloads/nightlight-capacitor
 ./release.sh --env prod                 # gate → bundle → sim proof → archive → upload
 ```
 
-What release.sh enforces, in order — each one is a lesson from builds 18–30:
+What release.sh enforces, in order — each one is a lesson from builds 18–33:
 
 1. **The trace gate.** The local site tree's hash must match the recorded
    ship for `--env`. If the site changed since it was shipped, the release
@@ -84,6 +84,20 @@ What release.sh enforces, in order — each one is a lesson from builds 18–30:
 6. **Archive verification.** The archived payload must contain the same sw
    VERSION and the build number it claims, then export/upload runs through
    the checked-in ExportOptions.plist.
+7. **Upload truth.** App Store Connect owns the build number. ExportOptions
+   sets `manageAppVersionAndBuildNumber`, so when ASC already holds the
+   number Xcode renumbers the upload silently — it did twice (31→32 on
+   08-18, 32→33 on 08-19) while the script's "upload reported" check was a
+   `test -d` on a directory it had itself just created. Now the script reads
+   the real number back from Xcode's delivery log, renames the archive to
+   it, resyncs the project number, and appends a line to
+   `build/uploads.jsonl` — the ledger mapping each ASC build to the web tree
+   it packaged. A tree already in the ledger is refused before the build
+   starts: ASC would accept it again under a new number, as a duplicate
+   nobody can tell from the first. One release at a time (a lock dir); an
+   upload that fails on a lapsed Apple ID session resumes with
+   `./release.sh --upload-only N` after signing in — never a hand
+   `xcodebuild -exportArchive`, and never two at once.
 
 After the upload, TestFlight processing (~minutes) puts the build in front of
 the internal group automatically. That group **is** QA/UAT:
@@ -108,6 +122,8 @@ the ASC web UI.
 - Nothing reaches `main` that `staging` did not hold first (ship gate).
 - Nothing reaches TestFlight that a simulator did not boot (release gate).
 - Nothing is packaged that was not shipped (trace gate).
+- Every TestFlight build is in the ledger with the tree it packaged, under
+  the number App Store Connect gave it (upload truth).
 - The bot's data is never overwritten by a deploy, in either environment.
 - Staging is never indexed.
 
