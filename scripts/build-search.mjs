@@ -95,6 +95,31 @@ function walk(node, page, topKey, depth = 0) {
        and would otherwise fill a search for "naloxone" with references
        instead of places to go. Same for the attribution blocks. */
     if (k === "sources" || k === "attribution" || k === "source") continue;
+    /* NOT DESTINATIONS EITHER, found by the test that tries to land every
+       result. Quiz `options` are answers - including the WRONG ones, so "Skip
+       naloxone if you think it is xylazine" was a standalone search result
+       pointing at nothing. Quiz `steps` are prompts. `tiers` are the mail-
+       program status labels, `conditions` the lens chips, `locators`/`labs`/
+       `options` under labs are link-button labels, `approaches` the therapy
+       names in a card list. None renders as a heading the resolver can reach.
+       Indexing them sent a reader to the right page and left them at the
+       top with nothing to find. */
+    if (["options", "steps", "tiers", "conditions", "locators", "approaches", "scripts", "cards",
+         "close",   // practice's closing callout renders only after the quiz is finished
+         "scope",   // market's "What you won't find here" is a <strong> lead-in inside a paragraph
+        ].includes(k)) continue;
+    /* LINK CLUSTERS ARE DESTINATIONS ONLY WITH AN ANCHOR. "Find a program near
+       you" and the lab names are link buttons under a section, not headings
+       the resolver can match - but a reader typing "program" must still
+       reach Test (search.test holds that). So rather than drop them, every
+       name under testing.json's buying `links` and labs `options` carries the
+       id of the disclosure that renders it, and the reader lands on that
+       section, open. The same move A17 made for strip brands. */
+    if (page.file === "testing.json" && (k === "links" || (k === "options" && topKey === "labs"))) {
+      const anchor = topKey === "labs" ? "sec-labs" : "sec-buying";
+      for (const item of (Array.isArray(v) ? v : [])) if (item && item.name) add(item.name, page.route, page.kind, anchor);
+      continue;
+    }
     if (typeof v === "string" && TITLE_KEYS.has(k)) {
       add(v, page.route, page.kind, anchorFor(page.file, topKey));
     } else if (typeof v === "object") {

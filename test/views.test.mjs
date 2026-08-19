@@ -352,6 +352,97 @@ for (const [name, route] of SCREENS) {
   console.log(`  ok   both-ways reagent rows say both (${both.length} checked)`);
 }
 
+/* EVERY SEARCH RESULT LANDS SOMEWHERE.
+ *
+ * app.js reveal() resolves a result two ways: by anchor id (`a`) if the
+ * entry carries one, else by EXACT visible heading text (`t`) on the route
+ * (`r`). A result that resolves neither way fails in complete silence - the
+ * reader taps it, lands at the top of the right page, and the heading they
+ * asked for is thousands of pixels down. The UI/UX audit found "If someone
+ * died" pointing at grp-grief, an id no view renders, and 73 Test rows with
+ * no anchor at all. Same species as the Morris bug: the data says one thing,
+ * the screen another, and nothing held them together.
+ *
+ * So this renders every route the index points at, through the real views
+ * against the real data, and checks each of search.json's entries and each of
+ * search-intents.json's intents resolves on its route. Matching mirrors
+ * reveal(): visible text only (sr-only excluded), same heading tags. */
+{
+  const { parseRoute } = await import("../site/js/routes.js");
+  const idx = JSON.parse(readFileSync(path.join(ROOT, "data/search.json"), "utf8"));
+  const intents = JSON.parse(readFileSync(path.join(ROOT, "data/search-intents.json"), "utf8"));
+  const entries = [
+    ...(idx.entries || []).map((e) => ({ ...e, src: "search.json" })),
+    ...(Array.isArray(intents) ? intents : (intents.intents || [])).map((e) => ({
+      t: e.label, r: e.route || e.r, a: e.anchor || e.a, src: "search-intents.json",
+    })),
+  ];
+
+  /* One render per distinct route, cached - 554 entries fan out to a handful. */
+  const rendered = new Map();
+  const renderFor = async (hashRoute) => {
+    const key = String(hashRoute || "");
+    if (rendered.has(key)) return rendered.get(key);
+    const route = parseRoute({ pathname: "/", hash: key }, false);
+    const mod = await import(`../site/js/views/${route.tab}.js`);
+    let node = null;
+    try { node = await mod.render(route, ctx); } catch (e) { node = null; }
+    rendered.set(key, node);
+    return node;
+  };
+
+  /* MIRRORS app.js reveal(): same skip rules (sr-only, aria-hidden), same
+     set of heading tags. If reveal() widens or narrows, this must follow, or
+     the test passes on results the app cannot land. */
+  const visibleText = (n) => {
+    let out = "";
+    for (const c of n.childNodes || []) {
+      if (c instanceof El) {
+        /* The shim keeps class in _class (className), not attrs. */
+        const cls = String(c.className || c.attrs?.class || "").split(/\s+/);
+        if (cls.includes("sr-only") || c.attrs?.["aria-hidden"] === "true") continue;
+        out += visibleText(c);
+      } else out += (c.textContent ?? "");
+    }
+    return out;
+  };
+  const HEAD = new Set(["h1", "h2", "h3", "h4", "h5", "summary"]);
+  const isHeading = (el) => HEAD.has(el.tag) || String(el.className || el.attrs?.class || "").split(/\s+/).includes("lbl");
+
+  let checked = 0, unresolved = [];
+  for (const e of entries) {
+    if (!e.r) continue;
+    const node = await renderFor(e.r);
+    if (!node) { unresolved.push(`${e.src}: route ${e.r} did not render for "${e.t}"`); continue; }
+    checked++;
+    const els = walkEls(node);
+    const byId = e.a ? els.find((el) => (el.id || el.attrs?.id) === e.a) : null;
+    if (byId) continue;
+    const want = String(e.t || "").trim().toLowerCase();
+    const byText = els.find((el) => {
+      if (!isHeading(el)) return false;
+      if (visibleText(el).trim().toLowerCase() === want) return true;
+      // mirrors reveal(): a summary's first span is its title when a badge follows
+      if (el.tag === "summary") {
+        const first = el.children?.find((c) => c.tag === "span");
+        return !!first && visibleText(first).trim().toLowerCase() === want;
+      }
+      return false;
+    });
+    if (byText) continue;
+    /* An INTENT with no anchor is a page-level destination by design - its
+       label is the query's intent ("Testing your supply"), not a heading the
+       page contains, and reveal() correctly leaves the reader at the page top
+       with its h1 focused. That is landed. A search.json ENTRY is always a
+       heading the builder found in the data, so for those, not-found is a
+       real miss. */
+    if (e.src === "search-intents.json" && !e.a && els.some((el) => el.tag === "h1")) continue;
+    unresolved.push(`${e.src}: "${e.t}" on ${e.r}` + (e.a ? ` (anchor ${e.a} not in the rendered page)` : " (no anchor, and no heading with that text)"));
+  }
+  for (const u of unresolved) fails.push(u);
+  console.log(`  ok   search results land (${checked} checked, ${unresolved.length} unresolved)`);
+}
+
 for (const f of fails) console.log("  not ok " + f);
 console.log(`\n${SCREENS.length + 1 - fails.length} passed, ${fails.length} failed`);
 if (fails.length) process.exit(1);

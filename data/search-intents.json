@@ -137,7 +137,8 @@
         "naloxone by mail"
       ],
       "label": "Where to get naloxone free",
-      "route": "#/learn"
+      "route": "#/learn",
+      "anchor": "sec-naloxone"
     },
     {
       "q": [
