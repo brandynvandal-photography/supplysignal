@@ -239,7 +239,7 @@ function renderGetting(x) {
       h("div", { class: "card" },
         h("h3", null, r.name),
         h("p", null, r.what),
-        h("div", { class: "chips" },
+        h("div", { class: "chips chips--links" },
           r.url ? extLink(r.url, r.linkText || "Open", "btn btn--ghost btn--sm") : null,
           r.phone
             ? h("a", { class: "btn btn--ghost btn--sm", href: `tel:${r.phone.replace(/\D/g, "")}` },
@@ -306,7 +306,7 @@ function renderPeer(p) {
         h("div", { class: "acc__body" },
           h("p", null, gp.what),
           gp.medication ? h("p", null, h("strong", null, "On medication? "), gp.medication) : null,
-          gp.url ? h("div", { class: "chips" }, extLink(gp.url, "Find a meeting", "btn btn--ghost btn--sm")) : null)))
+          gp.url ? h("div", { class: "chips chips--links" }, extLink(gp.url, "Find a meeting", "btn btn--ghost btn--sm")) : null)))
   );
 }
 
@@ -333,7 +333,7 @@ function renderTrauma(t) {
             h("div", { class: "card" },
               h("h3", null, e.name),
               e.what ? h("p", null, e.what) : null,
-              h("div", { class: "chips" },
+              h("div", { class: "chips chips--links" },
                 e.url ? extLink(e.url, e.linkText || "Open", "btn btn--ghost btn--sm") : null,
                 e.phone
                   ? h("a", { class: "btn btn--ghost btn--sm", href: `tel:${e.phone.replace(/\D/g, "")}` }, e.phone)
@@ -353,7 +353,7 @@ function renderSupplies(s) {
             v.delivery ? h("span", { class: "card__meta" }, v.delivery) : null),
           h("h3", null, v.name),
           v.what ? h("p", null, v.what) : null,
-          h("div", { class: "chips" },
+          h("div", { class: "chips chips--links" },
             v.url ? extLink(v.url, "Open", "btn btn--ghost btn--sm") : null))));
 
   return frag(
@@ -374,7 +374,7 @@ function renderSupplies(s) {
                 v.delivery ? h("span", { class: "card__meta" }, v.delivery) : null),
               h("h3", null, v.name),
               v.what ? h("p", null, v.what) : null,
-              h("div", { class: "chips" },
+              h("div", { class: "chips chips--links" },
                 v.url ? extLink(v.url, "Open", "btn btn--ghost btn--sm") : null))),
           s.grassroots.note ? h("p", { class: "sec__note" }, s.grassroots.note) : null
         )
@@ -448,7 +448,7 @@ function stateLookup(bs) {
           h("span", { class: `badge badge--${tier.tone}` }, tier.label)),
         h("h3", null, NAMES[sel.value]),
         tier.note ? h("p", null, tier.note) : null,
-        h("div", { class: "chips" },
+        h("div", { class: "chips chips--links" },
           extLink("https://nextdistro.org/statefinder", "Open the state finder", "btn btn--ghost btn--sm")))
     );
   });
@@ -503,7 +503,7 @@ async function checkingBlock() {
     d.grassroots ? frag(d.grassroots.orgs.map(entry)) : null,
 
     h("h3", null, "Find something closer"),
-    h("div", { class: "chips" },
+    h("div", { class: "chips chips--links" },
       d.locators.map((l) => extLink(l.url, l.name, "btn btn--ghost btn--sm"))),
 
     callout("info", "Is this legal where you live?",
