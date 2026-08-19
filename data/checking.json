@@ -1,151 +1,326 @@
 {
- "note": "HAND-CURATED from live-verified sources. Every url returned HTTP 200 on lastVerified date via browser UA. This is the fastest-rotting data in the app - re-verify before trusting. Dead as of 2026-08-10 and deliberately EXCLUDED: testri.org (no connection), dancesafe.org/chapters (404), NASTAD participant pages (none exist).",
- "lastVerified": "2026-08-10",
- "reality": "Direct-to-individual lab checking is scarce but not zero. DrugsData paused intake in April 2024 under DEA order (no change expected before 2027); UNC's national mail-in program works through harm reduction organizations. Community-run services are emerging - Rebel Analytics in NYC advertises free testing with a mail-based expansion. For most people the practical route is still a local program: most US drug checking lives inside syringe service programs.",
- "national": [
-  {
-   "name": "UNC Street Drug Analysis Lab",
-   "url": "https://www.streetsafe.supply/",
-   "scope": "Mail-in nationwide, through organizations",
-   "access": "Ask a local syringe service program or harm reduction org to submit for you; the lab offers free kits to any US public health harm reduction organization. Free for NC organizations and drug user unions.",
-   "anon": "The lab states it holds nothing about individuals: no names, nothing.",
-   "results": "https://results.streetsafe.supply/"
-  },
-  {
-   "name": "Rebel Analytics (Rebel Harm Reduction)",
-   "url": "https://rebelharmreduction.org/substance-analysis/",
-   "scope": "NYC drop-off/on-site; mail-based expansion",
-   "access": "Free, community-funded testing (FTIR, immunoassay strips, reagents, lab-partner mass spec). Their site describes a mail option for people outside NYC but does not publish which states, turnaround, or intake rules - contact them before sending anything.",
-   "anon": "Anonymity policy not published on their site - ask them directly.",
-   "caveat": "Details verified only as far as their own pages state them, 2026-08-10."
-  },
-  {
-   "name": "DrugsData (Erowid)",
-   "url": "https://www.drugsdata.org/",
-   "scope": "PAUSED - archive only",
-   "access": "Not accepting samples since April 2024 (DEA order); no change expected before 2027, per their homepage. The archive of past results remains searchable and useful.",
-   "anon": null
-  },
-  {
-   "name": "NEXT Distro",
-   "url": "https://nextdistro.org/",
-   "scope": "Test strips by mail, nationwide",
-   "access": "Mail-based naloxone and fentanyl test strips - strips are self-testing, not lab checking. Availability varies by state law.",
-   "anon": null
-  }
- ],
- "programs": [
-  {
-   "st": "MA / New England",
-   "name": "MADDS / StreetCheck",
-   "url": "https://info.streetcheck.org/madds",
-   "access": "Free through partner orgs in ~19 communities; anonymous option. Accepts powders, rocks, pills, single-use pipes/cookers/cottons, baggies with residue. Not syringes or plant matter.",
-   "locator": "https://info.streetcheck.org/find-drug-checking-services"
-  },
-  {
-   "st": "RI",
-   "name": "Rhode Island drug checking (RIDOH)",
-   "url": "https://preventoverdoseri.org/local-drug-testing/",
-   "access": "Free, anonymous. Phone/text 401-473-9286 or 401-408-6451, weekdays 9-5."
-  },
-  {
-   "st": "NYC",
-   "name": "NYC Health drug checking at SSPs",
-   "url": "https://www.nyc.gov/site/doh/health/health-topics/drug-checking.page",
-   "access": "Walk-in with a trained technician (FTIR + strips). Powders and pills; plant matter and most liquids cannot be tested. Call ahead to confirm."
-  },
-  {
-   "st": "NY",
-   "name": "NYS DOH drug user health FAQ",
-   "url": "https://www.health.ny.gov/diseases/aids/consumers/prevention/oduh/faqs.htm",
-   "access": "Statewide pointers beyond NYC."
-  },
-  {
-   "st": "NC",
-   "name": "NC Safer Syringe Initiative directory",
-   "url": "https://www.dph.ncdhhs.gov/programs/chronic-disease-and-injury/injury-and-violence-prevention-branch/north-carolina-safer-syringe-initiative",
-   "access": "Drug checking reaches individuals through SSPs; the UNC lab is free in-state."
-  },
-  {
-   "st": "MD",
-   "name": "Rapid Analysis of Drugs (RAD)",
-   "url": "https://health.maryland.gov/pha/NALOXONE/Pages/RAD.aspx",
-   "access": "Through Maryland SSPs only - residue swabs from used equipment, deidentified. Ask your SSP.",
-   "results": "https://stopoverdose.maryland.gov/emerging-drugs/"
-  },
-  {
-   "st": "VT",
-   "name": "Vermont community drug checking",
-   "url": "https://www.healthvermont.gov/alcohol-drugs/programs-services/syringe-services-programs",
-   "access": "Legal statewide since 2023; availability varies by site - ask your syringe service program."
-  },
-  {
-   "st": "WA",
-   "name": "WA Community Drug Checking Network",
-   "url": "https://adai.uw.edu/cedeer/drugchecking/",
-   "access": "Anonymous; drug or residue in a pipe or cooker. Not every site is listed - ask a local harm reduction agency.",
-   "results": "https://adai.uw.edu/WAdata/DrugChecking/"
-  },
-  {
-   "st": "CA (SF)",
-   "name": "SCOPE - SF AIDS Foundation",
-   "url": "https://www.sfaf.org/health-services/drug-checking-scope/",
-   "access": "Free, anonymous, drop-in FTIR. 117 6th St (Mon 3-6, Tue-Wed 12-6) and 558 Clayton St (Fri 5:30-7:15). About 10-15 minutes; one sample per person per day. Call/text 415-361-8183."
-  },
-  {
-   "st": "IL (Chicago)",
-   "name": "CDPH community drug checking",
-   "url": "https://www.chicago.gov/city/en/depts/cdph/provdrs/behavioral_health/svcs/opioid-use.html",
-   "access": "Runs through partner orgs; no public site list exists. Free test strips at CDPH clinics, or email osu.cdph@cityofchicago.org."
-  }
- ],
- "locators": [
-  {
-   "name": "Harm Reduction Near You (National Harm Reduction Coalition)",
-   "url": "https://harmreduction.org/resource-center/harm-reduction-near-you/"
-  },
-  {
-   "name": "NASEN syringe program directory",
-   "url": "https://nasen.org/"
-  },
-  {
-   "name": "DanceSafe (kits and event services)",
-   "url": "https://dancesafe.org/drug-checking/"
-  },
-  {
-   "name": "StreetCheck locator (New England)",
-   "url": "https://info.streetcheck.org/find-drug-checking-services"
-  }
- ],
- "legality": {
-  "text": "Whether test strips and checking equipment are legal depends on your state, and mailing samples touches state paraphernalia law - no program publishes a blanket promise that mailing is legal. Two maps track the actual laws:",
-  "sources": [
-   {
-    "name": "LAPPA state map - fentanyl test strips",
-    "url": "https://legislativeanalysis.org/knowledge-lab-state-maps/fentanyl-tests-strips/"
-   },
-   {
-    "name": "Network for Public Health Law - drug checking equipment legality",
-    "url": "https://www.networkforphl.org/resources/legality-of-drug-checking-equipment-in-the-united-states/"
-   }
-  ]
- },
- "grassroots": {
-  "note": "Peer-run and mutual-aid networks. Many operate primarily on social media - linked here as profiles, never embedded: an Instagram embed would hand Meta the IP of everyone opening this page.",
-  "orgs": [
-   {
-    "name": "Grassroots Harm Reduction",
-    "url": "https://grassrootsharmreduction.org/",
-    "social": "https://www.instagram.com/grassroots.harmreduction/",
-    "scope": "National buyers’ club supplying local programs",
-    "access": "Open to any organization or program that gives harm reduction supplies away free. Not a direct supplier to individuals — it is how the program near you affords what it hands out, and where to start if you want to run one."
-   },
-   {
-    "name": "Rebel Harm Reduction",
-    "url": "https://rebelharmreduction.org/",
-    "scope": "NYC community drug checking and supplies (see national list)"
-   }
+  "note": "HAND-CURATED from live-verified sources. Every url returned HTTP 200 on lastVerified date via browser UA (stlouiscountymo.gov blocks scrapers and was confirmed in a real browser instead). This is the fastest-rotting data in the app - re-verify before trusting. Dead or hijacked as of 2026-08-19 and deliberately EXCLUDED: ncsurvivorsunion.org (domain lapsed, now redirects to an unrelated commercial site), tennesseeharmreduction.com (host suspended), urbansurvivorsunion.org (empty), hrcsd.org (404 at every path tried), testri.org, dancesafe.org/chapters (404). Also EXCLUDED as unconfirmed - the service is reported in news, a job posting or a third-party directory but the organization's own pages do not mention it: Project Weber/RENEW spectrometer (RI), Access Point Denver (CO), Compassionate Addiction Treatment (WA), Southside Harm Reduction (MN), Roanoke/VHRC (VA).",
+  "lastVerified": "2026-08-19",
+  "reality": "Most US drug checking lives inside syringe service programs, so the practical route is usually a local one - the list below now covers around twenty states. Sending a sample yourself is possible in a few places: Transparency Testing takes samples from anyone by post for a fee, and PA Groundhogs posts free kits anywhere in Pennsylvania. DrugsData paused intake in April 2024 and expects no change before 2027; UNC's national lab works through harm reduction organizations rather than individuals. Nowhere in about half of the country has anything.",
+  "national": [
+    {
+      "name": "UNC Street Drug Analysis Lab",
+      "url": "https://www.streetsafe.supply/",
+      "scope": "Mail-in nationwide, through organizations",
+      "access": "Ask a local syringe service program or harm reduction org to submit for you; the lab offers free kits to any US public health harm reduction organization. Free for NC organizations and drug user unions.",
+      "anon": "The lab states it holds nothing about individuals: no names, nothing.",
+      "results": "https://results.streetsafe.supply/"
+    },
+    {
+      "name": "Transparency Testing",
+      "url": "https://transparencytesting.com/",
+      "scope": "Mail-in nationwide, open to anyone",
+      "access": "Send a sample yourself, no organization needed. Around $40 to identify what something is, more for purity. They do not currently take liquids.",
+      "anon": "They offer anonymous payment and state they delete customer data a month after results are sent."
+    },
+    {
+      "name": "Rebel Analytics (Rebel Harm Reduction)",
+      "url": "https://rebelharmreduction.org/substance-analysis/",
+      "scope": "NYC drop-off/on-site; mail-based expansion",
+      "access": "Free, community-funded testing (FTIR, immunoassay strips, reagents, lab-partner mass spec). Their site describes a mail option for people outside NYC but does not publish which states, turnaround, or intake rules - contact them before sending anything.",
+      "anon": "Anonymity policy not published on their site - ask them directly.",
+      "caveat": "Details verified only as far as their own pages state them, 2026-08-10."
+    },
+    {
+      "name": "DrugsData (Erowid)",
+      "url": "https://www.drugsdata.org/",
+      "scope": "PAUSED - archive only",
+      "access": "Not accepting samples since April 2024 (DEA order); no change expected before 2027, per their homepage. The archive of past results remains searchable and useful.",
+      "anon": null
+    },
+    {
+      "name": "NEXT Distro",
+      "url": "https://nextdistro.org/",
+      "scope": "Test strips by mail, nationwide",
+      "access": "Mail-based naloxone and fentanyl test strips - strips are self-testing, not lab checking. Availability varies by state law.",
+      "anon": null
+    }
   ],
-  "lastVerified": "2026-08-10"
- }
+  "programs": [
+    {
+      "st": "CA (Berkeley)",
+      "name": "Berkeley NEED",
+      "url": "https://berkeleyneed.org/about/index.php",
+      "access": "Free and anonymous, Thursdays 6 to 7pm only, first come first served. The navy van parks next to the white one near University and San Pablo."
+    },
+    {
+      "st": "CA (Inland Empire)",
+      "name": "IE Safe Supply",
+      "url": "https://www.ieharmreduction.org/drug-checking/",
+      "access": "Kits on request, run with UC Riverside. Nothing identifying is collected and they state they do not work with law enforcement.",
+      "results": "https://iesafe.supply/"
+    },
+    {
+      "st": "CA (LA)",
+      "name": "Drug Checking Los Angeles",
+      "url": "https://www.drugcheckinglosangeles.com/",
+      "access": "Free, anonymous and legal, run by UCLA. Drop in at partner sites in Hollywood, South LA, East LA and downtown for a reading in minutes, or send a sample by post. Anything unclear goes to a lab at no cost."
+    },
+    {
+      "st": "CA (Oakland)",
+      "name": "East Bay Drug Checking (HEPPAC)",
+      "url": "https://heppac.org/",
+      "access": "Readings on HEPPAC's sites and mobile unit around Fruitvale, Deep East Oakland and West Oakland."
+    },
+    {
+      "st": "CA (SF)",
+      "name": "SCOPE - SF AIDS Foundation",
+      "url": "https://www.sfaf.org/health-services/drug-checking-scope/",
+      "access": "Free, anonymous, drop-in FTIR. 117 6th St (Mon 3-6, Tue-Wed 12-6) and 558 Clayton St (Fri 5:30-7:15). About 10-15 minutes; one sample per person per day. Call/text 415-361-8183."
+    },
+    {
+      "st": "CT",
+      "name": "Connecticut Harm Reduction Alliance",
+      "url": "https://www.ghhrc.org/drug-checking-program",
+      "access": "Free and confidential at two Hartford sites and one in New Haven. Reads fentanyl, xylazine, cutting agents and newer additives."
+    },
+    {
+      "st": "IL (Chicago)",
+      "name": "CDPH community drug checking",
+      "url": "https://www.chicago.gov/city/en/depts/cdph/provdrs/behavioral_health/svcs/opioid-use.html",
+      "access": "Runs through partner orgs; no public site list exists. Free test strips at CDPH clinics, or email osu.cdph@cityofchicago.org."
+    },
+    {
+      "st": "IL (Chicago)",
+      "name": "Chicago Recovery Alliance",
+      "url": "https://anypositivechange.org/cra-services/",
+      "access": "Readings on the outreach van at six of its stops, and test strips at all of them. They will also test used packaging and cookers."
+    },
+    {
+      "st": "MA (Boston)",
+      "name": "AHOPE",
+      "url": "https://www.boston.gov/news/new-data-show-38-decline-opioid-related-deaths-boston-2024-following-national-trend",
+      "access": "Walk in weekdays 7.30am to 3pm at 774 Albany Street, or find the mobile van. Checks for fentanyl and xylazine.",
+      "caveat": "The city describes this service in a news update rather than on a service page, so check the hours by phone before traveling."
+    },
+    {
+      "st": "MA (western)",
+      "name": "Tapestry Health",
+      "url": "https://www.tapestryhealth.org/harm-reduction/",
+      "access": "Free, confidential and walk-in across Springfield, Holyoke, Northampton, Greenfield, Chicopee and Westfield, plus a mobile clinic."
+    },
+    {
+      "st": "MA / New England",
+      "name": "MADDS / StreetCheck",
+      "url": "https://info.streetcheck.org/madds",
+      "access": "Free through partner orgs in ~19 communities; anonymous option. Accepts powders, rocks, pills, single-use pipes/cookers/cottons, baggies with residue. Not syringes or plant matter.",
+      "locator": "https://info.streetcheck.org/find-drug-checking-services"
+    },
+    {
+      "st": "MD",
+      "name": "Rapid Analysis of Drugs (RAD)",
+      "url": "https://health.maryland.gov/pha/NALOXONE/Pages/RAD.aspx",
+      "access": "Through Maryland SSPs only - residue swabs from used equipment, deidentified. Ask your SSP.",
+      "results": "https://stopoverdose.maryland.gov/emerging-drugs/"
+    },
+    {
+      "st": "MD (Baltimore)",
+      "name": "Check It",
+      "url": "https://www.bhsbaltimore.org/find-help3/know-whats-in-it/",
+      "access": "A Johns Hopkins van that visits rotating Baltimore neighborhoods, with results in minutes alongside wound care and telemedicine. The schedule is linked from the page."
+    },
+    {
+      "st": "ME",
+      "name": "Project DHARMA",
+      "url": "https://www.mainehealth.org/care-services/behavioral-health-care/substance-use-disorder-care-addiction/project-dharma",
+      "access": "Reach it through Maine Access Points, commonspace or Portland Public Health. Readings on the spot, with harder samples confirmed by a lab."
+    },
+    {
+      "st": "MI (Grand Rapids)",
+      "name": "Grand Rapids Red Project",
+      "url": "https://www.redproject.org/our-team",
+      "access": "Point-of-care readings, the first in Michigan, plus fentanyl, xylazine and medetomidine strips. Call ahead for current hours."
+    },
+    {
+      "st": "MI (northern)",
+      "name": "Harm Reduction Michigan",
+      "url": "https://harmreductionmi.org/substance-analysis-results",
+      "access": "Lab analysis through their sites in Traverse City, Cadillac, Petoskey, Manistee and Midland. Each sample's report is published.",
+      "results": "https://harmreductionmi.org/substance-analysis-results"
+    },
+    {
+      "st": "MN (Minneapolis)",
+      "name": "Red Door Clinic",
+      "url": "https://www.reddoorclinic.org/exchange-and-moud",
+      "access": "Drug checking during syringe service hours at 525 Portland Avenue, four days a week. Call or text 612-596-9005 to confirm."
+    },
+    {
+      "st": "MO (St. Louis)",
+      "name": "Project EAGLE FANG",
+      "url": "https://stlouiscountymo.gov/st-louis-county-departments/public-health/substance-use-resources/project-eagle-fang-drug-checking-program/",
+      "access": "St. Louis County public health with the SSM SLUCare toxicology lab. Tests both drug products and used equipment, and publishes every sample.",
+      "anon": "Samples go in anonymously - no age, no gender, nothing about who submitted them.",
+      "caveat": "The county states results are for research only and cannot be used in medical, legal or forensic matters. The page does not say where to hand a sample in; the contact address on it is the way to ask."
+    },
+    {
+      "st": "NC (statewide)",
+      "name": "NC Safer Syringe Initiative directory",
+      "url": "https://www.dph.ncdhhs.gov/programs/chronic-disease-and-injury/injury-and-violence-prevention-branch/north-carolina-safer-syringe-initiative",
+      "access": "Drug checking reaches individuals through SSPs; the UNC lab is free in-state."
+    },
+    {
+      "st": "NM",
+      "name": "Adulterant Checking Program",
+      "url": "https://www.nmharmreduction.org/adulterant-checking/",
+      "access": "The state health department runs this at four sites - Espanola, Albuquerque, Roswell and Las Cruces. A reading on the spot, and harder samples posted to a university lab, with results in about two weeks against an anonymous code."
+    },
+    {
+      "st": "NV (Las Vegas)",
+      "name": "Southern Nevada Health District",
+      "url": "https://www.southernnevadahealthdistrict.org/programs/substance-use-and-overdose-prevention/data/",
+      "access": "Clients of their harm reduction services can hand in used equipment or residue for analysis. What it finds feeds a public dashboard.",
+      "results": "https://www.southernnevadahealthdistrict.org/programs/substance-use-and-overdose-prevention/data/"
+    },
+    {
+      "st": "NY",
+      "name": "NYS DOH drug user health FAQ",
+      "url": "https://www.health.ny.gov/diseases/aids/consumers/prevention/oduh/faqs.htm",
+      "access": "Statewide pointers beyond NYC."
+    },
+    {
+      "st": "NY",
+      "name": "New York State drug checking sites",
+      "url": "https://www.health.ny.gov/diseases/aids/consumers/prevention/oduh/drug_checking.htm",
+      "access": "The state lists every participating site with its address - the Bronx, Albany, Schenectady, Buffalo, Jamestown, Rochester, Ithaca, Glens Falls, Long Island and more. Two kinds of testing: a reading on the spot, and a wipe test that finds traces."
+    },
+    {
+      "st": "NY (NYC)",
+      "name": "OnPoint NYC",
+      "url": "https://onpointnyc.org/drug-checking/",
+      "access": "East Harlem and Washington Heights, open to 11pm on weekdays. Reads fentanyl, benzodiazepines, xylazine, ketamine and meth, with a partner lab for confirmation."
+    },
+    {
+      "st": "NY (NYC)",
+      "name": "NYC Health drug checking at SSPs",
+      "url": "https://www.nyc.gov/site/doh/health/health-topics/drug-checking.page",
+      "access": "Walk-in with a trained technician (FTIR + strips). Powders and pills; plant matter and most liquids cannot be tested. Call ahead to confirm."
+    },
+    {
+      "st": "NY (upstate)",
+      "name": "ACR Health",
+      "url": "https://acrhealth.org/harm-reduction/",
+      "access": "Walk-ins welcome in Syracuse, Utica and Watertown. A reading on the spot plus fentanyl and xylazine strips."
+    },
+    {
+      "st": "OR (Eugene)",
+      "name": "HIV Alliance",
+      "url": "https://fentanylaware.com/",
+      "access": "Fridays 10am to noon on City View Street, and Wednesdays noon to 4pm at the Lavender Network. Listed by Lane County public health."
+    },
+    {
+      "st": "OR (Eugene)",
+      "name": "White Bird Clinic",
+      "url": "https://whitebirdclinic.org/harm-reduction/",
+      "access": "647 Polk Street, most days 9am to 5pm. Lane County lists it as a place to get drugs checked; their own page confirms fentanyl and xylazine strips in every kit."
+    },
+    {
+      "st": "PA",
+      "name": "PA Groundhogs",
+      "url": "https://pagroundhogs.org/services",
+      "access": "Free test kits posted anywhere in Pennsylvania, going out every Friday. Lab results in three to five days against an anonymous code, and they state they keep no data on the people who use it."
+    },
+    {
+      "st": "PA (Philadelphia)",
+      "name": "Savage Sisters Recovery",
+      "url": "https://savagesisters.org/education",
+      "access": "Runs an ongoing checking program to track what is in the local supply, with free naloxone and strips at every training."
+    },
+    {
+      "st": "RI",
+      "name": "Rhode Island drug checking (RIDOH)",
+      "url": "https://preventoverdoseri.org/local-drug-testing/",
+      "access": "Free, anonymous. Phone/text 401-473-9286 or 401-408-6451, weekdays 9-5."
+    },
+    {
+      "st": "RI",
+      "name": "Harm Reduction Innovation Lab",
+      "url": "https://harmreductionlab.com/drug-checking",
+      "access": "A Brown University pilot inside Rhode Island harm reduction sites - a reading on the spot, strips, and lab confirmation. The page gives a phone number rather than drop-in hours."
+    },
+    {
+      "st": "VT",
+      "name": "Vermont community drug checking",
+      "url": "https://www.healthvermont.gov/alcohol-drugs/programs-services/syringe-services-programs",
+      "access": "Legal statewide since 2023; availability varies by site - ask your syringe service program."
+    },
+    {
+      "st": "VT",
+      "name": "Vermont CARES",
+      "url": "https://vtcares.org/syringe-service-program/",
+      "access": "Free, anonymous and walk-in at Burlington, Rutland, Barre and St Johnsbury, with mobile days and delivery to around 29 towns."
+    },
+    {
+      "st": "VT (Brattleboro)",
+      "name": "AIDS Project of Southern Vermont",
+      "url": "https://www.aidsprojectsouthernvermont.org/hiv-prevention-syringe-services-program",
+      "access": "Walk in four days a week at 15 Grove Street; mobile visits around Bellows Falls and Bennington by appointment."
+    },
+    {
+      "st": "WA",
+      "name": "WA Community Drug Checking Network",
+      "url": "https://adai.uw.edu/cedeer/drugchecking/",
+      "access": "Anonymous; drug or residue in a pipe or cooker. Not every site is listed - ask a local harm reduction agency.",
+      "results": "https://adai.uw.edu/WAdata/DrugChecking/"
+    },
+    {
+      "st": "WA (Tacoma)",
+      "name": "Tacoma Needle Exchange",
+      "url": "https://tacomaneedleexchange.org/",
+      "access": "Free checking during Tuesday and Friday office pickup hours at 3716 Pacific Avenue. Call or text first to confirm."
+    }
+  ],
+  "locators": [
+    {
+      "name": "Harm Reduction Near You (National Harm Reduction Coalition)",
+      "url": "https://harmreduction.org/resource-center/harm-reduction-near-you/"
+    },
+    {
+      "name": "NASEN syringe program directory",
+      "url": "https://nasen.org/"
+    },
+    {
+      "name": "DanceSafe (kits and event services)",
+      "url": "https://dancesafe.org/drug-checking/"
+    },
+    {
+      "name": "StreetCheck locator (New England)",
+      "url": "https://info.streetcheck.org/find-drug-checking-services"
+    }
+  ],
+  "legality": {
+    "text": "Whether test strips and checking equipment are legal depends on your state, and mailing samples touches state paraphernalia law - no program publishes a blanket promise that mailing is legal. Two maps track the actual laws:",
+    "sources": [
+      {
+        "name": "LAPPA state map - fentanyl test strips",
+        "url": "https://legislativeanalysis.org/knowledge-lab-state-maps/fentanyl-tests-strips/"
+      },
+      {
+        "name": "Network for Public Health Law - drug checking equipment legality",
+        "url": "https://www.networkforphl.org/resources/legality-of-drug-checking-equipment-in-the-united-states/"
+      }
+    ]
+  },
+  "grassroots": {
+    "note": "Peer-run and mutual-aid networks. Many operate primarily on social media - linked here as profiles, never embedded: an Instagram embed would hand Meta the IP of everyone opening this page.",
+    "orgs": [
+      {
+        "name": "Grassroots Harm Reduction",
+        "url": "https://grassrootsharmreduction.org/",
+        "social": "https://www.instagram.com/grassroots.harmreduction/",
+        "scope": "National buyers’ club supplying local programs",
+        "access": "Open to any organization or program that gives harm reduction supplies away free. Not a direct supplier to individuals — it is how the program near you affords what it hands out, and where to start if you want to run one."
+      },
+      {
+        "name": "Rebel Harm Reduction",
+        "url": "https://rebelharmreduction.org/",
+        "scope": "NYC community drug checking and supplies (see national list)"
+      }
+    ],
+    "lastVerified": "2026-08-10"
+  }
 }
