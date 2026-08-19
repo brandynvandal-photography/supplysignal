@@ -42,6 +42,14 @@ export async function render(route, { go }) {
   const consent = await consentBlock();
   const harm = await harmBlock();
 
+  /* SEVEN CHIPS, not eighteen. The strip had grown a chip per section and per
+     course group and per pointer, which on a phone was three rows of chips
+     before a word of content. The four cross-page pointers (Staying up,
+     Sexual health, Heat, The law) are one "More guides" list now rather than
+     four sections with four chips, and the course groups no longer each get
+     their own. What is left is the seven top-level places on this page, in the
+     order they appear. Consent and repair stay conditional on their bundle -
+     a chip pointing at a section that did not render is worse than no chip. */
   wrap.appendChild(
     jumpNav([
       { id: "sec-start", label: "Start here" },
@@ -50,23 +58,48 @@ export async function render(route, { go }) {
          OPENS a details on the way - landing on a collapsed section would
          look like the chip did nothing. Label matches the section heading. */
       { id: "sec-sitting", label: "Being the calm person" },
-      ...e.groups.map((g) => ({ id: `sec-${g.id}`, label: g.title })),
-      /* Only when the bundle actually loaded - a chip pointing at a section
-         that is not on the page is worse than no chip. */
+      { id: "sec-courses", label: "Free courses" },
       ...(consent ? [{ id: "sec-consent", label: "Consent" },
                      { id: "sec-repair", label: "After you hurt someone" }] : []),
-      ...(harm ? [{ id: "sec-accountable", label: "Staying accountable" },
-                  { id: "sec-abuse", label: "When someone close hurts you" },
-                  { id: "sec-named", label: "If someone says you hurt them" }] : []),
-      { id: "sec-before", label: "Long nights and hot days" },
-      { id: "sec-stimulants", label: "Staying up" },
-      { id: "sec-sex", label: "Sexual health" },
-      { id: "sec-heat", label: "Heat and water" },
-      { id: "sec-policy", label: "The law" },
+      ...(e.beforeTheNight ? [{ id: "sec-before", label: "Long nights" }] : []),
     ])
   );
 
   wrap.appendChild(startHere(e));
+
+  /* MORE GUIDES, one list where four pointer sections used to stand.
+   *
+   * Staying up, Sexual health, Heat and water and The law were each a section
+   * with a single .bigptr to another page — four headings, four chips, four
+   * screenfuls, for four links. They are rows in one list now, joined by After
+   * an overdose and If you are being tested (which were only reachable from
+   * deeper pages). Each keeps the one-line description that told a reader what
+   * is on the far side, so nothing that was said is lost — it is only denser.
+   * Plain cross-page links: tapping one opens Learn's target tab at its top,
+   * which is the same behaviour the .bigptr pointers had. */
+  wrap.appendChild(
+    h("div", { id: "sec-guides" },
+      section("More guides", null,
+        h("div", { class: "list" },
+          moreGuide("#/stimulants", "Staying up, and coming down",
+            "Sleep loss alone will bring on psychosis-like states eventually — "
+            + "the timeline, what it looks like, and why sleep is the treatment."),
+          moreGuide("#/sex", "Sexual health",
+            "Barriers, PrEP and PEP, emergency contraception, the mixes that put "
+            + "people in the hospital, and why drink test strips mostly do not work."),
+          moreGuide("#/heat", "Heat, and water",
+            "When hot has become dangerous, how to cool somebody down with what "
+            + "is in the room, and why too much plain water swells the brain."),
+          moreGuide("#/policy", "The law, and having a say in it",
+            "What a Good Samaritan law protects you from and what it does not, "
+            + "where test strips are legal, who funds this, and how to weigh in."),
+          moreGuide("#/after", "After an overdose",
+            "What happens next for whoever it happened to, whoever was in the "
+            + "room, and support the usual help is not built for."),
+          moreGuide("#/supervision", "If you are being tested",
+            "What a positive screen actually is, how to contest one, and what "
+            + "they cannot make you stop taking."))))
+  );
 
   /* Practice first. It is free, instant, needs no signup and no shipping
      address - and someone who tries it and finds they did not know the answer
@@ -101,7 +134,10 @@ export async function render(route, { go }) {
      floated between "Being the calm person" and the next section and read as
      belonging to it. A heading restores the page's rhythm - every other block
      here opens on one - and gives e.intro somewhere it is actually true. */
-  wrap.appendChild(section("Free courses", null,
+  /* Wrapped so the "Free courses" jump chip has an id to land on - section()
+     renders the heading but no id, and the chip needs one. */
+  wrap.appendChild(h("div", { id: "sec-courses" },
+    section("Free courses", null,
 
     /* Does training gate naloxone? Answered up front, because the honest
        answer is "no, but" - and someone who believes they need a certificate
@@ -118,8 +154,8 @@ export async function render(route, { go }) {
             h("p", { class: "card__meta" },
               it.cost, it.time ? ` · ${it.time}` : null),
             h("p", null, it.what),
-            h("div", { class: "sources" }, extLink(it.url, "Open")))))))) 
-  ));
+            h("div", { class: "sources" }, extLink(it.url, "Open"))))))))
+  )));
 
   /* After the courses, before "teach someone else". Someone who opened Learn
      to find a naloxone class should not be met by a section about hurting
@@ -145,65 +181,11 @@ export async function render(route, { go }) {
             x.sources ? h("div", { class: "sources" },
               x.sources.map((z) => extLink(z.url, z.name))) : null)))))] : []));
 
-  /* ITS OWN appendChild, and that is the fix rather than a style preference.
-     This block was the SECOND argument to the call above, and appendChild takes
-     one node — every argument after the first is dropped without an error. So
-     whenever the beforeTheNight bundle loaded, it took the first slot and this
-     entire section never rendered. Not a broken chip: a missing section, live,
-     found by the chip test noticing its target did not exist. */
-  wrap.appendChild(
-    h("div", { id: "sec-stimulants" },
-      section("Staying up, and coming down", null,
-        h("a", { class: "bigptr", href: "#/stimulants" },
-          h("span", { class: "bigptr__hd" }, "Staying up, and coming down"),
-          h("span", { class: "bigptr__sub" },
-            "Sleep loss alone will bring on psychosis-like states eventually — "
-            + "the documented timeline, what it looks like, how to help, and why "
-            + "sleep is the treatment.")))));
-
-  wrap.appendChild(
-    h("div", { id: "sec-sex" },
-      section("Sexual health", null,
-        h("a", { class: "bigptr", href: "#/sex" },
-          h("span", { class: "bigptr__hd" }, "Sexual health"),
-          h("span", { class: "bigptr__sub" },
-            "Barriers, PrEP and PEP, emergency contraception, the mixes that put "
-            + "people in the hospital, and why drink test strips mostly do not "
-            + "work.")))));
-
-  /* Heat sits on Learn as well as on Staying up, because the people it kills
-     are not all at a party. Somebody in a heat wave with nowhere cool to go
-     needs the same five minutes of reading and would never open a page about
-     stimulants to find it. */
-  wrap.appendChild(
-    h("div", { id: "sec-heat" },
-      section("Heat, and water", null,
-        h("p", { class: "sec__note" },
-          "More accidents at events come from overheating than from anything else."),
-        h("a", { class: "bigptr", href: "#/heat" },
-          h("span", { class: "bigptr__hd" }, "Heat, and water"),
-          h("span", { class: "bigptr__sub" },
-            "How to tell when hot has become dangerous, how to cool somebody down "
-            + "with what is in the room, and why too much plain water swells "
-            + "the brain of somebody who thought they were being careful.")))));
-
-  /* Policy sits at the foot of Learn rather than in the tab bar. The bar is
-     already six wide at 375px and a seventh would truncate them all - and
-     someone arriving in a hurry needs Alerts and SOS, not legislation.
-
-     It gets its own heading rather than being appended after consent. Bare,
-     it sat flush under the repair block and read as a continuation of it -
-     as though the law were the next thing to know about hurting someone.
-     They are unrelated subjects and the page should not imply otherwise. */
-  wrap.appendChild(
-    h("div", { id: "sec-policy" },
-      section("The law, and having a say in it", null,
-        h("a", { class: "bigptr", href: "#/policy" },
-          h("span", { class: "bigptr__hd" }, "Drug policy and how to weigh in"),
-          h("span", { class: "bigptr__sub" },
-            "What a Good Samaritan law actually protects you from and what it does not, "
-            + "where test strips are legal, who funds this, and how to reach the people "
-            + "who decide it.")))));
+  /* The four cross-page pointer sections that used to sit here — Staying up,
+     Sexual health, Heat and water, The law — are the "More guides" list near
+     the top of the page now. One dense list of destinations reads better than
+     four full-width bigptr sections a reader scrolls through, and every line
+     they carried is preserved there. */
 
   wrap.appendChild(
     /* In a card, not bare. Every other paragraph on this page sits on a
@@ -224,6 +206,19 @@ export async function render(route, { go }) {
 
   void go; void route;
   return wrap;
+}
+
+/* One row in the "More guides" list: a cross-page link with its one-line
+   description kept. The app's native list row (.nbr), the same shape the
+   startHere steps and the substance index use, so it reads as a tappable name
+   like everything else. A plain link — tapping opens the target tab at its
+   top, which is what the .bigptr pointers it replaced did. */
+function moreGuide(href, title, sub) {
+  return h("a", { class: "nbr", href },
+    h("span", { class: "nbr__text" },
+      h("span", { class: "nbr__name" }, title),
+      h("span", { class: "nbr__sub nbr__sub--wrap" }, sub)),
+    h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")));
 }
 
 /* "Start here" — a first-run walkthrough that is not a first run.
@@ -298,7 +293,11 @@ function startHere(e) {
         ? here("sec-naloxone", 4, "Get naloxone, free", null)
         : null,
 
-      away("#/test", null, hasNaloxone ? 5 : 4,
+      /* Lands on "What testing can and cannot tell you", whose id is sec-limits
+         now that the Test page opens on the tools and moved that section down
+         under "Before you buy". Without the reveal the reader arrives at the
+         top of Test and has to go find it. */
+      away("#/test", "sec-limits", hasNaloxone ? 5 : 4,
         "What a test can and cannot tell you", null)));
 }
 

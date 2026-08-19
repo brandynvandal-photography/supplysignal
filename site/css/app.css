@@ -1453,7 +1453,12 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
    tablet and desktop instead of three breakpoints that drift apart. */
 .classgrid {
   display: grid; gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  /* 170px, not 220px, so the class grid is two-up on a phone (it was a single
+     tall column at 375-390px, which pushed the combination checker below it
+     more than a screen down). Two columns roughly halves the grid's height and
+     brings the checker up toward the first screenful. min(100%, …) still lets
+     one card take the full width when that is all there is room for. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
 }
 /* A floating bubble, matching details.disc - not a boxed card.
    It carried a hard --edge outline while every other surface on the site used
@@ -3725,11 +3730,19 @@ details.disc .groupkids > details.disc > summary h2 {
 
 /* The naloxone pointer sat as a bare line between two heavy sections and read
    as orphaned. Given a surface of its own it becomes a deliberate hand-off. */
-/* Back to top. Desktop only - see mountBackToTop in app.js for why a phone
-   must not get one. A bubble like everything else, sitting quietly in the
-   corner rather than announcing itself: it is an exit, not an action. */
+/* Back to top. A bubble like everything else, sitting quietly in the corner
+   rather than announcing itself: it is an exit, not an action.
+
+   ON THE PHONE it is bottom-LEFT, lifted above the tab bar by the bar's
+   measured height plus 12px, so it clears the bar and never sits under the
+   pinned Quick Exit pill at the top right. --nav-real is set by app.js on
+   load and resize; the fallback covers the first paint before it is measured.
+   On a wide screen the tab bar is in the header, not at the foot, so the
+   button takes the ordinary bottom-right corner instead (below). */
 .totop {
-  position: fixed; right: var(--sp-4); bottom: var(--sp-4); z-index: 35;
+  position: fixed; z-index: 35;
+  left: var(--sp-3); right: auto;
+  bottom: calc(var(--nav-real, calc(var(--nav-h) + env(safe-area-inset-bottom))) + 12px);
   width: 46px; height: 46px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.15rem; line-height: 1; cursor: pointer;
@@ -3747,8 +3760,10 @@ details.disc .groupkids > details.disc > summary h2 {
                        transform var(--t-ease) var(--ease-float); }
   .totop:hover { transform: translateY(-2px); }
 }
-/* Never on a phone: the bottom bar owns that corner, and Emergency is in it. */
-@media (max-width: 959px) { .totop { display: none !important; } }
+/* Wide: no bottom bar (it is in the header), so the ordinary bottom-right. */
+@media (min-width: 960px) {
+  .totop { left: auto; right: var(--sp-4); bottom: var(--sp-4); }
+}
 
 /* A pointer that is a destination rather than a footnote: used where a whole
    page hangs off another page. Bubble, like everything else - no square
@@ -3956,6 +3971,12 @@ html, body { overscroll-behavior-y: none; }
 /* County overdose statistics, under the map. Quiet by design: this is a count
    of people, and someone reading it may have been at one of them. The number
    is large enough to be the answer, never large enough to be a headline. */
+/* The mortality card arrives asynchronously, after the local alerts, so its
+   slot holds its height from first paint - the sections below it (statewide,
+   bordering counties) do not jump when the bundle resolves and the card lands.
+   Held whether empty or full; a typical card fits inside it, and the card's
+   own margin-top is inside the reserve. */
+.mortslot { min-height: 260px; }
 .mort { margin-top: var(--sp-3); }
 .mort__n {
   font-size: 2.1rem; font-weight: 700; line-height: 1.05;

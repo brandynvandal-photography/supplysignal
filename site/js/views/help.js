@@ -2,7 +2,7 @@
  * does and does not know about the person reading it. */
 
 import {
-  h, frag, section, callout, extLink, disclosure, jumpNav, englishOnlyNotice,
+  h, callout, extLink, disclosure, jumpNav, englishOnlyNotice,
 } from "../ui.js";
 
 const LINES = [
@@ -171,21 +171,31 @@ export async function render() {
      whose friend is burning up and confused taps SOS, reads six naloxone
      steps, and leaves. Below the numbers, above the overdose steps - the
      numbers stay first. */
+  /* The two not-opioid pointers as ONE two-row list rather than two full-width
+     bigptr panels. They stay above the overdose steps - somebody whose friend
+     is overheating or in a stimulant crisis needs to be sent to the right page
+     before the naloxone steps, not after - but two stacked panels pushed those
+     steps down a screen. A dense .nbr list keeps both pointers and their lines
+     above the fold. data-reveal lands each on the relevant section of its
+     page, the same as the panels did. */
   wrap.appendChild(
-    h("a", { class: "bigptr", href: "#/heat", "data-reveal": "sec-spot" },
-      h("span", { class: "bigptr__hd" }, "If they are burning up, or confused"),
-      h("span", { class: "bigptr__sub" },
-        "Overheating and drinking too much water both end in the same place — "
-        + "somebody who stops making sense. How to tell, and how to cool them "
-        + "down with what is in the room.")));
-
-  wrap.appendChild(
-    h("a", { class: "bigptr", href: "#/stimulants", "data-reveal": "sec-helping" },
-      h("span", { class: "bigptr__hd" }, "If they are panicking, or seeing things"),
-      h("span", { class: "bigptr__sub" },
-        "Too much of a stimulant, or days without sleep. What actually helps, "
-        + "and the point where it stops being psychological and becomes "
-        + "medical.")));
+    h("div", { class: "list" },
+      h("a", { class: "nbr", href: "#/heat", "data-reveal": "sec-spot" },
+        h("span", { class: "nbr__text" },
+          h("span", { class: "nbr__name" }, "If they are burning up, or confused"),
+          h("span", { class: "nbr__sub nbr__sub--wrap" },
+            "Overheating and drinking too much water both end in the same place — "
+            + "somebody who stops making sense. How to tell, and how to cool them "
+            + "down with what is in the room.")),
+        h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›"))),
+      h("a", { class: "nbr", href: "#/stimulants", "data-reveal": "sec-helping" },
+        h("span", { class: "nbr__text" },
+          h("span", { class: "nbr__name" }, "If they are panicking, or seeing things"),
+          h("span", { class: "nbr__sub nbr__sub--wrap" },
+            "Too much of a stimulant, or days without sleep. What actually helps, "
+            + "and the point where it stops being psychological and becomes "
+            + "medical.")),
+        h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")))));
 
   /* ---- opioid overdose response, immediately after the numbers ----
      Moved above "Collapsed, cause unknown" and the festival block. The
@@ -222,9 +232,11 @@ export async function render() {
      respond, with breathing and airway reflexes preserved. So responsiveness
      cannot separate "will come out of this" from "is dying". Breathing can.
      That is the whole section; everything else is downstream of it. */
+  /* OPEN, but collapsible now. It is emergency content and stays open, but as
+     a disclosure a reader who knows it is an opioid overdose can fold this and
+     the festival/club blocks below it away to shorten the page. */
   wrap.appendChild(
-    h("div", { id: "sec-collapse" },
-      section("If they have collapsed and you do not know why", null,
+    disclosure("sec-collapse", "If they have collapsed and you do not know why", { open: true, tone: "urgent" },
         h("p", { class: "leadin" },
           "You will often not know what happened, and you do not need to. "
           + "One check decides what you do."),
@@ -326,7 +338,7 @@ export async function render() {
             + "stays under is naloxone working — do not keep dosing to chase "
             + "consciousness. And waking up is the middle of this, not the "
             + "end: naloxone wears off in thirty to forty-five minutes and "
-            + "most opioids last longer.")))));
+            + "most opioids last longer."))));
 
   /* ---- at a festival or a big event ----
      Placed directly under the 911 instruction because it CHANGES that
@@ -345,8 +357,7 @@ export async function render() {
      their friend deteriorates, is the failure mode. Do not add it back without
      a real source. */
   wrap.appendChild(
-    h("div", { id: "sec-festival" },
-      section("At a festival or a big event", null,
+    disclosure("sec-festival", "At a festival or a big event", null,
         h("div", { class: "card" },
           h("h3", null, "The nearest radio beats the nearest phone"),
           h("p", null,
@@ -422,7 +433,7 @@ export async function render() {
           h("p", { class: "sec__note" },
             "Medics carry naloxone whether or not you say the word. If you are "
             + "worried they will not, you can ask them to bring it — knowing "
-            + "that asking may bring police too.")))));
+            + "that asking may bring police too."))));
 
   /* ---- a nightclub or a bar ----
      Not the festival section with the word changed. A festival has medics
@@ -431,8 +442,7 @@ export async function render() {
      different enough to need their own list, and the one that kills people is
      specific to the room: an overdose in a locked stall, found late. */
   wrap.appendChild(
-    h("div", { id: "sec-club" },
-      section("At a club or a bar", null,
+    disclosure("sec-club", "At a club or a bar", null,
         h("div", { class: "card" },
           h("h3", null, "Security is not a medic"),
           h("p", null,
@@ -484,7 +494,7 @@ export async function render() {
           h("span", { class: "bigptr__hd" }, "No naloxone yet?"),
           h("span", { class: "bigptr__sub" },
             "Where to get it free, and how to use it — worth doing before the "
-            + "night you need it.")))));
+            + "night you need it."))));
 
 
   /* ---- what to tell EMS once they arrive ----

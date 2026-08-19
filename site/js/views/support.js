@@ -52,28 +52,45 @@ export async function render() {
      read are "Maybe you want to stop", which is the offer itself rather than
      an announcement of one.
 
-     Placed BELOW the jump nav. At the top it was the first and largest thing
-     on the page, so someone who came looking for a phone number had to read a
-     paragraph about how they are allowed to feel before reaching anything
-     actionable. The nav goes first; this is here for whoever slows down. */
+     "What is often underneath" folds INTO the letter now, as an h3, rather
+     than sitting below it as its own disclosure. The two were saying one
+     thing - here is what may be under the using, and it is not a character
+     flaw - split across a prose block and a dropdown. Together they read as
+     one letter. The letter sits below the help groups: somebody who came for a
+     phone number reaches the numbers first, and this is here for whoever slows
+     down. */
   const letter = h("div", { class: "letter" },
     ...g.framing.body.map((p) => h("p", null, p)),
     /* Quiet, not bold. Bolding this made it read as the terms and
        conditions on the offer above it. */
-    h("p", { class: "letter__close" }, g.framing.close));
+    h("p", { class: "letter__close" }, g.framing.close),
+    h("h3", null, g.underneath.headline),
+    ...g.underneath.body.map((p) => h("p", null, p)),
+    h("p", { class: "sec__note" }, g.underneath.note));
 
+  /* SEVEN CHIPS, in DOM order. "Talk now" leads because the new hotline
+     section does - a tel: link should be reachable with no taps, not behind
+     the letter. The rest follow the page. */
   wrap.appendChild(
     jumpNav([
+      { id: "sec-talknow", label: "Talk now" },
       { id: "grp-help", label: "Finding help" },
       { id: "grp-now", label: "Staying safer now" },
+      { id: "sec-loved", label: "Someone you love" },
       { id: "sec-trauma", label: "Trauma" },
       { id: "sec-pregnancy", label: "Pregnant or parenting" },
-      { id: "sec-loved", label: "Someone you love" },
       { id: "sec-communities", label: "Finding your people" },
     ])
   );
 
-  wrap.appendChild(letter);
+  /* SOMEONE TO TALK TO NOW, open, at the top. These twelve lines used to be
+     the "Lines for specific people" block buried inside Getting services,
+     inside the Finding help group - three taps from the page, when a phone
+     number is the thing somebody in crisis needs with none. Moved verbatim,
+     general lines first (988, Never Use Alone, Crisis Text Line answer for
+     anyone; the population- and topic-specific lines keep their own order),
+     plain tone - it is a directory of numbers, not an alarm. */
+  wrap.appendChild(talkNowBlock(g));
 
   /* Two doors into the After page, high on Support because the people who
      need it are usually looking for something else when they realise it
@@ -88,19 +105,45 @@ export async function render() {
         "and support for people the usual help isn’t built for."))
   );
 
-  /* ---- what is underneath ---- */
-  /* Framing only, open and short. Trauma used to nest inside this - a single
-     child sitting in a parent's 32px of body padding, which read as an
-     orphaned row floating in space rather than as a subsection. It is its own
-     top-level section again, RENAMED so it no longer collides with this
-     block's title (the pair previously read "What is often underneath" and
-     "What sits underneath", which is why it was nested in the first place). */
   wrap.appendChild(
-    disclosure("sec-underneath", g.underneath.headline, { open: true },
-      h("div", { class: "card" },
-        ...g.underneath.body.map((p) => h("p", null, p)),
-        h("p", { class: "sec__note" }, g.underneath.note)))
+    /* OPEN, children shut, no preview. The group leads the help sections and a
+       reader should see its contents without a tap; the children stay shut so
+       the list of them is scannable, and the preview list is dropped because
+       an open group repeats its child headings a few pixels below it. */
+    group("grp-help", "Finding help",
+      "Treatment, peer support, and what to do about cost.", [
+        sectionOrPending("sec-options", "Treatment options", g.options, renderOptions),
+        sectionOrPending("sec-getting", "Getting services", g.getting, renderGetting),
+        sectionOrPending("sec-peer", "Peer support", g.peer, renderPeer),
+        /* Cost sits inside this group rather than last on the page: it is the
+           barrier people assume is final, so it belongs beside the things it
+           is a barrier to. */
+        disclosure("sec-cost", g.cost.headline, null,
+          h("div", { class: "card" },
+            h("p", null, g.cost.body),
+            h("p", null, h("strong", null, g.cost.note)))),
+      ],
+      null,
+      { open: true })
   );
+
+  wrap.appendChild(
+    group("grp-now", "Staying safer right now", "No decisions required.", [
+        sectionOrPending("sec-supplies", "Getting supplies", g.supplies, renderSupplies),
+        await checkingBlock(),
+        saferUseBlock(),
+      ],
+      ["Getting supplies", "Getting your supply checked", "If you are going to use"])
+  );
+
+  wrap.appendChild(letter);
+
+  /* Not a group(). With one child, group() returns that child and throws away
+     the id, the title and the blurb - so the "Someone you love" jump chip
+     pointed at an element that never existed and did nothing when tapped, and
+     two reader-facing strings had never once rendered. The block carries its
+     own heading, so it goes in directly and the chip points at sec-loved. */
+  wrap.appendChild(lovedBlock(g));
 
   wrap.appendChild(
     sectionOrPending("sec-trauma", "Trauma and mental health", g.trauma, renderTrauma)
@@ -131,42 +174,6 @@ export async function render() {
         P.lastVerified
           ? h("p", { class: "sec__note" }, `Checked ${P.lastVerified}.`) : null));
   }
-
-  wrap.appendChild(
-    /* Shortened, not dropped — see the note on grp-reagents in views/test.js. */
-    group("grp-help", "Finding help",
-      "Treatment, peer support, and what to do about cost.", [
-        sectionOrPending("sec-options", "Treatment options", g.options, renderOptions),
-        sectionOrPending("sec-getting", "Getting services", g.getting, renderGetting),
-        sectionOrPending("sec-peer", "Peer support", g.peer, renderPeer),
-        /* Cost sits inside this group rather than last on the page: it is the
-           barrier people assume is final, so it belongs beside the things it
-           is a barrier to. */
-        disclosure("sec-cost", g.cost.headline, null,
-          h("div", { class: "card" },
-            h("p", null, g.cost.body),
-            h("p", null, h("strong", null, g.cost.note)))),
-      ],
-      /* The preview list. Without it this collapses to a title and a chevron,
-         which is the failure ui.js:293 documents. */
-      ["Treatment options", "Getting services", "Peer support", "If you cannot pay"])
-  );
-
-  wrap.appendChild(
-    group("grp-now", "Staying safer right now", "No decisions required.", [
-        sectionOrPending("sec-supplies", "Getting supplies", g.supplies, renderSupplies),
-        await checkingBlock(),
-        saferUseBlock(),
-      ],
-      ["Getting supplies", "Getting your supply checked", "If you are going to use"])
-  );
-
-  /* Not a group(). With one child, group() returns that child and throws away
-     the id, the title and the blurb - so the "Someone you love" jump chip
-     pointed at an element that never existed and did nothing when tapped, and
-     two reader-facing strings had never once rendered. The block carries its
-     own heading, so it goes in directly and the chip points at sec-loved. */
-  wrap.appendChild(lovedBlock(g));
 
   /* The culturally-specific directory. Last of the sections because it is the
      one people arrive looking for by name rather than stumble into - and
@@ -222,6 +229,10 @@ function renderOptions(o) {
 }
 
 function renderGetting(x) {
+  /* The "Lines for specific people" hotline block that used to close this
+     section moved to the top-level "Someone to talk to now" section - see
+     talkNowBlock. A phone number is the thing somebody in crisis needs
+     fastest, and three taps deep inside a group was the wrong place for it. */
   return frag(
     x.intro ? h("p", null, x.intro) : null,
     (x.routes || []).map((r) =>
@@ -233,34 +244,54 @@ function renderGetting(x) {
           r.phone
             ? h("a", { class: "btn btn--ghost btn--sm", href: `tel:${r.phone.replace(/\D/g, "")}` },
                 r.phone)
-            : null))),
-    (x.lines || []).length
-      ? frag(
-          h("h3", null, "Lines for specific people"),
-          h("div", { class: "hotline" },
-            x.lines.map((l) =>
-              /* safeHref, not the raw URL. This was the one place a shipped
-                 org link reached an href without the http/https allowlist -
-                 harmless with hand-curated data, but the allowlist is
-                 defense-in-depth against a future CSP regression and it only
-                 works if it has no exceptions. */
-              h("a", { href: l.phone ? `tel:${l.phone.replace(/\D/g, "")}` : safeHref(l.url),
-                       ...(l.url && !l.phone ? { target: "_blank", rel: "noopener noreferrer", referrerpolicy: "no-referrer" } : {}) },
-                h("span", null,
-                  h("span", { class: "lbl" }, l.name),
-                  l.who ? h("span", { class: "sub" }, l.who) : null,
-                  /* Hours, but only where a line is NOT round-the-clock.
-                     Most of this list is 24/7 and says so in `who`, so silence
-                     was reading as always-on - which sent a trans reader to a
-                     number that does not answer on a Saturday night. */
-                  l.hours ? h("span", { class: "sub sub--hours" }, l.hours) : null,
-                  /* Who can send police is not a footnote. An unmarked entry
-                     next to Trans Lifeline's stated no-dispatch policy reads
-                     as vetted rather than undocumented, which is backwards. */
-                  l.dispatch ? h("span", { class: "sub sub--dispatch" }, l.dispatch) : null),
-                h("span", { class: "num" }, l.phone || "Open")))))
-      : null
+            : null)))
   );
+}
+
+/* One crisis-line row. Extracted so the "Someone to talk to now" section and
+   nothing else renders it identically - the lines it lists are the verbatim
+   `getting.lines` entries, moved, not rewritten. */
+function hotlineRow(l) {
+  return (
+    /* safeHref, not the raw URL. This was the one place a shipped org link
+       reached an href without the http/https allowlist - harmless with
+       hand-curated data, but the allowlist is defense-in-depth against a
+       future CSP regression and it only works if it has no exceptions. */
+    h("a", { href: l.phone ? `tel:${l.phone.replace(/\D/g, "")}` : safeHref(l.url),
+             ...(l.url && !l.phone ? { target: "_blank", rel: "noopener noreferrer", referrerpolicy: "no-referrer" } : {}) },
+      h("span", null,
+        h("span", { class: "lbl" }, l.name),
+        l.who ? h("span", { class: "sub" }, l.who) : null,
+        /* Hours, but only where a line is NOT round-the-clock. Most of this
+           list is 24/7 and says so in `who`, so silence was reading as
+           always-on - which sent a trans reader to a number that does not
+           answer on a Saturday night. */
+        l.hours ? h("span", { class: "sub sub--hours" }, l.hours) : null,
+        /* Who can send police is not a footnote. An unmarked entry next to
+           Trans Lifeline's stated no-dispatch policy reads as vetted rather
+           than undocumented, which is backwards. */
+        l.dispatch ? h("span", { class: "sub sub--dispatch" }, l.dispatch) : null),
+      h("span", { class: "num" }, l.phone || "Open"))
+  );
+}
+
+/* The lines that answer for anyone in crisis, whoever they are. Everything
+   else in getting.lines is for a specific population (veterans, LGBTQ+ young
+   people, trans callers) or a specific harm (domestic violence, sexual
+   assault, child abuse), and those keep their own order after these three. */
+const GENERAL_LINES = new Set([
+  "988 Suicide & Crisis Lifeline", "Never Use Alone", "Crisis Text Line",
+]);
+
+function talkNowBlock(g) {
+  const lines = (g.getting?.lines || []);
+  if (!lines.length) return h("span");
+  /* Stable partition: general lines first in the order they are listed, then
+     the rest in the order they are listed. No line is reworded or dropped. */
+  const general = lines.filter((l) => GENERAL_LINES.has(l.name));
+  const rest = lines.filter((l) => !GENERAL_LINES.has(l.name));
+  return disclosure("sec-talknow", "Someone to talk to now", { open: true },
+    h("div", { class: "hotline" }, [...general, ...rest].map(hotlineRow)));
 }
 
 function renderPeer(p) {

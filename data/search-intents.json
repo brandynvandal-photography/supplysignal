@@ -175,6 +175,17 @@
     },
     {
       "q": [
+        "what could this be",
+        "identify my drug",
+        "figure out what this is",
+        "what did the color turn"
+      ],
+      "label": "What could this be?",
+      "route": "#/test/tracker",
+      "why": "The reagent tracker: enter what each reagent turned and it walks the chart for you."
+    },
+    {
+      "q": [
         "are test strips legal",
         "test strip legal",
         "paraphernalia"
@@ -428,6 +439,21 @@
       "label": "Coming down",
       "route": "#/stimulants",
       "anchor": "sec-coming"
+    },
+    {
+      "q": [
+        "mixing",
+        "can i mix",
+        "is it safe to mix",
+        "mixing drugs",
+        "benzos and opioids",
+        "opioids and benzos",
+        "combining drugs"
+      ],
+      "label": "Is this mix dangerous?",
+      "route": "#/substances",
+      "anchor": "sec-checker",
+      "why": "\"Mixing\" used to land on a Test row; the combination checker is the thing that answers it."
     },
     {
       "q": [

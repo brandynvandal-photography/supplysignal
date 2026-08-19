@@ -19,6 +19,45 @@ import * as data from "../data.js";
 import { match as reagentMatch, checkSoldAs } from "../reagentmatch.js";
 import { flowFor, walk, completedBy, offChart, guide } from "../flowcheck.js";
 import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
+import { findSubstances, synthesize } from "../substancematch.js";
+
+/* ------------------------------------------------------------ session state
+ *
+ * WHAT THE TRACKER REMEMBERS, AND WHERE.
+ *
+ * Tapping a result row leaves for the drug page, and Back re-rendered this
+ * view from scratch — so three readings, the sold-as, and the chart they had
+ * loaded were gone the moment somebody went to look at what they had found.
+ * The same was true of switching tabs mid-test.
+ *
+ * So the tool's state lives HERE, in a module variable, for as long as the
+ * page is open. Not in storage — sessionStorage would survive the very thing
+ * this app promises nothing survives (test/privacy.test.mjs confines storage
+ * to three preference modules, and what somebody is testing their drugs for is
+ * the last thing that should join them). Same construction as lensPicks in
+ * views/substances.js: a variable, never written down, gone when the tab is.
+ *
+ * Two things empty it early, because "when the tab closes" is later than the
+ * reader needs:
+ *   - Quick Exit. app.js dispatches "nl:panic" on the document before it
+ *     clears anything else, so a search panel, this, and anything like it can
+ *     wipe themselves in the same tick. The literal is app.js's PANIC; the
+ *     privacy test holds the two together.
+ *   - pagehide. iOS fires it when the app is backgrounded, which is the moment
+ *     the app-switcher snapshot is taken and the moment a phone changes hands.
+ * The shape: { soldAs, slots: [{ reagent, result }] }. The loaded flow is not
+ * stored because it is a function of soldAs - flowFor() recomputes it. */
+let trackerSession = null;
+const forgetTracker = () => { trackerSession = null; };
+document.addEventListener("nl:panic", forgetTracker);
+window.addEventListener("pagehide", forgetTracker);
+
+/* THE TRACKER'S ADDRESS. `/test#/tracker` on the web and `#/test/tracker` in
+   the packaged app — routes.js turns one into the other. A substance goes
+   AFTER it, in the fragment, never the path: `#/tracker/mdma` is not
+   transmitted, `/tracker/mdma` would be. See routes.js for why that line is
+   the whole privacy model. */
+const TRACKER = "#/test/tracker";
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
@@ -45,6 +84,15 @@ export async function render(route, ctx) {
   SRC = sourceSink();          // fresh per render; see the note on sourceRow
 
   const [REAGENT_TABLE, SUBS, FLOWS] = await bundles;
+
+  /* THE TRACKER IS A SCREEN OF ITS OWN, under this tab. Branching on the
+     route the way substances.js branches on a drug id: same data, same
+     module, a different page. route.sub is a substance id to start the tool
+     on — the drug pages link here with theirs. */
+  if (route?.id === "tracker") {
+    return trackerView(route.sub || null, g, { REAGENT_TABLE, SUBS, FLOWS, go });
+  }
+
   const wrap = h("div");
 
   wrap.appendChild(h("h1", null, "Test your supply"));
@@ -53,16 +101,21 @@ export async function render(route, ctx) {
     /* One chip per top-level section, in page order. It had accumulated one
        per SUB-section too, which after grouping meant eleven chips, "Reagents"
        listed twice, and entries pointing inside collapsed parents. */
+    /* IN DOM ORDER, and test/views.test.mjs now asserts it. The strip had
+       been a table of contents that read top-to-bottom in a different order
+       from the page - "What's out there" first while the prevalence table sat
+       two screens down - so a reader who used it as a map was misled by it.
+       Each chip sits exactly where its section sits. */
     jumpNav([
+      { id: "sec-strips", label: "Test strips" },
+      { id: "sec-whatisit", label: "What could this be?" },
+      { id: "sec-companion", label: "Whatever the test says" },
       { id: "sec-prevalence", label: "What's out there" },
       /* The GROUP, not the first section inside it. The chip is labelled
          "Which one to get" and that is now the tile's own name, so pointing it
          at sec-compare landed the reader on a child with the tile's heading
          scrolled off above them. */
       { id: "grp-getting", label: "Which one to get" },
-      { id: "grp-reagents", label: "Reagents" },
-      { id: "sec-strips", label: "Test strips" },
-      { id: "sec-whatisit", label: "What could this be?" },
       { id: "sec-storage", label: "Storing supplies" },
     ])
   );
@@ -79,12 +132,216 @@ export async function render(route, ctx) {
       h("p", null, g.framing.ruleInRuleOut))
   );
 
+  /* USING IT FIRST, BUYING IT SECOND.
+   *
+   * The page opened on "what testing can tell you", then the prevalence
+   * table, then five sections about which kit to buy - 2,226 characters of
+   * reading before the first control, on a page whose first control is the
+   * one that tells somebody how to read the strip in their hand. Most people
+   * who open this tab already own something. So the page now opens on the
+   * two tools - the strip picker and the reagent tracker - and the material a
+   * reader consults BEFORE they own a kit (what is out there, what a test
+   * cannot do, which one to get, how to store it) follows under its own
+   * heading. Prevalence-first was a deliberate decision and is recorded as
+   * one below; this is the trade against it, made with the reading cost in
+   * view. */
+  wrap.appendChild(section("Using it", null));
+
+  const fts = g.strips.find((s) => s.id === "fentanyl");
+  wrap.appendChild(
+    /* Open, but not toned urgent. disc--urgent only paints the summary in
+       --critical, which on THIS page is the colour of a positive fentanyl
+       result - spending it on a default-open explainer where nothing is wrong
+       made the real result cards below mean slightly less. */
+    /* ONE section, not two. "Reading a test strip" and "Test strips" were
+       separate top-level disclosures with the same subject: the first said how
+       to read one, the second held each type with its limits and accuracy - so
+       a reader had to know both existed, and the picker that decides the
+       reading sat in one while the strip it describes sat in the other. */
+    disclosure("sec-strips", "Test strips",
+      { open: true },
+      /* The verdict cards are rendered BY the picker now, from the product the
+         reader chose. They used to be printed once, above it, as though the
+         answer were the same for every strip - and then the section below
+         quietly said it was not. Two answers to one question on one screen is
+         worse than either answer alone. */
+      brandPicker(g.brands),
+      /* The one-line-means-positive panel is gone too. It sat directly above
+         the strip diagram that shows exactly this, labelled. */
+      h("p", null, fts.reading.explain),
+      h("p", { class: "sec__note" }, fts.reading.faintLine),
+      /* Each type, under the reading it shares. Shut: the picker above has
+         already answered how to read one; each card is a type's limits and
+         field accuracy, opened when that type is the one in hand. */
+      g.strips.map((s) => stripCard(s, g)))
+  );
+
+  /* ---- reagents, open ----
+     Reagent testing stands open. It is the part of this page that does
+     something rather than explains something — a reader picks what it was
+     sold as and the app walks them through DanceSafe's test for it. */
+  wrap.appendChild(
+    /* The blurb stays, shortened. The preview list below it is aria-hidden, so
+       for a screen reader this line is the only thing between the group's name
+       and its children. */
+    group("grp-reagents", "Reagent testing",
+      "What reagents show, and how to run one safely.", [
+      (
+      /* THE TOOL, FIRST, AS A DOOR. The reagent tracker used to render here,
+         open, in full - the one control on this page that grew as it was used,
+         sitting third under two closed rows. It has its own screen now
+         (trackerView below, at /test#/tracker) where it gets the top of the
+         page, a stable address for search and the drug pages, and state that
+         survives leaving to read about a result. What stays here is the way
+         in, under the same id the chip and test/views.test.mjs have always
+         resolved to. The heading is the section's; the launcher below it is
+         the same shape Learn uses to hand off to a page of its own. */
+      h("div", { id: "sec-whatisit" },
+        section("What could this be?", null,
+          trackerLauncher()))
+    ),
+      (
+      /* THE METHOD NEXT TO THE TOOL. This sat below the picker on the reasoning
+         that anybody reaching for a reverse lookup has already run their
+         reagents. That stopped being true when the picker started loading the
+         test for you — it now tells somebody which reagents to open and in
+         what order, which is a thing you do BEFORE you have any colors, and
+         the section that says how to do it safely cannot be far from it. The
+         acid warning sits on the group itself, above both. */
+      /* ONE section, not two. "Handling reagents safely" was a sibling of "How
+         to run a reagent test", and every word of it describes something you
+         do while running one: gloves before you start, what to do if it goes
+         on your skin during, disposal after. Split in two, a reader who opened
+         the procedure got the steps without the acid warning, and the safety
+         section read as optional reading rather than as part of the method.
+         Same mistake the reading and strips sections had.
+
+         Ordered the way it actually happens, which is also how DanceSafe
+         sequences it: protect yourself, run it, clean up, and keep the kit
+         alive for next time. */
+      disclosure("sec-procedure", "How to run a reagent test", null,
+        /* The acid warning used to open this section. It is the GROUP's
+           intro now - see `opts.intro` below - so that a reader who opens the
+           tracker or the reagent list without ever opening the procedure
+           still meets it. The steps start at the first step. */
+        h("ol", { class: "steps" },
+          g.procedure.map((p) => h("li", null, h("h4", null, p.title), h("p", null, p.body)))),
+
+        h("div", { class: "card" },
+          h("h3", null, "If it gets on you"),
+          h("ul", null, g.safety.firstAid.map((f) => h("li", null, f))),
+          h("h3", null, "Disposal"),
+          h("p", null, g.safety.disposal)),
+
+        h("div", { class: "card" },
+          h("h3", null, "Keeping the kit working"),
+          h("p", null, g.safety.storage),
+          h("p", null, g.safety.expiry),
+          h("p", null, h("strong", null, "Check it still works: "), g.safety.validate)))
+    ),
+      (
+      /* "Reagents", not "Reagent testing" - the parent tile is already called
+         Reagent testing, and a child repeating its parent's name tells a
+         reader nothing about which of the three sections they want. */
+      disclosure("sec-reagents", "Reagents",
+        null,
+        reagentFilter(g.reagents),
+        /* The picker and the colour tables know six reagents this guide does
+           not teach: the table has rows for them, so readings count, but no
+           source in this repo says how they are supplied or run. Said here
+           rather than left for a reader to discover as a gap - and pointed at
+           the one instruction sheet that is always correct for the bottle in
+           their hand. */
+        h("p", { class: "sec__note" },
+          "Hofmann, Zimmermann, Scott, Gallic, Robadope and Folin appear in the "
+          + "color tables and the tracker, but this guide does not cover them "
+          + "yet. Their readings still count. Follow the instructions that came "
+          + "with your kit."),
+        h("details", { class: "acc" },
+          h("summary", null, h("span", null, "Why a color can be hidden")),
+          h("div", { class: "acc__body" },
+            h("ul", null, g.reagentIntro.masking.map((m) => h("li", null, m))),
+            h("p", null, g.reagentIntro.mixtures))))
+    ),
+    ],
+    /* The preview names what is inside, in the order it is inside. */
+    ["What could this be?", "Running a test", "Reagents"],
+    {
+      open: true,
+      /* THE GROUP'S WARNINGS, not the first child's.
+       *
+       * Both of these apply to reagent testing as a whole, so they sit on
+       * reagent testing, above every section they qualify - a reader who
+       * opens the procedure, the reagent list or the tracker meets them
+       * either way.
+       *
+       * The fentanyl heading is scoped to the question a reader actually asks
+       * — "is fentanyl in MY drugs" — rather than to reagent chemistry.
+       * Reference-grade fentanyl DOES react with Marquis, so the flat claim
+       * "no reagent detects fentanyl" is refutable, and a rule that can be
+       * refuted is a rule somebody talks themselves out of at the wrong
+       * moment. This version cannot be refuted. It went missing from the page
+       * for a while: a comment here said it had moved into "What testing can
+       * and cannot tell you", and it had not - it was simply gone. Back, in
+       * the words it had, above everything it is about.
+       *
+       * The chemistry nuance sits directly under it, collapsed, because "but
+       * it reacts with pure fentanyl, doesn't it?" is the first thing a reader
+       * who knows any chemistry thinks — and answering it anywhere else looks
+       * like the app avoiding the question.
+       *
+       * The acid warning follows. It opened "How to run a reagent test" and
+       * was therefore only met by somebody who opened that row; the bottle is
+       * the same bottle whichever section you came for. The same two render
+       * at the head of the tracker screen - reagentWarnings() - so neither
+       * surface can drift from the other. */
+      intro: frag(
+        reagentWarnings(g),
+        g.reagentIntro.pureSampleNote
+          ? h("details", { class: "acc" },
+              h("summary", null,
+                h("span", null, g.reagentIntro.pureSampleNote.q)),
+              h("div", { class: "acc__body" },
+                h("p", null, g.reagentIntro.pureSampleNote.a),
+                h("p", null, g.reagentIntro.pureSampleNote.b),
+                sourceRow(g.reagentIntro.pureSampleNote.sources)))
+          : null),
+    })
+  );
+
+  /* Directly under the tools, open, because it is what to do with whatever
+     they said. It closed the page; somebody who had just got a result had to
+     scroll past buying advice to find the four lines that apply to every
+     result. */
+  wrap.appendChild(
+    disclosure("sec-companion", "Whatever the test says", { open: true },
+      h("div", { class: "card" },
+        h("ul", null, g.companion.map((c) => h("li", null, c)))))
+  );
 
   /* The page had no section headings at all, so eight top-level disclosures
      floated in a row and nothing told a reader where one idea ended and the
-     next began. Three headings, in the order the questions actually arrive:
-     what a test can tell me, which one do I get, how do I run it. */
-  wrap.appendChild(section("Testing", null));
+     next began. Two headings now, in the order the questions actually arrive
+     for somebody holding a kit: how do I use it, and then everything a reader
+     wants before they own one. */
+  wrap.appendChild(section("Before you buy", null));
+
+  /* ---- what is actually out there ----
+     Deliberately specific. "Fentanyl is in everything" is falsifiable against
+     a reader's own experience, and once it fails they discount the warnings
+     that are true. Real numbers hold up and are a better argument for
+     testing than alarm is. */
+  /* The prevalence table was the page's center of gravity - the claims audit
+     made visible, answering the question people actually arrive with - and it
+     led the page, open, for that reason. It still opens this half of the page
+     and it is still open; what moved above it is the pair of tools a reader
+     who already owns a kit came for. */
+  if (g.prevalence) {
+    wrap.appendChild(
+      disclosure("sec-prevalence", g.prevalence.headline, { open: true },
+        prevalenceBlock(g.prevalence))
+    );
+  }
 
   wrap.appendChild(
     disclosure("sec-limits", "What testing can and cannot tell you", null,
@@ -99,22 +356,6 @@ export async function render(route, ctx) {
         sourceRow(g.framing.sources)))
   );
 
-  /* ---- what is actually out there ----
-     Deliberately specific. "Fentanyl is in everything" is falsifiable against
-     a reader's own experience, and once it fails they discount the warnings
-     that are true. Real numbers hold up and are a better argument for
-     testing than alarm is. */
-  /* The prevalence table is the page's center of gravity - the claims audit
-     made visible, answering the question people actually arrive with. It was
-     buried under the reagent block in a closed disclosure with its headline
-     rendered twice. Now: first content block, open by default, said once. */
-  if (g.prevalence) {
-    wrap.appendChild(
-      disclosure("sec-prevalence", g.prevalence.headline, { open: true },
-        prevalenceBlock(g.prevalence))
-    );
-  }
-
   /* A GROUP TILE, not a bare heading over five disclosures.
    *
    * It was flattened for a good reason once - it had been a section wrapping a
@@ -127,8 +368,8 @@ export async function render(route, ctx) {
    * five separate closed boxes to reach the part about using it.
    *
    * As a tile they are one box with their names listed on it, which is the
-   * same shape "Reagent testing" already uses below - so the page reads as
-   * three things to choose between rather than twelve. Not open by default:
+   * same shape "Reagent testing" already uses above - so the page reads as
+   * a few things to choose between rather than twelve. Not open by default:
    * unlike reagent testing, this is the section somebody is done with once
    * they own a kit. */
   wrap.appendChild(
@@ -143,7 +384,7 @@ export async function render(route, ctx) {
           /* .card + .reagtable, the same shape the reagent tables and the
              fentanyl-prevalence table use, so every data block on this page
              reads as the same kind of thing.
-             
+
              This one had four columns and a 520px floor, and scrolled sideways
              on purpose - the comment on .cmp argued that wrapping every cell
              would destroy the side-by-side reading the table exists for. That
@@ -152,7 +393,7 @@ export async function render(route, ctx) {
              of it - "what it misses" and most of the negative - sat off-screen,
              and reaching them scrolled the tool name away. There was no side by
              side to protect.
-             
+
              So the four columns become one labelled block per tool. The column
              headers do not vanish the way the reagent table's did, because
              unlike "Drug / Reaction" they each carry meaning the cell alone
@@ -210,12 +451,10 @@ export async function render(route, ctx) {
          their supply. */
       g.buying ? (
         disclosure("sec-buying", g.buying.headline, null,
-  
-          callout("stop", g.buying.trap.title,
-            h("p", null, g.buying.trap.body),
-            h("p", null, h("strong", null, "How to tell them apart: "), g.buying.trap.tell),
-            h("p", { class: "sec__note" }, g.buying.trap.examples)),
-  
+          /* The trap callout that opened this section is the GROUP's intro
+             now - see `opts.intro` below. It was two taps deep: open the tile,
+             open this row, and only then learn that most of what is sold as a
+             fentanyl test strip tests a person. */
           frag(g.buying.items.map((it) =>
             h("div", { class: "card" },
               h("h3", null, it.what),
@@ -228,13 +467,13 @@ export async function render(route, ctx) {
               it.links
                 ? h("div", { class: "sources" }, it.links.map((l) => extLink(l.url, l.name)))
                 : null))),
-  
+
           callout("warn", g.buying.legal.title,
             h("p", null, g.buying.legal.body),
             h("p", { class: "sec__note" }, g.buying.legal.note),
             h("div", { class: "sources" },
               g.buying.legal.sources.map((x) => extLink(x.url, x.name)))),
-  
+
           sourceRow(g.buying.sources),
           h("p", { class: "sec__note" },
             `Prices and availability checked ${g.buying.lastVerified}. Both change.`))
@@ -276,174 +515,28 @@ export async function render(route, ctx) {
     ),
     ],
     /* The preview names what is inside, so the tile says what it holds without
-       being opened - same as the reagent tile below. */
-    ["Which test tells you what", "Buying one", "Legality", "Labs"])
-  );
-
-  wrap.appendChild(section("Using it", null));
-
-  const fts = g.strips.find((s) => s.id === "fentanyl");
-  const strips = (
-    /* Open, but not toned urgent. disc--urgent only paints the summary in
-       --critical, which on THIS page is the colour of a positive fentanyl
-       result - spending it on a default-open explainer where nothing is wrong
-       made the real result cards below mean slightly less. */
-    /* ONE section, not two. "Reading a test strip" and "Test strips" were
-       separate top-level disclosures with the same subject: the first said how
-       to read one, the second held each type with its limits and accuracy - so
-       a reader had to know both existed, and the picker that decides the
-       reading sat in one while the strip it describes sat in the other. */
-    disclosure("sec-strips", "Test strips",
-      { open: true },
-      /* The verdict cards are rendered BY the picker now, from the product the
-         reader chose. They used to be printed once, above it, as though the
-         answer were the same for every strip - and then the section below
-         quietly said it was not. Two answers to one question on one screen is
-         worse than either answer alone. */
-      brandPicker(g.brands),
-      /* The one-line-means-positive panel is gone too. It sat directly above
-         the strip diagram that shows exactly this, labelled. */
-      h("p", null, fts.reading.explain),
-      h("p", { class: "sec__note" }, fts.reading.faintLine),
-      /* Each type, under the reading it shares. */
-      g.strips.map((s) => stripCard(s, g)))
-  );
-
-  /* ---- reagents first, and open ----
-     Reagent testing leads "Using it" and stands open. It is the part of this
-     page that does something rather than explains something — a reader picks
-     what it was sold as and the app walks them through DanceSafe's test for
-     it — and it was the one block that cost a tap to find out that.
-
-     Test strips follow. That section sat second on the whole page because
-     "one line means positive" is inverted from every strip most people have
-     used and a half-read explanation of it is worse than none, so it is still
-     open and the warning is still the first thing inside it. It is behind a
-     longer page now, not behind a click. */
-  wrap.appendChild(
-    /* The blurb stays, shortened. The preview list below it is aria-hidden, so
-       for a screen reader this line is the only thing between the group's name
-       and its children. */
-    group("grp-reagents", "Reagent testing",
-      "What reagents show, and how to run one safely.", [
-      (
-      /* "Reagents", not "Reagent testing" - the parent tile is already called
-         Reagent testing, and a child repeating its parent's name tells a
-         reader nothing about which of the three sections they want. */
-      disclosure("sec-reagents", "Reagents",
-        null,
-        reagentFilter(g.reagents),
-        /* The picker and the colour tables know six reagents this guide does
-           not teach: the table has rows for them, so readings count, but no
-           source in this repo says how they are supplied or run. Said here
-           rather than left for a reader to discover as a gap - and pointed at
-           the one instruction sheet that is always correct for the bottle in
-           their hand. */
-        h("p", { class: "sec__note" },
-          "Hofmann, Zimmermann, Scott, Gallic, Robadope and Folin appear in the "
-          + "color tables and the tracker, but this guide does not cover them "
-          + "yet. Their readings still count. Follow the instructions that came "
-          + "with your kit."),
-        h("details", { class: "acc" },
-          h("summary", null, h("span", null, "Why a color can be hidden")),
-          h("div", { class: "acc__body" },
-            h("ul", null, g.reagentIntro.masking.map((m) => h("li", null, m))),
-            h("p", null, g.reagentIntro.mixtures))))
-    ),
-      (
-      /* THE METHOD BEFORE THE TOOL. This sat below the picker on the reasoning
-         that anybody reaching for a reverse lookup has already run their
-         reagents. That stopped being true when the picker started loading the
-         test for you — it now tells somebody which reagents to open and in
-         what order, which is a thing you do BEFORE you have any colors, and
-         the section that says how to do it safely cannot be underneath it.
-         The acid warning is the first thing inside. */
-      /* ONE section, not two. "Handling reagents safely" was a sibling of "How
-         to run a reagent test", and every word of it describes something you
-         do while running one: gloves before you start, what to do if it goes
-         on your skin during, disposal after. Split in two, a reader who opened
-         the procedure got the steps without the acid warning, and the safety
-         section read as optional reading rather than as part of the method.
-         Same mistake the reading and strips sections had.
-
-         Ordered the way it actually happens, which is also how DanceSafe
-         sequences it: protect yourself, run it, clean up, and keep the kit
-         alive for next time. */
-      disclosure("sec-procedure", "How to run a reagent test", null,
-        /* The warning, and only the warning. A second line used to explain why
-           the warning was placed here rather than in a section of its own —
-           editorial reasoning about the app's own structure, printed at
-           somebody about to open a bottle of concentrated acid. That belongs
-           in a commit message, which is where it is now. */
-        callout("stop", "Before you open the bottle",
-          h("p", null, g.safety.ppe)),
-
-        h("ol", { class: "steps" },
-          g.procedure.map((p) => h("li", null, h("h4", null, p.title), h("p", null, p.body)))),
-
-        h("div", { class: "card" },
-          h("h3", null, "If it gets on you"),
-          h("ul", null, g.safety.firstAid.map((f) => h("li", null, f))),
-          h("h3", null, "Disposal"),
-          h("p", null, g.safety.disposal)),
-
-        h("div", { class: "card" },
-          h("h3", null, "Keeping the kit working"),
-          h("p", null, g.safety.storage),
-          h("p", null, g.safety.expiry),
-          h("p", null, h("strong", null, "Check it still works: "), g.safety.validate)))
-    ),
-      (
-      /* The charts run backwards, and this is the tool the whole section is
-         for — so it goes last, after what a reagent is and how to run one. */
-      disclosure("sec-whatisit", "What could this be?", { open: true },
-        reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go, FLOWS))
-    ),
-    ],
-    /* The preview names what is inside. "Handling them safely" is gone
-       because that section is gone — it is inside "Running a test" now. */
-    ["Reagents", "Running a test", "What could this be?"],
+       being opened - same as the reagent tile above. */
+    ["Which test tells you what", "Buying one", "Legality", "Labs"],
     {
-      open: true,
-      /* THE GROUP'S WARNING, not the first child's.
-       *
-       * This lived inside "Reagents", which meant a reader who opened "How to
-       * run a reagent test" or went straight to the picker never met it — and
-       * it is true of all three. It applies to reagent testing, so it sits on
-       * reagent testing, above every section it qualifies.
-       *
-       * The heading is scoped to the question a reader actually asks — "is
-       * fentanyl in MY drugs" — rather than to reagent chemistry.
-       * Reference-grade fentanyl DOES react with Marquis, so the flat claim
-       * "no reagent detects fentanyl" is refutable, and a rule that can be
-       * refuted is a rule somebody talks themselves out of at the wrong
-       * moment. This version cannot be refuted.
-       *
-       * The chemistry nuance sits directly under it, collapsed, because "but
-       * it reacts with pure fentanyl, doesn't it?" is the first thing a reader
-       * who knows any chemistry thinks — and answering it anywhere else looks
-       * like the app avoiding the question. */
-      /* THE FENTANYL CALLOUT AND ITS FOLLOW-UP BOTH MOVED UP THE PAGE, into
-         "What testing can and cannot tell you", which is the list a reader
-         consults before they own a reagent rather than after. Two facts about
-         what a reagent cannot see belong in the inventory of what a test cannot
-         see; leaving them here made the reader meet them only if they opened
-         the reagent section, and put a stop-severity panel on top of a section
-         that is otherwise instructions. */
-      intro: frag(
-        g.reagentIntro.pureSampleNote
-          ? h("details", { class: "acc" },
-              h("summary", null,
-                h("span", null, g.reagentIntro.pureSampleNote.q)),
-              h("div", { class: "acc__body" },
-                h("p", null, g.reagentIntro.pureSampleNote.a),
-                h("p", null, g.reagentIntro.pureSampleNote.b),
-                sourceRow(g.reagentIntro.pureSampleNote.sources)))
-          : null),
+      /* THE TRAP, ON THE TILE. "Most fentanyl test strips sold in stores test
+         a person, not a drug" is the fact that stops a $10 mistake, and it
+         sat inside "Buying it over the counter", inside this tile - two taps
+         from anyone who opened "Which one to get" to find out which one to
+         get. As the group's intro it is the first thing inside the tile,
+         above every row, whichever one the reader came for.
+
+         The "How to tell them apart:" lead is gone from the code because the
+         data's own sentence already opens with those words - it rendered
+         "How to tell them apart: How to tell them apart: a substance-checking
+         kit…". The text is untouched; only the doubled prefix is. */
+      intro: g.buying?.trap
+        ? callout("stop", g.buying.trap.title,
+            h("p", null, g.buying.trap.body),
+            h("p", null, g.buying.trap.tell),
+            h("p", { class: "sec__note" }, g.buying.trap.examples))
+        : null,
     })
   );
-
-  wrap.appendChild(strips);
 
   if (g.storage) {
     wrap.appendChild(
@@ -458,12 +551,89 @@ export async function render(route, ctx) {
     );
   }
 
+  const sources = SRC.render();
+  if (sources) wrap.appendChild(sources);
 
+  return wrap;
+}
+
+/* The two warnings every reagent surface opens with. One function, two
+   callers - the group intro on the Test page and the head of the tracker
+   screen - so the words and the order cannot drift between them. Both are
+   stop callouts: they do not fold, because they carry the two things that
+   get somebody hurt at a spot plate. */
+function reagentWarnings(g) {
+  return frag(
+    callout("stop", "No reagent will tell you whether fentanyl is in there",
+      h("p", null, g.reagentIntro.cannotDetectFentanyl)),
+    /* The warning, and only the warning. A second line used to explain why
+       the warning was placed here rather than in a section of its own —
+       editorial reasoning about the app's own structure, printed at
+       somebody about to open a bottle of concentrated acid. That belongs
+       in a commit message, which is where it is now. */
+    callout("stop", "Before you open the bottle",
+      h("p", null, g.safety.ppe)));
+}
+
+/* The door from the Test page to the tracker screen. The same .bigptr Learn
+   uses to hand a reader to a page of its own; the line under it is the tool's
+   own opening sentence, so the launcher promises exactly what the screen
+   says. */
+function trackerLauncher() {
+  return h("a", { class: "bigptr", href: TRACKER },
+    h("span", { class: "bigptr__hd" }, "What could this be?"),
+    h("span", { class: "bigptr__sub" }, TRACKER_INTRO));
+}
+
+/* The tracker's opening sentence, said once here because two places print
+   it: the launcher on the Test page and the head of the tool itself. */
+const TRACKER_INTRO =
+  "Wanna test something? Put it into the reagent tracker to run a reagent "
+  + "test. Just say what each color reaction was to each reagent. If you do "
+  + "not know what the substance is, say not sure. The tracker will walk you "
+  + "through the process.";
+
+/* ---------------------------------------------------------- tracker screen
+ *
+ * /test#/tracker[/<substance>]. Its own page, not a seventh tab: the bar is
+ * six wide at 375px and a seventh truncates every label (index.html records
+ * the measurement), and the tool depends on its page - the method sits one
+ * row away and the warnings above it are about reagents, not about the app.
+ * A fragment sub-screen gives it what a tab would - a stable address, focus on
+ * its own h1, state that survives Back (trackerSession) - at the same privacy
+ * posture as a county or a drug page.
+ *
+ * Order: the way out, the name, the two warnings that apply to every reagent
+ * test, the method one tap away, then the tool. */
+function trackerView(startId, g, { REAGENT_TABLE, SUBS, FLOWS, go }) {
+  const wrap = h("div");
+
+  /* The same ghost button a drug page wears to return to the index. A
+     navigation, not history.back(): somebody who arrived from a drug page's
+     reagent table should land on Test, not bounce back to the drug. */
   wrap.appendChild(
-    disclosure("sec-companion", "Whatever the test says", { open: true },
-      h("div", { class: "card" },
-        h("ul", null, g.companion.map((c) => h("li", null, c)))))
+    h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/test") },
+      h("span", { "aria-hidden": "true" }, "‹"), " Back to Test")
   );
+
+  /* The h1 is what focusView() lands on after any navigation here, so the
+     heading a screen reader hears is the tool's own name. */
+  wrap.appendChild(h("h1", null, "What could this be?"));
+
+  wrap.appendChild(reagentWarnings(g));
+
+  /* THE METHOD, ONE TAP AWAY. On the Test page the procedure sits in the same
+     tile as this tool; here it is a page away, so the row says where. A
+     reader who has not run a reagent before should meet this before the
+     first dropdown. */
+  wrap.appendChild(
+    h("a", { class: "nbr", href: "#/test", "data-reveal": "sec-procedure" },
+      h("span", { class: "nbr__text" },
+        h("span", { class: "nbr__name" }, "How to run a reagent test")),
+      h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")))
+  );
+
+  wrap.appendChild(reverseLookup(reagentMatch, REAGENT_TABLE, SUBS, go, FLOWS, startId));
 
   const sources = SRC.render();
   if (sources) wrap.appendChild(sources);
@@ -499,7 +669,7 @@ export async function render(route, ctx) {
  *   - Nothing here rules out fentanyl. A lethal dose is far below what any
  *     reagent shows, and no combination of colours on this screen changes it.
  */
-function reverseLookup(matchFn, table, subs, go, charts) {
+function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
   /* Morris is on here because the DanceSafe charts start the cocaine and
      ketamine tests with it, and a picker that cannot express the first step of
      a chart it is checking against is broken. It sits sixth on colour-table
@@ -583,16 +753,19 @@ function reverseLookup(matchFn, table, subs, go, charts) {
 
   /* The reagent table carries a handful of ids that have no substance record —
      they come straight from PsychonautWiki's colour data and were never given a
-     page. nameOf fell through to the raw id for those, so "cathinone", "coca",
-     "dox" and "phentermine" sat lowercase in a list where everything else was
-     a proper name. Title-casing the fallback fixes those and any future one;
-     the map is only for ids title-case would get wrong. */
-  const DISPLAY = { dox: "DOx" };
-  const titleCase = (id) =>
-    String(id).replace(/(^|[\s-])([a-z])/g, (_, sep, ch) => sep + ch.toUpperCase());
+     page. Rather than let nameOf and the alias search fall through to a raw
+     lowercase id, each is synthesized into a minimal record (id + display name
+     + empty aliases) so it is a first-class member of the same list every
+     other substance is matched and named from. synthesize() lives in
+     substancematch.js, so the Drugs index and this picker agree on the name. */
+  const RECLESS = ["4-bmc", "cathinone", "coca", "dox", "phentermine"];
+  const haveRecord = new Set((subs?.substances || []).map((x) => x.id));
+  const records = [
+    ...(subs?.substances || []),
+    ...RECLESS.filter((id) => !haveRecord.has(id)).map((id) => synthesize(id)),
+  ];
   const nameOf = (id) =>
-    (subs?.substances || []).find((x) => x.id === id)?.name
-    || DISPLAY[id] || titleCase(id);
+    records.find((x) => x.id === id)?.name || synthesize(id).name;
 
   /* "a Amphetamine-like substance". The article has to follow the SOUND of the
      name, and drug names are the worst case for guessing it: initialisms are
@@ -660,6 +833,12 @@ function reverseLookup(matchFn, table, subs, go, charts) {
   const common = COMMON.filter((id) => withData.includes(id)).sort(byName);
   const rest = withData.filter((id) => !common.includes(id)).sort(byName);
 
+  const withDataSet = new Set(withData);
+
+  /* The canonical store, and the full browse list. Everything downstream reads
+     soldAs.value and listens for its change event, so this select stays the
+     source of truth; the chips and the alias search below are two faster ways
+     to set it, not a replacement for it. */
   const soldAs = h("select", { class: "input", "aria-label": "Which substance to test for" },
     h("option", { value: "" }, "Not sure or groundscore"),
     common.length
@@ -668,6 +847,85 @@ function reverseLookup(matchFn, table, subs, go, charts) {
       : null,
     h("optgroup", { label: "Everything with published reagent data" },
       rest.map((id) => h("option", { value: id }, nameOf(id)))));
+
+  /* Set the sold-as and drive everything a real change would. Used by the
+     chips, the alias search, and rehydrate — one path so they cannot diverge. */
+  const setSoldAs = (id) => {
+    soldAs.value = id || "";
+    soldAs.dispatchEvent(new Event("change"));
+  };
+
+  /* THE COMMON EIGHT, AS CHIPS. The names people actually arrive with, one tap
+     each — the same short list the select groups under "Commonly checked", so
+     nothing here is reachable that was not reachable before. Only the ones the
+     reagent data can actually answer are shown. aria-pressed tracks the
+     current sold-as so the chip a reader picked reads as selected. */
+  const commonChips = h("div", { class: "chips" },
+    common.map((id) =>
+      h("button", {
+        type: "button", class: "chip", "aria-pressed": "false", "data-soldas": id,
+        onClick: () => setSoldAs(id),
+      }, nameOf(id))));
+
+  /* ALIAS-AWARE, AND DELIBERATELY BLIND TO THE DECEPTIVE NAMES.
+   *
+   * "molly" is MDMA and "tina" is meth, and a picker that only knows proper
+   * names cannot be told that by somebody who only knows the street one. So
+   * the search matches a substance's name and its `aliases` — the names it is
+   * genuinely also called.
+   *
+   * It does NOT match `searchAliases`, and that exclusion is the safety rule,
+   * not an oversight. Those are the MISLEADING names from name-warnings.json —
+   * "tusi", "pink cocaine" — names the market uses for something that is
+   * usually a different drug. On the Drugs page a searchAlias hit is safe
+   * because the page it opens leads with the warning; here there is no page
+   * and no warning, so loading the 2C-B chart for "tusi" would score a pink
+   * powder that is typically a ketamine mix against 2C-B's colours and read a
+   * match as reassurance. findSubstances is passed includeSearchAliases:false,
+   * so "tusi" simply finds nothing here — which is the correct, quiet failure.
+   * Only substances the reagent data can answer are offered. */
+  const searchInput = h("input", {
+    class: "input", type: "search", autocomplete: "off", spellcheck: "false",
+    "aria-label": "Find a substance by name or street name",
+    placeholder: "Or type a name — molly, tina, ket…",
+  });
+  const searchCount = h("p", { class: "filter__count", role: "status" });
+  const searchHits = h("div", { class: "list", hidden: true });
+
+  const runSearch = () => {
+    const term = searchInput.value.trim();
+    clear(searchHits);
+    if (!term) {
+      searchHits.hidden = true;
+      searchCount.textContent = "";
+      return;
+    }
+    const hits = findSubstances(records, term, { includeSearchAliases: false })
+      .map((m) => m.s)
+      .filter((s) => withDataSet.has(s.id))
+      .slice(0, 12);
+    searchHits.hidden = hits.length === 0;
+    /* role=status count. "matches" is the neutral word — a reader who typed
+       "tusi" and gets none is told plainly, not steered to a wrong page. */
+    searchCount.textContent = hits.length
+      ? `${hits.length} substance${hits.length === 1 ? "" : "s"} with reagent data`
+      : "Nothing with published reagent data by that name.";
+    for (const s of hits) {
+      searchHits.appendChild(
+        h("button", { type: "button", class: "nbr", onClick: () => {
+            setSoldAs(s.id);
+            searchInput.value = "";
+            runSearch();
+          } },
+          h("span", { class: "nbr__text" },
+            h("span", { class: "nbr__name" }, s.name),
+            (s.aliases || []).length
+              ? h("span", { class: "nbr__sub" }, s.aliases.slice(0, 3).join(", "))
+              : null),
+          h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›"))));
+    }
+  };
+  searchInput.addEventListener("input", runSearch);
 
   const addBtn = h("button", {
     type: "button", class: "btn btn--ghost btn--sm",
@@ -1165,6 +1423,11 @@ function reverseLookup(matchFn, table, subs, go, charts) {
      listeners that pass check straight through) is not a clause. */
   function check(tail) {
     clear(out);
+    /* Persist and reflect the current state on every pass: the module-scoped
+       snapshot that survives Back, and the chip pressed-state. Both before any
+       verdict is computed — they describe the inputs, not the result. */
+    snapshot();
+    syncChips();
     /* What the region will say: the card's exact label first, then the rest
        in the order it appears on screen. Assembled as the cards are built so
        the words are the cards' own words, never a paraphrase of them. */
@@ -1456,13 +1719,63 @@ function reverseLookup(matchFn, table, subs, go, charts) {
     check();
   }
   soldAs.addEventListener("change", onSoldAs);
-  /* ONE, and the reader adds the rest. Most people own a Marquis and nothing
-     else, and opening with two empty rows asks for a second bottle before it
-     has answered anything with the first. One reagent narrows the list less —
-     which the empty state says, and which is a better argument for adding a
-     second than a blank row that looks like a requirement. */
-  addSlot();
-  check();
+
+  /* The chip that matches the current sold-as reads as pressed. Run on every
+     change from check() below, so setting the sold-as any way — chip, search,
+     select, or rehydration — keeps the row of chips honest. */
+  const syncChips = () => {
+    for (const b of commonChips.querySelectorAll?.(".chip") || []) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-soldas") === soldAs.value));
+    }
+  };
+
+  /* SESSION SNAPSHOT, taken on every interaction. trackerSession lives at
+     module scope and is wiped on Quick Exit and pagehide (see the top of this
+     file), so it survives a trip to a drug page and Back but nothing more. The
+     loaded flow is not stored — it is a pure function of the sold-as, which
+     rehydrate replays. */
+  const snapshot = () => {
+    trackerSession = {
+      soldAs: soldAs.value,
+      slots: slots.map((s) => ({ reagent: s.reagent.value, result: s.result.value })),
+    };
+  };
+
+  /* REHYDRATE, if this session already has a tracker state to come back to.
+     Rebuilds the rows the reader left, reagent and reading both, so Back lands
+     on exactly what they had. Returns whether it did anything. */
+  const rehydrate = () => {
+    const sess = trackerSession;
+    if (!sess || !Array.isArray(sess.slots) || !sess.slots.length) return false;
+    soldAs.value = withDataSet.has(sess.soldAs) ? sess.soldAs : "";
+    slots.length = 0;
+    clear(rows);
+    for (const st of sess.slots) {
+      addSlot(st.reagent);
+      const last = slots[slots.length - 1];
+      if (last && st.result) last.result.value = st.result;
+    }
+    relabel();
+    return true;
+  };
+
+  if (rehydrate()) {
+    check();
+  } else if (startId && withDataSet.has(startId)) {
+    /* Arrived from a drug page's "Expected reagent reactions" link. Seed the
+       sold-as so the reader lands with that substance's test already loaded,
+       the same as picking it from the select. */
+    soldAs.value = startId;
+    onSoldAs();
+  } else {
+    /* ONE, and the reader adds the rest. Most people own a Marquis and nothing
+       else, and opening with two empty rows asks for a second bottle before it
+       has answered anything with the first. One reagent narrows the list less —
+       which the empty state says, and which is a better argument for adding a
+       second than a blank row that looks like a requirement. */
+    addSlot();
+    check();
+  }
 
   return frag(
     /* The old version opened "Ran a few reagents and want to know what they
@@ -1496,7 +1809,16 @@ function reverseLookup(matchFn, table, subs, go, charts) {
     /* The frame sits above the readings, in the same control, because what it
        was sold as changes how everything under it reads. Optional — the list
        works without it, and "not saying" is the default rather than a thing
-       you have to go and clear. */
+       you have to go and clear.
+
+       Three ways in, one store: the common names as chips, a name/street-name
+       search that resolves aliases, and the full select for the long tail. The
+       chips and search set the same select the verdict logic reads. */
+    commonChips,
+    h("div", { class: "filter" },
+      h("div", { class: "filter__row" }, searchInput),
+      searchCount),
+    searchHits,
     h("div", { class: "mixslots revslots" },
       h("div", { class: "revslot" },
         h("div", { class: "mixslot" },
@@ -1869,6 +2191,15 @@ function brandPicker(brands) {
   paint();
 
   return frag(
+    /* The picker's own heading, and a search anchor. "Which strip do you
+       have?" is what somebody searching "BTNX" or a brand name is looking
+       for, and it had no heading to land on - the section title is "Test
+       strips" and this control sat under it unlabelled. An h3 gives the
+       search index (build-search.mjs indexes brands.headline) a heading whose
+       visible text matches, so a brand-name result lands on the picker rather
+       than the top of the page. Kept a stable id for reveal() and the views
+       test. */
+    h("h3", { id: "sec-brands" }, brands.headline),
     /* .pick, not .mixslot. The combination checker's slot puts its label
        BESIDE the select, which works there because "A" and "B" are one
        character. "Strip" and "Testing" took 101px of a 375px screen and left

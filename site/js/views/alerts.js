@@ -407,17 +407,19 @@ async function countyView({ fips, days }, { go, data }) {
     mountMap(mapHost, { go, focus: fips, focusLabel: `${c.name}, ${c.state}`, compact: true })
   ).catch(() => { mapHost.remove(); });   // canvas is never the only route
 
-  /* Numbers for this county, directly under the map. The mortality data was
-     already bundled and drawn as map SHADING, which tells you "darker than
-     next door" and nothing else - a reader could not learn whether their own
-     county was getting better or worse. Appended asynchronously so a slow or
-     missing bundle never delays the alerts underneath. */
-  const statsHost = h("div");
-  wrap.appendChild(statsHost);
-  data.mortality().then((m) => {
-    const block = mortalityBlock(m, c);
-    if (block) statsHost.replaceChildren(block);
-  }).catch(() => {});
+  /* Numbers for this county. The mortality data was already bundled and drawn
+     as map SHADING, which tells you "darker than next door" and nothing else -
+     a reader could not learn whether their own county was getting better or
+     worse. Appended asynchronously so a slow or missing bundle never delays
+     the alerts.
+
+     BELOW "In {county}", not above it. A death statistic was the first thing
+     under the map, so the local alerts a reader clicked through for sat under
+     a mortality card. The card is real information and stays on the page; it
+     is just no longer the lead. The host is appended AFTER the "In {county}"
+     section below, with its height reserved (.mortslot) so the card dropping
+     in when the bundle resolves does not shove the sections beneath it down. */
+  const statsHost = h("div", { class: "mortslot" });
 
   wrap.appendChild(
     h("div", { class: "chips", role: "group", "aria-label": "Time window" },
@@ -445,6 +447,16 @@ async function countyView({ fips, days }, { go, data }) {
         ? frag(mine.map((k) => card(k)))
         : notHere(c, near.length, win, await data.wasScanned(fips)))
   );
+
+  /* The reserved-height host, filled when the bundle resolves - see the note
+     where statsHost is created. It sits here, after the local alerts and
+     before statewide, so the numbers a reader came for lead and the death
+     statistic follows. */
+  wrap.appendChild(statsHost);
+  data.mortality().then((m) => {
+    const block = mortalityBlock(m, c);
+    if (block) statsHost.replaceChildren(block);
+  }).catch(() => {});
 
   /* ---- statewide ----
      UNDER the county block, always, and labelled. A health department warning

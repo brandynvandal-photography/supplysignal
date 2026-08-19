@@ -5,6 +5,10 @@
     "description": "Alertas sobre el suministro de drogas por condado, resultados de análisis y cómo analizar una sustancia. Información de reducción de daños, no consejo médico.",
     "skipToContent": "Ir al contenido",
     "themeToggle": "Cambiar el tema de color",
+    "theme": {
+      "light": "Tema claro activado. Cambiar a oscuro.",
+      "dark": "Tema oscuro activado. Cambiar a claro."
+    },
     "quickExit": "Salir ahora — va a un sitio del tiempo y quita esta página de tu historial",
     "language": "Idioma",
     "loadFailed": "No se pudo cargar esta sección.",

@@ -28,6 +28,20 @@ function applyTheme(t) {
   else document.documentElement.setAttribute("data-theme", t);
 }
 
+/* What the OS would show, and what the reader is ACTUALLY seeing right now.
+   The stored preference can be "auto", so the effective theme is what the
+   control has to reflect and flip against - a toggle that cycled auto → light
+   → dark did nothing visible on the first tap for anyone whose OS already
+   matched "auto", and its glyph never said which theme was on. */
+function systemTheme() {
+  try {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  } catch { return "light"; }
+}
+function effectiveTheme() {
+  return theme === "auto" ? systemTheme() : theme;
+}
+
 let theme = "auto";
 try {
   const saved = sessionStorage.getItem(THEME_KEY);
@@ -35,15 +49,79 @@ try {
 } catch { /* storage blocked or disabled - fine, stay on auto */ }
 applyTheme(theme);
 
-document.getElementById("theme").addEventListener("click", (e) => {
-  theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+/* The theme glyph, drawn rather than typed.
+ *
+ * It was a single "◐" that never changed, so the icon carried no state - light
+ * and dark looked identical. Now it is a sun when the reader is on light and a
+ * moon when they are on dark, built with createElementNS because an inline
+ * style attribute is blocked by the CSP (unsafe-inline is off) and would
+ * render nothing; colour comes from currentColor via the class, no style attr
+ * anywhere on it. */
+const SVG_NS = "http://www.w3.org/2000/svg";
+function svgEl(tag, attrs) {
+  const el = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, String(v));
+  return el;
+}
+function themeGlyph(eff) {
+  const svg = svgEl("svg", {
+    class: "iconbtn__svg", viewBox: "0 0 24 24", width: "20", height: "20",
+    fill: "none", stroke: "currentColor", "stroke-width": "2",
+    "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true",
+  });
+  if (eff === "dark") {
+    /* A crescent: the moon says "dark is on". */
+    svg.appendChild(svgEl("path", { d: "M21 12.8A8.5 8.5 0 0 1 11.2 3 7 7 0 1 0 21 12.8z" }));
+  } else {
+    /* A sun: centre disc plus eight rays. */
+    svg.appendChild(svgEl("circle", { cx: "12", cy: "12", r: "4.3" }));
+    const R = [
+      [12, 2, 12, 4.6], [12, 19.4, 12, 22], [2, 12, 4.6, 12], [19.4, 12, 22, 12],
+      [4.9, 4.9, 6.8, 6.8], [17.2, 17.2, 19.1, 19.1],
+      [17.2, 6.8, 19.1, 4.9], [4.9, 19.1, 6.8, 17.2],
+    ];
+    for (const [x1, y1, x2, y2] of R) svg.appendChild(svgEl("line", { x1, y1, x2, y2 }));
+  }
+  return svg;
+}
+
+/* Glyph AND label, from the current effective theme. The label states the
+   theme rather than naming a generic action, so a screen-reader user hears
+   which one is on before deciding to change it - and it is set from load
+   (applyStrings calls this once strings exist), not only after the first tap.
+   The label goes through t() so it follows the interface language. */
+function syncThemeControl() {
+  const btn = document.getElementById("theme");
+  if (!btn) return;
+  const eff = effectiveTheme();
+  clear(btn).appendChild(themeGlyph(eff));
+  const label = t(`app.theme.${eff}`);
+  btn.setAttribute("aria-label", label);
+  btn.setAttribute("title", label);
+}
+
+document.getElementById("theme").addEventListener("click", () => {
+  /* Flip against what the reader SEES, not against the stored preference.
+     Storing "auto" when the flip lands on the OS theme keeps the control
+     tracking the OS from then on rather than pinning an explicit value that
+     would go stale the next time the OS switched. */
+  const target = effectiveTheme() === "dark" ? "light" : "dark";
+  theme = target === systemTheme() ? "auto" : target;
   applyTheme(theme);
   try { sessionStorage.setItem(THEME_KEY, theme); } catch {}
-  e.currentTarget.setAttribute(
-    "aria-label",
-    `Color theme: ${theme}. Activate to change.`
-  );
+  syncThemeControl();
 });
+
+/* Follow the OS while on "auto": if the reader is tracking the system and it
+   flips, the glyph and label have to flip with it. */
+try {
+  window.matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener?.("change", () => { if (theme === "auto") syncThemeControl(); });
+} catch {}
+
+/* Draw the glyph immediately so the icon reflects state at first paint; the
+   label is filled in by applyStrings once i18n has loaded. */
+syncThemeControl();
 
 /* -------------------------------------------------------- session lifetime
  * Nothing this app writes may outlive the session. Quick Exit still exists,
@@ -622,9 +700,10 @@ function applyStrings() {
   const skip = document.querySelector(".skip");
   if (skip) skip.textContent = t("app.skipToContent");
 
-  const themeBtn = document.getElementById("theme");
-  themeBtn.setAttribute("aria-label", t("app.themeToggle"));
-  themeBtn.setAttribute("title", t("app.themeToggle"));
+  /* The theme control's label states which theme is on and follows the
+     interface language, so it is (re)built here from the current strings -
+     see syncThemeControl. */
+  syncThemeControl();
 
   const exitBtn = document.getElementById("exit");
   exitBtn.setAttribute("aria-label", t("app.quickExit"));
@@ -717,12 +796,16 @@ async function renderFooterMeta() {
 /* Back to top.
  *
  * These pages are long by necessity - the limitations of a test strip are the
- * part that keeps somebody alive, so they cannot be cut - and on a laptop
- * there is no bottom tab bar to escape to. This is the way back up.
+ * part that keeps somebody alive, so they cannot be cut - and getting back up
+ * a long page is a real cost on any screen. On a laptop there is no bottom tab
+ * bar to escape to; on a phone the bottom bar reaches the previous tab but not
+ * the top of the one you are on.
  *
- * DESKTOP ONLY, and that is a deliberate limit rather than an omission: on a
- * phone the bottom bar already owns that corner, and a floating button over
- * the Emergency tab is the last thing that should ever be there.
+ * ON THE PHONE it sits at the bottom LEFT, above the tab bar (bottom is keyed
+ * to the bar's measured height) - clear of the pinned Quick Exit pill at the
+ * top right, and clear of the bar itself. On a wide screen there is no bottom
+ * bar and it takes the bottom-right corner. Both placements are in app.css;
+ * this only decides when it shows.
  *
  * It scrolls AND moves focus to the heading. Scrolling alone would leave a
  * keyboard user's focus stranded at the foot of the page, so the next Tab
@@ -730,7 +813,6 @@ async function renderFooterMeta() {
  * nothing for the people most likely to need it.
  */
 function mountBackToTop() {
-  const wide = window.matchMedia("(min-width: 880px)");
   const btn = h("button", {
     type: "button", class: "totop", hidden: true,
     "aria-label": "Back to top",
@@ -747,8 +829,10 @@ function mountBackToTop() {
   let ticking = false;
   const sync = () => {
     ticking = false;
-    // Roughly one screenful down: far enough that "top" is genuinely lost.
-    const show = wide.matches && window.scrollY > window.innerHeight * 0.8;
+    /* Roughly one screenful down: far enough that "top" is genuinely lost.
+       No width gate any more - the button is wanted on the phone too, and the
+       stylesheet is what decides where it sits at each breakpoint. */
+    const show = window.scrollY > window.innerHeight * 0.8;
     btn.toggleAttribute("hidden", !show);
   };
   window.addEventListener("scroll", () => {
@@ -757,7 +841,6 @@ function mountBackToTop() {
     requestAnimationFrame(sync);
   }, { passive: true });
 
-  wide.addEventListener?.("change", sync);
   onNavigate(sync);
   sync();
 }
