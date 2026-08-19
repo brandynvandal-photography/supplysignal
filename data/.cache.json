@@ -12,12 +12,12 @@
     "lastModified": "Tue, 18 Aug 2026 18:05:49 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1787118581-0\"",
-    "lastModified": "Wed, 19 Aug 2026 05:49:41 GMT"
+    "etag": "W/\"1787140191-0\"",
+    "lastModified": "Wed, 19 Aug 2026 11:49:51 GMT"
   },
   "de-dhss": {
-    "etag": "\"27a21935038f039951265b8caddfad08-gzip\"",
-    "lastModified": "Tue, 18 Aug 2026 19:51:08 GMT"
+    "etag": "\"bebbe5e5e07aaad1e5ef74007a5ca983-gzip\"",
+    "lastModified": "Wed, 19 Aug 2026 12:25:56 GMT"
   },
   "fl-doh": {
     "etag": "W/\"35999e15922672dbc99e8b6c27ca9257\"",
@@ -37,15 +37,15 @@
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Wed, 19 Aug 2026 09:44:56 GMT"
+    "lastModified": "Wed, 19 Aug 2026 13:04:37 GMT"
   },
   "me-dhhs": {
     "etag": null,
     "lastModified": null
   },
   "mn-mdh": {
-    "etag": "W/\"1787119472\"",
-    "lastModified": "Wed, 19 Aug 2026 06:04:32 GMT"
+    "etag": "W/\"1787137073\"",
+    "lastModified": "Wed, 19 Aug 2026 10:57:53 GMT"
   },
   "ms-msdh": {
     "etag": "\"9457743562fdd1:0\"",
@@ -56,16 +56,16 @@
     "lastModified": "Mon, 11 May 2026 11:12:25 GMT"
   },
   "nc-dhhs": {
-    "etag": "\"1787080022:dtagent10343260715123811kIFD\"",
-    "lastModified": "Tue, 18 Aug 2026 19:07:01 GMT"
+    "etag": "\"1787141614:dtagent10343260715123811kIFD\"",
+    "lastModified": "Wed, 19 Aug 2026 12:13:33 GMT"
   },
   "nd-hhs": {
-    "etag": "\"1787123279\"",
-    "lastModified": "Wed, 19 Aug 2026 07:07:59 GMT"
+    "etag": "\"1787144605\"",
+    "lastModified": "Wed, 19 Aug 2026 13:03:25 GMT"
   },
   "ri-doh": {
-    "etag": "W/\"1787072403\"",
-    "lastModified": "Tue, 18 Aug 2026 17:00:03 GMT"
+    "etag": "W/\"1787144679\"",
+    "lastModified": "Wed, 19 Aug 2026 13:04:39 GMT"
   },
   "ut-dhhs": {
     "etag": "\"4b0cef7602f3801ef9a1b4f546fd7af1\"",
@@ -80,8 +80,8 @@
     "lastModified": "Tue, 18 Aug 2026 23:57:26 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1787123689\"",
-    "lastModified": "Wed, 19 Aug 2026 07:14:49 GMT"
+    "etag": "\"1787143780\"",
+    "lastModified": "Wed, 19 Aug 2026 12:49:40 GMT"
   },
   "wv-oeps": {
     "etag": "\"1787067654\"",

@@ -4,11 +4,10 @@
   "state": "PA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-19T09:54:11.244Z",
+    "lastScan": "2026-08-19T13:13:49.693Z",
     "windowDays": 365,
     "sourcesChecked": 33,
     "sourcesFailed": [
-      "cdc-newsroom",
       "la-ldh",
       "cook-me",
       "santaclara-me",
