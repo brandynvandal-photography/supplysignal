@@ -1150,11 +1150,22 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    through before they are allowed to look for help. */
 .letter p { margin: 0 0 13px; font-size: .95rem; line-height: 1.62; max-width: 58ch; color: var(--ink-2); }
 .letter p:last-child { margin-bottom: 0; }
-/* Set apart, but quiet. Bold made it read as terms attached to the offer. */
-.letter__close {
-  border-top: 1px solid color-mix(in srgb, var(--brand) 22%, transparent);
-  padding-top: 13px; margin-top: 16px;
+/* Set apart, but quiet. Bold made it read as terms attached to the offer.
+   THE RULE IS UNDER IT, not over it. Drawn above, the line cut the close off
+   from the letter it closes and attached it to the heading below instead -
+   "Nothing on this page is a judgment" read as the caption of "What is often
+   underneath". Under it, the sentence ends the letter and the rule is the
+   turn to the next part (asked for 2026-08-19). */
+/* .letter .letter__close, not bare: `.letter p` above sets the margin
+   shorthand at higher specificity, and a bare .letter__close margin loses
+   to it silently - the old margin-top did, for as long as it existed. */
+.letter .letter__close {
+  border-bottom: 1px solid color-mix(in srgb, var(--brand) 22%, transparent);
+  padding-bottom: 16px; margin-bottom: 16px;
 }
+/* The heading the rule leads into: its own breath, and the h1-h4 reset
+   leaves it with none. */
+.letter h3 { margin: 0 0 8px; }
 
 /* ---- search -------------------------------------------------------------
    Collapsed by default, full width when open, and pinned under the header so
