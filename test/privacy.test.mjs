@@ -236,24 +236,30 @@ check("no data fetch built from a county or substance identifier", () => {
     /* Capture the WHOLE template, not up to the first `}`. Truncating at the
        interpolation made two different fetches - one fixed filename, one
        user-independent bundle - print as the identical string, so an
-       allowance for one silently allowed the other. */
-    for (const m of js.match(/fetch\s*\(\s*`[^`]*\$\{[^`]*`/g) || []) {
+       allowance for one silently allowed the other.
+
+       `fetch(url(\`...\`))` as well as `fetch(\`...\`)`: data.js and i18n.js
+       route their paths through a one-line url() helper so the web build can
+       hand them content-hashed names (see HASHED in data.js). A template
+       inside that call is exactly as much a per-item endpoint as one passed
+       to fetch directly, so the helper must not be a way around this check. */
+    for (const m of js.match(/fetch\s*\(\s*(?:\w+\(\s*)?`[^`]*\$\{[^`]*`/g) || []) {
       bad.push(`${rel(f)}: ${m.trim().slice(0, 90)}`);
     }
   }
-  /* Three interpolations are allowed, and only these three:
+  /* Two interpolations are allowed, and only these two:
      - data.js `${name}` is a fixed dataset filename, not user-selected input.
        Note this is now the INFRASTRUCTURAL path only - the content datasets
        are served out of topics.json before this line is reached, because a
        request naming the page someone opened is the leak the bundle closes.
-     - data.js `${BASE}/topics.json` is one fixed file every reader fetches
-       unconditionally, so it carries no signal by construction.
+       (topics.json itself is fetched by a plain string - one fixed file every
+       reader fetches unconditionally, so it carries no signal by construction
+       and needs no allowance.)
      - i18n.js `${code}` is a locale. It reveals nothing the browser has not
        already disclosed: Accept-Language is sent on every request regardless,
        so a locale fetch adds no new signal. Everything else is a leak. */
   const filtered = bad.filter(
     (b) => !/data\.js.*\$\{name\}/.test(b)
-        && !/data\.js.*\$\{BASE\}\/topics\.json/.test(b)
         && !/i18n\.js.*\$\{code\}/.test(b)
   );
   return filtered.length

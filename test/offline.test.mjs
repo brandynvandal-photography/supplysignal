@@ -99,10 +99,20 @@ if (!/catch\s*{\s*\n?\s*return false;/.test(dataSrcRaw.replace(/\/\*[\s\S]*?\*\/
 /* Static and dynamic imports both, because the views are all loaded with
    import() on first navigation — a missing view file is a tab that does
    nothing, and it would not surface until somebody tapped it offline. */
+/* The bundle's JS is MINIFIED (scripts/assets.mjs), so the static-import
+   pattern cannot assume whitespace: esbuild writes `import{h as e}from"./ui.js"`
+   and `import*as t from"./data.js"`, and a regex that required a space after
+   `import` quietly matched none of them - the count of checked paths dropped
+   from 148 to 89 the first time a minified bundle met the old pattern, with
+   every file reported fine. The `(?:^|[^\w$.])` guard is what keeps this from
+   matching `.import(` or an identifier that merely ends in "import". */
+let staticImports = 0;
 for (const file of jsFiles) {
   const src = strip(readFileSync(file, "utf8"));
+  const statics = [...src.matchAll(/(?:^|[^\w$.])import\s*(?:[\w$*{}\s,]+?\s*from\s*)?["']([^"']+)["']/g)];
+  staticImports += statics.length;
   const specs = [
-    ...src.matchAll(/(?:^|[\s;}])import\s+(?:[\w*{},\s]+\s+from\s+)?["']([^"']+)["']/g),
+    ...statics,
     ...src.matchAll(/\bimport\(\s*["']([^"']+)["']\s*\)/g),
   ].map((m) => m[1]);
 
@@ -120,6 +130,11 @@ for (const file of jsFiles) {
     }
   }
 }
+
+/* A floor, so the pattern above can never silently stop matching again: the
+   shell alone has five static imports in app.js and every view imports ui.js. */
+checked++;
+if (staticImports < 30) fails.push(`only ${staticImports} static imports found across the bundle's JS - the import pattern has stopped matching minified output`);
 
 /* ---------------------------------------------------------- 2. datasets */
 
@@ -178,6 +193,24 @@ for (const file of [...jsFiles, path.join(ROOT, "site/js/i18n.js")]) {
     if (!existsSync(target)) {
       fails.push(`${rel(file)} fetches ${spec}, which the bundle does not contain`);
     }
+  }
+}
+
+/* The stale-shell probe in app.js asks for /site/sw.js, which the bundle
+   deliberately does not contain (build-app.mjs removes the worker). That is
+   fine ONLY because the probe is web-only by construction: the function
+   returns before fetching whenever the app is packaged. Check the guard, not
+   the file. */
+{
+  const app = strip(readFileSync(path.join(ROOT, "site/js/app.js"), "utf8"));
+  checked++;
+  const fn = app.slice(app.indexOf("async function recoverStaleShell"));
+  const guard = fn.indexOf("if (data.packaged()) return false;");
+  const probe = fn.indexOf("fetch(SHELL_PROBE");
+  if (!/const SHELL_PROBE = "\/site\/sw\.js";/.test(app)) {
+    fails.push("app.js SHELL_PROBE is not the unhashed /site/sw.js");
+  } else if (guard < 0 || probe < 0 || guard > probe) {
+    fails.push("recoverStaleShell() would fetch /site/sw.js in the packaged app, which has no worker - the packaged() guard must come first");
   }
 }
 

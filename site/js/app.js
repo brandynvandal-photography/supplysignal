@@ -5,8 +5,12 @@ import { h, clear, skeleton } from "./ui.js";
 import * as data from "./data.js";
 import * as i18n from "./i18n.js";
 import { markVisit } from "./seen.js";
-import { mountKindBar } from "./kindness.js";
 import * as R from "./routes.js";
+/* kindness.js is NOT imported here. Its one use is behind KIND_BAR below,
+   which is off, so a static import made every boot fetch and parse a module
+   whose only export is never called. It is imported dynamically at that use.
+   The static list above is mirrored by the <link rel="modulepreload"> set in
+   index.html, and test/preload.test.mjs holds the two together. */
 const { t } = i18n;
 
 const view = document.getElementById("view");
@@ -24,6 +28,20 @@ function applyTheme(t) {
   else document.documentElement.setAttribute("data-theme", t);
 }
 
+/* What the OS would show, and what the reader is ACTUALLY seeing right now.
+   The stored preference can be "auto", so the effective theme is what the
+   control has to reflect and flip against - a toggle that cycled auto → light
+   → dark did nothing visible on the first tap for anyone whose OS already
+   matched "auto", and its glyph never said which theme was on. */
+function systemTheme() {
+  try {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  } catch { return "light"; }
+}
+function effectiveTheme() {
+  return theme === "auto" ? systemTheme() : theme;
+}
+
 let theme = "auto";
 try {
   const saved = sessionStorage.getItem(THEME_KEY);
@@ -31,15 +49,148 @@ try {
 } catch { /* storage blocked or disabled - fine, stay on auto */ }
 applyTheme(theme);
 
-document.getElementById("theme").addEventListener("click", (e) => {
-  theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+/* The theme glyph, drawn rather than typed.
+ *
+ * It was a single "◐" that never changed, so the icon carried no state - light
+ * and dark looked identical. Now it is a sun when the reader is on light and a
+ * moon when they are on dark, built with createElementNS because an inline
+ * style attribute is blocked by the CSP (unsafe-inline is off) and would
+ * render nothing; colour comes from currentColor via the class, no style attr
+ * anywhere on it. */
+const SVG_NS = "http://www.w3.org/2000/svg";
+function svgEl(tag, attrs) {
+  const el = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, String(v));
+  return el;
+}
+function themeGlyph(eff) {
+  const svg = svgEl("svg", {
+    class: "iconbtn__svg", viewBox: "0 0 24 24", width: "20", height: "20",
+    fill: "none", stroke: "currentColor", "stroke-width": "2",
+    "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true",
+  });
+  if (eff === "dark") {
+    /* A crescent: the moon says "dark is on". */
+    svg.appendChild(svgEl("path", { d: "M21 12.8A8.5 8.5 0 0 1 11.2 3 7 7 0 1 0 21 12.8z" }));
+  } else {
+    /* A sun: centre disc plus eight rays. */
+    svg.appendChild(svgEl("circle", { cx: "12", cy: "12", r: "4.3" }));
+    const R = [
+      [12, 2, 12, 4.6], [12, 19.4, 12, 22], [2, 12, 4.6, 12], [19.4, 12, 22, 12],
+      [4.9, 4.9, 6.8, 6.8], [17.2, 17.2, 19.1, 19.1],
+      [17.2, 6.8, 19.1, 4.9], [4.9, 19.1, 6.8, 17.2],
+    ];
+    for (const [x1, y1, x2, y2] of R) svg.appendChild(svgEl("line", { x1, y1, x2, y2 }));
+  }
+  return svg;
+}
+
+/* Glyph AND label, from the current effective theme. The label states the
+   theme rather than naming a generic action, so a screen-reader user hears
+   which one is on before deciding to change it - and it is set from load
+   (applyStrings calls this once strings exist), not only after the first tap.
+   The label goes through t() so it follows the interface language. */
+function syncThemeControl() {
+  const btn = document.getElementById("theme");
+  if (!btn) return;
+  const eff = effectiveTheme();
+  clear(btn).appendChild(themeGlyph(eff));
+  const label = t(`app.theme.${eff}`);
+  btn.setAttribute("aria-label", label);
+  btn.setAttribute("title", label);
+}
+
+document.getElementById("theme").addEventListener("click", () => {
+  /* Flip against what the reader SEES, not against the stored preference.
+     Storing "auto" when the flip lands on the OS theme keeps the control
+     tracking the OS from then on rather than pinning an explicit value that
+     would go stale the next time the OS switched. */
+  const target = effectiveTheme() === "dark" ? "light" : "dark";
+  theme = target === systemTheme() ? "auto" : target;
   applyTheme(theme);
   try { sessionStorage.setItem(THEME_KEY, theme); } catch {}
-  e.currentTarget.setAttribute(
-    "aria-label",
-    `Color theme: ${theme}. Activate to change.`
-  );
+  syncThemeControl();
 });
+
+/* Follow the OS while on "auto": if the reader is tracking the system and it
+   flips, the glyph and label have to flip with it. */
+try {
+  window.matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener?.("change", () => { if (theme === "auto") syncThemeControl(); });
+} catch {}
+
+/* Draw the glyph immediately so the icon reflects state at first paint; the
+   label is filled in by applyStrings once i18n has loaded. */
+syncThemeControl();
+
+/* THE TAB BAR AND QUICK EXIT ICONS, drawn the same way.
+ *
+ * index.html ships them as characters - ◇ ◐ ◈ ❋ ◉ ✚ and ✕ - and a character
+ * is rendered by whatever font the platform falls back to for it, which is a
+ * different font on iOS, Android and Windows. The bar looked different on
+ * each, and ❋ in particular came out a weight heavier than its neighbours
+ * wherever it landed. These are the same shapes as line art on one 24-unit
+ * grid, currentColor throughout so every existing colour rule still applies
+ * (the SOS disc, the current-tab tint, the hover ink), and the characters
+ * stay in the HTML as the no-JS fallback. Built with createElementNS like the
+ * theme glyph above - never from a markup string, which the CSP would be
+ * right to distrust. */
+const ICONS = {
+  /* Learn: the open diamond. */
+  learn: [["path", { d: "M12 3.5 20.5 12 12 20.5 3.5 12Z" }]],
+  /* Drugs: the half-filled disc. */
+  substances: [
+    ["circle", { cx: "12", cy: "12", r: "8.5" }],
+    ["path", { d: "M12 3.5A8.5 8.5 0 0 0 12 20.5Z", fill: "currentColor", stroke: "none" }],
+  ],
+  /* Test: a diamond with a filled one inside. */
+  test: [
+    ["path", { d: "M12 3.5 20.5 12 12 20.5 3.5 12Z" }],
+    ["path", { d: "M12 8.3 15.7 12 12 15.7 8.3 12Z", fill: "currentColor", stroke: "none" }],
+  ],
+  /* Support: the six-spoked asterisk. */
+  support: [
+    ["line", { x1: "12", y1: "3.5", x2: "12", y2: "20.5" }],
+    ["line", { x1: "4.64", y1: "7.75", x2: "19.36", y2: "16.25" }],
+    ["line", { x1: "4.64", y1: "16.25", x2: "19.36", y2: "7.75" }],
+  ],
+  /* Alerts: the bullseye. */
+  alerts: [
+    ["circle", { cx: "12", cy: "12", r: "8.5" }],
+    ["circle", { cx: "12", cy: "12", r: "3.6", fill: "currentColor", stroke: "none" }],
+  ],
+  /* SOS: the cross, heavier - it sits in a filled disc and has to read there. */
+  help: [
+    ["line", { x1: "12", y1: "5.5", x2: "12", y2: "18.5", "stroke-width": "3" }],
+    ["line", { x1: "5.5", y1: "12", x2: "18.5", y2: "12", "stroke-width": "3" }],
+  ],
+  /* Quick Exit: the X. */
+  exit: [
+    ["line", { x1: "6.5", y1: "6.5", x2: "17.5", y2: "17.5", "stroke-width": "2.2" }],
+    ["line", { x1: "17.5", y1: "6.5", x2: "6.5", y2: "17.5", "stroke-width": "2.2" }],
+  ],
+};
+function icon(name) {
+  const svg = svgEl("svg", {
+    class: "ico__svg", viewBox: "0 0 24 24", width: "20", height: "20",
+    fill: "none", stroke: "currentColor", "stroke-width": "1.9",
+    "stroke-linecap": "round", "stroke-linejoin": "round",
+    "aria-hidden": "true", focusable: "false",
+  });
+  for (const [tag, attrs] of ICONS[name] || []) svg.appendChild(svgEl(tag, attrs));
+  return svg;
+}
+/* Drawn now, at parse, not in applyStrings: the module runs before first
+   paint in practice, and applyStrings waits on the locale file. applyStrings
+   keeps the .ico element when it rebuilds each tab, so this is done once. */
+for (const a of navLinks) {
+  const ico = a.querySelector(".ico");
+  if (ico && ICONS[a.dataset.tab]) clear(ico).appendChild(icon(a.dataset.tab));
+}
+{
+  const glyph = document.querySelector("#exit [aria-hidden]");
+  if (glyph) clear(glyph).appendChild(icon("exit"));
+}
 
 /* -------------------------------------------------------- session lifetime
  * Nothing this app writes may outlive the session. Quick Exit still exists,
@@ -62,8 +213,10 @@ document.getElementById("theme").addEventListener("click", (e) => {
  *
  * The cost, stated plainly because it is a real one: the offline cache no
  * longer survives a session, so opening the app cold always needs a network.
- * Within a session, caching still works and Emergency still renders offline.
- */
+ * Within a session, caching still works and Emergency renders offline - and
+ * not only once it has been opened: warmShell() below re-fills the shell,
+ * emergency page included, after every sweep, and boot imports the page at
+ * idle. */
 
 async function wipeCaches() {
   try {
@@ -263,6 +416,18 @@ function canonicalize() {
  * Explicitly instant, never smooth. A navigation is not a journey, and
  * animating it means watching the old page leave.
  */
+/* Reduce Motion, asked once and honoured everywhere this file animates a
+   scroll. The CSS side is already covered - the prefers-reduced-motion block
+   in app.css zeroes every transition and animation - but a `behavior:
+   "smooth"` passed to scrollIntoView is JavaScript's own animation and the
+   stylesheet cannot reach it, so a reader who turned motion off still watched
+   the page glide when a section opened or a search result landed. Read live
+   rather than cached: the setting can change while the tab is open. */
+function motionOK() {
+  try { return !window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+  catch { return true; }
+}
+
 function toTop() {
   try { window.scrollTo({ top: 0, left: 0, behavior: "instant" }); }
   catch { window.scrollTo(0, 0); }
@@ -275,23 +440,36 @@ export function go(hash, replace = false) {
   const url = toUrl(hash);
   const changed = routeIdentity(url) !== routeIdentity(here());
 
+  /* FOCUS FOLLOWS EVERY DIRECT CALL TO route(), the same as it follows the
+     event path. The hashchange/popstate handler below has always done
+     route() then focusView(), so on the native build a tab tap announced the
+     new screen. Under path routing go() calls route() itself and did not - so
+     on nightlight.help tapping a tab announced nothing, and a go() from a
+     button inside the view (the tracker's result rows, the class grid) left
+     focus on an element that had just been thrown away, which is focus on
+     body. Every branch that reaches route() directly now ends the same way.
+     The scroll stays gated on `changed`; focus is not - a filter chip
+     re-renders the whole view, so the thing that was focused is gone either
+     way and the heading is the honest place to land. */
+  const routed = () => route().then(focusView);
+
   if (!pathRouting()) {
     /* The hash branch reaches route() through the hashchange event, which
        scrolls for itself - except when the URL is unchanged and no event
        fires, or when replaceState is used, which also fires nothing. */
-    if (location.hash === url) { toTop(); return route(); }
-    if (replace) { history.replaceState(null, "", url); toTop(); route(); }
+    if (location.hash === url) { toTop(); return routed(); }
+    if (replace) { history.replaceState(null, "", url); toTop(); routed(); }
     else location.hash = url;
     return;
   }
 
-  if (url === here()) { toTop(); return route(); }
+  if (url === here()) { toTop(); return routed(); }
   /* pushState fires neither popstate nor hashchange, so route() is called
      directly - and so is the scroll, which the event handler would otherwise
      have done. Back and forward DO fire popstate, which is wired up below. */
   history[replace ? "replaceState" : "pushState"](null, "", url);
   if (changed) toTop();
-  route();
+  routed();
 }
 
 const VIEWS = {
@@ -366,7 +544,7 @@ document.addEventListener("click", (e) => {
        the page under a finger that did not ask for it is worse than a small
        imperfection. */
     if (top >= 0 && top < 160) return;
-    summary.scrollIntoView({ behavior: "smooth", block: "start" });
+    summary.scrollIntoView({ behavior: motionOK() ? "smooth" : "auto", block: "start" });
   }));
 });
 
@@ -408,26 +586,123 @@ async function route() {
   }
 
   view.setAttribute("aria-busy", "true");
-  clear(view).appendChild(skeleton(3));
 
+  /* THE SKELETON WAITS A BEAT. Most renders finish in well under 120ms - the
+     module is already in the cache and the data is already parsed - and a
+     skeleton mounted at once was on screen for one or two frames, which reads
+     as a flicker on every tab tap rather than as a loading state. Now the old
+     content clears at once, and the placeholder rows arrive only if the new
+     screen has not. Boot is the exception: index.html ships a skeleton in
+     #view so there is something on screen at first paint, and that one is
+     left in place rather than removed and re-added. The timer checks the
+     token so a navigation that has since been superseded cannot drop a
+     skeleton into a screen that belongs to a newer one. */
+  const bootSkel = view.childElementCount === 1
+    && view.firstElementChild.classList.contains("skel");
+  if (!bootSkel) clear(view);
+  const skel = setTimeout(() => {
+    if (mine === token && !view.childElementCount) view.appendChild(skeleton(3));
+  }, 120);
+
+  let mod = null;
   try {
-    const mod = await VIEWS[tab]();
+    mod = await VIEWS[tab]();
     if (mine !== token) return;                 // a newer navigation won
     const node = await mod.render(r, { go, data });
     if (mine !== token) return;
     linkify(node);
     clear(view).appendChild(node);
+    /* THE LANGUAGE THE VIEW IS ACTUALLY IN. The document carries the interface
+       locale (i18n applyDocument), but the clinical bodies - every tab except
+       Alerts - are English until a reviewer translates them, and a Spanish
+       screen reader told the page is "es" reads English prose with Spanish
+       pronunciation rules, which is close to unintelligible. Marking the view
+       root "en" when it is English under a non-English interface gives the
+       synthesiser the right voice; englishOnlyNotice() inside it carries the
+       interface locale back, because that notice IS translated. Nothing is
+       set for an English interface, where the document's lang is already
+       right. */
+    const en = /^en/i.test(String(i18n.locale()));
+    if (!en && tab !== "alerts") view.setAttribute("lang", "en");
+    else view.removeAttribute("lang");
+    /* A clean render clears the reload marker below, so the next deploy that
+       lands under this session is allowed its one reload too. */
+    if (history.state?.nlReloaded) { try { history.replaceState(null, "", here()); } catch {} }
   } catch (err) {
     if (mine !== token) return;
+    /* A MODULE THAT VANISHED UNDERNEATH A LIVE SESSION.
+     *
+     * On the web the shell's files are served under content-hashed names
+     * (scripts/assets.mjs): this copy of app.js asks for views/test.<hash>.js,
+     * and a deploy that changes that file also changes its name and removes
+     * the old one. A tab that was open across the deploy - or a boot served
+     * from the service worker's stale index.html - then asks for a file that
+     * no longer exists, and gets a 404 that looks exactly like a dropped
+     * connection. "Try again" cannot help: it asks for the same name.
+     *
+     * What does help is reloading: index.html is never cached past a
+     * revalidation, so a reload fetches the current shell with the current
+     * names, and the URL still carries the route and the fragment, so the
+     * reader lands on the same page. But only when it IS that case and not a
+     * dead network - offline, a reload would throw away the screen the
+     * reader had for a blank one. So before reloading, the server is asked
+     * for one small unhashed file that is always there; if that fails, this
+     * is a network problem and the error state below is the honest answer.
+     *
+     * ONCE. The attempt is recorded in history.state, which survives a reload
+     * where sessionStorage does not (the pagehide wipe clears it), so a
+     * shell that is genuinely broken after the reload shows the error state
+     * instead of reloading forever. Never in the packaged app, whose files
+     * are on disk and cannot vanish. */
+    if (!mod && await recoverStaleShell()) return;
+    /* A WAY BACK. This state had no control on it: on the web a reader could
+       reload, in the packaged app there is no reload, so a failed import - a
+       dropped connection at the moment of the tap - left "This section could
+       not load" and nothing to do about it but leave the tab and come back.
+       The button re-runs this function for the same URL and lands focus on
+       whatever it renders, the same as any other navigation. */
     clear(view).appendChild(
       h("div", { class: "empty" },
         h("h3", null, t("app.loadFailed")),
-        h("p", null, t("app.loadFailedHint")))
+        h("p", null, t("app.loadFailedHint")),
+        h("p", null,
+          h("button", {
+            type: "button", class: "btn",
+            onClick: () => { route().then(focusView); },
+          }, t("app.tryAgain"))))
     );
     console.error(err);
   } finally {
+    clearTimeout(skel);
     if (mine === token) view.setAttribute("aria-busy", "false");
   }
+}
+
+/* The one file the stale-shell check asks for: the worker itself. Unhashed,
+   tiny, same-origin, and always on the web server. WEB ONLY - the packaged
+   bundle deliberately ships no worker, and recoverStaleShell() returns before
+   it can ask; test/offline.test.mjs checks that guard rather than the bundle
+   containing this file. */
+const SHELL_PROBE = "/site/sw.js";
+
+/* See the note in route()'s catch. Resolves true only if the page is about to
+   reload - the caller must then do nothing, because the screen is going away. */
+async function recoverStaleShell() {
+  if (data.packaged()) return false;
+  if (navigator.onLine === false) return false;
+  if (history.state?.nlReloaded) return false;
+  try {
+    /* HEAD goes past the service worker's fetch handler (it only answers
+       GETs), so this is a real question to the real server - and a HEAD is
+       not a registration and caches nothing. */
+    const r = await fetch(SHELL_PROBE, { method: "HEAD", cache: "no-store", credentials: "omit" });
+    if (!r.ok) return false;
+  } catch {
+    return false;
+  }
+  try { history.replaceState({ nlReloaded: true }, "", here()); } catch { return false; }
+  location.reload();
+  return true;
 }
 
 /* Focus lands on the heading of the new view, not the top of the document, so
@@ -507,9 +782,10 @@ function applyStrings() {
   const skip = document.querySelector(".skip");
   if (skip) skip.textContent = t("app.skipToContent");
 
-  const themeBtn = document.getElementById("theme");
-  themeBtn.setAttribute("aria-label", t("app.themeToggle"));
-  themeBtn.setAttribute("title", t("app.themeToggle"));
+  /* The theme control's label states which theme is on and follows the
+     interface language, so it is (re)built here from the current strings -
+     see syncThemeControl. */
+  syncThemeControl();
 
   const exitBtn = document.getElementById("exit");
   exitBtn.setAttribute("aria-label", t("app.quickExit"));
@@ -602,12 +878,16 @@ async function renderFooterMeta() {
 /* Back to top.
  *
  * These pages are long by necessity - the limitations of a test strip are the
- * part that keeps somebody alive, so they cannot be cut - and on a laptop
- * there is no bottom tab bar to escape to. This is the way back up.
+ * part that keeps somebody alive, so they cannot be cut - and getting back up
+ * a long page is a real cost on any screen. On a laptop there is no bottom tab
+ * bar to escape to; on a phone the bottom bar reaches the previous tab but not
+ * the top of the one you are on.
  *
- * DESKTOP ONLY, and that is a deliberate limit rather than an omission: on a
- * phone the bottom bar already owns that corner, and a floating button over
- * the Emergency tab is the last thing that should ever be there.
+ * ON THE PHONE it sits at the bottom LEFT, above the tab bar (bottom is keyed
+ * to the bar's measured height) - clear of the pinned Quick Exit pill at the
+ * top right, and clear of the bar itself. On a wide screen there is no bottom
+ * bar and it takes the bottom-right corner. Both placements are in app.css;
+ * this only decides when it shows.
  *
  * It scrolls AND moves focus to the heading. Scrolling alone would leave a
  * keyboard user's focus stranded at the foot of the page, so the next Tab
@@ -615,13 +895,11 @@ async function renderFooterMeta() {
  * nothing for the people most likely to need it.
  */
 function mountBackToTop() {
-  const wide = window.matchMedia("(min-width: 880px)");
   const btn = h("button", {
     type: "button", class: "totop", hidden: true,
     "aria-label": "Back to top",
     onClick: () => {
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+      window.scrollTo({ top: 0, behavior: motionOK() ? "smooth" : "auto" });
       focusView();
     },
   }, h("span", { "aria-hidden": "true" }, "↑"));
@@ -633,8 +911,10 @@ function mountBackToTop() {
   let ticking = false;
   const sync = () => {
     ticking = false;
-    // Roughly one screenful down: far enough that "top" is genuinely lost.
-    const show = wide.matches && window.scrollY > window.innerHeight * 0.8;
+    /* Roughly one screenful down: far enough that "top" is genuinely lost.
+       No width gate any more - the button is wanted on the phone too, and the
+       stylesheet is what decides where it sits at each breakpoint. */
+    const show = window.scrollY > window.innerHeight * 0.8;
     btn.toggleAttribute("hidden", !show);
   };
   window.addEventListener("scroll", () => {
@@ -643,35 +923,38 @@ function mountBackToTop() {
     requestAnimationFrame(sync);
   }, { passive: true });
 
-  wide.addEventListener?.("change", sync);
   onNavigate(sync);
   sync();
 }
 
-/* The header loses its wordmark once you are past the top of the page.
+/* The header leaves the screen once you are past the top of the page.
  *
- * 165px of every 812px screen is chrome before a word of content. The name is
- * the part of it that stops earning its space immediately: it says which app
- * this is, which matters on arrival and not six screens down. The X beside it
- * is Quick Exit and never moves - the bar shrinks, it does not hide, because a
- * safety control you have to scroll back to is not one.
+ * 165px of every 812px screen is chrome before a word of content. Quick Exit,
+ * the X, is no longer in that row at all: index.html puts it beside .nav as a
+ * direct child of the bar and app.css pins it as a fixed pill, so it is on
+ * screen at every scroll position whatever the rest of the header does. A
+ * safety control you have to scroll back to is not one, and that used to be
+ * the argument for shrinking the bar rather than hiding it.
  *
- * A LATCH WITH A DEADBAND, not a threshold. A bare `scrollY > n` flips state
- * every frame for anyone resting near the line, and since the bar's height is
- * what changes, each flip moves the page under the reader - which moves
- * scrollY - which flips it back. The two edges are 22px apart, exactly the
- * height the bar loses, so the feedback loop cannot close.
- *
- * rAF-throttled and passive, same as the back-to-top button above it. */
+ * Synchronous and passive. The name is historical: this used to also SHRINK
+ * the bar (see below) and now only hides it. */
 function watchBarShrink() {
-  /* Two states.
+  /* One state.
    *
-   *   is-scrolled  the row tightens and drops the wordmark (94px -> 76px)
    *   is-bar-up    the whole header slides off the top
    *
-   * The second is THE HEADER BELONGS TO THE TOP OF THE PAGE. Any scroll away
-   * from the top takes it with the page; it comes back when the reader comes
-   * back, and at no other time.
+   * THE HEADER BELONGS TO THE TOP OF THE PAGE. Any scroll away from the top
+   * takes it with the page; it comes back when the reader comes back, and at
+   * no other time.
+   *
+   * There used to be a second, earlier state - is-scrolled, which tightened
+   * the row from 94px to 76px and collapsed the wordmark behind a latch with a
+   * 22px deadband. It was removed on 2026-08-19: once the bar slid away
+   * entirely the tighten happened under a header that was already off screen,
+   * and still cost two relayouts plus an 18px WebKit jolt at the start of
+   * every scroll gesture, because changing the sticky bar's height moves the
+   * page under the reader's thumb. The CSS went with it (app.css, "the bar,
+   * once you scroll").
    *
    * This is the third rule this has had and the reasoning for each is worth
    * keeping, because they trade the same two things against each other. Return
@@ -681,11 +964,12 @@ function watchBarShrink() {
    * read. Return it only at the top and the screen is entirely the reader's
    * everywhere else - which is the version chosen here.
    *
-   * The cost of this one is named so it is not rediscovered later: Quick Exit,
-   * the X, lives in that row and is the only copy of it. Under this rule it is
-   * a scroll-to-top away from anywhere below the first screen rather than a
-   * pause away. Everything else in the header is navigation the bottom bar
-   * duplicates; that control is not duplicated anywhere.
+   * The cost this rule USED to carry is named so it is not rediscovered
+   * later: while Quick Exit, the X, lived in the slide it left with it, and
+   * was a scroll-to-top away from anywhere below the first screen rather than
+   * a pause away. It is out of the slide now - a fixed pill beside .nav, see
+   * index.html and "Quick Exit, pinned" in app.css - so hiding the header
+   * costs nothing that is not duplicated by the bottom bar.
    *
    * THE LAYOUT DOES NOT MOVE when it hides or returns, which is what makes this
    * safe to do mid-page. .topbar is sticky and keeps its box; only
@@ -695,10 +979,8 @@ function watchBarShrink() {
    *
    * The hide is deliberately NOT rAF-throttled. It has to happen on the first
    * scroll event of a gesture, and a frame of delay is visible as the header
-   * lagging behind the finger. Only the tighten - which is a layout change -
-   * goes through rAF. */
-  const TIGHT_ON = 64;    // tighten once the page title has genuinely gone
-  const TIGHT_OFF = 42;   // and restore well before the top
+   * lagging behind the finger. It is a transform, not a layout change, so
+   * there is nothing here that needs to wait for a frame. */
 
   /* "All the way to the top" with a few pixels of slack, because it has to be
      reachable in practice: iOS rubber-band settles a hair off zero, a restored
@@ -707,9 +989,7 @@ function watchBarShrink() {
      the top of the page satisfies it. */
   const AT_TOP = 6;
 
-  let tight = false;
   let up = false;
-  let ticking = false;
 
   const setUp = (v) => {
     if (up === v) return;
@@ -717,29 +997,13 @@ function watchBarShrink() {
     document.documentElement.classList.toggle("is-bar-up", v);
   };
 
-  /* The tighten only. Layout work, so it waits for a frame. */
-  const syncTight = () => {
-    ticking = false;
-    const y = window.scrollY;
-    if (!tight && y > TIGHT_ON) tight = true;
-    else if (tight && y < TIGHT_OFF) tight = false;
-    document.documentElement.classList.toggle("is-scrolled", tight);
-  };
-
   window.addEventListener("scroll", () => {
-    /* Hide first, synchronously, before anything else in this handler. */
     setUp(window.scrollY > AT_TOP);
-
-    if (!ticking) { ticking = true; requestAnimationFrame(syncTight); }
   }, { passive: true });
 
-  /* A new view starts at the top, so both states reset with it - otherwise a
+  /* A new view starts at the top, so the state resets with it - otherwise a
      page reached from six screens down opens with no header on it. */
-  onNavigate(() => {
-    tight = false;
-    document.documentElement.classList.remove("is-scrolled");
-    setUp(false);
-  });
+  onNavigate(() => setUp(false));
 
   /* A JUMP IS NOT A SCROLL, and under this rule that is nearly all it is.
    *
@@ -754,7 +1018,52 @@ function watchBarShrink() {
     setUp(window.scrollY > AT_TOP);
   });
 
-  syncTight();
+  setUp(window.scrollY > AT_TOP);
+}
+
+/* -------------------------------------------------------- warm the shell
+ *
+ * MIRRORS SHELL IN site/sw.js, and test/sw.test.mjs fails if the two lists
+ * disagree. Written out here rather than read from the worker because a
+ * classic worker script cannot be imported by the page, and a comment saying
+ * "keep these in step" is not a mechanism - the test is.
+ *
+ * WHY THE PAGE HAS TO DO THIS AT ALL. The worker precaches SHELL in its
+ * `install` handler, which runs once per worker VERSION. The boot sweep above
+ * (wipeCaches) runs on every load. So on any load after the first, the worker
+ * is already installed, `install` does not run again, and everything the sweep
+ * just deleted - index.html included, which is what an offline navigation
+ * falls back to - stays gone until a reader happens to request it. The
+ * emergency page in particular was only ever cached once somebody had opened
+ * it. Fetching the set from the page sends each request through the worker's
+ * fetch handler, which puts it back.
+ *
+ * Waits for the worker to CONTROL the page, not merely to exist: a fetch made
+ * before clients.claim() has taken effect goes straight to the network and
+ * caches nothing. Silent throughout - this is an enhancement to an offline
+ * enhancement, and nothing about it may surface to somebody mid-crisis. */
+const WARM = [
+  "./",
+  "./index.html",
+  "./css/app.css",
+  "./js/app.js",
+  "./js/native-flag.js",
+  "./js/views/help.js",
+];
+
+async function warmShell() {
+  try {
+    const sw = navigator.serviceWorker;
+    await sw.ready;
+    if (!sw.controller) {
+      await new Promise((res) => sw.addEventListener("controllerchange", res, { once: true }));
+    }
+    /* Resolved against the worker's own location, exactly as the worker
+       resolves SHELL, so the cache keys are the same URLs. */
+    const base = new URL("/site/sw.js", location.href);
+    await Promise.all(WARM.map((p) =>
+      fetch(new URL(p, base), { credentials: "omit" }).catch(() => {})));
+  } catch { /* no worker, or one that never took control - nothing to warm */ }
 }
 
 /* ------------------------------------------------------------------- boot */
@@ -786,9 +1095,28 @@ const BOOT_SHOWN_AT = Date.now();
  * knowing when it lifts, which matters more than precision: an approach that
  * waited for a signal from the plugin would leave the reader on a logo forever
  * if the signal never came, and this app has an SOS tab. */
-const BOOT_MIN_MS =
-  document.documentElement.classList.contains("is-packaged") ? 1500 : 650;
+/* 650 in the packaged app too, since 2026-08-19. The floor was 1500 there to
+   outlast Capacitor's own launch screen, which hid itself on a 400ms timer
+   of its own and was still covering this one when it left. The handover is
+   ours now: the native config keeps the launch screen up for ~2s as a
+   FAILSAFE (launchShowDuration) and hideNativeSplash() below takes it down
+   the moment the first view has rendered, so this opening is on screen from
+   that moment and holds the same floor as the web. launchAutoHide stays on -
+   a splash that waits for a signal is a logo forever if the signal never
+   comes, and this app has an SOS tab. */
+const BOOT_MIN_MS = 650;
 const BOOT_MAX_MS = BOOT_MIN_MS + 950;
+
+/* Capacitor's launch screen, taken down on first render - the plugin is
+   optional and may be absent, and its promise rejects asynchronously, so it
+   is awaited inside its own catch. Web: nothing to do. */
+function hideNativeSplash() {
+  if (!data.packaged()) return;
+  try {
+    const p = globalThis.Capacitor?.Plugins?.SplashScreen?.hide?.();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+  } catch { /* no plugin, or no native side - the failsafe timer covers it */ }
+}
 let bootGone = false;
 
 function dismissBoot() {
@@ -816,15 +1144,42 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
      the bar is never laid out at the wrong height and then corrected, which
      the reader would see as the whole page shifting down. */
   if (isNative()) document.documentElement.classList.add("is-native");
+  /* Dynamic Type. app.css keys `html.native { font: -apple-system-body }` off
+     this class and nothing else - the one font value a WKWebView scales with
+     the reader's iOS text size. Only when Capacitor is present: on the web the
+     browser's own text-size setting already reaches the rem and the system
+     font keyword would override it. A class of its own rather than reusing
+     .is-native, so the stylesheet's status-bar rules and its type rules can
+     be read - and removed - independently. */
+  if (isNative()) document.documentElement.classList.add("native");
 
-  await i18n.init();
-  applyStrings();
+  /* EVERYTHING THE FIRST PAINT NEEDS IS ASKED FOR NOW, before anything is
+     awaited. Boot used to be a chain: await the locale file, THEN ask for the
+     topics bundle, THEN route() - which is where the view module's import()
+     and that view's own data fetches begin. On a cold open that was five to
+     seven dependent round trips before a word of content. The locale file,
+     the topics bundle and the view module do not depend on each other, so
+     they go out together and the awaits below mostly find them landed.
 
+     The view import is deliberately the same import() route() will make:
+     the module map dedupes it, so this is a head start and not a second
+     fetch. It is not awaited and its failure is swallowed here - route()
+     awaits the same promise and owns the error state (and the Try again
+     button) if it fails. The tab is read off the raw URL before
+     canonicalize() runs; canonicalising only changes the URL's form, never
+     which tab it names. */
   /* Start the one content request immediately, from every screen, so the
      access log carries the same shape for every reader regardless of what
      they open. See TOPICS in data.js. Not awaited: nothing on the first paint
      depends on it, and a slow network must not delay the emergency page. */
   data.primeTopics?.();
+  try {
+    const early = parseRoute().tab;
+    (VIEWS[early] || VIEWS.alerts)().catch(() => {});
+  } catch { /* a malformed URL is route()'s problem, not boot's */ }
+
+  await i18n.init();
+  applyStrings();
 
   /* Before the first render, so lastRoute below is seeded with the canonical
      URL rather than the one that is about to be replaced. */
@@ -835,6 +1190,7 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
   lastRoute = here();
 
   await route();
+  hideNativeSplash();
   dismissBoot();
 
   /* The kindness bar: rendered once, above the content, and never touched
@@ -863,6 +1219,10 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
        the slow fade exists to avoid. */
     const inner = document.createElement("div");
     kindbar.appendChild(inner);
+    /* Loaded here and only here - see the import block at the top of the
+       file. While the bar is off this line never runs and the module is
+       never fetched. */
+    const { mountKindBar } = await import("./kindness.js");
     mountKindBar(inner);
 
     const syncKind = () => {
@@ -927,6 +1287,7 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
       /* Offline support is an enhancement; failing to get it is not an error
          worth surfacing to someone mid-crisis. */
     });
+    warmShell();
   }
   if (first) first = false;
 
@@ -959,10 +1320,23 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
   idle(() => { renderFooterMeta().catch(() => {}); });
 
+  /* THE EMERGENCY PAGE IS LOADED BEFORE IT IS ASKED FOR.
+   *
+   * SOS was a dynamic import like every other tab, so the first tap on it in
+   * a session cost a network round trip - and a reader who reaches for that
+   * tab from another one, on a connection that has just dropped, got "This
+   * section could not load" instead of the overdose steps. Importing it here
+   * parses it into the module cache (so the tap is instant for the rest of
+   * the session) and, on the web, pulls it through the service worker's fetch
+   * handler into the offline cache - the belt to warmShell()'s braces. At
+   * idle, so it never races the screen the reader actually opened; a failure
+   * is silent because the tap itself will try again. */
+  idle(() => { VIEWS.help().catch(() => {}); });
+
   /* The packaged app carries the alerts that existed on the day it was built.
      Everything else in the bundle stays true; alerts are a claim about now.
      No-ops on the website and offline. See data.refreshAlerts. */
-  idle(() => {
+  const refreshAlertsNow = () => {
     data.refreshAlerts().then((updated) => {
       if (!updated) return;
       renderFooterMeta().catch(() => {});
@@ -975,6 +1349,19 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
       try { tab = parseRoute().tab; } catch { tab = null; }
       if (tab === "alerts" && window.scrollY < 40) route().catch(() => {});
     }).catch(() => {});
+  };
+  idle(refreshAlertsNow);
+
+  /* AND ON EVERY RETURN TO THE FOREGROUND. An app left open in the switcher
+     for a week and brought back is, to the reader, freshly opened - and it
+     was showing the alerts from the day it was last launched. visibilitychange
+     is the one signal that fires for that on iOS (a WKWebView gets no
+     resume event of its own), and it fires for a plain tab switch on the web
+     too - where refreshAlerts() returns at once, because the website serves
+     the file fresh. Same redraw rule as boot: only the alerts screen, only at
+     its top. */
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") refreshAlertsNow();
   });
 })();
 
@@ -995,11 +1382,26 @@ function reveal(anchor, label, wantRoute) {
   const want = String(label || "").trim().toLowerCase();
   let tries = 0;
 
+  /* What a sighted reader sees of a heading, which is what the search index
+     was built from. textContent would also pick up off-screen text - the
+     "Warning: " / "Caution: " prefix ui.js puts inside every stop and warn
+     callout's h3 for screen readers - and every one of those callout titles
+     is in search.json, so matching on textContent silently stopped resolving
+     the very results that carry the most severe content. */
+  const visibleText = (n) => {
+    let s = "";
+    for (const c of n.childNodes) {
+      if (c.nodeType === 3) s += c.textContent;
+      else if (c.nodeType === 1 && !c.classList.contains("sr-only")) s += visibleText(c);
+    }
+    return s;
+  };
+
   const findByText = () => {
     const nodes = document.querySelectorAll(
       "#view h1, #view h2, #view h3, #view h4, #view summary");
     for (const n of nodes) {
-      if (n.textContent.trim().toLowerCase() === want) return n;
+      if (visibleText(n).trim().toLowerCase() === want) return n;
     }
     return null;
   };
@@ -1046,7 +1448,18 @@ function reveal(anchor, label, wantRoute) {
          page move instead of reading the thing they asked for. Smooth is only
          worth it when the distance is short enough to be legible as motion. */
       const far = Math.abs(target.getBoundingClientRect().top) > window.innerHeight * 2;
-      target.scrollIntoView({ behavior: far ? "auto" : "smooth", block: "start" });
+      /* And never smooth for a reader who has asked for no motion. */
+      target.scrollIntoView({ behavior: far || !motionOK() ? "auto" : "smooth", block: "start" });
+
+      /* FOCUS LANDS WITH THE SCROLL. The navigation that brought the reader
+         here focused the page's h1 (focusView), so a screen reader user who
+         picked a result was told the page's title while the screen showed the
+         section - and their next Tab started from the top of the page. The
+         same move jumpTo() makes for a chip: the heading it scrolled to, made
+         focusable if it was not (a summary already is), and the ring is
+         suppressed by app.css's programmatic-focus rule. */
+      if (el.tagName !== "SUMMARY" && !el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+      el.focus({ preventScroll: true });
 
       /* Then settle. Content above the target can still be arriving - a
          disclosure opening, a deferred block filling in - and each of those
@@ -1068,9 +1481,9 @@ function reveal(anchor, label, wantRoute) {
          * differently if something above is still filling in.
          *
          * Read rather than recomputed, because the margin moves with the bar -
-         * it is 108 at rest, 90 once the header tightens, and 22 with it
-         * hidden. Comparing to a constant could not have been right in more
-         * than one of those states. */
+         * it is 108 at rest and 22 with the header hidden (and, until the
+         * tighten was removed, 90 in between). Comparing to a constant could
+         * not have been right in more than one of those states. */
         const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
         if (Math.abs(top - margin) > 24) {
           target.scrollIntoView({ behavior: "auto", block: "start" });
@@ -1117,6 +1530,11 @@ document.addEventListener("click", (e) => {
   const input = document.getElementById("searchinput");
   const results = document.getElementById("searchresults");
   const status = document.getElementById("searchstatus");
+  /* The "If you are not sure what to look for" line lives OUTSIDE the listbox
+     now (index.html): inside it, a <p> was a child of a role=listbox that was
+     not an option, which some screen readers announce as an item and others
+     drop, and the count they give of the list was one off either way. */
+  const head = document.getElementById("searchhead");
   let mod = null;
 
   /* THE PAGE BEHIND SEARCH DOES NOT MOVE.
@@ -1163,6 +1581,7 @@ document.addEventListener("click", (e) => {
     input.setAttribute("aria-expanded", "false");
     input.value = "";
     clear(results);
+    if (head) head.hidden = true;
     status.textContent = "";
     /* Guarded: Quick Exit and Escape both call this, and unlocking a body that
        was never locked would scroll the page to a stale offset. */
@@ -1194,6 +1613,31 @@ document.addEventListener("click", (e) => {
   };
 
   btn.addEventListener("click", () => (panel.hidden ? open() : close()));
+
+  /* ARROW KEYS walk the results. The results are links, so Tab reaches them
+     already; this is the combobox convention - Down from the field lands on
+     the first result, Up and Down move between them, Up from the first goes
+     back to the field - for the keyboard user who expects it. Focus moves to
+     the real element rather than being faked with aria-activedescendant, so
+     Enter opens whatever is focused with no extra wiring. */
+  const options = () => [...results.querySelectorAll(".sresult")];
+  input.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown") return;
+    const o = options();
+    if (!o.length) return;
+    e.preventDefault();
+    o[0].focus();
+  });
+  results.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    const o = options();
+    const i = o.indexOf(document.activeElement);
+    if (i < 0) return;
+    e.preventDefault();
+    if (e.key === "ArrowDown") (o[i + 1] || o[i]).focus();
+    else if (i === 0) input.focus();
+    else o[i - 1].focus();
+  });
 
   /* Escape closes from anywhere in the panel, which is the behaviour a
      keyboard user expects and the quickest way out on a phone keyboard. */
@@ -1237,9 +1681,10 @@ document.addEventListener("click", (e) => {
   /* One renderer for typed results and for the starting points, so a starter
      behaves in every way like the result it becomes once you type its words. */
   function renderResults(rs, variant) {
-    if (variant === "start" && rs.length) {
-      results.appendChild(
-        h("p", { class: "sresult__head" }, "If you are not sure what to look for"));
+    if (head) {
+      const starting = variant === "start" && rs.length > 0;
+      if (starting && !head.textContent) head.textContent = "If you are not sure what to look for";
+      head.hidden = !starting;
     }
     for (const r of rs) {
       /* Both branches were identical. The anchor is applied by reveal()

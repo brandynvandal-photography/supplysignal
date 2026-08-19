@@ -82,7 +82,10 @@ export function extLink(url, label, cls = null) {
       referrerpolicy: "no-referrer",
     },
     label,
-    h("span", { "aria-hidden": "true" }, " ↗")
+    /* U+FE0E after the arrow asks for the TEXT presentation. Without it some
+       platforms (Android, and iOS in a few fonts) render ↗ as a blue emoji
+       tile, which is a different colour and weight from the link beside it. */
+    h("span", { "aria-hidden": "true" }, " ↗\uFE0E")
   );
 }
 
@@ -107,10 +110,32 @@ export const isoDate = (iso) => String(iso || "").slice(0, 10);
 
 /* -------------------------------------------------------------- severity */
 
+/* ONE GLYPH PER SEVERITY, everywhere it is drawn.
+ *
+ * Badges said ▲ for critical and ● for elevated; callouts said ▲ for WARN and
+ * ✕ for stop; the tracker's "Unexpected" badge said ▲ for elevated. So the
+ * same triangle meant two different levels on the Test page alone, and a
+ * reader who learned it from an alert card was taught wrong by the callout
+ * under it. The two severity callouts already take the badge palette - stop
+ * paints --critical, warn paints --elevated - so they take the badge shapes
+ * too. Shapes, not fills: ▲ ● ○ stay tellable apart in greyscale and through
+ * any colour-blind filter, and ℹ︎ (text presentation, U+FE0E, so it never
+ * comes up as an emoji tile) marks the info box, which is not a severity at
+ * all. ✕ is gone: in a pill badge it read as a dismiss control, and a bare ■
+ * is indistinguishable from a missing-glyph box. Badge callers that carry a
+ * severity - the combination checker's RISK table, the tracker's verdict
+ * cards - read their glyph from here rather than typing one. */
+export const SEV_GLYPH = {
+  critical: "▲", elevated: "●", advisory: "○",
+  ok: "✓", neutral: "○", info: "ℹ\uFE0E",
+};
+/* The callout kinds, mapped onto the levels above. */
+const CALLOUT_LEVEL = { stop: "critical", warn: "elevated", info: "info" };
+
 const SEV = {
-  critical: { label: "Critical", glyph: "▲" },
-  elevated: { label: "Elevated", glyph: "●" },
-  advisory: { label: "Advisory", glyph: "○" },
+  critical: { label: "Critical", glyph: SEV_GLYPH.critical },
+  elevated: { label: "Elevated", glyph: SEV_GLYPH.elevated },
+  advisory: { label: "Advisory", glyph: SEV_GLYPH.advisory },
 };
 
 /**
@@ -262,19 +287,33 @@ function splitLead(p) {
  * The heading is expected to carry its share: "heading plus one sentence" is
  * the shape, and a heading that says nothing wastes the one line the box has. */
 export function callout(kind, title, ...body) {
-  /* "✕" rather than "■". A bare filled square is indistinguishable from a
-     missing-glyph box, so the most severe callout in the app looked like a
-     font failure. Each kind keeps a distinct shape, because colour alone is
-     never allowed to carry severity. */
-  const glyph = { stop: "✕", warn: "▲", info: "ℹ" }[kind] || "ℹ";
+  /* The shared severity glyph - see SEV_GLYPH for why the callout no longer
+     has a set of its own. Each kind keeps a distinct shape, because colour
+     alone is never allowed to carry severity. */
+  const glyph = SEV_GLYPH[CALLOUT_LEVEL[kind] || "info"];
   const kids = body.filter((b) => b != null && b !== false);
   const node = (b) => (b instanceof Node ? b : h("p", null, b));
 
+  /* THE SEVERITY IS SAID, not only coloured and glyphed.
+   *
+   * The glyph is aria-hidden and the colour is a border, so a screen reader
+   * heard "Only for fentanyl" as a plain heading - the same as an info box, the
+   * same as a section title - and the one thing the box exists to convey was
+   * silent. An off-screen prefix inside the h3 makes it "Warning: Only for
+   * fentanyl", read as part of the heading rather than as a stray word before
+   * it. stop and warn only: an info box has nothing to warn about, and
+   * prefixing everything would teach a reader to skip the prefix. Through
+   * t() so it follows the interface language; the visible title is untouched.
+   * reveal() in app.js matches search results to headings by their VISIBLE
+   * text for exactly this reason - see visibleText there. */
+  const sev = kind === "stop" || kind === "warn" ? t(`callout.${kind}`) : null;
   const head = (tag) => h(
     tag,
     { class: "callout__hd" },
     h("span", { "aria-hidden": "true" }, glyph),
-    h("h3", null, title)
+    h("h3", null,
+      sev ? h("span", { class: "sr-only" }, `${sev}: `) : null,
+      title)
   );
 
   /* A FOLD IS ALREADY ONE LINE. Only the boxes that cannot close get split.
@@ -415,8 +454,22 @@ export function jumpTo(id) {
     /* Again after the jump, because the scroll this function just performed is
        what the watcher would otherwise read as "the reader scrolled down". */
     try { document.dispatchEvent(new CustomEvent("nl:jump")); } catch {}
-    const s = el.querySelector("summary");
-    if (s) s.focus({ preventScroll: true });
+    /* FOCUS THE HEAD THE SCROLL LANDED ON, not the first summary in the tree.
+     *
+     * `el.querySelector("summary")` was right while every jump target was a
+     * details - its summary IS its head. On a div-wrapped target it found the
+     * first summary INSIDE the section instead (an accordion several
+     * paragraphs down, or nothing at all), so the page scrolled to the heading
+     * and a keyboard or screen-reader user was left focused somewhere else, or
+     * still on the chip. Emergency's "Collapsed" section was the reported
+     * case. `head` is what place() measured, so focus and scroll now agree.
+     * A heading is not focusable until it is given tabindex=-1; a summary
+     * already is, and is left alone. The ring is suppressed for programmatic
+     * heading focus by the app.css rule under "programmatic focus". */
+    if (head.tagName !== "SUMMARY" && !head.hasAttribute("tabindex")) {
+      head.setAttribute("tabindex", "-1");
+    }
+    head.focus({ preventScroll: true });
   });
 }
 
@@ -486,9 +539,15 @@ export function skeleton(n = 3) {
  */
 export function englishOnlyNotice() {
   if (String(i18nLocale()).toLowerCase().startsWith("en")) return null;
-  return callout("info", t("content.title"),
+  const n = callout("info", t("content.title"),
     h("p", null, t("content.body")),
     h("p", null, t("content.lines")));
+  /* The view root is marked lang="en" under a non-English interface (app.js
+     route()) because the clinical body IS English; this notice is the one
+     translated thing inside it, so it carries the interface locale back down
+     or a Spanish synthesiser reads Spanish with English rules. */
+  n.setAttribute?.("lang", String(i18nLocale()));
+  return n;
 }
 
 /**

@@ -79,12 +79,16 @@ async function pickerView(route, { go, data }) {
     );
   }
 
-  wrap.appendChild(viewToggle("list", go));
-
+  /* h1 BEFORE the List/Map switch, as the map view already had it. Here the
+     switch came first, so the page's title sat under a control that changes
+     how the page is shown - and focusView() lands on the h1, which put a
+     screen reader's starting point below the first thing on the screen. */
   wrap.appendChild(
     h("div", { class: "county-head" },
       h("h1", null, t("alerts.heading")))
   );
+
+  wrap.appendChild(viewToggle("list", go));
 
   wrap.appendChild(await searchBar({ go, data }));
 
@@ -105,6 +109,29 @@ async function pickerView(route, { go, data }) {
     wrap.appendChild(empty(t("alerts.noScanTitle"), t("alerts.noScanBody")));
     return wrap;
   }
+
+  /* WHEN THESE ALERTS ARE FROM, and a way to ask again - on this screen only.
+     The packaged app carries the alerts that existed on the day it was built
+     and refreshes them from the web at boot and on return to the foreground
+     (see data.refreshAlerts and app.js); the website serves them fresh. On
+     both, the footer already carries the date, below six screens of content.
+     This is the one screen that IS the alerts, so the date belongs at the top
+     of it, with the refresh beside it: on the web a reload is the honest
+     refresh (the server has the newest file); in the app the same remote
+     fetch boot uses, then a re-render of this screen. Nothing here is a
+     pull-to-refresh - that would fight the map canvas for the gesture. */
+  wrap.appendChild(
+    h("p", { class: "sec__note" },
+      t("alerts.dataUpdated", { date: new Date(a.generated).toISOString().slice(0, 10) }),
+      " · ",
+      h("button", {
+        type: "button", class: "linkbtn",
+        onClick: async () => {
+          if (!data.packaged()) { location.reload(); return; }
+          await data.refreshAlerts().catch(() => false);
+          go("#/alerts");
+        },
+      }, t("alerts.refresh"))));
 
   /* Alerts first, privacy promise under them.
      It used to sit between the search row and the alerts, so the first thing
@@ -407,17 +434,19 @@ async function countyView({ fips, days }, { go, data }) {
     mountMap(mapHost, { go, focus: fips, focusLabel: `${c.name}, ${c.state}`, compact: true })
   ).catch(() => { mapHost.remove(); });   // canvas is never the only route
 
-  /* Numbers for this county, directly under the map. The mortality data was
-     already bundled and drawn as map SHADING, which tells you "darker than
-     next door" and nothing else - a reader could not learn whether their own
-     county was getting better or worse. Appended asynchronously so a slow or
-     missing bundle never delays the alerts underneath. */
-  const statsHost = h("div");
-  wrap.appendChild(statsHost);
-  data.mortality().then((m) => {
-    const block = mortalityBlock(m, c);
-    if (block) statsHost.replaceChildren(block);
-  }).catch(() => {});
+  /* Numbers for this county. The mortality data was already bundled and drawn
+     as map SHADING, which tells you "darker than next door" and nothing else -
+     a reader could not learn whether their own county was getting better or
+     worse. Appended asynchronously so a slow or missing bundle never delays
+     the alerts.
+
+     BELOW "In {county}", not above it. A death statistic was the first thing
+     under the map, so the local alerts a reader clicked through for sat under
+     a mortality card. The card is real information and stays on the page; it
+     is just no longer the lead. The host is appended AFTER the "In {county}"
+     section below, with its height reserved (.mortslot) so the card dropping
+     in when the bundle resolves does not shove the sections beneath it down. */
+  const statsHost = h("div", { class: "mortslot" });
 
   wrap.appendChild(
     h("div", { class: "chips", role: "group", "aria-label": "Time window" },
@@ -445,6 +474,16 @@ async function countyView({ fips, days }, { go, data }) {
         ? frag(mine.map((k) => card(k)))
         : notHere(c, near.length, win, await data.wasScanned(fips)))
   );
+
+  /* The reserved-height host, filled when the bundle resolves - see the note
+     where statsHost is created. It sits here, after the local alerts and
+     before statewide, so the numbers a reader came for lead and the death
+     statistic follows. */
+  wrap.appendChild(statsHost);
+  data.mortality().then((m) => {
+    const block = mortalityBlock(m, c);
+    if (block) statsHost.replaceChildren(block);
+  }).catch(() => {});
 
   /* ---- statewide ----
      UNDER the county block, always, and labelled. A health department warning

@@ -37,6 +37,13 @@ import { execFileSync } from "node:child_process";
 const SERVED = [
   "data", "site", "feeds", "index.html",
   "manifest.webmanifest", "netlify.toml", "_headers", "_redirects",
+  /* The build itself. Since 2026-08-19 dist/ is not a copy of the tree: these
+     two minify the shell, hash the names and rewrite every reference, and
+     build-topics decides which data files are folded into the bundle. A
+     change to any of them changes the bytes a reader receives with no change
+     under site/ or data/, and skipping that deploy would leave production on
+     the old packing. */
+  "scripts/build-site.mjs", "scripts/assets.mjs", "scripts/build-topics.mjs",
 ];
 
 /* Fields that churn on every run without changing anything a reader can see.

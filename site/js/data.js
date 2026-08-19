@@ -11,6 +11,25 @@
 
 const BASE = "../data";
 
+/* CONTENT-HASHED NAMES, FILLED IN BY THE WEB BUILD.
+ *
+ * On nightlight.help the national bundles are served under content-hashed
+ * names (data/h/substances.1a2b3c4d.json) so a browser can cache them for
+ * good and a deploy that changes one changes its name - see
+ * scripts/assets.mjs. This map is source name -> served path, and it is
+ * EMPTY HERE on purpose: scripts/build-site.mjs replaces this one line when it
+ * stages dist/, and nothing else. In the source tree, on the dev server, in
+ * the test suite and in the packaged app the map stays empty and every file
+ * is fetched by its plain name.
+ *
+ * Nothing about the privacy design moves: a hashed name is a function of a
+ * national file's bytes, identical for every reader, and this map is keyed by
+ * dataset, never by anything a reader chose. The only two fetch templates in
+ * this file still interpolate a dataset name and nothing else. */
+const HASHED = {};
+/** The URL of a file under data/, by its source name. */
+const url = (rel) => `${BASE}/${HASHED[rel] || rel}`;
+
 const cache = new Map();
 const inflight = new Map();
 
@@ -41,7 +60,7 @@ let topicsP = null;
 /** The combined content bundle. One request, shared by every caller. */
 function loadTopics() {
   if (!topicsP) {
-    topicsP = fetch(`${BASE}/topics.json`, { credentials: "omit", cache: "default" })
+    topicsP = fetch(url("topics.json"), { credentials: "omit", cache: "default" })
       .then((r) => (r.ok ? r.json() : {}))
       .catch(() => ({}));
   }
@@ -78,7 +97,7 @@ function load(name, fallback) {
 
   if (inflight.has(name)) return inflight.get(name);
 
-  const p = fetch(`${BASE}/${name}.json`, { credentials: "omit", cache: "default" })
+  const p = fetch(url(`${name}.json`), { credentials: "omit", cache: "default" })
     .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
     .catch(() => fallback)
     .then((v) => {
@@ -243,10 +262,17 @@ export async function neighbors(fips) {
   const adj = await adjacency();
   const entry = adj[fips];
   if (!entry) return [];
-  await counties();
-  return entry.n
-    .map((n) => ({ ...byFips.get(n.fips), fips: n.fips, mi: n.mi }))
-    .filter((c) => c.name);
+  const g = await counties();
+  /* Each neighbour is a pair: [index into counties.json in file order, base
+     36, whole miles] - the same index convention places.json uses, and a
+     third of the bytes the old { fips, mi } objects cost on every county
+     page. See scripts/build-adjacency.mjs. */
+  return (Array.isArray(entry) ? entry : [])
+    .map(([i, mi]) => {
+      const c = g.counties[parseInt(i, 36)];
+      return c ? { ...c, mi } : null;
+    })
+    .filter((c) => c && c.name);
 }
 
 /* ----------------------------------------------------------------- alerts */
@@ -528,8 +554,18 @@ export async function searchIntents() {
 let scannedFips = null;
 
 export async function scanned() {
-  const doc = await load("index", { counties: {} });
-  if (!scannedFips) scannedFips = new Set(Object.keys(doc.counties || doc || {}));
+  const doc = await load("index", []);
+  /* A bare, sorted array of FIPS codes - that is all scripts/build-topics.mjs
+     puts in the bundle now. The file on disk still carries a clock and a
+     per-county scan timestamp that the ingest rewrites every run, and
+     bundling it whole made topics.json a new download after every ingest for
+     readers whose screens had not changed by a byte. The object forms are
+     still accepted so an older bundle (or the raw file, in a test) reads the
+     same. */
+  if (!scannedFips) {
+    scannedFips = new Set(
+      Array.isArray(doc) ? doc.map(String) : Object.keys(doc?.counties || doc || {}));
+  }
   return scannedFips;
 }
 

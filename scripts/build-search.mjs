@@ -70,6 +70,13 @@ function anchorFor(file, topKey) {
     "stimulants.json": ["sleep","hallucination","interaction","psychosis","helping","calling","coming"],
     "heat.json": ["spot","hot","water","cool","prevent","risk"],
     "policy.json": ["calling","law","money","voice","orgs"],
+    /* The strip picker's own heading (sec-brands, an h3 the view renders above
+       it) and the brand names under it - both live under testing.json's
+       `brands` key, so "Which strip do you have?" and "BTNX" resolve to the
+       picker rather than the top of the Test page. Only `brands` is mapped:
+       every other testing section either has no stable per-topic id or is
+       reached fine from the page top. */
+    "testing.json": ["brands"],
   };
   return (map[file] || []).includes(topKey) ? `sec-${topKey}` : null;
 }

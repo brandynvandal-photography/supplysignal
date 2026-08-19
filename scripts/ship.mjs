@@ -85,7 +85,12 @@ const HASH_ONLY = env === "hash";
 /* Directories rsynced with --delete (wholly ours), and root files copied.
    data/ is special-cased below because the bot owns part of it. */
 const OURS_DIRS = ["site", "scripts", "test", "src", "docs"];
-const OURS_FILES = ["netlify.toml", "package.json", "README.md", "PRIVACY.md",
+/* package-lock.json ships WITH package.json, always. The workflows install
+   with `npm ci`, which refuses to run when the two disagree - so a dependency
+   added here (esbuild, 2026-08-19, for the build's minify pass) and shipped
+   without its lock entry would stop every ingest, refresh and maintain run
+   at the install step. */
+const OURS_FILES = ["netlify.toml", "package.json", "package-lock.json", "README.md", "PRIVACY.md",
                     "EVIDENCE.md", "DESIGN-BRIEF.md", "OUTREACH.md"];
 
 /* The staging-only netlify.toml injection, shared by the writer and by the

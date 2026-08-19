@@ -40,6 +40,18 @@
   --l-ok: #2a6b45;        --l-ok-soft: #e6f2ea;
   --l-shadow: 0 1px 2px rgba(70,55,40,.04), 0 6px 24px rgba(70,55,40,.06);
   --l-shadow-lg: 0 12px 40px rgba(70,55,40,.14);
+  /* The map's own palette, as the canvas reads it. map.js cannot use a CSS
+     colour function - it paints with getComputedStyle() values, and a custom
+     property's computed value keeps color-mix() unresolved - so these are
+     literal colours, and the five the shading interpolates between are bare
+     r g b triplets it can lerp. The same five numbers it used to carry as
+     constants; the dark set is new, and is what lets a dark-theme map stop
+     looking like a light map on a dark card. */
+  --l-map-flat: 214 204 190;  --l-map-up: 179 48 28;      --l-map-down: 42 107 69;
+  --l-map-seq-lo: 238 230 218; --l-map-seq-hi: 45 106 95;
+  --l-map-none: rgba(160,148,132,.34);  --l-map-line: rgba(90,78,64,.22);
+  --l-map-halo: rgba(255,255,255,.95);  --l-map-hover: rgba(60,50,40,.55);
+  --l-map-pin: #2d6a5f;                 --l-map-pin-ink: #ffffff;
 
   /* Dark — warm charcoal, not blue-black. Lamplight rather than a control
      room; this gets opened at 3am more than at noon. */
@@ -55,6 +67,14 @@
   --d-ok: #74c994;        --d-ok-soft: #152a1e;
   --d-shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.28);
   --d-shadow-lg: 0 12px 40px rgba(0,0,0,.45);
+  /* See --l-map-*. Up and down are the dark severity/ok inks; the flat and
+     the sequential floor are the dark surfaces, so an unshaded county reads
+     as "nothing" rather than as a pale tile. */
+  --d-map-flat: 74 66 56;     --d-map-up: 255 138 114;    --d-map-down: 116 201 148;
+  --d-map-seq-lo: 43 39 32;   --d-map-seq-hi: 127 203 184;
+  --d-map-none: rgba(160,150,138,.22);  --d-map-line: rgba(242,236,226,.16);
+  --d-map-halo: rgba(23,21,15,.9);      --d-map-hover: rgba(242,236,226,.6);
+  --d-map-pin: #7fcbb8;                 --d-map-pin-ink: #12271f;
 
   /* Active tokens. Light is the default. Severity keeps full contrast in both
      themes - a calm interface must never make a warning easier to miss.
@@ -86,6 +106,12 @@
   --advisory: var(--l-brand);        --advisory-soft: var(--l-brand-soft);
   --ok: var(--l-ok);                 --ok-soft: var(--l-ok-soft);
   --shadow: var(--l-shadow);         --shadow-lg: var(--l-shadow-lg);
+  --map-flat: var(--l-map-flat);     --map-up: var(--l-map-up);
+  --map-down: var(--l-map-down);     --map-seq-lo: var(--l-map-seq-lo);
+  --map-seq-hi: var(--l-map-seq-hi); --map-none: var(--l-map-none);
+  --map-line: var(--l-map-line);     --map-halo: var(--l-map-halo);
+  --map-hover: var(--l-map-hover);   --map-pin: var(--l-map-pin);
+  --map-pin-ink: var(--l-map-pin-ink);
 
   /* Translucency. Transparency is what this app promises its readers, so it
      is also how it looks: surfaces sit lightly over the page rather than
@@ -122,9 +148,40 @@
      dark, 3.46 light), so tappable rows are findable while every static
      surface keeps the airy feel. */
 
-  --radius: 18px;
-  --radius-sm: 13px;
+  /* Softer corners throughout - the single biggest lever on whether a surface
+     reads as a panel or a pebble. Tap targets keep their --edge boundary at
+     3:1; nothing here touches contrast. ONE declaration: these were 18/13
+     here and re-declared as 22/15 near the foot of the file, so the values
+     everything actually rendered with were the ones a reader of this block
+     never saw. */
+  --radius: 22px;
+  --radius-sm: 15px;
   --radius-pill: 999px;
+
+  /* Depth, which reads as float even when nothing is moving: a tight contact
+     shadow plus a wide soft one. A single blurred shadow reads as a sticker;
+     two layers read as an object with air under it. One token, because the
+     pair was written out by hand in six rules and had to agree. */
+  --shadow-float:
+    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+
+  /* The left rule that carries severity - on an alert card, a critical limit,
+     the early-access caveat. One width, so a 4px rule and a 3px rule on the
+     same page cannot read as two levels that were never meant. */
+  --sev-rule: 4px;
+
+  /* Type scale for the SMALL tiers only. Body text is set in rem on body and
+     the headings below it; these name the sizes under it that kept being
+     typed out as near-duplicates (.72, .74, .76 ...). --fs-xs is the floor:
+     12.5px at the 17px default, lifted from 12.24, because nothing a reader
+     has to read should be smaller, and test/css.test.mjs holds the line.
+     Deliberately NOT a full remap of every rem in the file - the mid-tier
+     sizes were tuned by measurement, one at a time, and a sweep would undo
+     that. */
+  --fs-xs: .735rem;
+  --fs-sm: .78rem;
+  --fs-caption: .84rem;
 
   --tap: 44px;              /* WCAG 2.5.5 minimum target */
   --wrap: 820px;
@@ -147,14 +204,12 @@
      If either row's height changes, change it here and nowhere else. */
   --bar-row-h: 67px;
   --bar-h: calc(var(--bar-row-h) + var(--banner-h));
-
-  /* Scrolled, the row tightens to 48px + its 1px border. DERIVED, not chosen:
-     `.topbar .wrap` sets min-height 66px while its tallest in-flow child is the
-     47px brand button, so 19px of that row is slack and none of it is a tap
-     target. 48 keeps every button at its full 44px and takes the slack.
-     See .is-scrolled near the foot of this file for why the bar shrinks rather
-     than hides, and why this token has to move with the bar. */
-  --bar-row-h-tight: 49px;
+  /* There is deliberately no "tightened" value of this token. The bar used to
+     shrink to 49px on scroll (an .is-scrolled state) before it learned to slide
+     off the top entirely; once it slid, the tighten was an invisible
+     intermediate state that still cost two relayouts and an 18px WebKit jolt
+     at the start of every scroll gesture. Removed 2026-08-19. The bar has one
+     height at rest and is off-screen otherwise - see watchBarShrink in app.js. */
 
   /* How much of the bar is status-bar clearance rather than bar.
    *
@@ -239,6 +294,12 @@
     --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
     --ok: var(--d-ok);                 --ok-soft: var(--d-ok-soft);
     --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
+    --map-flat: var(--d-map-flat);     --map-up: var(--d-map-up);
+    --map-down: var(--d-map-down);     --map-seq-lo: var(--d-map-seq-lo);
+    --map-seq-hi: var(--d-map-seq-hi); --map-none: var(--d-map-none);
+    --map-line: var(--d-map-line);     --map-halo: var(--d-map-halo);
+    --map-hover: var(--d-map-hover);   --map-pin: var(--d-map-pin);
+    --map-pin-ink: var(--d-map-pin-ink);
     --glass: color-mix(in srgb, var(--surface) 62%, transparent);
     --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
     --glass-card: color-mix(in srgb, var(--surface) 68%, transparent);
@@ -261,6 +322,12 @@
   --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
   --ok: var(--d-ok);                 --ok-soft: var(--d-ok-soft);
   --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
+  --map-flat: var(--d-map-flat);     --map-up: var(--d-map-up);
+  --map-down: var(--d-map-down);     --map-seq-lo: var(--d-map-seq-lo);
+  --map-seq-hi: var(--d-map-seq-hi); --map-none: var(--d-map-none);
+  --map-line: var(--d-map-line);     --map-halo: var(--d-map-halo);
+  --map-hover: var(--d-map-hover);   --map-pin: var(--d-map-pin);
+  --map-pin-ink: var(--d-map-pin-ink);
   --glass: color-mix(in srgb, var(--surface) 62%, transparent);
   --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
   --glass-card: color-mix(in srgb, var(--surface) 68%, transparent);
@@ -272,6 +339,17 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html { -webkit-text-size-adjust: 100%; }
+
+/* DYNAMIC TYPE, in the packaged app. A WKWebView's root font size does not
+   follow the reader's iOS text size on its own; -apple-system-body is the
+   one font value that does, and setting it on the root makes every rem in
+   this file scale with the Larger Text slider, the same as a native app.
+   Body then takes 1rem rather than 1.0625: the system body size is already
+   17pt at the default, and 1.0625 of it was 18 - a size nobody asked for.
+   `.native` is set by app.js when Capacitor is present and never on the web,
+   where the browser's own text-size setting already reaches the rem. */
+html.native { font: -apple-system-body; }
+html.native body { font-size: 1rem; }
 
 body {
   margin: 0;
@@ -286,12 +364,11 @@ body {
      on flat --bg; the second is warm light rising from the floor, which is
      both the thing that makes Apple Weather's city view read as one continuous
      sky and, here, literally the name of the app. */
-  background-image:
-    radial-gradient(120% 70% at 50% -10%,
-      color-mix(in srgb, var(--brand) 7%, transparent) 0%, transparent 60%),
-    linear-gradient(to bottom,
-      transparent 55%, color-mix(in srgb, var(--glow) 4%, transparent) 100%);
-  background-attachment: fixed;
+  /* The gradients themselves are on body::before, below - not here with
+     background-attachment: fixed, which iOS Safari does not honour on the
+     body (it repaints the whole wash on every scroll frame and on older
+     WebKit simply scrolls it). A fixed pseudo-element is what "fixed" was
+     asking for, and it costs one composited layer that never changes. */
   color: var(--ink);
   font-family: var(--font-sans);
   /* rem, not px, so the OS / browser text-size setting actually applies.
@@ -301,6 +378,20 @@ body {
   line-height: 1.65;            /* open leading; text should not feel packed */
   -webkit-font-smoothing: antialiased;
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* The atmosphere, as one fixed layer under everything. z-index -1 puts it
+   behind the content and in front of the page background; nothing on it is
+   interactive and nothing about it changes, so it is painted once. The
+   reduced-motion drift layer (body::after, near the foot) sits over this one
+   on desktop. */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    radial-gradient(120% 70% at 50% -10%,
+      color-mix(in srgb, var(--brand) 7%, transparent) 0%, transparent 60%),
+    linear-gradient(to bottom,
+      transparent 55%, color-mix(in srgb, var(--glow) 4%, transparent) 100%);
 }
 
 h1, h2, h3, h4 { line-height: 1.25; margin: 0; font-weight: 650; letter-spacing: -.015em; }
@@ -317,6 +408,25 @@ a { color: var(--brand); }
   border-radius: 4px;
 }
 :focus:not(:focus-visible) { outline: none; }
+
+/* INSET RINGS UNDER CLIPPING CONTAINERS.
+ *
+ * The ring above is drawn OUTSIDE the box, 2px out. Every container in this
+ * list clips its children: details.disc and .list carry overflow: hidden to
+ * hold a hover fill to their radius, .jump .chips is overflow-x: auto under a
+ * fade mask, and details.acc clips the same way. So a summary, a list row or a
+ * jump chip that received keyboard focus painted its ring into the clip and
+ * showed nothing - and closed disclosures are most of the controls on Test,
+ * Support and Learn, so tabbing through those pages looked like focus had
+ * been lost (WCAG 2.4.7). Drawn 3px INSIDE the box instead, the ring lands on
+ * the element's own pixels and no container can eat it. The pill-shaped tabs
+ * take the same treatment for the row's sake. Asserted by test/css.test.mjs
+ * so it cannot be tidied away. */
+details.disc > summary:focus-visible,
+details.acc > summary:focus-visible,
+.list > .nbr:focus-visible,
+.jump .chip:focus-visible,
+.nav a:focus-visible { outline-offset: -3px; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -428,7 +538,7 @@ a { color: var(--brand); }
 .earlybar {
   background: color-mix(in srgb, var(--elevated) 16%, var(--surface));
   border-bottom: 1px solid color-mix(in srgb, var(--elevated) 28%, transparent);
-  font-size: .72rem; line-height: 1;
+  font-size: var(--fs-xs); line-height: 1;
 }
 /* (0,3,0), so it beats `.topbar .wrap` no matter where either sits in the
    file. The banner IS inside .topbar, so that rule matches it too and would
@@ -445,8 +555,26 @@ a { color: var(--brand); }
 .earlybar a {
   color: var(--elevated); font-weight: 700; text-decoration: underline;
   text-underline-offset: 2px; white-space: nowrap;
+  /* The link fills the row's height rather than its own line box: the
+     banner is 26px tall and the text was a 12px target inside it. The row
+     does not grow - --banner-h is load-bearing for every scroll-margin - so
+     the target grows to meet it, with a little side padding pulled back by
+     a negative margin so nothing in the row moves. */
+  display: inline-flex; align-items: center; align-self: stretch;
+  min-height: calc(var(--banner-h) - 1px);
+  padding: 0 6px; margin: 0 -6px;
 }
-.earlybar a:hover { color: var(--ink); }
+/* HOVER IS GUARDED, HERE AND EVERYWHERE BELOW. A touch screen has no hover,
+   but WebKit applies :hover to the last thing tapped and leaves it there until
+   the next tap lands somewhere else - so every cosmetic hover fill in this
+   file was a highlight that stuck to a row, a chip or a summary after the
+   finger lifted. Reported on the simulator as rows staying lit. Behind
+   (hover: hover) the fill only exists for a pointer that can actually hover;
+   touch gets the :active tints instead. Focus-visible stays unguarded
+   wherever it shared a rule with hover - a keyboard has no such problem. */
+@media (hover: hover) {
+  .earlybar a:hover { color: var(--ink); }
+}
 
 /* At 375px the sentence and the link stop fitting on one line together. The
    sentence truncates rather than wrapping, because a two-line banner is no
@@ -530,6 +658,13 @@ a { color: var(--brand); }
     0%, 100% { transform: scale(.88); opacity: .16; }
     45%      { transform: scale(1);   opacity: .62; }
   }
+  /* PAUSED WHILE THE HEADER IS OFF SCREEN. Four SVG transforms ticking at
+     60fps under a bar that has slid away is work nobody sees, on the phones
+     this has to run on; paused rather than stopped so the breath resumes
+     from where it was when the header comes back, instead of restarting. */
+  .is-bar-up .brand__core,
+  .is-bar-up .brand__halo,
+  .is-bar-up .brand__ring { animation-play-state: paused; }
 }
 /* nowrap: at in-between widths the flex row squeezed the name and "Supply"
    stacked on top of "Check". A wordmark never wraps - the row must yield
@@ -560,7 +695,9 @@ a { color: var(--brand); }
   background: none; border: 1px solid transparent; border-radius: var(--radius-sm);
   color: var(--ink-2); cursor: pointer; font-size: 1.15rem;
 }
-.iconbtn:hover { background: var(--surface-2); color: var(--ink); }
+@media (hover: hover) {
+  .iconbtn:hover { background: var(--surface-2); color: var(--ink); }
+}
 /* The search icon is the only one people go looking for rather than stumble
    on, so it gets real presence: a drawn glass rather than a text glyph, and
    full ink weight instead of the muted colour the theme and exit buttons use. */
@@ -591,6 +728,85 @@ a { color: var(--brand); }
 #searchbtn { color: var(--ink); }
 #searchbtn .iconbtn__svg { stroke-width: 2.4; }
 
+/* ---- Quick Exit, pinned -------------------------------------------------
+ *
+ * The X is not in the header row any more - index.html puts it beside .nav as
+ * a direct child of .topbar, outside .topbar__slide. The slide leaves on any
+ * downward scroll and comes back only at the top of the page (see the
+ * .is-bar-up rules near the foot of this file), and while the X rode in it
+ * the one control that exists for the moment somebody walks into the room was
+ * a scroll-to-top away from anywhere below the first screen. Measured on Test
+ * at 390px: five to eight flicks back up before it could be tapped.
+ *
+ * FIXED, like .nav is on a phone, and for the same reason it is safe: .topbar
+ * carries no transform, filter or will-change: transform (the two comments at
+ * .topbar::before say why), so a fixed child resolves against the viewport.
+ *
+ * At rest it sits exactly where it used to - the right end of the menu row,
+ * on the row's centre line - so the header looks unchanged. The row keeps a
+ * hole for it: the theme button stops one gap short of the pill, otherwise
+ * the two overlap now that the X is out of the flex flow. When the header
+ * leaves, the pill rides up to the corner with it and stops there. It is
+ * `top` that moves and not a transform, deliberately: this is ONE fixed box
+ * that is out of flow, so changing its offset lays out nothing but itself -
+ * the objection to animating `top` elsewhere in this file is about the sticky
+ * bar, whose height every jump target and the search panel key off. And
+ * keeping transform free leaves the press-scale on .iconbtn:active working.
+ *
+ * A pill of the bar's own material - --bar-tint on a hairline - so that over
+ * the header it all but disappears and over content it reads as a control
+ * that stayed. It is the only glass in the header that is a button, and it
+ * gets the blur only where the bar itself does: see the @supports block at
+ * the foot, which excludes touch devices, and the reduced-transparency rule
+ * beneath it. */
+#exit {
+  --exit-size: var(--tap);
+  /* The bar has 12px of side inset on a notchless phone; the pill sits at the
+     same edge the row's padding gives its neighbours, and inside the notch
+     when there is one. */
+  --exit-right: max(12px, env(safe-area-inset-right, 0px));
+  position: fixed; z-index: 46;              /* over .nav (45): the pill wins */
+  right: var(--exit-right);
+  /* 66px is `.topbar .wrap`'s min-height - the row's height at rest, which
+     is now its only height (the scroll tighten is gone). Centred on that. */
+  top: calc(var(--bar-top) + var(--banner-h) + (66px - var(--exit-size)) / 2);
+  width: var(--exit-size); height: var(--exit-size);
+  min-width: 0; min-height: 0;               /* .iconbtn's floor; width rules here */
+  border-radius: var(--radius-pill);
+  background: var(--bar-tint); border-color: var(--glass-line);
+  will-change: backdrop-filter;             /* declared once, at the foot - see .nav */
+  /* Live regardless of the bar. .is-bar-up .topbar turns pointer-events off
+     for the whole bar and .nav opts back in below 960 - this does the same at
+     every width, because unlike the tabs the pill is on screen at every
+     width. */
+  pointer-events: auto;
+}
+/* #exit outranks .iconbtn:hover on specificity, so the hover fill is restated. */
+@media (hover: hover) {
+  #exit:hover { background: var(--surface-2); color: var(--ink); }
+}
+/* Once the header has gone, up to the corner: the bar's status-bar clearance
+   plus a small inset, so it hugs the top edge over content. */
+.is-bar-up #exit { top: calc(var(--bar-top) + 8px); }
+/* The hole in the row, below 960 - the pill's own offset, its width, and the
+   row's 14px gap. Padding rather than a spacer element so the header markup
+   carries nothing that exists only for layout. */
+@media (max-width: 959px) {
+  .topbar__slide > .wrap {
+    padding-right: calc(max(12px, env(safe-area-inset-right, 0px)) + var(--tap) + 14px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* The same curve and duration as the slide, so the ride to the corner is
+     the header's own motion continued rather than a second animation. The
+     .iconbtn transition list is restated because this replaces it. */
+  #exit {
+    transition: top var(--t-ease) var(--ease-float),
+                transform .12s ease, background-color .18s ease,
+                border-color .18s ease, color .18s ease;
+  }
+}
+
 /* At tablet width the app is still serving PHONE-SIZED CHROME, which is the
  * thing five attempts at the magnifier were actually chasing. Measured at 820px
  * — an iPad in portrait — the header carries an 18.6px wordmark, 11.5px tab
@@ -616,27 +832,18 @@ a { color: var(--brand); }
 @media (min-width: 700px) and (max-width: 959px) {
   .iconbtn { font-size: 1.5rem; min-width: 52px; min-height: 52px; }
   #searchbtn .iconbtn__svg { width: 32px; height: 32px; }
+  /* The pinned X grows with its neighbours. Its size is its own token because
+     #exit sets width outright (the .iconbtn min-* floor above cannot reach
+     it), and the row's hole has to grow by the same 8px. */
+  #exit { --exit-size: 52px; }
+  .topbar__slide > .wrap {
+    padding-right: calc(max(12px, env(safe-area-inset-right, 0px)) + 52px + 14px);
+  }
 
-  /* AND THE TIGHT ROW HAS TO CLEAR THEM.
-   *
-   * --bar-row-h-tight is 49px = a 48px row plus the topbar's 1px border, which
-   * is honest everywhere the icon buttons are 44px. Here they are 52px, and a
-   * flex row cannot render shorter than its tallest item - so the scrolled bar
-   * measured 80px (27 banner + 52 row + 1 border) while the token said 76.
-   *
-   * Four pixels, and they were live: the search panel pins at
-   * calc(var(--bar-h) + var(--bar-top)) and sat 4px UNDER the header, and every
-   * jumped-to heading lost 4 of its 14px of clearance. This band is iPad
-   * portrait at 744-834 CSS px, which is the device this file has already taken
-   * three separate bar-geometry reports from.
-   *
-   * THE TOKEN, not the derived value. `.is-scrolled { --bar-row-h: ... }` lives
-   * 2,600 lines below this and would win on source order at equal specificity.
-   * Custom properties are resolved where they are USED, so redefining the input
-   * here reaches that rule wherever it sits. The row's min-height is left alone
-   * for the same reason it does not matter: 52px buttons floor the row at 52
-   * whatever the min-height says. */
-  :root { --bar-row-h-tight: 53px; }
+  /* No tightened-row override here any more: the row never tightens (see
+     --bar-row-h), so the 52px buttons have nothing to clear. When it did, the
+     token needed bumping to 53px in this band or the search panel sat 4px
+     under the header. */
 }
 
 /* ----------------------------------------------------------------- nav */
@@ -654,7 +861,7 @@ a { color: var(--brand); }
   flex: 1; min-height: var(--nav-h);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 5px; padding: 10px 4px; text-decoration: none; color: var(--ink-2);
-  font-size: .74rem; font-weight: 600; letter-spacing: .005em;
+  font-size: var(--fs-xs); font-weight: 600; letter-spacing: .005em;
   position: relative;
 }
 .nav a .ico {
@@ -663,6 +870,19 @@ a { color: var(--brand); }
   width: 34px; height: 26px; border-radius: var(--radius-pill);
   transition: background .2s ease, color .2s ease;
 }
+/* The tab icons are drawn (app.js, icon()) rather than typed. The glyph
+   characters they replace - ◇ ◐ ◈ ❋ ◉ ✚ - came out of whichever font the
+   platform fell back to, so the bar looked different on iOS, Android and
+   Windows, and ❋ was a different weight from its neighbours everywhere.
+   Sized in em so they follow the .ico font-size and the Dynamic Type cap
+   below exactly as the characters did. */
+.ico__svg { width: 1.1em; height: 1.1em; display: block; }
+/* The pinned X, same helper; sized to the button's font so it grows with the
+   700-959 band like the glyph did. */
+#exit .ico__svg { width: 1.05em; height: 1.05em; }
+/* The starting-points label sits between the field and the list now (see
+   index.html); a little air under the field, none above the list's own gap. */
+#searchhead { margin-top: var(--sp-2); }
 /* The active tab gets a soft lozenge behind the icon rather than a hard
    color flip - it reads as a resting place instead of a selection. */
 .nav a[aria-current="page"] { color: var(--brand); }
@@ -727,11 +947,42 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
     flex: none; flex-direction: row; gap: 9px; min-height: var(--tap);
     padding: 0 var(--sp-2); border-radius: var(--radius-pill); font-size: .93rem;
   }
-  .nav a:hover { background: var(--glass-strong); color: var(--ink); }
+  @media (hover: hover) {
+    .nav a:hover { background: var(--glass-strong); color: var(--ink); }
+  }
   .nav a[aria-current="page"] { background: var(--brand-soft); color: var(--brand); }
   .nav a .ico { font-size: 1.02rem; width: auto; height: auto; background: none; }
   .nav a[aria-current="page"] .ico { background: none; }
   main { padding-bottom: var(--sp-5); }
+
+  /* QUICK EXIT JOINS THE ROW the same way the tabs do: absolute against the
+     sticky bar, on the row's centre line, at the right edge of the same
+     centred column the row uses - `.topbar .wrap` is min(1180px, 100%) wide
+     with --sp-3 of padding, so the pill's right edge lands where the row's
+     last button used to. Absolute rather than fixed here because the bar's
+     box is always at the top of a desktop window and there is no corner to
+     ride to: when the header slides, the bar keeps its box and the pill keeps
+     its place, now over content. So the phone's .is-bar-up ride is undone. */
+  #exit {
+    position: absolute; bottom: auto;
+    right: calc((100% - min(1180px, 100%)) / 2 + max(var(--sp-3), env(safe-area-inset-right, 0px)));
+    /* 33px = half the row's 66px rest height, as a constant. It was a
+       constant rather than --bar-row-h / 2 so the pinned X would not jolt
+       when the row tightened on scroll; the tighten is gone, but a pinned
+       control keyed to nothing but the rest height is still the honest
+       form. */
+    top: calc(var(--bar-top) + var(--banner-h) + 33px);
+    transform: translateY(-50%);
+  }
+  .is-bar-up #exit { top: calc(var(--bar-top) + var(--banner-h) + 33px); }
+  /* The press-scale, composed onto the centring translate rather than
+     replacing it. */
+  #exit:active { transform: translateY(-50%) scale(.96); }
+  /* The hole in the row: pill width plus the row's gap, past the column's own
+     padding. */
+  .topbar__slide > .wrap {
+    padding-right: calc(max(var(--sp-3), env(safe-area-inset-right, 0px)) + var(--tap) + 14px);
+  }
 }
 
 /* -------------------------------------------------------------- search */
@@ -760,11 +1011,13 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   background: none; border: 0; cursor: pointer; font: inherit; color: var(--ink);
   padding: 13px var(--sp-2); border-radius: var(--radius-sm); min-height: var(--tap);
 }
-.listbox button:hover,
 .listbox button[aria-selected="true"] { background: var(--brand-soft); }
+@media (hover: hover) {
+  .listbox button:hover { background: var(--brand-soft); }
+}
 .listbox .st { color: var(--ink-3); font-size: .88rem; }
 .listbox .cnt {
-  margin-left: auto; font-size: .76rem; font-weight: 700;
+  margin-left: auto; font-size: var(--fs-xs); font-weight: 700;
   padding: 2px 9px; border-radius: var(--radius-pill);
   /* Neutral, not critical: alerts.js builds this count from a severity-blind
      tally, so painting it red claimed a severity the number does not carry -
@@ -787,11 +1040,12 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   border-radius: var(--radius-pill); cursor: pointer;
   border: 1px solid var(--glass-line); background: var(--glass); color: var(--ink-2);
   display: inline-flex; align-items: center; gap: 6px;
-  transition: background .18s, border-color .18s, color .18s;
 }
-.chip:hover {
-  border-color: color-mix(in srgb, var(--brand) 45%, transparent);
-  background: var(--glass-strong); color: var(--brand);
+@media (hover: hover) {
+  .chip:hover {
+    border-color: color-mix(in srgb, var(--brand) 45%, transparent);
+    background: var(--glass-strong); color: var(--brand);
+  }
 }
 .chip[aria-pressed="true"], .chip[aria-current="true"] {
   background: var(--brand); border-color: var(--brand); color: var(--brand-ink);
@@ -802,20 +1056,22 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .viewtoggle { margin-bottom: var(--sp-4); }
 
 /* ------------------------------------------------------- microinteractions
-   Small, physical feedback on touch. Every transition here is switched off by
-   the prefers-reduced-motion rule above, so this is additive comfort and never
-   a requirement for understanding state. */
+   Small, physical feedback on touch. The TRANSITIONS for these controls live
+   in one place - the sanctuary block near the foot of this file, inside
+   prefers-reduced-motion: no-preference - rather than here. They were
+   declared here, then again there with different timings, and a third time
+   on .chip and .classcard at their own rules; which one won depended on
+   source order and nobody could say from reading any one of them. The press
+   transforms stay here: they are instantaneous state, not motion. */
 
-.btn, .chip, .nbr, .iconbtn, .listbox button, .hotline a {
-  transition: transform .12s ease, background-color .18s ease,
-              border-color .18s ease, box-shadow .18s ease, color .18s ease;
-}
 /* Press: a small, immediate give. Reads as a physical control rather than a
    link, which is most of what makes a web app feel native. */
 .btn:active, .chip:active, .iconbtn:active { transform: scale(.96); }
 .nbr:active, .listbox button:active, .hotline a:active { transform: scale(.985); }
 
-.nbr:hover, .hotline a:hover { box-shadow: var(--shadow); }
+@media (hover: hover) {
+  .nbr:hover, .hotline a:hover { box-shadow: var(--shadow); }
+}
 
 /* Disclosures open with a soft fade rather than a jump. */
 @media (prefers-reduced-motion: no-preference) {
@@ -836,10 +1092,12 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   border-radius: var(--radius); border: 1.5px solid transparent;
   background: var(--brand); color: var(--brand-ink); text-decoration: none;
 }
-.btn:hover:not(:disabled) { background: var(--brand-hover); }
 .btn:disabled { opacity: .5; cursor: default; }
 .btn--ghost { background: var(--surface); border-color: var(--line-2); color: var(--ink); }
-.btn--ghost:hover:not(:disabled) { background: var(--surface-2); border-color: var(--brand); }
+@media (hover: hover) {
+  .btn:hover:not(:disabled) { background: var(--brand-hover); }
+  .btn--ghost:hover:not(:disabled) { background: var(--surface-2); border-color: var(--brand); }
+}
 /* var(--tap), not 38px. These are the jump-nav chips on the emergency page,
    the time-window switch, and "free naloxone by mail" - exactly what a shaking
    hand reaches for. Lightness comes from padding and weight, never from making
@@ -860,7 +1118,9 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
      without reading. The paired token is 6.26:1 light and 7.94:1 dark. */
   font-size: 1.12rem; font-weight: 750; letter-spacing: .01em;
 }
-.callbtn:hover { filter: brightness(1.06); }
+@media (hover: hover) {
+  .callbtn:hover { filter: brightness(1.06); }
+}
 .callbtn:active { transform: scale(.985); }
 
 /* ---------------------------------------------------------------- card */
@@ -868,10 +1128,10 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 .card {
   background: var(--glass-strong); border: 1px solid var(--glass-line);
   border-radius: var(--radius);
-  /* Layered soft depth. Deliberately NOT full neomorphism: that style relies
-     on low-contrast embossing and cannot meet WCAG, so we take the softness
-     and keep the contrast. */
-  box-shadow: var(--shadow), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+  /* The shadow is set once, near the foot of the file with the other floating
+     surfaces (see --shadow-float). A two-layer shadow plus an inset highlight
+     used to sit here and was dead: the later rule won on source order, so the
+     inset never painted. Deleted rather than left to mislead. */
   padding: var(--sp-3) var(--sp-4); margin-bottom: 14px;
 }
 /* ---- letter --------------------------------------------------------------
@@ -1032,9 +1292,12 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   border-radius: var(--radius); padding: 12px var(--sp-3);
   min-height: var(--tap);
 }
-.sresult:hover, .sresult:focus-visible { background: var(--glass-strong); border-color: var(--line-2); }
+.sresult:focus-visible { background: var(--glass-strong); border-color: var(--line-2); }
+@media (hover: hover) {
+  .sresult:hover { background: var(--glass-strong); border-color: var(--line-2); }
+}
 .sresult__kind {
-  display: block; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+  display: block; font-size: var(--fs-xs); letter-spacing: .06em; text-transform: uppercase;
   color: var(--ink-3); margin-bottom: 3px;
 }
 .sresult__label { display: block; font-weight: 620; }
@@ -1101,16 +1364,16 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    "led by people who use drugs" is not a badge, it is the thing that decides
    whether the organization asks for what they actually need. */
 .org__tags {
-  color: var(--ink-2); font-size: .84rem; font-weight: 600;
+  color: var(--ink-2); font-size: var(--fs-caption); font-weight: 600;
   margin: 0 0 6px; letter-spacing: .01em;
 }
 .org__links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 10px 0 0; }
 
 /* Severity reads as a soft edge rather than a warning stripe. The badge and
    its word still carry the signal at full contrast. */
-.card--critical { border-left: 4px solid var(--critical); }
-.card--elevated { border-left: 4px solid var(--elevated); }
-.card--advisory { border-left: 4px solid var(--advisory); }
+.card--critical { border-left: var(--sev-rule) solid var(--critical); }
+.card--elevated { border-left: var(--sev-rule) solid var(--elevated); }
+.card--advisory { border-left: var(--sev-rule) solid var(--advisory); }
 
 .card__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 11px; }
 /* (removed) .card h3 { margin: 0 0 10px } was completely defeated by the
@@ -1119,7 +1382,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    dead one rather than scoping the live one, so nothing moves. */
 /* Its own breathing room above and below, not just the heading's bottom
    margin. This is the line that answers "what am I looking at". */
-.card__meta { color: var(--ink-3); font-size: .84rem; line-height: 1.5; margin: 8px 0; }
+.card__meta { color: var(--ink-3); font-size: var(--fs-caption); line-height: 1.5; margin: 8px 0; }
 .card__meta:first-child { margin-top: 0; }
 .card__meta:last-child { margin-bottom: 0; }
 
@@ -1132,7 +1395,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    glyph and the word itself, so it survives greyscale and color blindness. */
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
-  font-size: .78rem; font-weight: 700; letter-spacing: .01em;
+  font-size: var(--fs-sm); font-weight: 700; letter-spacing: .01em;
   padding: 5px 11px; border-radius: var(--radius-pill);
 
   /* NOT nowrap. A badge holds a severity token most of the time - "critical",
@@ -1167,7 +1430,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    language - the shouty styling was most of what made this feel like a
    readout instead of a page written for a person. */
 .badge--critical, .badge--elevated {
-  text-transform: uppercase; letter-spacing: .05em; font-size: .72rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .05em; font-size: var(--fs-xs); font-weight: 800;
 }
 .badge--critical { background: var(--critical-soft); color: var(--critical); }
 .badge--elevated { background: var(--elevated-soft); color: var(--elevated); }
@@ -1177,7 +1440,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
 
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
 .tag {
-  font-size: .78rem; font-weight: 650; padding: 4px 10px;
+  font-size: var(--fs-sm); font-weight: 650; padding: 4px 10px;
   border-radius: var(--radius-pill); background: var(--surface-2); color: var(--ink-2);
 }
 
@@ -1193,7 +1456,9 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   display: inline-flex; align-items: center; min-height: var(--tap);
   padding: 4px 2px;
 }
-.sources a:hover { text-decoration: underline; }
+@media (hover: hover) {
+  .sources a:hover { text-decoration: underline; }
+}
 
 /* ------------------------------------------------------------- section */
 
@@ -1339,7 +1604,12 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
    tablet and desktop instead of three breakpoints that drift apart. */
 .classgrid {
   display: grid; gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  /* 170px, not 220px, so the class grid is two-up on a phone (it was a single
+     tall column at 375-390px, which pushed the combination checker below it
+     more than a screen down). Two columns roughly halves the grid's height and
+     brings the checker up toward the first screenful. min(100%, …) still lets
+     one card take the full width when that is all there is room for. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
 }
 /* A floating bubble, matching details.disc - not a boxed card.
    It carried a hard --edge outline while every other surface on the site used
@@ -1357,14 +1627,13 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
   border-radius: var(--radius); padding: var(--sp-3) var(--sp-3);
   min-height: var(--tap); cursor: pointer;
   font: inherit; color: inherit; text-align: left;
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
-  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+  box-shadow: var(--shadow-float);
 }
-.classcard:hover {
-  background: var(--glass-strong); border-color: var(--line-2);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .classcard:hover {
+    background: var(--glass-strong); border-color: var(--line-2);
+    transform: translateY(-1px);
+  }
 }
 .classcard:active { transform: scale(.985); }
 /* No severity colour anywhere here. These are subject areas, not a ranking of
@@ -1408,16 +1677,16 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 .nbr {
   display: flex; align-items: center; gap: 11px; width: 100%;
   background: var(--glass); border: 1px solid var(--glass-line);
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: var(--shadow-float);
   border-radius: var(--radius); padding: 16px var(--sp-3); margin-bottom: 8px;
   cursor: pointer; font: inherit; color: inherit; text-align: left;
   min-height: var(--tap);
 }
-.nbr:hover { border-color: var(--brand); background: var(--surface-2); }
+@media (hover: hover) {
+  .nbr:hover { border-color: var(--brand); background: var(--surface-2); }
+}
 .nbr__name { font-weight: 650; }
-.nbr__dist { color: var(--ink-3); font-size: .84rem; }
+.nbr__dist { color: var(--ink-3); font-size: var(--fs-caption); }
 .nbr__right { margin-left: auto; display: flex; align-items: center; gap: 9px; }
 
 /* ---------------------------------------------------------- callout box */
@@ -1491,8 +1760,24 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
  * coordinates rather than shipped as an image, which would have been baked to
  * one colour and wrong in the other. */
 .struct__fig { margin: var(--sp-3) 0 var(--sp-2); text-align: center; }
-.struct { display: inline-block; max-width: 100%; height: auto; color: var(--ink-2); }
+/* Block, not inline-block: an inline SVG sits on the text baseline and the line
+   box adds a descender's worth of height under it that varies with the font,
+   which made the reservation below inexact by a few pixels. A block is 200px
+   tall and nothing else. */
+.struct { display: block; margin: 0 auto; max-width: 100%; height: auto; color: var(--ink-2); }
 .struct__fig figcaption { margin-top: 6px; }
+/* RESERVED BEFORE THE DRAWING ARRIVES. substances.js appends this figure empty
+   and fills it once structures.json lands, so the page can paint without that
+   file on its critical path. The box has to be the drawing's eventual height
+   from the start or everything below it jumps when the SVG lands: 200px of
+   SVG, the caption's 6px margin and two lines of .sec__note (.92rem x 1.55) -
+   the caption wraps to two lines on a 390px phone. On a wide screen the
+   caption is one line and the box carries ~23px of slack under it, which is
+   invisible; a shift would not be. The pending state shows nothing: a shimmer
+   square where a molecule will be reads as a broken image, and the wait is a
+   few hundred milliseconds at most (and nothing at all once the bundle is in
+   the HTTP cache, which after the first drug page it is). */
+.struct__fig { min-height: calc(206px + 2 * .92rem * 1.55); }
 
 /* A collapsible callout.
  *
@@ -1549,12 +1834,13 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
    without being obvious enough to explain itself. Every select in the picker
    lines up on one edge or the rows stop reading as one control. */
 .revslot .mixlabel { min-width: 4.6rem; }
-/* .mixslot's flex basis is set on the SELECT, which works for the combination
-   checker because its select is the flex item. Here the select sits inside
-   .pick__field, so the basis has to go on the wrapper — without it the field
-   is sized by its widest option, and "Dextropropoxyphene" in the sold-as list
-   pushed the whole control onto a second line. */
-.revslot .pick__field { flex: 1 1 8rem; min-width: 0; }
+/* .mixslot's flex basis was set on the SELECT, from when the select was the
+   flex item. It sits inside .pick__field now - in the tracker AND the
+   combination checker, which share the row (slots.js) - so the basis has to
+   go on the wrapper: without it the field is sized by its widest option, and
+   "Dextropropoxyphene" in the sold-as list, or a checker row that also
+   carries a ×, pushed the whole control onto a second line. */
+.mixslot .pick__field { flex: 1 1 8rem; min-width: 0; }
 
 /* The sold-as verdict: one line per reading, with the mark carrying the
    answer as a shape as well as a colour. */
@@ -1614,7 +1900,7 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
   content: counter(plan); position: absolute; left: 0; top: 7px;
   width: 18px; height: 18px; border-radius: 50%;
   background: var(--surface-2); color: var(--ink-2);
-  font-size: .72rem; font-weight: 700; line-height: 18px; text-align: center;
+  font-size: var(--fs-xs); font-weight: 700; line-height: 18px; text-align: center;
 }
 /* The mark carries the verdict, not merely "answered". A step ticked purely
    for having a value in it put a green check beside a reading the card below
@@ -1629,7 +1915,7 @@ details.callout--fold > .callout__body > :last-child { margin-bottom: 0; }
    dimmed because it qualifies the expected color rather than competing with
    it — but never hidden: a Morris judged at 45 seconds has not finished. */
 .plan__read {
-  font-family: var(--font-mono); font-size: .78rem; color: var(--ink-3);
+  font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--ink-3);
   white-space: nowrap; flex: none;
 }
 /* The fork is a list of possibilities, not an ordered procedure — so no step
@@ -1670,6 +1956,11 @@ details.acc > summary {
   padding-right: calc(var(--sp-4) + 12px);
 }
 details.acc > summary::-webkit-details-marker { display: none; }
+/* A card's summary names the card with an h3 now - a strip, a reagent - so
+   the outline has it and a screen reader's heading list can reach it. The
+   reset keeps it looking exactly as the span did: the summary's own weight
+   and size, not a heading's. */
+details.acc > summary h3 { margin: 0; font: inherit; letter-spacing: inherit; }
 /* Pinned rather than laid out. As a flex item with margin-left:auto it was the
    last thing in the row, so the moment the badge wrapped, the chevron followed
    it down to line two and the row lost its right edge. It is furniture, not
@@ -1681,7 +1972,10 @@ details.acc > summary::after {
   transform: translateY(-50%) rotate(90deg); transition: transform .18s;
 }
 details.acc[open] > summary::after { transform: translateY(-50%) rotate(-90deg); }
-details.acc > summary:hover { background: var(--surface-2); }
+details.acc > summary:focus-visible { background: var(--surface-2); }   /* focus = hover, as .disc */
+@media (hover: hover) {
+  details.acc > summary:hover { background: var(--surface-2); }
+}
 /* Top padding, not zero.
    The first child's margin is killed on the line below, so padding was the
    only thing separating the body from the summary above it - and there was
@@ -1742,7 +2036,7 @@ table.data th, table.data td {
 }
 table.data thead th {
   position: sticky; top: 0; background: var(--surface-2);
-  font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-2);
+  font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .05em; color: var(--ink-2);
 }
 table.data tbody tr:last-child td { border-bottom: 0; }
 table.data th[scope="row"] { font-weight: 650; }
@@ -1811,7 +2105,9 @@ table.data th[scope="row"] { font-weight: 650; }
 }
 /* The label must be allowed to shrink, or flex refuses to wrap at all. */
 .hotline a > span:first-child { flex: 1 1 12ch; min-width: 0; }
-.hotline a:hover { border-color: var(--brand); background: var(--surface-2); }
+@media (hover: hover) {
+  .hotline a:hover { border-color: var(--brand); background: var(--surface-2); }
+}
 .hotline .num { margin-left: auto; font-weight: 750; color: var(--brand); white-space: nowrap; flex: none; }
 .hotline .lbl { font-weight: 650; }
 .hotline .sub { display: block; font-size: .83rem; color: var(--ink-3); font-weight: 400; }
@@ -1851,7 +2147,7 @@ table.data th[scope="row"] { font-weight: 650; }
 .twocol { display: grid; gap: 18px; }
 @media (min-width: 620px) { .twocol { grid-template-columns: 1fr 1fr; gap: 26px; } }
 
-.cellnote { display: block; margin-top: 7px; font-size: .84rem; line-height: 1.45; color: var(--ink-3); }
+.cellnote { display: block; margin-top: 7px; font-size: var(--fs-caption); line-height: 1.45; color: var(--ink-3); }
 
 ol.steps--tight > li { padding-bottom: 12px; }
 ol.steps--tight > li h4 { margin-top: 2px; }
@@ -1919,7 +2215,7 @@ ol.steps--tight > li h4 { margin-top: 2px; }
 /* ------------------------------------------------------------------ limits */
 
 .limit {
-  border-left: 3px solid var(--line-2); padding: 2px 0 2px 13px; margin: 0 0 13px;
+  border-left: var(--sev-rule) solid var(--line-2); padding: 2px 0 2px 13px; margin: 0 0 13px;
 }
 .limit--critical { border-left-color: var(--critical); }
 .limit h5 { font-weight: 700; }
@@ -1978,7 +2274,7 @@ details.acc--flag { border-color: color-mix(in srgb, var(--critical) 45%, var(--
 .pick { display: grid; gap: 12px; margin: 14px 0 16px; }
 .pick__row { display: grid; gap: 6px; }
 .pick__row label {
-  font-size: .78rem; font-weight: 700; text-transform: uppercase;
+  font-size: var(--fs-sm); font-weight: 700; text-transform: uppercase;
   letter-spacing: .06em; color: var(--ink-3);
 }
 
@@ -2043,7 +2339,9 @@ select.input {
    16px control with 17px options shows a truncated menu over an untruncated
    one. */
 .pick__row select option, select.input option { font-size: var(--dropdown-fs); }
-.pick__row select:hover, select.input:hover { background: var(--surface-2); }
+@media (hover: hover) {
+  .pick__row select:hover, select.input:hover { background: var(--surface-2); }
+}
 .pick__row select:focus-visible, select.input:focus-visible {
   border-color: var(--brand); outline-offset: 0;
 }
@@ -2110,13 +2408,23 @@ table.data caption {
  * Offset — and a percentage would re-introduce the raggedness at a different
  * width. It scales with the reader's type size because it is in rem. */
 table.data--pairs { table-layout: fixed; }
-table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { width: 11rem; }
-table.data--pairs th, table.data--pairs td { overflow-wrap: break-word; }
-
-/* Narrow phones cannot spare 11rem for a label column. */
-@media (max-width: 400px) {
-  table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { width: 8.5rem; }
-}
+/* 42%, not a rem. The label column used to scale with the reader's type
+   size (11rem), which is right until the type is very large: at the iOS
+   accessibility sizes an 11rem column took most of a 390px table and the
+   value - "5-15 minutes" - was squeezed to a word a line. A share of the
+   table instead: the labels may take 42% and the values always keep the
+   other 58%, so a dose reads on one line at every size the OS offers. On a
+   phone that is 129-150px, within a few pixels of the 8.5rem the narrowest
+   phones already had. NOT min(8.5rem, 42%), which would have been the
+   precise version: Chromium resolves a min() that mixes a length and a
+   percentage on a table cell to auto, and under table-layout: fixed auto is
+   an even split - measured at 50% on 2026-08-19, the rule silently doing
+   nothing. */
+table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { width: 42%; }
+/* break-word on the LABEL only. On the value cell it let "minutes" break as
+   "minu/tes" at large type, which reads as damage; values wrap at their
+   spaces. */
+table.data--pairs th { overflow-wrap: break-word; }
 
 /* The widen button had 14px above it and nothing below - it sat flush against
    the privacy callout that follows the section, so it read as that callout's
@@ -2238,26 +2546,49 @@ details.disc {
   border-radius: var(--radius);
   margin: 0 0 10px;
   overflow: hidden;                 /* clips the summary's hover fill to the radius */
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: var(--shadow-float);
 }
 details.disc > summary {
   cursor: pointer; list-style: none; padding: var(--sp-3) var(--sp-4);
   display: flex; align-items: center; gap: 11px; min-height: var(--tap);
 }
-details.disc > summary:hover { background: var(--glass-strong); }
+/* Focus fills like hover does. A keyboard user gets the same "this is the
+   one" surface a mouse user gets, on top of the inset ring above. */
+details.disc > summary:focus-visible { background: var(--glass-strong); }
+@media (hover: hover) {
+  details.disc > summary:hover { background: var(--glass-strong); }
+}
 details.disc > summary::-webkit-details-marker { display: none; }
 details.disc > summary h2 { margin: 0; font-size: 1.16rem; }
+/* THE SAME CHEVRON details.acc DRAWS, in the circle this control already had.
+   It was a + that became a - on open, while the accordion two lines down the
+   same page turned a chevron: two disclosure types, two vocabularies for
+   "this opens". One glyph now - the angle quote, pointing down when shut and
+   up when open - and the circle still fills with the brand colour on open, so
+   the open state reads at a glance with or without the rotation. */
 details.disc > summary::after {
-  content: "+"; margin-left: auto; flex: none;
+  content: "\203A"; margin-left: auto; flex: none;
   width: 30px; height: 30px; border-radius: 50%;
   background: var(--surface-2); color: var(--ink-2);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.15rem; font-weight: 600; line-height: 1;
+  font-size: 1.3rem; font-weight: 600; line-height: 1;
+  transform: rotate(90deg); transition: transform .18s;
 }
-details.disc[open] > summary::after { content: "\2212"; background: var(--brand); color: var(--brand-ink); }
-details.disc > summary:hover h2 { color: var(--brand); }
+details.disc[open] > summary::after {
+  transform: rotate(-90deg); background: var(--brand); color: var(--brand-ink);
+}
+details.disc > summary:focus-visible h2 { color: var(--brand); }
+@media (hover: hover) {
+  details.disc > summary:hover h2 { color: var(--brand); }
+}
+/* Pressed, not hovered - the touch counterpart of the hover fill above, and
+   the same tint the grouped list rows use. Not on a group's nested children:
+   those are flush rows inside the parent's bubble (see the groupkids rules),
+   and a tint that ran edge to edge inside it painted a stripe that did not
+   match the row's own width. */
+details.disc > summary:active,
+details.acc > summary:active { background: color-mix(in srgb, var(--ink) 7%, transparent); }
+details.disc .groupkids > details.disc > summary:active { background: none; }
 /* Matches .acc__body. The two disclosure types were on 6px and 12px of top
    padding respectively, which is exactly the kind of difference nobody can
    name but everybody feels when the same control is used twice on one page. */
@@ -2380,7 +2711,7 @@ details.disc--urgent > summary h2 { color: var(--critical); }
   background: var(--bar-tint);
 }
 .jump__label {
-  font-size: .78rem; font-weight: 700; text-transform: uppercase;
+  font-size: var(--fs-sm); font-weight: 700; text-transform: uppercase;
   letter-spacing: .06em; color: var(--ink-3);
   /* Never squeezed, never wrapped to "JUMP / TO". */
   flex: 0 0 auto;
@@ -2426,10 +2757,14 @@ tr[hidden], details[hidden] { display: none !important; }
 
 .map { margin-top: 16px; }
 .map__controls { margin-bottom: 8px; }
+/* Glass, like every other surface. The stage was the last opaque --surface
+   panel with a hard --line border on a page where everything else floats;
+   the canvas paints with alpha, so the wash shows through the water the same
+   way it shows through a card. */
 .map__stage {
   position: relative; width: 100%; margin: 12px 0 10px;
-  border: 1px solid var(--line); border-radius: var(--radius);
-  background: var(--surface); overflow: hidden;
+  border: 1px solid var(--glass-line); border-radius: var(--radius);
+  background: var(--glass-card); overflow: hidden;
 }
 .map__canvas { display: block; width: 100%; touch-action: none; cursor: grab; }
 .map__canvas:active { cursor: grabbing; }
@@ -2438,7 +2773,7 @@ tr[hidden], details[hidden] { display: none !important; }
   position: absolute; pointer-events: none; transform: translate(12px, -34px);
   background: var(--ink); color: var(--bg);
   padding: 6px 10px; border-radius: var(--radius-sm);
-  font-size: .84rem; font-weight: 600; white-space: nowrap; z-index: 5;
+  font-size: var(--fs-caption); font-weight: 600; white-space: nowrap; z-index: 5;
   box-shadow: var(--shadow);
 }
 
@@ -2479,6 +2814,19 @@ tr[hidden], details[hidden] { display: none !important; }
 @media (forced-colors: active) {
   .card, .nbr, .callout, .empty, details.acc, .hotline a { border: 1px solid CanvasText; }
   .badge { border: 1px solid CanvasText; }
+  /* State that was carried by a fill. A pressed chip and the selected half
+     of the List/Map switch were the brand colour on brand-ink, and forced
+     colours flatten both to Canvas - so every chip looked unpressed and the
+     switch had no selected side. Highlight/HighlightText is the system's own
+     "selected" pair, and forced-color-adjust: none is what lets it apply. */
+  .chip[aria-pressed="true"], .chip[aria-current="true"],
+  .viewtoggle .chip[aria-pressed="true"] {
+    forced-color-adjust: none;
+    background: Highlight; color: HighlightText; border-color: Highlight;
+  }
+  /* The current tab was a tinted lozenge behind the icon; here it is a box
+     the system can draw. */
+  .nav a[aria-current="page"] { outline: 2px solid CanvasText; outline-offset: -3px; }
 }
 
 /* ------------------------------------------------------------ lead-in copy */
@@ -2540,15 +2888,16 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
   border: 1px solid var(--glass-line);
   border-radius: var(--radius);
   overflow: hidden;                /* clips the child corners to the group */
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: var(--shadow-float);
 }
 .list > .nbr {
   border: 0;
   border-radius: 0;
   margin-bottom: 0;
   background: transparent;
+  /* The group casts the shadow; a row inside it must not, or every hairline
+     between two rows sits on a band of the row above's shadow. */
+  box-shadow: none;
 }
 /* Hairline between rows, inset from the leading edge so it aligns under the
    label rather than cutting the full width - the detail that most separates a
@@ -2562,7 +2911,10 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
 /* Pressed, not hovered. Touch has no hover, and a whole-row tint is the native
    feedback. */
 .list > .nbr:active { background: color-mix(in srgb, var(--ink) 7%, transparent); }
-.list > .nbr:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.list > .nbr:focus-visible { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+@media (hover: hover) {
+  .list > .nbr:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+}
 .list > .nbr:focus-visible { border-radius: 0; }
 /* An empty state or a grid of tiles inside a list container is not a grouped
    list, so it must not inherit the group frame.
@@ -2670,7 +3022,7 @@ a.nbr { text-decoration: none; color: inherit; }
 
 /* Accessory badges are secondary to the label they qualify. At full size they
    pulled the eye before the substance name did. */
-.list > .nbr .badge { font-size: .68rem; padding: 3px 8px; }
+.list > .nbr .badge { font-size: var(--fs-xs); padding: 3px 8px; }
 
 /* ---- overdose steps: action first, reason second ------------------------- */
 
@@ -2819,7 +3171,7 @@ details.disc[open] { margin-bottom: var(--sp-3); }
   background: var(--glass); border: 1px solid var(--glass-line);
   border-radius: var(--radius-sm); padding: 9px 14px;
 }
-.stattile__label { font-size: .74rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+.stattile__label { font-size: var(--fs-xs); color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
 .stattile__v { font-weight: 650; font-size: 1.02rem; }
 .stattiles__roa { color: var(--ink-3); font-size: .82rem; }
 
@@ -3101,7 +3453,8 @@ details.disc .groupkids > details.disc {
   padding: 0;
   overflow: visible;
 }
-details.disc .groupkids > details.disc > summary:hover { background: none; }
+details.disc .groupkids > details.disc > summary:hover,
+details.disc .groupkids > details.disc > summary:focus-visible { background: none; }
 details.disc .groupkids > details.disc + details.disc {
   border-top: 1px solid var(--glass-line);
 }
@@ -3221,15 +3574,22 @@ details.disc .groupkids > details.disc > summary h2 {
   }
 
   /* Surfaces lift toward the finger rather than depressing away from it.
-     Cards do not move at all - only the things you can actually press. */
-  .nbr, .classcard, .chip, .btn {
+     Cards do not move at all - only the things you can actually press.
+     THE ONE TRANSITION RULE for every pressable control - see the
+     microinteractions note. `color` is in the list because the hover and
+     pressed states change ink as well as fill, and an ink that snapped while
+     the fill eased read as two things happening. */
+  .nbr, .classcard, .chip, .btn, .iconbtn, .listbox button, .hotline a {
     transition:
       transform var(--t-tap) var(--ease-float),
       box-shadow var(--t-ease) var(--ease-float),
       background-color var(--t-ease) var(--ease-float),
-      border-color var(--t-ease) var(--ease-float);
+      border-color var(--t-ease) var(--ease-float),
+      color var(--t-ease) var(--ease-float);
   }
-  .nbr:hover, .classcard:hover { transform: translate3d(0, -1px, 0); }
+  @media (hover: hover) {
+    .nbr:hover, .classcard:hover { transform: translate3d(0, -1px, 0); }
+  }
   .nbr:active, .classcard:active { transform: translate3d(0, 0, 0) scale(.995); }
 
   /* The page's ambient wash drifts, very slowly and very slightly. This is the
@@ -3237,19 +3597,29 @@ details.disc .groupkids > details.disc > summary h2 {
      behind it is not quite still. 40 seconds a cycle and a 2% translation -
      below the threshold where peripheral vision registers movement, which
      matters because a bystander must not notice this screen. */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: -20%;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(38% 30% at 22% 18%,
-        color-mix(in srgb, var(--brand) 9%, transparent) 0%, transparent 70%),
-      radial-gradient(34% 26% at 78% 72%,
-        color-mix(in srgb, var(--brand) 6%, transparent) 0%, transparent 70%);
-    animation: drift 40s var(--ease-float) infinite alternate;
-    will-change: transform;
+  /* DESKTOP ONLY: (hover: hover) and at least 880 wide. A full-viewport fixed
+     layer with a running transform is a permanently composited surface of
+     its own, repainted on every scroll frame, and on a phone that is the
+     single most expensive thing on the page for a wash nobody is supposed to
+     notice. A pointer that can hover is a laptop or a desktop with a GPU and
+     a wall socket. The inset was -20%, a fifth of the viewport on every side
+     for a 1.5% travel; -4% covers the travel with room to spare and stops
+     compositing a layer almost twice the screen. */
+  @media (min-width: 880px) and (hover: hover) {
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -4%;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(38% 30% at 22% 18%,
+          color-mix(in srgb, var(--brand) 9%, transparent) 0%, transparent 70%),
+        radial-gradient(34% 26% at 78% 72%,
+          color-mix(in srgb, var(--brand) 6%, transparent) 0%, transparent 70%);
+      animation: drift 40s var(--ease-float) infinite alternate;
+      will-change: transform;
+    }
   }
   @keyframes drift {
     from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
@@ -3263,19 +3633,14 @@ details.disc .groupkids > details.disc > summary h2 {
   }
 }
 
-/* Depth, which reads as float even when nothing is moving: a tight contact
-   shadow plus a wide soft one. A single blurred shadow reads as a sticker;
-   two layers read as an object with air under it. */
-.card, .classcard, .list, details.disc {
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
-}
-
-/* Softer corners throughout - the single biggest lever on whether a surface
-   reads as a panel or a pebble. Tap targets keep their --edge boundary at
-   3:1; nothing here touches contrast. */
-:root { --radius: 22px; --radius-sm: 15px; }
+/* Depth: see --shadow-float. .classcard, .list and details.disc carry the
+   token at their own rules; .card takes it here. TOP-LEVEL cards only - a
+   card inside a disclosure body, an accordion body or a callout is already
+   sitting on a floating surface, and a shadow under a shadow is what read as
+   boxes inside a box. The nested card keeps its border and its radius, which
+   is what the reader sees; it stops casting. */
+.card { box-shadow: var(--shadow-float); }
+.disc__body .card, .acc__body .card, .callout .card, .card .card { box-shadow: none; }
 
 /* The mix checker's decoder line sits flush with the top of its card. */
 .mixnote { margin-top: 0; }
@@ -3364,64 +3729,33 @@ details.disc .groupkids > details.disc > summary h2 {
 /* ------------------------------------------------- the bar, once you scroll
  *
  * 165px of every 812px screen is chrome before a word of content - a 94px
- * header and a 71px tab bar, 20.3% of a phone, permanently. The header is the
- * half with slack in it: the wordmark tells a reader which app they are in,
- * which is worth a lot on arrival and nothing at all six screens down.
+ * header and a 71px tab bar, 20.3% of a phone, permanently. The answer is the
+ * block below: the header slides off the top on any scroll and returns only at
+ * the top of the page.
  *
- * IT SHRINKS, IT DOES NOT HIDE. The X in that row is Quick Exit, and a safety
- * control that has to be scrolled back to is not one. Search, theme and the X
- * all stay exactly where they were; only the name and the gap around it go.
- *
- * --bar-row-h MOVES WITH IT, and that is the part that would break silently.
- * Three things are pinned to the bar's height by that token - the search
- * panel, the jump strip, and the scroll-margin that keeps a jumped-to heading
- * clear of the bar - so leaving it at 67 while the bar rendered at 45 would
- * float all three 22px into empty space. One token, redefined here, and they
- * follow. jumpTo() in ui.js measures the real bar instead, so it was already
- * immune; these three were not. */
-.is-scrolled {
-  --bar-row-h: var(--bar-row-h-tight);
-}
-/* The row itself, which is what actually sets the height. Redefining the token
-   alone moved every offset that keys off it and left the bar rendering at its
-   old 94px - the exact silent mismatch the token exists to prevent, arrived at
-   from the other direction. 48px still clears all three 44px icon buttons.
-
-   THE PARENT IS .topbar__slide, NOT .topbar, and this selector has now been
-   wrong twice for opposite reasons.
-
-   Written as a descendant (`.is-scrolled .topbar .wrap`) it also matched the
-   BANNER's own .wrap - which the rule above .topbar .wrap warns about in as
-   many words - and stretched the banner from 27px to 48px, making the header
-   taller than before while the token said 76.
-
-   Rewritten with `>` against .topbar it was correct until the header was split
-   for the slide animation, which moved the menu row from `.topbar > .wrap` to
-   `.topbar > .topbar__slide > .wrap`. A child combinator does not reach a
-   grandchild, so it silently matched NOTHING: --bar-row-h still dropped to 49
-   on scroll while the bar kept rendering at 94, which is the token/render
-   disagreement this rule exists to prevent, arrived at from a third direction.
-
-   Anchored to the slide, `>` still excludes the banner - whose .wrap is a
-   grandchild of the slide - and reaches the menu row, which is a child of it. */
-.is-scrolled .topbar__slide > .wrap { min-height: 48px; }
-.is-scrolled .brand__name {
-  /* Not display:none - the button keeps its accessible name from aria-label,
-     and collapsing the width rather than the box lets it ease.
-     text-overflow: clip because .brand__name ellipsizes by default, and a
-     shrinking max-width with an ellipsis reads "Nig..." on the way out. */
-  max-width: 0; opacity: 0; overflow: hidden; text-overflow: clip;
-}
-.is-scrolled .brand { gap: 0; }
+ * THERE IS NO INTERMEDIATE "TIGHTENED" STATE ANY MORE. Until 2026-08-19 an
+ * .is-scrolled class also shrank the row from 67px to 49px and collapsed the
+ * wordmark, redefining --bar-row-h so the search panel, the jump strip and
+ * every scroll-margin followed. That was the rule from when Quick Exit lived
+ * in the row and the bar could not be allowed to hide. Once the bar slid away
+ * entirely, the tighten was invisible - it fired under a header that was
+ * already off screen - and still cost two relayouts plus an 18px WebKit jolt
+ * at the start of every scroll gesture, because changing the sticky bar's
+ * height moves the page under the reader's thumb. Deleted outright: the
+ * token, the min-height, the wordmark collapse, the iPad override, and
+ * syncTight() in app.js. The header now only hides and shows. */
 
 /* ---- and off the top entirely, going down --------------------------------
  *
- * Direction, not position - see watchBarShrink() in app.js. Down hides the
- * header, any upward scroll brings it straight back, and it is never hidden
- * within the first screen. That is what keeps Quick Exit reachable: the X is
- * the control somebody reaches for because a person just walked into the room,
- * and one upward flick is a different thing from a scroll to the top of a
- * twelve-screen page.
+ * Position, not direction - see watchBarShrink() in app.js. Any scroll away
+ * from the top hides the header, and only the top of the page brings it back.
+ * Quick Exit is NOT what makes that affordable: it used to be, when the X rode
+ * in the slide and an earlier direction-based rule ("any upward scroll brings
+ * it back") existed to keep it one flick away. The X is a pinned pill outside
+ * the slide now (see "Quick Exit, pinned" near .iconbtn), on screen at every
+ * scroll position, so the header can belong to the top of the page without
+ * costing the one control somebody reaches for because a person just walked
+ * into the room.
  *
  * --bar-h GOES TO ZERO with it, because the jump strip and the search panel are
  * both pinned to the bar's height by that token. Left at 76 they would hold
@@ -3547,14 +3881,6 @@ details.disc .groupkids > details.disc > summary h2 {
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .brand__name {
-    max-width: 12ch;
-    transition: max-width var(--t-ease) var(--ease-float),
-                opacity var(--t-ease) var(--ease-float);
-  }
-}
-
 /* ---- ONE INSET PER NESTING LEVEL, not one per surface -------------------
  *
  * The note above names this as a problem and only fixed the margins. The
@@ -3603,10 +3929,16 @@ details.disc .groupkids > details.disc > summary h2 {
    paint a focus ring - a green box around the page title on every route
    change looks like a bug and is one. Screen reader announcement is
    unaffected: it comes from focus, not from the outline. */
+/* h3 and h4 as well: jumpTo() in ui.js now focuses whatever heading a jump
+   chip lands on, and a chip's target is not always an h2. */
 #view h1[tabindex="-1"]:focus,
 #view h1[tabindex="-1"]:focus-visible,
 #view h2[tabindex="-1"]:focus,
 #view h2[tabindex="-1"]:focus-visible,
+#view h3[tabindex="-1"]:focus,
+#view h3[tabindex="-1"]:focus-visible,
+#view h4[tabindex="-1"]:focus,
+#view h4[tabindex="-1"]:focus-visible,
 #main[tabindex="-1"]:focus,
 #main[tabindex="-1"]:focus-visible { outline: none; box-shadow: none; }
 
@@ -3621,11 +3953,19 @@ details.disc .groupkids > details.disc > summary h2 {
 
 /* The naloxone pointer sat as a bare line between two heavy sections and read
    as orphaned. Given a surface of its own it becomes a deliberate hand-off. */
-/* Back to top. Desktop only - see mountBackToTop in app.js for why a phone
-   must not get one. A bubble like everything else, sitting quietly in the
-   corner rather than announcing itself: it is an exit, not an action. */
+/* Back to top. A bubble like everything else, sitting quietly in the corner
+   rather than announcing itself: it is an exit, not an action.
+
+   ON THE PHONE it is bottom-LEFT, lifted above the tab bar by the bar's
+   measured height plus 12px, so it clears the bar and never sits under the
+   pinned Quick Exit pill at the top right. --nav-real is set by app.js on
+   load and resize; the fallback covers the first paint before it is measured.
+   On a wide screen the tab bar is in the header, not at the foot, so the
+   button takes the ordinary bottom-right corner instead (below). */
 .totop {
-  position: fixed; right: var(--sp-4); bottom: var(--sp-4); z-index: 35;
+  position: fixed; z-index: 35;
+  left: var(--sp-3); right: auto;
+  bottom: calc(var(--nav-real, calc(var(--nav-h) + env(safe-area-inset-bottom))) + 12px);
   width: 46px; height: 46px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.15rem; line-height: 1; cursor: pointer;
@@ -3637,14 +3977,20 @@ details.disc .groupkids > details.disc > summary h2 {
   box-shadow: 0 6px 20px -8px color-mix(in srgb, var(--ink) 30%, transparent);
 }
 .totop[hidden] { display: none; }
-.totop:hover { color: var(--ink); border-color: var(--edge); }
+@media (hover: hover) {
+  .totop:hover { color: var(--ink); border-color: var(--edge); }
+}
 @media (prefers-reduced-motion: no-preference) {
   .totop { transition: color var(--t-tap) ease, border-color var(--t-tap) ease,
                        transform var(--t-ease) var(--ease-float); }
-  .totop:hover { transform: translateY(-2px); }
+  @media (hover: hover) {
+    .totop:hover { transform: translateY(-2px); }
+  }
 }
-/* Never on a phone: the bottom bar owns that corner, and Emergency is in it. */
-@media (max-width: 959px) { .totop { display: none !important; } }
+/* Wide: no bottom bar (it is in the header), so the ordinary bottom-right. */
+@media (min-width: 960px) {
+  .totop { left: auto; right: var(--sp-4); bottom: var(--sp-4); }
+}
 
 /* A pointer that is a destination rather than a footnote: used where a whole
    page hangs off another page. Bubble, like everything else - no square
@@ -3656,9 +4002,7 @@ details.disc .groupkids > details.disc > summary h2 {
   background: var(--glass);
   border: 1px solid var(--glass-line);
   border-radius: var(--radius);
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: var(--shadow-float);
 }
 .bigptr__hd {
   display: block; font-weight: 700; color: var(--brand);
@@ -3669,7 +4013,9 @@ details.disc .groupkids > details.disc > summary h2 {
 .bigptr__sub { display: block; color: var(--ink-2); font-size: min(.94rem, 16px); }
 @media (prefers-reduced-motion: no-preference) {
   .bigptr { transition: transform var(--t-ease) var(--ease-float); }
-  .bigptr:hover { transform: translateY(-1px); }
+  @media (hover: hover) {
+    .bigptr:hover { transform: translateY(-1px); }
+  }
 }
 
 /* Directory entries. The policy badge sits on the title row, because whether
@@ -3698,8 +4044,10 @@ details.disc .groupkids > details.disc > summary h2 {
       meets contrast. */
 
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  /* Saturation is what makes it read as glass rather than fog. */
-  .topbar::before, .nav {
+  /* Saturation is what makes it read as glass rather than fog. #exit is the
+     pinned Quick Exit pill - the bar's own material as a button, so it takes
+     and loses the blur exactly when the bar does. */
+  .topbar::before, .nav, #exit {
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
   }
@@ -3743,7 +4091,7 @@ details.disc .groupkids > details.disc > summary h2 {
    * least afford to stutter. It was reported on its own, after the bars were
    * already fixed, because it was the one surface this rule had missed. */
   @media (hover: none) and (pointer: coarse) {
-    .topbar::before, .nav, .searchpanel {
+    .topbar::before, .nav, .searchpanel, #exit {
       -webkit-backdrop-filter: none; backdrop-filter: none;
       will-change: auto;
     }
@@ -3757,10 +4105,10 @@ details.disc .groupkids > details.disc > summary h2 {
 /* Reduced transparency is an accessibility setting, not a preference for a
    different look: someone who turns it on needs opaque surfaces. */
 @media (prefers-reduced-transparency: reduce) {
-  .topbar::before, .nav, .searchpanel {
+  .topbar::before, .nav, .searchpanel, #exit {
     -webkit-backdrop-filter: none; backdrop-filter: none;
   }
-  .nav, .searchpanel { background: var(--surface); }
+  .nav, .searchpanel, #exit { background: var(--surface); }
   :root {
     --glass: var(--surface); --glass-strong: var(--surface);
     --glass-card: var(--surface);
@@ -3850,6 +4198,12 @@ html, body { overscroll-behavior-y: none; }
 /* County overdose statistics, under the map. Quiet by design: this is a count
    of people, and someone reading it may have been at one of them. The number
    is large enough to be the answer, never large enough to be a headline. */
+/* The mortality card arrives asynchronously, after the local alerts, so its
+   slot holds its height from first paint - the sections below it (statewide,
+   bordering counties) do not jump when the bundle resolves and the card lands.
+   Held whether empty or full; a typical card fits inside it, and the card's
+   own margin-top is inside the reserve. */
+.mortslot { min-height: 260px; }
 .mort { margin-top: var(--sp-3); }
 .mort__n {
   font-size: 2.1rem; font-weight: 700; line-height: 1.05;
@@ -3890,7 +4244,7 @@ html, body { overscroll-behavior-y: none; }
    look like a dismissed banner either. */
 #foot-early {
   margin: 0 0 14px; padding: 12px 0 12px 14px;
-  border-left: 3px solid var(--elevated);
+  border-left: var(--sev-rule) solid var(--elevated);
   color: var(--ink-2); font-size: min(.9rem, 15px); line-height: 1.6;
 }
 #foot-early strong { color: var(--ink); display: block; margin-bottom: 3px; }

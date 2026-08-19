@@ -31,11 +31,20 @@ let MESH = null;
  * after a 1.06s parse of county-shapes.json - measured, and several times
  * worse on a phone. Nothing in that work depends on anything the browser
  * knows, so scripts/build-mesh.mjs does it once and ships the answer:
- * county-mesh.bin (172KB of packed Float32 rings) plus a 41KB index.
+ * county-mesh.bin (86KB of packed Uint16 rings) plus a 41KB index.
  *
  * The index holds only what cannot be recovered from the blob - fips and ring
- * lengths. Offsets accumulate here, and centroid, size and bbox are one pass
- * over 22k points, which is about a millisecond and saves 300KB of JSON.
+ * lengths, and the quantisation scale. Offsets accumulate here, and centroid,
+ * size and bbox are one pass over 22k points, which is about a millisecond
+ * and saves 300KB of JSON.
+ *
+ * UINT16, NOT FLOAT32. The blob was 172KB of floats and the host does not
+ * compress application/octet-stream, so every county page paid all 172KB on
+ * the wire for a precision the screen cannot show. Each value is now
+ * round(v * scale) and is divided back out here into one Float32Array, so
+ * the rest of this file - and mesh.js's hit testing - sees exactly the shape
+ * it always did. Worst-case error is half a step, ~0.03px on a county page
+ * and ~0.2px at the national map's maximum zoom; the generator prints both.
  *
  * The fallback is deliberate. If the artifact is missing or a rebuild was
  * forgotten, the map is slow rather than broken, which is the right failure
@@ -45,10 +54,15 @@ async function loadPrecomputedMesh() {
     fetch("../data/county-mesh.json", { credentials: "omit" }).then((r) => (r.ok ? r.json() : null)),
     fetch("../data/county-mesh.bin", { credentials: "omit" }).then((r) => (r.ok ? r.arrayBuffer() : null)),
   ]);
-  if (!idx || !buf) return null;
+  if (!idx || !buf || !(idx.scale > 0)) return null;
 
-  const all = new Float32Array(buf);
-  if (all.length !== idx.floats) return null;      // stale pair; rebuild below
+  const packed = new Uint16Array(buf);
+  if (packed.length !== idx.values) return null;    // stale pair; rebuild below
+
+  /* Dequantise once, into the one array every ring becomes a view over. */
+  const all = new Float32Array(packed.length);
+  const inv = 1 / idx.scale;
+  for (let i = 0; i < packed.length; i++) all[i] = packed[i] * inv;
 
   let at = 0;
   const counties = [];
@@ -152,22 +166,56 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const mix = (c1, c2, t) =>
   `rgb(${Math.round(lerp(c1[0], c2[0], t))},${Math.round(lerp(c1[1], c2[1], t))},${Math.round(lerp(c1[2], c2[2], t))})`;
 
-/* Warm neutrals to match the rest of the app. Colour is the only visual
-   encoding now that height is gone, so the tooltip and the ranked list below
-   carry the actual numbers - nothing here depends on colour alone. */
-const FLAT = [214, 204, 190];
-const UP = [179, 48, 28];
-const DOWN = [42, 107, 69];
-const SEQ_LO = [238, 230, 218];
-const SEQ_HI = [45, 106, 95];
+/* THE PALETTE COMES FROM THE STYLESHEET. These were five RGB constants and a
+   handful of literal strokes written here, which made the map the one surface
+   in the app that did not know which theme it was on: warm light neutrals on
+   a dark card, a white pin halo over a charcoal page. app.css declares a
+   --map-* token per colour, once per theme (see the --l-map-* block), and this
+   reads them with getComputedStyle at mount and again whenever the theme
+   changes. The five the shading interpolates between are "r g b" triplets so
+   they can be lerped; the rest are whole colours the canvas takes as-is.
+
+   The fallbacks are the old light constants, so a stylesheet that has not
+   loaded yet - or a test shim with no computed style - paints what it always
+   did rather than nothing. Colour is still the only visual encoding now that
+   height is gone, so the tooltip and the ranked list below carry the actual
+   numbers - nothing here depends on colour alone. */
+const FALLBACK = {
+  flat: [214, 204, 190], up: [179, 48, 28], down: [42, 107, 69],
+  seqLo: [238, 230, 218], seqHi: [45, 106, 95],
+  none: "rgba(160,148,132,.34)", line: "rgba(90,78,64,.22)",
+  halo: "rgba(255,255,255,.95)", hover: "rgba(60,50,40,.55)",
+  pin: "#2d6a5f", pinInk: "#ffffff",
+};
+let pal = FALLBACK;
+
+function readPalette() {
+  let cs = null;
+  try { cs = globalThis.getComputedStyle?.(document.documentElement); } catch { cs = null; }
+  if (!cs?.getPropertyValue) return FALLBACK;
+  const raw = (name) => String(cs.getPropertyValue(name) || "").trim();
+  const trip = (name, fb) => {
+    const m = raw(name).match(/^(\d+)\s+(\d+)\s+(\d+)$/);
+    return m ? [+m[1], +m[2], +m[3]] : fb;
+  };
+  const col = (name, fb) => raw(name) || fb;
+  return {
+    flat: trip("--map-flat", FALLBACK.flat), up: trip("--map-up", FALLBACK.up),
+    down: trip("--map-down", FALLBACK.down), seqLo: trip("--map-seq-lo", FALLBACK.seqLo),
+    seqHi: trip("--map-seq-hi", FALLBACK.seqHi),
+    none: col("--map-none", FALLBACK.none), line: col("--map-line", FALLBACK.line),
+    halo: col("--map-halo", FALLBACK.halo), hover: col("--map-hover", FALLBACK.hover),
+    pin: col("--map-pin", FALLBACK.pin), pinInk: col("--map-pin-ink", FALLBACK.pinInk),
+  };
+}
 
 function colorFor(v, scale, diverging) {
-  if (v == null) return "rgba(160,148,132,.34)";
+  if (v == null) return pal.none;
   if (diverging) {
     const t = Math.min(1, Math.abs(v) / scale);
-    return mix(FLAT, v >= 0 ? UP : DOWN, 0.18 + t * 0.82);
+    return mix(pal.flat, v >= 0 ? pal.up : pal.down, 0.18 + t * 0.82);
   }
-  return mix(SEQ_LO, SEQ_HI, Math.min(1, v / scale));
+  return mix(pal.seqLo, pal.seqHi, Math.min(1, v / scale));
 }
 
 /* ------------------------------------------------------------------ view */
@@ -239,6 +287,7 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
 
   const mesh = await buildMesh();
   const ctx2d = canvas.getContext("2d", { alpha: true });
+  pal = readPalette();
 
   /* Offscreen base layer.
    *
@@ -256,6 +305,29 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   const MARGIN = 0.32;                 // extra buffer beyond the viewport
   let baseState = null;                // {zoom, panX, panY, w, h, metric}
 
+  /* THE THEME CAN CHANGE UNDER A LIVE MAP - the toggle in the header, or the
+     OS flipping at dusk while this tab is open - and the base buffer was
+     painted in the old palette. Re-read the tokens, throw the buffer away
+     (baseState null forces renderBase on the next draw), and repaint the
+     legend, whose swatches are the same colours in DOM. Two sources, because
+     the toggle writes data-theme on <html> and the OS change fires nowhere
+     but matchMedia. Guarded for the test shim, which has neither. */
+  const onTheme = () => {
+    pal = readPalette();
+    baseState = null;
+    renderLegend(METRICS[state.metric]);
+    draw();
+  };
+  let themeObs = null;
+  try {
+    themeObs = new MutationObserver(onTheme);
+    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  } catch { themeObs = null; }
+  let themeMq = null;
+  try {
+    themeMq = window.matchMedia?.("(prefers-color-scheme: dark)") || null;
+    themeMq?.addEventListener?.("change", onTheme);
+  } catch { themeMq = null; }
 
   let values = new Map();
   let scale = 1;
@@ -327,16 +399,31 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     const minSize = 0.7 / u;
     const hairline = Math.max(0.4, dpr * 0.35);
 
+    /* ONLY WHAT THE BUFFER CAN SHOW. At the county page's zoom of 6 the base
+       buffer covers about a twelfth of the mesh, and every one of the other
+       ~3,000 counties was still being traced and filled off its edges - the
+       canvas clipped them, but only after the path had been built and
+       rasterised. The visible window in mesh units is the buffer's own
+       rectangle run backwards through the transform; a county whose bounding
+       box misses it cannot put a pixel down and is skipped before tracePath.
+       A hairline's worth of slack so a county whose box ends exactly at the
+       edge still draws its stroke. */
+    const slack = (hairline + 1) / u;
+    const vx0 = (0 - x0) / u - slack, vx1 = (c.canvas.width - x0) / u + slack;
+    const vy0 = (0 - y0) / u - slack, vy1 = (c.canvas.height - y0) / u + slack;
+
     for (let i = 0; i < mesh.counties.length; i++) {
       const co = mesh.counties[i];
       if (co.size < minSize) continue;
+      const b = co.bb;
+      if (b[2] < vx0 || b[0] > vx1 || b[3] < vy0 || b[1] > vy1) continue;
 
       tracePath(c, co, u, x0, y0);
       c.fillStyle = colorFor(values.get(co.fips), scale, diverging);
       c.fill();
 
       {
-        c.strokeStyle = "rgba(90,78,64,.22)";
+        c.strokeStyle = pal.line;
         c.lineWidth = hairline;
         c.stroke();
       }
@@ -401,10 +488,10 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
 
     tracePath(ctx2d, co, unit, ox, oy);
     ctx2d.save();
-    ctx2d.strokeStyle = "rgba(255,255,255,.95)";
+    ctx2d.strokeStyle = pal.halo;
     ctx2d.lineWidth = dpr * 3.5;
     ctx2d.stroke();
-    ctx2d.strokeStyle = "#2d6a5f";
+    ctx2d.strokeStyle = pal.pin;
     ctx2d.lineWidth = dpr * 2;
     ctx2d.stroke();
 
@@ -423,26 +510,41 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
        down. A square badge says the same thing. */
     if (ctx2d.roundRect) ctx2d.roundRect(bx, by, w, hgt, dpr * 13);
     else ctx2d.rect(bx, by, w, hgt);
-    ctx2d.fillStyle = "#2d6a5f";
+    ctx2d.fillStyle = pal.pin;
     ctx2d.fill();
     ctx2d.beginPath();                       // stem down to the county
     ctx2d.moveTo(cx, by + hgt);
     ctx2d.lineTo(cx, cy - dpr * 4);
-    ctx2d.strokeStyle = "#2d6a5f";
+    ctx2d.strokeStyle = pal.pin;
     ctx2d.lineWidth = dpr * 2;
     ctx2d.stroke();
 
-    ctx2d.fillStyle = "#ffffff";
+    ctx2d.fillStyle = pal.pinInk;
     ctx2d.textAlign = "center";
     ctx2d.textBaseline = "middle";
     ctx2d.fillText(label, cx, by + hgt / 2 + dpr * 0.5);
     ctx2d.restore();
   }
 
+  /* Has anything ever reached the screen? The settle loop below uses this to
+     make sure the first connected frame paints even when nothing about the
+     canvas size changes between the detached measurement and the real one. */
+  let painted = false;
+
   function draw(target) {
+    /* NOT WHILE DETACHED. mountMap runs before its host is in the document
+       (countyView fires it with a bare import().then()), so the first draw
+       used to trace all 3,231 counties into a 640x384 fallback canvas that
+       nothing would ever see, and the centring pass threw that paint away a
+       moment later. Measured as two discarded full renderBase() passes per
+       county page. While the stage is out of the document there is nothing to
+       measure against and nobody looking, so wait: the settle loop and the
+       ResizeObserver both call back in once layout exists. */
+    if (!stage.isConnected) return;
     const dpr = sizeCanvas();
 
     if (baseStale(dpr)) renderBase(dpr);
+    painted = true;
 
     const W = canvas.width, H = canvas.height;
     ctx2d.setTransform(1, 0, 0, 1, 0, 0);
@@ -469,10 +571,10 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
       if (co) {
         const { unit, ox, oy } = transform(W, H, dpr);
         tracePath(ctx2d, co, unit, ox, oy);
-        ctx2d.strokeStyle = "rgba(255,255,255,.95)";
+        ctx2d.strokeStyle = pal.halo;
         ctx2d.lineWidth = dpr * 2;
         ctx2d.stroke();
-        ctx2d.strokeStyle = "rgba(60,50,40,.55)";
+        ctx2d.strokeStyle = pal.hover;
         ctx2d.lineWidth = dpr * 0.8;
         ctx2d.stroke();
       }
@@ -533,12 +635,13 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
         + "below this map gives the same information as text, and the search box "
         + "opens any county directly.");
 
+    /* Centre on the located county BEFORE the first draw, not after it.
+       centerOnFocus() sizes the canvas itself, so it has the dimensions
+       transform() needs without a paint having happened first - the old
+       draw-centre-draw sequence was a full renderBase() at national zoom
+       discarded by the zoomed one immediately behind it. One pass now. */
+    if (focus) centerOnFocus();
     draw();
-    /* Center and zoom on the located county. Runs after the first draw so the
-       canvas has real dimensions - transform() needs them, and before the
-       first paint they are zero. */
-    if (focus) { centerOnFocus(); draw(); }
-
   }
 
   function renderLegend(m) {
@@ -843,19 +946,26 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
    * computed against the fallback dimensions and are meaningless once the
    * canvas changes size. */
   let tries = 0;
+  let settleTimer = 0;
   const settle = () => {
     const beforeW = canvas.width, beforeH = canvas.height;
-    sizeCanvas();
+    /* Nothing to measure until the host is in the document; sizing a detached
+       stage only records the fallback and makes the comparison below lie. */
+    const connected = stage.isConnected;
+    if (connected) sizeCanvas();
     /* Only when something actually changed. Assigning canvas.width or .height
        CLEARS the canvas, so repainting has to be part of the same step - and
        it has to be a direct draw() rather than scheduleDraw(), because that
        queues through requestAnimationFrame, which does not run in a background
        tab. Clearing on a timer and repainting on rAF leaves a blank map until
-       the reader switches to it. */
-    if (canvas.width !== beforeW || canvas.height !== beforeH) {
-      centerOnFocus();
-      draw();
-    }
+       the reader switches to it.
+
+       And once when nothing changed but nothing has painted yet either: draw()
+       refuses to run while the stage is detached, so the first connected tick
+       has to paint even if the real size happens to equal the fallback. */
+    const resized = canvas.width !== beforeW || canvas.height !== beforeH;
+    if (resized) centerOnFocus();
+    if (resized || (connected && !painted)) draw();
     /* Keep looking until the host is genuinely laid out. Two frames was not
        enough: countyView starts this with a bare import().then(), so it can
        finish before the view is ever appended, and every measurement until
@@ -866,14 +976,21 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
        left the height on its fallback. sizeCanvas is a no-op when nothing has
        changed, so ~3s of 75ms checks costs nothing and guarantees the map
        corrects itself whenever layout actually lands. */
-    if (tries++ < 40) setTimeout(settle, 75);
+    if (tries++ < 40) settleTimer = setTimeout(settle, 75);
   };
   /* setTimeout rather than requestAnimationFrame, deliberately: rAF does not
      fire at all while a tab is in the background, so a map opened in a
      background tab would never size itself and would still be showing the
      640x384 fallback when the reader switched to it. Timers are throttled
      there but they do run. */
-  setTimeout(settle, 0);
+  settleTimer = setTimeout(settle, 0);
 
-  return () => { ro.disconnect(); cancelAnimationFrame(rafId); };
+  /* Teardown. The settle timer is cleared too: it re-arms itself up to forty
+     times, and a map torn down while it was still polling kept measuring and
+     repainting a canvas nobody could see. */
+  return () => {
+    ro.disconnect(); cancelAnimationFrame(rafId); clearTimeout(settleTimer);
+    themeObs?.disconnect();
+    try { themeMq?.removeEventListener?.("change", onTheme); } catch {}
+  };
 }

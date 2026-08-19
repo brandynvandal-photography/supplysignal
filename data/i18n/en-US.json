@@ -5,10 +5,15 @@
     "description": "County-level drug supply alerts, drug-checking results, and how to test a supply. Harm reduction information, not medical advice.",
     "skipToContent": "Skip to content",
     "themeToggle": "Switch color theme",
+    "theme": {
+      "light": "Light theme is on. Switch to dark.",
+      "dark": "Dark theme is on. Switch to light."
+    },
     "quickExit": "Leave now — clears what is on this device, overwrites the back button, and leaves this site",
     "language": "Language",
     "loadFailed": "This section could not load.",
     "loadFailedHint": "Check your connection and try again.",
+    "tryAgain": "Try again",
     "earlyTitle": "Early access — tell us if something here is wrong",
     "earlyBody": "This is new, and some of it may be wrong. Every clinical claim is checked against a source before it goes in, and that still is not the same as being right. If you spot something inaccurate — especially anything that could get somebody hurt — please say so.",
     "earlyContact": "hello@nightlight.help",
@@ -92,7 +97,9 @@
     "everywhereSeeAll": "See all {count}",
     "everywhereNoneTitle": "Nothing published anywhere in the last {window}",
     "everywhereNoneBody": "That says what has been published, not what is going around. Most changes in a local drug supply are never announced by anyone, and the reporting that does happen runs weeks behind. A quiet list means nobody has said anything — not that nothing is happening.",
-    "everywhereNoneScanned": "We have looked at {count} counties recently, out of 3,231. Most of the country has not been looked at at all."
+    "everywhereNoneScanned": "We have looked at {count} counties recently, out of 3,231. Most of the country has not been looked at at all.",
+    "dataUpdated": "alerts data updated {date}",
+    "refresh": "Refresh"
   },
   "severity": {
     "critical": "Critical",
@@ -138,5 +145,9 @@
     "title": "Some of this page is only in English",
     "body": "The clinical guidance below has not been translated yet. Nothing has been left out of the English version.",
     "lines": "The crisis lines in the footer answer in Spanish as well as English."
+  },
+  "callout": {
+    "stop": "Warning",
+    "warn": "Caution"
   }
 }

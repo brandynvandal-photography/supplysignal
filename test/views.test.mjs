@@ -195,6 +195,8 @@ const ctx = { go() {}, data };
 const SCREENS = [
   ["alerts", {}],
   ["test", {}],
+  ["test", { id: "tracker" }],                 // the reagent tracker sub-screen
+  ["test", { id: "tracker", sub: "mdma" }],    // deep-linked from a drug page
   ["substances", {}],                          // the index
   ["substances", { id: "fentanyl" }],          // a detail page
   ["substances", { id: "class", sub: "opioids" }],
@@ -259,9 +261,16 @@ for (const [name, route] of SCREENS) {
      * element with no heading to scroll to. jumpNav falls back to scrolling
      * the wrapper in that case, which lands the reader in the middle of a
      * section rather than at its title. */
-    const chips = walkEls(node).filter((e) => e.attrs["data-jump"]);
+    /* Document order, once. walkEls is depth-first pre-order, which is document
+       order, so the index of an element in this list is its position in the
+       tree - a compareDocumentPosition() stand-in the shim does not otherwise
+       provide (its nodes carry no parent pointer). */
+    const docOrder = walkEls(node);
+    const posOf = new Map(docOrder.map((el, i) => [el, i]));
+    const chips = docOrder.filter((e) => e.attrs["data-jump"]);
     const ids = new Map();
-    for (const e of walkEls(node)) if (e.id) ids.set(e.id, e);
+    for (const e of docOrder) if (e.id) ids.set(e.id, e);
+    const chipTargets = [];        // [{ chip, pos }] for the order check below
     for (const chip of chips) {
       const want = chip.attrs["data-jump"];
       const target = ids.get(want);
@@ -276,6 +285,33 @@ for (const [name, route] of SCREENS) {
       if (!heading) {
         fails.push(`${label}: jump chip "${chip.textContent.trim()}" lands on `
           + `#${want}, which has no heading to scroll to`);
+        continue;
+      }
+      /* Only the jump STRIP counts for the order check. Other controls carry
+         data-jump too - Learn's "Start here" steps are .nbr rows deliberately
+         ordered by what matters at 3am, not by where their sections sit - and
+         they must still RESOLVE (checked above) without being held to DOM
+         order. The jump strip is the row of .chip buttons jumpNav builds. */
+      if (chip.classList.contains("chip")) {
+        chipTargets.push({ chip, pos: posOf.get(target) });
+      }
+    }
+
+    /* CHIP ORDER == DOM ORDER. The jump strip is a table of contents, and a
+       TOC whose rows run in a different order from the page it indexes is a
+       wrong map - a reader using it to gauge where a section sits is misled.
+       The chips appear in the tree in the order jumpNav lists them (it is one
+       contiguous block near the top), so their target positions must be
+       strictly increasing. Test strips reading before "What could this be?" in
+       the strip while sitting after it on the page was the reported case. */
+    for (let i = 1; i < chipTargets.length; i++) {
+      const prev = chipTargets[i - 1];
+      const cur = chipTargets[i];
+      if (cur.pos <= prev.pos) {
+        fails.push(`${label}: jump chips are out of DOM order - `
+          + `"${cur.chip.textContent.trim()}" (#${cur.chip.attrs["data-jump"]}) `
+          + `is listed after "${prev.chip.textContent.trim()}" `
+          + `(#${prev.chip.attrs["data-jump"]}) but its section comes earlier on the page`);
       }
     }
 

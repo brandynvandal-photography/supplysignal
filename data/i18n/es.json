@@ -5,10 +5,15 @@
     "description": "Alertas sobre el suministro de drogas por condado, resultados de análisis y cómo analizar una sustancia. Información de reducción de daños, no consejo médico.",
     "skipToContent": "Ir al contenido",
     "themeToggle": "Cambiar el tema de color",
+    "theme": {
+      "light": "Tema claro activado. Cambiar a oscuro.",
+      "dark": "Tema oscuro activado. Cambiar a claro."
+    },
     "quickExit": "Salir ahora — va a un sitio del tiempo y quita esta página de tu historial",
     "language": "Idioma",
     "loadFailed": "No se pudo cargar esta sección.",
     "loadFailedHint": "Revisa tu conexión e inténtalo de nuevo.",
+    "tryAgain": "Intentar de nuevo",
     "name": "Nightlight",
     "earlyTitle": "Acceso anticipado — avísanos si algo aquí está mal",
     "earlyBody": "Esto es nuevo y algo puede ser incorrecto. Cada afirmación clínica se verifica con una fuente antes de publicarse, y eso todavía no es lo mismo que estar en lo cierto. Si ves algo inexacto — sobre todo algo que pueda hacerle daño a alguien — dínoslo.",
@@ -86,7 +91,9 @@
     "locateOutside": "Esa ubicación no está dentro de un condado de EE. UU. Busca por nombre.",
     "locateNoData": "No se pudieron cargar los datos del mapa. Busca por nombre.",
     "sessionTitle": "Nada de lo que hagas aquí se guarda",
-    "sessionBody": "Sin cuenta y sin guardar nada entre visitas — cierra la pestaña y desaparece. La ✕ es para cuando necesitas salir en el momento: quita esta página de tu historial y te lleva a un sitio del tiempo."
+    "sessionBody": "Sin cuenta y sin guardar nada entre visitas — cierra la pestaña y desaparece. La ✕ es para cuando necesitas salir en el momento: quita esta página de tu historial y te lleva a un sitio del tiempo.",
+    "dataUpdated": "datos de alertas actualizados el {date}",
+    "refresh": "Actualizar"
   },
   "severity": {
     "critical": "Crítica",
@@ -132,5 +139,9 @@
     "title": "Parte de esta página solo está en inglés",
     "body": "La información clínica de abajo todavía no está traducida. No falta nada en la versión en inglés.",
     "lines": "Las líneas de crisis del pie de página atienden en español además de en inglés."
+  },
+  "callout": {
+    "stop": "Advertencia",
+    "warn": "Precaución"
   }
 }

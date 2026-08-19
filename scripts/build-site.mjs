@@ -39,11 +39,29 @@
 //
 // Everything else - src/, config/, scripts/, test/, docs/, review/, archive/,
 // .github/, package.json, node_modules/ - simply is not copied.
+//
+// WHAT THE BUILD DOES TO THE BYTES (since 2026-08-19; scripts/assets.mjs):
+//
+//   site/js/**, site/css/app.css   minified with esbuild (no bundling) and
+//                                  renamed by content hash, with every import
+//                                  specifier, the WARM/SHELL lists and the
+//                                  index.html references rewritten to match
+//   data/ national bundles         renamed by content hash under data/h/,
+//                                  and the map handed to data.js and i18n.js
+//   index.html, sw.js, manifest,   copied by name - the entry points, which
+//   img/, w/, alerts.json,         netlify.toml keeps no-cache so a deploy is
+//   counties/                      seen on the next load
+//
+// The source under site/ is untouched; it is what the dev server serves and
+// what the tests import. test/dist.test.mjs builds this directory and checks
+// that every reference in it resolves and that the caching rules in
+// netlify.toml match the two regimes.
 
-import { cp, rm, mkdir, readdir, stat } from "node:fs/promises";
+import { cp, rm, mkdir, readdir, stat, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { stageShell, stageData, dirSize } from "./assets.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -67,6 +85,12 @@ export const SKIP_IN_DATA = new Set([
   ".rotation.json",
   ".medex.json",
   "runs.json",
+  /* 130 unmerged Wikipedia description DRAFTS, never read by the app. They
+     were shipping on the public origin because nothing excluded them. Under
+     the information-integrity rule an unreviewed file on the origin is a
+     liability with no reader benefit; it stays in the repo for the merge
+     pass and off the web. Found by the batch-2 agent, fixed here. */
+  "descriptions.wikipedia.json",
 ]);
 
 /* The content datasets ship ONLY inside data/topics.json.
@@ -81,15 +105,16 @@ async function topicFiles() {
   return new Set(TOPICS.map((t) => `${t}.json`));
 }
 
-async function dirSize(dir) {
-  let total = 0;
-  for (const e of await readdir(dir, { withFileTypes: true })) {
-    const p = path.join(dir, e.name);
-    total += e.isDirectory() ? await dirSize(p) : (await stat(p)).size;
-  }
-  return total;
-}
 const kb = (b) => `${(b / 1024).toFixed(0)} KB`;
+
+/** Write a staged file map under `base`, creating directories as needed. */
+async function emit(base, files) {
+  for (const { out, body } of files.values()) {
+    const to = path.join(base, out);
+    await mkdir(path.dirname(to), { recursive: true });
+    await writeFile(to, body);
+  }
+}
 
 async function main() {
   if (!existsSync(path.join(ROOT, "site", "index.html"))) {
@@ -100,6 +125,7 @@ async function main() {
   await mkdir(OUT, { recursive: true });
 
   let copied = 0;
+  let dataManifest = {};
   for (const entry of PUBLIC) {
     const from = path.join(ROOT, entry);
     if (!existsSync(from)) {
@@ -109,18 +135,23 @@ async function main() {
       throw new Error(`allowlisted path is missing: ${entry}`);
     }
     if (entry === "data") {
-      const dataOut = path.join(OUT, "data");
-      await mkdir(dataOut, { recursive: true });
-      const topics = await topicFiles();
-      for (const e of await readdir(from, { withFileTypes: true })) {
-        if (SKIP_IN_DATA.has(e.name) || topics.has(e.name)) continue;
-        await cp(path.join(from, e.name), path.join(dataOut, e.name), { recursive: true });
-      }
+      /* National bundles renamed by content under data/h/; alerts.json,
+         index.json and counties/ by their own names. The manifest is what
+         data.js and i18n.js are handed so they can ask for the hashed names. */
+      const staged = await stageData(from, { skip: SKIP_IN_DATA, topics: await topicFiles(), hash: true });
+      await emit(path.join(OUT, "data"), staged.files);
+      dataManifest = staged.manifest;
+    } else if (entry === "site") {
+      /* Deferred: the shell needs the data manifest, and PUBLIC lists site
+         before data. Staged after the loop. */
     } else {
       await cp(from, path.join(OUT, entry), { recursive: true });
     }
     copied++;
   }
+
+  const shell = await stageShell({ site: path.join(ROOT, "site"), hash: true, data: dataManifest });
+  await emit(path.join(OUT, "site"), shell.files);
 
   /* Fail loudly if anything server-side made it in. This is the assertion the
      denylist could not make: it is a statement about what EXISTS, not about

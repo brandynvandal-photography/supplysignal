@@ -54,11 +54,70 @@ code.split("\n").forEach((raw, n) => {
   }
 });
 
+/* Focus rings under clipping containers are drawn INSIDE the box.
+ *
+ * details.disc, details.acc, .list and .jump .chips all clip their children
+ * (overflow: hidden, or overflow-x: auto under a mask), so the default ring -
+ * 3px outside the element, 2px out - was painted into the clip and never seen.
+ * Closed disclosures are most of the controls on Test, Support and Learn, so
+ * tabbing through those pages looked like focus had been lost. The fix is one
+ * declaration, outline-offset: -3px, on exactly the controls those containers
+ * hold - and one declaration is exactly the kind of thing that gets tidied out
+ * of a 4,000-line stylesheet by someone who cannot see what it was for. So the
+ * selectors are named here and each has to carry it. */
+const INSET = [
+  "details.disc > summary",
+  "details.acc > summary",
+  ".list > .nbr",
+  ".jump .chip",
+  ".nav a",
+];
+const insetFails = [];
+for (const sel of INSET) {
+  const esc = sel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  /* The selector, optionally suffixed :focus-visible, anywhere in a rule's
+     selector list, whose block sets outline-offset to -3px. */
+  const re = new RegExp(`(^|[,\\s])${esc}(:focus-visible)?\\s*[^{}]*\\{[^}]*outline-offset:\\s*-3px`, "m");
+  if (!re.test(code)) insetFails.push(`\`${sel}\` does not carry outline-offset: -3px — its focus ring is clipped by its container`);
+}
+
+/* The smallest text comes from the token, never from a literal.
+ *
+ * --fs-xs is the floor for anything a reader has to read: 12.5px at the
+ * default size. Before it existed the small tiers were typed out by hand -
+ * .72rem here, .74 there, .76 in a third place - and the smallest of them sat
+ * at 12.24px. A literal below the token is how that creeps back one rule at
+ * a time, so every bare rem font-size in the file has to clear it. Only bare
+ * literals are checked: a capped value like the tab bar's min(.72rem, 13px)
+ * is chrome that deliberately stops scaling and is not a reading size. */
+const fsFails = [];
+{
+  const floor = parseFloat(code.match(/--fs-xs:\s*([\d.]+)rem/)?.[1]);
+  if (!Number.isFinite(floor)) fsFails.push("--fs-xs is not declared as a rem value in the token block");
+  else {
+    code.split("\n").forEach((raw, n) => {
+      const m = raw.match(/font-size:\s*([\d.]+)rem/);
+      if (m && parseFloat(m[1]) < floor) {
+        fsFails.push(`line ${n + 1}: font-size ${m[1]}rem is below --fs-xs (${floor}rem) - use the token`);
+      }
+    });
+  }
+}
+
 console.log("CSS\n");
 if (fails.length) {
   for (const f of fails) console.log("  not ok " + f);
-  console.log(`\n0 passed, ${fails.length} failed`);
-  process.exit(1);
 }
-console.log("  ok   app.css parses: comments balanced, braces balanced, no loose prose");
-console.log("\n1 passed, 0 failed");
+if (insetFails.length) {
+  for (const f of insetFails) console.log("  not ok " + f);
+}
+if (fsFails.length) {
+  for (const f of fsFails) console.log("  not ok " + f);
+}
+const total = 3;
+const failed = (fails.length ? 1 : 0) + (insetFails.length ? 1 : 0) + (fsFails.length ? 1 : 0);
+if (!fails.length) console.log("  ok   app.css parses: comments balanced, braces balanced, no loose prose");
+if (!insetFails.length) console.log(`  ok   inset focus rings on ${INSET.length} clipped controls`);
+if (!fsFails.length) console.log("  ok   no font-size literal below --fs-xs");
+console.log(`\n${total - failed} passed, ${failed} failed`);
+if (failed) process.exit(1);

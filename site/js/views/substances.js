@@ -12,12 +12,14 @@
 
 import {
   h, frag, clear, section, callout, badge, extLink, empty, englishOnlyNotice, group,
-  jumpNav, disclosure, sourcesDisclosure,
+  jumpNav, disclosure, sourcesDisclosure, skeleton, SEV_GLYPH,
 } from "../ui.js";
 import * as data from "../data.js";
 import { CLASSES, classInfo, groupAll } from "../taxonomy.js";
 import { draw as drawStructure } from "../structure.js";
 import { reagentLabel } from "../reagentnames.js";
+import { matchSubstance } from "../substancematch.js";
+import { liveRegion, dropRow, slotLabel, removeButton, relabelRows } from "../slots.js";
 
 /* `label` is what renders; the KEY is TripSit's verbatim status, kept for
    data fidelity and shown in the definitions block. The raw terms are chart
@@ -28,17 +30,17 @@ import { reagentLabel } from "../reagentnames.js";
 /* Every name a substance can be FOUND by, which is not every name it should be
    SHOWN as. data.js keeps misleading street names in `searchAliases` rather
    than `aliases`, so that 2C-B can be reached by typing "tusi" without the page
-   claiming 2C-B is also called that. Matching uses both; display uses aliases. */
-const findableBy = (s) =>
-  [s.name, ...(s.aliases || []), ...(s.searchAliases || [])]
-    .filter(Boolean).map((x) => String(x).toLowerCase());
-
-const matches = (s, t) => findableBy(s).some((n) => n.includes(t));
+   claiming 2C-B is also called that. Matching uses both; display uses aliases.
+   The matcher itself lives in substancematch.js now, shared with the sold-as
+   picker on Test — which needs the same names but must NOT take a searchAlias
+   hit silently; see the note there. Here a searchAlias hit is safe: the page
+   it opens leads with the warning. */
+const matches = (s, t) => matchSubstance(s, t) !== null;
 
 const RISK = {
-  Dangerous: { kind: "critical", glyph: "▲", rank: 0, label: "Dangerous" },
-  Unsafe: { kind: "critical", glyph: "▲", rank: 1, label: "Unsafe" },
-  Caution: { kind: "elevated", glyph: "●", rank: 2, label: "Caution" },
+  Dangerous: { kind: "critical", glyph: SEV_GLYPH.critical, rank: 0, label: "Dangerous" },
+  Unsafe: { kind: "critical", glyph: SEV_GLYPH.critical, rank: 1, label: "Unsafe" },
+  Caution: { kind: "elevated", glyph: SEV_GLYPH.elevated, rank: 2, label: "Caution" },
   /* "Reduce"/"Amplify each other", not "EFFECTS reduce each other". The longer
      pair needed 203px and the badge gets 183-200px at 375px - three nested
      card paddings deep, that is all the room there is - so both wrapped to two
@@ -46,9 +48,9 @@ const RISK = {
      word: the badge sits on a combination result, so what is reducing or
      amplifying is not in question. The mechanism is still stated and neither
      one grades safety, which is the rule this table exists to keep. */
-  "Low Risk & Decrease": { kind: "neutral", glyph: "○", rank: 3, label: "Reduce each other" },
-  "Low Risk & No Synergy": { kind: "neutral", glyph: "○", rank: 4, label: "No known interaction" },
-  "Low Risk & Synergy": { kind: "neutral", glyph: "○", rank: 5, label: "Amplify each other" },
+  "Low Risk & Decrease": { kind: "neutral", glyph: SEV_GLYPH.neutral, rank: 3, label: "Reduce each other" },
+  "Low Risk & No Synergy": { kind: "neutral", glyph: SEV_GLYPH.neutral, rank: 4, label: "No known interaction" },
+  "Low Risk & Synergy": { kind: "neutral", glyph: SEV_GLYPH.neutral, rank: 5, label: "Amplify each other" },
   Unknown: { kind: "neutral", glyph: "?", rank: 6, label: "No data" },
 };
 
@@ -106,11 +108,17 @@ async function indexView(subs, combosP, { go }) {
   /* This page never said what it was. Every other tab opens by telling you,
      and this is the one people arrive at holding a name they half-remember. */
   wrap.appendChild(
+    /* "Is this mix dangerous?" not "Combination checker": the chip should ask
+       the reader's question, not name the tool. Its target is unchanged.
+       "Your situation" lands ahead of "Food and drink" because the situation
+       group renders inside the checker (directly under the verdict) while food
+       is a sibling below it - so in DOM order the situation comes first, and
+       the strip has to match the page (see the chip-order test). */
     jumpNav([
       { id: "sec-find", label: "Find a drug" },
-      { id: "sec-checker", label: "Combination checker" },
-      { id: "sec-food", label: "Food and drink" },
+      { id: "sec-checker", label: "Is this mix dangerous?" },
       { id: "grp-yours", label: "Your situation" },
+      { id: "sec-food", label: "Food and drink" },
       { id: "sec-market", label: "In your region" },
     ]));
 
@@ -193,7 +201,12 @@ async function indexView(subs, combosP, { go }) {
 
      Reserved height, so the sections below do not shift downward when it
      arrives - see .checkerslot. */
-  const mixSlot = h("div", { class: "checkerslot", id: "sec-checker" });
+  /* aria-busy + a skeleton while combos.json (165KB) is in flight, so the slot
+     reads as "loading" rather than as an empty gap the eye skips past - and
+     .checkerslot already reserves its height so nothing below jumps when the
+     checker lands. Both are cleared when replaceChildren fills it below. */
+  const mixSlot = h("div", { class: "checkerslot", id: "sec-checker", "aria-busy": "true" },
+    skeleton(3));
   wrap.appendChild(mixSlot);
 
   /* Built here, rendered inside the checker below - see the note in
@@ -229,12 +242,16 @@ async function indexView(subs, combosP, { go }) {
           ? h("p", { class: "sec__note" }, combos.food.sourceNote) : null)
     : null);
 
+  /* Open with the lens when the lens has picks (see conditionLens): an open
+     child inside a shut parent is still a shut box, and the picks a reader
+     left applied would be hidden behind two taps instead of none. */
   const yoursGroup = group("grp-yours", "Does your situation change the picture?",
     "Prescribed medication and health conditions both change what a combination does.", [
       await rxBlock(),
       await conditionLens(),
     ],
-    ["Prescribed medication", "Health conditions"]);
+    ["Prescribed medication", "Health conditions"],
+    { open: lensPicks.size > 0 });
 
   /* Regional patterns come AFTER the search box. Someone who arrived knowing
      what they took needs the lookup first; "what is common in this region" is
@@ -261,11 +278,13 @@ async function indexView(subs, combosP, { go }) {
     const checker = mixChecker(combos, yoursGroup);
     if (checker) mixSlot.replaceChildren(checker);
     else mixSlot.replaceChildren(yoursGroup);
+    mixSlot.removeAttribute("aria-busy");   // the skeleton is gone; say so
     attrSlot.replaceChildren(attributionBlock(subs, combos, uncAttr));
     const food = foodBlockFrom(combos);
     if (food) foodSlot.replaceChildren(food);
   }).catch(() => {
     mixSlot.replaceChildren(yoursGroup);
+    mixSlot.removeAttribute("aria-busy");
     attrSlot.replaceChildren(attributionBlock(subs, null, uncAttr));
   });
 
@@ -495,12 +514,22 @@ function classView(slug, subs, { go }) {
     placeholder: `Filter ${info.label.toLowerCase()}…`,
   });
   const list = h("div", { class: "list" });
+  /* A live count for the screen reader. The list re-renders on every
+     keystroke in silence, so a reader typing "ket" into a class of ninety had
+     no way to hear it narrow until they tabbed into it. Off-screen: the
+     visible page already shows the rows, and the empty state below already
+     says "No match" in words. The same wording the class tile under the grid
+     uses for its own count. */
+  const count = h("p", { class: "sr-only", role: "status", "aria-live": "polite" });
 
   const paint = (term) => {
     const t = term.trim().toLowerCase();
     const hits = !t ? members : members.filter((s) => matches(s, t));
 
     clear(list);
+    count.textContent = !t ? "" : hits.length
+      ? `${hits.length} drug${hits.length === 1 ? "" : "s"}`
+      : "No match in this class.";
     if (!hits.length) {
       list.appendChild(empty("No match in this class.",
         "Clear the filter, or search the Drugs screen to look across all classes."));
@@ -510,7 +539,7 @@ function classView(slug, subs, { go }) {
   };
   input.addEventListener("input", () => paint(input.value));
 
-  wrap.appendChild(h("div", { class: "search" }, h("div", { class: "search__row" }, input)));
+  wrap.appendChild(h("div", { class: "search" }, h("div", { class: "search__row" }, input), count));
   wrap.appendChild(list);
   paint("");
 
@@ -555,72 +584,92 @@ function mixChecker(combos, yours) {
   const cats = combos.categories || [];
   const slots = [];
   const rows = h("div", { class: "mixslots" });
-  const out = h("div", { class: "mixout", role: "status", "aria-live": "polite" });
+  /* NOT A LIVE REGION. It carried role="status", so every change to a select
+     re-read the whole verdict - card, badge, definition, the depressant
+     callout and every pair - from the top. The results render here in
+     silence; the one-line region below says what changed. Same shape as the
+     reagent tracker on Test, which shares this control. */
+  const out = h("div", { class: "mixout" });
+  /* ONE SENTENCE PER CHANGE, verdict first: the card's exact badge, then the
+     depressant heading verbatim when it is shown, then a removal if a × was
+     pressed. The shared region in slots.js - off-screen, atomic, re-announced
+     even when the sentence repeats. */
+  const { el: live, announce } = liveRegion();
 
   const addBtn = h("button", {
     type: "button", class: "btn btn--ghost btn--sm",
     onClick: () => { addSlot(); check(); },
   }, "+ Add another drug");
 
-  function makeSelect(i) {
-    const sel = h("select", { class: "input", "aria-label": `Substance ${i + 1}` },
+  function makeSelect() {
+    /* No aria-label - slotLabel() puts the visible word ("I took", "and") on
+       the select as its name, with the row number off-screen beside it. */
+    const sel = h("select", { class: "input" },
       h("option", { value: "" }, "Choose…"),
       cats.map((c) => h("option", { value: c }, prettyCat(c))));
     sel.addEventListener("change", check);
     return sel;
   }
 
-  function addSlot() {
+  function addSlot(want) {
     if (slots.length >= MAX_MIX) return;
     const i = slots.length;
-    const sel = makeSelect(i);
-    /* Same control as the strip picker on Test: label above, the select
-       wearing a disclosure row, the chevron centred on it by .pick__field.
-       These were the app's only other dropdowns and they were the last two
-       still dressed as search fields. */
+    const sel = makeSelect();
+    /* A value carried across from a previous render (rehydrate below). Only a
+       real category is honoured; anything else leaves the row on "Choose…". */
+    if (want && cats.includes(want)) sel.value = want;
+    /* The shared slot row (slots.js): label, then the select wearing a
+       disclosure row, the chevron centred on it by .pick__field - the same
+       control the reagent tracker on Test is built from. The × goes on the
+       rows past the floor of two; a combination of one is not a combination. */
     const row = h("div", { class: "mixslot" },
-      h("label", { class: "pick__row" },
-        h("span", { class: "mixlabel" }, i === 0 ? "I took" : "and"),
-        h("span", { class: "pick__field" }, sel)),
+      slotLabel(i === 0 ? "I took" : "and", sel, i + 1, "drug"),
       i > 1
-        ? h("button", {
-            type: "button", class: "iconbtn mixslot__x",
-            "aria-label": `Remove drug ${i + 1}`,
-            onClick: () => {
-              const at = slots.indexOf(sel);
-              if (at > -1) slots.splice(at, 1);
-              row.remove();
-              relabel();
-              check();
-            },
-          }, "×")
+        ? removeButton(`Remove drug ${i + 1}`, () => {
+            const at = slots.indexOf(sel);
+            if (at > -1) slots.splice(at, 1);
+            /* The number the row wore when pressed; relabel() renumbers
+               what is left. */
+            const was = at > -1 ? at + 1 : i + 1;
+            dropRow(row, addBtn);
+            relabel();
+            check(`Drug ${was} removed.`);
+          })
         : null);
     slots.push(sel);
     rows.appendChild(row);
-    addBtn.disabled = slots.length >= MAX_MIX;
+    relabel();                                  // numbered by position
   }
 
   function relabel() {
-    [...rows.children].forEach((row, i) => {
-      const lab = row.querySelector(".mixlabel");
-      if (lab) lab.textContent = i === 0 ? "I took" : "and";
-    });
+    relabelRows(rows, "I took", "and", "drug");
     addBtn.disabled = slots.length >= MAX_MIX;
   }
 
-  function check() {
+  /* `tail` is a clause for the live region - the removal, when a × was
+     pressed. A change event arriving here from the select listeners is not
+     one. */
+  function check(tail) {
     clear(out);
+    /* Persist the current picks so a trip to a drug page and Back restores
+       them - module-scoped, never storage; see checkerSession. */
+    checkerSession = { picks: slots.map((s) => s.value) };
+    /* Assembled as the cards are built, in their own words. */
+    let verdict = null;
+    const notes = [];
+    const done = () => announce([verdict, ...notes, typeof tail === "string" ? tail : null]);
     const picked = slots.map((s) => s.value).filter(Boolean);
     const unique = [...new Set(picked)];
 
     if (picked.length > unique.length) {
+      notes.push("You picked the same category twice.");
       out.appendChild(callout("warn", "You picked the same category twice",
         h("p", null,
           "Taking more raises the dose. Redosing before the first amount has " +
           "fully come up is a common way people take far more than they meant " +
           "to.")));
     }
-    if (unique.length < 2) return;
+    if (unique.length < 2) { done(); return; }
 
     /* Every pair, worst first. */
     const results = [];
@@ -639,6 +688,14 @@ function mixChecker(combos, yours) {
 
     /* Overall verdict. Deliberately says "at least" - the pairs are a floor,
        not the whole picture. */
+    /* The badge, exactly as printed, then the pairing it is about. When no
+       pair has data there is no card, but every pair row wears the "No data"
+       badge, and that is what a sighted reader sees - so it is what is said. */
+    {
+      const meta = worst ? RISK[worst] || RISK.Unknown : RISK.Unknown;
+      verdict = `${worst && unique.length > 2 ? `At least: ${meta.label}` : meta.label}. `
+        + `${unique.map(prettyCat).join(" + ")}.`;
+    }
     if (worst) {
       const meta = RISK[worst] || RISK.Unknown;
       out.appendChild(
@@ -661,6 +718,8 @@ function mixChecker(combos, yours) {
 
     /* The warning the matrix cannot give. */
     if (deps.length >= 2) {
+      /* The callout's heading, verbatim. */
+      notes.push(`${deps.length} of these slow your breathing down.`);
       out.appendChild(
         callout("stop", `${deps.length} of these slow your breathing down`,
           h("p", null,
@@ -696,10 +755,23 @@ function mixChecker(combos, yours) {
                   "not be alone.")))
       );
     }
+    if (unique.length > 2) notes.push(`${results.length} pairs checked.`);
+    done();
   }
 
-  addSlot();
-  addSlot();
+  /* Rehydrate the picks from this session if there are any, else open with two
+     empty rows. Restoring more than two rebuilds those too, up to the floor of
+     two the checker never goes below. check() runs after a rehydrate so the
+     verdict the reader left with comes back with it. */
+  if (checkerSession?.picks?.length) {
+    for (const v of checkerSession.picks.slice(0, MAX_MIX)) addSlot(v);
+    while (slots.length < 2) addSlot();
+    relabel();
+    check();
+  } else {
+    addSlot();
+    addSlot();
+  }
 
   /* No death-count caption under the title. The stakes are already carried
      by the results themselves (Dangerous badges, the depressant-stacking
@@ -717,7 +789,8 @@ function mixChecker(combos, yours) {
         h("strong", null, "benzodiazepines"), "."),
       rows,
       h("div", { class: "chips" }, addBtn),
-      out),
+      out,
+      live),
     /* Directly under the result. This used to sit outside the section, which
        looked adjacent on an empty page and was a screenful away the moment a
        combination produced results - moving out of sight exactly when it
@@ -788,9 +861,13 @@ async function detailView(id, subs, combos, { go }) {
      front - see data.reagentsFor. This is the only view that renders them, and
      loading them for all 302 was costing the Drugs list 111KB before it could
      paint. Attached to a local copy so the cached bundle stays untouched. */
-  const [rg, plantMatrix, detect, structs] = await Promise.all([
+  /* The structures bundle is STARTED here and AWAITED AFTER THE FIRST PAINT -
+     see the figure below. It was in this Promise.all, so every drug page
+     waited on a 29 KB file whose only job is a diagram before it could show
+     the name, the mix warning or the dose. Nothing above the figure needs it. */
+  const structsP = data.structures().catch(() => null);
+  const [rg, plantMatrix, detect] = await Promise.all([
     data.reagentsFor(id), data.isPlantOrFungal(id), data.detectionFor(id),
-    data.structures().catch(() => null),
   ]);
   const s = rg ? { ...base, reagentResults: rg } : base;
 
@@ -805,7 +882,7 @@ async function detailView(id, subs, combos, { go }) {
     h("h1", null, s.name),
     s.aliases.length ? h("p", { class: "sec__note" }, `Also called: ${s.aliases.join(", ")}`) : null));
 
-  /* The molecule, beside the name.
+  /* The molecule.
    *
    * Not decoration, and not on every page: 263 of the 298 entries have one,
    * and the ones that do not are families and plants - "2C-x", Cannabis,
@@ -816,22 +893,35 @@ async function detailView(id, subs, combos, { go }) {
    * could not show one: the Test page says BTNX's strip is blind to bulky
    * changes at the phenethyl end while WHPM's is blind at the carbonyl, which
    * is the practical difference between the two brands and is unreadable as
-   * prose unless you already know which end is which. */
-  {
+   * prose unless you already know which end is which.
+   *
+   * IT SITS IN "READ MORE" NOW, BESIDE PubChem, not beside the name. Above
+   * the fold it pushed the dose/mix warnings down for a picture; next to the
+   * PubChem link that captions it, it is reference material with the rest of
+   * the reference material. Built here so the async fill can start at once;
+   * appended into the Read more section far below.
+   *
+   * FILLED IN AFTER THE FIRST PAINT, INTO A BOX THAT IS ALREADY THE RIGHT
+     SIZE. The figure is created now, empty, at the height the drawing and its
+     caption will take (.struct__fig reserves it in CSS), and the SVG lands in
+     it when the bundle arrives - so the page paints without waiting for
+     structures.json and nothing below the figure moves when it loads. The 22
+     entries with no structure (families and plants) get the box removed once
+     that is known. */
+  const structFig = h("figure", { class: "struct__fig struct__fig--pending", "aria-busy": "true" });
+  structsP.then((structs) => {
     const packed = structs?.structures?.[id];
-    if (packed) {
-      const svg = drawStructure(packed, 200);
-      if (svg) {
-        wrap.appendChild(
-          h("figure", { class: "struct__fig" }, svg,
-            h("figcaption", { class: "sec__note" },
-              "2D structure from ",
-              extLink(`https://pubchem.ncbi.nlm.nih.gov/compound/${packed.cid}`,
-                      `PubChem CID ${packed.cid}`),
-              ". Hydrogens on carbon are not drawn.")));
-      }
-    }
-  }
+    const svg = packed ? drawStructure(packed, 200) : null;
+    if (!svg) { structFig.remove(); return; }
+    structFig.append(svg,
+      h("figcaption", { class: "sec__note" },
+        "2D structure from ",
+        extLink(`https://pubchem.ncbi.nlm.nih.gov/compound/${packed.cid}`,
+                `PubChem CID ${packed.cid}`),
+        ". Hydrogens on carbon are not drawn."));
+    structFig.classList.remove("struct__fig--pending");
+    structFig.removeAttribute("aria-busy");
+  }).catch(() => structFig.remove());
 
   const cls = [...(s.class.psychoactive || []), ...(s.class.chemical || [])];
   if (cls.length) {
@@ -1105,10 +1195,18 @@ function comedownFor(doc, s) {
   return null;
 }
 
-/* ---- at-a-glance duration tiles ----
+/* THE SECTIONS BELOW ARE BUILT INTO VARIABLES, THEN APPENDED IN ORDER.
+   The reading order for a substance page was reworked (IA-08): dose and
+   duration and the comedown come before the reagent table, which drops to the
+   foot as reference. Rather than move large blocks of building code around
+   each other - and risk a helper being used before it is defined - each block
+   is assigned to a node here and the ordered append happens once, at the end. */
+
+  /* ---- at-a-glance duration tiles ----
      The three numbers someone actually scans for, lifted out of the tables.
      First route with duration data wins; the full per-route tables remain
      below for the rest. */
+  let statTilesBlock = null;
   const durRoa = s.roas?.find((r) => r.duration?.onset || r.duration?.peak || r.duration?.total);
   if (durRoa) {
     const d = durRoa.duration;
@@ -1119,8 +1217,8 @@ function comedownFor(doc, s) {
       h("span", { class: "stattile__v" }, v)) : null;
     const tiles = [tile("Onset", fmt(d.onset)), tile("Peak", fmt(d.peak)), tile("Total", fmt(d.total))].filter(Boolean);
     if (tiles.length) {
-      wrap.appendChild(h("div", { class: "stattiles" }, tiles,
-        h("span", { class: "stattiles__roa" }, durRoa.name)));
+      statTilesBlock = h("div", { class: "stattiles" }, tiles,
+        h("span", { class: "stattiles__roa" }, durRoa.name));
     }
   }
 
@@ -1131,8 +1229,9 @@ function comedownFor(doc, s) {
      somebody is holding - and it appeared under the heading "expected reagent
      reactions", promising a result the chemistry cannot give. Every claim
      below was read at source; see scripts/build-reagents.mjs. */
+  let plantBlock = null;
   if (plantMatrix) {
-    wrap.appendChild(
+    plantBlock = (
       callout("warn", "A reagent can’t tell you what this is",
         h("p", null,
           "Reagent colors were worked out on powders and crystals. DanceSafe says it " +
@@ -1169,6 +1268,7 @@ function comedownFor(doc, s) {
     );
   }
 
+  let reagentBlock = null;
   if (s.reagentResults?.length) {
     /* Class-based, never an inline style attribute - the CSP has no
        unsafe-inline, so a style attr silently renders nothing (found by
@@ -1220,8 +1320,14 @@ function comedownFor(doc, s) {
        compressed into a contradiction. */
     const isOpioidish = cls.some((c) => /opioid/i.test(c)) || /fentanyl|nitazene/i.test(s.name);
 
-    wrap.appendChild(
-      section("Expected reagent reactions", "From PsychonautWiki",
+    /* SHUT, WITH THE CAVEAT AS THE LEAD OUTSIDE THE FOLD. The colour table is
+       reference the reader opens when they want it; the sentence that stops it
+       being read as an all-clear is not something they should have to open a
+       fold to reach, so it sits above the fold. Same shape as Dose. The
+       section heading is kept as the fold's own summary rather than inventing
+       a new label. The plant/fungal callout is a separate block and stays
+       outside this entirely. */
+    reagentBlock = frag(
         callout("warn", "This reads the main drug. It can’t see what else is in there",
           h("p", null,
             "These are the colors you get from this drug on its own. If the expected " +
@@ -1237,6 +1343,7 @@ function comedownFor(doc, s) {
               : "") +
             "Fentanyl strips answer that question; reagents answer this one. See the " +
             "Test section for each reagent’s limits.")),
+        disclosure("sec-reagent-colors", "Expected reagent reactions", { open: false },
         h("div", { class: "card" },
           h("table", { class: "reagtable" },
             h("tbody", null,
@@ -1280,12 +1387,23 @@ function comedownFor(doc, s) {
                       ? frag(r.alts.map((a, i) => frag(
                           i ? h("span", { class: "reag__settles" }, "or") : null,
                           reading(a))))
-                      : reading(r))))))))
-    );
+                      : reading(r)))))))),
+        /* Into the tool that scores these colours, seeded on this drug. Sits
+           OUTSIDE the fold, so the deep-link stays visible without opening the
+           colour table. The table above is the forward answer — what this drug
+           does — and the tracker is the reverse one: enter what you actually
+           saw and it walks the chart for this substance. Deep-linked with the
+           id in the FRAGMENT (see routes.js), never the path. */
+        h("a", { class: "bigptr", href: `#/test/tracker/${id}` },
+          h("span", { class: "bigptr__hd" }, "Run a reagent test for this"),
+          h("span", { class: "bigptr__sub" },
+            "Say what each reagent did and the tracker checks it against " +
+            s.name + "’s published sequence.")));
   }
 
   /* ---- dose ---- */
   const dosed = s.roas.filter((r) => r.dose);
+  let doseBlock = null;
   if (dosed.length) {
     /* CLOSED BY DEFAULT, and the caveat sits outside it.
        Route-of-administration dose tables are the part of this page that reads
@@ -1298,7 +1416,7 @@ function comedownFor(doc, s) {
        correctly identified drug is now unavoidable - you read it before you can
        open the table, rather than above a table already on screen. That is a
        better reading order for a person as well as for a reviewer. */
-    wrap.appendChild(
+    doseBlock = (
       section("Dose", "Ranges reported by PsychonautWiki — not a recommendation",
         callout("warn", "Nothing off the street comes measured",
           h("p", null, "These ranges assume a pure drug that is what it says it is. " +
@@ -1311,8 +1429,9 @@ function comedownFor(doc, s) {
 
   /* ---- duration ---- */
   const timed = s.roas.filter((r) => r.duration);
+  let durationBlock = null;
   if (timed.length) {
-    wrap.appendChild(section("How long it lasts", null, timed.map((r) => durationTable(r))));
+    durationBlock = section("How long it lasts", null, timed.map((r) => durationTable(r)));
   }
 
   /* ---- coming down ----
@@ -1333,8 +1452,9 @@ function comedownFor(doc, s) {
    * comedown lives in topics.json, which is already in flight from boot, so
    * there is nothing to wait for by the time this runs. */
   const cd = comedownFor(await data.comedown(), s);
+  let comedownBlock = null;
   if (cd) {
-    wrap.appendChild(
+    comedownBlock = (
       section("Coming down", null,
         cd.lead ? h("p", { class: "leadin" }, cd.lead) : null,
         frag(cd.items.map((it) =>
@@ -1347,14 +1467,16 @@ function comedownFor(doc, s) {
   }
 
   /* How long it stays DETECTABLE, which is a different question from how long
-     it lasts and is the one somebody on probation is actually asking. Placed
-     immediately after the duration table because the two get confused, and the
-     heading has to do the work of separating them.
+     it lasts and is the one somebody on probation is actually asking. It sits
+     after tolerance now, near the foot of the page, because it is about
+     somebody else testing you rather than about the experience - but its
+     heading still has to separate it from "How long it lasts".
 
      Only rendered where we have a verified figure. Most drugs have none, and
      an empty section would read as "we checked and it is short". */
+  let detectBlock = null;
   if (detect) {
-    wrap.appendChild(
+    detectBlock = (
       section("How long it stays detectable", "On a urine test — a different question from how long the effects last",
         h("div", { class: "card" },
           h("p", null, detect.urine),
@@ -1368,8 +1490,9 @@ function comedownFor(doc, s) {
   }
 
   /* ---- tolerance / addiction ---- */
+  let toleranceBlock = null;
   if (s.addiction || s.tolerance) {
-    wrap.appendChild(
+    toleranceBlock = (
       section("Tolerance and dependence", null,
         h("div", { class: "card" },
           s.addiction ? h("p", null, h("strong", null, "Addiction potential: "), s.addiction) : null,
@@ -1382,8 +1505,12 @@ function comedownFor(doc, s) {
     );
   }
 
-  /* ---- outbound ---- */
-  wrap.appendChild(
+  /* ---- outbound ----
+     The molecule figure rides here now (structFig, built up top so its async
+     fill starts early), beside the PubChem link that captions it - reference
+     material with the rest of the reference material, rather than a picture
+     above the dose and mix warnings. */
+  const readMoreBlock = (
     section("Read more", null,
       h("div", { class: "chips" },
         s.links.psychonautwiki ? extLink(s.links.psychonautwiki, "PsychonautWiki", "btn btn--ghost btn--sm") : null,
@@ -1394,9 +1521,22 @@ function comedownFor(doc, s) {
           "Lab results on DrugsData", "btn btn--ghost btn--sm")),
       h("p", { class: "sec__note" },
         "DrugsData is an archive of laboratory-tested samples. It stopped accepting " +
-        "new samples in April 2024, so it shows what was circulating up to then."))
+        "new samples in April 2024, so it shows what was circulating up to then."),
+      structFig)
   );
 
+  /* THE ORDER (IA-08): tiles → dose → how long it lasts → coming down →
+     tolerance → detectable → the reagent reference (plant/fungal caveat, then
+     the folded colour table) → read more → sources. */
+  if (statTilesBlock) wrap.appendChild(statTilesBlock);
+  if (doseBlock) wrap.appendChild(doseBlock);
+  if (durationBlock) wrap.appendChild(durationBlock);
+  if (comedownBlock) wrap.appendChild(comedownBlock);
+  if (toleranceBlock) wrap.appendChild(toleranceBlock);
+  if (detectBlock) wrap.appendChild(detectBlock);
+  if (plantBlock) wrap.appendChild(plantBlock);
+  if (reagentBlock) wrap.appendChild(reagentBlock);
+  wrap.appendChild(readMoreBlock);
   wrap.appendChild(attributionBlock(subs, combos));
   return wrap;
 }
@@ -1524,14 +1664,51 @@ async function rxBlock() {
  * source, and the not-covered list is shown rather than implied. */
 let lensPicks = new Set();   // module-scope, deliberately not persisted
 
+/* SESSION STATE FOR THE INLINE TOOLS, and where it may live.
+ *
+ * The combination checker's picks and the condition lens's selections survive
+ * a trip to a drug page and back - so someone who checks "opioids + benzos",
+ * taps into a substance to read about one, and comes Back finds their pairing
+ * still there. Module variables, never storage: what somebody is checking is
+ * exactly the kind of thing the privacy model (and test/privacy.test.mjs's
+ * storage allowlist) keeps off the device. Same construction as lensPicks
+ * above, and the same as the reagent tracker in views/test.js.
+ *
+ * Both are wiped early on the two events that mean "someone may be about to
+ * look at this screen who should not": Quick Exit (app.js dispatches nl:panic
+ * on the document before it clears anything else) and pagehide (backgrounding
+ * on iOS, the app-switcher snapshot, a phone changing hands). The page reload
+ * a Quick Exit triggers would destroy these anyway; clearing them here is the
+ * belt to that brace, and it is what makes "cleared on Quick Exit" true rather
+ * than incidental. */
+let checkerSession = null;
+const forgetCheckerState = () => { checkerSession = null; lensPicks = new Set(); };
+document.addEventListener("nl:panic", forgetCheckerState);
+window.addEventListener("pagehide", forgetCheckerState);
+
 async function conditionLens() {
   const d = await data.conditions();
   if (!d) return h("span");
 
   const body = h("div");
 
+  /* HOW MANY ARE PICKED, on the summary, so a shut lens is not a shut box.
+     The picks survive a trip to a drug page and Back (lensPicks is
+     module-scoped), and a reader returning to a closed "Health conditions"
+     row had no way to see that two of theirs were still applied under it.
+     A neutral badge with the number - the same accessory the strip cards
+     wear for their limit count - in the heading itself, so the summary says
+     it. Hidden at zero rather than reading "0". */
+  const count = h("span", { class: "badge badge--neutral", hidden: true });
+  const syncCount = () => {
+    const n = lensPicks.size;
+    count.hidden = !n;
+    count.textContent = n ? String(n) : "";
+  };
+
   const paint = () => {
     clear(body);
+    syncCount();
     const active = d.conditions.filter((c) => lensPicks.has(c.id));
     for (const c of active) {
       body.appendChild(
@@ -1563,8 +1740,13 @@ async function conditionLens() {
 
   paint();
 
-  return h("details", { class: "disc", id: "sec-lens" },
-    h("summary", null, h("h2", null, "Health conditions")),
+  /* OPEN WHEN ANYTHING IS PICKED. The lens starts shut - nothing is applied,
+     nothing to show - but a reader who picked conditions, left for a drug
+     page and came Back had them re-applied inside a closed row, which is the
+     one state where the shut box hides something the reader did. Picks mean
+     open. */
+  return h("details", { class: "disc", id: "sec-lens", open: lensPicks.size ? true : null },
+    h("summary", null, h("h2", null, "Health conditions", " ", count)),
     h("div", { class: "disc__body" },
       h("p", { class: "sec__note" },
         "Pick anything that applies. Nothing you select here is saved — not on " +
