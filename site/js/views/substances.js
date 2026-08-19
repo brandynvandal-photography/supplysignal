@@ -895,11 +895,17 @@ async function detailView(id, subs, combos, { go }) {
    * is the practical difference between the two brands and is unreadable as
    * prose unless you already know which end is which.
    *
-   * IT SITS IN "READ MORE" NOW, BESIDE PubChem, not beside the name. Above
-   * the fold it pushed the dose/mix warnings down for a picture; next to the
-   * PubChem link that captions it, it is reference material with the rest of
-   * the reference material. Built here so the async fill can start at once;
-   * appended into the Read more section far below.
+   * IT SITS AT THE TOP, under the name - moved back up on request
+   * 2026-08-19 for how the page looks, reversing the earlier move into "Read
+   * more". That move was made because a picture above the fold pushes the
+   * dose and mix warnings down, which is still true and is the cost being
+   * accepted here: the reader who scrolls past a molecule to reach a dose
+   * chart is the same reader either way, and the page reads as a reference
+   * on a substance rather than a warning sheet about one.
+   *
+   * WHAT DOES NOT MOVE: the height reservation below. Above the fold a late
+   * SVG would shove the whole page down as it lands, which is the one thing
+   * this figure must never do now that everything is underneath it.
    *
    * FILLED IN AFTER THE FIRST PAINT, INTO A BOX THAT IS ALREADY THE RIGHT
      SIZE. The figure is created now, empty, at the height the drawing and its
@@ -922,6 +928,9 @@ async function detailView(id, subs, combos, { go }) {
     structFig.classList.remove("struct__fig--pending");
     structFig.removeAttribute("aria-busy");
   }).catch(() => structFig.remove());
+  /* Straight under the name. Empty at this point and the right height already
+     (.struct__fig reserves it), so nothing below shifts when the SVG lands. */
+  wrap.appendChild(structFig);
 
   const cls = [...(s.class.psychoactive || []), ...(s.class.chemical || [])];
   if (cls.length) {
@@ -1506,10 +1515,10 @@ function comedownFor(doc, s) {
   }
 
   /* ---- outbound ----
-     The molecule figure rides here now (structFig, built up top so its async
-     fill starts early), beside the PubChem link that captions it - reference
-     material with the rest of the reference material, rather than a picture
-     above the dose and mix warnings. */
+     The molecule figure used to ride here, beside the PubChem link that
+     captions it. It sits under the name again as of 2026-08-19 - see the
+     figure's own comment up top. The PubChem link stays in its caption, so
+     the citation travelled with it. */
   const readMoreBlock = (
     section("Read more", null,
       h("div", { class: "chips" },
@@ -1521,8 +1530,7 @@ function comedownFor(doc, s) {
           "Lab results on DrugsData", "btn btn--ghost btn--sm")),
       h("p", { class: "sec__note" },
         "DrugsData is an archive of laboratory-tested samples. It stopped accepting " +
-        "new samples in April 2024, so it shows what was circulating up to then."),
-      structFig)
+        "new samples in April 2024, so it shows what was circulating up to then."))
   );
 
   /* THE ORDER (IA-08): tiles → dose → how long it lasts → coming down →
