@@ -514,6 +514,64 @@ where supply findings surface early. There is no feed for it and no obvious way
 to date-bound one, but it is a better idea than the bust half and nobody has
 looked properly.
 
+
+### DanceSafe — not an alert feed, but the one feed we should be watching
+
+Checked 2026-08-19 while looking for festival supply warnings. DanceSafe has
+**both** a working RSS feed (`https://dancesafe.org/feed/`) and an open
+WordPress REST API (`https://dancesafe.org/wp-json/wp/v2/posts`), which returns
+clean JSON with dates and links. Machine-readable, no key, no scraping.
+
+**As an alert source it is worthless.** Twenty-five posts spanning 2021 to 2026
+— about five a year — and the bulk are board updates, staff introductions and
+storefront announcements. Newest item at time of checking: 2026-03-12, five
+months stale. Zero festival supply warnings, ever. It is a newsroom, which is
+the thing section 4 warns about.
+
+**As a source-drift watch it may be the most valuable feed in this document.**
+Our reagent data is pinned to "DanceSafe reagent flowcharts, 2023 revision"
+(`data/reagents.json`), and their feed is where they announce that the guidance
+we copied has changed. Four of those twenty-five posts are exactly that:
+
+- `URGENT: Recent Batch of Fentanyl Strips Requires Different Dilutions` (2021)
+- `IMPORTANT: Reagent Reaction Updates` (2023)
+- `Amphetamine Test Strips Discontinued` (2024)
+- `We Updated Our Fentanyl Test Strip Instructions!` (2025-10-27)
+
+**The last one has already drifted past us.** Read at source on 2026-08-19,
+that post says DanceSafe replaced the old "50 mg (5 scoops)" method with
+**10 mg powder to 5 mL water (about one micro-scoop per teaspoon)**, doubling
+the water for MDMA and meth, and — the part that matters here —
+
+> "Standard instructions across brands: We aligned our steps with other brands
+> – the science inside the strips may differ, but how you use them stays the
+> same."
+
+Our numbers are right: `data/testing.json` `strips[0].dilution.commonAmounts`
+already carries "About 1 teaspoon (5 mL) of water per 10 mg" and "double the
+water" for meth and MDMA, which now match the new cross-brand standard exactly.
+
+What has gone stale is the **framing around them**. Our `conflict` field tells a
+reader that protocols "disagree by as much as ten times" and that "the
+requirement genuinely differs by strip brand" — and cites DanceSafe's site
+against DanceSafe's own brochure as an example. That inconsistency is the thing
+their October 2025 standardization set out to end. The same reasoning is why the
+`commonAmounts` table was pulled from the screen (see the note in
+`site/js/views/test.js`): one figure was judged unsafe because brands differed.
+That premise is weaker than it was.
+
+Nothing we publish is dangerous — "follow the instructions that came with YOUR
+strips" and "use more water rather than less" are safe under any brand's
+protocol, and the retained figures match. But a reader is being told a
+disagreement is live when the field has moved to settle it, and CDC and the
+state health departments in that same sentence have NOT been re-checked since.
+**Action: re-verify the dilution block against DanceSafe's new water table and
+whatever CDC currently says, then decide whether the table goes back on screen.**
+
+That is the case for wiring this feed up — not to raise alerts, but to notice
+when a source we quote changes its mind. Nothing else in this document does that
+job, and the integrity rule this project runs on makes it the more valuable one.
+
 ---
 
 ## 5. Tier 4 — discovery APIs
