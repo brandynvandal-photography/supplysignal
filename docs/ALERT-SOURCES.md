@@ -673,6 +673,78 @@ alone would register four working feeds that silently never produce an item.
 Any feed added from this section must be validated on **content-type and a
 parsed `<item>` count**, not on 200.
 
+
+## 4d. Poison centers — all 53 swept, 2026-08-19
+
+America's Poison Centers publishes no HTML member list; the directory is a JS
+map whose data comes from `https://api.mapme.com/api/stories/aggregated/06aa0c94-7061-45a6-9a92-032e13856547`
+(JSON, 72 pins resolving to 47 distinct center web properties). 53 base URLs
+were probed, ten paths each, plus `<link rel="alternate">` discovery.
+
+**The headline is a negative: 43 of 53 have no ingestible feed.** Twenty return
+a valid non-empty feed, and of those **three carry drug-supply content** —
+Florida, Washington, Ohio. Most centers that installed WordPress never published
+a post.
+
+| Center | Feed | State | Verdict |
+|---|---|---|---|
+| Florida | `floridapoisoncontrol.org/feed/` | FL | Daily, current — but see the caveat below |
+| Washington | `wapc.org/feed/` | WA | Current, mixed clinical and PSA |
+| Ohio | `ohiopoisoncenters.org/feed/` | OH | Real substance-trend content, newest 2026-07 |
+| California | `calpoison.org/blog/feed` | CA | On-topic clinical monographs, frozen since 2023-04 |
+| PoisonHelp.org | national | — | On-topic, stale to 2024-10 |
+
+**Florida is not what it first looks like, and this matters for a county-keyed
+app.** Checked here directly: HTTP 200, valid RSS, ten items, newest the day of
+checking. But the payload is a *general poison-control news aggregator* — of
+eight items read, three were drug-supply ("A Veterinary Sedative Has Overtaken
+Xylazine in the Illicit Drug Supply", two on kratom) and the rest were frozen
+fruit-bar recalls, red tide in Manatee, and a jellyfish exhibit. The drug items
+are **national news stories republished**, not Florida findings.
+
+So it must never be given a `scope.state` of FL. Doing that would stamp a
+national story onto Florida counties, which is precisely the misattribution this
+pipeline's geotagging exists to prevent. Ingest it unscoped and let geotag find
+a county in the text, or leave it out. The classifier's substance-plus-event
+prefilter would drop the jellyfish on its own, so the noise is not the problem —
+the false geography would be.
+
+**Two worth scraping, neither has a feed:**
+
+- **Michigan Poison & Drug Information Center** — `poison.med.wayne.edu/updates`,
+  a dated and actively maintained supply page: medetomidine (2026-04-02),
+  carfentanil re-emergence with 11 Michigan deaths (2025-06-30), pediatric THC
+  in Detroit schools (2026-04-30). The strongest non-feed source found.
+- **Missouri Poison Center** — no feed (its `/feed` is a soft-200 serving 249KB
+  of homepage) but `missouripoisoncenter.org/wp-json/wp/v2/posts` returns real
+  JSON: "What's in Our Current Street Drugs? Is it BTMPS?", "Be Aware of
+  Xylazine-Adulterated Fentanyl". **The WP REST API is the ingest path.**
+
+Also noted without feeds: Georgia's "Alerts – Recent Trends" page on street
+drugs sold in GA (its RSS is valid but empty), and Minnesota's news-alerts page.
+
+### Three trap classes, all of which would have poisoned an ingester
+
+1. **Soft-200** — nine properties (Missouri, NC, SC, Kansas, Tennessee, Utah,
+   Arkansas, Jacksonville, Arizona) return 200 with `text/html` for `/feed`.
+   **Now caught**: `looksLikeFeed` in `src/sources/index.mjs` refuses a document
+   with no feed root and the source is recorded as FAILED. See
+   `test/feedshape.test.mjs`.
+2. **Valid-but-empty** — seven (Arizona, Tampa, Georgia, Minnesota, NJPIES,
+   Blue Ridge, Wisconsin) serve well-formed RSS containing zero items.
+   Content-type checking cannot catch these and **neither can the shape check,
+   deliberately**: a real feed with nothing published yet is honest, not broken.
+   Only a per-source staleness check would catch it, which is a different job.
+3. **Sitemap-as-feed** — on WordPress sites with All-in-One-SEO, `/rss.xml`
+   302s to `/sitemap.rss`. Checked on Florida: it is valid RSS with **50 items,
+   all carrying a pubDate**, and they are the real posts — a superset of
+   `/feed/`, not a trap there. But the shape is a hazard elsewhere, where a
+   sitemap lists undated pages. **Prefer `/feed/` on WordPress.**
+
+Two defects in APC's own directory, for whoever re-runs this: the MA/RI entry
+points at `www.maripoisoncenter.com`, which refuses connections (only the apex
+resolves), and the Cincinnati Children's URL 404s.
+
 ---
 
 ## 5. Tier 4 — discovery APIs
