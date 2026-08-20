@@ -745,6 +745,92 @@ Two defects in APC's own directory, for whoever re-runs this: the MA/RI entry
 points at `www.maripoisoncenter.com`, which refuses connections (only the apex
 resolves), and the Cincinnati Children's URL 404s.
 
+
+## 4e. The 26 watched counties, probed one by one — 2026-08-19
+
+376 requests across 27 hosts. Philadelphia, Bronx and Kings are already known
+(section 4 and the pa-pdph adapter), leaving **23** examined.
+
+**The counts, which are the point:**
+
+- **11 have a real substance-naming alert page.** Eight report *local* supply
+  findings — Maricopa, Los Angeles, Chicago/Cook, King, Clark, Baltimore City,
+  San Francisco, Multnomah. Three only relay CDC or CDPH notices (San Diego,
+  Orange, Pierce). A keyword match on "medetomidine" fires on six of them while
+  only four tested local samples, so relayed notices must be distinguishable or
+  the app will report a national advisory as a local finding.
+- **7 have a working RSS feed** — Maricopa, Cook, Orange, Riverside, San
+  Bernardino, Pierce, plus Detroit citywide (not the health department).
+- **Only 3 pair an alert page with a machine-readable channel that actually
+  carries the alerts**: Clark NV, Pierce WA, Orange CA. **Only Clark's alerts
+  are local findings.**
+
+### Clark County NV — the best of them, and invisible to an RSS probe
+
+Every RSS path on `southernnevadahealthdistrict.org` soft-200s to HTML, so a
+feed probe scores this county as a clean negative. But
+`https://www.southernnevadahealthdistrict.org/wp-json/wp/v2/news_release`
+returns JSON with **1,388 records**, dated, linked and searchable by substance.
+Confirmed here: `?search=medetomidine` returns "Southern Nevada Health District
+detects medetomidine in illicit drug supply" (2026-02-11), sourced to a local
+programme that anonymously samples used paraphernalia — five positives since
+July 2025. That is a genuine local supply finding in a machine-readable channel,
+which is the combination section 4 says barely exists.
+
+**Lesson for the probe order: try `wp-json/wp/v2/*` before concluding a
+WordPress site has nothing.** Clark, Missouri Poison Center (section 4d) and El
+Paso CO all hide real content behind a dead-looking RSS surface.
+
+### Pierce County WA — the cleanest structural fit
+
+`https://tpchd.org/feed/` is a genuine feed and their medetomidine advisory is
+an ordinary `post`, so a future drug advisory *will* flow through it rather than
+being published somewhere the feed cannot see. The caveat is that this advisory
+relays CDC rather than local testing.
+
+### Cook County — the alerts are Chicago's, not the county's
+
+CCDPH's feed works but CCDPH publishes no alerts. The real product is Chicago
+CDPH's HAN at `chicagohan.org/opioid`, and — correcting an earlier assumption —
+the alert bodies **are** server-rendered and readable without an account:
+`/alert-detail/-/alert-details/46687780` returns nitazene and BTMPS mentions
+directly. `/home` is a JS placeholder and is not scrapable. Scrape the topic
+page for ids, then each detail page.
+
+### THE USER-AGENT FINDING, which inverts our own advice
+
+`config/sources.json` `_wafNote` has been telling the next person to send a
+browser-ish user agent. **For two counties that is exactly backwards.**
+Measured across five agents and re-verified by hand here:
+
+| Host | `Nightlight/1.0 (+https://nightlight.help)` | `Mozilla/5.0 …Safari` |
+|---|---|---|
+| `alleghenycounty.us` | **200** | **403** |
+| `waynecountymi.gov` | **200** | **403** |
+
+`curl/*` and `python-requests/*` also get 200; Googlebot gets 403. Both counties
+are reachable **because** the pipeline identifies itself honestly. The note has
+been corrected in place. The general lesson is worth keeping: an ingest that
+says what it is can be blocked deliberately by anyone who wants to block it,
+which is the relationship this project wants with the agencies it reads.
+
+### Other things that would have cost someone a day
+
+- **GovDelivery has no public RSS.** Tested AZMARIC, WAKING, CASAND:
+  `bulletins.rss` 406, `bulletins.xml` 401, `/rss` 404. Maricopa, King and San
+  Diego all push through it, so email and SMS are the only channels for those.
+  Maricopa's medetomidine surveillance alert ships this way and there is no
+  evidence it reaches the News Flash feed the county does expose.
+- **Two soft-200 shapes, not one.** Pima returns 200/text/html on all eight
+  paths (CivicPlus's newer SPA) — caught by `looksLikeFeed`. But Hamilton TN,
+  San Diego, El Paso CO and Baltimore all serve **correct `application/rss+xml`
+  containing zero items**, which no shape or content-type check can catch and
+  which `test/feedshape.test.mjs` deliberately allows. Only per-source staleness
+  monitoring catches those.
+- **San Francisco** has the most substance-specific alert found anywhere in this
+  sweep — N-desethyl isotonitazene, cychlorphine, ethyl bromazolam, April 2026 —
+  and no feed surface at all; every path 404s.
+
 ---
 
 ## 5. Tier 4 — discovery APIs
