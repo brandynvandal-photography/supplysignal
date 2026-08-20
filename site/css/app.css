@@ -1748,7 +1748,37 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 .acc__body .callout h3 { margin: 0 0 3px; font-size: .92rem; letter-spacing: 0; }
 .callout p { font-size: .93rem; }
 .callout p:last-child { margin-bottom: 0; }
-.callout__hd { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+/* THE TITLE AND THE BODY SHARE A LEFT EDGE, with the glyph hanging outside it.
+ *
+ * The header is a flex row of [glyph][title], so the title started one glyph
+ * plus one gap in from the box's padding - while the body paragraph below
+ * started at the padding itself. Measured on the "Keep the relationship"
+ * callout: title at x=71, body at x=50, glyph at x=50. The title read as
+ * indented from its own paragraph, which is what "align the text with the i"
+ * was describing (reported 2026-08-20).
+ *
+ * Two things have to be true for the fix to hold everywhere. The glyph column
+ * must be ONE width whatever the severity - the set is a triangle, a disc, a
+ * ring, a tick and an i, and they do not measure the same - and the indent
+ * must know its own gap, which is 6px on a plain callout and 10px on a fold
+ * whose summary sets its own. Hence a fixed column and a variable, rather than
+ * a number that happens to suit one of them.
+ *
+ * Baseline, not center: a title that wraps to two lines would otherwise float
+ * the glyph between them instead of beside the words it introduces. */
+.callout { --glyph-col: 1.15rem; --glyph-gap: 6px; }
+details.callout--fold { --glyph-gap: 8px; }
+.callout__hd { display: flex; align-items: baseline; gap: var(--glyph-gap); margin-bottom: 3px; }
+/* rem, not em: a custom property resolves em against the element USING it, so
+   an em column measured in the 17px header came out 2px narrower again on the
+   .93rem lead paragraph of a stop callout. rem resolves against the root in
+   both places, so the two edges cannot drift apart.
+   Left-aligned, not centred, so the glyph itself stays exactly where it has
+   always sat at the padding edge; the column only sets where the text starts.
+   A glyph wider than the column would spill into the gap rather than move the
+   column, so the alignment survives a shape change. */
+.callout__hd > span[aria-hidden="true"] { flex: none; width: var(--glyph-col); }
+.callout > :not(.callout__hd) { padding-left: calc(var(--glyph-col) + var(--glyph-gap)); }
 /* Matched to the specificity of the sizing rule above, or the 3px bottom margin
    comes back inside a card — and align-items centres the MARGIN box, so 3px of
    it below the text lifts the title 1.5px off the glyph's centre line. */
@@ -1813,12 +1843,17 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
  * one details.acc uses, and a summary that behaves like a control. */
 details.callout--fold > summary {
   cursor: pointer; list-style: none;
-  display: flex; align-items: center; gap: 10px;
+  /* baseline, matching .callout__hd - this selector outranks it (0-1-2 against
+     0-1-0), so `center` here quietly won on every folding callout, which is
+     every info and warn box on the site. The chevron opts back out below: it
+     is set at 1.4rem and would drag the summary taller if it baselined. */
+  display: flex; align-items: baseline; gap: var(--glyph-gap);
   min-height: var(--tap);
 }
 details.callout--fold > summary::-webkit-details-marker { display: none; }
 details.callout--fold > summary::after {
   content: "\203A"; margin-left: auto; font-size: 1.4rem; color: var(--ink-3);
+  align-self: center;
   transform: rotate(90deg); transition: transform .18s;
 }
 details.callout--fold[open] > summary::after { transform: rotate(-90deg); }

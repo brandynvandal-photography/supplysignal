@@ -59,6 +59,36 @@ function patchAt(ctx, x, y) {
 const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.max(0, s % 60)).padStart(2, "0")}`;
 
 /**
+ * Is this a device somebody can hold over a spot plate?
+ *
+ * NOT A USER-AGENT TEST, because the obvious one is wrong on the device that
+ * matters most: iPadOS Safari reports itself as macOS on purpose - platform
+ * comes back "MacIntel" and the UA string says Macintosh - so sniffing for
+ * "iPad" silently excludes every iPad. Desktop-mode Safari on an iPhone does
+ * the same thing.
+ *
+ * So ask about the hardware instead, which is the thing actually being relied
+ * on. Two signals together:
+ *   - touch points. iPhone and iPad report 5; a Mac reports 0, including a
+ *     Mac driving an iPad over Sidecar.
+ *   - a coarse pointer. A finger is coarse, a trackpad is fine.
+ *
+ * Both must hold. That admits iOS, iPadOS and Android handhelds, and excludes
+ * macOS and Windows desktops - where the camera is a webcam pointing at a face
+ * and cannot be held over a plate anyway. A touchscreen Windows laptop passes,
+ * which is the honest answer: it is a touch device, and if its camera is
+ * useless here the sheet fails gracefully rather than lying.
+ */
+export function handheldCamera() {
+  if (typeof navigator === "undefined") return false;
+  if (!navigator.mediaDevices?.getUserMedia) return false;
+  const touch = (navigator.maxTouchPoints || 0) > 0;
+  const coarse = typeof matchMedia === "function"
+    && matchMedia("(pointer: coarse)").matches;
+  return touch && coarse;
+}
+
+/**
  * Open the sheet.
  *
  * step  — the chart step: { reagent, colors, none, read, sequenceOrAny }

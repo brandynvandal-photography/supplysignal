@@ -21,7 +21,7 @@ import { flowFor, walk, completedBy, offChart, guide } from "../flowcheck.js";
 import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
 import { findSubstances, synthesize } from "../substancematch.js";
 import { liveRegion, dropRow, slotLabel, removeButton, relabelRows } from "../slots.js";
-import { openScanner } from "../scanui.js";
+import { openScanner, handheldCamera } from "../scanui.js";
 
 /* ------------------------------------------------------------ session state
  *
@@ -1026,10 +1026,16 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
      * device over a plate with one hand — the same posture the app was built
      * for — and a desktop browser cannot be in that position at all.
      *
-     * Nothing is lost on the web: the dropdown beside this is the method the
-     * charts are written for, and it is unchanged. */
+     * ON THE WEB IT NOW FOLLOWS THE HARDWARE. iOS and iPadOS Safari get it,
+     * macOS Safari does not, and handheldCamera() decides by touch points and
+     * pointer coarseness rather than by user agent — iPadOS reports itself as
+     * macOS, so the obvious test excludes every iPad. See scanui.js.
+     *
+     * Nothing is lost anywhere it is hidden: the dropdown beside this is the
+     * method the charts are written for, and it is unchanged. */
     const syncScan = () => {
-      const step = data.packaged() ? stepFor(reagent.value) : null;
+      const usable = data.packaged() || handheldCamera();
+      const step = usable ? stepFor(reagent.value) : null;
       scan.hidden = !step;
       if (step) {
         scan.textContent = step.sequenceOrAny
