@@ -383,7 +383,7 @@
     }
   ],
   "reagentIntro": {
-    "cannotDetectFentanyl": "Fentanyl works in amounts far too small for a reagent to see. Reagents react to the majority substance, not trace substances. Lab testing is what determines exactly what a substance is: FTIR for the bulk, GC-MS for traces like fentanyl.",
+    "cannotDetectFentanyl": "A test kit has no fentanyl test in it. Reagents will react to the majority substance, not trace substances — and in a bag sold as fentanyl, the fentanyl is usually a small part of what is in there. Lab testing is what determines exactly what a substance is: FTIR for the bulk, GC-MS for traces like fentanyl.",
     "masking": [
       "Not every drug reacts with every reagent",
       "A darker color hides a lighter one",
@@ -392,7 +392,7 @@
     "mixtures": "Genuine mixtures blend like mixing two colors of paint. If you can see visually different crystals, separate them and test each one.",
     "pureSampleNote": {
       "q": "Does pure fentanyl react with a reagent?",
-      "a": "In a forensic lab, yes — reference-grade fentanyl does produce a color change. It is irrelevant to anyone holding a bag. Drug checking in Los Angeles found consumer fentanyl averaged 10% fentanyl by weight, pills averaged 1.4%, and 42.5% of samples sold as fentanyl were under 5%. What you have is mostly filler, which is exactly the case reagents cannot read.",
+      "a": "In a forensic lab, yes — reference-grade fentanyl does produce a color change. It is irrelevant to anyone holding a bag. Drug checking in Los Angeles found consumer fentanyl averaged 10% fentanyl by weight, and 42.5% of samples sold as fentanyl were under 5%. The eleven pills in that study averaged 1.4% — eleven is too few to call it a rule, but it points the same way. What you have is mostly filler, which is exactly the case reagents cannot read.",
       "b": "DanceSafe went through a public lab database. Oxycodone with fentanyl in it gave the same reagent colors as clean oxycodone. The pills that came back from overdose deaths looked correct.",
       "sources": [
         {
