@@ -3308,6 +3308,50 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 .swatch--peach { background: #e0a074; }  .swatch--magenta { background: #b0417a; }
 .swatch--white { background: #eee6d8; }  .swatch--olive { background: #6f7d3f; }
 
+/* ------------------------------------------------------- camera scanner
+
+   A sheet over the page rather than a route: the reading is a moment inside
+   answering one row, and pushing a screen would lose the row's place. Fixed
+   and full-height because a phone held over a spot plate has no spare room,
+   and because the live preview has to be big enough to tap a single well in.
+
+   The reader taps twice - the white plate, then the well - so the video is
+   the control surface and nothing may sit on top of it. */
+.scan {
+  position: fixed; inset: 0; z-index: 60;
+  background: var(--bg); color: var(--ink);
+  display: flex; flex-direction: column; gap: 10px;
+  padding: max(12px, env(safe-area-inset-top)) var(--sp-3)
+           max(12px, env(safe-area-inset-bottom));
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.scan__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.scan__video {
+  width: 100%; max-height: 46vh; object-fit: cover;
+  border-radius: var(--radius); background: var(--surface-2);
+  /* It is a target, not a picture. */
+  cursor: crosshair; touch-action: manipulation;
+}
+.scan__which { margin: 0; font-size: .92rem; color: var(--ink-2); }
+.scan__say { margin: 0; font-size: 1rem; font-weight: 600; }
+.scan__clock {
+  margin: 0; font-family: var(--font-mono); font-size: .95rem; color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.scan__out { display: flex; flex-direction: column; gap: 10px; }
+.scan__lead, .scan__seq, .scan__none { margin: 0; font-size: .95rem; }
+.scan__seq { color: var(--ink-2); }
+.scan__none { color: var(--elevated); }
+/* The standing caveats. Quiet, and never dismissible - they are the honest
+   part of the feature, not a first-run notice. */
+.scan__fine { margin: 0; font-size: .86rem; color: var(--ink-3); max-width: 60ch; }
+
+/* The row's own button. Full width under the two dropdowns rather than beside
+   them: at 390px a third control on that line pushes the selects under their
+   own labels. */
+.revscan { margin-top: 8px; align-self: flex-start; }
+.revscan[hidden] { display: none; }
+
 /* ------------------------------------------------- reagent reaction scale
 
    A reagent result is an ORDERED sequence: ["yellow","black"] means the drop
