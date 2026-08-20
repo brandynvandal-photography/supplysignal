@@ -919,10 +919,87 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
   };
   searchInput.addEventListener("input", runSearch);
 
+  /* THE CHART STEP FOR A REAGENT, or nothing.
+   *
+   * The read window, the colors a step can produce and the sequenceOrAny flag
+   * all live on the flowchart, and a flowchart only exists for the eleven
+   * charted substances. flowFor() recomputes from soldAs rather than caching,
+   * for the same reason the rest of this view does: the sold-as can change
+   * under you and a stale chart would time the wrong reagent. */
+  const stepFor = (reagentKey) => {
+    if (!reagentKey) return null;
+    const flow = flowFor(soldAs.value, charts);
+    return (flow?.steps || []).find((st) => st.reagent === reagentKey) || null;
+  };
+
   const addBtn = h("button", {
     type: "button", class: "btn btn--ghost btn--sm",
     onClick: () => { addSlot(); check(); },
   }, "+ Add another reagent");
+
+  /* ONE CAMERA CONTROL FOR THE WHOLE RUN, sitting beside "add another reagent"
+   * and built the same way, because it is the same kind of thing: a control on
+   * the run, not a field inside a row.
+   *
+   * It used to be a link inside every reagent row, which meant a two-reagent
+   * run offered it twice and opened the camera cold twice - two permission
+   * prompts, two streams, and the white balance tapped again for light that
+   * had not changed. openScanner() takes the whole list now and walks it,
+   * recording each reading into its own row as it is accepted.
+   *
+   * ONLY THE CHARTED STEPS. stepFor() returns nothing for a reagent outside
+   * the eleven flowcharts, because the read window lives on the chart and
+   * there is no time this repo can stand behind otherwise. A run that mixes
+   * charted and uncharted reagents scans the charted ones and leaves the rest
+   * to the dropdown, which is the method the charts are written for anyway. */
+  const scanNote = h("p", { class: "sec__note", hidden: true });
+  const scanBtn = h("button", {
+    type: "button", class: "btn btn--ghost btn--sm", hidden: true,
+    onClick: () => {
+      const runnable = slots
+        .map((sl) => ({ sl, step: stepFor(sl.reagent.value) }))
+        .filter((x) => x.step);
+      if (!runnable.length) return;
+      openScanner(
+        runnable.map((x) => x.step),
+        /* Each reading lands in the tracker the moment it is accepted, not in
+           a batch at the end: check() rescores the run every time, so closing
+           the camera half way keeps everything already read. */
+        (reagentKey, color) => {
+          const hit = runnable.find((x) => x.sl.reagent.value === reagentKey);
+          if (!hit) return;
+          hit.sl.result.value = color;
+          check(`${reagentLabel(reagentKey)} recorded as ${color} from the camera.`);
+        },
+      );
+    },
+  });
+
+  /* Kept in step from inside check(), which already runs on every change that
+     can move these numbers - a row added or removed, a reagent swapped, the
+     sold-as changed under the whole chart. */
+  const syncScan = () => {
+    const usable = data.packaged() || handheldCamera();
+    const n = usable ? slots.filter((sl) => stepFor(sl.reagent.value)).length : 0;
+    scanBtn.hidden = n === 0;
+    scanNote.hidden = n === 0;
+    if (!n) return;
+    scanBtn.textContent = n > 1
+      ? `Read ${n} reagents with the camera`
+      : "Read it with the camera";
+    /* SAY WHY THE COUNT IS SHORT when it is. An MDMA run offers Marquis,
+       Simon's and whatever third reagent was added, but the chart times only
+       the first two - so the button reads "2" beside three rows, and without
+       this line that looks like the app losing count rather than the chart
+       having nothing to say about the third. */
+    const short = slots.length - n;
+    scanNote.textContent = short > 0
+      ? `The camera reads the ${n} ${n === 1 ? "reagent" : "reagents"} this chart puts a clock on; `
+        + `answer the other ${short === 1 ? "one" : short} on the dropdown.`
+      : n > 1
+        ? `${n} readings, one well at a time — it moves to the next reagent after each one.`
+        : "One reading, of the well you tap.";
+  };
 
   function addSlot(want) {
     if (slots.length >= MAX) return;
@@ -976,77 +1053,9 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
       howto.hidden = !t;
     };
 
-    /* THE CHART STEP FOR A REAGENT, or nothing.
-   *
-   * The read window, the colors a step can produce and the sequenceOrAny flag
-   * all live on the flowchart, and a flowchart only exists for the eleven
-   * charted substances. flowFor() recomputes from soldAs rather than caching,
-   * for the same reason the rest of this view does: the sold-as can change
-   * under you and a stale chart would time the wrong reagent. */
-  const stepFor = (reagentKey) => {
-    if (!reagentKey) return null;
-    const flow = flowFor(soldAs.value, charts);
-    return (flow?.steps || []).find((st) => st.reagent === reagentKey) || null;
-  };
-
-  /* THE CAMERA, AND ONLY WHERE THE CHART KNOWS THE CLOCK.
-     *
-     * A reagent reading is a moving target - the charts give Marquis 45
-     * seconds, Morris five minutes and Ehrlich's thirty - so a photograph is
-     * meaningless without knowing when in that window it was taken. Those
-     * times exist only inside the eleven flowcharts. Outside them there is no
-     * published window in this repo, and inventing one would be inventing
-     * procedure, so the button simply is not offered: this row keeps the
-     * dropdown and nothing is lost.
-     *
-     * It never fills the answer in. openScanner hands back a shortlist and the
-     * reader taps one, which is the same choice the dropdown asks for with
-     * fewer options to scroll. The dropdown keeps working untouched. */
-    const scan = h("button", {
-      type: "button", class: "revscan", hidden: true,
-      onClick: () => {
-        const step = stepFor(reagent.value);
-        if (!step) return;
-        openScanner(step, (name) => {
-          result.value = name;
-          check(`Reagent ${i + 1} set to ${name} from the camera.`);
-        });
-      },
-    }, "Read it with the camera");
-
-    /* THE PACKAGED APP ONLY.
-     *
-     * Two reasons, and the first is the hard one. The camera usage string that
-     * iOS demands before getUserMedia is asked for lives in the wrapper's
-     * Info.plist, so the permission prompt only exists inside the app; on the
-     * web the same call lands in whatever the browser feels like doing, which
-     * on a laptop is a webcam pointing at a face rather than a spot plate.
-     *
-     * The second is that this is a phone-shaped job. Somebody is holding a
-     * device over a plate with one hand — the same posture the app was built
-     * for — and a desktop browser cannot be in that position at all.
-     *
-     * ON THE WEB IT NOW FOLLOWS THE HARDWARE. iOS and iPadOS Safari get it,
-     * macOS Safari does not, and handheldCamera() decides by touch points and
-     * pointer coarseness rather than by user agent — iPadOS reports itself as
-     * macOS, so the obvious test excludes every iPad. See scanui.js.
-     *
-     * Nothing is lost anywhere it is hidden: the dropdown beside this is the
-     * method the charts are written for, and it is unchanged. */
-    const syncScan = () => {
-      const usable = data.packaged() || handheldCamera();
-      const step = usable ? stepFor(reagent.value) : null;
-      scan.hidden = !step;
-      if (step) {
-        scan.textContent = step.sequenceOrAny
-          ? "Watch it with the camera"
-          : "Read it with the camera";
-      }
-    };
 
     syncHow();
-    syncScan();
-    reagent.addEventListener("change", () => { syncHow(); syncScan(); check(); });
+    reagent.addEventListener("change", () => { syncHow(); check(); });
     result.addEventListener("change", check);
 
     /* THE COMBINATION CHECKER'S ROW, twice - slotLabel() in slots.js, which
@@ -1067,7 +1076,6 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
       pair(i === 0 ? "I used" : "and", reagent),
       pair("it went", result),
       howto,
-      scan,
       /* Every reagent past the first can go. The combination checker keeps two
          because a combination of one is not a combination; one reagent is a
          real question with a real answer, so the floor here is one. */
@@ -1496,6 +1504,7 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
      listeners that pass check straight through) is not a clause. */
   function check(tail) {
     clear(out);
+    syncScan();
     /* Persist and reflect the current state on every pass: the module-scoped
        snapshot that survives Back, and the chip pressed-state. Both before any
        verdict is computed — they describe the inputs, not the result. */
@@ -1901,7 +1910,8 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
             h("span", { class: "mixlabel" }, "Substance"),
             h("span", { class: "pick__field" }, soldAs))))),
     rows,
-    h("div", { class: "mixadd" }, addBtn),
+    h("div", { class: "mixadd" }, addBtn, scanBtn),
+    scanNote,
     out,
     live);
 }
