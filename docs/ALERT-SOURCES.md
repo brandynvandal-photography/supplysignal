@@ -572,6 +572,107 @@ That is the case for wiring this feed up — not to raise alerts, but to notice
 when a source we quote changes its mind. Nothing else in this document does that
 job, and the integrity rule this project runs on makes it the more valuable one.
 
+
+## 4c. Festivals and events — searched 2026-08-19, and the answer is legal
+
+Asked whether large gatherings could be an alert source: a festival is where
+event drug checking happens, so findings should surface there early.
+
+**No US organisation publishes festival-tagged drug findings, in any format.**
+Not a feed problem — the category does not exist here. Checked directly:
+
+| Source | Feed | Verdict |
+|---|---|---|
+| DanceSafe `/feed/` and `/wp-json/wp/v2/posts` | Valid RSS **and** open JSON API | Live pipe, wrong payload — board updates, staff notes, storefront news |
+| DanceSafe **#TestIt Alerts** `/category/testit-alerts/feed/` | Valid RSS, 8 items | **Dormant.** Last genuine adulterant alert **2021-01-26**. Alerts were geo-tagged by city, never by event |
+| Zendo Project, Bunk Police | Both valid, both current | Presence announcements and festival guides. Zero findings — keyword scan returned 0 for fentanyl, adulterant, nitazene, xylazine |
+| Rock Medicine | Advertises a feed in its `<head>` that 404s | No dated content at all |
+| CrowdRx | `crowdrx.com` has no DNS record; `.org` has no feed | Marketing only |
+| Project Overdose (Orlando) | None — **private email distribution** | Issues real event-timed supply warnings that nobody outside the list can read |
+
+**The reason is the RAVE Act.** DanceSafe's own pages say their event calendar
+is incomplete because promoters do not want their presence announced: under the
+Illicit Drug Anti-Proliferation Act of 2003, providing water, cooling or drug
+checking can be argued as evidence of knowingly permitting drug use. The data
+is not missing by oversight — **the legal regime suppresses its publication**.
+No scraper fixes that, and any feature premised on festival-tagged findings is
+fighting a statute rather than a tooling gap.
+
+**Health departments do not fill the gap either, and the shape of their failure
+is precise.** Two tracks that never intersect: event-tied advisories are issued
+on a reliable pre-event schedule (NYC HAN #10 and #16 for the 2026 World Cup;
+Philadelphia issued near-identical FIFA advisories in June 2025 and June 2026)
+and their drug content is one boilerplate line — "screen for alcohol and
+substance use". Meanwhile the genuine supply alerts from those same departments
+— Philadelphia on carfentanil, medetomidine, etomidate, nitazenes; NYC's
+medetomidine withdrawal advisory — are never tied to an event. They sit in the
+same index and never merge. Even CDC's own MMWR write-up of the 2013 Electric
+Zoo deaths calls it **"festival A"** throughout, and notes that adverse events
+at music festivals were not routinely reported to the health department at all.
+
+### The Loop (UK) — the product we were looking for, in the wrong country
+
+`https://www.wearetheloop.org/drug-alerts-full?format=rss` — valid RSS, and
+`?format=json` works too. Seventeen items, 2022–2026, newest 2026-06-21. The
+titles are literally what was hoped for: *"ALERT: Dipentylone found at Lost
+Village 2023"*, *"CAUTION: High strength 'Dior' & 'Pop Smoke' pills in
+circulation, Parklife 2025"*.
+
+**It is UK-only and must never reach a US reader unlabelled.** Their own alert
+text describes the UK pill market — "The Loop continues to see minimal evidence
+of adulteration in the UK pill market" — which is close to the opposite of the
+US picture. A Parklife pill alert tells a US reader nothing true about what is
+in their hand. Recorded because it proves the format works, not as a candidate.
+
+### Licensing landmines, same research group, opposite rules
+
+- `results.streetsafe.supply` — **prohibits** automated collection (section 4).
+- `opioiddata.org` — aggregate reports **permit** reuse with the attribution
+  string "UNC Street Drug Analysis Lab at opioiddata.org", and it publishes an
+  `llms.txt` index deliberately for automated tooling.
+- **But the aggregate feed is a newsletter, checked here directly.**
+  `https://opioiddata.org/rss` (note: `www.` 301s, follow it) is valid RSS with
+  15 items, newest 2026-08-12 — and they are "Summer 2026 Newsletter", "April
+  Newsletter", and personal-interest pieces. Permissively licensed newsroom
+  output, not supply findings. Same trap as everything else in this section.
+- **DrugsData is closed by terms, not just by staleness.** Their results page:
+  permission is required before "importing it into public or shared databases,
+  software, or systems", a policy that exists "to require cooperation and credit
+  by researchers and **app authors**". Their robots.txt separately carries
+  `User-agent: ClaudeBot / Disallow: /`. On top of that, submissions have been
+  paused since April 2024 and the sample mix is majority European.
+
+### What the search actually turned up that is worth having
+
+**Poison centers.** `https://www.wapc.org/feed/` (Washington Poison Center, an
+independent nonprofit) — fetched here: HTTP 200, valid RSS 2.0, 10 items,
+newest 2026-08-12, and the content carries real clinical drug guidance. It is
+the only working XML feed found among every drug-alerting body tested. There are
+around 55 US poison centers and nobody has swept them; they are the bodies that
+see acute exposures in something close to real time.
+
+**The CivicPlus county newsflash pattern.** Many county government sites run
+CivicPlus, which exposes
+`https://{domain}/RSSFeed.aspx?ModID=1&CID=All-newsflash.xml`. Verified here:
+Deschutes County OR returns 7 items, Snohomish County WA returns 1, Clay County
+MO returns valid XML with 0. King County, WA DOH and Washington County OR 404 —
+they run other platforms. **So it is a per-county probe, not a master key**, but
+it costs one request to test and Deschutes' feed carried a genuine supply alert:
+*"Six incidents within the last 24 hours have required naloxone administration,
+indicating that these substances may contain an opioid such as fentanyl"*,
+about adulterated cocaine and ketamine. That is exactly the county-level leading
+indicator section 4 says does not exist. Worth probing this path against every
+watched county in `config/watchlist.json`.
+
+### A bug class to guard before adding any of these
+
+**Soft-200 feeds.** `checkit.wien/feed`, `saferparty.ch/?feed=rss2` and
+`dancewize.org.au/news/feed` all return **HTTP 200 with `content-type:
+text/html`** — they serve a homepage. A health check that asserts on status code
+alone would register four working feeds that silently never produce an item.
+Any feed added from this section must be validated on **content-type and a
+parsed `<item>` count**, not on 200.
+
 ---
 
 ## 5. Tier 4 — discovery APIs
