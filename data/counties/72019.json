@@ -4,10 +4,11 @@
   "state": "PR",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-18T01:57:47.801Z",
+    "lastScan": "2026-08-20T07:12:10.069Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
+      "ks-kdhe",
       "la-ldh",
       "cook-me",
       "santaclara-me",
