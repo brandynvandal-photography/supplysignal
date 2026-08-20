@@ -384,6 +384,55 @@ monthly updates. But **citywide only, with no borough breakdown**, so it cannot
 distinguish the five NYC counties and cannot be geotagged below "New York City".
 Unusable for a county-keyed app without a schema change on their side.
 
+
+### StreetCheck terms — CHECKED 2026-08-19: there are none
+
+The line above says "check the terms of service first". Done, and the answer is
+that **StreetCheck publishes no terms at all**. `streetcheck.org/Home/Terms`,
+`/terms`, and the equivalents on `info.streetcheck.org` all 404, and the footer
+of the results page carries "Privacy" and "Terms" links whose href is literally
+`#`.
+
+No stated prohibition — and no stated permission either. That is not the same
+as a green light, and this project should be the last one to treat it as one:
+UNC closed its data *because of unauthorized downstream use*, and their reply is
+three paragraphs above this one. Doing to Brandeis what somebody else did to UNC
+would be how the next door shuts, on everyone.
+
+**Recommendation: write to Brandeis before touching it.** It is the same shape
+of ask as the UNC draft in `OUTREACH.md` — non-commercial, no advertising, no
+user data, county-level display — and unlike UNC there is no policy in the way,
+only silence. The city-to-county resolver this would need already exists in
+`data/places.json`.
+
+### Programs that publish their own ALERTS — the shape that already works
+
+`config/sources.json` already carries one of these: `pa-pdph`, which scrapes
+Philadelphia's alerts page rather than any sample dataset. That is the right
+pattern for Tier 3 — a **public health warning is published to be spread**,
+where a per-sample dataset is somebody's research asset. The two should never be
+confused, and the licence questions are completely different.
+
+A fifty-state sweep on **2026-08-19** (see `data/checking.json`, which it also
+produced) found these additional programs publishing in that shape. None is
+wired up; every URL below returned 200 from this machine on that date.
+
+| Program | Publishes | Reach | Note |
+|---|---|---|---|
+| PA Groundhogs — `pagroundhogs.org/alerts` | Named public alerts, e.g. medetomidine in dark-web alprazolam | Pennsylvania | Closest match to the `pa-pdph` pattern; obvious next source |
+| CFSRE NPS Discovery — `cfsre.org` | National early-warning reports on newly identified substances | National | Already the lab behind `pa-pdph`; 403s to non-browser clients |
+| NM Adulterant Checking — `nmharmreduction.org/adulterant-checking/` | Monthly snapshots of what four state sites found | New Mexico | PDF, so parsing cost is real |
+| Project EAGLE FANG — St. Louis County | Per-sample dashboard, drugs identified | St. Louis County, MO | County-keyed already — rare and valuable. Blocks scrapers; page states results are research-only |
+| Harm Reduction Michigan — `harmreductionmi.org` | Individual GC-MS reports per sample | Northern Michigan | |
+| IE Safe Supply — `iesafe.supply` | Results searchable by sample, city or substance | Inland Empire, CA | |
+| Southern Nevada Health District | Substance-use dashboard fed by their checking program | Clark County, NV | |
+
+The constraint remains what section 4 said it was: not the code, the feed set.
+What changed on 2026-08-19 is that the feed set is now known to be larger than
+"UNC and StreetCheck" — but every one of these is a **regional** source, so each
+adds one area rather than the country. Pick them off in the order above, and ask
+first where there is anyone to ask.
+
 ---
 
 ## 5. Tier 4 — discovery APIs
