@@ -433,6 +433,87 @@ What changed on 2026-08-19 is that the feed set is now known to be larger than
 adds one area rather than the country. Pick them off in the order above, and ask
 first where there is anyone to ask.
 
+
+### The three candidates above, actually attempted — 2026-08-19
+
+All three were fetched and taken apart. **None reaches the bar the Philadelphia
+adapter set**, and the reasons are different in each case. Written down in full
+so the next person spends the twenty minutes reading rather than repeating.
+
+**CFSRE / NPS Discovery — RULED OUT, do not look again.** `cfsre.org` returns
+**403 to every client**, including a full browser user-agent, on the alerts
+page, `/feed` and `/rss` alike. `npsdiscovery.org` 301s straight back into the
+same wall. This is the CDC HAN situation in section 0 exactly: a real
+publication behind a WAF that will not serve a script. Nothing to build against.
+
+**PA Groundhogs — not worth an adapter, and worth saying why.** The page fetches
+fine (200, even to our own user-agent). The problem is what is on it. The
+headline alert is a site-wide *promo banner*, not a list entry, and the alert
+list itself is six anchors whose visible text is the literal string
+`Download PDF`. No titles in the markup, and of the six PDF filenames only one
+carries a date (`Oxy Alert Listserv_11282025.pdf`); the rest are
+`carfent.pdf`, `mede bromo alert.pdf`, `26858440.Update__16_May_06_10_PM-3.pdf`
+and similar. There is no RSS (`/feed`, `/rss.xml`, `/blog-feed.xml` all 404).
+
+Under the no-date-no-item rule that philly.mjs enforces, an adapter here would
+publish **one item out of six** and drop the rest in silence — while looking on
+the dashboard exactly like a working source. That is worse than no source. One
+of the dropped items is `OVERDOSE CLUSTER IN BLAIR COUNTY`, which is precisely
+the county-level supply finding this app exists to surface, so if anyone ever
+opens a conversation with PA Groundhogs, ask them for dated titles or a feed —
+the content is right, only its packaging is unusable.
+
+**New Mexico ACP — deferred, needs a PDF dependency.** The snapshots are linked
+with dates in their filenames (`February-2025-ACP-Snapshot.pdf`), so the dating
+discipline is satisfiable. But every finding lives *inside* the PDF, and this
+pipeline has no PDF text extraction and no dependency that could do it. They are
+also monthly aggregate snapshots rather than alerts — a summary of what four
+sites found in a month, which is a different thing from "this is in the supply
+now". Revisit only if a PDF parser arrives for another reason.
+
+## 4b. Local news, drug busts, and why they are already handled
+
+Asked 2026-08-19: could we pull local radio and news RSS — the KRMS-style item
+about a festival and a drug bust — for local drug events?
+
+**The sweep already happens.** `config/sources.json` enables `googleNews`
+(per-county RSS queries, `when:30d`) and `gdelt`
+(`"{county}" (overdose OR fentanyl OR xylazine) sourcecountry:US`). A local
+radio station's story is reachable through both today; no new feed is needed to
+see it, and adding station-by-station RSS would mean maintaining hundreds of
+feeds to reach items the aggregators already return.
+
+**Busts are then rejected on purpose, and this should stay.**
+`config/vocab.json` carries a `negative` list — `sentenced, convicted, arrested,
+arrest, indicted, indictment` — and `src/classify.mjs` subtracts **4 points per
+hit** against a scale that tops out near 13. A seizure story is scored down
+until it fails.
+
+That is a content decision, not a filtering accident, and there are two reasons
+to keep it:
+
+1. **A bust says nothing about what is in the supply.** It names what police
+   took *out* of circulation, in quantities and purities established after the
+   fact. The reader's question is what is in the bag in their hand.
+2. **Nightlight cannot be a police blotter.** The people this app is for are
+   the people those stories are about. An app that surfaces arrests beside
+   overdose warnings tells them what side it is on, and no amount of accurate
+   chemistry buys that trust back.
+
+The genuinely interesting case is the *second-order* one: a large seizure can
+disrupt a local supply, and a disrupted supply means new sources, unfamiliar
+potency and a real rise in overdose risk. That effect is documented. But the
+signal is indirect, it needs a scale threshold nobody has defined, and inferring
+"expect a dangerous supply shift" from "police announced a seizure" is a claim
+this project cannot source. Left alone deliberately.
+
+**Festivals are a different question and stay open.** The Juggalos half of that
+example is not a bust — a large gathering with an on-site drug-checking presence
+is a real harm-reduction context, and DanceSafe-style event checking is exactly
+where supply findings surface early. There is no feed for it and no obvious way
+to date-bound one, but it is a better idea than the bust half and nobody has
+looked properly.
+
 ---
 
 ## 5. Tier 4 — discovery APIs
