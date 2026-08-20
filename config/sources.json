@@ -37,7 +37,7 @@
    "died": "Retired 2026-08-14, not dead: media 316422 is CDC Food Safety, confirmed by tools.cdc.gov/api/v2/resources/media/316422.json returning name \"Food Safety\". It shipped as id \"cdc-newsroom\" and was never the newsroom. Food recalls are off-topic for a drug-supply pipeline, and the real newsroom feed (media 132608) is live under that id now."
   }
  ],
- "_wafNote": "Florida, Louisiana and Delaware sit behind Cloudflare/WAF and return 403 if hit twice in quick succession. Keep polling.requestDelayMs at or above 1500 and send the configured user agent. Arkansas, Massachusetts and New Hampshire block automated requests entirely - they may still have feeds, but they cannot be verified without a real browser.",
+ "_wafNote": "Florida, Louisiana and Delaware sit behind Cloudflare/WAF and return 403 if hit twice in quick succession. Keep polling.requestDelayMs at or above 1500 and send the configured user agent. Arkansas, Massachusetts and New Hampshire block automated requests entirely - they may still have feeds, but they cannot be verified without a real browser. DO NOT REACH FOR A BROWSER USER AGENT AS A GENERAL FIX: measured 2026-08-19 across five agents, alleghenycounty.us and waynecountymi.gov do the OPPOSITE - they return 403 to Mozilla/* and to Googlebot, and 200 to this project's own honest agent (also to curl/* and python-requests/*). Both are reachable today precisely because the pipeline identifies itself. Pretending to be a browser would lose two counties and is the wrong instinct anyway: an ingest that says what it is can be blocked deliberately by anyone who wants to block it, which is the relationship this project wants with the agencies it reads.",
  "feeds": [
   {
    "id": "cdc-newsroom",
