@@ -4,13 +4,11 @@
   "state": "IL",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-18T13:15:17.169Z",
+    "lastScan": "2026-08-20T19:04:18.452Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "mt-dphhs",
-      "grassroots-hr",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
