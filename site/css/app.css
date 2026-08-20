@@ -1768,18 +1768,20 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
  * the glyph between them instead of beside the words it introduces. */
 .callout { --glyph-col: 1.15rem; --glyph-gap: 6px; }
 details.callout--fold { --glyph-gap: 8px; }
-/* VERTICALLY CENTRED, and baseline has been tried and backed out. On a title
-   that wraps, centring floats the glyph between the two lines rather than
-   setting it beside the first, which is worth fixing - but not this way. The
-   glyph's own line box is 28px at the header's 17px font, far taller than the
-   title's 18.4px line, so under baseline alignment its ascent drags the whole
-   group down: measured 24px above the title and 6px below on the "Keep the
-   relationship" fold, across every info and warn box on the site. Fixing that
-   properly means setting the glyph's line-height AND replacing the summary's
-   min-height tap target with symmetric padding, because min-height leaves its
-   slack at the bottom of a baseline-aligned line. Three coordinated changes to
-   a shared component, one of them to a 44px tap target, for a cosmetic gain.
-   Centring is balanced at every title length; leaving it there. */
+/* VERTICALLY CENTRED. Baseline was tried here and measured identically, so
+   centring stays as the simpler and longer-standing of the two.
+ *
+ * The theory for baseline was that centring floats the glyph between the lines
+ * of a title that wraps instead of setting it beside the first. Measured on
+ * the two-line "Keep the relationship" fold at 390px, that does not happen:
+ * the glyph's own line box is 28px against the title's 18.4px line, and
+ * centring that taller box lands its middle at 33.4px where the first line's
+ * middle is 33.2px. It is already on the first line. Both keywords also leave
+ * the header box exactly 24px above the title and 6px below - that gap is
+ * older than either and belongs to the summary's own height, not to alignment.
+ *
+ * Recorded because the theory is a reasonable one to have again. It is worth
+ * having only with a measurement next to it. */
 .callout__hd { display: flex; align-items: center; gap: var(--glyph-gap); margin-bottom: 3px; }
 /* rem, not em: a custom property resolves em against the element USING it, so
    an em column measured in the 17px header came out 2px narrower again on the
