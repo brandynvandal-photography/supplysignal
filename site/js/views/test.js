@@ -21,6 +21,7 @@ import { flowFor, walk, completedBy, offChart, guide } from "../flowcheck.js";
 import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
 import { findSubstances, synthesize } from "../substancematch.js";
 import { liveRegion, dropRow, slotLabel, removeButton, relabelRows } from "../slots.js";
+import { openScanner } from "../scanui.js";
 
 /* ------------------------------------------------------------ session state
  *
@@ -974,8 +975,58 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
       howto.textContent = t || "";
       howto.hidden = !t;
     };
+
+    /* THE CHART STEP FOR A REAGENT, or nothing.
+   *
+   * The read window, the colors a step can produce and the sequenceOrAny flag
+   * all live on the flowchart, and a flowchart only exists for the eleven
+   * charted substances. flowFor() recomputes from soldAs rather than caching,
+   * for the same reason the rest of this view does: the sold-as can change
+   * under you and a stale chart would time the wrong reagent. */
+  const stepFor = (reagentKey) => {
+    if (!reagentKey) return null;
+    const flow = flowFor(soldAs.value, charts);
+    return (flow?.steps || []).find((st) => st.reagent === reagentKey) || null;
+  };
+
+  /* THE CAMERA, AND ONLY WHERE THE CHART KNOWS THE CLOCK.
+     *
+     * A reagent reading is a moving target - the charts give Marquis 45
+     * seconds, Morris five minutes and Ehrlich's thirty - so a photograph is
+     * meaningless without knowing when in that window it was taken. Those
+     * times exist only inside the eleven flowcharts. Outside them there is no
+     * published window in this repo, and inventing one would be inventing
+     * procedure, so the button simply is not offered: this row keeps the
+     * dropdown and nothing is lost.
+     *
+     * It never fills the answer in. openScanner hands back a shortlist and the
+     * reader taps one, which is the same choice the dropdown asks for with
+     * fewer options to scroll. The dropdown keeps working untouched. */
+    const scan = h("button", {
+      type: "button", class: "btn btn--ghost btn--sm revscan", hidden: true,
+      onClick: () => {
+        const step = stepFor(reagent.value);
+        if (!step) return;
+        openScanner(step, (name) => {
+          result.value = name;
+          check(`Reagent ${i + 1} set to ${name} from the camera.`);
+        });
+      },
+    }, "Read it with the camera");
+
+    const syncScan = () => {
+      const step = stepFor(reagent.value);
+      scan.hidden = !step;
+      if (step) {
+        scan.textContent = step.sequenceOrAny
+          ? "Watch it with the camera"
+          : "Read it with the camera";
+      }
+    };
+
     syncHow();
-    reagent.addEventListener("change", () => { syncHow(); check(); });
+    syncScan();
+    reagent.addEventListener("change", () => { syncHow(); syncScan(); check(); });
     result.addEventListener("change", check);
 
     /* THE COMBINATION CHECKER'S ROW, twice - slotLabel() in slots.js, which
@@ -996,6 +1047,7 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
       pair(i === 0 ? "I used" : "and", reagent),
       pair("it went", result),
       howto,
+      scan,
       /* Every reagent past the first can go. The combination checker keeps two
          because a combination of one is not a combination; one reagent is a
          real question with a real answer, so the floor here is one. */
