@@ -141,7 +141,7 @@
             "threshold": "no false positives found at tested concentrations"
           }
         ],
-        "conflict": "Published protocols disagree by as much as ten times — CDC, DanceSafe's website, DanceSafe's own printed brochure, and state health departments all give different water volumes. This is not sloppiness: the requirement genuinely differs by strip brand. BTNX 1.0 strips cross-react with meth and MDMA; DanceSafe/WHPM strips were found not to at the same concentration.",
+        "conflict": "Protocols used to disagree by as much as ten times, and that is why the rule above is to follow the instructions in your own kit. The gap has narrowed: in October 2025 DanceSafe replaced its own older “50 mg per teaspoon” method with 10 mg per teaspoon and said it had aligned its steps with other brands, so that how you use a strip is the same even where the chemistry inside it differs. The amounts below are that standard. They are not a promise about the strips in your hand: if your kit says something different, your kit wins.",
         "guidance": [
           "Follow the instructions that came with YOUR strips. Brands differ.",
           "If you do not have them, use MORE water rather than less. Too little water causes false positives on stimulants; only extreme over-dilution risks a false negative.",
@@ -150,11 +150,23 @@
         "commonAmounts": [
           {
             "form": "Powder or crystal",
-            "amount": "About 1 teaspoon (5 mL) of water per 10 mg"
+            "amount": "1 teaspoon (5 mL) of water per 10 mg"
           },
           {
             "form": "Methamphetamine or MDMA",
-            "amount": "Double the water"
+            "amount": "2 teaspoons (10 mL) per 10 mg — double, because they cross-react"
+          },
+          {
+            "form": "50 mg",
+            "amount": "5 teaspoons (25 mL)"
+          },
+          {
+            "form": "100 mg",
+            "amount": "10 teaspoons (50 mL), about a quarter cup"
+          },
+          {
+            "form": "1 gram",
+            "amount": "2 cups (500 mL)"
           },
           {
             "form": "A pill (pharmaceutical or counterfeit)",
@@ -166,10 +178,15 @@
           },
           {
             "form": "Residue in a cap, cooker or bag",
-            "amount": "About 1 mL of clean water onto the residue, after preparing a shot and before drawing it up"
+            "amount": "About 1 mL of clean water — a fifth of a teaspoon"
           }
         ],
-        "recovery": "Testing does not destroy the drug — the water can be evaporated off afterwards."
+        "recovery": "Testing does not destroy the drug — the water can be evaporated off afterwards.",
+        "amountsNote": "No scale? A standard plastic bottle cap holds about a teaspoon when nearly full. These volumes are rounded to be measurable rather than exact, which DanceSafe states does not affect the result.",
+        "amountsSource": {
+          "name": "DanceSafe fentanyl test strip instructions, read 2026-08-19",
+          "url": "https://dancesafe.org/fentanyl/"
+        }
       },
       "limits": [
         {

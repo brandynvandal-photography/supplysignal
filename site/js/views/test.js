@@ -1999,6 +1999,12 @@ function dilutionBlock(d) {
     h("h4", null, "How much water"),
     callout("info", "Why the amount is different for each drug", h("p", null, d.why)),
 
+    /* Two tables, and they answer different questions - which is why each says
+       so in a heading now. This one is which substances read positive when the
+       solution is too strong; the one below is how much water to use. Before
+       the second table came back there was only one, so the section heading was
+       enough. */
+    h("h5", { class: "lbl" }, "Which drugs read positive when the water is too little"),
     h("div", { class: "tablewrap" },
       h("table", { class: "data" },
         h("caption", { class: "sr-only" }, "Substances that cause false positives, and at what concentration"),
@@ -2017,13 +2023,37 @@ function dilutionBlock(d) {
     callout("info", "If you were testing a stimulant and it came back positive",
       ...d.guidance.slice(-1).map((x) => h("p", null, x))),
 
-    /* The "commonly published amount" table is gone, and it had to go rather
-       than merely being redundant: it gave one middle-ground figure per drug
-       form - a teaspoon per 10 mg - which is BTNX's ratio and five times what
-       the WHPM strips ask for. Printed under a control that now states each
-       product's own number, it was not a second opinion, it was a wrong one.
-       The "published protocols disagree by ten times" callout went with it:
-       that was this page explaining why it could not tell you. It can now. */
+    /* THE AMOUNTS TABLE IS BACK, 2026-08-19, and the reason it left is the
+       reason it returned.
+       
+       It was pulled because a teaspoon per 10 mg was BTNX's ratio while the
+       WHPM strips DanceSafe sells asked for five times less water, so one
+       printed figure was not a second opinion, it was a wrong one for half of
+       readers. In October 2025 DanceSafe retired its own "50 mg per teaspoon"
+       method for 10 mg per teaspoon and stated it had aligned its steps with
+       other brands - "the science inside the strips may differ, but how you use
+       them stays the same". Checked at source on 2026-08-19: their published
+       table now runs 10 mg -> 5 mL up to 1 g -> 500 mL, doubling for MDMA and
+       meth, which is what this data carries.
+       
+       So the figures agree with the one brand-neutral standard that exists,
+       and the fallback above them is unchanged and still does the real work:
+       follow the instructions in your own kit, and when in doubt use more
+       water. CDC's current fentanyl page was checked the same day and gives no
+       volume at all, so it is no longer cited as a dissenting number. */
+    h("h5", { class: "lbl" }, "How much water to use"),
+    h("div", { class: "tablewrap" },
+      h("table", { class: "data" },
+        h("caption", { class: "sr-only" }, "How much water to use for each amount and form"),
+        h("thead", null, h("tr", null,
+          h("th", { scope: "col" }, "What you have"),
+          h("th", { scope: "col" }, "Water"))),
+        h("tbody", null, d.commonAmounts.map((c) =>
+          h("tr", null,
+            h("th", { scope: "row" }, c.form),
+            h("td", null, c.amount)))))),
+    d.amountsNote ? h("p", { class: "sec__note" }, d.amountsNote) : null,
+    d.amountsSource ? sourceRow([d.amountsSource]) : null,
 
     h("p", { class: "sec__note" }, d.recovery)
   );

@@ -2181,6 +2181,28 @@ table.data th[scope="row"] { font-weight: 650; }
 .acc__body h4 { margin: 18px 0 8px; font-size: .98rem; }
 .acc__body h5 { margin: 0 0 4px; font-size: .93rem; }
 
+/* HEADINGS DIRECTLY INSIDE A DISCLOSURE HAD NO SPACING AT ALL.
+ *
+ * `h1, h2, h3, h4` are reset to `margin: 0` at the top of this file, and the
+ * rules that give it back are scoped to `.card` and `.acc__body`. A section
+ * that puts an h3 straight into `.disc__body` - which is most of Support, and
+ * the pattern every new block there has copied - matched none of them, so the
+ * heading sat flush against the first card under it. Measured on the Support
+ * page 2026-08-19: sixty heading-to-content pairs at a gap of ZERO, including
+ * "Mail-in and national", "State and city programs", "Find something closer"
+ * and "What your state offers".
+ *
+ * Margin only, deliberately - no font-size. The `.card h3` rule also drops the
+ * size to 1.02rem, and applying that here would quietly reflow the heading
+ * hierarchy of every disclosure on the site to fix a spacing bug.
+ *
+ * An h4 inside a card had the same shape of problem from the other side: it
+ * takes a top margin from elsewhere but no bottom one, so its own paragraph
+ * touched it. */
+.disc__body > h3, .disc__body > h4 { margin: 18px 0 8px; }
+.disc__body > h3:first-child, .disc__body > h4:first-child { margin-top: 0; }
+.card h4 { margin-bottom: 7px; }
+
 .twocol { display: grid; gap: 18px; }
 @media (min-width: 620px) { .twocol { grid-template-columns: 1fr 1fr; gap: 26px; } }
 
