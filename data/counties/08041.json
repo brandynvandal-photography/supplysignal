@@ -4,16 +4,14 @@
   "state": "CO",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-20T07:12:10.051Z",
+    "lastScan": "2026-08-20T09:56:25.925Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "ks-kdhe",
       "la-ldh",
       "cook-me",
       "santaclara-me",
-      "sandiego-me",
-      "google-news"
+      "sandiego-me"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
