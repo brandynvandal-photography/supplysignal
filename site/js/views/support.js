@@ -404,21 +404,24 @@ function renderSupplies(s) {
  * have. Routing through a finder that is actively maintained is more honest
  * than a wall of URLs nobody re-verifies.
  */
+/* Every state, by postal code. Module-scoped because two controls name states
+   now: the mail-program lookup, and the drug-checking filter below it. */
+const STATE_NAMES = {
+  AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
+  CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "District of Columbia",
+  FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois",
+  IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana",
+  ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan",
+  MN: "Minnesota", MS: "Mississippi", MO: "Missouri", MT: "Montana",
+  NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+  NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota",
+  OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania",
+  RI: "Rhode Island", SC: "South Carolina", SD: "South Dakota",
+  TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia",
+  WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming",
+};
+
 function stateLookup(bs) {
-  const NAMES = {
-    AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
-    CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "District of Columbia",
-    FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois",
-    IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana",
-    ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan",
-    MN: "Minnesota", MS: "Mississippi", MO: "Missouri", MT: "Montana",
-    NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
-    NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota",
-    OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania",
-    RI: "Rhode Island", SC: "South Carolina", SD: "South Dakota",
-    TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia",
-    WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming",
-  };
 
   const byCode = new Map();
   for (const t of bs.tiers) for (const c of t.states) byCode.set(c, t);
@@ -426,7 +429,7 @@ function stateLookup(bs) {
   const out = h("div", { role: "status", "aria-live": "polite" });
   const sel = h("select", { class: "input", "aria-label": "Your state" },
     h("option", { value: "" }, "Choose your state…"),
-    Object.entries(NAMES)
+    Object.entries(STATE_NAMES)
       .sort((a, b) => a[1].localeCompare(b[1]))
       .map(([code, name]) => h("option", { value: code }, name)));
 
@@ -446,7 +449,7 @@ function stateLookup(bs) {
       h("div", { class: "card" },
         h("div", { class: "card__top" },
           h("span", { class: `badge badge--${tier.tone}` }, tier.label)),
-        h("h3", null, NAMES[sel.value]),
+        h("h3", null, STATE_NAMES[sel.value]),
         tier.note ? h("p", null, tier.note) : null,
         h("div", { class: "chips chips--links" },
           extLink("https://nextdistro.org/statefinder", "Open the state finder", "btn btn--ghost btn--sm")))
@@ -496,7 +499,7 @@ async function checkingBlock() {
     frag(d.national.map(entry)),
 
     h("h3", null, "State and city programs"),
-    frag(d.programs.map(entry)),
+    stateFilter(d.programs, entry),
 
     h("h3", null, "Community and grassroots"),
     d.grassroots ? h("p", { class: "sec__note" }, d.grassroots.note) : null,
@@ -535,6 +538,65 @@ async function checkingBlock() {
  * into treatment as the goal. Recovery is not a synonym for abstinence here
  * for the person using, and it cannot quietly become one when their mother is
  * the one reading. */
+/* NARROW THE DIRECTORY TO ONE STATE.
+ *
+ * The list was ten programs and is thirty-seven, across eighteen states. At
+ * that length a reader looking for their own state scrolls past everyone
+ * else's, which is the opposite of what a directory is for.
+ *
+ * Same control as the mail-program lookup directly above it - a plain select
+ * in a .filter row - rather than a second kind of filter invented for this
+ * one list. The state codes come out of each entry's own `st` label ("CA
+ * (LA)", "MA / New England"), so nothing has to be duplicated in the data.
+ *
+ * ONLY STATES THAT HAVE SOMETHING ARE OFFERED. An empty dropdown entry is a
+ * promise the list cannot keep; a reader who picks their state and gets
+ * nothing has been told something false about their options. The states with
+ * no service are answered by the honest line under the list instead.
+ *
+ * The cards are all built and present either way - this hides and shows them
+ * rather than re-rendering, so no state change can lose an entry, and the
+ * count is announced politely for anyone not watching the list move.
+ */
+function stateFilter(programs, entry) {
+  const codeOf = (st) => String(st).split(" (")[0].split(" /")[0].trim();
+  const cards = programs.map((p) => {
+    const el = entry(p);
+    el.dataset.state = codeOf(p.st);
+    return el;
+  });
+
+  const codes = [...new Set(programs.map((p) => codeOf(p.st)))]
+    .filter((c) => STATE_NAMES[c])
+    .sort((a, b) => STATE_NAMES[a].localeCompare(STATE_NAMES[b]));
+
+  const list = h("div", null, ...cards);
+  const said = h("p", { class: "sec__note", role: "status", "aria-live": "polite" });
+
+  const sel = h("select", { class: "input", "aria-label": "Filter drug checking by state" },
+    h("option", { value: "" }, `All states (${codes.length} with a program)`),
+    codes.map((c) => h("option", { value: c }, STATE_NAMES[c])));
+
+  sel.addEventListener("change", () => {
+    const want = sel.value;
+    let shown = 0;
+    for (const el of cards) {
+      const on = !want || el.dataset.state === want;
+      el.toggleAttribute("hidden", !on);
+      if (on) shown += 1;
+    }
+    said.textContent = want
+      ? `${shown} in ${STATE_NAMES[want]}. Anything under "Mail-in and national" above is open to you as well.`
+      : "";
+  });
+
+  return frag(
+    h("div", { class: "filter" }, h("div", { class: "filter__row" }, sel)),
+    said,
+    list
+  );
+}
+
 function lovedBlock(g) {
   const L = g.loved;
   if (!L) return h("span");
