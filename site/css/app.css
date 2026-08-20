@@ -337,6 +337,17 @@
 /* ------------------------------------------------------------- baseline */
 
 *, *::before, *::after { box-sizing: border-box; }
+/* THE hidden ATTRIBUTE HAS TO BEAT A COMPONENT'S OWN display.
+ *
+ * `[hidden] { display: none }` comes from the user-agent stylesheet, which
+ * loses to any author rule that sets display at all - so a .btn declaring
+ * `display: inline-flex` stayed fully visible with hidden="" set, as an empty
+ * white pill beside "add another reagent" on the tracker. Caught on an iPad.
+ *
+ * This had been patched three times per-component - tr, details, .totop, and
+ * the tracker's old camera link - which is the shape of a rule that wants to
+ * be written once. Every component that sets its own display has the hole. */
+[hidden] { display: none !important; }
 
 html { -webkit-text-size-adjust: 100%; }
 
@@ -3450,40 +3461,6 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 /* The row's own button. Full width under the two dropdowns rather than beside
    them: at 390px a third control on that line pushes the selects under their
    own labels. */
-/* A QUIET SECOND WAY IN, not a third control competing with the two selects.
- *
- * Two things were wrong with the first attempt, both visible on a phone.
- *
- * PLACEMENT: .revslot is a GRID - .mixslot pinned to column 1, the × to
- * column 2 - so a child with no grid-column of its own auto-placed into the
- * ×'s cell and shoved the row apart. It spans the row now, like .revhow.
- *
- * WEIGHT: it was a .btn--ghost pill, which put a third full-sized control in
- * every row. With a three-reagent chart loaded that is three identical pills
- * stacked down the screen, each as loud as "+ Add another reagent" - and that
- * one is a real action, this is an alternative way to answer a field that
- * already works. Reported as the button messing up the page (2026-08-20), and
- * the pill was most of what was meant.
- *
- * So: a text action in the brand colour, sized like the instruction note it
- * sits under. Still a real button with a real hit area - min-height keeps it
- * at the tap target the rest of the app uses - just not shouting. */
-.revslot .revscan {
-  grid-column: 1 / -1; justify-self: start;
-  margin: 0; padding: 6px 0;
-  min-height: var(--tap); display: inline-flex; align-items: center;
-  background: none; border: 0; cursor: pointer;
-  font: inherit; font-size: .88rem; font-weight: 600;
-  color: var(--brand); text-decoration: underline;
-  text-underline-offset: 3px; text-decoration-thickness: 1px;
-  -webkit-text-decoration-color: color-mix(in srgb, var(--brand) 45%, transparent);
-  text-decoration-color: color-mix(in srgb, var(--brand) 45%, transparent);
-}
-.revslot .revscan:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
-@media (hover: hover) {
-  .revslot .revscan:hover { text-decoration-color: var(--brand); }
-}
-.revscan[hidden] { display: none; }
 
 /* ------------------------------------------------- reagent reaction scale
 
