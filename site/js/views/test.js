@@ -1003,7 +1003,7 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
      * reader taps one, which is the same choice the dropdown asks for with
      * fewer options to scroll. The dropdown keeps working untouched. */
     const scan = h("button", {
-      type: "button", class: "btn btn--ghost btn--sm revscan", hidden: true,
+      type: "button", class: "revscan", hidden: true,
       onClick: () => {
         const step = stepFor(reagent.value);
         if (!step) return;
