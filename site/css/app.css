@@ -1766,6 +1766,12 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
  *
  * Baseline, not center: a title that wraps to two lines would otherwise float
  * the glyph between them instead of beside the words it introduces. */
+/* "Add another reagent" and "read them with the camera" are both controls on
+   the run rather than fields in it, so they share a row and wrap together on
+   a narrow phone. */
+.mixadd { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; }
+.mixadd + .sec__note { margin-top: var(--sp-2); }
+
 .callout { --glyph-col: 1.15rem; --glyph-gap: 6px; }
 details.callout--fold { --glyph-gap: 8px; }
 /* VERTICALLY CENTRED. Baseline was tried here and measured identically, so
@@ -3408,6 +3414,17 @@ details.disc[open] { margin-bottom: var(--sp-3); }
   padding: max(12px, env(safe-area-inset-top)) var(--sp-3)
            max(12px, env(safe-area-inset-bottom));
   overflow-y: auto; overscroll-behavior: contain;
+  /* NO SCROLLBAR ON A CAMERA. The sheet still scrolls - the honesty note and
+     the privacy line at the foot are not negotiable and they do not always
+     fit - but a scrollbar track down the side of a live viewfinder reads as
+     a control, and it is not one. Reported 2026-08-20. */
+  scrollbar-width: none;
+}
+.scan::-webkit-scrollbar { display: none; }
+/* Which reagent of how many, when the run has more than one. */
+.scan__step {
+  margin: 0; font-size: .86rem; font-weight: 600;
+  letter-spacing: .02em; text-transform: uppercase; color: var(--ink-3);
 }
 .scan__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .scan__video {

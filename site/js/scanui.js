@@ -97,32 +97,49 @@ export function handheldCamera() {
  * Returns a close function. Resolves nothing: the answer arrives through
  * onPick, or does not arrive, and both are fine.
  */
-export function openScanner(step, onPick) {
-  const plan = capturePlan(step);
-  /* No published read window, no scanner. The charts carry one for every step
-     they define; a reagent outside them has no time we can stand behind, and
-     guessing one would be inventing procedure. */
-  if (!plan) return null;
+export function openScanner(steps, onPick, onFinish) {
+  /* A RUN, NOT A READING. The tracker asks for one reagent per row and a full
+   * run is two or three of them, so the camera used to be offered once per row
+   * and opened cold each time: a fresh permission prompt, a fresh stream, and
+   * the white balance tapped again for light that had not changed. It is one
+   * button now and one stream, and it walks the run.
+   *
+   * Steps with no published read window are dropped rather than guessed at -
+   * capturePlan() is the gate, and a reagent outside the eleven flowcharts has
+   * no time this repo can stand behind. If that leaves nothing, there is no
+   * scanner to open. */
+  const list = (Array.isArray(steps) ? steps : [steps]).filter((st) => st && capturePlan(st));
+  if (!list.length) return null;
 
-  const allowed = (step.colors || []).filter(Boolean);
+  let idx = 0;
+  let step = list[0];
+  let plan = capturePlan(step);
+  let allowed = (step.colors || []).filter(Boolean);
+  let shots = [];             // this step's samples, in order
+  let phase = "white";        // white -> drop -> done
+  let started = 0;
+  let ticker = 0;
+  /* THE WHITE REFERENCE SURVIVES THE STEP. It describes the light in the room,
+     not the well, and the room does not change between wells. Re-tapping it per
+     reagent asked for a step that could only produce the same answer. It is
+     dropped the moment a correction fails against it. */
+  let whiteRef = null;
   let stream = null;
   let raf = 0;
-  let phase = "white";        // white -> drop -> done
-  let whiteRef = null;
-  let ticker = 0;
-  let started = 0;
-  const shots = [];           // for a sequenceOrAny step
+  const done = [];            // {reagent, color} in the order they were accepted
 
   const video = h("video", { class: "scan__video", playsinline: "", muted: "", autoplay: "" });
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
+  const title = h("strong", null, `${reagentLabel(step.reagent)} — camera`);
+  const progress = h("p", { class: "scan__step" });
+  const which = h("p", { class: "scan__which" });
   const say = h("p", { class: "scan__say" });
   const clock = h("p", { class: "scan__clock", role: "timer", "aria-live": "off" });
   const out = h("div", { class: "scan__out" });
 
-  const sheet = h("div", { class: "scan", role: "dialog", "aria-modal": "true",
-                           "aria-label": `Read the ${reagentLabel(step.reagent)} result with the camera` });
+  const sheet = h("div", { class: "scan", role: "dialog", "aria-modal": "true" });
 
   function stop() {
     cancelAnimationFrame(raf);
@@ -155,6 +172,80 @@ export function openScanner(step, onPick) {
 
   function elapsed() { return Math.round((Date.now() - started) / 1000); }
 
+  /* ---------------------------------------------------------- the run */
+
+  function label() { return reagentLabel(step.reagent); }
+
+  function paintStep() {
+    title.textContent = `${label()} — camera`;
+    sheet.setAttribute("aria-label", `Read the ${label()} result with the camera`);
+    progress.textContent = list.length > 1
+      ? `Reagent ${idx + 1} of ${list.length} — ${label()}`
+      : "";
+    progress.hidden = list.length < 2;
+    clear(which);
+    which.append(
+      "Reading the ", h("strong", null, label()), " well. ",
+      "Other wells will be in shot — this reads only where you tap, so tap the right one.",
+    );
+  }
+
+  function beginDrop() {
+    phase = "drop";
+    started = Date.now();
+    say.textContent = `Now tap the middle of the ${label()} well.`;
+    clock.textContent = plan.series
+      ? `${mmss(plan.total)} window — tap it a few times as it develops`
+      : `read within ${mmss(plan.total)}`;
+    clearInterval(ticker);
+    ticker = setInterval(() => {
+      const left = plan.total - elapsed();
+      clock.textContent = left > 0
+        ? `${mmss(left)} left in the read window`
+        : "past the read window — this reading is no longer good";
+      if (left <= 0) clearInterval(ticker);
+    }, 1000);
+  }
+
+  /* ONE ACCEPTED READING, THEN STRAIGHT ON TO THE NEXT WELL. The reader has
+     the plate in front of them and the next well is already developing, so
+     stopping to re-open the camera is the wrong place to put a pause. */
+  function advance() {
+    clearInterval(ticker);
+    idx += 1;
+    if (idx >= list.length) {
+      close();
+      if (onFinish) onFinish(done);
+      return;
+    }
+    step = list[idx];
+    plan = capturePlan(step);
+    allowed = (step.colors || []).filter(Boolean);
+    shots = [];
+    started = 0;
+    clear(out);
+    paintStep();
+    if (whiteRef) {
+      beginDrop();
+    } else {
+      phase = "white";
+      clock.textContent = "";
+      say.textContent = "Tap the clean white part of the plate first — that is how it "
+        + "corrects for the light you are standing in.";
+    }
+  }
+
+  function accept(name) {
+    done.push({ reagent: step.reagent, color: name });
+    /* Handed over one at a time rather than in a batch at the end: the tracker
+       scores the run from whatever it has, so a reader who closes the camera
+       half way keeps the readings already taken. */
+    if (onPick) onPick(step.reagent, name);
+    advance();
+  }
+
+  /* ----------------------------------------------------------- reading */
+
   function renderCandidates(rgb) {
     clear(out);
     const cands = classify(rgb, allowed.length ? allowed : null);
@@ -174,10 +265,12 @@ export function openScanner(step, onPick) {
     out.appendChild(h("div", { class: "chips" },
       top.map((c) => h("button", {
         type: "button", class: "chip",
-        onClick: () => { onPick(c.name); close(); },
+        onClick: () => accept(c.name),
       }, h("span", { class: `swatch swatch--${c.name}`, "aria-hidden": "true" }), " ", c.name))));
     out.appendChild(h("p", { class: "sec__note" },
-      "Nothing is filled in until you tap one."));
+      idx + 1 < list.length
+        ? "Nothing is filled in until you tap one. Tapping one records it and moves to the next reagent."
+        : "Nothing is filled in until you tap one."));
   }
 
   function takeReading() {
@@ -217,7 +310,7 @@ export function openScanner(step, onPick) {
       say.textContent = phase === "white"
         ? "That is not all plate — you caught an edge or a well. Tap a clear patch of white."
         : `That is not all one well — you caught a rim, or two wells at once. `
-          + `Tap the middle of the ${reagentLabel(step.reagent)} well.`;
+          + `Tap the middle of the ${label()} well.`;
       return;
     }
 
@@ -231,25 +324,14 @@ export function openScanner(step, onPick) {
         return;
       }
       whiteRef = rgb;
-      phase = "drop";
-      started = Date.now();
-      say.textContent = `Now tap the middle of the ${reagentLabel(step.reagent)} well.`;
-      clock.textContent = plan.series
-        ? `${mmss(plan.total)} window — tap it a few times as it develops`
-        : `read within ${mmss(plan.total)}`;
-      ticker = setInterval(() => {
-        const left = plan.total - elapsed();
-        clock.textContent = left > 0
-          ? `${mmss(left)} left in the read window`
-          : "past the read window — this reading is no longer good";
-        if (left <= 0) clearInterval(ticker);
-      }, 1000);
+      beginDrop();
       return;
     }
 
     const corrected = balance(rgb, whiteRef);
     if (!corrected) {
       say.textContent = "Lost the white reference. Tap the plate again.";
+      whiteRef = null;
       phase = "white";
       return;
     }
@@ -263,16 +345,17 @@ export function openScanner(step, onPick) {
         : `Sampled at ${mmss(at)}.`;
     }
     takeReading();
-    if (!plan.series) phase = "done";
   }
 
   video.addEventListener("click", onTap);
 
   sheet.append(
     h("div", { class: "scan__bar" },
-      h("strong", null, `${reagentLabel(step.reagent)} — camera`),
+      title,
       h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: close }, "Close")),
+    progress,
     video,
+    which,
     say,
     clock,
     out,
@@ -286,17 +369,9 @@ export function openScanner(step, onPick) {
       "The picture never leaves your phone. Nothing is saved."),
   );
 
+  paintStep();
   say.textContent = "Tap the clean white part of the plate first — that is how it "
     + "corrects for the light you are standing in.";
-
-  /* Said once, up front, because the plate in frame will have other wells on
-     it and the app cannot tell which is which. */
-  sheet.insertBefore(
-    h("p", { class: "scan__which" },
-      `Reading the `, h("strong", null, reagentLabel(step.reagent)), ` well. `,
-      `Other wells will be in shot — this reads only where you tap, so tap the right one.`),
-    say,
-  );
 
   navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } } })
     .then((s) => {
