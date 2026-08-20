@@ -3644,6 +3644,20 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 /* "What helps" / "What backfires" separate two lists that mean opposite
    things - they need to read as a break, not another row. */
 #sec-loved h3 { margin-top: var(--sp-4); margin-bottom: var(--sp-1); }
+/* ...but not a heading inside a callout or a card, which carries its own.
+ *
+ * An id selector is 1-0-1 and .callout__hd h3 is 0-1-1, so this rule reached
+ * straight past the callout's own reset and put --sp-4 above and --sp-1 below
+ * the title of every callout in the section. On the "Keep the relationship"
+ * fold that was 24px above the title and 6px below, inside a header box that
+ * had grown to 66.8px to hold them - read as a vertical alignment fault for
+ * most of a session, and measured as one, until the margins were read off the
+ * h3 itself: 24 and 6, exactly.
+ *
+ * The policy page copied its heading rhythm from this rule and carved these
+ * two cases out (see #sec-calling above). The rule it copied never did. */
+#sec-loved .callout h3, #sec-loved .card h3 { margin-top: 0; margin-bottom: 3px; }
+#sec-loved .callout__hd h3 { margin: 0; }
 .lovedrow__mark { flex: none; font-weight: 700; }
 .lovedrow--do .lovedrow__mark { color: var(--ok); }
 .lovedrow--dont .lovedrow__mark { color: var(--critical); }
