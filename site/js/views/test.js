@@ -1014,8 +1014,22 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
       },
     }, "Read it with the camera");
 
+    /* THE PACKAGED APP ONLY.
+     *
+     * Two reasons, and the first is the hard one. The camera usage string that
+     * iOS demands before getUserMedia is asked for lives in the wrapper's
+     * Info.plist, so the permission prompt only exists inside the app; on the
+     * web the same call lands in whatever the browser feels like doing, which
+     * on a laptop is a webcam pointing at a face rather than a spot plate.
+     *
+     * The second is that this is a phone-shaped job. Somebody is holding a
+     * device over a plate with one hand — the same posture the app was built
+     * for — and a desktop browser cannot be in that position at all.
+     *
+     * Nothing is lost on the web: the dropdown beside this is the method the
+     * charts are written for, and it is unchanged. */
     const syncScan = () => {
-      const step = stepFor(reagent.value);
+      const step = data.packaged() ? stepFor(reagent.value) : null;
       scan.hidden = !step;
       if (step) {
         scan.textContent = step.sequenceOrAny
