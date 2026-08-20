@@ -36,6 +36,7 @@ async function politeFetch(url, settings, extraHeaders = {}) {
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return {
     body: await res.text(),
+    contentType: res.headers.get("content-type") || "",
     etag: res.headers.get("etag"),
     lastModified: res.headers.get("last-modified"),
   };
@@ -76,6 +77,32 @@ function itemsFromRss(xml) {
 }
 
 /** Generic RSS/Atom feed adapter (Tier S). */
+/* IS THIS ACTUALLY A FEED, OR A HOMEPAGE WEARING A 200?
+ *
+ * Several sites answer /feed and /rss with HTTP 200 and `content-type:
+ * text/html`, serving their front page. Measured 2026-08-19 while surveying
+ * new sources: checkit.wien/feed, saferparty.ch/?feed=rss2 and
+ * dancewize.org.au/news/feed all do it.
+ *
+ * Until now this pipeline could not tell the difference. politeFetch checked
+ * res.ok and nothing else, itemsFromRss returned [] for HTML, and a feed
+ * contributing nothing was reported as a healthy source rather than a failed
+ * one - so a feed that quietly turned into a redirect would go silent and
+ * still look fine on the run summary. That is the same failure this document
+ * calls out elsewhere: worse than no source, because it looks like coverage.
+ *
+ * A feed is real if it PARSES - a document with a recognisable feed root. The
+ * content-type is only consulted to explain the failure, never to cause one:
+ * plenty of correct feeds are served as text/plain or application/octet-stream
+ * by misconfigured servers, and rejecting those would drop working sources to
+ * fix a cosmetic problem. Zero items is likewise NOT a failure on its own -
+ * a real feed with nothing published yet returns zero, which is honest.
+ */
+const FEED_ROOT = /<(?:\w+:)?(?:rss|feed|rdf:RDF)[\s>]/i;
+export function looksLikeFeed(body) {
+  return FEED_ROOT.test(String(body || "").slice(0, 4000));
+}
+
 export async function fetchFeed(feed, settings, cacheEntry = {}) {
   const headers = {};
   if (cacheEntry.etag) headers["if-none-match"] = cacheEntry.etag;
@@ -93,6 +120,14 @@ export async function fetchFeed(feed, settings, cacheEntry = {}) {
      `outside_window` drops, which is what sent an earlier debugging session
      looking for a broken date filter that did not exist.
      RSS is newest-first, so the head is the recent end. */
+  /* Refuse a homepage that answered with 200 - see looksLikeFeed above. This
+     throws so the caller records the source as FAILED, which is the whole
+     point: a source that stops being a feed has to be visible as broken. */
+  if (!looksLikeFeed(res.body)) {
+    const ct = (res.contentType || "unknown").split(";")[0].trim();
+    throw new Error(`not a feed (HTTP 200, content-type ${ct}) - the URL probably serves a page now`);
+  }
+
   let parsed = itemsFromRss(res.body);
   if (feed.maxItems > 0) parsed = parsed.slice(0, feed.maxItems);
 
