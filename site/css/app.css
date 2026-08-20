@@ -2914,6 +2914,14 @@ tr[hidden], details[hidden] { display: none !important; }
 .chips + .acc,
 .chips + .disc,
 .chips + .classgrid,
+/* .filter joined this list on 2026-08-19, reported from the app: on "Conduct a
+   reagent test" the common-substance chips end on methamphetamine and the
+   "Or type a name" field sat flush against it. .chips carries no bottom margin
+   by design and .filter opens with `margin: 0`, so nothing separated them.
+   This is the third component to need adding here (see the callout and the
+   disclosure headings above) — anything block-level that can follow a chip row
+   needs a line in this list or it will touch. */
+.chips + .filter,
 .chips + .nbr { margin-top: var(--sp-3); }
 
 /* A short label introducing a list belongs to what FOLLOWS it. With 14px above
