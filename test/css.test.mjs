@@ -104,6 +104,27 @@ const fsFails = [];
   }
 }
 
+/* THE hidden ATTRIBUTE MUST BEAT A COMPONENT'S OWN display.
+ *
+ * `[hidden] { display: none }` is a user-agent rule, and any author rule that
+ * sets display at all outranks it. So a component declaring its own display
+ * stays on screen with hidden="" set. That shipped as an empty white pill
+ * beside "add another reagent" on the tracker, and had already been patched
+ * three separate times per-component before that (tr, details, .totop), which
+ * is the shape of a rule that wants to be global. This fails if the global one
+ * is ever removed. */
+const hiddenFails = [];
+{
+  const rule = /(^|[},;\s])\[hidden\]\s*\{[^}]*display:\s*none\s*!important/m;
+  if (!rule.test(code)) {
+    hiddenFails.push(
+      "no global `[hidden] { display: none !important }`. Without it, any component "
+      + "that sets its own display ignores the hidden attribute and renders as an "
+      + "empty control.",
+    );
+  }
+}
+
 console.log("CSS\n");
 if (fails.length) {
   for (const f of fails) console.log("  not ok " + f);
@@ -114,10 +135,15 @@ if (insetFails.length) {
 if (fsFails.length) {
   for (const f of fsFails) console.log("  not ok " + f);
 }
-const total = 3;
-const failed = (fails.length ? 1 : 0) + (insetFails.length ? 1 : 0) + (fsFails.length ? 1 : 0);
+if (hiddenFails.length) {
+  for (const f of hiddenFails) console.log("  not ok " + f);
+}
+const total = 4;
+const failed = (fails.length ? 1 : 0) + (insetFails.length ? 1 : 0) + (fsFails.length ? 1 : 0)
+  + (hiddenFails.length ? 1 : 0);
 if (!fails.length) console.log("  ok   app.css parses: comments balanced, braces balanced, no loose prose");
 if (!insetFails.length) console.log(`  ok   inset focus rings on ${INSET.length} clipped controls`);
 if (!fsFails.length) console.log("  ok   no font-size literal below --fs-xs");
+if (!hiddenFails.length) console.log("  ok   the hidden attribute is enforced globally");
 console.log(`\n${total - failed} passed, ${failed} failed`);
 if (failed) process.exit(1);
