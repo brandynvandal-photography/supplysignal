@@ -2134,8 +2134,35 @@ table.data th[scope="row"] { font-weight: 650; }
    may break at large text: someone with low vision needs to reach these
    numbers. The number now drops beneath the label instead. */
 .hotline a {
-  display: flex; align-items: center; gap: 12px; text-decoration: none;
+  display: flex; gap: 12px; text-decoration: none;
   flex-wrap: wrap;
+  /* THE NUMBER SITS WITH THE NAME, not in the middle of the card.
+     
+     `align-items: center` centred it against the whole left column - and that
+     column is a name, a "who" line, and for 988 a six-line note about police
+     dispatch. The number ended up floating in white space level with the
+     middle of a paragraph, touching nothing, which reads as pinned to the
+     right border (reported 2026-08-20). Padding was never the problem: both
+     sides measure 15px.
+     
+     flex-start puts it on the first line, beside the name it belongs to. */
+  align-items: flex-start;
+  /* SPACE-BETWEEN RATHER THAN A MARGIN ON THE NUMBER, and the difference only
+     shows once the row wraps.
+     
+     `margin-left: auto` on .num pushes it right on whatever line it lands on -
+     including its own. So the moment the label and number stop fitting side by
+     side, the number floats alone against the right edge with its label back
+     on the left, which is what "slammed against the right border" describes
+     (reported 2026-08-20). Measured before changing: every row in a narrow
+     viewport had already wrapped, the number sitting 16px off the edge with
+     nothing beside it.
+     
+     space-between does the same job on one line - the label carries flex-grow,
+     so it absorbs the slack and the number still finishes at the right - and
+     on a wrapped line a lone item goes to flex-start, which puts the number
+     under its label where it belongs. */
+  justify-content: space-between;
   background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 13px 15px; color: var(--ink);
   min-height: var(--tap);
@@ -2145,7 +2172,7 @@ table.data th[scope="row"] { font-weight: 650; }
 @media (hover: hover) {
   .hotline a:hover { border-color: var(--brand); background: var(--surface-2); }
 }
-.hotline .num { margin-left: auto; font-weight: 750; color: var(--brand); white-space: nowrap; flex: none; }
+.hotline .num { font-weight: 750; color: var(--brand); white-space: nowrap; flex: none; }
 .hotline .lbl { font-weight: 650; }
 .hotline .sub { display: block; font-size: .83rem; color: var(--ink-3); font-weight: 400; }
 
