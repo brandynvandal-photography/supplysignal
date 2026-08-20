@@ -34,6 +34,7 @@
  */
 
 import { h, clear } from "./ui.js";
+import { reagentLabel } from "./reagentnames.js";
 import { balance, classify, samplePatch, patchSpread, SPREAD_LIMIT, capturePlan } from "./scanner.js";
 
 /* How many pixels around the tap to average. A drop on a spot plate is much
@@ -91,7 +92,7 @@ export function openScanner(step, onPick) {
   const out = h("div", { class: "scan__out" });
 
   const sheet = h("div", { class: "scan", role: "dialog", "aria-modal": "true",
-                           "aria-label": `Read the ${step.reagent} result with the camera` });
+                           "aria-label": `Read the ${reagentLabel(step.reagent)} result with the camera` });
 
   function stop() {
     cancelAnimationFrame(raf);
@@ -186,7 +187,7 @@ export function openScanner(step, onPick) {
       say.textContent = phase === "white"
         ? "That is not all plate — you caught an edge or a well. Tap a clear patch of white."
         : `That is not all one well — you caught a rim, or two wells at once. `
-          + `Tap the middle of the ${step.reagent} well.`;
+          + `Tap the middle of the ${reagentLabel(step.reagent)} well.`;
       return;
     }
 
@@ -202,7 +203,7 @@ export function openScanner(step, onPick) {
       whiteRef = rgb;
       phase = "drop";
       started = Date.now();
-      say.textContent = `Now tap the middle of the ${step.reagent} well.`;
+      say.textContent = `Now tap the middle of the ${reagentLabel(step.reagent)} well.`;
       clock.textContent = plan.series
         ? `${mmss(plan.total)} window — tap it a few times as it develops`
         : `read within ${mmss(plan.total)}`;
@@ -239,7 +240,7 @@ export function openScanner(step, onPick) {
 
   sheet.append(
     h("div", { class: "scan__bar" },
-      h("strong", null, `${step.reagent} — camera`),
+      h("strong", null, `${reagentLabel(step.reagent)} — camera`),
       h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: close }, "Close")),
     video,
     say,
@@ -262,7 +263,7 @@ export function openScanner(step, onPick) {
      it and the app cannot tell which is which. */
   sheet.insertBefore(
     h("p", { class: "scan__which" },
-      `Reading the `, h("strong", null, step.reagent), ` well. `,
+      `Reading the `, h("strong", null, reagentLabel(step.reagent)), ` well. `,
       `Other wells will be in shot — this reads only where you tap, so tap the right one.`),
     say,
   );

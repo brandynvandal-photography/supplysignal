@@ -3357,7 +3357,15 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 /* The row's own button. Full width under the two dropdowns rather than beside
    them: at 390px a third control on that line pushes the selects under their
    own labels. */
-.revscan { margin-top: 8px; align-self: flex-start; }
+/* SPANS THE ROW, like .revhow above it. .revslot is a GRID - two columns, with
+   .mixslot pinned to column 1 and the × to column 2 - so a child with no
+   grid-column of its own auto-places into the × column and shoves the row
+   apart. Reported as the camera button breaking the page (2026-08-20); the
+   button was fine, its placement was not. */
+.revslot .revscan {
+  grid-column: 1 / -1; justify-self: start;
+  margin: 2px 0 0; font-size: .84rem;
+}
 .revscan[hidden] { display: none; }
 
 /* ------------------------------------------------- reagent reaction scale
