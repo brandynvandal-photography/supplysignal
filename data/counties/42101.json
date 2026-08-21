@@ -41,13 +41,11 @@
     }
   ],
   "coverage": {
-    "lastScan": "2026-08-21T19:01:41.979Z",
+    "lastScan": "2026-08-21T21:45:33.200Z",
     "windowDays": 365,
     "sourcesChecked": 33,
     "sourcesFailed": [
-      "de-dhss",
       "la-ldh",
-      "va-vdh",
       "cook-me",
       "santaclara-me",
       "sandiego-me"

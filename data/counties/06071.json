@@ -4,13 +4,11 @@
   "state": "CA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-21T19:01:41.989Z",
+    "lastScan": "2026-08-21T21:45:33.212Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "de-dhss",
       "la-ldh",
-      "va-vdh",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
