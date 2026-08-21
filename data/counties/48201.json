@@ -4,14 +4,18 @@
   "state": "TX",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-21T04:07:03.510Z",
+    "lastScan": "2026-08-21T07:13:36.924Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
+      "cdc-newsroom",
+      "ks-kdhe",
       "la-ldh",
+      "cdc-mmwr",
       "cook-me",
       "santaclara-me",
-      "sandiego-me"
+      "sandiego-me",
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."

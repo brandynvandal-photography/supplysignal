@@ -4,11 +4,14 @@
   "state": "MO",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-19T04:01:56.734Z",
+    "lastScan": "2026-08-21T07:13:37.027Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
+      "cdc-newsroom",
+      "ks-kdhe",
       "la-ldh",
+      "cdc-mmwr",
       "cook-me",
       "santaclara-me",
       "sandiego-me",

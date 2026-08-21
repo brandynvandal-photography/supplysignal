@@ -4,11 +4,14 @@
   "state": "MS",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-19T01:58:05.606Z",
+    "lastScan": "2026-08-21T07:13:36.950Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
+      "cdc-newsroom",
+      "ks-kdhe",
       "la-ldh",
+      "cdc-mmwr",
       "cook-me",
       "santaclara-me",
       "sandiego-me",
