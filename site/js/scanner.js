@@ -161,6 +161,88 @@ export function balance(sampleRgb, referenceRgb) {
  * does not offer it, and letting it win would invent a reading the step has
  * no branch for.
  */
+/* THE WHITE REFERENCE, FOUND RATHER THAN ASKED FOR.
+ *
+ * Correcting for the light needs a known-neutral surface, and the reader used
+ * to supply it by tapping the clean part of the plate first. That is a second
+ * tap for something the frame already contains: a reagent test happens on a
+ * white ceramic spot plate, and the plate is most of what the camera sees.
+ *
+ * So the plate is measured instead of requested. Patches sampled across the
+ * frame are filtered to the ones that are bright enough to divide by and close
+ * enough to neutral to be plate rather than drop, and the brightest of those
+ * are averaged. If nothing in the frame qualifies - a dark room, a coloured
+ * worktop filling the shot, no plate at all - this returns null, and null means
+ * the reading is refused rather than attempted against a guess.
+ *
+ * Neutrality is judged in Lab, where it is one number: chroma, the distance of
+ * (a, b) from the neutral axis. A coloured drop has chroma far above the
+ * threshold and drops out on its own, so the filter does not need to know where
+ * the wells are.
+ *
+ * The caller still has to keep the tapped well out of the sample. A no-reaction
+ * result is genuinely white, and using the drop itself as its own reference
+ * corrects it to neutral grey - a confident, wrong answer. See scanui.js. */
+/* BOTH NUMBERS ARE MEASURED, not chosen, and they do different jobs.
+ *
+ * Chroma separates plate from coloured drop. A white plate under warm light is
+ * not neutral - it carries the light's cast, which is the whole reason it is
+ * worth measuring - so the threshold has to admit a lit plate while refusing a
+ * reagent colour. Measured, in Lab chroma:
+ *
+ *     plate, daylight        2.2      brown    29.4   <- lowest-chroma drop
+ *     plate, warm white      8.9      olive    35.4
+ *     plate, tungsten       17.8      blue     36.1
+ *     plate, deep tungsten  23.1      ...up to yellow at 74.9
+ *
+ * 26 sits in the gap. It costs the extreme case - a plate lit by something
+ * close to candlelight measures 31 and is refused - and that refusal is the
+ * right answer, because a cast that strong cannot be divided out reliably.
+ *
+ * Lightness catches what chroma cannot. Three palette colours are near-neutral
+ * and would pass any chroma test: black (L 13), gray (L 54) and white (L 92).
+ * The floor of 55 excludes the first two. White is left in on purpose - a
+ * no-reaction drop genuinely is plate-coloured, and using it as the reference
+ * is very nearly using the plate. */
+export const WHITE_MIN_L = 55;      // below this: a dark drop, or too dark to divide by
+export const WHITE_MAX_CHROMA = 26; // above this: a coloured drop, not lit plate
+
+export function autoWhite(patches) {
+  if (!Array.isArray(patches)) return null;
+  const cands = patches
+    .filter((p) => Array.isArray(p) && p.length === 3 && p.every((c) => Number.isFinite(c)))
+    /* Clipped patches carry no colour - same reason classify() refuses them,
+       and worse here, because every clipped patch looks like a perfect white. */
+    .filter((p) => p.every((c) => c < 250))
+    .map((rgb) => ({ rgb, lab: rgbToLab(rgb) }))
+    .filter((x) => x.lab[0] >= WHITE_MIN_L)
+    .filter((x) => Math.hypot(x.lab[1], x.lab[2]) <= WHITE_MAX_CHROMA)
+    .sort((a, b) => b.lab[0] - a.lab[0]);
+  if (!cands.length) return null;
+
+  /* The brightest fifth, averaged: one patch is noisy and the whole set drags
+     in shadowed plate at the rim. At least one, at most five. */
+  const take = Math.min(5, Math.max(1, Math.round(cands.length * 0.2)));
+  const top = cands.slice(0, take).map((x) => x.rgb);
+  return [0, 1, 2].map((i) => Math.round(top.reduce((sum, p) => sum + p[i], 0) / top.length));
+}
+
+/* DOES THIS COLOUR MATCH WHAT THE CHART EXPECTS?
+ *
+ * A step's `colors` is the set the chart says this reagent produces for this
+ * substance - ["black"] for Marquis on the MDMA chart. So the judgement is a
+ * set membership, not a distance, and it is the chart's judgement rather than
+ * this file's.
+ *
+ * null, not false, when the chart says nothing. A step with no colours has no
+ * expectation to fail, and reporting "not expected" against silence would be
+ * inventing a finding. The caller must handle null by saying nothing. */
+export function matchesChart(name, step) {
+  const expected = (step?.colors || []).filter(Boolean);
+  if (!name || !expected.length) return null;
+  return expected.includes(name);
+}
+
 export function classify(rgb, allowed = null) {
   if (!rgb) return [];
   const names = allowed && allowed.length

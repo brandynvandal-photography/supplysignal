@@ -13,6 +13,7 @@ import assert from "node:assert/strict";
 import {
   PALETTE, hexToRgb, rgbToLab, labDistance, balance, classify,
   samplePatch, readSeconds, capturePlan, patchSpread, SPREAD_LIMIT,
+  autoWhite, matchesChart, WHITE_MIN_L, WHITE_MAX_CHROMA,
 } from "../site/js/scanner.js";
 
 let pass = 0, fail = 0;
@@ -225,6 +226,174 @@ t("a step with no published read window gets no plan", () => {
   assert.equal(capturePlan({}), null);
   assert.equal(capturePlan({ read: "soon" }), null);
   assert.equal(capturePlan(null), null);
+});
+
+/* ------------------------------------------------- the white reference */
+
+/* The reader taps the well and nothing else, so the plate has to be found in
+   the frame rather than pointed at. */
+t("the plate is found among patches of plate and drops", () => {
+  const plate = Array.from({ length: 12 }, () => [232, 230, 226]);
+  const drops = [[180, 40, 40], [30, 30, 30], [200, 170, 40]];
+  const got = autoWhite([...drops, ...plate]);
+  assert.ok(got, "found no reference in a frame that is mostly plate");
+  assert.ok(Math.abs(got[0] - 232) <= 4 && Math.abs(got[2] - 226) <= 4, `got ${got}`);
+});
+
+t("a tungsten-lit plate is still found, and keeps its cast", () => {
+  /* The cast is the whole point - it is what balance() divides out. */
+  const got = autoWhite(Array.from({ length: 8 }, () => [226, 205, 175]));
+  assert.ok(got, "refused a warm-lit plate");
+  assert.ok(got[0] > got[2], `lost the warm cast: ${got}`);
+});
+
+t("a frame with no plate in it yields no reference", () => {
+  assert.equal(autoWhite([[180, 40, 40], [30, 120, 40], [20, 20, 20]]), null);
+  assert.equal(autoWhite([]), null);
+  assert.equal(autoWhite(null), null);
+});
+
+t("a dark frame is refused rather than divided by", () => {
+  assert.equal(autoWhite(Array.from({ length: 6 }, () => [40, 40, 40])), null);
+});
+
+/* Every clipped patch looks like a flawless white, which is exactly how a
+   blown-out plate would win the brightest-patch contest. */
+t("clipped patches are never taken as the reference", () => {
+  assert.equal(autoWhite(Array.from({ length: 6 }, () => [255, 255, 255])), null);
+  const mixed = [...Array.from({ length: 4 }, () => [252, 251, 250]),
+                 ...Array.from({ length: 4 }, () => [230, 228, 224])];
+  const got = autoWhite(mixed);
+  assert.ok(got && got[0] < 250, `took a clipped patch: ${got}`);
+});
+
+t("a strongly coloured surface is not mistaken for plate", () => {
+  assert.equal(autoWhite(Array.from({ length: 8 }, () => [235, 120, 120])), null);
+});
+
+/* THE SAFETY PROPERTY. A reagent drop must never be taken for the plate, or
+   the whole frame is corrected against the thing being measured. Checked
+   against every colour the palette can name rather than a chosen few - white
+   is the deliberate exception, being what a no-reaction drop looks like. */
+t("no reagent colour can pass itself off as the plate", () => {
+  for (const [name, hex] of Object.entries(PALETTE)) {
+    const got = autoWhite(Array.from({ length: 8 }, () => hexToRgb(hex)));
+    if (name === "white") { assert.ok(got, "white should stay usable as a reference"); continue; }
+    assert.equal(got, null, `${name} was accepted as a white reference`);
+  }
+});
+
+/* Light strong enough to be uncorrectable is refused rather than divided out.
+   Measured at chroma 31, past the 26 the palette's own spacing sets. */
+t("a plate under near-candlelight is refused, not corrected", () => {
+  assert.equal(autoWhite(Array.from({ length: 8 }, () => [222, 185, 135])), null);
+});
+
+/* The reference feeds balance(), so the two have to agree about what is
+   usable - a reference autoWhite returns must not then be refused. */
+t("what autoWhite returns, balance accepts", () => {
+  const ref = autoWhite(Array.from({ length: 8 }, () => [228, 226, 220]));
+  assert.ok(ref);
+  assert.ok(balance([120, 60, 90], ref), "balance refused autoWhite's own reference");
+});
+
+/* --------------------------------------------------- against the chart */
+
+t("the chart's own colour is a match, another palette colour is not", () => {
+  const step = { reagent: "Marquis", colors: ["black"], says: "black" };
+  assert.equal(matchesChart("black", step), true);
+  assert.equal(matchesChart("pink", step), false);
+});
+
+t("a step listing several colours matches any of them", () => {
+  const step = { colors: ["purple", "black"] };
+  assert.equal(matchesChart("purple", step), true);
+  assert.equal(matchesChart("black", step), true);
+  assert.equal(matchesChart("yellow", step), false);
+});
+
+/* Silence is not a failed expectation. Reporting "not expected" against a
+   chart that says nothing would be inventing the finding. */
+t("a chart with nothing to say produces no verdict at all", () => {
+  assert.equal(matchesChart("black", { colors: [] }), null);
+  assert.equal(matchesChart("black", {}), null);
+  assert.equal(matchesChart("black", null), null);
+  assert.equal(matchesChart("", { colors: ["black"] }), null);
+});
+
+/* ------------------------------------- the whole decision, end to end */
+
+/* What the camera actually does when somebody taps a well: find the plate in
+   the frame, correct the tapped patch against it, name the colour, and ask the
+   chart what it thinks. These run the real chain rather than a stand-in,
+   because the failure that matters is a wrong name delivered confidently -
+   and every step above can pass on its own while the chain still gets there. */
+
+const PLATE = [235, 233, 229];                 // white ceramic spot plate
+const light = (rgb, cast) => rgb.map((c, i) => Math.min(255, Math.round(c * cast[i])));
+const DAYLIGHT = [1, 1, 1];
+const TUNGSTEN = [1, 0.9, 0.77];
+
+/* A tap: the plate fills the frame, one well holds the drop. */
+function read(dropHex, cast) {
+  const plate = Array.from({ length: 20 }, () => light(PLATE, cast));
+  const ref = autoWhite(plate);
+  if (!ref) return { manual: true, why: "no plate" };
+  const corrected = balance(light(hexToRgb(dropHex), cast), ref);
+  if (!corrected) return { manual: true, why: "uncorrectable light" };
+  const top = classify(corrected)[0];
+  if (!top || !top.confident) return { manual: true, why: "not confident" };
+  return { name: top.name };
+}
+
+const MARQUIS_MDMA = { reagent: "Marquis", colors: ["black"], says: "black" };
+
+t("the chart's colour is read as itself and accepted", () => {
+  const got = read(PALETTE.black, DAYLIGHT);
+  assert.ok(!got.manual, `fell back to manual: ${got.why}`);
+  assert.equal(got.name, "black");
+  assert.equal(matchesChart(got.name, MARQUIS_MDMA), true);
+});
+
+/* The case the old build could not express at all: restricted to the step's
+   own colours, a pink drop classified as black, because black was the only
+   answer on offer. */
+t("a colour the chart does not expect is named, and refused", () => {
+  const got = read(PALETTE.pink, DAYLIGHT);
+  assert.ok(!got.manual, `fell back to manual: ${got.why}`);
+  assert.equal(got.name, "pink");
+  assert.equal(matchesChart(got.name, MARQUIS_MDMA), false);
+});
+
+/* Indoor light is the normal case, not the exotic one. */
+t("a reading under tungsten survives the correction", () => {
+  for (const name of ["black", "purple", "orange", "blue"]) {
+    const got = read(PALETTE[name], TUNGSTEN);
+    assert.ok(!got.manual, `${name} fell back to manual: ${got.why}`);
+    assert.equal(got.name, name, `${name} read as ${got.name} under tungsten`);
+  }
+});
+
+t("every palette colour reads as itself on a lit plate", () => {
+  const misses = [];
+  for (const [name, hex] of Object.entries(PALETTE)) {
+    const got = read(hex, DAYLIGHT);
+    if (got.manual || got.name !== name) misses.push(`${name} -> ${got.name || got.why}`);
+  }
+  assert.deepEqual(misses, [], `misread: ${misses.join(", ")}`);
+});
+
+/* The requirement is explicit: if it cannot tell, the reader answers it. A
+   frame with no plate in it has nothing to judge the light against. */
+t("no plate in frame means manual, not a guess", () => {
+  const noPlate = autoWhite(Array.from({ length: 12 }, () => [40, 38, 36]));
+  assert.equal(noPlate, null);
+});
+
+t("a blown-out drop is handed back rather than named", () => {
+  const ref = autoWhite(Array.from({ length: 20 }, () => PLATE));
+  const top = classify(balance([252, 251, 250], ref))[0];
+  assert.equal(top.confident, false, "a clipped reading was accepted");
 });
 
 console.log(`\n${pass} passed, ${fail} failed`);

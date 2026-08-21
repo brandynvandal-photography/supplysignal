@@ -35,7 +35,10 @@
 
 import { h, clear } from "./ui.js";
 import { reagentLabel } from "./reagentnames.js";
-import { balance, classify, samplePatch, patchSpread, SPREAD_LIMIT, capturePlan } from "./scanner.js";
+import {
+  balance, classify, samplePatch, patchSpread, SPREAD_LIMIT, capturePlan,
+  autoWhite, matchesChart,
+} from "./scanner.js";
 
 /* How many pixels around the tap to average. A drop on a spot plate is much
    bigger than this at any sane distance; the radius is small so that a slightly
@@ -57,6 +60,9 @@ function patchAt(ctx, x, y) {
 }
 
 const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.max(0, s % 60)).padStart(2, "0")}`;
+/* Colour names come from the palette in lower case; the reading shows one as
+   a label rather than mid-sentence, so it is capitalised for display only. */
+const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
 /**
  * Is this a device somebody can hold over a spot plate?
@@ -114,19 +120,13 @@ export function openScanner(steps, onPick, onFinish) {
   let idx = 0;
   let step = list[0];
   let plan = capturePlan(step);
-  let allowed = (step.colors || []).filter(Boolean);
-  let shots = [];             // this step's samples, in order
-  let phase = "white";        // white -> drop -> done
+  let phase = "reading";      // reading -> done
   let started = 0;
   let ticker = 0;
-  /* THE WHITE REFERENCE SURVIVES THE STEP. It describes the light in the room,
-     not the well, and the room does not change between wells. Re-tapping it per
-     reagent asked for a step that could only produce the same answer. It is
-     dropped the moment a correction fails against it. */
-  let whiteRef = null;
+  let hop = 0;                // the pause between a verdict and the next well
   let stream = null;
   let raf = 0;
-  const done = [];            // {reagent, color} in the order they were accepted
+  const done = [];            // {reagent, color, expected} as accepted
 
   const video = h("video", { class: "scan__video", playsinline: "", muted: "", autoplay: "" });
   const canvas = document.createElement("canvas");
@@ -144,6 +144,7 @@ export function openScanner(steps, onPick, onFinish) {
   function stop() {
     cancelAnimationFrame(raf);
     clearInterval(ticker);
+    clearTimeout(hop);
     if (stream) { for (const t of stream.getTracks()) t.stop(); stream = null; }
     video.srcObject = null;
   }
@@ -190,13 +191,17 @@ export function openScanner(steps, onPick, onFinish) {
     );
   }
 
-  function beginDrop() {
-    phase = "drop";
+  /* THE CLOCK STARTS WHEN THE WELL IS PUT IN FRONT OF THE READER, which is the
+   * best moment this can know about. The window belongs to the reaction - it
+   * starts when the reagent meets the sample - and the app is not told when
+   * that happened. It is shown rather than enforced for exactly that reason,
+   * and a reading taken past it is labelled with the time it was taken instead
+   * of being thrown away. */
+  function beginStep() {
+    phase = "reading";
     started = Date.now();
-    say.textContent = `Now tap the middle of the ${label()} well.`;
-    clock.textContent = plan.series
-      ? `${mmss(plan.total)} window — tap it a few times as it develops`
-      : `read within ${mmss(plan.total)}`;
+    say.textContent = `Tap the middle of the ${label()} well.`;
+    clock.textContent = `read within ${mmss(plan.total)}`;
     clearInterval(ticker);
     ticker = setInterval(() => {
       const left = plan.total - elapsed();
@@ -212,6 +217,7 @@ export function openScanner(steps, onPick, onFinish) {
      stopping to re-open the camera is the wrong place to put a pause. */
   function advance() {
     clearInterval(ticker);
+    clearTimeout(hop);
     idx += 1;
     if (idx >= list.length) {
       close();
@@ -220,19 +226,9 @@ export function openScanner(steps, onPick, onFinish) {
     }
     step = list[idx];
     plan = capturePlan(step);
-    allowed = (step.colors || []).filter(Boolean);
-    shots = [];
-    started = 0;
     clear(out);
     paintStep();
-    if (whiteRef) {
-      beginDrop();
-    } else {
-      phase = "white";
-      clock.textContent = "";
-      say.textContent = "Tap the clean white part of the plate first — that is how it "
-        + "corrects for the light you are standing in.";
-    }
+    beginStep();
   }
 
   function accept(name) {
@@ -246,105 +242,145 @@ export function openScanner(steps, onPick, onFinish) {
 
   /* ----------------------------------------------------------- reading */
 
-  function renderCandidates(rgb) {
-    clear(out);
-    const cands = classify(rgb, allowed.length ? allowed : null);
-    if (!cands.length || cands[0].offPalette) {
-      out.appendChild(h("p", { class: "scan__none" },
-        "That does not look like any color this step can produce. Try again with the "
-        + "drop filling more of the frame — or just answer it yourself below."));
-      return;
+  /* EVERY UNIFORM PATCH IN THE FRAME EXCEPT THE ONE BEING READ.
+   *
+   * autoWhite() needs somewhere to find the plate. This walks a grid, keeps
+   * only patches that are internally uniform - a rim or a gap between wells is
+   * not plate - and drops everything near the tap.
+   *
+   * That exclusion is load-bearing. A no-reaction result is genuinely white,
+   * and letting the drop supply its own reference corrects it to neutral grey:
+   * a confident answer of "gray" for a well that is plainly white. */
+  function framePatches(skipX, skipY) {
+    const W = canvas.width, H = canvas.height;
+    if (!W || !H) return [];
+    const keepOut = Math.max(W, H) / 8;
+    const out = [];
+    const N = 7;
+    for (let i = 1; i <= N; i++) {
+      for (let j = 1; j <= N; j++) {
+        const x = (W * i) / (N + 1);
+        const y = (H * j) / (N + 1);
+        if (Math.hypot(x - skipX, y - skipY) < keepOut) continue;
+        const got = patchAt(ctx, x, y);
+        if (got?.rgb && got.spread <= SPREAD_LIMIT) out.push(got.rgb);
+      }
     }
-    const top = cands.slice(0, 3);
-    out.appendChild(h("p", { class: "scan__lead" },
-      cands[0].clipped
-        ? "Too bright to be sure — the plate is reflecting. Closest, for what it is worth:"
-        : top[0].confident
-          ? "Closest match — check it against the plate before you accept it:"
-          : "It is between these. You decide which:"));
-    out.appendChild(h("div", { class: "chips" },
-      top.map((c) => h("button", {
-        type: "button", class: "chip",
-        onClick: () => accept(c.name),
-      }, h("span", { class: `swatch swatch--${c.name}`, "aria-hidden": "true" }), " ", c.name))));
-    out.appendChild(h("p", { class: "sec__note" },
-      idx + 1 < list.length
-        ? "Nothing is filled in until you tap one. Tapping one records it and moves to the next reagent."
-        : "Nothing is filled in until you tap one."));
+    return out;
   }
 
-  function takeReading() {
-    const rgb = shots.length ? shots[shots.length - 1] : null;
-    if (!rgb) return;
-    renderCandidates(rgb);
-    if (plan.series && shots.length > 1) {
-      /* Show what it DID, not just where it stopped. For a step the chart marks
-         as a progression, the movement is the reading. */
-      const seq = shots.map((s) => classify(s, allowed.length ? allowed : null)[0])
-        .filter(Boolean).map((c) => c.name);
-      const path = seq.filter((n, i) => i === 0 || n !== seq[i - 1]);
-      out.insertBefore(
-        h("p", { class: "scan__seq" },
-          path.length > 1
-            ? `It moved through ${path.join(" → ")}. The chart expects a progression here, so the movement is the reading.`
-            : `It stayed ${path[0] || "the same"} across the window.`),
-        out.firstChild,
-      );
+  /* WHAT THE CAMERA COULD NOT DO, said as a thing to do next.
+     The dropdown is the method the charts are written for; this is not a
+     degraded mode, it is the normal one with a shortcut unavailable. */
+  function cannotTell(why) {
+    clear(out);
+    out.appendChild(h("p", { class: "scan__none" }, why));
+    out.appendChild(h("div", { class: "scan__acts" },
+      h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: close },
+        "Answer it myself")));
+    out.appendChild(h("p", { class: "sec__note" },
+      "Nothing was recorded for this reagent. Tap the well again to retry, or "
+      + "answer it on the dropdown - that is the method the charts are written for."));
+  }
+
+  /* THE READING, AND THE CHART'S VERDICT ON IT.
+   *
+   * The colour is taken, not offered: the reader tapped the well and that is
+   * the whole interaction. What is still theirs is the disagreement - the
+   * reading is recorded either way, so a colour the chart does not expect is a
+   * finding rather than a rejection, and "Read again" is there when the camera
+   * has plainly got it wrong. */
+  function showReading(name, ok) {
+    clear(out);
+    const expected = (step.colors || []).filter(Boolean);
+    /* `says` is the chart's own wording for what it expects - "royal blue",
+       "yellow, green, brown or black - any one of them". Quoted, never
+       paraphrased. */
+    const saysIt = step.says ? String(step.says) : expected.join(" or ");
+
+    out.appendChild(h("p", { class: `scan__call scan__call--${ok === false ? "no" : "yes"}` },
+      h("span", { class: "scan__mark", "aria-hidden": "true" }, ok === false ? "\u2715" : "\u2713"),
+      h("span", { class: `swatch swatch--${name}`, "aria-hidden": "true" }),
+      h("strong", null, cap(name)),
+      ok === false ? " \u2014 not what the chart expects" : " \u2014 what the chart expects"));
+
+    if (ok === false && saysIt) {
+      out.appendChild(h("p", { class: "scan__seq" }, `On this chart ${reagentLabel(step.reagent)} should be ${saysIt}.`));
     }
+    out.appendChild(h("p", { class: "sec__note" },
+      idx + 1 < list.length
+        ? `Recorded. Moving to ${reagentLabel(list[idx + 1].reagent)}.`
+        : "Recorded."));
+    out.appendChild(h("div", { class: "scan__acts" },
+      h("button", { type: "button", class: "btn btn--ghost btn--sm",
+        onClick: () => { clearTimeout(hop); phase = "reading"; clear(out);
+                         say.textContent = `Tap the middle of the ${label()} well.`; } },
+        "Read again")));
   }
 
   function onTap(e) {
-    if (phase === "done" || !canvas.width) return;
+    if (phase !== "reading" || !canvas.width) return;
     const r = video.getBoundingClientRect();
     const px = ((e.clientX - r.left) / r.width) * canvas.width;
     const py = ((e.clientY - r.top) / r.height) * canvas.height;
     const got = patchAt(ctx, px, py);
     if (!got || !got.rgb) return;
-    const rgb = got.rgb;
 
     /* ONE WELL, NOT TWO. A spot plate is small and a full run has four to six
        wells going at once, so a tap that lands on a rim or between two of them
-       averages two readings into a color that is in neither. Refused rather
+       averages two readings into a colour that is in neither. Refused rather
        than blended - a blend is a confident wrong answer. */
     if (got.spread > SPREAD_LIMIT) {
-      say.textContent = phase === "white"
-        ? "That is not all plate — you caught an edge or a well. Tap a clear patch of white."
-        : `That is not all one well — you caught a rim, or two wells at once. `
-          + `Tap the middle of the ${label()} well.`;
+      say.textContent = `That is not all one well - you caught a rim, or two wells at once. `
+        + `Tap the middle of the ${label()} well.`;
       return;
     }
 
-    if (phase === "white") {
-      /* balance() refuses a reference that is too dark or plainly colored, and
-         that refusal is the useful half of it. */
-      const test = balance([128, 128, 128], rgb);
-      if (!test) {
-        say.textContent = "That is not a white surface — too dark, or too colored to "
-          + "correct against. Tap the clean part of the plate.";
-        return;
-      }
-      whiteRef = rgb;
-      beginDrop();
+    const whiteRef = autoWhite(framePatches(px, py));
+    if (!whiteRef) {
+      say.textContent = "";
+      cannotTell("The camera cannot find the plate to judge the light against. Get more "
+        + "of the white plate into the frame, or move somewhere less dim.");
       return;
     }
-
-    const corrected = balance(rgb, whiteRef);
+    const corrected = balance(got.rgb, whiteRef);
     if (!corrected) {
-      say.textContent = "Lost the white reference. Tap the plate again.";
-      whiteRef = null;
-      phase = "white";
+      say.textContent = "";
+      cannotTell("The light here cannot be corrected for - too dim, or too strongly colored.");
       return;
     }
-    shots.push(corrected);
-    const at = elapsed();
-    if (at > plan.total) {
-      say.textContent = "That was taken after the read window closed. The color has moved on; run it again.";
-    } else {
-      say.textContent = plan.series
-        ? `Sampled at ${mmss(at)}. Tap again as it changes, or accept below.`
-        : `Sampled at ${mmss(at)}.`;
+
+    /* AGAINST THE WHOLE PALETTE, not the step's own colours. Restricted to the
+       chart's expectations it could only ever answer with one of them, which is
+       how a pink drop got called black: the wrong answer was the only answer
+       available. Naming it first and judging it second is what makes "not what
+       the chart expects" a thing this can say at all. */
+    const cands = classify(corrected);
+    const top = cands[0];
+    if (!top || !top.confident) {
+      say.textContent = "";
+      cannotTell(top?.clipped
+        ? "Too bright to be sure - the plate is reflecting. Move out of the glare and tap again."
+        : top?.offPalette
+          ? "That is not a color any reagent produces - that may not be the well. Tap the drop itself."
+          : "The camera cannot tell which color that is.");
+      return;
     }
-    takeReading();
+
+    const at = elapsed();
+    phase = "done";
+    say.textContent = at > plan.total
+      ? `Read at ${mmss(at)}, past the ${mmss(plan.total)} window - the color has moved on since.`
+      : `Read at ${mmss(at)}.`;
+    clearInterval(ticker);
+
+    const ok = matchesChart(top.name, step);
+    showReading(top.name, ok);
+    done.push({ reagent: step.reagent, color: top.name, expected: ok });
+    if (onPick) onPick(step.reagent, top.name);
+    /* Long enough to read the verdict, short enough that a plate of developing
+       wells is not kept waiting. "Read again" cancels it. */
+    hop = setTimeout(advance, 3200);
   }
 
   video.addEventListener("click", onTap);
@@ -360,18 +396,24 @@ export function openScanner(steps, onPick, onFinish) {
     clock,
     out,
     /* Said plainly, every time, because it is the truth and it is load-bearing. */
+    /* THIS PARAGRAPH HAS TO KEEP UP WITH WHAT THE CAMERA ACTUALLY DOES.
+       It used to say "this narrows the choice - your eyes against the chart
+       make the call", which was true when the reader picked from a shortlist.
+       The camera names the colour and records it now, so that sentence would
+       be describing an older build. It says what happens instead, and the
+       limits it always carried are unchanged and still true. */
     h("p", { class: "scan__fine" },
       "Nobody has tested whether a phone can read these reactions reliably. "
       + "Light, your camera and the moment you tap all change the color. "
-      + "This narrows the choice — your eyes against the chart make the call, "
-      + "and the dropdown below works without any of this."),
+      + "This names what it sees and writes it down — check it against the "
+      + "plate yourself, change it on the dropdown if it is wrong, and know "
+      + "the dropdown works without any of this."),
     h("p", { class: "scan__fine" },
       "The picture never leaves your phone. Nothing is saved."),
   );
 
   paintStep();
-  say.textContent = "Tap the clean white part of the plate first — that is how it "
-    + "corrects for the light you are standing in.";
+  beginStep();
 
   navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } } })
     .then((s) => {
