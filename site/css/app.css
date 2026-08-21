@@ -3451,7 +3451,24 @@ details.disc[open] { margin-bottom: var(--sp-3); }
   font-variant-numeric: tabular-nums;
 }
 .scan__out { display: flex; flex-direction: column; gap: 10px; }
-.scan__lead, .scan__seq, .scan__none { margin: 0; font-size: .95rem; }
+.scan__seq, .scan__none { margin: 0; font-size: .95rem; }
+
+/* THE CAMERA'S CALL. The reader taps a well and this is the answer: the colour
+   it read, and whether the chart expects it. A tick and a cross carry it as
+   well as the colour does - severity is never left to colour alone here, for
+   the same reason the callouts each keep a distinct glyph. */
+.scan__call {
+  margin: 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-size: 1rem; line-height: 1.4;
+}
+.scan__mark { font-size: 1.15rem; font-weight: 700; line-height: 1; }
+.scan__call--yes .scan__mark { color: var(--ok); }
+.scan__call--no .scan__mark { color: var(--critical); }
+/* The swatch is the same chip the manual dropdown and the colour table use, so
+   the camera's answer is shown in the vocabulary the rest of the tool already
+   taught - see .swatch. */
+.scan__call .swatch { flex: none; }
+.scan__acts { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .scan__seq { color: var(--ink-2); }
 .scan__none { color: var(--elevated); }
 /* The standing caveats. Quiet, and never dismissible - they are the honest
