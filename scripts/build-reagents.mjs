@@ -329,6 +329,40 @@ const OVERRIDES = {
       source: "DanceSafe reagent flowcharts, 2023 revision",
     },
   },
+  mdma: {
+    /* THE ONE OVERRIDE THAT REMOVES A COLOUR INSTEAD OF ADDING ONE.
+     *
+     * Every other entry here keeps PsychonautWiki's reading and adds DanceSafe's
+     * beside it, because the disagreements are faint reactions that genuinely
+     * present both ways. This is not that. PsychonautWiki lists Simon's on MDMA
+     * as orange OR blue; DanceSafe's flowchart, this repo's own flowchart
+     * (data/flowcharts.json: "royal blue", read at 0:45), and the chemistry all
+     * give blue alone. Simon's IS the secondary-amine test — a positive MDMA is
+     * dark blue and there is no pathway that turns it orange. Orange is not a
+     * faint second reading here, it is an upstream artefact.
+     *
+     * Keeping it was not harmless. Simon's is the reagent that tells MDMA from
+     * MDA; a reader watching for the blue that confirms MDMA should not also be
+     * told orange confirms it, when orange is what the reagent looks like doing
+     * nothing. So the row is replaced with blue only, and the reverse lookup no
+     * longer answers "orange on Simon's" with MDMA — which is correct, because
+     * it never was MDMA.
+     *
+     * SCOPE: the same orange-on-Simon's artefact sits on ~35 substances upstream
+     * (most secondary amines — methamphetamine, mephedrone, the cathinones).
+     * Only MDMA is corrected here, because only MDMA is verified against a
+     * second source in this repo. The rest are left as upstream until each is
+     * checked; blanket-editing 34 rows on the strength of this one would be
+     * exactly the unverified change the overrides exist to avoid. */
+    Simons: {
+      colors: ["blue"],
+      why: "PsychonautWiki lists orange or blue; DanceSafe's 2023 flowchart and "
+         + "this repo's own flowchart record royal blue only. Simon's is the "
+         + "secondary-amine test and a positive MDMA is dark blue — orange is "
+         + "not an observed MDMA reading, so it is removed rather than kept.",
+      source: "DanceSafe reagent flowcharts, 2023 revision",
+    },
+  },
   heroin: {
     /* MAGENTA, spelled. The chart's word for heroin's Marquis is magenta, and
        the upstream ten-word vocabulary has no way to say it — it arrives as
