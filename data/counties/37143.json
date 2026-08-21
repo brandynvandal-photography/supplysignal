@@ -4,12 +4,13 @@
   "state": "NC",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-19T09:54:11.254Z",
+    "lastScan": "2026-08-21T19:01:42.000Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "cdc-newsroom",
+      "de-dhss",
       "la-ldh",
+      "va-vdh",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
