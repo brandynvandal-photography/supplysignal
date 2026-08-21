@@ -4,11 +4,10 @@
   "state": "NV",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-19T07:12:14.598Z",
+    "lastScan": "2026-08-21T13:15:37.703Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "ks-kdhe",
       "la-ldh",
       "cook-me",
       "santaclara-me",
