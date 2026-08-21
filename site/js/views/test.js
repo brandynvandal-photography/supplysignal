@@ -809,7 +809,22 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
      statistic, and there is no submission-count dataset behind this list. It
      is an editorial short list of what reagent kits are bought for. */
   const COMMON = ["mdma", "mda", "cocaine", "heroin", "methamphetamine",
-                  "ketamine", "lsd", "fentanyl"];
+                  "ketamine", "lsd"];
+
+  /* FENTANYL IS NOT A SELECTABLE TEST SUBJECT, however good its table row is.
+   *
+   * The stop callout at the head of this section says, in as many words, "No
+   * reagent will tell you whether fentanyl is in there". Offering fentanyl as a
+   * substance to run a reagent test on flatly contradicts that: it invites
+   * exactly the test the page just said does not exist. Reference-grade
+   * fentanyl does react - Marquis orange/brown - which is why the row is in the
+   * table and why this has to be excluded on purpose rather than being absent
+   * for lack of data. What a reader has is never reference-grade fentanyl on
+   * its own; it is a bag where fentanyl is a trace the reagent cannot see past
+   * the bulk. So the row stays for the reverse lookup ("I got this colour, what
+   * could it be") and comes out of the forward list ("I have X, what should it
+   * do"). Removed on request, 2026-08-21. */
+  const NOT_A_TEST_SUBJECT = new Set(["fentanyl"]);
   /* Table keys UNION chart ids. Mescaline is the case: DanceSafe publishes a
      three-step flow for it and PsychonautWiki has no reagent rows at all, so
      building this list from the table alone left a substance the app can
@@ -818,7 +833,7 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
   const withData = [...new Set([
     ...Object.keys(table || {}),
     ...(charts?.flows || []).map((f) => f.id),
-  ])];
+  ])].filter((id) => !NOT_A_TEST_SUBJECT.has(id));
   const byName = (a, b) => nameOf(a).localeCompare(nameOf(b));
   const common = COMMON.filter((id) => withData.includes(id)).sort(byName);
   const rest = withData.filter((id) => !common.includes(id)).sort(byName);
@@ -847,11 +862,12 @@ function reverseLookup(matchFn, table, subs, go, charts, startId = null) {
     soldAs.dispatchEvent(new Event("change"));
   };
 
-  /* THE COMMON EIGHT, AS CHIPS. The names people actually arrive with, one tap
+  /* THE COMMON NAMES, AS CHIPS. The ones people actually arrive with, one tap
      each — the same short list the select groups under "Commonly checked", so
      nothing here is reachable that was not reachable before. Only the ones the
-     reagent data can actually answer are shown. aria-pressed tracks the
-     current sold-as so the chip a reader picked reads as selected. */
+     reagent data can actually answer are shown, and fentanyl is not among them
+     however its row reads: see NOT_A_TEST_SUBJECT above. aria-pressed tracks
+     the current sold-as so the chip a reader picked reads as selected. */
   const commonChips = h("div", { class: "chips" },
     common.map((id) =>
       h("button", {
