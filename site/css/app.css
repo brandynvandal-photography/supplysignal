@@ -248,6 +248,17 @@
      --sp-1 and --sp-2 are untouched: they set the gaps inside controls, where
      there was no slack to find. */
   --sp-1: 6px;  --sp-2: 12px;  --sp-3: 16px;  --sp-4: 24px;  --sp-5: 48px;
+  /* ONE COLUMN FOR EVERY DISCLOSURE ARROW.
+     A details.disc drew its chevron inside a 30px circle laid out by the flex
+     row, while details.acc pinned a bare glyph at --sp-4. Measured from each
+     card's right edge that put their centres 39px and 28.7px in - the same
+     control, ten pixels apart, one above the other on the regional section
+     (reported 2026-08-20 as the arrow "pushed more to the center").
+     Both pin a box of --chev-box by its right edge now, so whatever is drawn
+     inside lands on the same centre line. 14 + 15 = 29 keeps the accordion
+     where it already sat, which is the one the report used as the reference. */
+  --chev-box: 30px;
+  --chev-edge: 14px;
 
   /* Motion vocabulary.
      One easing curve for everything, and it is deliberately NOT a snappy
@@ -1881,13 +1892,26 @@ details.callout--fold > summary {
      the edit means this rule, not a stale stylesheet. */
   display: flex; align-items: center; gap: var(--glyph-gap);
   min-height: var(--tap);
+  /* The arrow is pinned rather than flowed now, so this is the column it used
+     to occupy, given back - measured to the left edge of its box, not the
+     box's full width, because the glyph is a third of it and centred. */
+  position: relative;
+  padding-right: calc(var(--chev-box) + var(--chev-edge) - var(--sp-3));
 }
 details.callout--fold > summary::-webkit-details-marker { display: none; }
+/* ON THE SAME CENTRE LINE AS .disc AND .acc, allowing for the callout's own
+   padding. The summary's right edge is already --sp-3 inside the callout, so
+   pinning at --chev-edge alone would land the arrow that much further in than
+   its neighbours - a fold and an accordion sitting one above the other on the
+   Drugs page measured 21.6 and 30 from the same card edge. Subtracting the
+   padding puts it back on 29. */
 details.callout--fold > summary::after {
-  content: "\203A"; margin-left: auto; font-size: 1.4rem; color: var(--ink-3);
-  transform: rotate(90deg); transition: transform .18s;
+  content: "\203A"; font-size: 1.4rem; color: var(--ink-3);
+  position: absolute; right: calc(var(--chev-edge) - var(--sp-3)); top: 50%;
+  width: var(--chev-box); text-align: center;
+  transform: translateY(-50%) rotate(90deg); transition: transform .18s;
 }
-details.callout--fold[open] > summary::after { transform: rotate(-90deg); }
+details.callout--fold[open] > summary::after { transform: translateY(-50%) rotate(-90deg); }
 /* The heading already carries the margin the closed state needs; opening adds
    the body's own spacing rather than doubling it. */
 details.callout--fold > .callout__body > :first-child { margin-top: 10px; }
@@ -2071,7 +2095,11 @@ details.acc > summary h3 { margin: 0; font: inherit; letter-spacing: inherit; }
    does, and the padding above keeps the text out from under it. */
 details.acc > summary::after {
   content: "\203A"; font-size: 1.4rem; color: var(--ink-3); line-height: 1;
-  position: absolute; right: var(--sp-4); top: 50%;
+  position: absolute; right: var(--chev-edge); top: 50%;
+  /* The same box the disc's circle occupies, so the two centre on one line.
+     The glyph is a third of its width and sits in the middle of it, which is
+     why the summary's padding-right below still clears the ink at 36px. */
+  width: var(--chev-box); text-align: center;
   transform: translateY(-50%) rotate(90deg); transition: transform .18s;
 }
 details.acc[open] > summary::after { transform: translateY(-50%) rotate(-90deg); }
@@ -2703,6 +2731,10 @@ details.disc {
 details.disc > summary {
   cursor: pointer; list-style: none; padding: var(--sp-3) var(--sp-4);
   display: flex; align-items: center; gap: 11px; min-height: var(--tap);
+  /* The circle is pinned now, so it no longer reserves its own column in the
+     row. This is that column, given back: the arrow's box plus a gap. */
+  position: relative;
+  padding-right: calc(var(--chev-edge) + var(--chev-box) + var(--sp-2));
 }
 /* Focus fills like hover does. A keyboard user gets the same "this is the
    one" surface a mouse user gets, on top of the inset ring above. */
@@ -2718,16 +2750,22 @@ details.disc > summary h2 { margin: 0; font-size: 1.16rem; }
    "this opens". One glyph now - the angle quote, pointing down when shut and
    up when open - and the circle still fills with the brand colour on open, so
    the open state reads at a glance with or without the rotation. */
+/* Pinned, not laid out - the same reasoning details.acc gives below. As a flex
+   item it sat wherever the row ended, which is what put it ten pixels inside
+   the accordion's arrow; and a summary whose title wraps would have carried it
+   down with the text. */
 details.disc > summary::after {
-  content: "\203A"; margin-left: auto; flex: none;
-  width: 30px; height: 30px; border-radius: 50%;
+  content: "\203A"; flex: none;
+  position: absolute; right: var(--chev-edge); top: 50%;
+  width: var(--chev-box); height: var(--chev-box); border-radius: 50%;
   background: var(--surface-2); color: var(--ink-2);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.3rem; font-weight: 600; line-height: 1;
-  transform: rotate(90deg); transition: transform .18s;
+  transform: translateY(-50%) rotate(90deg); transition: transform .18s;
 }
 details.disc[open] > summary::after {
-  transform: rotate(-90deg); background: var(--brand); color: var(--brand-ink);
+  transform: translateY(-50%) rotate(-90deg);
+  background: var(--brand); color: var(--brand-ink);
 }
 details.disc > summary:focus-visible h2 { color: var(--brand); }
 @media (hover: hover) {
@@ -3703,7 +3741,13 @@ details.disc .groupkids > details.disc + details.disc {
   border-top: 1px solid var(--glass-line);
 }
 details.disc .groupkids > details.disc > summary {
-  padding: 14px 0;
+  /* Right padding is NOT zero, whatever the left is. The parent bubble supplies
+     the horizontal inset for a nested row, but the chevron is pinned inside
+     this summary rather than flowed by it, so zeroing the right ran the title
+     straight under the arrow - "Where to buy from a legal shop" overlapped it
+     by 15px on the Test page. The arrow's column is not an inset, it is
+     furniture, and it has to be reserved at every nesting depth. */
+  padding: 14px calc(var(--chev-edge) + var(--chev-box) + var(--sp-2)) 14px 0;
   min-height: var(--tap);
 }
 /* The parent bubble already supplies the inset; children add none. */
