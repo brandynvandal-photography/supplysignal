@@ -40,11 +40,12 @@
     }
   ],
   "coverage": {
-    "lastScan": "2026-08-22T04:00:57.801Z",
+    "lastScan": "2026-08-22T07:04:44.448Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
+      "il-willco",
       "cook-me",
       "santaclara-me",
       "sandiego-me"

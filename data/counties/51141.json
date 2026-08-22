@@ -4,11 +4,12 @@
   "state": "VA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-19T21:46:03.187Z",
+    "lastScan": "2026-08-22T07:04:44.528Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
+      "il-willco",
       "cook-me",
       "santaclara-me",
       "sandiego-me"

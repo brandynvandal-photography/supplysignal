@@ -4,11 +4,12 @@
   "state": "UT",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-19T21:46:03.133Z",
+    "lastScan": "2026-08-22T07:04:44.475Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
+      "il-willco",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
