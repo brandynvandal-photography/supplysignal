@@ -4,10 +4,11 @@
   "state": "CO",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-20T13:17:51.725Z",
+    "lastScan": "2026-08-22T15:41:26.793Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
+      "cdc-newsroom",
       "la-ldh",
       "cook-me",
       "santaclara-me",

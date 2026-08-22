@@ -4,15 +4,15 @@
   "state": "MI",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-22T13:04:53.461Z",
+    "lastScan": "2026-08-22T15:41:26.715Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
+      "cdc-newsroom",
       "la-ldh",
       "cook-me",
       "santaclara-me",
-      "sandiego-me",
-      "google-news"
+      "sandiego-me"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
