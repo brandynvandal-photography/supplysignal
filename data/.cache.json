@@ -12,8 +12,8 @@
     "lastModified": "Tue, 18 Aug 2026 18:05:49 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1787313094-0\"",
-    "lastModified": "Fri, 21 Aug 2026 11:51:34 GMT"
+    "etag": "W/\"1787334710-0\"",
+    "lastModified": "Fri, 21 Aug 2026 17:51:50 GMT"
   },
   "de-dhss": {
     "etag": "\"92edc71ff8c7f2f505495c62d3044f10-gzip\"",
@@ -32,12 +32,12 @@
     "lastModified": "Thu, 20 Aug 2026 20:16:37 GMT"
   },
   "id-dhw": {
-    "etag": "\"1787328808-gzip\"",
-    "lastModified": "Fri, 21 Aug 2026 16:13:28 GMT"
+    "etag": "\"1787351776-gzip\"",
+    "lastModified": "Fri, 21 Aug 2026 22:36:16 GMT"
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Fri, 21 Aug 2026 21:34:37 GMT"
+    "lastModified": "Sat, 22 Aug 2026 01:45:58 GMT"
   },
   "me-dhhs": {
     "etag": null,
@@ -76,12 +76,12 @@
     "lastModified": "Fri, 21 Aug 2026 20:52:13 GMT"
   },
   "wa-doh": {
-    "etag": "\"1787345867\"",
-    "lastModified": "Fri, 21 Aug 2026 20:57:47 GMT"
+    "etag": "\"1787353276\"",
+    "lastModified": "Fri, 21 Aug 2026 23:01:16 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1787347055\"",
-    "lastModified": "Fri, 21 Aug 2026 21:17:35 GMT"
+    "etag": "\"1787350938\"",
+    "lastModified": "Fri, 21 Aug 2026 22:22:18 GMT"
   },
   "wv-oeps": {
     "etag": "\"1787327026\"",
@@ -120,7 +120,7 @@
     "lastModified": "Fri, 21 Aug 2026 20:31:17 GMT"
   },
   "ok-tulsa-thd": {
-    "etag": "\"dbd1e037664608a337378a30048b6619\"",
-    "lastModified": "Fri, 21 Aug 2026 20:38:41 GMT"
+    "etag": "\"24eabdbd3bfabe37ea1b043a8bbf2525\"",
+    "lastModified": "Fri, 21 Aug 2026 21:20:07 GMT"
   }
 }
