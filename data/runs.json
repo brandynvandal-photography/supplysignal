@@ -1,6 +1,60 @@
 {
   "runs": [
     {
+      "started": "2026-08-23T18:44:12.315Z",
+      "fetched": 800,
+      "notModified": 14,
+      "dropped": {
+        "prefilter": 738,
+        "outside_window": 34,
+        "evidence_not_a_supply_finding": 8,
+        "foreign_year": 1,
+        "evidence_no_named_originator": 16,
+        "low_confidence": 2
+      },
+      "published": 1,
+      "escalated": 0,
+      "reviewed": 0,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "az-adhs-blog",
+        "la-ldh",
+        "ri-doh",
+        "sc-dph",
+        "cook-me",
+        "santaclara-me",
+        "sandiego-me",
+        "google-news"
+      ],
+      "socrataToken": "set",
+      "medex": {
+        "allegheny-me": {
+          "items": 0,
+          "latest": "2026-01-31",
+          "lagDays": 205,
+          "recent": 75,
+          "baseline": 323,
+          "cached": true
+        }
+      },
+      "philly": {
+        "seen": 24,
+        "dated": 16
+      },
+      "publishedUnreviewed": 0,
+      "publishedStatewide": 0,
+      "finished": "2026-08-23T18:55:08.920Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 2,
+        "bytes": 1039
+      }
+    },
+    {
       "started": "2026-08-23T15:32:15.485Z",
       "fetched": 835,
       "notModified": 18,
