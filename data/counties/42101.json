@@ -41,14 +41,15 @@
     }
   ],
   "coverage": {
-    "lastScan": "2026-08-23T04:08:23.767Z",
+    "lastScan": "2026-08-23T07:05:55.538Z",
     "windowDays": 365,
     "sourcesChecked": 33,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
       "santaclara-me",
-      "sandiego-me"
+      "sandiego-me",
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
