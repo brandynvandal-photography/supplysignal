@@ -4,11 +4,12 @@
   "state": "MD",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-21T04:07:03.522Z",
+    "lastScan": "2026-08-23T09:48:11.708Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
+      "cdc-mmwr",
       "cook-me",
       "santaclara-me",
       "sandiego-me"

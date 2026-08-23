@@ -4,11 +4,12 @@
   "state": "LA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-21T02:04:49.660Z",
+    "lastScan": "2026-08-23T09:48:11.678Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
+      "cdc-mmwr",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
