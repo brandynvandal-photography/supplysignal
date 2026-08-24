@@ -27,7 +27,7 @@
         "answer": "positive",
         "alt": "A test strip showing one line, in the control area only.",
         "right": "One line is POSITIVE — fentanyl is in the sample.",
-        "explain": "The strip works by competition: fentanyl in the sample blocks the test line from forming. The drug being present makes a line disappear. That is why it reads backwards from a pregnancy test."
+        "explain": "The strip works by competition: fentanyl in the sample blocks the test line from forming. The drug being present makes a line disappear."
       },
       {
         "id": "two",

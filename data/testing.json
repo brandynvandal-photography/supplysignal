@@ -108,7 +108,7 @@
         "positive": "ONE line",
         "negative": "TWO lines",
         "invalid": "No lines, or only a line on the end you dipped",
-        "explain": "This is backwards from a pregnancy test, and it is the single most misread part of drug checking. The strip works by competition: fentanyl in the sample blocks the test line from forming. The drug being present makes a line disappear.",
+        "explain": "This is the single most misread part of drug checking. The strip works by competition: fentanyl in the sample blocks the test line from forming. The drug being present makes a line disappear.",
         "faintLine": "A second line can be very faint and still count as negative. A faint line may also appear and then fade — wait the full three minutes before deciding."
       },
       "procedure": [
