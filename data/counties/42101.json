@@ -41,12 +41,11 @@
     }
   ],
   "coverage": {
-    "lastScan": "2026-08-24T07:27:03.474Z",
+    "lastScan": "2026-08-24T10:09:29.554Z",
     "windowDays": 365,
     "sourcesChecked": 33,
     "sourcesFailed": [
       "la-ldh",
-      "nd-hhs",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
