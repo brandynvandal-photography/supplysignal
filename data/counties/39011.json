@@ -4,13 +4,11 @@
   "state": "OH",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-21T19:01:42.045Z",
+    "lastScan": "2026-08-24T02:05:28.454Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "de-dhss",
       "la-ldh",
-      "va-vdh",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
