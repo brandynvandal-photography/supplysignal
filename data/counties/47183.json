@@ -4,11 +4,12 @@
   "state": "TN",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-22T01:57:09.598Z",
+    "lastScan": "2026-08-24T07:27:03.544Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
+      "nd-hhs",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
