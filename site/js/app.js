@@ -585,6 +585,18 @@ async function route() {
     else a.removeAttribute("aria-current");
   }
 
+  /* THE TAB, ON THE ROOT, so the stylesheet can tell which one you are in.
+   *
+   * Colour in this app is spent almost entirely on severity - critical,
+   * elevated, ok - which left structure with none, and every tab looking like
+   * every other tab. Readers said it was hard to find things, which is what
+   * that costs. Each tab now carries an identity hue, and this is how the CSS
+   * knows: same mechanism as data-theme above, one attribute, no per-view
+   * wiring to forget. See --ident in app.css for what it may and may not
+   * touch - it never lands on a callout, a badge or anything carrying a
+   * verdict, because a wayfinding colour must not be mistaken for a warning. */
+  document.documentElement.setAttribute("data-tab", tab);
+
   view.setAttribute("aria-busy", "true");
 
   /* THE SKELETON WAITS A BEAT. Most renders finish in well under 120ms - the

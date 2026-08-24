@@ -38,6 +38,30 @@
   --l-critical-ink: #ffffff;   /* on --l-critical: 6.26:1 */
   --l-elevated: #8a5410;  --l-elevated-soft: #fbf0df;
   --l-ok: #2a6b45;        --l-ok-soft: #e6f2ea;
+
+  /* TAB IDENTITY, and the rules it lives under.
+   *
+   * Colour here was spent almost entirely on severity, which left structure
+   * with none: every tab looked like every other tab, and readers said it was
+   * hard to find things. These five give each tab a hue so a screen says which
+   * tab it belongs to before a word is read.
+   *
+   * THEY ARE NOT SEVERITY AND MUST NEVER LOOK LIKE IT. The hues sit at 196,
+   * 228, 261, 294 and 330 degrees - evenly spaced about 33 apart, and all of
+   * them clear of the four colours that already mean something: critical at 8,
+   * elevated at 33, ok at 145 and brand at 169. Nothing in the red-amber-green
+   * band, so an identity colour cannot be read as a warning.
+   *
+   * WHERE THEY MAY GO: chrome only - the active tab, a section's marker rule,
+   * the current jump chip. Never a callout, a badge, a tag, or anything
+   * carrying a verdict. And never alone: the tab keeps its glyph and the
+   * section keeps its heading, so the colour is an aid to scanning rather than
+   * the thing being said. Same rule the SOS tab already follows.
+   *
+   * Contrast measured against both grounds, light 5.14-8.14, dark 6.51-9.83. */
+  --l-ident-alerts: #327086;  --l-ident-learn: #374a95;
+  --l-ident-test: #583795;    --l-ident-drugs: #8c3795;
+  --l-ident-support: #953766;
   --l-shadow: 0 1px 2px rgba(70,55,40,.04), 0 6px 24px rgba(70,55,40,.06);
   --l-shadow-lg: 0 12px 40px rgba(70,55,40,.14);
   /* The map's own palette, as the canvas reads it. map.js cannot use a CSS
@@ -65,6 +89,10 @@
   --d-critical-ink: #17150f;   /* on --d-critical: 7.94:1 */
   --d-elevated: #f2b063;  --d-elevated-soft: #312516;
   --d-ok: #74c994;        --d-ok-soft: #152a1e;
+  /* See --l-ident-*. Lifted and desaturated for the dark ground. */
+  --d-ident-alerts: #94d0e6;  --d-ident-learn: #94a4e6;
+  --d-ident-test: #b094e6;    --d-ident-drugs: #de94e6;
+  --d-ident-support: #e694bd;
   --d-shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.28);
   --d-shadow-lg: 0 12px 40px rgba(0,0,0,.45);
   /* See --l-map-*. Up and down are the dark severity/ok inks; the flat and
@@ -105,6 +133,9 @@
   --elevated: var(--l-elevated);     --elevated-soft: var(--l-elevated-soft);
   --advisory: var(--l-brand);        --advisory-soft: var(--l-brand-soft);
   --ok: var(--l-ok);                 --ok-soft: var(--l-ok-soft);
+  --ident-alerts: var(--l-ident-alerts);   --ident-learn: var(--l-ident-learn);
+  --ident-test: var(--l-ident-test);       --ident-drugs: var(--l-ident-drugs);
+  --ident-support: var(--l-ident-support);
   --shadow: var(--l-shadow);         --shadow-lg: var(--l-shadow-lg);
   --map-flat: var(--l-map-flat);     --map-up: var(--l-map-up);
   --map-down: var(--l-map-down);     --map-seq-lo: var(--l-map-seq-lo);
@@ -304,6 +335,12 @@
     --elevated: var(--d-elevated);     --elevated-soft: var(--d-elevated-soft);
     --advisory: var(--d-brand);        --advisory-soft: var(--d-brand-soft);
     --ok: var(--d-ok);                 --ok-soft: var(--d-ok-soft);
+  --ident-alerts: var(--d-ident-alerts);   --ident-learn: var(--d-ident-learn);
+  --ident-test: var(--d-ident-test);       --ident-drugs: var(--d-ident-drugs);
+  --ident-support: var(--d-ident-support);
+    --ident-alerts: var(--d-ident-alerts);   --ident-learn: var(--d-ident-learn);
+    --ident-test: var(--d-ident-test);       --ident-drugs: var(--d-ident-drugs);
+    --ident-support: var(--d-ident-support);
     --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
     --map-flat: var(--d-map-flat);     --map-up: var(--d-map-up);
     --map-down: var(--d-map-down);     --map-seq-lo: var(--d-map-seq-lo);
@@ -907,7 +944,10 @@ details.acc > summary:focus-visible,
 #searchhead { margin-top: var(--sp-2); }
 /* The active tab gets a soft lozenge behind the icon rather than a hard
    color flip - it reads as a resting place instead of a selection. */
-.nav a[aria-current="page"] { color: var(--brand); }
+/* The active tab in its own colour. It was --brand for all six, so the bar
+   told you something was selected and never which. The SOS override further
+   down still wins for that tab. */
+.nav a[aria-current="page"] { color: var(--ident); }
 .nav a[aria-current="page"] .ico {
   background: color-mix(in srgb, var(--brand) 15%, transparent);
 }
@@ -972,7 +1012,10 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   @media (hover: hover) {
     .nav a:hover { background: var(--glass-strong); color: var(--ink); }
   }
-  .nav a[aria-current="page"] { background: var(--brand-soft); color: var(--brand); }
+  .nav a[aria-current="page"] {
+    background: color-mix(in srgb, var(--ident) 12%, transparent);
+    color: var(--ident);
+  }
   .nav a .ico { font-size: 1.02rem; width: auto; height: auto; background: none; }
   .nav a[aria-current="page"] .ico { background: none; }
   main { padding-bottom: var(--sp-5); }
@@ -1083,7 +1126,7 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
   }
 }
 .chip[aria-pressed="true"], .chip[aria-current="true"] {
-  background: var(--brand); border-color: var(--brand); color: var(--brand-ink);
+  background: var(--ident); border-color: var(--ident); color: var(--bg);
 }
 
 /* The List/Map switch is a mode control, not part of the heading block, so it
@@ -1514,6 +1557,37 @@ main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)
    spending 480px on separation alone. 24px still reads as a break between
    subjects - the heading's own weight does most of that work - and gives back
    roughly a third of a screen on a long page. */
+/* ------------------------------------------------------- tab identity ----
+ *
+ * app.js puts the current tab on the root (data-tab), and this turns it into
+ * one token the chrome can use. --ident falls back to --brand, so a screen
+ * outside the six tabs, or one rendered before the attribute lands, looks
+ * exactly as it did before rather than losing its colour.
+ *
+ * SOS is the one tab whose identity IS its severity, so it takes --critical
+ * rather than a hue of its own - the same token every other emergency signal
+ * uses, which is what keeps it from drifting away from the severity palette.
+ * Left to the fallback it would have taken brand teal here while its tab in
+ * the bar stayed red, which is the sort of half-applied colour this whole
+ * change exists to remove. */
+:root { --ident: var(--brand); }
+:root[data-tab="help"]       { --ident: var(--critical); }
+:root[data-tab="alerts"]     { --ident: var(--ident-alerts); }
+:root[data-tab="learn"]      { --ident: var(--ident-learn); }
+:root[data-tab="test"]       { --ident: var(--ident-test); }
+:root[data-tab="substances"] { --ident: var(--ident-drugs); }
+:root[data-tab="support"]    { --ident: var(--ident-support); }
+
+/* THE SECTION MARKER. A short rule in the tab's colour, set before the
+   heading, so a long page breaks into findable blocks - which is the thing
+   readers actually asked for. It is decoration and nothing else: aria-hidden
+   by construction (a pseudo-element), and the heading it sits on still says
+   everything it said before. */
+.sec__head h2::before {
+  content: ""; display: inline-block; vertical-align: middle;
+  width: 3px; height: .85em; margin-right: 9px; border-radius: 2px;
+  background: var(--ident);
+}
 .sec { margin: var(--sp-4) 0 var(--sp-2); }
 .sec__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin-bottom: 4px; }
 .sec__head h2 { margin: 0; }
