@@ -1036,7 +1036,22 @@ async function detailView(id, subs, combos, { go }) {
      A drug's categories are already in combos.drugs[].cats. */
   const catsOf = (id) => (combos?.drugs || []).find((x) => x.id === id)?.cats || [];
   const RATING = { Dangerous: "dangerous", Unsafe: "unsafe", Caution: "caution" };
-  const fromMatrix = { dangerous: new Set(), unsafe: new Set() };
+  /* CAUTION IS CARRIED TOO, and it was not.
+   *
+   * RATING has always named three bands and this loop collected two, so every
+   * Caution pair in the matrix was read and thrown away. The combination
+   * checker on Drugs shows those pairs; the drug page did not - nitrous rates
+   * Caution with alcohol, GHB/GBL, opioids, pregabalin and tramadol, and its
+   * page listed none of them while the checker two taps away flagged all five
+   * (reported 2026-08-24). 100 drugs and 682 pairs were in that gap.
+   *
+   * It gets its own band rather than being folded into Unsafe. The source
+   * defines Caution as "not usually physically harmful, but may produce
+   * undesirable effects ... care should be taken", which is a different claim
+   * from Unsafe's "considerable risk of physical harm" - promoting it would
+   * overstate what was published, and this file does not do that in either
+   * direction. */
+  const fromMatrix = { dangerous: new Set(), unsafe: new Set(), caution: new Set() };
   for (const cat of catsOf(s.id)) {
     const row = combos?.matrix?.[cat];
     if (!row) continue;
@@ -1044,12 +1059,22 @@ async function detailView(id, subs, combos, { go }) {
       const band = RATING[cell?.s];
       if (band === "dangerous") fromMatrix.dangerous.add(other);
       else if (band === "unsafe") fromMatrix.unsafe.add(other);
+      else if (band === "caution") fromMatrix.caution.add(other);
     }
   }
   /* Do not repeat a category the per-drug list already names. */
   const seen = new Set([...d, ...u].map((x) => String(x).toLowerCase()));
   const extraD = [...fromMatrix.dangerous].filter((x) => !seen.has(x.toLowerCase()));
   const extraU = [...fromMatrix.unsafe].filter((x) => !seen.has(x.toLowerCase()));
+  /* A pair the louder bands already carry never repeats as Caution. A drug's
+     categories can rate the same partner twice - one category Dangerous,
+     another Caution - and listing it in both would read as the page
+     contradicting itself. The louder rating wins, the same way the class wins
+     over the individual drug below. */
+  const louder = new Set([...fromMatrix.dangerous, ...fromMatrix.unsafe]
+    .map((x) => x.toLowerCase()));
+  const extraC = [...fromMatrix.caution]
+    .filter((x) => !seen.has(x.toLowerCase()) && !louder.has(x.toLowerCase()));
 
   /* THE CLASS WINS, AND THE DRUG IT ALREADY COVERS GOES.
    *
@@ -1112,20 +1137,46 @@ async function detailView(id, subs, combos, { go }) {
         (c) => c.toLowerCase() !== r.key && present.has(c.toLowerCase()));
     });
   };
-  const dAll = prune(dRaw).map((r) => r.label);
-  const uAll = prune(uRaw).map((r) => r.label);
+  const cRaw = extraC.map(asClass);
+  const dRows = prune(dRaw), uRows = prune(uRaw), cRows = prune(cRaw);
+  const dAll = dRows.map((r) => r.label);
+  const uAll = uRows.map((r) => r.label);
+  const cAll = cRows.map((r) => r.label);
+  /* Everything the three bands now state, by key, so Uncertain can drop what
+     they cover - including a drug covered by a class, which is why the class
+     keys of each rated entry count too. */
+  const ratedKeys = new Set([...dRows, ...uRows, ...cRows].map((r) => r.key));
+  const coveredByClass = (name) => {
+    const key = String(name).toLowerCase();
+    if (ratedKeys.has(key)) return true;
+    const drug = (combos?.drugs || []).find(
+      (x) => String(x.name || x.id).toLowerCase() === key
+        || [...(x.aliases || []), ...(x.searchAliases || [])]
+             .some((a) => String(a).toLowerCase() === key));
+    return !!drug && (drug.cats || []).some((c) => ratedKeys.has(String(c).toLowerCase()));
+  };
+  const uncertainLeft = s.interactions.uncertain.filter((x) => !coveredByClass(x));
   /* A fresh node each time: the same element cannot sit in two callouts. */
   const classNote = () => h("p", { class: "sec__note" },
     "Some of these are whole drug classes, so they cover things this page "
     + "does not name individually.");
 
-  const anything = dAll.length || uAll.length || s.interactions.uncertain.length;
+  const anything = dAll.length || uAll.length || cAll.length || uncertainLeft.length;
 
   wrap.appendChild(
-    /* "Dangerous to mix with", not "Do not mix with". The heading names what
-       the section contains rather than issuing an instruction - the reader
-       decides what to do with it. Same rule as the autonomy pass. */
-    section("Dangerous to mix with", null,
+    /* THE HEADING NAMES THE SUBJECT, not the worst thing in it.
+     *
+     * It was "Dangerous to mix with", which was accurate while the section held
+     * Dangerous, Unsafe and Uncertain. It now also carries Caution, which the
+     * source defines as "not usually physically harmful" - and filing those
+     * under a heading that calls them dangerous overstates them exactly as
+     * badly as omitting them understated them.
+     *
+     * Nothing is softened by the change: severity is carried by the callouts,
+     * where Dangerous keeps the stop tone and its glyph, and never by the
+     * heading alone. Still not an instruction - "Mixing with other drugs", not
+     * "Do not mix" - because the reader decides what to do with it. */
+    section("Mixing with other drugs", null,
       /* ONE Dangerous and ONE Unsafe, not four callouts.
        *
        * The per-drug lists name individual drugs and the matrix rates whole
@@ -1144,9 +1195,36 @@ async function detailView(id, subs, combos, { go }) {
             h("div", { class: "tags" }, uAll.map((x) => h("span", { class: "tag" }, x))),
             extraU.length ? classNote() : null)
         : null,
-      s.interactions.uncertain.length
+      /* Its own band, in the source's own words. Caution is defined there as
+         combinations that "may produce undesirable effects, such as physical
+         discomfort or overstimulation" - so the line says that rather than
+         leaving a reader to guess what a third list means. info, not warn:
+         warn is Unsafe's tone on this page and reusing it would make the two
+         look like one claim. */
+      cAll.length
+        ? callout("info", "Caution",
+            h("p", null,
+              "Not usually physically harmful, but they can produce undesirable "
+              + "effects — discomfort, or overstimulation. Care is worth taking."),
+            h("div", { class: "tags" }, cAll.map((x) => h("span", { class: "tag" }, x))),
+            classNote())
+        : null,
+      /* UNCERTAIN NEVER REPEATS A PAIR THE BANDS ABOVE RATE.
+       *
+       * The per-drug list and the matrix are separate sources and they overlap:
+       * nitrous carries alcohol, GHB, GBL, opioids and tramadol as "uncertain",
+       * and the matrix rates all five Caution. Once Caution renders, the same
+       * page listed the same pairs twice under two different answers - which is
+       * the drug page contradicting itself, the thing views.test.mjs already
+       * guards for the reagent table.
+       *
+       * The rating wins. "Uncertain" is the absence of a published finding, and
+       * a published Caution is one - so the pair moves up to the band that
+       * states something and leaves the list that states nothing. Matched on
+       * keys, not labels, for the reason DEDUPE ON IDS gives above. */
+      uncertainLeft.length
         ? h("p", { class: "sec__note" },
-            `Uncertain: ${s.interactions.uncertain.map(prettyCat).join(", ")}`)
+            `Uncertain: ${uncertainLeft.map(prettyCat).join(", ")}`)
         : null,
       /* The stated absence. An empty section here would read as "nothing to
          worry about", which is the one thing it must never mean. */
