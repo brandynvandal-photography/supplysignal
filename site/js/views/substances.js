@@ -1396,18 +1396,7 @@ function comedownFor(doc, s) {
                       ? frag(r.alts.map((a, i) => frag(
                           i ? h("span", { class: "reag__settles" }, "or") : null,
                           reading(a))))
-                      : reading(r)))))))),
-        /* Into the tool that scores these colours, seeded on this drug. Sits
-           OUTSIDE the fold, so the deep-link stays visible without opening the
-           colour table. The table above is the forward answer — what this drug
-           does — and the tracker is the reverse one: enter what you actually
-           saw and it walks the chart for this substance. Deep-linked with the
-           id in the FRAGMENT (see routes.js), never the path. */
-        h("a", { class: "bigptr", href: `#/test/tracker/${id}` },
-          h("span", { class: "bigptr__hd" }, "Run a reagent test for this"),
-          h("span", { class: "bigptr__sub" },
-            "Say what each reagent did and the tracker checks it against " +
-            s.name + "’s published sequence.")));
+                      : reading(r)))))))));
   }
 
   /* ---- dose ---- */

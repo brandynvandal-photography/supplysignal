@@ -1788,11 +1788,6 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
  *
  * Baseline, not center: a title that wraps to two lines would otherwise float
  * the glyph between them instead of beside the words it introduces. */
-/* "Add another reagent" and "read them with the camera" are both controls on
-   the run rather than fields in it, so they share a row and wrap together on
-   a narrow phone. */
-.mixadd { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; }
-.mixadd + .sec__note { margin-top: var(--sp-2); }
 
 .callout { --glyph-col: 1.15rem; --glyph-gap: 6px; }
 details.callout--fold { --glyph-gap: 8px; }
@@ -1937,126 +1932,12 @@ details.callout--fold[open] { padding-bottom: var(--sp-3); }
  * spans both rows and centres on them, and a slot with no × collapses that
  * column to nothing and takes the full width, exactly as the combination
  * checker's first two rows already do. */
-/* A wider gap BETWEEN reagents than within one, or four rows of dropdowns read
-   as one undifferentiated stack. */
-.revslots { gap: 15px; }
-/* The reagent tracker's sub-screen appends its blocks bare - button, h1,
-   warnings, method row, tool - so nothing supplied the between-block gap a
-   tab page gets from its sections, and the stack read 8-13px tight (reported
-   2026-08-19). One owl at the site's in-section rhythm; the card margins
-   underneath collapse into it rather than adding. */
-.tracker > * + * { margin-top: var(--sp-3); }
-.revslot {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px; align-items: center;
-}
-.revslot .mixslot { grid-column: 1; }
-/* The two-part instructions sit under both halves of the row, inside the same
-   grid, so removing the row removes its instructions with it. */
-.revslot .revhow { grid-column: 1 / -1; margin: 0; }
-.revslot .mixslot__x { grid-column: 2; grid-row: 1 / span 2; }
-/* The label column is reserved to the WIDEST label, not to the widest of the
-   reagent rows. "Substance" is 71px and the column was 65.6, so that one field
-   started five pixels right of every other one — enough to read as a mistake
-   without being obvious enough to explain itself. Every select in the picker
-   lines up on one edge or the rows stop reading as one control. */
-.revslot .mixlabel { min-width: 4.6rem; }
-/* .mixslot's flex basis was set on the SELECT, from when the select was the
-   flex item. It sits inside .pick__field now - in the tracker AND the
-   combination checker, which share the row (slots.js) - so the basis has to
-   go on the wrapper: without it the field is sized by its widest option, and
-   "Dextropropoxyphene" in the sold-as list, or a checker row that also
-   carries a ×, pushed the whole control onto a second line. */
+/* .mixslot's flex basis goes on the .pick__field wrapper, not the select
+   inside it: without it the field is sized by its widest option, and a
+   combination-checker row that also carries a × pushed the control onto a
+   second line. Shared by every .mixslot row (slots.js). */
 .mixslot .pick__field { flex: 1 1 8rem; min-width: 0; }
 
-/* The sold-as verdict: one line per reading, with the mark carrying the
-   answer as a shape as well as a colour. */
-.soldlines { list-style: none; margin: var(--sp-2) 0 0; padding: 0; }
-.soldline {
-  display: flex; gap: 9px; align-items: baseline;
-  font-size: .93rem; padding: 3px 0;
-}
-.soldline__mark { flex: none; font-weight: 700; width: .9rem; }
-.soldline--agrees .soldline__mark { color: var(--ok); }
-.soldline--disagrees .soldline__mark { color: var(--elevated); }
-.soldline--unknown { color: var(--ink-2); }
-.soldline--unknown .soldline__mark { color: var(--ink-3); }
-
-/* The match rows are .nbr now and inherit .list > .nbr wholesale — flush,
-   unoutlined, hairline-separated. .revhit is gone rather than kept "in case":
-   it was a second list row with its own border and its own spacing, which is
-   how the results ended up as boxes inside a box. */
-.revout { margin-top: var(--sp-3); }
-.revout .list { margin-top: var(--sp-2); }
-/* The chart's shopping list. Unboxed on purpose: it is instructions for the
-   control directly above it, not a result, and a card here would compete with
-   the verdict card that appears underneath once anything has been run. */
-.plan { margin-bottom: var(--sp-3); }
-.plan__hd { margin: 0 0 var(--sp-2); font-size: .95rem; }
-.plan__steps { list-style: none; margin: 0 0 var(--sp-2); padding: 0; counter-reset: plan; }
-/* A GRID, so nothing gets squeezed and nothing orphans.
- *
- * This was a nowrap flex row of four things — reagent, "expect ...", the read
- * window, and the colour bar — and three of them refuse to shrink. On a phone
- * that left the words about 90px to live in and they came out crammed one per
- * line. Reported on iOS. Before that it wrapped, and then the bar dropped onto
- * a line of its own against the right edge, furthest from the words it belongs
- * to. Neither arrangement works as one row.
- *
- * So it is two rows on a phone and one on anything wider. The reagent and its
- * expected colours read as a sentence on the first line; the timing and the
- * bar sit together underneath, which is also the pairing that makes sense —
- * they are both things you hold the spot plate against. */
-.plan__step {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 9px;
-  padding: 7px 0 7px 26px; position: relative; font-size: .93rem;
-  counter-increment: plan;
-}
-.plan__reagent { flex: none; }
-/* Takes the rest of the line where there is a rest of the line, and drops to
-   a line of its own when there is not — which on a phone is the readable
-   outcome, because these are sentences. A grid was tried first and put the
-   read window in the same column as the reagent name, so the wider of the two
-   set the column and the words were left about 110px to live in. */
-.plan__says { flex: 1 1 10rem; min-width: 0; }
-.plan__read { flex: none; }
-.plan__step > .reagbar { flex: none; align-self: center; margin-left: auto; }
-.plan__says { min-width: 0; }
-.plan__step + .plan__step { border-top: 1px solid var(--glass-line); }
-.plan__step::before {
-  content: counter(plan); position: absolute; left: 0; top: 7px;
-  width: 18px; height: 18px; border-radius: 50%;
-  background: var(--surface-2); color: var(--ink-2);
-  font-size: var(--fs-xs); font-weight: 700; line-height: 18px; text-align: center;
-}
-/* The mark carries the verdict, not merely "answered". A step ticked purely
-   for having a value in it put a green check beside a reading the card below
-   was crossing out. Unanswered steps keep their number. */
-.plan__step--agrees::before { content: "✓"; background: var(--ok-soft); color: var(--ok); }
-.plan__step--disagrees::before {
-  content: "✗"; background: var(--elevated-soft); color: var(--elevated);
-}
-.plan__reagent { font-weight: 650; }
-.plan__says { color: var(--ink-2); }
-/* The read window. Monospaced so 0:45 and 30:00 line up down the list, and
-   dimmed because it qualifies the expected color rather than competing with
-   it — but never hidden: a Morris judged at 45 seconds has not finished. */
-.plan__read {
-  font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--ink-3);
-  white-space: nowrap; flex: none;
-}
-/* The fork is a list of possibilities, not an ordered procedure — so no step
-   numbers, and a dot instead. */
-.plan__steps--fork { counter-reset: none; }
-.plan__step--fork::before {
-  content: "·"; background: none; color: var(--ink-3);
-  font-size: 1.1rem; line-height: 14px;
-}
-.soldline--pending { color: var(--ink-2); }
-.soldline--pending .soldline__mark { color: var(--ink-3); }
-
-/* .revmiss and .revmisses went with the contradicted-substances disclosure.
-   Nothing renders them, so nothing styles them. */
 
 /* ------------------------------------------------------------ accordion */
 
@@ -3447,76 +3328,6 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 .swatch--peach { background: #e0a074; }  .swatch--magenta { background: #b0417a; }
 .swatch--white { background: #eee6d8; }  .swatch--olive { background: #6f7d3f; }
 
-/* ------------------------------------------------------- camera scanner
-
-   A sheet over the page rather than a route: the reading is a moment inside
-   answering one row, and pushing a screen would lose the row's place. Fixed
-   and full-height because a phone held over a spot plate has no spare room,
-   and because the live preview has to be big enough to tap a single well in.
-
-   The reader taps twice - the white plate, then the well - so the video is
-   the control surface and nothing may sit on top of it. */
-.scan {
-  position: fixed; inset: 0; z-index: 60;
-  background: var(--bg); color: var(--ink);
-  display: flex; flex-direction: column; gap: 10px;
-  padding: max(12px, env(safe-area-inset-top)) var(--sp-3)
-           max(12px, env(safe-area-inset-bottom));
-  overflow-y: auto; overscroll-behavior: contain;
-  /* NO SCROLLBAR ON A CAMERA. The sheet still scrolls - the honesty note and
-     the privacy line at the foot are not negotiable and they do not always
-     fit - but a scrollbar track down the side of a live viewfinder reads as
-     a control, and it is not one. Reported 2026-08-20. */
-  scrollbar-width: none;
-}
-.scan::-webkit-scrollbar { display: none; }
-/* Which reagent of how many, when the run has more than one. */
-.scan__step {
-  margin: 0; font-size: .86rem; font-weight: 600;
-  letter-spacing: .02em; text-transform: uppercase; color: var(--ink-3);
-}
-.scan__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.scan__video {
-  width: 100%; max-height: 46vh; object-fit: cover;
-  border-radius: var(--radius); background: var(--surface-2);
-  /* It is a target, not a picture. */
-  cursor: crosshair; touch-action: manipulation;
-}
-.scan__which { margin: 0; font-size: .92rem; color: var(--ink-2); }
-.scan__say { margin: 0; font-size: 1rem; font-weight: 600; }
-.scan__clock {
-  margin: 0; font-family: var(--font-mono); font-size: .95rem; color: var(--ink-2);
-  font-variant-numeric: tabular-nums;
-}
-.scan__out { display: flex; flex-direction: column; gap: 10px; }
-.scan__seq, .scan__none { margin: 0; font-size: .95rem; }
-
-/* THE CAMERA'S CALL. The reader taps a well and this is the answer: the colour
-   it read, and whether the chart expects it. A tick and a cross carry it as
-   well as the colour does - severity is never left to colour alone here, for
-   the same reason the callouts each keep a distinct glyph. */
-.scan__call {
-  margin: 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  font-size: 1rem; line-height: 1.4;
-}
-.scan__mark { font-size: 1.15rem; font-weight: 700; line-height: 1; }
-.scan__call--yes .scan__mark { color: var(--ok); }
-.scan__call--no .scan__mark { color: var(--critical); }
-/* The swatch is the same chip the manual dropdown and the colour table use, so
-   the camera's answer is shown in the vocabulary the rest of the tool already
-   taught - see .swatch. */
-.scan__call .swatch { flex: none; }
-.scan__acts { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
-.scan__seq { color: var(--ink-2); }
-.scan__none { color: var(--elevated); }
-/* The standing caveats. Quiet, and never dismissible - they are the honest
-   part of the feature, not a first-run notice. */
-.scan__fine { margin: 0; font-size: .86rem; color: var(--ink-3); max-width: 60ch; }
-
-/* The row's own button. Full width under the two dropdowns rather than beside
-   them: at 390px a third control on that line pushes the selects under their
-   own labels. */
-
 /* ------------------------------------------------- reagent reaction scale
 
    A reagent result is an ORDERED sequence: ["yellow","black"] means the drop
@@ -3553,21 +3364,6 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 .reagbar > span { flex: 1 1 0; min-width: 0; }
 /* A single-colour result is one full band, which is exactly right. */
 
-/* THE BAR IN A PROSE LINE rather than a table cell, for the reverse lookup.
- *
- * .reagbar is sized to fill a column at up to 168px. Trailing a sentence it
- * takes only the room it needs, and it has to live HERE, beside the rule it
- * overrides — both are single-class selectors, so the one further down the
- * file wins, and this sat 1000 lines above .reagbar doing nothing at all. */
-.reagbar--inline {
-  width: auto; max-width: 96px; min-width: 52px; height: 11px;
-  align-self: center;
-}
-
-.soldline .reagbar--inline {
-  display: inline-flex; margin: 0 0 0 7px; vertical-align: middle;
-}
-
 /* The bands blend into each other rather than butting up.
  *
  * COLOUR-AGNOSTIC, which is the trick that makes this affordable: each band
@@ -3588,17 +3384,11 @@ details.disc[open] { margin-bottom: var(--sp-3); }
  * beside every bar and the bar is aria-hidden - so nothing here is the only
  * signal, and nobody is matching a sample against an invented midpoint without
  * the named reference colours right there. */
-/* The overlap is a variable now, for two reasons.
- *
- * FLUIDITY: 18px across a 168px bar is a short ramp, and a four-band sequence
- * read as four blocks with a seam rather than as one reaction travelling
- * through shades. Wider is closer to what somebody watching the drop sees.
- *
- * AND IT HAD TO SCALE. The inline bars in the reverse lookup are 52 to 96px.
- * At four bands that is 13px each, so a fixed 18px fade was wider than the
- * band it was fading — the bands ate each other and the bar turned to mush. */
+/* The overlap is a variable so the bands blend rather than butt up: 18px
+   across a 168px bar read as four blocks with a seam rather than one reaction
+   travelling through shades, and wider is closer to what somebody watching the
+   drop sees. */
 .reagbar { --fade: 26px; }
-.reagbar--inline { --fade: 12px; }
 .reagbar > span + span {
   margin-left: calc(var(--fade) * -1);
   -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade));
