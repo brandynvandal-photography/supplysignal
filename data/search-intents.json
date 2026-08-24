@@ -176,17 +176,6 @@
     },
     {
       "q": [
-        "what could this be",
-        "identify my drug",
-        "figure out what this is",
-        "what did the color turn"
-      ],
-      "label": "What could this be?",
-      "route": "#/test/tracker",
-      "why": "The reagent tracker: enter what each reagent turned and it walks the chart for you."
-    },
-    {
-      "q": [
         "are test strips legal",
         "test strip legal",
         "paraphernalia"

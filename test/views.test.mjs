@@ -195,8 +195,6 @@ const ctx = { go() {}, data };
 const SCREENS = [
   ["alerts", {}],
   ["test", {}],
-  ["test", { id: "tracker" }],                 // the reagent tracker sub-screen
-  ["test", { id: "tracker", sub: "mdma" }],    // deep-linked from a drug page
   ["substances", {}],                          // the index
   ["substances", { id: "fentanyl" }],          // a detail page
   ["substances", { id: "class", sub: "opioids" }],
@@ -322,13 +320,12 @@ for (const [name, route] of SCREENS) {
   }
 }
 
-/* THE DRUG PAGE AND THE TRACKER READ THE SAME TABLE AND MUST SAY THE SAME
- * THING. Reported from the live site: cocaine on Marquis is published both
- * ways (PsychonautWiki no reaction; DanceSafe light pink or peach), the
- * tracker scored either as fine, and the drug page said only "No reaction
- * expected" - an if/else that tested `none` first and never reached the
- * colors. Two screens, one drug, two answers. For every row in the table that
- * carries none AND colors, the rendered page must show both. */
+/* THE DRUG PAGE MUST SHOW EVERY WAY A REACTION IS PUBLISHED. Reported from the
+ * live site: cocaine on Marquis is published both ways (PsychonautWiki no
+ * reaction; DanceSafe light pink or peach), and the drug page said only "No
+ * reaction expected" - an if/else that tested `none` first and never reached
+ * the colors. For every row in the table that carries none AND colors, the
+ * rendered page must show both. */
 {
   const T = JSON.parse(readFileSync(path.join(ROOT, "data/reagents.json"), "utf8")).reagents;
   const both = [];
