@@ -1181,27 +1181,19 @@ async function detailView(id, subs, combos, { go }) {
  * section simply never appears. */
 function comedownFor(doc, s) {
   if (!doc) return null;
-  const byId = doc.bySubstance?.[s.id];
-  if (byId) return byId;
-  /* MOST SPECIFIC CLASS FIRST, NOT FIRST-LISTED.
+  /* SUBSTANCE-SPECIFIC ONLY, by design. The section renders for a drug that has
+   * its own comedown entry - the twelve in data/comedown.json - and for
+   * nothing else.
    *
-   * PsychonautWiki lists MDA as ["Psychedelic", "Entactogen", "Stimulants"],
-   * so taking the first match handed MDA the psychedelic entry - the same
-   * advice LSD gets, for a drug that runs four hours longer and finishes like
-   * a stimulant. The order below is by how much the comedown actually differs:
-   * a drug that is both an entactogen and a psychedelic has an entactogen's
-   * week, and one that is both a stimulant and something else has a
-   * stimulant's crash. */
-  const ORDER = ["Opioids", "Depressant", "Entactogen", "Dissociatives", "Stimulants", "Psychedelic"];
-  const classes = s.class?.psychoactive || [];
-  for (const c of ORDER) {
-    if (classes.includes(c) && doc.byClass?.[c]) return doc.byClass[c];
-  }
-  for (const c of classes) {
-    const hit = doc.byClass?.[c];
-    if (hit) return hit;
-  }
-  return null;
+   * There was once a fallback to a per-CLASS entry, so any stimulant without
+   * its own entry inherited a generic stimulant crash, any psychedelic a
+   * generic one, and so on. That put "Coming down" on pages where the words did
+   * not address the drug they sat under - the stimulant text opened by naming
+   * "cocaine, meth and amphetamines" and would render on a research chemical
+   * that is none of them - which read as confident, generic advice about the
+   * wrong thing. The class fallback and its data are gone for good: a comedown
+   * section only ever speaks about the drug whose page it is on. */
+  return doc.bySubstance?.[s.id] || null;
 }
 
 /* THE SECTIONS BELOW ARE BUILT INTO VARIABLES, THEN APPENDED IN ORDER.
@@ -1439,12 +1431,12 @@ function comedownFor(doc, s) {
    * are like. Before detection windows, which are about somebody else testing
    * you rather than about you.
    *
-   * RENDERS ONLY WHERE THERE IS SOMETHING TO SAY. data/comedown.json has an
-   * entry for six psychoactive classes and a handful of substances; the other
-   * 48 substances get no section at all. Padding every drug page with "drink
-   * water and get some sleep" would teach the reader to scroll past the one
-   * page where the advice is specific to what they took - and this app does
-   * not fill space with things that are true of everything.
+   * RENDERS ONLY WHERE THE ADVICE IS ABOUT THIS DRUG. data/comedown.json has a
+   * substance-specific entry for twelve drugs, and only those twelve show a
+   * section; every other page gets none. Padding a drug page with a class's
+   * generic crash would teach the reader to scroll past the one page where the
+   * advice is specific to what they took - and this app does not fill space
+   * with things that are true of everything. See comedownFor.
    *
    * Awaited rather than appended asynchronously, unlike the mortality block:
    * comedown lives in topics.json, which is already in flight from boot, so
