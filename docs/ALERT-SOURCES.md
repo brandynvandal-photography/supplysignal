@@ -489,6 +489,33 @@ RaDAR's caveat travels on every item and stays: samples are voluntarily
 submitted and "may not be representative of broader trends within the United
 States drug supply."
 
+**THE DEDUPER SILENTLY ATE HALF THE FINDINGS, and the unit tests did not
+notice.** Routing RaDAR through `cluster()` — which is built for news — turned
+13 findings into 5 on a live dry run. Two independent causes, both wrong for
+this shape of data:
+
+- **Pass 1 keys on `fips|canonicalUrl`**, and every compound in an issue shares
+  that issue's URL, so one survived per coast per issue. A `#compound` fragment
+  does not rescue it: `canonicalUrl` strips the hash, correctly, because for a
+  news item a fragment is the same page.
+- **Pass 3 is trigram similarity on the headline.** Measured on real output,
+  `3,4-Methylenedioxy PCP` and `3-Methyl PCP` score **0.610** against a 0.55
+  threshold — two different first detections from one issue, merged. Four title
+  formats were measured; none escapes it, because related compounds share most
+  of their characters. Trigram similarity is simply the wrong tool for chemical
+  names.
+
+So regional findings do not go through `cluster()` at all. Identity is **the
+coast plus the normalised compound** — `slug()`, shared with the adapter, which
+folds `Bromo-α-PVP` and `Bromo-alpha-PVP` together (RaDAR's own copy varies)
+while keeping the PCP pair apart. Verified in the pipeline: 6 findings in, 6
+out, `publishedStatewide: 0`, `ungeotagged: 0`.
+
+Worth remembering how this was found. Every unit test passed while it was live;
+it only surfaced from a `DRY_RUN=1` ingest, comparing the adapter's own count
+against `publishedRegional`. A new source should always be run end to end and
+counted, not trusted because its parser is tested.
+
 **Still not wired to a live run:** there is no `config/sources.json` entry, so
 nothing fetches RaDAR on a schedule yet. The chain is proven end to end against
 live data — 6 findings, both coasts, none carrying a county or state — but

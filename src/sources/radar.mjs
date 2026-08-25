@@ -128,6 +128,18 @@ export function parseTotals(text) {
   return { west: Number(m[1]), east: Number(m[2]), all: Number(m[3]) };
 }
 
+/* A fragment that is stable, readable and unique per compound. Chemical names
+   carry commas, primes, parentheses and Greek letters; this keeps what a URL
+   can hold and drops the rest. */
+export function slug(name) {
+  return String(name)
+    .toLowerCase()
+    .replace(/[\u03b1-\u03c9]/g, (m) => ({ "\u03b1": "alpha", "\u03b2": "beta", "\u03b3": "gamma" }[m] || ""))
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60) || "compound";
+}
+
 async function get(url, settings) {
   const ua = settings?.polling?.userAgent || settings?.userAgent || UA_FALLBACK;
   const res = await fetch(url, {
@@ -180,6 +192,10 @@ export async function fetchRadar(src, settings, { maxIssues = 2 } = {}) {
             + `${issue.label}. ${c.detail ? c.detail.replace(/^\s*/, "") + ". " : ""}`
             + `Samples are voluntarily submitted and may not be representative `
             + `of broader trends within the United States drug supply.`,
+        /* The issue it was published in. Every finding from one issue shares
+           this, which is true and is why identity is keyed on the compound
+           rather than the link: ingest.mjs imports slug() below as
+           compoundKey and uses it for exactly that. */
         url: issue.url,
         pubDate: pub.toISOString(),
         sourceId: src?.id || "us-nist-radar",

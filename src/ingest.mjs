@@ -14,7 +14,7 @@ import { fileURLToPath } from "node:url";
 import { fetchFeed, fetchCountyNews, fetchGdelt } from "./sources/index.mjs";
 import { fetchMedicalExaminer } from "./sources/medex.mjs";
 import { fetchPhilly } from "./sources/philly.mjs";
-import { fetchRadar } from "./sources/radar.mjs";
+import { fetchRadar, slug as compoundKey } from "./sources/radar.mjs";
 import { gate1, gate2 } from "./recency.mjs";
 import { classifyDeterministic, band, classifyWithLLM, applyLLMVerdict } from "./classify.mjs";
 import { buildIndex, geotag } from "./geotag.mjs";
@@ -471,12 +471,49 @@ async function main() {
     statewide.map((i) => ({ ...i, fips: `state:${i.state}` })), settings
   ).map((c) => ({ ...c, fips: null, scope: "state", state: String(c.fips).slice(6) }));
 
-  /* Same trick, keyed by region. Two findings about the same compound on the
-     same coast in the same month collapse to one; a West Coast finding never
-     merges with an East Coast one, and neither ever merges with a county. */
-  const regionClusters = cluster(
-    regional.map((i) => ({ ...i, fips: `region:${i.region}` })), settings
-  ).map((c) => ({ ...c, fips: null, state: null, scope: "region", region: String(c.fips).slice(7) }));
+  /* NOT THROUGH cluster(). A RaDAR finding is one compound, first seen on one
+   * coast, in one month - it is its own cluster by construction, and the news
+   * deduper cannot express that.
+   *
+   * Both of its collapsing passes are wrong here. Pass 1 keys on
+   * fips|canonicalUrl and every compound in an issue shares the issue's URL, so
+   * one survived per coast per issue; a fragment does not rescue it because
+   * canonicalUrl strips the hash, correctly, since for news a fragment is the
+   * same page. Pass 3 is trigram similarity on the headline, which is right for
+   * two outlets running one story and wrong for chemical names: measured on
+   * real output, "3,4-Methylenedioxy PCP" and "3-Methyl PCP" score 0.610
+   * against a 0.55 threshold. Thirteen findings came out as five, and the eight
+   * that vanished did so silently.
+   *
+   * So identity is keyed on what actually identifies the finding - the coast
+   * and the compound - and duplicates collapse on that. Re-running over
+   * overlapping issues still cannot double-publish a compound. */
+  /* THE COMPOUND, NOT ITS TYPOGRAPHY. Chemical names arrive spelled more than
+   * one way - Bromo-alpha-PVP and Bromo-\u03b1-PVP, 4'-Chloro and 4-Chloro -
+   * and lowercasing alone leaves those as two findings about one substance.
+   * compoundKey normalises the Greek letters and the punctuation and keeps
+   * genuinely different compounds apart: 3-Methyl PCP and 3,4-Methylenedioxy
+   * PCP still key differently, which is the pair the trigram matcher merged. */
+  const regionSeen = new Map();
+  for (const i of regional) {
+    const key = `${i.region}|${compoundKey(i.substanceHint || i.title)}`;
+    const prev = regionSeen.get(key);
+    if (!prev || String(i.eventDate) > String(prev.eventDate)) regionSeen.set(key, i);
+  }
+  const regionClusters = [...regionSeen.values()].map((i) => ({
+    ...i,
+    fips: null,
+    state: null,
+    scope: "region",
+    headline: i.title,
+    summary: i.body,
+    substances: [i.substanceHint].filter(Boolean),
+    sources: [{
+      name: i.sourceName, url: i.url, published: i.pubDate,
+      trust: i.trust, evidence: i.evidence,
+    }],
+    sourceCount: 1,
+  }));
 
   /* The cluster-level evidence gate: severity capped at the strongest member's
      ceiling, and a critical claim needs a measurement, an institution, or two
