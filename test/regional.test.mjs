@@ -126,5 +126,71 @@ await t("ingest routes declared regions, and still drops the ungeotaggable", asy
   assert.ok(!/geotag\(/.test(block), "a declared region is being geocoded anyway");
 });
 
+/* ------------------------------------------------- identity, not similarity */
+
+/* THE BUG THIS SECTION EXISTS FOR. Regional findings were routed through the
+   news deduper and thirteen came out as five, the other eight vanishing
+   silently. Both of its passes are wrong for this shape:
+
+     - pass 1 keys on fips|canonicalUrl, and every compound in a RaDAR issue
+       shares that issue's URL. A fragment does not help: canonicalUrl strips
+       the hash, correctly, because for news a fragment is the same page.
+     - pass 3 is trigram similarity on the headline. Measured on real output,
+       "3,4-Methylenedioxy PCP" and "3-Methyl PCP" score 0.610 against a 0.55
+       threshold - two different first detections from one issue, merged.
+
+   So identity is the coast and the compound. These check the rule directly
+   rather than the plumbing, because the plumbing is what got it wrong. */
+const { slug: compoundKey } = await import("../src/sources/radar.mjs");
+const keyOf = (i) => `${i.region}|${compoundKey(i.substanceHint || i.title)}`;
+
+await t("two compounds from one issue are two findings, not one", () => {
+  const issue = "https://content.govdelivery.com/accounts/USNIST/bulletins/abc123";
+  const items = [
+    { region: "west", substanceHint: "3,4-Methylenedioxy PCP", url: issue, eventDate: "2026-02-01" },
+    { region: "west", substanceHint: "3-Methyl PCP",           url: issue, eventDate: "2026-02-01" },
+  ];
+  assert.equal(new Set(items.map(keyOf)).size, 2,
+    "two different compounds collapsed - the same-URL or similar-name bug is back");
+});
+
+await t("the same compound twice does collapse", () => {
+  const a = { region: "east", substanceHint: "Yangonin", eventDate: "2026-02-01" };
+  const b = { region: "east", substanceHint: "yangonin", eventDate: "2026-02-01" };
+  assert.equal(new Set([a, b].map(keyOf)).size, 1, "a true duplicate survived twice");
+});
+
+await t("one compound on two coasts is two findings", () => {
+  const a = { region: "west", substanceHint: "Fluorexetamine", eventDate: "2026-02-01" };
+  const b = { region: "east", substanceHint: "Fluorexetamine", eventDate: "2026-02-01" };
+  assert.equal(new Set([a, b].map(keyOf)).size, 2, "two coasts collapsed into one finding");
+});
+
+/* And the pipeline must not quietly go back to cluster() for these. */
+/* The same substance written two ways is one finding. RaDAR's own copy varies:
+   Greek letters get spelled out, primes come and go. */
+await t("one compound spelled two ways is one finding", () => {
+  const a = { region: "east", substanceHint: "Bromo-\u03b1-PVP", eventDate: "2026-03-01" };
+  const b = { region: "east", substanceHint: "Bromo-alpha-PVP", eventDate: "2026-03-01" };
+  assert.equal(new Set([a, b].map(keyOf)).size, 1,
+    "the same compound spelled differently produced two findings");
+});
+
+/* ...but normalising must not go so far that different compounds collide. */
+await t("normalising does not merge genuinely different compounds", () => {
+  const a = { region: "west", substanceHint: "3-Methyl PCP", eventDate: "2026-02-01" };
+  const b = { region: "west", substanceHint: "3,4-Methylenedioxy PCP", eventDate: "2026-02-01" };
+  assert.equal(new Set([a, b].map(keyOf)).size, 2, "normalisation collapsed two real findings");
+});
+
+await t("ingest keys regional findings on the compound, not the deduper", async () => {
+  const src = await readFile(new URL("../src/ingest.mjs", import.meta.url), "utf8");
+  const seg = src.slice(src.indexOf("const regionSeen"), src.indexOf("const regionClusters"));
+  assert.match(seg, /substanceHint/, "regional identity no longer uses the compound");
+  const after = src.slice(src.indexOf("const regionClusters"));
+  assert.ok(!/^\s*const regionClusters = cluster\(/m.test(after),
+    "regional findings are being routed through cluster() again");
+});
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
