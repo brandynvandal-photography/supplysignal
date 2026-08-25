@@ -3405,7 +3405,35 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
    carries the caveat - clipping "drugs showing up elsewhere, not local" to
    "...not lo" would deliver the opposite of what the row exists to say. These
    wrap to a second line instead. */
+/* A ROW WHOSE SUBTITLE WRAPS NEEDS MORE ROOM THAN ONE WHOSE SUBTITLE DOES NOT.
+ *
+ * .nbr is tuned for a dense one-line row - a drug in a class list, a compound
+ * in a finding - where 16px of padding, a 1px gap under the name and 8px
+ * between rows is right, and where making it airier would push a list of
+ * twenty-five off the screen.
+ *
+ * The SOS pointers are the same component carrying three lines of prose each.
+ * At those proportions the same numbers read as cramped: the description
+ * crowds its own title and the two rows crowd each other, in the middle of a
+ * page whose other blocks are cards with 24px of air. Reported 2026-08-25.
+ *
+ * Scoped by :has to rows that actually wrap, so the dense lists are untouched.
+ * Where :has is missing the rows simply keep today's spacing - the old value,
+ * not a broken one. */
 .nbr__sub--wrap { white-space: normal; }
+:root { --nbr-wrap-pad: calc(var(--sp-3) + 4px); }
+.nbr:has(.nbr__sub--wrap) {
+  padding-top: var(--nbr-wrap-pad);
+  padding-bottom: var(--nbr-wrap-pad);
+  margin-bottom: var(--sp-2);
+}
+.nbr:has(.nbr__sub--wrap) .nbr__text { gap: 5px; }
+/* The group's own inset - `.list > .nbr:first-child` near the foot of this
+   file - is (0,3,0) and beat the (0,2,0) above, so the first row kept 16px on
+   top while its bottom took the new value: one row padded unevenly, which is
+   worse than the cramping this set out to fix. Same value, enough weight. */
+.list > .nbr:has(.nbr__sub--wrap):first-child { padding-top: var(--nbr-wrap-pad); }
+.list > .nbr:has(.nbr__sub--wrap):last-child { padding-bottom: var(--nbr-wrap-pad); }
 
 /* The step number on Learn's "Start here" rows.
    A number rather than a bullet because the order is the whole point of that
