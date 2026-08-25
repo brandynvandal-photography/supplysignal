@@ -64,5 +64,30 @@ jobs:
             echo "no changes"
           else
             git commit -m "ingest: $(date -u +%FT%TZ)"
-            git push
+            # REBASE BEFORE PUSHING, AND RETRY.
+            #
+            # A run checks out main, works for ten to fifteen minutes, then
+            # pushes. Anything landing on main in that window makes the push a
+            # non-fast-forward and the job fails - and the whole ingest is
+            # thrown away with it, including any finding it published. That
+            # happened on 2026-08-25: the 18:52 run committed 231 files and
+            # could not push because a site deploy landed mid-run, so alerts
+            # sat unpublished until the next cron three hours later.
+            #
+            # Nothing here conflicts in practice: this job only ever touches
+            # data/, feeds/ and review/seen.json, and nothing else writes them.
+            # A rebase replays this commit onto whatever arrived and pushes.
+            for attempt in 1 2 3; do
+              if git push; then
+                echo "pushed on attempt $attempt"
+                exit 0
+              fi
+              echo "push rejected (attempt $attempt) - rebasing onto origin/main"
+              git pull --rebase --autostash origin main || {
+                echo "::error::rebase failed - a human needs to look at this"
+                exit 1
+              }
+            done
+            echo "::error::could not push after 3 attempts"
+            exit 1
           fi
