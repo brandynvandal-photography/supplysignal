@@ -73,34 +73,34 @@ export async function render(route, { go }) {
     );
   }
 
-  /* ---- Canadian first detections ---- */
+  /* ---- Canadian first detections, grouped by what the substance is ----
+   *
+   * This was 96 bare names and dates, which is the most honest thing the feed
+   * itself carries - Health Canada publishes a name and a date, no class, no
+   * description - and also nearly unreadable. "Methylclonazepam, first
+   * identified June 2026" tells a reader nothing unless they already know what
+   * it is, and 96 of those in a column is 96 lookups.
+   *
+   * So the class is the row, the substances sit inside it, and the same
+   * disclosure the alerts screen uses does the opening.
+   *
+   * WHAT WE ARE ALLOWED TO SAY ABOUT A SUBSTANCE. Only what is already
+   * published in this app or by a lab, in that order:
+   *   1. our own entry, when the name matches one - its class, and its plain
+   *      description where one has been written, and a link to the full page;
+   *   2. NIST RaDAR's printed class, when the same compound turned up there;
+   *   3. nothing.
+   *
+   * Nothing is inferred from the NAME. The suffixes are tempting - -azolam and
+   * -azepam really do mean benzodiazepine nearly every time - but "nearly
+   * every time" is how Tetracaine becomes a stimulant and Hydrochlorothiazide
+   * becomes an opioid, and a wrong class here is worse than no class at all.
+   * 71 of the 96 land in the last bucket today and it says so in words.
+   *
+   * Groups are ordered by their most recent detection, because recency is what
+   * this feed is for; the undescribed group sits last whatever its dates. */
   if (doc.firstDetections?.length) {
-    const items = doc.firstDetections;
-    const list = h("div");
-
-    /* Long tail: 96 names is a wall. Show the recent ones and let the rest be
-       opened deliberately - no infinite scroll, no "load more" that hides how
-       much there is. */
-    const RECENT = 12;
-    const recent = items.slice(0, RECENT);
-    const rest = items.slice(RECENT);
-
-    const line = (d) =>
-      h("div", { class: "firstdet" },
-        h("span", { class: "firstdet__name" }, d.substance),
-        h("span", { class: "firstdet__when" }, `first identified ${monthYear(d.date)}`));
-
-    list.appendChild(frag(recent.map(line)));
-    if (rest.length) {
-      list.appendChild(
-        /* .disc__body, not a bare div. Without the class these 84 rows got no
-           padding at all and sat flush against the bubble's edge, while every
-           other disclosure in the app insets its contents. */
-        h("details", { class: "disc" },
-          h("summary", null, h("h2", null, `${rest.length} earlier first detections`)),
-          h("div", { class: "disc__body" }, rest.map(line)))
-      );
-    }
+    const known = await describeFirstDetections(doc.firstDetections);
 
     wrap.appendChild(
       section("First detections", "Canada, national",
@@ -108,7 +108,7 @@ export async function render(route, { go }) {
           "Substances Canada’s national lab identified for the first time in a sample " +
           "submitted to it. A first detection means a drug exists and has been " +
           "confirmed somewhere — not that it is common, and not that it is here."),
-        list)
+        h("div", { class: "list newly" }, known))
     );
   }
 
@@ -196,4 +196,91 @@ export async function render(route, { go }) {
   }
 
   return wrap;
+}
+
+/* Group the first detections by class, describing each only from what is
+   already published here or by a lab. See the block comment at the call site
+   for why nothing is inferred from the substance's name. */
+const NO_CLASS = "No published description";
+
+async function describeFirstDetections(items) {
+  const [subsDoc, regional] = await Promise.all([
+    data.substances().catch(() => null),
+    data.alertsRegional(365).catch(() => []),
+  ]);
+
+  const norm = (x) => String(x || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const byName = new Map();
+  for (const s of subsDoc?.substances || []) {
+    byName.set(norm(s.name), s);
+    for (const a of s.aliases || []) if (!byName.has(norm(a))) byName.set(norm(a), s);
+  }
+  const printed = new Map();
+  for (const c of regional) {
+    if (c.printedClass) printed.set(norm(c.substanceHint || c.substances?.[0]), c.printedClass);
+  }
+
+  const groups = new Map();
+  for (const d of items) {
+    const key = norm(d.substance);
+    const s = byName.get(key);
+    const label = s
+      ? (s.class?.psychoactive?.[0] || s.class?.chemical?.[0] || NO_CLASS)
+      : (printed.get(key) ? sentenceCase(printed.get(key)) : NO_CLASS);
+    if (!groups.has(label)) groups.set(label, []);
+    groups.get(label).push({ ...d, entry: s || null });
+  }
+
+  /* Newest first inside a group, and groups ordered by their newest - except
+     the undescribed one, which goes last however fresh it is: it is the
+     absence of an answer, not an answer. */
+  const newest = (rows) => rows.reduce((m, r) => (r.date > m ? r.date : m), "");
+  const ordered = [...groups.entries()]
+    .map(([label, rows]) => [label, rows.slice().sort((a, b) => String(b.date).localeCompare(String(a.date)))])
+    .sort((a, b) => {
+      if (a[0] === NO_CLASS) return 1;
+      if (b[0] === NO_CLASS) return -1;
+      return newest(b[1]).localeCompare(newest(a[1]));
+    });
+
+  return ordered.map(([label, rows]) => h("details", { class: "acc" },
+    h("summary", null, h("span", null, label), badge(String(rows.length), "neutral")),
+    h("div", { class: "acc__body" },
+      label === NO_CLASS
+        ? h("p", { class: "sec__note" },
+            "The lab confirmed these exist in a sample. Nothing here has a published "
+            + "entry in this app, and we do not guess a class from a chemical name.")
+        : null,
+      h("div", { class: "list" }, rows.map(firstDetRow)))));
+}
+
+/* A row links to the substance's own page when there is one - that is where
+   the full description, the interactions and the reagent results live, and it
+   is what "click into more detail" has to mean here. Where there is no page
+   the row is not a link, and says only the two things the feed actually
+   carries: the name and when it was first identified. */
+function firstDetRow(d) {
+  const when = `first identified ${monthYear(d.date)}`;
+  const inner = frag(
+    h("span", { class: "nbr__text" },
+      h("span", { class: "nbr__name" }, d.substance),
+      h("span", { class: "nbr__sub nbr__sub--wrap" },
+        d.entry?.description ? `${firstSentence(d.entry.description)} · ${when}` : when)));
+
+  return d.entry
+    ? h("a", { class: "nbr", href: `#/substances/${d.entry.id}` },
+        inner, h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "\u203A")))
+    : h("div", { class: "nbr nbr--flat" }, inner);
+}
+
+/* One sentence of a description that runs to paragraphs on the substance's own
+   page. Cut at the first full stop that ends a sentence rather than one inside
+   a decimal or an abbreviation. */
+function firstSentence(text) {
+  const m = String(text).match(/^.*?[.!?](?=\s+[A-Z(]|$)/);
+  return (m ? m[0] : String(text)).trim();
+}
+
+function sentenceCase(x) {
+  return x ? x.charAt(0).toUpperCase() + x.slice(1) : x;
 }
