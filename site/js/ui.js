@@ -99,10 +99,49 @@ export function relTime(iso) {
   if (d === 0) return "today";
   if (d === 1) return "yesterday";
   if (d < 31) return `${d} days ago`;
-  const m = Math.floor(d / 30);
-  if (m < 12) return `${m} month${m === 1 ? "" : "s"} ago`;
+  /* MONTHS UNTIL A YEAR HAS ACTUALLY PASSED. This used to switch on
+     floor(d / 30) >= 12, which is 360 days - and then computed the year as
+     floor(d / 365), which is 0. Every finding between 360 and 364 days old
+     read "0 years ago" on the card. Found by the cross-check in
+     recency.test.mjs, which compares these words against the colour band the
+     same date produces. */
+  if (d < 365) {
+    const m = Math.min(12, Math.max(1, Math.floor(d / 30)));
+    return `${m} month${m === 1 ? "" : "s"} ago`;
+  }
   const y = Math.floor(d / 365);
   return `${y} year${y === 1 ? "" : "s"} ago`;
+}
+
+/* HOW OLD A FINDING IS, AS FOUR BANDS.
+ *
+ * Everything on an alert card is currently as loud at nine months as at nine
+ * days: same rail, same badge, same weight. On a page whose whole claim is
+ * what is circulating NOW, that flattens the one distinction that matters
+ * most, and the reader has to stop and read every date to rebuild it.
+ *
+ * BANDS, NOT A CURVE. The dates behind these are event dates from health
+ * departments and medical examiners, and toxicology runs weeks behind the
+ * event - so a continuous ramp would render a precision the source data does
+ * not have. Four coarse steps say "recent / not recent" honestly.
+ *
+ * The band only ever modulates how strongly the severity rail is drawn. It
+ * does not restate the age: the date is already printed on the card in words
+ * and in a machine-readable <time>, so nothing here is carried by colour
+ * alone, and a reader who cannot see the difference has lost nothing.
+ *
+ * Thresholds match relTime's own vocabulary above ("30 days", "months",
+ * "a year") so the colour and the words never disagree about which side of a
+ * boundary a finding is on. */
+export function ageBand(iso) {
+  const ms = Date.parse(iso);
+  if (Number.isNaN(ms)) return "fresh";      // unknown date: never dim it
+  const d = Math.floor((Date.now() - ms) / 864e5);
+  if (d < 0) return "fresh";                 // future-dated: same
+  if (d < 31) return "fresh";
+  if (d < 91) return "recent";
+  if (d < 365) return "older";
+  return "stale";
 }
 
 /** Machine-readable date for <time datetime>. */

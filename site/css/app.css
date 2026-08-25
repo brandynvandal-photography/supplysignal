@@ -1589,9 +1589,41 @@ main {
 
 /* Severity reads as a soft edge rather than a warning stripe. The badge and
    its word still carry the signal at full contrast. */
-.card--critical { border-left: var(--sev-rule) solid var(--critical); }
-.card--elevated { border-left: var(--sev-rule) solid var(--elevated); }
-.card--advisory { border-left: var(--sev-rule) solid var(--advisory); }
+.card--critical { --sev: var(--critical); }
+.card--elevated { --sev: var(--elevated); }
+.card--advisory { --sev: var(--advisory); }
+
+/* AND THE RAIL FADES WITH AGE.
+ *
+ * Same severity, same rail, whether the finding is nine days old or nine
+ * months - on a page about what is circulating now, that flattened the
+ * distinction that matters most and left the reader checking every date by
+ * hand. The band comes from ageBand() in ui.js; here it only decides how much
+ * of the severity colour survives against the ordinary rule colour.
+ *
+ * SEVERITY IS NOT WHAT FADES. A nine-month-old critical is still critical:
+ * its badge, its word and its date are all untouched at full contrast, and
+ * nothing here is the only carrier of anything. This is emphasis, not data.
+ *
+ * OLDER GOES GREYER, NOT FAINTER, and that difference is the whole design.
+ * Mixing toward --line-2 was the obvious move and it was wrong: that colour
+ * sits near the card behind it, so every step toward it spent contrast as well
+ * as chroma. The oldest band measured 2.71:1 in the LIGHT theme - under the
+ * 3:1 that 1.4.11 asks of non-text - while reading fine in dark, which is
+ * where I measured first. Mixing toward --ink-3 drains the colour and leaves
+ * the luminance: --ink-3 is body-text ink, so every step of this ramp is
+ * bounded below by something legible by construction, in both themes, with no
+ * magic number holding the floor up. An old finding is quieter, never absent.
+ *
+ * Unknown and future dates stay `fresh` deliberately: dimming something whose
+ * date we could not parse would be asserting an age we do not have. */
+.card--critical, .card--elevated, .card--advisory {
+  border-left: var(--sev-rule) solid
+    color-mix(in srgb, var(--sev) var(--sev-strength, 100%), var(--ink-3));
+}
+.card--age-recent { --sev-strength: 74%; }
+.card--age-older  { --sev-strength: 50%; }
+.card--age-stale  { --sev-strength: 30%; }
 
 .card__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 11px; }
 /* (removed) .card h3 { margin: 0 0 10px } was completely defeated by the
