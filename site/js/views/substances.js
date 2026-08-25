@@ -346,10 +346,30 @@ async function marketBlock() {
 
 /** One substance row. Shared by search results and class listings so the two
  *  can never drift apart. */
-function row(s, go) {
+/* WHERE THE READER CAME FROM, remembered for exactly one hop.
+ *
+ * A drug page's back button always said "All drugs", so opening Fentanyl from
+ * inside Opioids and going back dropped the reader at the top of the drugs
+ * screen - they lost the class they were reading through and had to find it
+ * again. Reported 2026-08-25.
+ *
+ * Recorded at the moment of navigation by the view that owns the row, which is
+ * the only place that actually knows: a row on a class page passes its slug, a
+ * row in search results passes nothing and clears it. So the back button
+ * describes a journey that happened rather than one inferred afterwards from
+ * which classes a drug happens to belong to - and a drug in two classes still
+ * goes back to the one the reader was actually in.
+ *
+ * A module variable, deliberately. It is one hop of navigation state, it is
+ * meaningless to a later session, and this app does not put what someone
+ * looked up into storage. A cold load straight to a drug URL has no origin and
+ * correctly says "All drugs". */
+let cameFromClass = null;
+
+function row(s, go, fromClass = null) {
   return h("button", {
       type: "button", class: "nbr",
-      onClick: () => go(`#/substances/${s.id}`),
+      onClick: () => { cameFromClass = fromClass; go(`#/substances/${s.id}`); },
     },
     /* Title over subtitle, not "Name · alias, alias, alias" on one line. The
        inline form wrapped to three lines on a phone and ran under the badge;
@@ -538,7 +558,7 @@ function classView(slug, subs, { go }) {
         "Clear the filter, or search the Drugs screen to look across all classes."));
       return;
     }
-    for (const s of hits) list.appendChild(row(s, go));
+    for (const s of hits) list.appendChild(row(s, go, slug));
   };
   input.addEventListener("input", () => paint(input.value));
 
@@ -783,14 +803,18 @@ function mixChecker(combos, yours) {
      there it labels the data. */
   return section("Is this combination dangerous?", null,
     h("div", { class: "card" },
-      /* This sentence is what lets someone map the pill in their hand onto a
-         menu of category names. It rendered BELOW the dropdowns - useful only
-         after failing. It is the first thing in the card now. */
+      rows,
+      /* This sentence maps the pill in someone's hand onto a menu of category
+         names. It was the first thing in the card, which put a paragraph of
+         explanation directly under the class squares before the reader had
+         been offered anything to do - moved down 2026-08-25 on that report.
+         It sits under the dropdowns and ABOVE the results, so it is still on
+         screen before a combination is chosen rather than only after one
+         fails, which was the reason it was lifted in the first place. */
       h("p", { class: "sec__note mixnote" },
         "Categories, not brands. Fentanyl, heroin, oxycodone and methadone are all ",
         h("strong", null, "opioids"), "; Xanax, Valium and etizolam are all ",
         h("strong", null, "benzodiazepines"), "."),
-      rows,
       h("div", { class: "chips" }, addBtn),
       out,
       live),
@@ -876,9 +900,16 @@ async function detailView(id, subs, combos, { go }) {
 
   const wrap = h("div");
 
+  /* Back to the class the reader opened this from, when there was one. The
+     label names it, so the button says where it goes instead of making them
+     find out by pressing it. */
+  const origin = CLASSES.find((c) => c.slug === cameFromClass);
   wrap.appendChild(
-    h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/substances") },
-      h("span", { "aria-hidden": "true" }, "‹"), " All drugs")
+    h("button", {
+        type: "button", class: "btn btn--ghost btn--sm",
+        onClick: () => go(origin ? `#/substances/class/${origin.slug}` : "#/substances"),
+      },
+      h("span", { "aria-hidden": "true" }, "‹"), origin ? ` ${origin.label}` : " All drugs")
   );
 
   wrap.appendChild(h("div", { class: "county-head" },
