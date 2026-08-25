@@ -207,20 +207,33 @@ async function pickerView(route, { go, data }) {
           "Substances a federal lab found in submitted samples for the first time. "
           + "The finest location this data has is a coast — none of it says whether "
           + "any of these has reached your county."),
+        /* STRAIGHT TO THE SOURCE. A row used to route to Early warning, which
+           is where the reader already is in spirit - they can see the finding,
+           and what they want next is the bulletin it came from. So each row is
+           the source link itself. External, so it carries the same target,
+           rel and referrer policy every other outbound link here does, via
+           extLink's own anchor rather than a hand-rolled one.
+
+           A finding with no usable source URL still renders, as a row that is
+           not a link, rather than being dropped: the finding is true whether
+           or not we can point at it. */
         h("div", { class: "list" },
-          seenElsewhere.slice(0, NATIONAL_PREVIEW).map((c) =>
-            h("button", {
-              type: "button", class: "nbr", onClick: () => go("#/emerging"),
-            },
+          seenElsewhere.slice(0, NATIONAL_PREVIEW).map((c) => {
+            const src = c.sources?.[0];
+            const inner = frag(
               h("span", { class: "nbr__text" },
                 h("span", { class: "nbr__name" }, c.substances?.[0] || c.headline),
                 h("span", { class: "nbr__sub nbr__sub--wrap" },
-                  `${label[c.region] || "United States"} · ${monthOf(c.eventDate)}`)),
-              h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›"))))),
-        h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/emerging") },
-          seenElsewhere.length > NATIONAL_PREVIEW
-            ? `All ${seenElsewhere.length} in Early warning`
-            : "More in Early warning"))
+                  `${label[c.region] || "United States"} · ${monthOf(c.eventDate)}`)));
+            return src?.url
+              ? extLink(src.url, inner, "nbr")
+              : h("div", { class: "nbr nbr--flat" }, inner);
+          })),
+        h("div", { class: "seenmore" },
+          h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/emerging") },
+            seenElsewhere.length > NATIONAL_PREVIEW
+              ? `All ${seenElsewhere.length} in Early warning`
+              : "More in Early warning")))
     );
   }
 
