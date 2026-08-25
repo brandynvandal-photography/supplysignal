@@ -181,7 +181,57 @@ async function pickerView(route, { go, data }) {
   };
   await drawNational();
   wrap.appendChild(natHost);
+
+  /* ---- newly detected elsewhere ----
+   *
+   * ON THIS SCREEN AND NOT ON A COUNTY PAGE, and the difference is the whole
+   * reason it is safe here. countyView links to Early warning rather than
+   * inlining it, because "the moment national data renders inside a county
+   * page a reader takes it as local" - a page about Hamilton County reads
+   * everything on it as being about Hamilton County. This page is, in its own
+   * words, deliberately about nowhere: there is no county on it to borrow. So
+   * a coast-level finding can be shown rather than only pointed at, which is
+   * what makes it findable at all - it was previously reachable only from a
+   * county page, two taps in.
+   *
+   * The geography is on every row, not only in the heading, because a reader
+   * scanning a list does not read headings. And the section says what it is
+   * before it says what was found. */
+  const seenElsewhere = await data.alertsRegional(365);
+  if (seenElsewhere.length) {
+    const label = { west: "West Coast", east: "East Coast", national: "United States" };
+    wrap.appendChild(
+      section("Newly detected elsewhere in the US",
+        `${seenElsewhere.length} in the last 12 months`,
+        h("p", { class: "sec__note" },
+          "Substances a federal lab found in submitted samples for the first time. "
+          + "The finest location this data has is a coast — none of it says whether "
+          + "any of these has reached your county."),
+        h("div", { class: "list" },
+          seenElsewhere.slice(0, NATIONAL_PREVIEW).map((c) =>
+            h("button", {
+              type: "button", class: "nbr", onClick: () => go("#/emerging"),
+            },
+              h("span", { class: "nbr__text" },
+                h("span", { class: "nbr__name" }, c.substances?.[0] || c.headline),
+                h("span", { class: "nbr__sub nbr__sub--wrap" },
+                  `${label[c.region] || "United States"} · ${monthOf(c.eventDate)}`)),
+              h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›"))))),
+        h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/emerging") },
+          seenElsewhere.length > NATIONAL_PREVIEW
+            ? `All ${seenElsewhere.length} in Early warning`
+            : "More in Early warning"))
+    );
+  }
+
   return wrap;
+}
+
+/* "March 2026" from an ISO date, for a row that already carries a place. */
+function monthOf(iso) {
+  const d = new Date(`${String(iso).slice(0, 10)}T00:00:00Z`);
+  return Number.isNaN(+d) ? "" : d.toLocaleDateString("en-US",
+    { month: "long", year: "numeric", timeZone: "UTC" });
 }
 
 /* ============================================================ search bar == */
