@@ -351,9 +351,30 @@ async function searchBar({ go, data }) {
      * Saying it before it happens is the whole fix available from here. The
      * real fix is the native geolocation plugin, one prompt with the app's own
      * name on it, and it needs a working pod install. */
-    say(data.packaged()
-      ? "iOS will ask twice — once for the app, then once for the page. The second one says “localhost”: that is this app, not a website."
-      : "Asking your browser for a location…");
+    /* ONLY WHEN THERE IS GOING TO BE A PROMPT.
+     *
+     * This warning is worth showing exactly once - before the two sheets
+     * appear - and it is noise afterwards. With permission already granted
+     * getCurrentPosition resolves immediately, so the line was painted and
+     * overwritten by "Matching coordinates" in the same breath: a flash of
+     * text about prompts that were never going to appear. Reported as text
+     * that pops up and vanishes on tapping Near me.
+     *
+     * permissions.query is the only way to ask without triggering anything.
+     * Where it is missing or throws - it is not universal, and Safari has
+     * historically been patchy about the geolocation name - the state is
+     * unknown and the warning still shows, because the failure that matters
+     * is somebody declining the "localhost" box, not a redundant sentence. */
+    let permission = null;
+    try {
+      permission = (await navigator.permissions?.query({ name: "geolocation" }))?.state ?? null;
+    } catch { /* unsupported: fall through to showing it */ }
+
+    if (permission !== "granted") {
+      say(data.packaged()
+        ? "iOS will ask twice — once for the app, then once for the page. The second one says “localhost”: that is this app, not a website."
+        : "Asking your browser for a location…");
+    }
 
     let pos;
     try {
