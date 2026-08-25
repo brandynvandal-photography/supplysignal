@@ -62,6 +62,24 @@
   --l-ident-alerts: #327086;  --l-ident-learn: #374a95;
   --l-ident-test: #583795;    --l-ident-drugs: #8c3795;
   --l-ident-support: #953766;
+
+  /* DRUG CLASS COLOURS. Six of the ten classes carry a hue; the rest stay
+   * neutral, and that is a measurement rather than a shrug. Ten hues in the
+   * band severity leaves free land 16 degrees apart and measure a minimum
+   * adjacent deltaE of 7.2 - close enough that two cards side by side read as
+   * the same colour. Six sit 24-27 apart at deltaE 12.3, which is legible.
+   *
+   * Which six is also from the data: psychedelics 90 substances, stimulants
+   * 69, depressants 49, then opioids, empathogens and dissociatives at 24
+   * each, then a tail of 22, 11, 8 and 6. The break is where the colour stops.
+   *
+   * Clear of everything that already means something, in deltaE: critical
+   * 48.6, elevated 57.4, ok 48.2, brand 31.5. The last one is why the band
+   * starts at 205 rather than 185 - a teal Depressants sat 11.3 from the link
+   * colour, which is close enough to look like one. */
+  --l-cls-depressants: #386e94;   --l-cls-opioids: #3b4d9b;
+  --l-cls-dissociatives: #503b9b; --l-cls-psychedelics: #763b9b;
+  --l-cls-empathogens: #9b3b93;   --l-cls-stimulants: #9b3b68;
   --l-shadow: 0 1px 2px rgba(70,55,40,.04), 0 6px 24px rgba(70,55,40,.06);
   --l-shadow-lg: 0 12px 40px rgba(70,55,40,.14);
   /* The map's own palette, as the canvas reads it. map.js cannot use a CSS
@@ -93,6 +111,10 @@
   --d-ident-alerts: #94d0e6;  --d-ident-learn: #94a4e6;
   --d-ident-test: #b094e6;    --d-ident-drugs: #de94e6;
   --d-ident-support: #e694bd;
+  /* See --l-cls-*. Lifted for the dark ground. */
+  --d-cls-depressants: #8ebfe1;   --d-cls-opioids: #8e9de1;
+  --d-cls-dissociatives: #a492e2; --d-cls-psychedelics: #c18ee1;
+  --d-cls-empathogens: #e18eda;   --d-cls-stimulants: #e18eb5;
   --d-shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.28);
   --d-shadow-lg: 0 12px 40px rgba(0,0,0,.45);
   /* See --l-map-*. Up and down are the dark severity/ok inks; the flat and
@@ -136,6 +158,9 @@
   --ident-alerts: var(--l-ident-alerts);   --ident-learn: var(--l-ident-learn);
   --ident-test: var(--l-ident-test);       --ident-drugs: var(--l-ident-drugs);
   --ident-support: var(--l-ident-support);
+  --cls-depressants: var(--l-cls-depressants);     --cls-opioids: var(--l-cls-opioids);
+  --cls-dissociatives: var(--l-cls-dissociatives); --cls-psychedelics: var(--l-cls-psychedelics);
+  --cls-empathogens: var(--l-cls-empathogens);     --cls-stimulants: var(--l-cls-stimulants);
   --shadow: var(--l-shadow);         --shadow-lg: var(--l-shadow-lg);
   --map-flat: var(--l-map-flat);     --map-up: var(--l-map-up);
   --map-down: var(--l-map-down);     --map-seq-lo: var(--l-map-seq-lo);
@@ -338,9 +363,15 @@
   --ident-alerts: var(--d-ident-alerts);   --ident-learn: var(--d-ident-learn);
   --ident-test: var(--d-ident-test);       --ident-drugs: var(--d-ident-drugs);
   --ident-support: var(--d-ident-support);
+  --cls-depressants: var(--d-cls-depressants);     --cls-opioids: var(--d-cls-opioids);
+  --cls-dissociatives: var(--d-cls-dissociatives); --cls-psychedelics: var(--d-cls-psychedelics);
+  --cls-empathogens: var(--d-cls-empathogens);     --cls-stimulants: var(--d-cls-stimulants);
     --ident-alerts: var(--d-ident-alerts);   --ident-learn: var(--d-ident-learn);
     --ident-test: var(--d-ident-test);       --ident-drugs: var(--d-ident-drugs);
     --ident-support: var(--d-ident-support);
+    --cls-depressants: var(--d-cls-depressants);     --cls-opioids: var(--d-cls-opioids);
+    --cls-dissociatives: var(--d-cls-dissociatives); --cls-psychedelics: var(--d-cls-psychedelics);
+    --cls-empathogens: var(--d-cls-empathogens);     --cls-stimulants: var(--d-cls-stimulants);
     --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
     --map-flat: var(--d-map-flat);     --map-up: var(--d-map-up);
     --map-down: var(--d-map-down);     --map-seq-lo: var(--d-map-seq-lo);
@@ -447,8 +478,13 @@ body {
 body::before {
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background-image:
+    /* --ident, so the wash behind the whole page belongs to the tab you are
+       in. It is the single largest coloured surface in the app and it was one
+       teal everywhere, which is most of why every tab looked like every other
+       one. At 7% it is barely a tint - felt rather than seen - which is the
+       right weight for something covering the entire viewport. */
     radial-gradient(120% 70% at 50% -10%,
-      color-mix(in srgb, var(--brand) 7%, transparent) 0%, transparent 60%),
+      color-mix(in srgb, var(--ident) 7%, transparent) 0%, transparent 60%),
     linear-gradient(to bottom,
       transparent 55%, color-mix(in srgb, var(--glow) 4%, transparent) 100%);
 }
@@ -1677,9 +1713,9 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
      (First bubble version was 1.12rem with sp-3/sp-4 padding: too big.) */
   padding: 10px var(--sp-3);
   background: linear-gradient(135deg,
-    color-mix(in srgb, var(--brand) 12%, var(--surface)) 0%,
-    color-mix(in srgb, var(--brand) 4%, var(--surface)) 100%);
-  border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
+    color-mix(in srgb, var(--ident) 12%, var(--surface)) 0%,
+    color-mix(in srgb, var(--ident) 4%, var(--surface)) 100%);
+  border: 1px solid color-mix(in srgb, var(--ident) 25%, transparent);
   border-radius: var(--radius-pill);
   color: var(--ink);
   font-size: .98rem;
@@ -1758,9 +1794,30 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
   }
 }
 .classcard:active { transform: scale(.985); }
-/* No severity colour anywhere here. These are subject areas, not a ranking of
-   danger, and tinting them would read as one. */
+/* STILL NO SEVERITY COLOUR HERE. That rule stands: these are subject areas,
+ * not a ranking of danger, and tinting a card by danger would read as one.
+ *
+ * What the class hue does instead is mark WHICH subject, so the grid can be
+ * navigated by memory - the one you opened last time is the blue one. It is
+ * the same short bar the section headings use, not a coloured left edge on the
+ * card: a left edge is how the alert cards carry severity, and borrowing that
+ * shape here is exactly the confusion the note above is about.
+ *
+ * Six classes have a hue and four do not; --cls-* is simply absent for those,
+ * so the bar falls back to the line colour and the card reads as it always
+ * did. See --l-cls-* for why six. */
 .classcard__label { font-weight: 650; font-size: 1.02rem; }
+.classcard__label::before {
+  content: ""; display: inline-block; vertical-align: middle;
+  width: 3px; height: .85em; margin-right: 9px; border-radius: 2px;
+  background: var(--line-2);
+}
+[data-class="depressants"]   .classcard__label::before { background: var(--cls-depressants); }
+[data-class="opioids"]       .classcard__label::before { background: var(--cls-opioids); }
+[data-class="dissociatives"] .classcard__label::before { background: var(--cls-dissociatives); }
+[data-class="psychedelics"]  .classcard__label::before { background: var(--cls-psychedelics); }
+[data-class="empathogens"]   .classcard__label::before { background: var(--cls-empathogens); }
+[data-class="stimulants"]    .classcard__label::before { background: var(--cls-stimulants); }
 /* A caption needs room on BOTH sides to read as a caption. At 3px from the
    heading and 5px from the count it was just the middle line of a paragraph;
    the eye could not tell which part was the answer to "what is this". */
@@ -2718,9 +2775,14 @@ details.disc > summary::after {
   font-size: 1.3rem; font-weight: 600; line-height: 1;
   transform: translateY(-50%) rotate(90deg); transition: transform .18s;
 }
+/* The open state fills in the tab's colour. This is the accent that repeats
+   most down a page - every open section has one - so it does more than the
+   marker rule alone to say which tab you are reading. --bg for the glyph
+   rather than --brand-ink: --ident is dark on the light theme and light on the
+   dark one, and --bg inverts with it, which --brand-ink does not promise. */
 details.disc[open] > summary::after {
   transform: translateY(-50%) rotate(-90deg);
-  background: var(--brand); color: var(--brand-ink);
+  background: var(--ident); color: var(--bg);
 }
 details.disc > summary:focus-visible h2 { color: var(--brand); }
 @media (hover: hover) {

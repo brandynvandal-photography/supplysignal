@@ -138,8 +138,11 @@ async function indexView(subs, combosP, { go }) {
     CLASSES.map((c) => {
       const n = groups.get(c.slug).length;
       if (!n) return null;
+      /* data-class carries the slug so the stylesheet can colour the card
+         without a second list of names to keep in step with CLASSES. Six of
+         the ten have a hue; the rest fall through to the neutral default. */
       return h("button", {
-          type: "button", class: "classcard",
+          type: "button", class: "classcard", "data-class": c.slug,
           onClick: () => go(`#/substances/class/${c.slug}`),
         },
         h("span", { class: "classcard__label" }, c.label),
