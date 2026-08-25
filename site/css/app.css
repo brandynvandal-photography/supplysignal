@@ -283,6 +283,10 @@
   --tap: 44px;              /* WCAG 2.5.5 minimum target */
   --wrap: 820px;
   --nav-h: 64px;            /* bottom tab bar */
+  /* The floating back-to-top button. Named because TWO rules depend on it -
+     the button itself and the room main() has to leave under the last thing on
+     the page - and they were silently 14px out of step. */
+  --totop-size: 46px;
 
   /* The early-access banner rides inside the sticky bar, so it is part of the
      sticky height and everything below has to know about it. Kept deliberately
@@ -1047,7 +1051,18 @@ details.acc > summary:focus-visible,
   background: color-mix(in srgb, var(--brand) 15%, transparent);
 }
 
-main { padding-top: var(--sp-5); padding-bottom: calc(var(--nav-h) + var(--sp-5)); }
+/* THE FLOATING BUTTON GETS ITS OWN ROOM AT THE FOOT.
+ *
+ * The reserve was --nav-h + --sp-5 = 112px, and .totop sits --nav-h + --sp-3
+ * from the bottom and is --totop-size tall, so it reaches 126px up. The last
+ * thing on the page ended inside that band and the button landed on it -
+ * reported as back-to-top overlapping "About this site". Adding the button's
+ * own height puts the floor below it with --sp-3 to spare, and the page can
+ * scroll that bit further. */
+main {
+  padding-top: var(--sp-5);
+  padding-bottom: calc(var(--nav-h) + var(--sp-5) + var(--totop-size));
+}
 
 /* 960, and the number is measured rather than chosen.
  *
@@ -1928,6 +1943,25 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
   .nbr:hover { border-color: var(--brand); background: var(--surface-2); }
 }
 .nbr__name { font-weight: 650; }
+/* THE ROW IS SOMETIMES AN ANCHOR. A finding links straight to the bulletin it
+   came from, so .nbr lands on an <a>: strip the underline the link inherits,
+   and push extLink's own trailing arrow to the right edge where the chevron
+   used to sit. A finding with no usable source URL renders as .nbr--flat -
+   still a row, not a link, because the finding is true either way. */
+a.nbr { text-decoration: none; }
+a.nbr > span[aria-hidden] { margin-left: auto; color: var(--ink-3); flex: none; }
+.nbr--flat { cursor: default; }
+@media (hover: hover) { .nbr--flat:hover { border-color: var(--glass-line); background: var(--glass); } }
+/* The button under a list is a separate act from the list, not its last row. */
+.seenmore { margin-top: var(--sp-3); }
+/* A card that is itself the link out. Same reason as a.nbr above: the anchor
+   brings an underline the card does not want, and extLink's trailing arrow
+   needs somewhere sensible to sit rather than trailing the last paragraph. */
+a.card--link { text-decoration: none; display: block; color: inherit; }
+a.card--link > span[aria-hidden] { color: var(--ink-3); }
+@media (hover: hover) {
+  a.card--link:hover { border-color: var(--brand); }
+}
 .nbr__dist { color: var(--ink-3); font-size: var(--fs-caption); }
 .nbr__right { margin-left: auto; display: flex; align-items: center; gap: 9px; }
 
@@ -4255,7 +4289,7 @@ details.disc .groupkids > details.disc > summary h2 {
   left: var(--sp-3); right: auto;
   bottom: max(calc(var(--nav-real, 0px) + var(--sp-3)),
               calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + var(--sp-3)));
-  width: 46px; height: 46px; border-radius: 50%;
+  width: var(--totop-size); height: var(--totop-size); border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.15rem; line-height: 1; cursor: pointer;
   color: var(--ink-2);

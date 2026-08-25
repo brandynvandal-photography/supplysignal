@@ -125,30 +125,36 @@ export async function render(route, { go }) {
    * the geography is stated once and cannot be missed by someone scanning. */
   const byCoast = await data.alertsRegional(365);
   if (byCoast.length) {
+    /* ONE SECTION, COAST ON THE ROW.
+     *
+     * This grouped by region and emitted a section per coast, so the page
+     * carried two headings reading "Newly detected in US samples" one after
+     * the other - which reads as a mistake rather than as a grouping, and
+     * reported as one. The geography belongs on the row anyway: a reader
+     * scanning a list does not re-read a heading to find out where they are,
+     * which is the same reason the homepage puts it there. */
     const label = { west: "West Coast", east: "East Coast", national: "United States" };
-    const groups = new Map();
-    for (const c of byCoast) {
-      const k = c.region || "national";
-      if (!groups.has(k)) groups.set(k, []);
-      groups.get(k).push(c);
-    }
-    for (const [region, rows] of groups) {
-      wrap.appendChild(
-        section("Newly detected in US samples", `${label[region] || "United States"}, by region`,
-          h("p", { class: "sec__note" },
-            "Compounds a federal lab identified in submitted samples for the first " +
-            "time. Samples are voluntarily submitted and may not be representative " +
-            "of the wider drug supply. The finest location this data has is a coast — " +
-            "it is not county-level, and it does not say whether any of these is here."),
-          frag(rows.map((c) =>
-            h("div", { class: "card" },
-              h("div", { class: "card__top" },
-                badge("First detection", "neutral"),
-                h("time", { class: "card__meta", datetime: c.eventDate }, monthYear(c.eventDate))),
-              h("h3", null, c.headline),
-              c.summary ? h("p", null, c.summary) : null))))
-      );
-    }
+    wrap.appendChild(
+      section("Newly detected in US samples",
+        `${byCoast.length} in the last 12 months`,
+        h("p", { class: "sec__note" },
+          "Compounds a federal lab identified in submitted samples for the first "
+          + "time. Samples are voluntarily submitted and may not be representative "
+          + "of the wider drug supply. The finest location this data has is a coast — "
+          + "it is not county-level, and it does not say whether any of these is here."),
+        frag(byCoast.map((c) => {
+          const src = c.sources?.[0];
+          const body = frag(
+            h("div", { class: "card__top" },
+              badge(label[c.region] || "United States", "neutral"),
+              h("time", { class: "card__meta", datetime: c.eventDate }, monthYear(c.eventDate))),
+            h("h3", null, c.substances?.[0] || c.headline),
+            c.summary ? h("p", null, c.summary) : null);
+          return src?.url
+            ? extLink(src.url, body, "card card--link")
+            : h("div", { class: "card" }, body);
+        })))
+    );
   }
 
   if (!doc.alerts?.length && !doc.firstDetections?.length) {
