@@ -595,6 +595,21 @@
    "enabled": true,
    "evidence": "official",
    "_note": "THE ONLY SCRAPED SOURCE. No feed exists: /feed/, /health-alerts/feed/ and /wp-json/wp/v2/posts all 404 on hip.phila.gov, ?format=rss returns \"Unknown response format\", and ?format=json returns an EMPTY mainContent for this page type - which looks like a clean API and carries nothing. Parsed from the JSON-escaped description blobs Squarespace embeds, so each anchor arrives with its own label. The YEAR exists only in the PDF filename and the visible label carries month/day, so the two are joined and any item where they disagree, or where the filename has no date at all, is DROPPED rather than dated by assumption. Verified 2026-08-15: 24 labelled anchors, 16 dated, 3 inside a 365-day window."
+  },
+  {
+   "id": "us-nist-radar",
+   "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
+   "url": "https://www.nist.gov/programs-projects/radar",
+   "landing": "https://www.nist.gov/programs-projects/radar",
+   "kind": "scrape",
+   "trust": 1,
+   "scope": {
+    "level": "region"
+   },
+   "enabled": true,
+   "evidence": "official",
+   "maxIssues": 2,
+   "_note": "THE ONLY REGION-SCOPED SOURCE. Federal, so public domain - no permission ask, unlike every other sample source in docs/ALERT-SOURCES.md. Publishes the compounds seen in its samples for the FIRST time, monthly. DISCOVERY: there is no feed - GovDelivery's bulletins.rss 406s even with an RSS Accept header, NIST's newsletter RSS is an empty document, /accounts/USNIST/bulletins redirects to a sender login, and bulletin ids are GovDelivery-wide hashes ~325,000 apart between consecutive issues. The program page carries a complete archive of every issue as a labelled link, so this scrapes that and follows the newest maxIssues. USNIST_645 is the subscribe topic id if the layout ever changes. GEOGRAPHY IS A COAST AND NOTHING FINER - scope.level is region, items carry no fips and no state, and they render on Early warning rather than any county page. Their printed drug classes are NOT republishable: the Feb 2026 issue calls citalopram a benzodiazepine and it is an SSRI."
   }
  ]
 }
