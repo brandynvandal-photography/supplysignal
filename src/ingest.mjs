@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 import { fetchFeed, fetchCountyNews, fetchGdelt } from "./sources/index.mjs";
 import { fetchMedicalExaminer } from "./sources/medex.mjs";
 import { fetchPhilly } from "./sources/philly.mjs";
+import { fetchRadar } from "./sources/radar.mjs";
 import { gate1, gate2 } from "./recency.mjs";
 import { classifyDeterministic, band, classifyWithLLM, applyLLMVerdict } from "./classify.mjs";
 import { buildIndex, geotag } from "./geotag.mjs";
@@ -142,6 +143,31 @@ async function main() {
     } catch (e) {
       console.error(`[philly] ${e.message}`);
       stats.sourcesFailed.push("pa-pdph");
+    }
+  }
+
+  /* NIST RaDAR — compounds seen in US samples for the first time.
+   *
+   * The only region-scoped source. Federal and therefore public domain, and it
+   * publishes the one thing no sample source surveyed does: first detections,
+   * monthly. See src/sources/radar.mjs for why discovery goes through the
+   * program page rather than a feed, and for the two parsing traps.
+   *
+   * Its items declare scope:"region" and carry no fips and no state, so they
+   * skip geotag entirely below and land in the regional tier. No county is
+   * marked as reached by this: RaDAR does not look at counties, and letting it
+   * mark one scanned would tell a reader that somewhere had been checked when
+   * the source has no idea where its samples came from beyond a coast. */
+  const radar = (sources.scrapers || []).find((s) => s.id === "us-nist-radar" && s.enabled);
+  if (radar) {
+    try {
+      const r = await fetchRadar(radar, settings, { maxIssues: radar.maxIssues ?? 2 });
+      raw.push(...r.items);
+      stats.fetched += r.items.length;
+      stats.radar = { issues: r.issues, findings: r.items.length };
+    } catch (e) {
+      console.error(`[radar] ${e.message}`);
+      stats.sourcesFailed.push("us-nist-radar");
     }
   }
 
