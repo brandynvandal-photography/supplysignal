@@ -459,14 +459,41 @@ taxonomy by compound name. One entry's "class" is also a whole phrase — "a
 psychoactive compound found in the kava plant" — so nothing may assume a
 taxonomy term in that field.
 
-**What is NOT done: the regional tier.** The pipeline has exactly two geographic
-tiers, county and statewide, and `src/ingest.mjs` drops anything else as
-`ungeotagged`. RaDAR's finest geography is West Coast / East Coast, which is
-neither, so the adapter emits `scope: "region"` and nothing consumes it yet.
-Wiring it up needs a third tier through ingest, store and the alerts view, and
-it must never render as a county. RaDAR's own caveat travels on every item and
-has to stay: samples are voluntarily submitted and "may not be representative of
-broader trends within the United States drug supply."
+**THE REGIONAL TIER IS BUILT — 2026-08-24.** The pipeline had exactly two
+geographic tiers, county and statewide, and dropped everything else as
+`ungeotagged`. There are three now, and `test/regional.test.mjs` holds the line
+that matters: a coast never becomes a place.
+
+- `src/ingest.mjs` routes an item that DECLARES `scope: "region"` straight past
+  `geotag`, which reads place names out of prose and would either drop a
+  coast-level finding or, worse, pin a two-coast result to a county mentioned in
+  passing. Items that merely *fail* to geotag are still dropped — "we cannot
+  tell where this is" and "this is a coast-level finding" are different facts
+  and must not share a bucket.
+- Regional clusters key on `region:<coast>`, so two findings about one compound
+  on one coast collapse, and a West Coast finding never merges with an East
+  Coast one or with a county.
+- `writeAlertsBundle` carries them with `fips: null, state: null`, in the same
+  bundle as everything else, so the privacy model is unchanged.
+- `data.alertsRegional()` serves them and `alertsAll()` now excludes them. That
+  exclusion is the sharp edge: `alertsAll` names a county for every row, so a
+  regional finding leaking into it would appear as a local alert with nothing to
+  print as its location.
+- They render on **Early warning** (`#/emerging`), never on a county page. That
+  screen already opens with "None of this is about your area", and the county
+  view's own comment says why: "the moment national data renders inside a county
+  page a reader takes it as local". The section names the coast in its subtitle
+  and states outright that it is not county-level.
+
+RaDAR's caveat travels on every item and stays: samples are voluntarily
+submitted and "may not be representative of broader trends within the United
+States drug supply."
+
+**Still not wired to a live run:** there is no `config/sources.json` entry, so
+nothing fetches RaDAR on a schedule yet. The chain is proven end to end against
+live data — 6 findings, both coasts, none carrying a county or state — but
+turning it on is a config change, and `config/` is outside `ship.mjs`'s
+allowlist, so it has to be pushed to the clone directly.
 
 Verified live 2026-08-24: three issues fetched, 13 compound findings, every item
 carrying the caveat and none claiming a county or state.

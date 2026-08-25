@@ -8,7 +8,7 @@
     "ingest": "node src/ingest.mjs",
     "dry": "DRY_RUN=1 node src/ingest.mjs",
     "age": "node src/age.mjs",
-    "test": "node test/pipeline.test.mjs && node test/radar.test.mjs && node test/feedshape.test.mjs && node test/locate.test.mjs && node test/projection.test.mjs && node test/hittest.test.mjs && node test/seen.test.mjs && node test/geotag.test.mjs && node test/taxonomy.test.mjs && node test/copy.test.mjs && node test/css.test.mjs && node test/publish.test.mjs && node test/sw.test.mjs && node test/search.test.mjs && node test/refs.test.mjs && node test/combos.test.mjs && node test/evidence.test.mjs && node test/routes.test.mjs && node test/medex.test.mjs && node test/privacy.test.mjs && node test/offline.test.mjs && node test/views.test.mjs && node test/preload.test.mjs && node test/dist.test.mjs",
+    "test": "node test/pipeline.test.mjs && node test/radar.test.mjs && node test/regional.test.mjs && node test/feedshape.test.mjs && node test/locate.test.mjs && node test/projection.test.mjs && node test/hittest.test.mjs && node test/seen.test.mjs && node test/geotag.test.mjs && node test/taxonomy.test.mjs && node test/copy.test.mjs && node test/css.test.mjs && node test/publish.test.mjs && node test/sw.test.mjs && node test/search.test.mjs && node test/refs.test.mjs && node test/combos.test.mjs && node test/evidence.test.mjs && node test/routes.test.mjs && node test/medex.test.mjs && node test/privacy.test.mjs && node test/offline.test.mjs && node test/views.test.mjs && node test/preload.test.mjs && node test/dist.test.mjs",
     "test:privacy": "node test/privacy.test.mjs",
     "build:shapes": "node scripts/build-shapes.mjs && node scripts/build-mesh.mjs",
     "build:gazetteer": "node scripts/build-gazetteer.mjs",

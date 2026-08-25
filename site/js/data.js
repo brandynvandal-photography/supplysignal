@@ -411,6 +411,29 @@ export async function alertsStatewide(state, days = 90) {
 }
 
 /**
+ * Findings whose geography is a REGION and nothing finer.
+ *
+ * One source has this shape: NIST RaDAR reports by coast, West or East, and no
+ * finer resolution exists anywhere in what it publishes. These deliberately do
+ * not appear in alertsAll() - that list names a county for every row, and a
+ * coast is not a county. Shown in their own section, labelled as what they are.
+ *
+ * Same bundle, same privacy model: no request is made for these, so asking for
+ * them and asking for a county's alerts remain indistinguishable.
+ */
+export async function alertsRegional(days = 365) {
+  const a = await alerts();
+  const cutoff = Date.now() - days * 864e5;
+  return (a.clusters || [])
+    .filter((c) => c.scope === "region")
+    .filter((c) => Date.parse(c.eventDate) >= cutoff)
+    .sort(
+      (x, y) =>
+        rank[x.severity] - rank[y.severity] || String(y.eventDate).localeCompare(x.eventDate)
+    );
+}
+
+/**
  * Every alert in the country inside `days`, newest and most severe first.
  *
  * Costs nothing beyond the bundle every screen already loads. That is not an
@@ -425,8 +448,11 @@ export async function alertsAll(days = 90) {
   return (a.clusters || [])
     /* County-scoped only. A statewide advisory has no county to name, and
        listing it here would put it in "what's showing up near you" for every
-       reader in the country. alertsStatewide() serves it where it belongs. */
-    .filter((c) => c.scope !== "state")
+       reader in the country. alertsStatewide() serves it where it belongs.
+       Regional findings are excluded for the same reason and a sharper one:
+       they have no county AND no state, so there is nothing this list could
+       print as their location. alertsRegional() serves those. */
+    .filter((c) => c.scope !== "state" && c.scope !== "region")
     .filter((c) => Date.parse(c.eventDate) >= cutoff)
     .map((c) => (c.n ? { ...c, _county: { name: c.n, state: c.s, fips: c.fips } } : c))
     .sort(

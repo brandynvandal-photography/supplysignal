@@ -392,7 +392,33 @@ async function main() {
    * statewide and sorts them under anything local. */
   const located = [];
   const statewide = [];
+  const regional = [];
   for (const item of publishable) {
+    /* A SOURCE THAT KNOWS ITS OWN GEOGRAPHY DOES NOT GO THROUGH geotag.
+     *
+     * geotag reads place names out of prose, which is the right tool for a
+     * news item and the wrong one for a source whose scope is a property of
+     * the source. NIST RaDAR reports by coast - West or East - and nothing
+     * finer exists; running its text through geotag would either find nothing
+     * and drop it, or worse, match a county name mentioned in passing and
+     * attribute a two-coast finding to one county. So an item that arrives
+     * declaring scope:"region" is taken at its word and never geocoded.
+     *
+     * This tier exists ONLY for sources that genuinely have no finer
+     * geography. It is not a place to put items that failed to geotag - those
+     * are still dropped below, because "we could not tell where this is" and
+     * "this is a coast-level finding" are different facts and must not share
+     * a bucket. */
+    if (item.scope === "region") {
+      regional.push({
+        ...item,
+        eventDate: item.eventDate || item.publishedAt.slice(0, 10),
+        fips: null,
+        state: null,
+        region: item.region || "national",
+      });
+      continue;
+    }
     const g = geotag(item, item.hintFips, item.hintState);
     if (!g) { drop("ungeotagged"); continue; }
     const dated = {
@@ -419,11 +445,18 @@ async function main() {
     statewide.map((i) => ({ ...i, fips: `state:${i.state}` })), settings
   ).map((c) => ({ ...c, fips: null, scope: "state", state: String(c.fips).slice(6) }));
 
+  /* Same trick, keyed by region. Two findings about the same compound on the
+     same coast in the same month collapse to one; a West Coast finding never
+     merges with an East Coast one, and neither ever merges with a county. */
+  const regionClusters = cluster(
+    regional.map((i) => ({ ...i, fips: `region:${i.region}` })), settings
+  ).map((c) => ({ ...c, fips: null, state: null, scope: "region", region: String(c.fips).slice(7) }));
+
   /* The cluster-level evidence gate: severity capped at the strongest member's
      ceiling, and a critical claim needs a measurement, an institution, or two
      INDEPENDENT publishers - twenty outlets running one wire story is one
      source. dedupe strips members, so classes ride on the cluster. */
-  for (const c of [...clusters, ...stateClusters]) {
+  for (const c of [...clusters, ...stateClusters, ...regionClusters]) {
     const a = admit(c);
     if (a.severity !== c.severity) {
       stats.evidenceDemoted = (stats.evidenceDemoted || 0) + 1;
@@ -489,8 +522,9 @@ async function main() {
     };
   }
 
-  stats.published = clusters.length + stateClusters.length;
+  stats.published = clusters.length + stateClusters.length + regionClusters.length;
   stats.publishedStatewide = stateClusters.length;
+  stats.publishedRegional = regionClusters.length;
   stats.reviewed = review.length;
   stats.finished = new Date().toISOString();
   stats.newClusters = totalNew;
@@ -502,6 +536,7 @@ async function main() {
     // reflects this run, including counties untouched by it.
     const bundle = await writeAlertsBundle(ROOT, {
       statewide: stateClusters,
+      regional: regionClusters,
       windowDays: settings.recency.windowDays,
       coverage: {
         lastScan: new Date().toISOString(),
