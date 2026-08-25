@@ -422,6 +422,55 @@ terms URLs still 404 with a browser UA, `/api/results` 404, and
 there is still no export route and still no stated terms. Nothing is to be
 scraped while the ask is outstanding.
 
+### NIST RaDAR — DISCOVERY SOLVED 2026-08-24, adapter written
+
+`https://www.nist.gov/programs-projects/radar`. Federal, so **public domain** —
+no permission ask, unlike everything else in this section. Publishes monthly,
+and the section worth having is **New Compounds Identified**: substances seen in
+RaDAR samples for the first time. 16,000+ samples since the pilot, 15 states or
+territories.
+
+**Discovery was the whole problem, and the program page is the answer.** There
+is no feed. GovDelivery's `bulletins.rss` returns 406 even with an RSS Accept
+header, `nist.gov/news-events/nist-newsletters/rss.xml` is an empty document
+(0 items), `/accounts/USNIST/bulletins` redirects to a sender login, and
+bulletin ids are GovDelivery-wide hashes roughly 325,000 apart between
+consecutive RaDAR issues — walking them would mean hammering the host for one
+monthly file. The program page carries **a complete archive of every issue as a
+labelled link**, February 2024 onward, so it is one request against a federal
+page and the month comes from the link text. `USNIST_645` is the subscribe topic
+id if the page layout ever changes.
+
+**Two traps, both fixed and both pinned by `test/radar.test.mjs` against real
+captured pages:**
+
+- **The prevalence tables are images**, but the compound findings are prose.
+  Sample totals are text too. No OCR is needed for the part that matters.
+- **Chemical nomenclature italicises its locants**, so `<i>N,N</i>` lands in the
+  middle of a compound name. Flattening every tag to a newline split
+  "4-Methyl-N,N-dimethylcathinone" into three lines and would have published a
+  compound called **"4-Methyl-"**. Inline tags must be stripped without a break;
+  only block tags break.
+
+**Their class labels cannot be republished.** The February 2026 issue calls
+citalopram "a benzodiazepine"; it is an SSRI. The adapter carries the printed
+class as provenance only, and the app must resolve the real class from its own
+taxonomy by compound name. One entry's "class" is also a whole phrase — "a
+psychoactive compound found in the kava plant" — so nothing may assume a
+taxonomy term in that field.
+
+**What is NOT done: the regional tier.** The pipeline has exactly two geographic
+tiers, county and statewide, and `src/ingest.mjs` drops anything else as
+`ungeotagged`. RaDAR's finest geography is West Coast / East Coast, which is
+neither, so the adapter emits `scope: "region"` and nothing consumes it yet.
+Wiring it up needs a third tier through ingest, store and the alerts view, and
+it must never render as a county. RaDAR's own caveat travels on every item and
+has to stay: samples are voluntarily submitted and "may not be representative of
+broader trends within the United States drug supply."
+
+Verified live 2026-08-24: three issues fetched, 13 compound findings, every item
+carrying the caveat and none claiming a county or state.
+
 ### Programs that publish their own ALERTS — the shape that already works
 
 `config/sources.json` already carries one of these: `pa-pdph`, which scrapes
