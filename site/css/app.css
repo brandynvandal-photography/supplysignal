@@ -1062,6 +1062,50 @@ details.acc > summary:focus-visible,
   background: color-mix(in srgb, var(--brand) 15%, transparent);
 }
 
+/* A LIGHT BEHIND THE ACTIVE TAB, IN DARK MODE ONLY.
+ *
+ * Reported as the coloured labels reading dim at night. Contrast is not the
+ * problem and measuring says so - the active label is 9.8:1 on the bar and the
+ * others 8.3:1, well past the 4.5 that text needs. What is actually happening
+ * is that a saturated hue at 12px, on a near-black ground, reads dimmer than
+ * its ratio: the eye judges brightness partly by chroma, and a small amount of
+ * a colour surrounded by dark simply looks weaker than the number claims.
+ *
+ * So this does not lighten the text - that would flatten the tab hues into
+ * each other, which is the thing the identity colours exist to prevent. It
+ * puts a soft light BEHIND the tab in its own hue, so the label sits on a
+ * lifted ground instead of on black, plus a small same-hue halo on the glyph
+ * itself.
+ *
+ * Light mode is left alone: there the ground is already bright, the same glow
+ * reads as a smudge, and nobody reported it.
+ *
+ * Both dark selectors, because the theme has three states - the stamped
+ * data-theme="dark" and the unstamped system default - and a rule that only
+ * covers one of them is the classic half-themed artifact. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .nav a[aria-current="page"]::before {
+    content: ""; position: absolute; inset: 4px 8px;
+    border-radius: var(--radius-pill);
+    background: radial-gradient(60% 70% at 50% 42%,
+      color-mix(in srgb, var(--ident) 26%, transparent) 0%, transparent 72%);
+    pointer-events: none; z-index: -1;
+  }
+  :root:not([data-theme="light"]) .nav a[aria-current="page"] .ico {
+    box-shadow: 0 0 12px -2px color-mix(in srgb, var(--ident) 45%, transparent);
+  }
+}
+:root[data-theme="dark"] .nav a[aria-current="page"]::before {
+  content: ""; position: absolute; inset: 4px 8px;
+  border-radius: var(--radius-pill);
+  background: radial-gradient(60% 70% at 50% 42%,
+    color-mix(in srgb, var(--ident) 26%, transparent) 0%, transparent 72%);
+  pointer-events: none; z-index: -1;
+}
+:root[data-theme="dark"] .nav a[aria-current="page"] .ico {
+  box-shadow: 0 0 12px -2px color-mix(in srgb, var(--ident) 45%, transparent);
+}
+
 /* THE FLOATING BUTTON GETS ITS OWN ROOM AT THE FOOT.
  *
  * The reserve was --nav-h + --sp-5 = 112px, and .totop sits --nav-h + --sp-3
