@@ -273,7 +273,18 @@ no results, nothing about anybody's drugs.
 
 ## 3. StreetCheck / Brandeis — asking permission before touching the aggregator
 
-**Status:** drafted 2026-08-24, **not sent**.
+> **SHELVED 2026-08-24, BEFORE SENDING — the reach is too small.** The 21
+> contributing labs on the site are the roster of who *may* submit, not who
+> currently does. The ten most recent samples that day were Brattleboro VT (5),
+> Providence, Pawtucket and Woonsocket RI (3), one "Online" and one unspecified
+> Rhode Island — live flow concentrated in two small states. For an app keyed on
+> counties nationally, that means nearly every reader's county shows nothing,
+> which reads as a broken feature rather than an honest absence. Not worth
+> spending a partnership ask, an ingest adapter and an ongoing scrape on.
+> Revisit if the contributor list starts producing volume across more states.
+> The draft is kept as the record of what was checked and why it stopped here.
+
+**Status:** drafted 2026-08-24, **not sent — shelved, see above**.
 
 **To:** `communitydrugchecking@gmail.com` — the project's own inbox, published on
 info.streetcheck.org. `madds@brandeis.edu` is the MADDS program inbox on the same
