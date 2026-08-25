@@ -136,7 +136,7 @@ ${items}
  * logging off. Shipping one identical bundle to everyone means the log shows
  * only that somebody opened the site. See PRIVACY.md §1.
  */
-export async function writeAlertsBundle(root, { windowDays, coverage, statewide = [] }) {
+export async function writeAlertsBundle(root, { windowDays, coverage, statewide = [], regional = [] }) {
   const dir = path.join(root, "data", "counties");
   if (!existsSync(dir)) return { clusters: 0, bytes: 0 };
 
@@ -150,6 +150,18 @@ export async function writeAlertsBundle(root, { windowDays, coverage, statewide 
      which county somebody picked ever leaves. */
   for (const c of statewide) {
     if (Date.parse(c.eventDate) >= cutoff) clusters.push({ ...c, scope: "state" });
+  }
+
+  /* Regional findings ride here too, for the same reason: no per-region page
+     exists to read them, and a reader on a county page can only be shown - or
+     not shown - a coast-level finding if it is already on the device.
+     They carry NO fips and NO state, which is the point. A regional cluster
+     that ever acquired either would be asserting a location its source never
+     had; test/regional.test.mjs holds that line. */
+  for (const c of regional) {
+    if (Date.parse(c.eventDate) >= cutoff) {
+      clusters.push({ ...c, scope: "region", fips: null, state: null });
+    }
   }
 
   for (const file of await readdir(dir)) {

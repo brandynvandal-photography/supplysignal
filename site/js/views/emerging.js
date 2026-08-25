@@ -112,6 +112,45 @@ export async function render(route, { go }) {
     );
   }
 
+  /* ---- RaDAR: first detections in US samples, by coast ----
+   *
+   * THIS SCREEN, NOT THE COUNTY PAGE. The county view deliberately links here
+   * rather than inlining national data, because "the moment national data
+   * renders inside a county page a reader takes it as local". A coast-level
+   * finding has exactly that failure mode and worse - it has no state either -
+   * so it lives where the page has already said, in a callout above, that none
+   * of this is about your area.
+   *
+   * The section names the coast in its own subtitle rather than per row, so
+   * the geography is stated once and cannot be missed by someone scanning. */
+  const byCoast = await data.alertsRegional(365);
+  if (byCoast.length) {
+    const label = { west: "West Coast", east: "East Coast", national: "United States" };
+    const groups = new Map();
+    for (const c of byCoast) {
+      const k = c.region || "national";
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(c);
+    }
+    for (const [region, rows] of groups) {
+      wrap.appendChild(
+        section("Newly detected in US samples", `${label[region] || "United States"}, by region`,
+          h("p", { class: "sec__note" },
+            "Compounds a federal lab identified in submitted samples for the first " +
+            "time. Samples are voluntarily submitted and may not be representative " +
+            "of the wider drug supply. The finest location this data has is a coast — " +
+            "it is not county-level, and it does not say whether any of these is here."),
+          frag(rows.map((c) =>
+            h("div", { class: "card" },
+              h("div", { class: "card__top" },
+                badge("First detection", "neutral"),
+                h("time", { class: "card__meta", datetime: c.eventDate }, monthYear(c.eventDate))),
+              h("h3", null, c.headline),
+              c.summary ? h("p", null, c.summary) : null))))
+      );
+    }
+  }
+
   if (!doc.alerts?.length && !doc.firstDetections?.length) {
     wrap.appendChild(
       empty("The early-warning feed didn’t load with this copy of the app.",
