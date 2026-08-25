@@ -268,3 +268,115 @@ no results, nothing about anybody's drugs.
   the source and nothing is hand-copied.
 - **If they say no,** record it in `ALERT-SOURCES.md` §4 with the date, the
   same as everything else, and delete the local copy of the file.
+
+---
+
+## 3. StreetCheck / Brandeis — asking permission before touching the aggregator
+
+**Status:** drafted 2026-08-24, **not sent**.
+
+**To:** `communitydrugchecking@gmail.com` — the project's own inbox, published on
+info.streetcheck.org. `madds@brandeis.edu` is the MADDS program inbox on the same
+page and is the alternative if the first does not answer. A third address on that
+page belongs to a named individual; use an inbox, per the rule at the top of this
+file.
+
+**Why this email exists at all, and why it comes before any code.** StreetCheck
+publishes **no terms of service**. That is not permission. It is silence, and
+this project is the last one that should read silence as a green light — §1 above
+is a lab that closed its data *because of unauthorised downstream use*, and their
+reply is recorded three sections up. Doing to Brandeis what somebody else did to
+UNC is how the next door shuts, on everyone who comes after.
+
+**Checked 2026-08-24, so the message does not tell them things about their own
+site that are out of date:**
+
+| | |
+|---|---|
+| `streetcheck.org/Public/Results` | live; samples dated **08/2026** — current, unlike every other sample source surveyed |
+| Contributing labs and locations listed | **21**, including California CFSRE, Colby College, Connecticut State Lab, DrugsData, Illinois, Maine, Maryland, Massachusetts, Michigan, Minnesota, Nevada, New Mexico, New York, NIST, North Carolina, Oregon, Rhode Island RIH, UNC, Vermont, Washington, Wisconsin |
+| `/Home/Terms`, `/terms`, `/Home/Privacy`, `info.streetcheck.org/terms` | all **404** with a browser UA. Footer "Privacy" and "Terms" links have `href="#"` |
+| `/api/results` | 404 |
+| `/Public/Results?export=csv` | 200, but returns **HTML, not CSV** — the query is not an export route |
+| Geography | **city-level, not county-level** — the one structural mismatch |
+
+So: current, broad, machine-*un*-readable, and geographically one level off from
+what this app is keyed on. The city-to-county resolver that gap needs already
+exists here, in `data/places.json`.
+
+---
+
+### Draft
+
+> **Subject:** Permission to use StreetCheck results in a non-commercial harm reduction app?
+>
+> Hello,
+>
+> I maintain Nightlight (https://nightlight.help), a free, non-commercial harm
+> reduction reference — county-level drug supply alerts, how to use test strips
+> and reagents, and what to do during an overdose. No account, no advertising,
+> nothing sold, no analytics of any kind.
+>
+> I am writing to ask permission before doing anything, rather than after.
+>
+> StreetCheck is the most current picture of the US drug supply I have been able
+> to find anywhere — samples dated this month, across twenty-one contributing
+> labs and locations. Nothing else I surveyed is both national and current.
+>
+> I could not find terms of service on the site, and I want to be plain about
+> how I am reading that: as an absence, not as permission. I would rather ask
+> and be told no than help myself and be the reason a policy gets written.
+>
+> **What I would like to do, specifically.** Show, at county level, which
+> substances have recently turned up in checked samples near a reader —
+> attributed to StreetCheck on every screen it appears on, linking back to you,
+> in whatever wording you prefer. Never republished as a bulk download, never
+> presented as our own finding, and never characterised as "what is in your
+> drugs" — only as what was found in samples that were checked.
+>
+> **The one technical mismatch, in case it matters to you.** Your results are
+> city-level and this app is keyed on counties, so I would be resolving city to
+> county locally rather than asking you to change anything.
+>
+> **On why I am being careful.** Another lab recently restricted its
+> machine-readable data after downstream misuse, and told me so directly when I
+> asked them for a feed. That answer is the reason this email exists in this
+> shape. I would rather be the kind of downstream user that makes the next
+> person's ask easier.
+>
+> **One thing you may want to know.** The app cannot learn what any reader looks
+> at. Every dataset ships as a single national file, byte-identical for every
+> visitor, and all lookups run in the browser — so there is no request recording
+> which county or which drug anyone checked. Whatever you shared would not
+> become a way of profiling the people it is meant to help.
+>
+> If there is a shape that is least work for you — an existing export I have
+> missed, a periodic file, or simply conditions you would want attached — I am
+> glad to take it. And if the answer is no, that is a complete answer; I will
+> record it and not ask again.
+>
+> Thank you for building the thing that is actually current. That is rarer than
+> it should be.
+>
+> Best regards,
+> [name]
+> [role / affiliation, if you want to give one]
+> https://nightlight.help
+
+---
+
+### Notes before sending
+
+- **Sign it yourself**, as with §1 — say whether you are writing personally or
+  in a public-servant capacity.
+- **Do not scrape anything while waiting.** There is no partial version of
+  asking permission, and the whole argument of the email is that we did not.
+- **If they say yes,** the ingest is a new adapter in `src/sources/`, and the
+  city-to-county step uses `data/places.json`. Drug checking is a *finding about
+  a sample*, not a death — it belongs in the `lab` evidence class in
+  `src/evidence.mjs`, and it is the only source type that could honestly support
+  "this is in the supply now" rather than "this was in it recently".
+- **If they say no, or do not reply,** record it in `ALERT-SOURCES.md` with the
+  date and what came back, the same as every other dead end there.
+- **Do not quote UNC's reply at them.** The email refers to it as the reason for
+  our own caution, without naming a lab that answered us privately.

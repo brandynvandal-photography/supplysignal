@@ -182,7 +182,20 @@
      ambient wash never reaches content, which is the one visible gap against
      the Weather city view. 68% lets it through; no blur, so no battery cost. */
   --glass-card: color-mix(in srgb, var(--surface) 68%, transparent);
-  --glass-line: color-mix(in srgb, var(--line-2) 45%, transparent);
+  --glass-line: color-mix(in srgb, var(--line-2) 65%, transparent);
+  /* THE EDGE THAT MAKES A CARD AN OBJECT.
+   *
+   * Measured on the light theme: a card sits 1.060 from the page it is on -
+   * white on cream, which is the ceiling the palette allows, so the fill can
+   * never do this job. Its border was 1.179 from the card, which is barely a
+   * line, and between the two a card did not read as a separate thing.
+   * Readers said it was hard to find things; this is part of why.
+   *
+   * 80% puts the light edge at 1.349. Dark needs a different number for the
+   * same effect - its --line-2 is much closer to its surface - so the two dark
+   * blocks below set 65%, landing at 1.40. Themed rather than shared for
+   * exactly the reason --glass already is. */
+  --glass-line: color-mix(in srgb, var(--line-2) 80%, transparent);
 
   /* The two frosted bars - the header and the tab bar - sandwich the content
      and are on screen together at every moment, so any difference between them
@@ -218,9 +231,13 @@
      shadow plus a wide soft one. A single blurred shadow reads as a sticker;
      two layers read as an object with air under it. One token, because the
      pair was written out by hand in six rules and had to agree. */
+  /* Lifted from 5/12 to 7/18. The pair was faint enough that a card relied on
+     its border alone to separate, and the border was faint too - see
+     --glass-line. Still a whisper: the point is an object with air under it,
+     not a sticker with a drop shadow. */
   --shadow-float:
-    0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 12%, transparent);
+    0 1px 2px color-mix(in srgb, var(--ink) 7%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--ink) 18%, transparent);
 
   /* The left rule that carries severity - on an alert card, a critical limit,
      the early-access caveat. One width, so a 4px rule and a 3px rule on the
@@ -379,9 +396,23 @@
     --map-line: var(--d-map-line);     --map-halo: var(--d-map-halo);
     --map-hover: var(--d-map-hover);   --map-pin: var(--d-map-pin);
     --map-pin-ink: var(--d-map-pin-ink);
-    --glass: color-mix(in srgb, var(--surface) 62%, transparent);
-    --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
+    /* DARK CARDS SIT ON THE LIFTED SURFACE, not the base one.
+     *
+     * A card measured 1.060 from the page under it, which is close to
+     * invisible. The light theme cannot be fixed this way - white on cream
+     * caps at 1.077 whatever the percentage - so there the border and shadow
+     * do the separating. Dark has room light does not: --surface-2 is a
+     * genuinely lighter step, taking a card to 1.136 and a strong one to
+     * 1.197.
+     *
+     * A tint was measured here and rejected. 5% of the tab hue moves a card
+     * from 3.50 to 4.88 deltaE on violet but only 3.71 on cyan, and at 3% the
+     * cyan tint separates LESS than no tint at all. Depth that depends on
+     * which tab you are in is not depth. */
+    --glass: color-mix(in srgb, var(--surface-2) 65%, transparent);
+    --glass-strong: color-mix(in srgb, var(--surface-2) 88%, transparent);
     --glass-card: color-mix(in srgb, var(--surface) 68%, transparent);
+    --glass-line: color-mix(in srgb, var(--line-2) 65%, transparent);
     --bar-tint: color-mix(in srgb, var(--surface) 90%, transparent);
   }
 }
@@ -407,8 +438,8 @@
   --map-line: var(--d-map-line);     --map-halo: var(--d-map-halo);
   --map-hover: var(--d-map-hover);   --map-pin: var(--d-map-pin);
   --map-pin-ink: var(--d-map-pin-ink);
-  --glass: color-mix(in srgb, var(--surface) 62%, transparent);
-  --glass-strong: color-mix(in srgb, var(--surface) 82%, transparent);
+  --glass: color-mix(in srgb, var(--surface-2) 65%, transparent);
+  --glass-strong: color-mix(in srgb, var(--surface-2) 88%, transparent);
   --glass-card: color-mix(in srgb, var(--surface) 68%, transparent);
   --bar-tint: color-mix(in srgb, var(--surface) 90%, transparent);
 }

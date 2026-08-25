@@ -405,6 +405,15 @@ user data, county-level display — and unlike UNC there is no policy in the way
 only silence. The city-to-county resolver this would need already exists in
 `data/places.json`.
 
+**DRAFTED 2026-08-24, NOT SENT — `OUTREACH.md` §3.** Contact is
+`communitydrugchecking@gmail.com`, the project's own inbox on
+info.streetcheck.org, with `madds@brandeis.edu` as the fallback. Re-verified the
+same day: 21 contributing labs and locations, samples dated 08/2026, all four
+terms URLs still 404 with a browser UA, `/api/results` 404, and
+`/Public/Results?export=csv` returns 200 but serves HTML rather than a CSV — so
+there is still no export route and still no stated terms. Nothing is to be
+scraped while the ask is outstanding.
+
 ### Programs that publish their own ALERTS — the shape that already works
 
 `config/sources.json` already carries one of these: `pa-pdph`, which scrapes
