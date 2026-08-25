@@ -163,8 +163,80 @@ const METRICS = {
 /* ---------------------------------------------------------------- color */
 
 const lerp = (a, b, t) => a + (b - a) * t;
-const mix = (c1, c2, t) =>
-  `rgb(${Math.round(lerp(c1[0], c2[0], t))},${Math.round(lerp(c1[1], c2[1], t))},${Math.round(lerp(c1[2], c2[2], t))})`;
+
+/* THE RAMP IS MIXED IN OKLAB, NOT IN sRGB.
+ *
+ * This was a channel-wise lerp in sRGB. BE HONEST ABOUT THE SIZE OF THIS: for
+ * the ramp actually in use - a warm light neutral to a deep teal - sRGB was
+ * already close to even. Measured over 24 steps, the worst-to-best step ratio
+ * was 1.22 in sRGB against 1.20 in Oklab, and peak chroma was identical at
+ * 22.7. Anyone expecting to SEE this change on the current map will not. I
+ * wrote a confident comment here about the dark end moving twice as fast per
+ * step, then measured it, and it was not true.
+ *
+ * It is kept for two reasons that are true. The endpoints of this ramp happen
+ * to be near-neutral to saturated along one hue, which is the case sRGB
+ * handles best; the moment a mid-stop or a second hue is introduced - the
+ * obvious next move for a map that needs more depth - sRGB starts cutting the
+ * corner through desaturated mud and Oklab does not. And the ramp is now baked
+ * once instead of built per county per frame, which is a real cost saved
+ * regardless of colour space.
+ *
+ * WHAT THIS DOES NOT TOUCH: how a value becomes t. That mapping is still
+ * linear against the same scale, so no county changes which part of the ramp
+ * it lands in - only how evenly that ramp is drawn. Changing the value-to-t
+ * curve would change what a colour MEANS, which is a data decision and not a
+ * rendering one; the endpoints are identical to before. */
+const srgbToLinear = (c) => {
+  c /= 255;
+  return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+};
+const linearToSrgb = (c) => {
+  const v = c <= 0.0031308 ? c * 12.92 : 1.055 * c ** (1 / 2.4) - 0.055;
+  return Math.max(0, Math.min(255, Math.round(v * 255)));
+};
+function rgbToOklab([r, g, b]) {
+  const R = srgbToLinear(r), G = srgbToLinear(g), B = srgbToLinear(b);
+  const l = Math.cbrt(0.4122214708 * R + 0.5363325363 * G + 0.0514459929 * B);
+  const m = Math.cbrt(0.2119034982 * R + 0.6806995451 * G + 0.1073969566 * B);
+  const s = Math.cbrt(0.0883024619 * R + 0.2817188376 * G + 0.6299787005 * B);
+  return [
+    0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
+    1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
+    0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s,
+  ];
+}
+function oklabToRgb([L, a, b]) {
+  const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3;
+  const m = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3;
+  const s = (L - 0.0894841775 * a - 1.2914855480 * b) ** 3;
+  return [
+    linearToSrgb(+4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+    linearToSrgb(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+    linearToSrgb(-0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s),
+  ];
+}
+const mix = (c1, c2, t) => {
+  const A = rgbToOklab(c1), B = rgbToOklab(c2);
+  const [r, g, b] = oklabToRgb([lerp(A[0], B[0], t), lerp(A[1], B[1], t), lerp(A[2], B[2], t)]);
+  return `rgb(${r},${g},${b})`;
+};
+
+/* AND IT IS BAKED ONCE PER PALETTE, NOT PER COUNTY PER FRAME.
+ *
+ * colorFor runs for every visible county on every paint - three thousand of
+ * them on the national view, at pan and pinch rates. It used to build a
+ * template string each time; doing the Oklab round trip there as well would
+ * put two cube roots and three powers in that loop. RAMP_STEPS colours are
+ * computed when the palette is read and indexed after, so the per-county cost
+ * is an array lookup and the frame allocates nothing. 64 steps is past what
+ * the eye resolves on these ramps and well past what an 8-bit channel can
+ * show at this chroma. */
+const RAMP_STEPS = 64;
+const bakeRamp = (from, to) =>
+  Array.from({ length: RAMP_STEPS }, (_, i) => mix(from, to, i / (RAMP_STEPS - 1)));
+const rampPick = (ramp, t) =>
+  ramp[Math.max(0, Math.min(RAMP_STEPS - 1, Math.round(t * (RAMP_STEPS - 1))))];
 
 /* THE PALETTE COMES FROM THE STYLESHEET. These were five RGB constants and a
    handful of literal strokes written here, which made the map the one surface
@@ -187,7 +259,11 @@ const FALLBACK = {
   halo: "rgba(255,255,255,.95)", hover: "rgba(60,50,40,.55)",
   pin: "#2d6a5f", pinInk: "#ffffff",
 };
-let pal = FALLBACK;
+/* Ramped from the start. colorFor indexes pal.ramp*, and the legend can be
+   built before mount assigns the themed palette - an unramped FALLBACK would
+   have been an undefined index there, i.e. a blank legend on a slow first
+   paint rather than a wrong one. */
+let pal = withRamps(FALLBACK);
 
 function readPalette() {
   let cs = null;
@@ -209,13 +285,25 @@ function readPalette() {
   };
 }
 
+/* readPalette gives the endpoints; this gives the three ramps drawn from them.
+   Every path that assigns `pal` goes through here, so a theme change rebakes
+   them and the canvas can never hold a ramp from the previous theme. */
+function withRamps(p) {
+  return {
+    ...p,
+    rampSeq: bakeRamp(p.seqLo, p.seqHi),
+    rampUp: bakeRamp(p.flat, p.up),
+    rampDown: bakeRamp(p.flat, p.down),
+  };
+}
+
 function colorFor(v, scale, diverging) {
   if (v == null) return pal.none;
   if (diverging) {
     const t = Math.min(1, Math.abs(v) / scale);
-    return mix(pal.flat, v >= 0 ? pal.up : pal.down, 0.18 + t * 0.82);
+    return rampPick(v >= 0 ? pal.rampUp : pal.rampDown, 0.18 + t * 0.82);
   }
-  return mix(pal.seqLo, pal.seqHi, Math.min(1, v / scale));
+  return rampPick(pal.rampSeq, Math.min(1, v / scale));
 }
 
 /* ------------------------------------------------------------------ view */
@@ -287,7 +375,7 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
 
   const mesh = await buildMesh();
   const ctx2d = canvas.getContext("2d", { alpha: true });
-  pal = readPalette();
+  pal = withRamps(readPalette());
 
   /* Offscreen base layer.
    *
@@ -313,7 +401,7 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
      the toggle writes data-theme on <html> and the OS change fires nowhere
      but matchMedia. Guarded for the test shim, which has neither. */
   const onTheme = () => {
-    pal = readPalette();
+    pal = withRamps(readPalette());
     baseState = null;
     renderLegend(METRICS[state.metric]);
     draw();

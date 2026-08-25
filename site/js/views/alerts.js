@@ -202,43 +202,120 @@ async function pickerView(route, { go, data }) {
     const label = { west: "West Coast", east: "East Coast", national: "United States" };
     wrap.appendChild(
       section("Newly detected elsewhere in the US",
-        `${seenElsewhere.length} in the last 12 months`,
+        `${seenElsewhere.length} compound${seenElsewhere.length === 1 ? "" : "s"} in the last 12 months`,
+        /* The count lives here because section()'s note argument is voided -
+           it renders the heading and nothing else - and the number is worth
+           saying: "six" is a different picture from "sixty". */
         h("p", { class: "sec__note" },
-          "Substances a federal lab found in submitted samples for the first time. "
+          `${seenElsewhere.length} substance${seenElsewhere.length === 1 ? "" : "s"} `
+          + "a federal lab found in submitted samples for the first time. "
           + "The finest location this data has is a coast — none of it says whether "
           + "any of these has reached your county."),
-        /* STRAIGHT TO THE SOURCE. A row used to route to Early warning, which
-           is where the reader already is in spirit - they can see the finding,
-           and what they want next is the bulletin it came from. So each row is
-           the source link itself. External, so it carries the same target,
-           rel and referrer policy every other outbound link here does, via
-           extLink's own anchor rather than a hand-rolled one.
-
-           A finding with no usable source URL still renders, as a row that is
-           not a link, rather than being dropped: the finding is true whether
-           or not we can point at it. */
-        h("div", { class: "list" },
-          seenElsewhere.slice(0, NATIONAL_PREVIEW).map((c) => {
-            const src = c.sources?.[0];
-            const inner = frag(
-              h("span", { class: "nbr__text" },
-                h("span", { class: "nbr__name" }, c.substances?.[0] || c.headline),
-                h("span", { class: "nbr__sub nbr__sub--wrap" },
-                  `${label[c.region] || "United States"} · ${monthOf(c.eventDate)}`)));
-            return src?.url
-              ? extLink(src.url, inner, "nbr")
-              : h("div", { class: "nbr nbr--flat" }, inner);
-          })),
+        /* GROUPED BY WHAT THE COMPOUND IS, NOT BY ITS NAME.
+           
+           This listed one row per compound, and the compound name is the least
+           informative thing a finding carries: "4'-Chloro deschloroalprazolam"
+           tells a reader nothing they can act on, and six of those in a column
+           is six lookups. What they can act on is the class - a synthetic
+           opioid and a benzodiazepine carry different risks and different
+           responses - so the class is the row now, and the compounds sit
+           inside it.
+           
+           It also scales the right way. The classes stay a handful while the
+           compounds only accumulate; a per-compound list gets longer every
+           month and says no more than it did.
+           
+           NIST'S OWN WORDS FOR THE CLASS, never ours. printedClass is what the
+           program printed beside that compound, carried through the ingest
+           untouched, and a finding with no printed class is grouped as exactly
+           that rather than being guessed at or silently dropped - the same rule
+           the rest of this app follows about saying more than a source did. */
+        h("div", { class: "list" }, classRows(seenElsewhere, label)),
         h("div", { class: "seenmore" },
+          /* Every finding is reachable on this page now - open a class and the
+             compounds are inside it - so this is no longer an overflow link and
+             no longer claims to be one. Early warning is where the same
+             findings sit with the program's caveats around them. */
           h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/emerging") },
-            seenElsewhere.length > NATIONAL_PREVIEW
-              ? `All ${seenElsewhere.length} in Early warning`
-              : "More in Early warning")))
+            "More in Early warning")))
     );
   }
 
   return wrap;
 }
+
+
+/* One row per class: the count, where it was seen, and when - then the
+   compounds themselves behind a disclosure, each still linking to its own
+   bulletin. details.acc is the disclosure this app already uses everywhere
+   else, so this reads as the same control rather than a new one. */
+function classRows(items, label) {
+  const groups = new Map();
+  for (const c of items) {
+    const key = (c.printedClass || "").trim() || UNCLASSED;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(c);
+  }
+  /* Biggest first, and ties alphabetically so the order never wobbles between
+     two renders of the same data. */
+  const ordered = [...groups.entries()].sort(
+    (a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+
+  return ordered.map(([cls, rows]) => {
+    const places = [...new Set(rows.map((r) => label[r.region] || "United States"))];
+    const months = [...new Set(rows.map((r) => monthOf(r.eventDate)))].filter(Boolean);
+    /* "March – April 2026", not "March 2026 – April 2026": the year is said
+       once when both ends share it. */
+    const when = monthRange(months);
+
+    return h("details", { class: "acc" },
+      h("summary", null,
+        h("span", null, sentenceCase(cls)),
+        badge(String(rows.length), "neutral")),
+      h("div", { class: "acc__body" },
+        h("p", { class: "sec__note" },
+          [places.join(" and "), when].filter(Boolean).join(" · ")),
+        h("div", { class: "list" }, rows.map((c) => compoundRow(c, label)))));
+  });
+}
+
+/* STRAIGHT TO THE SOURCE. What a reader wants after seeing a compound is the
+   bulletin it came from, so the row is the source link itself - external, via
+   extLink, so it carries the same target, rel and referrer policy as every
+   other outbound link here rather than a hand-rolled anchor.
+
+   A finding with no usable source URL still renders, as a row that is not a
+   link: the finding is true whether or not we can point at it. */
+function compoundRow(c, label) {
+  const src = c.sources?.[0];
+  const inner = frag(
+    h("span", { class: "nbr__text" },
+      h("span", { class: "nbr__name" }, c.substances?.[0] || c.headline),
+      h("span", { class: "nbr__sub nbr__sub--wrap" },
+        `${label[c.region] || "United States"} · ${monthOf(c.eventDate)}`)));
+  return src?.url ? extLink(src.url, inner, "nbr") : h("div", { class: "nbr nbr--flat" }, inner);
+}
+
+/* Oldest to newest, with the year said once if both ends share it. */
+function monthRange(months) {
+  if (!months.length) return "";
+  if (months.length === 1) return months[0];
+  const lo = months[months.length - 1], hi = months[0];
+  const loYear = lo.slice(lo.lastIndexOf(" ") + 1);
+  const hiYear = hi.slice(hi.lastIndexOf(" ") + 1);
+  return loYear === hiYear
+    ? `${lo.slice(0, lo.lastIndexOf(" "))} – ${hi}`
+    : `${lo} – ${hi}`;
+}
+
+/* The program prints "synthetic cathinone", lowercase, mid-sentence. At the
+   head of a row it wants a capital and nothing else changed - not title case,
+   which would restyle a term we are quoting. */
+function sentenceCase(s) {
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+}
+
+const UNCLASSED = "Not classified by the program";
 
 /* "March 2026" from an ISO date, for a row that already carries a place. */
 function monthOf(iso) {
