@@ -405,7 +405,15 @@ user data, county-level display — and unlike UNC there is no policy in the way
 only silence. The city-to-county resolver this would need already exists in
 `data/places.json`.
 
-**DRAFTED 2026-08-24, NOT SENT — `OUTREACH.md` §3.** Contact is
+**SHELVED 2026-08-24 — THE REACH IS TOO SMALL.** The 21 contributing labs are
+who may submit, not who does. The ten most recent samples that day were
+Brattleboro VT (5), Providence, Pawtucket and Woonsocket RI (3), one "Online"
+and one unspecified Rhode Island: live flow in two small states. Keyed on
+counties nationally, nearly every reader would see an empty section, which reads
+as broken rather than as an honest absence. The ask was drafted and not sent;
+revisit only if the contributor list starts producing volume across more states.
+
+**The draft, and what was verified — `OUTREACH.md` §3.** Contact is
 `communitydrugchecking@gmail.com`, the project's own inbox on
 info.streetcheck.org, with `madds@brandeis.edu` as the fallback. Re-verified the
 same day: 21 contributing labs and locations, samples dated 08/2026, all four
