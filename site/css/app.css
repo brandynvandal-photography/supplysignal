@@ -288,6 +288,17 @@
      the page - and they were silently 14px out of step. */
   --totop-size: 46px;
 
+  /* WHERE ITS UNDERSIDE SITS, as ONE expression. The button's own rule and
+     main's reserve both need this number, and when each computed it
+     separately they disagreed: the reserve used --nav-h + --sp-5 and knew
+     nothing about --nav-real or the safe-area inset, so on iOS Safari the
+     button reached 160px against a 158px floor and landed on the last thing
+     on the page again. In a desktop browser the inset is 0 and the same two
+     rules cleared by 32px, which is why the first fix measured clean and
+     shipped broken. Derived once, used twice - see .totop and main. */
+  --totop-bottom: max(calc(var(--nav-real, 0px) + var(--sp-3)),
+                      calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + var(--sp-3)));
+
   /* The early-access banner rides inside the sticky bar, so it is part of the
      sticky height and everything below has to know about it. Kept deliberately
      small: this is permanent chrome on a 375px screen, and every pixel here is
@@ -1061,7 +1072,7 @@ details.acc > summary:focus-visible,
  * scroll that bit further. */
 main {
   padding-top: var(--sp-5);
-  padding-bottom: calc(var(--nav-h) + var(--sp-5) + var(--totop-size));
+  padding-bottom: calc(var(--nav-h) + var(--sp-5));
 }
 
 /* 960, and the number is measured rather than chosen.
@@ -1129,6 +1140,12 @@ main {
   .nav a .ico { font-size: 1.02rem; width: auto; height: auto; background: none; }
   .nav a[aria-current="page"] .ico { background: none; }
   main { padding-bottom: var(--sp-5); }
+  /* No bottom bar here - it is in the header - so the button drops to the
+     ordinary corner. Overriding the shared token moves the button and anything
+     measured from it together. The footer keeps its own small reset below: on
+     a wide screen the button is in the opposite corner from the footer's last
+     row and covers nothing. */
+  :root { --totop-bottom: var(--sp-4); }
 
   /* QUICK EXIT JOINS THE ROW the same way the tabs do: absolute against the
      sticky bar, on the row's centre line, at the right edge of the same
@@ -2312,9 +2329,17 @@ table.data th[scope="row"] { font-weight: 650; }
 /* Transparent, because it was the last full-width opaque rectangle on the
    page: everything else floats on the atmosphere and the scroll ended by
    hitting a wall. The hairline and the 34px above it still mark the boundary. */
+/* AND IT CLEARS THE FLOATING BUTTON TOO, which is a second thing at the foot
+ * and was missed twice. The button is fixed --totop-bottom from the bottom and
+ * --totop-size tall, so it covers that whole band; this padding was computed
+ * from the tab bar alone, so "About this site" - the last element on the page,
+ * again - sat under it. Reported on iOS after a fix that added the room to
+ * `main`: main is a SIBLING of this, as the note above says, so the allowance
+ * landed on the wrong element and only moved the gap above the footer.
+ * One expression, --totop-bottom, shared with .totop itself. */
 .foot {
   border-top: 1px solid var(--glass-line); background: transparent; margin-top: 34px;
-  padding: 20px 0 calc(var(--nav-h) + var(--sp-4) + env(safe-area-inset-bottom));
+  padding: 20px 0 calc(var(--totop-bottom) + var(--totop-size) + var(--sp-3));
 }
 /* Above 880px the tab bar is not fixed to the bottom, so the allowance above
    is dead space. This has to live AFTER the rule it resets: the 880px block
@@ -4287,8 +4312,7 @@ details.disc .groupkids > details.disc > summary h2 {
 .totop {
   position: fixed; z-index: 35;
   left: var(--sp-3); right: auto;
-  bottom: max(calc(var(--nav-real, 0px) + var(--sp-3)),
-              calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + var(--sp-3)));
+  bottom: var(--totop-bottom);
   width: var(--totop-size); height: var(--totop-size); border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.15rem; line-height: 1; cursor: pointer;
@@ -4312,7 +4336,7 @@ details.disc .groupkids > details.disc > summary h2 {
 }
 /* Wide: no bottom bar (it is in the header), so the ordinary bottom-right. */
 @media (min-width: 960px) {
-  .totop { left: auto; right: var(--sp-4); bottom: var(--sp-4); }
+  .totop { left: auto; right: var(--sp-4); }
 }
 
 /* A pointer that is a destination rather than a footnote: used where a whole
