@@ -80,6 +80,26 @@
   --l-cls-depressants: #386e94;   --l-cls-opioids: #3b4d9b;
   --l-cls-dissociatives: #503b9b; --l-cls-psychedelics: #763b9b;
   --l-cls-empathogens: #9b3b93;   --l-cls-stimulants: #9b3b68;
+  /* THE OTHER FOUR CLASSES, separated by lightness rather than hue.
+   *
+   * They were one neutral, which readers reported as four identical
+   * indicators. The wheel is genuinely full: ten hues in the arc severity
+   * leaves free sit 16 degrees apart at a minimum adjacent deltaE of 7.2, and
+   * the only arc the six above do not use is 60-120 - greens, 19-25 from --ok,
+   * which would put a green bar beside "Deliriants" and risk reading as safe.
+   *
+   * So these move along the warm neutrals instead, in two axes at once:
+   * lightness rising and chroma with it, hue drifting 20 to 50 degrees. That
+   * keeps adjacent steps 10.7-16.5 apart in light and 11.2-14.9 in dark, holds
+   * every one at least 27 from any severity colour and 35 from any of the six,
+   * and never claims to be a hue at all - which is honest, because these are
+   * the long tail: 22, 11, 8 and 6 substances against 90, 69 and 49.
+   *
+   * 3:1, not 4.5:1. These are the bar, and the bar is non-text content
+   * carrying information - WCAG 1.4.11. The label beside it is the real name;
+   * the colour is the aid. */
+  --l-cls-cannabinoids: #4c433e; --l-cls-nootropics: #6f6152;
+  --l-cls-deliriants: #938362;   --l-cls-other: #978d59;
   --l-shadow: 0 1px 2px rgba(70,55,40,.04), 0 6px 24px rgba(70,55,40,.06);
   --l-shadow-lg: 0 12px 40px rgba(70,55,40,.14);
   /* The map's own palette, as the canvas reads it. map.js cannot use a CSS
@@ -115,6 +135,8 @@
   --d-cls-depressants: #8ebfe1;   --d-cls-opioids: #8e9de1;
   --d-cls-dissociatives: #a492e2; --d-cls-psychedelics: #c18ee1;
   --d-cls-empathogens: #e18eda;   --d-cls-stimulants: #e18eb5;
+  --d-cls-cannabinoids: #e9e4e2; --d-cls-nootropics: #d0c7bd;
+  --d-cls-deliriants: #bdb198;   --d-cls-other: #b0a673;
   --d-shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.28);
   --d-shadow-lg: 0 12px 40px rgba(0,0,0,.45);
   /* See --l-map-*. Up and down are the dark severity/ok inks; the flat and
@@ -161,6 +183,8 @@
   --cls-depressants: var(--l-cls-depressants);     --cls-opioids: var(--l-cls-opioids);
   --cls-dissociatives: var(--l-cls-dissociatives); --cls-psychedelics: var(--l-cls-psychedelics);
   --cls-empathogens: var(--l-cls-empathogens);     --cls-stimulants: var(--l-cls-stimulants);
+  --cls-cannabinoids: var(--l-cls-cannabinoids);   --cls-nootropics: var(--l-cls-nootropics);
+  --cls-deliriants: var(--l-cls-deliriants);       --cls-other: var(--l-cls-other);
   --shadow: var(--l-shadow);         --shadow-lg: var(--l-shadow-lg);
   --map-flat: var(--l-map-flat);     --map-up: var(--l-map-up);
   --map-down: var(--l-map-down);     --map-seq-lo: var(--l-map-seq-lo);
@@ -383,12 +407,16 @@
   --cls-depressants: var(--d-cls-depressants);     --cls-opioids: var(--d-cls-opioids);
   --cls-dissociatives: var(--d-cls-dissociatives); --cls-psychedelics: var(--d-cls-psychedelics);
   --cls-empathogens: var(--d-cls-empathogens);     --cls-stimulants: var(--d-cls-stimulants);
+  --cls-cannabinoids: var(--d-cls-cannabinoids);   --cls-nootropics: var(--d-cls-nootropics);
+  --cls-deliriants: var(--d-cls-deliriants);       --cls-other: var(--d-cls-other);
     --ident-alerts: var(--d-ident-alerts);   --ident-learn: var(--d-ident-learn);
     --ident-test: var(--d-ident-test);       --ident-drugs: var(--d-ident-drugs);
     --ident-support: var(--d-ident-support);
     --cls-depressants: var(--d-cls-depressants);     --cls-opioids: var(--d-cls-opioids);
     --cls-dissociatives: var(--d-cls-dissociatives); --cls-psychedelics: var(--d-cls-psychedelics);
     --cls-empathogens: var(--d-cls-empathogens);     --cls-stimulants: var(--d-cls-stimulants);
+    --cls-cannabinoids: var(--d-cls-cannabinoids);   --cls-nootropics: var(--d-cls-nootropics);
+    --cls-deliriants: var(--d-cls-deliriants);       --cls-other: var(--d-cls-other);
     --shadow: var(--d-shadow);         --shadow-lg: var(--d-shadow-lg);
     --map-flat: var(--d-map-flat);     --map-up: var(--d-map-up);
     --map-down: var(--d-map-down);     --map-seq-lo: var(--d-map-seq-lo);
@@ -1849,6 +1877,10 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 [data-class="psychedelics"]  .classcard__label::before { background: var(--cls-psychedelics); }
 [data-class="empathogens"]   .classcard__label::before { background: var(--cls-empathogens); }
 [data-class="stimulants"]    .classcard__label::before { background: var(--cls-stimulants); }
+[data-class="cannabinoids"]  .classcard__label::before { background: var(--cls-cannabinoids); }
+[data-class="nootropics"]    .classcard__label::before { background: var(--cls-nootropics); }
+[data-class="deliriants"]    .classcard__label::before { background: var(--cls-deliriants); }
+[data-class="other"]         .classcard__label::before { background: var(--cls-other); }
 /* A caption needs room on BOTH sides to read as a caption. At 3px from the
    heading and 5px from the count it was just the middle line of a paragraph;
    the eye could not tell which part was the answer to "what is this". */
