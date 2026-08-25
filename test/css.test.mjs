@@ -125,6 +125,48 @@ const hiddenFails = [];
   }
 }
 
+/* THE FOOT MUST RESERVE THE FLOATING BUTTON'S BAND.
+ *
+ * .totop is fixed --totop-bottom from the bottom and --totop-size tall, so it
+ * covers that whole band at the foot of every handheld page. .foot is the last
+ * element on the page - a SIBLING of main, so main's own padding does nothing
+ * for it - and twice now its bottom padding has been computed from the tab bar
+ * alone, leaving "About this site" underneath the button. The second time, the
+ * reserve was added to main instead and only moved the gap above the footer.
+ *
+ * Both numbers come from --totop-bottom now. This asserts they still do: the
+ * button's `bottom` and the footer's reserve must each name that token, so a
+ * future edit to one cannot silently walk away from the other. */
+const reserveFails = [];
+{
+  const block = (sel) => {
+    const i = src.indexOf(sel + " {");
+    return i === -1 ? "" : src.slice(i, src.indexOf("}", i));
+  };
+  const foot = block(".foot");
+  const totop = block(".totop");
+  if (!foot) reserveFails.push("no .foot rule found to check the button's reserve against.");
+  else if (!/padding:[^;]*--totop-bottom/.test(foot) && !/padding-bottom:[^;]*--totop-bottom/.test(foot)) {
+    reserveFails.push(
+      ".foot does not reserve the floating button's band. Its bottom padding must "
+      + "be derived from --totop-bottom plus --totop-size, or the last element on "
+      + "the page sits under the back-to-top button on every phone.",
+    );
+  } else if (!/--totop-size/.test(foot)) {
+    reserveFails.push(
+      ".foot clears where the button starts but not its height: the reserve needs "
+      + "--totop-size as well as --totop-bottom.",
+    );
+  }
+  if (totop && !/bottom:\s*var\(--totop-bottom\)/.test(totop)) {
+    reserveFails.push(
+      ".totop computes its own bottom instead of reading --totop-bottom. The "
+      + "footer's reserve is measured from that token; if the button stops using "
+      + "it the two drift apart, which is exactly how this broke before.",
+    );
+  }
+}
+
 console.log("CSS\n");
 if (fails.length) {
   for (const f of fails) console.log("  not ok " + f);
@@ -138,12 +180,16 @@ if (fsFails.length) {
 if (hiddenFails.length) {
   for (const f of hiddenFails) console.log("  not ok " + f);
 }
-const total = 4;
+if (reserveFails.length) {
+  for (const f of reserveFails) console.log("  not ok " + f);
+}
+const total = 5;
 const failed = (fails.length ? 1 : 0) + (insetFails.length ? 1 : 0) + (fsFails.length ? 1 : 0)
-  + (hiddenFails.length ? 1 : 0);
+  + (hiddenFails.length ? 1 : 0) + (reserveFails.length ? 1 : 0);
 if (!fails.length) console.log("  ok   app.css parses: comments balanced, braces balanced, no loose prose");
 if (!insetFails.length) console.log(`  ok   inset focus rings on ${INSET.length} clipped controls`);
 if (!fsFails.length) console.log("  ok   no font-size literal below --fs-xs");
 if (!hiddenFails.length) console.log("  ok   the hidden attribute is enforced globally");
+if (!reserveFails.length) console.log("  ok   the foot reserves the floating button's band, from the same token");
 console.log(`\n${total - failed} passed, ${failed} failed`);
 if (failed) process.exit(1);
