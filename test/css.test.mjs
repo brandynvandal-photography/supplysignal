@@ -167,6 +167,36 @@ const reserveFails = [];
   }
 }
 
+/* THE AGE FADE MUST DRAIN COLOUR, NOT CONTRAST.
+ *
+ * The severity rail is mixed toward a neutral as a finding ages. Mixing toward
+ * --line-2 was the first attempt and it was wrong: that colour sits near the
+ * card behind it, so each step spent luminance as well as chroma and the
+ * oldest band measured 2.71:1 in the light theme, under the 3:1 that 1.4.11
+ * asks of non-text. It passed in dark, which is where it was measured first.
+ *
+ * --ink-3 is body-text ink, so a mix bounded by it is legible by construction
+ * in both themes. This asserts the mix target, because the failure it prevents
+ * is invisible in one theme and silent in the other. */
+const fadeFails = [];
+{
+  const i = src.indexOf(".card--critical, .card--elevated, .card--advisory {");
+  const rule = i === -1 ? "" : src.slice(i, src.indexOf("}", i));
+  if (!rule) {
+    fadeFails.push("no combined severity-rail rule found to check the age fade against.");
+  } else if (!/--sev-strength/.test(rule)) {
+    fadeFails.push("the severity rail no longer reads --sev-strength, so alert cards cannot age.");
+  } else if (/color-mix/.test(rule) && /--line-2/.test(rule)) {
+    fadeFails.push(
+      "the age fade mixes toward --line-2, which sits near the card background: "
+      + "every step spends contrast as well as colour and the oldest band drops "
+      + "under 3:1 in the light theme. Mix toward --ink-3.",
+    );
+  } else if (!(/color-mix/.test(rule) && /--ink-3/.test(rule))) {
+    fadeFails.push("the age fade should mix toward --ink-3, which is legible by construction in both themes.");
+  }
+}
+
 console.log("CSS\n");
 if (fails.length) {
   for (const f of fails) console.log("  not ok " + f);
@@ -183,13 +213,17 @@ if (hiddenFails.length) {
 if (reserveFails.length) {
   for (const f of reserveFails) console.log("  not ok " + f);
 }
-const total = 5;
+if (fadeFails.length) {
+  for (const f of fadeFails) console.log("  not ok " + f);
+}
+const total = 6;
 const failed = (fails.length ? 1 : 0) + (insetFails.length ? 1 : 0) + (fsFails.length ? 1 : 0)
-  + (hiddenFails.length ? 1 : 0) + (reserveFails.length ? 1 : 0);
+  + (hiddenFails.length ? 1 : 0) + (reserveFails.length ? 1 : 0) + (fadeFails.length ? 1 : 0);
 if (!fails.length) console.log("  ok   app.css parses: comments balanced, braces balanced, no loose prose");
 if (!insetFails.length) console.log(`  ok   inset focus rings on ${INSET.length} clipped controls`);
 if (!fsFails.length) console.log("  ok   no font-size literal below --fs-xs");
 if (!hiddenFails.length) console.log("  ok   the hidden attribute is enforced globally");
 if (!reserveFails.length) console.log("  ok   the foot reserves the floating button's band, from the same token");
+if (!fadeFails.length) console.log("  ok   the age fade drains chroma toward --ink-3, not contrast toward the background");
 console.log(`\n${total - failed} passed, ${failed} failed`);
 if (failed) process.exit(1);

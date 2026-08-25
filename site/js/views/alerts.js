@@ -7,7 +7,7 @@
  * silently merged into the home county's numbers. */
 
 import {
-  h, frag, clear, section, empty, callout, sevBadge, badge, extLink, relTime, isoDate,
+  h, frag, clear, section, empty, callout, sevBadge, badge, extLink, relTime, isoDate, ageBand,
 } from "../ui.js";
 import { t } from "../i18n.js";
 import { countNew, lastVisit, FALLBACK_DAYS } from "../seen.js";
@@ -902,7 +902,7 @@ async function everywhere({ data }, { limit = 0, days = NATIONAL_DAYS, control =
 function card(k, showCounty = false) {
   const isLab = k.kind === "lab";
 
-  return h("div", { class: `card card--${k.severity}` },
+  return h("div", { class: `card card--${k.severity} card--age-${ageBand(k.eventDate)}` },
     h("div", { class: "card__top" },
       sevBadge(k.severity),
       isLab ? badge("Lab result", "neutral") : null,
