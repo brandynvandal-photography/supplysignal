@@ -230,7 +230,7 @@ async function pickerView(route, { go, data }) {
            untouched, and a finding with no printed class is grouped as exactly
            that rather than being guessed at or silently dropped - the same rule
            the rest of this app follows about saying more than a source did. */
-        h("div", { class: "list" }, classRows(seenElsewhere, label)),
+        h("div", { class: "list newly" }, classRows(seenElsewhere, label)),
         h("div", { class: "seenmore" },
           /* Every finding is reachable on this page now - open a class and the
              compounds are inside it - so this is no longer an overflow link and
