@@ -2240,6 +2240,27 @@ details.acc > summary {
      wrapping. */
   padding-right: calc(var(--sp-4) + 12px);
 }
+/* NEWLY DETECTED: THE SAME CONTROL WITHOUT THE BOX.
+ *
+ * These rows are a list of classes, not a stack of cards. Every other
+ * details.acc on the site is a panel of its own - a reagent, a pair verdict -
+ * and draws a border to say so; here five of them in a column read as five
+ * boxes fighting the alert cards above them for the same attention, on a
+ * screen whose cards are the thing that matters. Reported 2026-08-25.
+ *
+ * The border and the fill go, the disclosure behaviour and the chevron stay,
+ * and a hairline between rows keeps them separable without drawing five
+ * rectangles. The last one has no rule under it because the list ends there
+ * and the section's own spacing does that job. */
+.list.newly details.acc {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--glass-line);
+  border-radius: 0;
+  margin-bottom: 0;
+}
+.list.newly details.acc:last-child { border-bottom: 0; }
+
 details.acc > summary::-webkit-details-marker { display: none; }
 /* A card's summary names the card with an h3 now - a strip, a reagent - so
    the outline has it and a screen reader's heading list can reach it. The
@@ -2681,6 +2702,24 @@ select.input {
   text-overflow: ellipsis;
   cursor: pointer;
 }
+/* AND THEY FLOAT, like every other surface here.
+ *
+ * These carried --glass and no shadow, which on this site is what a thing
+ * sunk INTO a panel looks like - the wash shows through it but it sits flat
+ * against whatever is behind. Cards, the tab bar and the back-to-top button
+ * all take --glass-strong and --shadow-float and lift off the page, so two
+ * dropdowns sitting flat in the middle of a floating card read as a hole in
+ * it. Reported 2026-08-25.
+ *
+ * Same two tokens as .card, so a dropdown and the card around it are lit from
+ * the same place and cannot drift apart when either is retuned. The hover,
+ * focus and open states below are untouched. */
+.pick__row select,
+select.input {
+  background: var(--glass-strong);
+  box-shadow: var(--shadow-float);
+}
+
 /* The options list too. iOS renders the popup at the control's size, so a
    16px control with 17px options shows a truncated menu over an untruncated
    one. */
