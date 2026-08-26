@@ -2531,6 +2531,15 @@ ol.steps p { font-size: .95rem; color: var(--ink-2); }
 
 .tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch;
              border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+/* AIR BETWEEN STACKED ROUTE TABLES. A substance page carries one table per
+   route of administration - four durations and four doses on 2C-B - each in
+   its own bordered box, and they had no margin at all: the bottom edge of
+   "Oral - duration" was the top edge of "Rectal - duration" to the pixel, so
+   four separate tables read as one long ruled grid and the caption that says
+   which route you are looking at got lost inside it. A gap, so each route is
+   its own object. Only between siblings, so a single table gains nothing and
+   the section spacing above and below is untouched. */
+.tablewrap + .tablewrap { margin-top: var(--sp-3); }
 /* No min-width here, deliberately. A 520px floor used to apply to every .data
  * table and forced all six two-column tables to scroll sideways on a phone for
  * no reason. It was then narrowed to .cmp, the one genuinely wide table - the

@@ -1533,7 +1533,7 @@ function comedownFor(doc, s) {
           h("p", null, "These ranges assume a pure drug that is what it says it is. " +
             "What you have may be a different drug, a different strength, or mixed " +
             "unevenly through the batch. Start well below the low end.")),
-        disclosure("sec-dose", "Show reported dose ranges", { open: false },
+        disclosure("sec-dose", "Reported Dosage Ranges", { open: false },
           dosed.map((r) => doseTable(r))))
     );
   }
