@@ -1129,16 +1129,32 @@ details.acc > summary:focus-visible,
  * --ink, so a tab label reads like the rest of the app's text. The active tab
  * does not lose its distinction: it carries its own hue and a tinted pill,
  * which is a difference in colour rather than in brightness. */
-/* :not() on both, because this rule is more specific than the two it would
-   otherwise silently beat - the active tab's --ident and SOS's --critical.
-   Measured that exact regression before shipping: all six labels came back
-   #f2ece2, the identity hue and the emergency red gone with them. */
+/* EVERY TAB LABEL IS WHITE AT NIGHT, the coloured ones included.
+ *
+ * "The colour tabs make the letters a little dark" - and the two tabs that
+ * carry a colour are the active one, on --ident, and SOS, on --critical. A
+ * saturated hue at label size on a near-black bar is the dimmest text in the
+ * app, and those two were the only ones I had excluded, deliberately, to keep
+ * their identity in the text. That is why four rounds of brightening never
+ * touched the tab the reader was actually looking at.
+ *
+ * The identity does not live in the letters any more, and it does not need to.
+ * The active tab has its hue behind it - a 20% tint with a 38% light over it -
+ * and SOS keeps its coral glyph. Both still read as themselves; both are now
+ * legible first.
+ *
+ * !important on nothing: this rule is written after and above the two it
+ * replaces, and is specific enough to win on its own. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .nav a:not([aria-current="page"]):not([data-tab="help"]) {
+  :root:not([data-theme="light"]) .nav a,
+  :root:not([data-theme="light"]) .nav a[aria-current="page"],
+  :root:not([data-theme="light"]) .nav a[data-tab="help"] {
     color: var(--ink);
   }
 }
-:root[data-theme="dark"] .nav a:not([aria-current="page"]):not([data-tab="help"]) {
+:root[data-theme="dark"] .nav a,
+:root[data-theme="dark"] .nav a[aria-current="page"],
+:root[data-theme="dark"] .nav a[data-tab="help"] {
   color: var(--ink);
 }
 
