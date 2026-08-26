@@ -94,7 +94,7 @@ export async function render() {
      kills are not all on a stimulant. This is the door for the ones who are. */
   wrap.appendChild(
     h("a", { class: "bigptr", href: "#/heat" },
-      h("span", { class: "bigptr__hd" }, "Heat, and water"),
+      h("span", { class: "bigptr__hd" }, "Heat and water"),
       h("span", { class: "bigptr__sub" },
         "Overheating is the most likely way this becomes an emergency, and the "
         + "fastest. Spotting it, cooling them down with what is in the room, and "

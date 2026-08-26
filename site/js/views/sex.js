@@ -103,7 +103,7 @@ export async function render() {
      minutes" rather than three sections further down. */
   wrap.appendChild(
     h("a", { class: "bigptr", href: "#/heat" },
-      h("span", { class: "bigptr__hd" }, "Heat, and water"),
+      h("span", { class: "bigptr__hd" }, "Heat and water"),
       h("span", { class: "bigptr__sub" },
         "Spotting heat stroke when they are still sweating, cooling somebody "
         + "down with what is in the room, and how much water is too much.")));
