@@ -83,8 +83,22 @@ jobs:
                 exit 0
               fi
               echo "push rejected (attempt $attempt) - rebasing onto origin/main"
-              git pull --rebase --autostash origin main || {
-                echo "::error::rebase failed - a human needs to look at this"
+              # -X theirs: during a rebase "theirs" is the commit being
+              # replayed, i.e. THIS run's scan. Two ingests that overlap both
+              # rewrite data/alerts.json, data/counties/*.json and the fetch
+              # cache in full, so a conflict between them is not a disagreement
+              # to resolve - it is two complete answers, and the later scan is
+              # the one to keep. That happened on 2026-08-25: a dispatched run
+              # and the scheduled one overlapped, and the rebase stopped on
+              # every county file at once.
+              #
+              # It cannot silently drop a SITE change, which was the original
+              # reason for the rebase: this job only ever commits data/, feeds/
+              # and review/seen.json, so its commit can only conflict inside
+              # those. Anything outside them is not in the replayed commit and
+              # is carried through untouched.
+              git pull --rebase -X theirs --autostash origin main || {
+                echo "::error::rebase failed even with -X theirs - a human needs to look"
                 exit 1
               }
             done
