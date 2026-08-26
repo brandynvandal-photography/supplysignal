@@ -591,9 +591,40 @@ async function countyView({ fips, days }, { go, data }) {
      the detail. The county is marked; every neighbour is one tap away. */
   const mapHost = h("div", { class: "map map--inline" });
   wrap.appendChild(mapHost);
+  /* A MODULE THAT VANISHED UNDERNEATH A LIVE SESSION.
+   *
+   * This removed the map and said nothing. That is right for a map that cannot
+   * draw - the canvas is never the only route to anything here - but wrong for
+   * the case that actually happens. The shell's files are served under
+   * content-hashed names; a deploy renames them; a session open across that
+   * deploy asks for a map chunk that no longer exists. The county page itself
+   * renders, because its own chunk is already loaded, so the reader gets their
+   * county with the map simply absent - reported exactly that way, and fixed
+   * by the reader refreshing and finding it there.
+   *
+   * A LINE AND A BUTTON, NOT AN AUTOMATIC RELOAD. The router self-heals a
+   * missing VIEW chunk by reloading once, guarded by a marker in history.state
+   * - but that marker is cleared by any clean render, and this failure happens
+   * AFTER the render it would clear on. Wiring the same recovery here risks a
+   * page that reloads, renders, fails, and reloads again. So the reader is
+   * told, and given the action, and decides.
+   *
+   * Only when the map never mounted. Once it has drawn, a later error leaves
+   * what is on screen alone rather than replacing a working map with a notice. */
   import("../map.js").then(({ mountMap }) =>
     mountMap(mapHost, { go, focus: fips, focusLabel: `${c.name}, ${c.state}`, compact: true })
-  ).catch(() => { mapHost.remove(); });   // canvas is never the only route
+  ).catch(() => {
+    if (mapHost.querySelector("canvas")) return;
+    clear(mapHost);
+    mapHost.className = "map map--inline map--failed";
+    mapHost.appendChild(
+      h("p", { class: "sec__note" },
+        "The map didn’t load. ",
+        h("button", {
+            type: "button", class: "btn btn--ghost btn--sm",
+            onClick: () => location.reload(),
+          }, "Reload")));
+  });
 
   /* Numbers for this county. The mortality data was already bundled and drawn
      as map SHADING, which tells you "darker than next door" and nothing else -
