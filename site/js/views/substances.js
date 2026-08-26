@@ -1190,10 +1190,21 @@ async function detailView(id, subs, combos, { go }) {
     return !!drug && (drug.cats || []).some((c) => ratedKeys.has(String(c).toLowerCase()));
   };
   const uncertainLeft = s.interactions.uncertain.filter((x) => !coveredByClass(x));
-  /* A fresh node each time: the same element cannot sit in two callouts. */
+  /* ONE FOOTNOTE UNDER THE SECTION, not one inside each band.
+   *
+   * This sat at the foot of every callout that had a class-derived entry, so a
+   * drug rated in Dangerous, Unsafe and Caution said the same sentence three
+   * times on one screen - reported as wanting them moved down. It is a
+   * footnote about where the names came from, which is exactly what a reader
+   * does not need in the middle of the list of things that can kill them.
+   *
+   * So it renders once, after the bands, if ANY of them drew on a class. The
+   * per-band precision is not lost in any way a reader could use: the sentence
+   * was identical in all three, and the section is what it is annotating. */
   const classNote = () => h("p", { class: "sec__note" },
     "Some of these are whole drug classes, so they cover things this page "
     + "does not name individually.");
+  const anyFromClass = extraD.length || extraU.length || cAll.length;
 
   const anything = dAll.length || uAll.length || cAll.length || uncertainLeft.length;
 
@@ -1221,13 +1232,11 @@ async function detailView(id, subs, combos, { go }) {
        * from is a footnote, and it now reads as one. */
       dAll.length
         ? callout("stop", "Dangerous",
-            h("div", { class: "tags" }, dAll.map((x) => h("span", { class: "tag tag--danger" }, x))),
-            extraD.length ? classNote() : null)
+            h("div", { class: "tags" }, dAll.map((x) => h("span", { class: "tag tag--danger" }, x))))
         : null,
       uAll.length
         ? callout("warn", "Unsafe",
-            h("div", { class: "tags" }, uAll.map((x) => h("span", { class: "tag" }, x))),
-            extraU.length ? classNote() : null)
+            h("div", { class: "tags" }, uAll.map((x) => h("span", { class: "tag" }, x))))
         : null,
       /* Its own band, in the source's own words. Caution is defined there as
          combinations that "may produce undesirable effects, such as physical
@@ -1240,8 +1249,7 @@ async function detailView(id, subs, combos, { go }) {
             h("p", null,
               "Not usually physically harmful, but they can produce undesirable "
               + "effects — discomfort, or overstimulation. Care is worth taking."),
-            h("div", { class: "tags" }, cAll.map((x) => h("span", { class: "tag" }, x))),
-            classNote())
+            h("div", { class: "tags" }, cAll.map((x) => h("span", { class: "tag" }, x))))
         : null,
       /* UNCERTAIN NEVER REPEATS A PAIR THE BANDS ABOVE RATE.
        *
@@ -1260,6 +1268,7 @@ async function detailView(id, subs, combos, { go }) {
         ? h("p", { class: "sec__note" },
             `Uncertain: ${uncertainLeft.map(prettyCat).join(", ")}`)
         : null,
+      anyFromClass ? classNote() : null,
       /* The stated absence. An empty section here would read as "nothing to
          worry about", which is the one thing it must never mean. */
       anything
