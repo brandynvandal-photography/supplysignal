@@ -94,7 +94,13 @@ function walk(node, page, topKey, depth = 0) {
        fields - "FDA — first OTC naloxone approval" - which match TITLE_KEYS
        and would otherwise fill a search for "naloxone" with references
        instead of places to go. Same for the attribution blocks. */
-    if (k === "sources" || k === "attribution" || k === "source") continue;
+    /* MATCHED BY SHAPE, not by a list of three names. The list missed
+       `amountsSource` - the citation for a strip's dilution amounts - so
+       "DanceSafe fentanyl test strip instructions, read 2026-08-19" was
+       indexed as a place to go, and views.test.mjs caught it landing nowhere
+       the moment the index was rebuilt. Any key ending in "source" holds a
+       citation, whatever it is called. */
+    if (k === "attribution" || /sources?$/i.test(k)) continue;
     /* NOT DESTINATIONS EITHER, found by the test that tries to land every
        result. Quiz `options` are answers - including the WRONG ones, so "Skip
        naloxone if you think it is xylazine" was a standalone search result

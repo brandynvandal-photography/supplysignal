@@ -81,16 +81,16 @@ export async function render(route, { go }) {
     h("div", { id: "sec-guides" },
       section("More guides", null,
         h("div", { class: "list" },
-          moreGuide("#/stimulants", "Staying up, and coming down",
+          moreGuide("#/stimulants", "Staying up and coming down",
             "Sleep loss alone will bring on psychosis-like states eventually — "
             + "the timeline, what it looks like, and why sleep is the treatment."),
           moreGuide("#/sex", "Sexual health",
             "Barriers, PrEP and PEP, emergency contraception, the mixes that put "
             + "people in the hospital, and why drink test strips mostly do not work."),
-          moreGuide("#/heat", "Heat, and water",
+          moreGuide("#/heat", "Heat and water",
             "When hot has become dangerous, how to cool somebody down with what "
             + "is in the room, and why too much plain water swells the brain."),
-          moreGuide("#/policy", "The law, and having a say in it",
+          moreGuide("#/policy", "The law and having a say in it",
             "What a Good Samaritan law protects you from and what it does not, "
             + "where test strips are legal, who funds this, and how to weigh in."),
           moreGuide("#/after", "After an overdose",
@@ -287,10 +287,10 @@ function startHere(e) {
 
       away("#/help", "sec-collapse", 2, "When you do not know what it is", null),
 
-      here("sec-practice", 3, "Practice both, now", null),
+      here("sec-practice", 3, "Practice your response", null),
 
       hasNaloxone
-        ? here("sec-naloxone", 4, "Get naloxone, free", null)
+        ? here("sec-naloxone", 4, "Get free naloxone", null)
         : null,
 
       /* Lands on "What testing can and cannot tell you", whose id is sec-limits
