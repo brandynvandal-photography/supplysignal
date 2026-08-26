@@ -4,15 +4,11 @@
   "state": "MD",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-26T07:15:38.792Z",
+    "lastScan": "2026-08-26T10:04:11.771Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "de-dhss",
-      "ks-kdhe",
       "la-ldh",
-      "va-vdh",
-      "grassroots-hr",
       "cook-me",
       "santaclara-me",
       "sandiego-me"

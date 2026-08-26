@@ -4,12 +4,11 @@
   "state": "NY",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-23T21:41:47.813Z",
+    "lastScan": "2026-08-26T10:04:11.851Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "grassroots-hr",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
