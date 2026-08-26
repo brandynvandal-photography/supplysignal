@@ -1102,6 +1102,32 @@ details.acc > summary:focus-visible,
 /* The active tab in its own colour. It was --brand for all six, so the bar
    told you something was selected and never which. The SOS override further
    down still wins for that tab. */
+/* THE INACTIVE TABS ARE BRIGHTER AT NIGHT.
+ *
+ * They take --ink-2, which is right in light mode: a muted label against a
+ * bright bar, one step back from the active tab. On the dark ground the same
+ * token is #c0b6a8 against near-black, and it reads as dim rather than as
+ * secondary - reported twice as the tabs being dark and the text hard to read.
+ * Contrast was never the problem (10.5:1), which is why the first fix went
+ * looking at the halo instead; this is the tokens doing what they were told on
+ * a ground where "one step back" costs more than it does in light.
+ *
+ * --ink, so a tab label reads like the rest of the app's text. The active tab
+ * does not lose its distinction: it carries its own hue and a tinted pill,
+ * which is a difference in colour rather than in brightness. */
+/* :not() on both, because this rule is more specific than the two it would
+   otherwise silently beat - the active tab's --ident and SOS's --critical.
+   Measured that exact regression before shipping: all six labels came back
+   #f2ece2, the identity hue and the emergency red gone with them. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .nav a:not([aria-current="page"]):not([data-tab="help"]) {
+    color: var(--ink);
+  }
+}
+:root[data-theme="dark"] .nav a:not([aria-current="page"]):not([data-tab="help"]) {
+  color: var(--ink);
+}
+
 .nav a[aria-current="page"] { color: var(--ident); }
 .nav a[aria-current="page"] .ico {
   background: color-mix(in srgb, var(--brand) 15%, transparent);
