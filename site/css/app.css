@@ -1182,24 +1182,66 @@ details.acc > summary:focus-visible,
  * and the tint stack in one place at both widths, with no z-index to get
  * wrong. Stronger than the buried version was: the tint carries to 20% and the
  * light to 38%, which is what "brighter" was asking for. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .nav a[aria-current="page"] {
+/* A BUBBLE ON THE PHONE, A PILL ON THE DESKTOP, and the difference matters.
+ *
+ * Above 960px the active tab already IS a rounded pill - the tab is a small
+ * inline cell in the header row - so painting the light into its background
+ * fills exactly that shape.
+ *
+ * Below 960px the tab is a full-height cell in the bottom bar, a sixth of the
+ * screen wide. Painting its background there filled the whole cell: a
+ * rectangle of colour where there had been a bubble around the text, and
+ * reported as exactly that. On the phone the light goes back into a
+ * pseudo-element inset from the cell's edges, which is what drew the bubble
+ * before - and it works there precisely because the anchor has no background
+ * of its own to hide it behind. */
+@media (min-width: 960px) {
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .nav a[aria-current="page"] {
+      background-color: color-mix(in srgb, var(--ident) 20%, transparent);
+      background-image: radial-gradient(70% 80% at 50% 45%,
+        color-mix(in srgb, var(--ident) 38%, transparent) 0%, transparent 74%);
+    }
+  }
+  :root[data-theme="dark"] .nav a[aria-current="page"] {
     background-color: color-mix(in srgb, var(--ident) 20%, transparent);
     background-image: radial-gradient(70% 80% at 50% 45%,
       color-mix(in srgb, var(--ident) 38%, transparent) 0%, transparent 74%);
   }
+}
+
+@media (max-width: 959px) {
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .nav a[aria-current="page"]::before {
+      content: ""; position: absolute; inset: 5px 10px;
+      border-radius: var(--radius-pill);
+      background:
+        color-mix(in srgb, var(--ident) 18%, transparent)
+        radial-gradient(65% 75% at 50% 45%,
+          color-mix(in srgb, var(--ident) 34%, transparent) 0%, transparent 76%);
+      pointer-events: none; z-index: -1;
+    }
+  }
+  :root[data-theme="dark"] .nav a[aria-current="page"]::before {
+    content: ""; position: absolute; inset: 5px 10px;
+    border-radius: var(--radius-pill);
+    background:
+      color-mix(in srgb, var(--ident) 18%, transparent)
+      radial-gradient(65% 75% at 50% 45%,
+        color-mix(in srgb, var(--ident) 34%, transparent) 0%, transparent 76%);
+    pointer-events: none; z-index: -1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .nav a[aria-current="page"] .ico {
     box-shadow: 0 0 14px -2px color-mix(in srgb, var(--ident) 55%, transparent);
   }
 }
-:root[data-theme="dark"] .nav a[aria-current="page"] {
-  background-color: color-mix(in srgb, var(--ident) 20%, transparent);
-  background-image: radial-gradient(70% 80% at 50% 45%,
-    color-mix(in srgb, var(--ident) 38%, transparent) 0%, transparent 74%);
-}
 :root[data-theme="dark"] .nav a[aria-current="page"] .ico {
   box-shadow: 0 0 14px -2px color-mix(in srgb, var(--ident) 55%, transparent);
 }
+
 
 
 /* THE FLOATING BUTTON GETS ITS OWN ROOM AT THE FOOT.
