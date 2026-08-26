@@ -1092,6 +1092,35 @@ details.acc > summary:focus-visible,
 /* The active tab in its own colour. It was --brand for all six, so the bar
    told you something was selected and never which. The SOS override further
    down still wins for that tab. */
+/* WHITE TAB LABELS ON A DESKTOP BROWSER, IN DARK MODE.
+ *
+ * Every label, the coloured ones included: the active tab on --ident and SOS on
+ * --critical are the two that read darkest on a near-black bar, and they are
+ * the ones this was reported about. Neither loses its identity by giving up the
+ * letters - the active tab still carries its hue as the tint behind it, and SOS
+ * still has its coral glyph.
+ *
+ * THE SCOPING IS THE POINT, and it is three conditions rather than a width.
+ * min-width alone would take the iPad with it, which reports 960 and up and is
+ * explicitly not to change; hover and pointer: fine mean a mouse, which is a
+ * desktop browser and not any iOS device. And the dark guards matter most of
+ * all - white on the light theme's bar would be invisible, and this app is read
+ * in both. */
+@media (min-width: 960px) and (hover: hover) and (pointer: fine) {
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .nav a,
+    :root:not([data-theme="light"]) .nav a[aria-current="page"],
+    :root:not([data-theme="light"]) .nav a[data-tab="help"] {
+      color: var(--ink);
+    }
+  }
+  :root[data-theme="dark"] .nav a,
+  :root[data-theme="dark"] .nav a[aria-current="page"],
+  :root[data-theme="dark"] .nav a[data-tab="help"] {
+    color: var(--ink);
+  }
+}
+
 .nav a[aria-current="page"] { color: var(--ident); }
 .nav a[aria-current="page"] .ico {
   background: color-mix(in srgb, var(--brand) 15%, transparent);
