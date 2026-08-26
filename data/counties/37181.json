@@ -4,12 +4,11 @@
   "state": "NC",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-23T21:41:47.899Z",
+    "lastScan": "2026-08-26T13:22:25.882Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "grassroots-hr",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
