@@ -2998,6 +2998,27 @@ table.data--right thead th + th { text-align: left; }
     text-align: right;
   }
   table.data--pairs td, table.data--pairs thead th + th { text-align: left; }
+
+  /* EXCEPT A DURATION TABLE, WHICH READS DOWN THE LEFT EDGE.
+   *
+   * The rule above closes the desktop gap by meeting the two columns in the
+   * middle, which is right for a dose range read one row at a time. A duration
+   * table is the other kind: five times compared down a column, and the note
+   * above table.data--right says the eye needs one edge to run down. Meeting in
+   * the middle put the labels hard against the centre with a hand's width of
+   * empty page to their left - reported on the web view of "How long it lasts".
+   *
+   * So the label column goes back to the left and takes only what it needs.
+   * 11rem, not a percentage: these labels are a closed set of short words -
+   * Onset, Come-up, Peak, Offset, Total - and at this width there is no
+   * accessibility-type squeeze to protect against, which is the reason the
+   * phone rule uses 42%. The header band and the row rules still run the full
+   * width of the card. */
+  table.data--pairs.data--right th[scope="row"],
+  table.data--pairs.data--right thead th:first-child {
+    width: 11rem;
+    text-align: left;
+  }
 }
 
 /* What a callout demoted. Reads as the paragraph it always was, indented to
