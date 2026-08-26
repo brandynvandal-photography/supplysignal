@@ -3326,6 +3326,11 @@ tr[hidden], details[hidden] { display: none !important; }
 .map__help { font-size: .86rem; color: var(--ink-3); margin: 0 0 16px; }
 .map__toph { font-size: 1rem; margin: 18px 0 10px; }
 
+/* A section head set as a subheading. The element is still an h2 - see
+   subsection() in ui.js for why - so this is weight only: the size the ranked
+   lists above use, and the ink one step back from a full section title. */
+.sec--sub .sec__head h2 { font-size: 1.05rem; color: var(--ink-2); }
+
 .linkbtn {
   background: none; border: 0; padding: 0; font: inherit; color: var(--brand);
   text-decoration: underline; cursor: pointer;
