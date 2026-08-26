@@ -3052,6 +3052,62 @@ table.data--pairs td,
 table.data--pairs thead th,
 table.data--pairs th[scope="row"] { text-align: center; }
 
+/* STAGE AND TIME BROUGHT TOGETHER, TIER AND AMOUNT WITH THEM.
+ *
+ * Centring each column in its own half puts the two centres a quarter of the
+ * table apart on each side of the middle - 393px of empty page between "Onset"
+ * and "1-5 minutes" on a desktop card. The eye crosses that gap five times a
+ * table and up to eight tables a page.
+ *
+ * NOTE THAT THE COLUMN WIDTHS CANNOT FIX THIS. For two centred columns the
+ * distance between their centres is exactly half the table, whatever the split:
+ * at w and 100-w the centres sit at w/2 and (100+w)/2, and the difference is 50%
+ * for every value of w. Widening the label column moves both centres right and
+ * changes nothing. The only lever is padding, which moves a centre without
+ * moving the column.
+ *
+ * So the outer edges are padded and the inner ones are not: the label's text
+ * box starts further in, the value's ends further out, and each centre travels
+ * toward the middle by half the pull. Symmetric, so the pair stays centred on
+ * the table - and the header band and the row rules still run the full width of
+ * the card, which is what stops a narrower table being the answer here.
+ *
+ * A PERCENTAGE, so it holds at every width above 700px, where there is room to
+ * spend: 22%.
+ *
+ * THE PHONE GETS NO PULL, and that is measured rather than cautious. The label
+ * column there is 42% of a ~307px card, which leaves "Threshold" about 105px at
+ * the iOS accessibility type sizes against the ~105px it needs. A 5% pull was
+ * tried and took 3px of that, and three pixels was the whole margin: it wrapped
+ * on every dose table at 1.5x type. The phone still tightens by ~28px from the
+ * zeroed inner padding below, and gains text room doing it, which is the part
+ * that made the pull unnecessary there.
+ *
+ * THE INNER PADDING GOES TO ZERO, which is the part that makes this safe on a
+ * phone. Padding on the two edges that face each other only pushes the columns
+ * apart, and nothing is ever near them - the whole point here is that the two
+ * texts are far from that boundary. Spending it outward instead buys the pull
+ * back in text room: the label column keeps every pixel it had and gains the
+ * 12px that used to sit on its inner edge, so "Threshold" sets on one line at
+ * the iOS accessibility sizes with more margin than before, not less.
+ *
+ * --pair-pad tracks the cell padding rather than restating it, because narrow
+ * phones drop it to 12px further down and a hardcoded 16 here would have
+ * quietly put it back. */
+table.data--pairs { --pair-pad: var(--sp-3); --pair-pull: 0%; }
+@media (max-width: 560px) { table.data--pairs { --pair-pad: 12px; } }
+@media (min-width: 700px) { table.data--pairs { --pair-pull: 22%; } }
+table.data--pairs th[scope="row"],
+table.data--pairs thead th:first-child {
+  padding-left: calc(var(--pair-pad) + var(--pair-pull));
+  padding-right: 0;
+}
+table.data--pairs tbody td,
+table.data--pairs thead th + th {
+  padding-left: 0;
+  padding-right: calc(var(--pair-pad) + var(--pair-pull));
+}
+
 /* The widen button had 14px above it and nothing below - it sat flush against
    the privacy callout that follows the section, so it read as that callout's
    first line rather than as the end of the list it belongs to. */
