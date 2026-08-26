@@ -285,15 +285,6 @@
    * every surface on saying nothing. It follows --ident now, so the light
    * behind an item belongs to the tab it is in.
    *
-   * HALF THE HUE, NOT ALL OF IT, and that is a correction. Mixing --ident in
-   * at full strength made the light DIMMER: in dark mode --ink is #f2ece2 at
-   * about 0.85 relative luminance and a tab hue like #94d0e6 is about 0.55, so
-   * the same layer lifted the surface roughly a fifth less than it had. It was
-   * reported as the tabs going darker and the text getting harder to read, and
-   * the measurement agrees - I traded brightness for colour without noticing
-   * the trade. Mixing the hue halfway back toward --ink keeps the tint and
-   * restores the lift.
-   *
    * THE TIGHT LAYER STAYS NEUTRAL, deliberately. That 1px contact shadow is
    * what puts an object on the page rather than floating it, and in light mode
    * it is doing real work: --ident is a mid-tone, and tinting the contact
@@ -305,8 +296,7 @@
    * make the whole box-shadow invalid rather than merely uncoloured. */
   --shadow-float:
     0 1px 2px color-mix(in srgb, var(--ink) 7%, transparent),
-    0 10px 30px -12px color-mix(in srgb,
-      color-mix(in srgb, var(--ident, var(--ink)) 50%, var(--ink)) 22%, transparent);
+    0 10px 30px -12px color-mix(in srgb, var(--ident, var(--ink)) 22%, transparent);
 
   /* The left rule that carries severity - on an alert card, a critical limit,
      the early-access caveat. One width, so a 4px rule and a 3px rule on the
@@ -1075,21 +1065,7 @@ details.acc > summary:focus-visible,
   flex: 1; min-height: var(--nav-h);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 5px; padding: 10px 4px; text-decoration: none; color: var(--ink-2);
-  /* NOT --fs-xs. These were .735rem - about 12.5px - which is the size of a
-     caption, on the one control every screen is reached through. Reported
-     repeatedly as hard to read, and answered three times with colour changes
-     that could not have helped: the label was already at 10.5:1 and then
-     15.5:1 against the bar. Contrast was never what was wrong with it.
-     
-     .95rem, and 650 rather than 600. Still under body text, still a label, but
-     read as one rather than squinted at.
-     
-     THIS ONLY MOVES THE DESKTOP BAR, which is where the report came from. The
-     phone bar is capped separately at min(.72rem, 13px) further down this file
-     because six tabs cannot fit 375px at 200% Dynamic Type, and that cap wins
-     below 960px - verified after this change: 11.52px there, unchanged, six
-     tabs on one line each. */
-  font-size: .95rem; font-weight: 650; letter-spacing: .005em;
+  font-size: var(--fs-xs); font-weight: 600; letter-spacing: .005em;
   position: relative;
 }
 .nav a .ico {
@@ -1116,48 +1092,6 @@ details.acc > summary:focus-visible,
 /* The active tab in its own colour. It was --brand for all six, so the bar
    told you something was selected and never which. The SOS override further
    down still wins for that tab. */
-/* THE INACTIVE TABS ARE BRIGHTER AT NIGHT.
- *
- * They take --ink-2, which is right in light mode: a muted label against a
- * bright bar, one step back from the active tab. On the dark ground the same
- * token is #c0b6a8 against near-black, and it reads as dim rather than as
- * secondary - reported twice as the tabs being dark and the text hard to read.
- * Contrast was never the problem (10.5:1), which is why the first fix went
- * looking at the halo instead; this is the tokens doing what they were told on
- * a ground where "one step back" costs more than it does in light.
- *
- * --ink, so a tab label reads like the rest of the app's text. The active tab
- * does not lose its distinction: it carries its own hue and a tinted pill,
- * which is a difference in colour rather than in brightness. */
-/* EVERY TAB LABEL IS WHITE AT NIGHT, the coloured ones included.
- *
- * "The colour tabs make the letters a little dark" - and the two tabs that
- * carry a colour are the active one, on --ident, and SOS, on --critical. A
- * saturated hue at label size on a near-black bar is the dimmest text in the
- * app, and those two were the only ones I had excluded, deliberately, to keep
- * their identity in the text. That is why four rounds of brightening never
- * touched the tab the reader was actually looking at.
- *
- * The identity does not live in the letters any more, and it does not need to.
- * The active tab has its hue behind it - a 20% tint with a 38% light over it -
- * and SOS keeps its coral glyph. Both still read as themselves; both are now
- * legible first.
- *
- * !important on nothing: this rule is written after and above the two it
- * replaces, and is specific enough to win on its own. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .nav a,
-  :root:not([data-theme="light"]) .nav a[aria-current="page"],
-  :root:not([data-theme="light"]) .nav a[data-tab="help"] {
-    color: var(--ink);
-  }
-}
-:root[data-theme="dark"] .nav a,
-:root[data-theme="dark"] .nav a[aria-current="page"],
-:root[data-theme="dark"] .nav a[data-tab="help"] {
-  color: var(--ink);
-}
-
 .nav a[aria-current="page"] { color: var(--ident); }
 .nav a[aria-current="page"] .ico {
   background: color-mix(in srgb, var(--brand) 15%, transparent);
@@ -1166,83 +1100,46 @@ details.acc > summary:focus-visible,
 /* A LIGHT BEHIND THE ACTIVE TAB, IN DARK MODE ONLY.
  *
  * Reported as the coloured labels reading dim at night. Contrast is not the
- * problem and measuring says so - the active label is 9.8:1 on the bar - but a
- * saturated hue at 12px on a near-black ground reads dimmer than its ratio,
- * because the eye judges brightness partly by chroma.
+ * problem and measuring says so - the active label is 9.8:1 on the bar and the
+ * others 8.3:1, well past the 4.5 that text needs. What is actually happening
+ * is that a saturated hue at 12px, on a near-black ground, reads dimmer than
+ * its ratio: the eye judges brightness partly by chroma, and a small amount of
+ * a colour surrounded by dark simply looks weaker than the number claims.
  *
- * PAINTED IN THE ANCHOR'S OWN BACKGROUND, not in a pseudo-element, and that is
- * the whole correction. The first version was a ::before at z-index -1, which
- * renders behind its own element's background - and above 960px the active tab
- * HAS a background, the 12% tint pill. So the light was hidden underneath it
- * and the reader saw the flat tint alone. Invisible on the one layout most of
- * this reporting came from, and invisible in a way no contrast check catches,
- * because the colour it measured was never on screen.
+ * So this does not lighten the text - that would flatten the tab hues into
+ * each other, which is the thing the identity colours exist to prevent. It
+ * puts a soft light BEHIND the tab in its own hue, so the label sits on a
+ * lifted ground instead of on black, plus a small same-hue halo on the glyph
+ * itself.
  *
- * A background-image layers over background-color on the same box, so the glow
- * and the tint stack in one place at both widths, with no z-index to get
- * wrong. Stronger than the buried version was: the tint carries to 20% and the
- * light to 38%, which is what "brighter" was asking for. */
-/* A BUBBLE ON THE PHONE, A PILL ON THE DESKTOP, and the difference matters.
+ * Light mode is left alone: there the ground is already bright, the same glow
+ * reads as a smudge, and nobody reported it.
  *
- * Above 960px the active tab already IS a rounded pill - the tab is a small
- * inline cell in the header row - so painting the light into its background
- * fills exactly that shape.
- *
- * Below 960px the tab is a full-height cell in the bottom bar, a sixth of the
- * screen wide. Painting its background there filled the whole cell: a
- * rectangle of colour where there had been a bubble around the text, and
- * reported as exactly that. On the phone the light goes back into a
- * pseudo-element inset from the cell's edges, which is what drew the bubble
- * before - and it works there precisely because the anchor has no background
- * of its own to hide it behind. */
-@media (min-width: 960px) {
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .nav a[aria-current="page"] {
-      background-color: color-mix(in srgb, var(--ident) 20%, transparent);
-      background-image: radial-gradient(70% 80% at 50% 45%,
-        color-mix(in srgb, var(--ident) 38%, transparent) 0%, transparent 74%);
-    }
-  }
-  :root[data-theme="dark"] .nav a[aria-current="page"] {
-    background-color: color-mix(in srgb, var(--ident) 20%, transparent);
-    background-image: radial-gradient(70% 80% at 50% 45%,
-      color-mix(in srgb, var(--ident) 38%, transparent) 0%, transparent 74%);
-  }
-}
-
-@media (max-width: 959px) {
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .nav a[aria-current="page"]::before {
-      content: ""; position: absolute; inset: 5px 10px;
-      border-radius: var(--radius-pill);
-      background:
-        color-mix(in srgb, var(--ident) 18%, transparent)
-        radial-gradient(65% 75% at 50% 45%,
-          color-mix(in srgb, var(--ident) 34%, transparent) 0%, transparent 76%);
-      pointer-events: none; z-index: -1;
-    }
-  }
-  :root[data-theme="dark"] .nav a[aria-current="page"]::before {
-    content: ""; position: absolute; inset: 5px 10px;
+ * Both dark selectors, because the theme has three states - the stamped
+ * data-theme="dark" and the unstamped system default - and a rule that only
+ * covers one of them is the classic half-themed artifact. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .nav a[aria-current="page"]::before {
+    content: ""; position: absolute; inset: 4px 8px;
     border-radius: var(--radius-pill);
-    background:
-      color-mix(in srgb, var(--ident) 18%, transparent)
-      radial-gradient(65% 75% at 50% 45%,
-        color-mix(in srgb, var(--ident) 34%, transparent) 0%, transparent 76%);
+    background: radial-gradient(60% 70% at 50% 42%,
+      color-mix(in srgb, var(--ident) 26%, transparent) 0%, transparent 72%);
     pointer-events: none; z-index: -1;
   }
-}
-
-@media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .nav a[aria-current="page"] .ico {
-    box-shadow: 0 0 14px -2px color-mix(in srgb, var(--ident) 55%, transparent);
+    box-shadow: 0 0 12px -2px color-mix(in srgb, var(--ident) 45%, transparent);
   }
 }
-:root[data-theme="dark"] .nav a[aria-current="page"] .ico {
-  box-shadow: 0 0 14px -2px color-mix(in srgb, var(--ident) 55%, transparent);
+:root[data-theme="dark"] .nav a[aria-current="page"]::before {
+  content: ""; position: absolute; inset: 4px 8px;
+  border-radius: var(--radius-pill);
+  background: radial-gradient(60% 70% at 50% 42%,
+    color-mix(in srgb, var(--ident) 26%, transparent) 0%, transparent 72%);
+  pointer-events: none; z-index: -1;
 }
-
-
+:root[data-theme="dark"] .nav a[aria-current="page"] .ico {
+  box-shadow: 0 0 12px -2px color-mix(in srgb, var(--ident) 45%, transparent);
+}
 
 /* THE FLOATING BUTTON GETS ITS OWN ROOM AT THE FOOT.
  *
@@ -2154,8 +2051,7 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 .classcard[data-class] {
   box-shadow:
     0 1px 2px color-mix(in srgb, var(--ink) 7%, transparent),
-    0 10px 30px -12px color-mix(in srgb,
-      color-mix(in srgb, var(--cls) 50%, var(--ink)) 22%, transparent);
+    0 10px 30px -12px color-mix(in srgb, var(--cls) 22%, transparent);
 }
 .classcard__label::before { background: var(--cls, var(--line-2)); }
 /* A caption needs room on BOTH sides to read as a caption. At 3px from the

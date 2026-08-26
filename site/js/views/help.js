@@ -244,13 +244,12 @@ export async function render() {
         h("div", { class: "card" },
           h("h3", null, "Watch their breathing, not whether they answer you"),
           h("p", null,
-            "Whether somebody responds is the usual test, and it fails on "
-            + "ketamine: a deep k-hole means a person whose eyes may be open, "
-            + "who does not react to anything, and whose breathing is "
-            + "completely normal. That is the drug working, not an emergency. "
-            + "Sedatives now mixed into the opioid supply do the same thing "
-            + "from the other side. Breathing is the one sign that separates "
-            + "somebody who will come out of this from somebody who will not.")),
+            "While a person's response (or lack of) is the first test, a "
+            + "person in a deep k-hole may not react to anything, though their "
+            + "eyes may be open and their breathing completely normal. This is "
+            + "not an emergency and the drug working as intended. Sedatives now "
+            + "mixed into the opioid supply do the same thing. The person's "
+            + "breathing is the key indicator in these situations.")),
 
         h("div", { class: "statgrid" },
           h("div", { class: "card statcard" },
@@ -272,10 +271,10 @@ export async function render() {
           h("div", { class: "card statcard" },
             h("p", { class: "stat__n" }, "Breathing normally"),
             h("p", null,
-              "This is the group that holds a k-hole, a faint, the minutes "
-              + "after a seizure, GHB, heat, too much water, a knock on the "
-              + "head, low blood sugar. On their side, stay, and keep watching "
-              + "the chest. It can change."))),
+              "A k-hole, fainting, minutes after a seizure, GHB, heat, too "
+              + "much water, a knock on the head, or low blood-sugar fall into "
+              + "this category. Keep the person on their side, stay, and "
+              + "monitor their breathing, as this could change."))),
 
         h("div", { class: "card" },
           h("h3", null, "What you genuinely cannot tell apart"),
