@@ -19,7 +19,7 @@
  * detection is a date and a name; that is all it honestly is. */
 
 import {
-  h, frag, section, callout, extLink, empty, badge, disclosure, sourcesDisclosure,
+  h, frag, section, subsection, callout, extLink, empty, badge, disclosure, sourcesDisclosure,
 } from "../ui.js";
 import * as data from "../data.js";
 
@@ -61,8 +61,15 @@ export async function render(route, { go }) {
 
   /* ---- US alerts ---- */
   if (doc.alerts?.length) {
+    /* A SUBHEADING, NOT A SECTION HEAD. Asked for 2026-08-26.
+     *
+     * The h2 stays an h2 - the outline, the jump chips and reveal()'s
+     * match-by-visible-text all key off it, and demoting the element to fit a
+     * visual weight would cost all three. What changes is the treatment: the
+     * same .subhead the map's ranked lists use, so it reads as a label over
+     * the cards rather than as a peer of "Early warning" itself. */
     wrap.appendChild(
-      section("Published alerts", "United States, national",
+      subsection("Published alerts", "United States, national",
         frag(doc.alerts.map((a) =>
           h("div", { class: "card" },
             h("div", { class: "card__top" },

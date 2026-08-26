@@ -227,6 +227,22 @@ export function section(title, note, ...kids) {
   );
 }
 
+/* THE SAME SECTION, SET AS A SUBHEADING.
+ *
+ * Some sections are a label over a list rather than a division of the page -
+ * "Published alerts" on Early warning sits under that page's own h1 and reads
+ * as its peer at full weight. This keeps the h2, because the document outline,
+ * the jump chips and reveal()'s match-by-visible-text all key off the heading
+ * element, and drops only the visual weight. */
+export function subsection(title, note, ...kids) {
+  void note;
+  return frag(
+    h("div", { class: "sec sec--sub" },
+      h("div", { class: "sec__head" }, h("h2", null, title))),
+    ...kids
+  );
+}
+
 export function empty(title, ...body) {
   return h("div", { class: "empty" }, h("h3", null, title), ...body.map((b) =>
     b instanceof Node ? b : h("p", null, b)

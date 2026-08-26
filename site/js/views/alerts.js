@@ -241,7 +241,7 @@ async function pickerView(route, { go, data }) {
              no longer claims to be one. Early warning is where the same
              findings sit with the program's caveats around them. */
           h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: () => go("#/emerging") },
-            "More in Early warning")))
+            "More alerts")))
     );
   }
 
