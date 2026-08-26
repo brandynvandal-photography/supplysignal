@@ -1136,46 +1136,41 @@ details.acc > summary:focus-visible,
 /* A LIGHT BEHIND THE ACTIVE TAB, IN DARK MODE ONLY.
  *
  * Reported as the coloured labels reading dim at night. Contrast is not the
- * problem and measuring says so - the active label is 9.8:1 on the bar and the
- * others 8.3:1, well past the 4.5 that text needs. What is actually happening
- * is that a saturated hue at 12px, on a near-black ground, reads dimmer than
- * its ratio: the eye judges brightness partly by chroma, and a small amount of
- * a colour surrounded by dark simply looks weaker than the number claims.
+ * problem and measuring says so - the active label is 9.8:1 on the bar - but a
+ * saturated hue at 12px on a near-black ground reads dimmer than its ratio,
+ * because the eye judges brightness partly by chroma.
  *
- * So this does not lighten the text - that would flatten the tab hues into
- * each other, which is the thing the identity colours exist to prevent. It
- * puts a soft light BEHIND the tab in its own hue, so the label sits on a
- * lifted ground instead of on black, plus a small same-hue halo on the glyph
- * itself.
+ * PAINTED IN THE ANCHOR'S OWN BACKGROUND, not in a pseudo-element, and that is
+ * the whole correction. The first version was a ::before at z-index -1, which
+ * renders behind its own element's background - and above 960px the active tab
+ * HAS a background, the 12% tint pill. So the light was hidden underneath it
+ * and the reader saw the flat tint alone. Invisible on the one layout most of
+ * this reporting came from, and invisible in a way no contrast check catches,
+ * because the colour it measured was never on screen.
  *
- * Light mode is left alone: there the ground is already bright, the same glow
- * reads as a smudge, and nobody reported it.
- *
- * Both dark selectors, because the theme has three states - the stamped
- * data-theme="dark" and the unstamped system default - and a rule that only
- * covers one of them is the classic half-themed artifact. */
+ * A background-image layers over background-color on the same box, so the glow
+ * and the tint stack in one place at both widths, with no z-index to get
+ * wrong. Stronger than the buried version was: the tint carries to 20% and the
+ * light to 38%, which is what "brighter" was asking for. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .nav a[aria-current="page"]::before {
-    content: ""; position: absolute; inset: 4px 8px;
-    border-radius: var(--radius-pill);
-    background: radial-gradient(60% 70% at 50% 42%,
-      color-mix(in srgb, var(--ident) 26%, transparent) 0%, transparent 72%);
-    pointer-events: none; z-index: -1;
+  :root:not([data-theme="light"]) .nav a[aria-current="page"] {
+    background-color: color-mix(in srgb, var(--ident) 20%, transparent);
+    background-image: radial-gradient(70% 80% at 50% 45%,
+      color-mix(in srgb, var(--ident) 38%, transparent) 0%, transparent 74%);
   }
   :root:not([data-theme="light"]) .nav a[aria-current="page"] .ico {
-    box-shadow: 0 0 12px -2px color-mix(in srgb, var(--ident) 45%, transparent);
+    box-shadow: 0 0 14px -2px color-mix(in srgb, var(--ident) 55%, transparent);
   }
 }
-:root[data-theme="dark"] .nav a[aria-current="page"]::before {
-  content: ""; position: absolute; inset: 4px 8px;
-  border-radius: var(--radius-pill);
-  background: radial-gradient(60% 70% at 50% 42%,
-    color-mix(in srgb, var(--ident) 26%, transparent) 0%, transparent 72%);
-  pointer-events: none; z-index: -1;
+:root[data-theme="dark"] .nav a[aria-current="page"] {
+  background-color: color-mix(in srgb, var(--ident) 20%, transparent);
+  background-image: radial-gradient(70% 80% at 50% 45%,
+    color-mix(in srgb, var(--ident) 38%, transparent) 0%, transparent 74%);
 }
 :root[data-theme="dark"] .nav a[aria-current="page"] .ico {
-  box-shadow: 0 0 12px -2px color-mix(in srgb, var(--ident) 45%, transparent);
+  box-shadow: 0 0 14px -2px color-mix(in srgb, var(--ident) 55%, transparent);
 }
+
 
 /* THE FLOATING BUTTON GETS ITS OWN ROOM AT THE FOOT.
  *
