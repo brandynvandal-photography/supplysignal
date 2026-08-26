@@ -78,7 +78,7 @@ export async function render(route, ctx) {
    * heading. Prevalence-first was a deliberate decision and is recorded as
    * one below; this is the trade against it, made with the reading cost in
    * view. */
-  wrap.appendChild(section("Using it", null));
+  wrap.appendChild(section("Testing", null));
 
   const fts = g.strips.find((s) => s.id === "fentanyl");
   wrap.appendChild(

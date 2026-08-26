@@ -3859,6 +3859,10 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 /* The map embedded in a county page: shorter than the full-screen version, so
    the county's own alerts stay above the fold on a phone. */
 .map--inline { margin-bottom: var(--sp-3); }
+/* The map that could not load. No stage, no border, no reserved 300px box -
+   an empty frame reads as a broken map, and this is a sentence, not a map. */
+.map--failed { margin-bottom: var(--sp-3); }
+.map--failed .sec__note { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
 .map--inline .map__stage { height: clamp(220px, 38vh, 340px); }
 
 /* "Someone you love" — helps / backfires. The mark is decorative: each row's
