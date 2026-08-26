@@ -2318,6 +2318,11 @@ details.acc > summary {
  * duplicate surface. The negative margin is the width of .acc__body's padding,
  * so a row reaches the outer bubble's inner edge exactly as .list > .nbr does
  * anywhere else, and the padding still applies to the prose above it. */
+/* The body's bottom padding sat under the flattened list as 24px of dead
+   space before the next group's divider - measured at 41px from the last row
+   to the group's edge, with the row's own margin on top of it. The rows end
+   the group, so the group ends with them. */
+.list.newly .acc__body { padding-bottom: 0; }
 .list.newly .acc__body .list {
   background: none;
   border: 0;
@@ -3501,6 +3506,16 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
    worse than the cramping this set out to fix. Same value, enough weight. */
 .list > .nbr:has(.nbr__sub--wrap):first-child { padding-top: var(--nbr-wrap-pad); }
 .list > .nbr:has(.nbr__sub--wrap):last-child { padding-bottom: var(--nbr-wrap-pad); }
+/* BUT NOT INSIDE AN OPENED GROUP. A row in a list nested in an accordion body
+   - the compounds under a class on Alerts, the substances under a class on
+   Early warning - is part of a grouped bubble: flush rows, a hairline between
+   them. The margin above opened a 12px band between every one of those, which
+   is what "the spacing is weird" was.
+   
+   Scoped to .acc__body deliberately, NOT to every .list. The two SOS pointers
+   are a .list as well, and their gap is the spacing that was asked for a few
+   hours ago; a broader selector took it away again. */
+.acc__body .list > .nbr:has(.nbr__sub--wrap) { margin-bottom: 0; }
 
 /* The step number on Learn's "Start here" rows.
    A number rather than a bullet because the order is the whole point of that
