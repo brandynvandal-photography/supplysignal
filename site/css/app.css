@@ -1075,7 +1075,21 @@ details.acc > summary:focus-visible,
   flex: 1; min-height: var(--nav-h);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 5px; padding: 10px 4px; text-decoration: none; color: var(--ink-2);
-  font-size: var(--fs-xs); font-weight: 600; letter-spacing: .005em;
+  /* NOT --fs-xs. These were .735rem - about 12.5px - which is the size of a
+     caption, on the one control every screen is reached through. Reported
+     repeatedly as hard to read, and answered three times with colour changes
+     that could not have helped: the label was already at 10.5:1 and then
+     15.5:1 against the bar. Contrast was never what was wrong with it.
+     
+     .95rem, and 650 rather than 600. Still under body text, still a label, but
+     read as one rather than squinted at.
+     
+     THIS ONLY MOVES THE DESKTOP BAR, which is where the report came from. The
+     phone bar is capped separately at min(.72rem, 13px) further down this file
+     because six tabs cannot fit 375px at 200% Dynamic Type, and that cap wins
+     below 960px - verified after this change: 11.52px there, unchanged, six
+     tabs on one line each. */
+  font-size: .95rem; font-weight: 650; letter-spacing: .005em;
   position: relative;
 }
 .nav a .ico {
