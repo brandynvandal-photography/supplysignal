@@ -259,9 +259,26 @@
      its border alone to separate, and the border was faint too - see
      --glass-line. Still a whisper: the point is an object with air under it,
      not a sticker with a drop shadow. */
+  /* AND THE WIDE LAYER TAKES THE TAB'S HUE.
+   *
+   * In dark mode --ink is a light cream, so this pair is not a shadow at all
+   * there - it is a soft halo behind every card, row and bar. It was the same
+   * neutral halo on all six tabs, which spent the one effect that touches
+   * every surface on saying nothing. It follows --ident now, so the light
+   * behind an item belongs to the tab it is in.
+   *
+   * THE TIGHT LAYER STAYS NEUTRAL, deliberately. That 1px contact shadow is
+   * what puts an object on the page rather than floating it, and in light mode
+   * it is doing real work: --ident is a mid-tone, and tinting the contact
+   * shadow with it would trade grounding for colour on the theme that needs
+   * the grounding most.
+   *
+   * var(--ident, var(--ink)) because --ident is set from data-tab on the root,
+   * and a screen rendered before the router has stamped it would otherwise
+   * make the whole box-shadow invalid rather than merely uncoloured. */
   --shadow-float:
     0 1px 2px color-mix(in srgb, var(--ink) 7%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ink) 18%, transparent);
+    0 10px 30px -12px color-mix(in srgb, var(--ident, var(--ink)) 22%, transparent);
 
   /* The left rule that carries severity - on an alert card, a critical limit,
      the early-access caveat. One width, so a 4px rule and a 3px rule on the
@@ -3593,6 +3610,22 @@ a.nbr { text-decoration: none; color: inherit; }
     transparent);
   border-left: 3px solid var(--brand);
   border-radius: var(--radius);
+}
+/* AND THE SAME AIR ABOVE IT WHEN IT IS NOT OPENING THE PAGE.
+ *
+ * This block only ever had a margin BELOW, which is right where it is the
+ * first thing on a screen - .welcome on Alerts, .intro on Test - and the
+ * page's own padding is the space above it. Support's .letter sits in the
+ * middle of the page, between two disclosures, so it inherited 24px below and
+ * whatever the element above happened to leave: 10px. Reported as the spacing
+ * being off, and it is - the block reads as belonging to the disclosure it is
+ * crowding rather than standing on its own.
+ *
+ * Only when it has something above it, so the pages where it opens the screen
+ * do not gain a gap they never needed. Adjacent margins collapse, so this is
+ * 24px above and 24px below rather than 34. */
+.intro:not(:first-child), .welcome:not(:first-child), .letter:not(:first-child) {
+  margin-top: var(--sp-4);
 }
 /* 1.08rem, down from 1.25.
    These two are the first thing on Alerts and on Test - "You're in the right
