@@ -120,7 +120,10 @@ async function pickerView(route, { go, data }) {
      refresh (the server has the newest file); in the app the same remote
      fetch boot uses, then a re-render of this screen. Nothing here is a
      pull-to-refresh - that would fight the map canvas for the gesture. */
-  wrap.appendChild(
+  /* Built fresh on every redraw of the section below, because that section
+     replaces its own children and a single node would be re-parented instead
+     of re-rendered. */
+  const updatedLine = () =>
     h("p", { class: "sec__note" },
       t("alerts.dataUpdated", { date: new Date(a.generated).toISOString().slice(0, 10) }),
       " · ",
@@ -131,7 +134,7 @@ async function pickerView(route, { go, data }) {
           await data.refreshAlerts().catch(() => false);
           go("#/alerts");
         },
-      }, t("alerts.refresh"))));
+      }, t("alerts.refresh")));
 
   /* Alerts first, privacy promise under them.
      It used to sit between the search row and the alerts, so the first thing
@@ -168,6 +171,7 @@ async function pickerView(route, { go, data }) {
         }, w.label)));
     const list = await everywhere({ data }, {
       limit: NATIONAL_PREVIEW, days: natDays, control: chips,
+      note: updatedLine(),
       onWiden: (d) => { natDays = d; drawNational(true); },
     });
     natHost.replaceChildren(list);
@@ -926,14 +930,26 @@ const NATIONAL_DAYS = 365;
  * are never published by anyone. So what was actually looked at goes on the
  * screen beside the zero.
  */
-async function everywhere({ data }, { limit = 0, days = NATIONAL_DAYS, control = null, onWiden = null } = {}) {
+async function everywhere({ data }, { limit = 0, days = NATIONAL_DAYS, control = null, onWiden = null, note = null } = {}) {
   const all = await data.alertsAll(days);
   const cov = await data.coverage();
   const scannedN = Number(cov.countiesScanned) || 0;
 
+  /* THE SUBTITLE IS WHEN THIS DATA IS FROM, not how much of it there is.
+   *
+   * It used to be a count - "2 published anywhere in the country in the last 12
+   * months" - which restated what the list underneath already shows, in the one
+   * slot on this screen where a reader is deciding whether to trust what they
+   * are looking at. The date and the way to ask for a newer one had their own
+   * paragraph further up, above the search box, where it read as a caption on
+   * the screen rather than on the alerts. It belongs to this section, so it
+   * sits under this section's heading.
+   *
+   * The empty case loses nothing: the callout below already says the window,
+   * what was scanned, and why a zero is not the same as nothing happening. */
   const head = h("div", { class: "county-head" },
     h("h2", null, t("alerts.everywhereTitle")),
-    h("p", { class: "sec__note" },
+    note || h("p", { class: "sec__note" },
       all.length
         ? t("alerts.everywhereCount", { count: all.length, window: labelFor(days) })
         : t("alerts.everywhereIntro")));
