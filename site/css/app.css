@@ -2305,6 +2305,29 @@ details.acc > summary {
 }
 .list.newly details.acc:last-child { border-bottom: 0; }
 
+/* AND NO SECOND BUBBLE INSIDE THE FIRST.
+ *
+ * Opening a class revealed its compounds in a .list, which is a bubble in its
+ * own right - background, hairline, 22px radius, float shadow - sitting 25px
+ * inside the bubble it had just opened inside. The visible symptom is the one
+ * reported: run the pointer down those rows and the shading stops short of the
+ * edges, where everywhere else on this site a row's highlight fills the bubble
+ * it is in.
+ *
+ * The rows keep their own hover and their own dividers; what goes is the
+ * duplicate surface. The negative margin is the width of .acc__body's padding,
+ * so a row reaches the outer bubble's inner edge exactly as .list > .nbr does
+ * anywhere else, and the padding still applies to the prose above it. */
+.list.newly .acc__body .list {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  margin-left: calc(var(--sp-4) * -1);
+  margin-right: calc(var(--sp-4) * -1);
+}
+
 details.acc > summary::-webkit-details-marker { display: none; }
 /* A card's summary names the card with an h3 now - a strip, a reagent - so
    the outline has it and a screen reader's heading list can reach it. The
@@ -4591,9 +4614,35 @@ details.disc .groupkids > details.disc > summary h2 {
     }
     /* Opaque rather than 90% tinted. Without a blur behind it, a translucent
        panel shows the page's own text sliding under the search results, and
-       results that are hard to read is a worse failure than a flat surface. */
+       results that are hard to read is a worse failure than a flat surface.
+       
+       THE TAB BAR IS THE SAME CASE - see the rule after this block, which
+       needs a width guard this one does not. */
     .searchpanel { background: var(--surface); }
   }
+}
+
+/* THE TAB BAR, OPAQUE WHERE IT IS A BAR.
+ *
+ * Reported on iOS Safari as the tab bar being see-through. --bar-tint is 90%
+ * opaque and the backdrop blur covered the other tenth - but the block above
+ * turns that blur OFF on touch devices, because WebKit re-samples it on the
+ * main thread and the bar trailed, jumped and dropped frames during momentum
+ * scrolling. With the blur gone the remaining tenth stopped being frosted and
+ * became a window, with the page's own text sliding through the one surface
+ * that has to stay readable while everything behind it moves. The search panel
+ * was given flat --surface for exactly this reason; the bar was missed.
+ *
+ * AND THE WIDTH GUARD IS THE POINT. iPadOS reports (hover: none) and
+ * (pointer: coarse) just as a phone does, but above 960 the tabs are not a bar
+ * at all - they sit inside the header row, where an opaque block behind them
+ * would paint a rectangle across a translucent bar. So this applies only where
+ * .nav is actually fixed to the bottom of the screen.
+ *
+ * Desktop keeps the real glass: the blur is still on there, and the compositor
+ * has the room for it. */
+@media (hover: none) and (pointer: coarse) and (max-width: 959px) {
+  .nav { background: var(--surface); }
 }
 
 /* Reduced transparency is an accessibility setting, not a preference for a
