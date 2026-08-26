@@ -3421,6 +3421,14 @@ tr[hidden], details[hidden] { display: none !important; }
 .map__toph { font-size: 1rem; margin: 18px 0 10px; }
 
 
+/* The date and its refresh sit on one line, with air between them rather than
+   a dot joining them - the button is a control, not a clause. Wraps onto two
+   lines on a narrow screen instead of squeezing the sentence. */
+.updatedline {
+  display: flex; align-items: center; gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
 .linkbtn {
   background: none; border: 0; padding: 0; font: inherit; color: var(--brand);
   text-decoration: underline; cursor: pointer;

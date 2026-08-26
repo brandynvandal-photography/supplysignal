@@ -123,12 +123,21 @@ async function pickerView(route, { go, data }) {
   /* Built fresh on every redraw of the section below, because that section
      replaces its own children and a single node would be re-parented instead
      of re-rendered. */
+  /* A CONTROL SHAPED LIKE THE OTHER CONTROLS. Refresh was a .linkbtn - an
+     underlined run of text inside the sentence - while every other action on
+     this screen is a ghost pill: "More alerts", "All 8 in the last 12 months",
+     the window chips. One action wearing two shapes, and the smaller of the two
+     on the one that re-fetches the data the whole screen is about.
+     
+     The dot separator goes with it. A pill does not need punctuation to be
+     told apart from the sentence beside it; the row is a line of text and a
+     button now, spaced rather than joined. */
   const updatedLine = () =>
-    h("p", { class: "sec__note" },
-      t("alerts.dataUpdated", { date: new Date(a.generated).toISOString().slice(0, 10) }),
-      " · ",
+    h("p", { class: "sec__note updatedline" },
+      h("span", null,
+        t("alerts.dataUpdated", { date: new Date(a.generated).toISOString().slice(0, 10) })),
       h("button", {
-        type: "button", class: "linkbtn",
+        type: "button", class: "btn btn--ghost btn--sm",
         onClick: async () => {
           if (!data.packaged()) { location.reload(); return; }
           await data.refreshAlerts().catch(() => false);
