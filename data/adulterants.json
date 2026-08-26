@@ -216,7 +216,7 @@
       "naloxone": {
         "reverses": false,
         "lead": "Naloxone does not reverse medetomidine — give it anyway, and check breathing first.",
-        "text": "Medetomidine is not an opioid. Naloxone will not touch it, but it reverses the fentanyl it is mixed with, so give it. Health departments have changed the order of the steps because of medetomidine: check whether the person is BREATHING before checking whether they respond to you. Someone can be breathing adequately and still be completely unresponsive from medetomidine, and checking responsiveness first misleads you into thinking naloxone has not worked.",
+        "text": "Medetomidine is not an opioid. Naloxone will have no effect on medetomidine, but it will have an effect on the fentanyl it is mixed with. Health departments have changed the order of the steps because of medetomidine: check whether the person is BREATHING before checking whether they respond to you. Someone can be breathing adequately and still be completely unresponsive from medetomidine, and checking responsiveness first may mislead you into thinking naloxone has not worked.",
         "sources": [
           {
             "name": "PA Department of Health HAN #794 (relaying Philadelphia DPH)",
