@@ -134,8 +134,24 @@
 
   /* Dark — warm charcoal, not blue-black. Lamplight rather than a control
      room; this gets opened at 3am more than at noon. */
-  --d-bg: #17150f;        --d-surface: #211e18;   --d-surface-2: #2b2720;
-  --d-ink: #f2ece2;       --d-ink-2: #c0b6a8;     --d-ink-3: #a0968a;
+  /* LIFTED, because near-black on near-black is not a dark theme, it is a
+     dark room. A card composited over the page measured 1.19:1 against it -
+     no separation at all, with every boundary carried by a hairline border -
+     and the app was reported as too dark three times running. Brightening the
+     tab labels and the halo did not touch it, because the surfaces themselves
+     were the thing.
+     
+     Roughly double the luminance of both, which keeps the app dark and stops
+     it being a silhouette: page 0.0075 -> 0.0148, a card 0.0187 -> 0.0404,
+     and 1.40:1 between them. Body ink still reads 9.9:1 on a card. */
+  --d-bg: #242019;        --d-surface: #332e26;   --d-surface-2: #423b31;
+  /* --d-ink-3 lifted with the surfaces. The note further up records it at
+     5.11 on --surface-2; once those were brightened the same ink measured
+     4.00 on a card - under the 4.5 body text needs, in the tier that carries
+     the caveats and the "not a recommendation" strings. #b4aaa0 clears it on
+     every ground it lands on: 5.09 on a card, 5.90 on --surface, 7.10 on the
+     page, 4.84 on --surface-2. Measured, not nudged. */
+  --d-ink: #f2ece2;       --d-ink-2: #c0b6a8;     --d-ink-3: #b4aaa0;
   --d-line: #39332b;      --d-line-2: #4a4238;    --d-edge: #6f6558;
   --d-brand: #7fcbb8;     --d-brand-ink: #12271f; --d-brand-soft: #1b322c;
   --d-brand-hover: #9adbc9;
