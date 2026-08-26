@@ -1119,6 +1119,46 @@ details.acc > summary:focus-visible,
   :root[data-theme="dark"] .nav a[data-tab="help"] {
     color: var(--ink);
   }
+
+  /* THE COLOUR MOVES INTO THE GLYPH, and gets louder there than it ever was in
+   * the letters.
+   *
+   * White labels took the hue out of the bar entirely: every tab became the
+   * same, and the only colour left was a wash behind whichever one was open.
+   * The identity is worth keeping - it is what lets someone find the tab they
+   * used last time without reading - so it goes where it can be bright without
+   * costing legibility.
+   *
+   * Each glyph takes its OWN tab's hue rather than --ident, which is only ever
+   * the current tab's. Six drawn icons, six colours, all the time. SOS keeps
+   * --critical, the one hue here that means something rather than identifying
+   * something. And the open tab's wash goes 12% -> 22%.
+   *
+   * THE DARK GUARD IS THE MEDIA QUERY, not the :not(). A first version leaned
+   * on :root:not([data-theme="light"]) alone - which is TRUE when nothing is
+   * stamped at all, i.e. every reader on the system default - so light mode
+   * came out with coloured glyphs it had never asked for. Caught by measuring
+   * light after changing dark. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .nav a[data-tab="learn"] .ico { color: var(--ident-learn); }
+    :root:not([data-theme="light"]) .nav a[data-tab="substances"] .ico { color: var(--ident-drugs); }
+    :root:not([data-theme="light"]) .nav a[data-tab="test"] .ico { color: var(--ident-test); }
+    :root:not([data-theme="light"]) .nav a[data-tab="support"] .ico { color: var(--ident-support); }
+    :root:not([data-theme="light"]) .nav a[data-tab="alerts"] .ico { color: var(--ident-alerts); }
+    :root:not([data-theme="light"]) .nav a[data-tab="help"] .ico { color: var(--critical); }
+    :root:not([data-theme="light"]) .nav a[aria-current="page"] {
+      background: color-mix(in srgb, var(--ident) 22%, transparent);
+    }
+  }
+  :root[data-theme="dark"] .nav a[data-tab="learn"] .ico { color: var(--ident-learn); }
+  :root[data-theme="dark"] .nav a[data-tab="substances"] .ico { color: var(--ident-drugs); }
+  :root[data-theme="dark"] .nav a[data-tab="test"] .ico { color: var(--ident-test); }
+  :root[data-theme="dark"] .nav a[data-tab="support"] .ico { color: var(--ident-support); }
+  :root[data-theme="dark"] .nav a[data-tab="alerts"] .ico { color: var(--ident-alerts); }
+  :root[data-theme="dark"] .nav a[data-tab="help"] .ico { color: var(--critical); }
+  :root[data-theme="dark"] .nav a[aria-current="page"] {
+    background: color-mix(in srgb, var(--ident) 22%, transparent);
+  }
 }
 
 .nav a[aria-current="page"] { color: var(--ident); }
