@@ -141,17 +141,24 @@
      tab labels and the halo did not touch it, because the surfaces themselves
      were the thing.
      
-     Roughly double the luminance of both, which keeps the app dark and stops
-     it being a silhouette: page 0.0075 -> 0.0148, a card 0.0187 -> 0.0404,
-     and 1.40:1 between them. Body ink still reads 9.9:1 on a card. */
-  --d-bg: #242019;        --d-surface: #332e26;   --d-surface-2: #423b31;
+     Lifted twice, because the first step was not enough on the reader's own
+     screen: page 0.0075 -> 0.0148 -> 0.0216, a card 0.0187 -> 0.0404 ->
+     0.0553, and 1.19:1 -> 1.47:1 between them. Roughly three times the light
+     it started with.
+     
+     THE FLOOR IS THE TEXT, and it is what stops this going further. A third
+     step - page 0.0280 - puts --ink-2 at 4.2:1 on a card, under the 4.5 body
+     text needs, and that tier carries most of the prose in the app. Every
+     value here is the brightest one that keeps all three inks above it:
+     ink 8.5, ink-2 5.0, ink-3 4.8. */
+  --d-bg: #2c2820;        --d-surface: #3d382f;   --d-surface-2: #4d453a;
   /* --d-ink-3 lifted with the surfaces. The note further up records it at
      5.11 on --surface-2; once those were brightened the same ink measured
      4.00 on a card - under the 4.5 body text needs, in the tier that carries
      the caveats and the "not a recommendation" strings. #b4aaa0 clears it on
      every ground it lands on: 5.09 on a card, 5.90 on --surface, 7.10 on the
      page, 4.84 on --surface-2. Measured, not nudged. */
-  --d-ink: #f2ece2;       --d-ink-2: #c0b6a8;     --d-ink-3: #b4aaa0;
+  --d-ink: #f2ece2;       --d-ink-2: #c0b6a8;     --d-ink-3: #bdb3a8;
   --d-line: #39332b;      --d-line-2: #4a4238;    --d-edge: #6f6558;
   --d-brand: #7fcbb8;     --d-brand-ink: #12271f; --d-brand-soft: #1b322c;
   --d-brand-hover: #9adbc9;
