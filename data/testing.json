@@ -1579,11 +1579,19 @@
         "positive": "ONE red line",
         "negative": "TWO red lines — if two appear, however faint, it is negative",
         "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
-        "onlyFor": "Only use these on fentanyl. They can read positive on cocaine and other drugs when no xylazine is there.",
+        "onlyFor": "A version 1.0 strip can read positive on cocaine when no xylazine is there, because it cross-reacts with lidocaine, a standard cocaine cut \u2014 BTNX says version 2.0 does not, which is the manufacturer\u2019s claim rather than an independent finding.",
         "sources": [
           {
             "name": "Washington State DOH — Using BTNX Rapid Response Xylazine Test Strips (DOH 150-238)",
             "url": "https://doh.wa.gov/sites/default/files/2024-03/150238-BTNXXylazineTestStripsPoster.pdf"
+          },
+          {
+            "name": "Understanding sensitivity and cross-reactivity of xylazine lateral flow immunoassay test strips (NIST, Drug Testing and Analysis, December 2023)",
+            "url": "https://www.nist.gov/publications/understanding-sensitivity-and-cross-reactivity-xylazine-lateral-flow-immunoassay-test"
+          },
+          {
+            "name": "BTNX — Rapid Response Xylazine Test Strip 2.0",
+            "url": "https://www.btnx.com/HarmReduction/Xylazine"
           }
         ],
         "byDrug": {

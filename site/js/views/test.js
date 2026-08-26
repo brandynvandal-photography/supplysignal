@@ -898,16 +898,29 @@ function brandPicker(brands) {
 
       d.note ? h("p", { class: "sec__note" }, d.note) : null,
       d.sources ? sourceRow(d.sources) : null,
-      /* THE HEADING IS ABOUT THE SAMPLE, NOT THE STRIP, and it used to say the
-         opposite. The one brand carrying this is BTNX's XYLAZINE strip, and
-         "Only for fentanyl" over it reads as "this strip only detects
-         fentanyl" - which is false, and false in the direction that matters:
-         somebody could take it to mean a xylazine strip does not test for
-         xylazine. What the warning underneath actually says is which SAMPLE to
-         put it in, because the strip cross-reacts and can read positive on
-         cocaine and other drugs when no xylazine is present. Reported as
-         inaccurate. The title now says that. */
-      b.onlyFor ? callout("stop", "Only use on fentanyl samples", h("p", null, b.onlyFor)) : null,
+      /* "ONLY FOR FENTANYL" WAS WRONG TWICE OVER, and the second one is the
+         reason to check a date on a source.
+         
+         The one brand carrying this is BTNX's XYLAZINE strip, so the heading
+         read as "this strip only detects fentanyl" - false in the direction
+         that matters, since a reader could take it to mean a xylazine strip
+         does not test for xylazine.
+         
+         And the claim under it had gone stale. It came from a Washington State
+         DOH poster dated September 2023, which says in a red box to use these
+         on fentanyl only because they false-positive on cocaine. What was
+         actually happening, per the NIST evaluation in Drug Testing and
+         Analysis two months later, is that among 77 compounds the strips
+         cross-react with exactly one - lidocaine, which is a standard cocaine
+         cut. BTNX now ships a 2.0 strip it says has no lidocaine
+         cross-reactivity. So the restriction was never "fentanyl", it was
+         "not lidocaine", and on a current strip the maker says it is gone.
+         
+         The heading names the actual risk and the body keeps the version
+         distinction and the hedge, because the 2.0 claim is the manufacturer's
+         and has not been independently published - the same hedge the strip's
+         own limits section already carries. */
+      b.onlyFor ? callout("stop", "Cocaine can read positive on a 1.0 strip", h("p", null, b.onlyFor)) : null,
       b.blindSpot ? h("p", { class: "sec__note" }, b.blindSpot) : null,
       sourceRow(b.sources),
     ));
