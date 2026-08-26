@@ -4,12 +4,11 @@
   "state": "SD",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-24T07:27:03.490Z",
+    "lastScan": "2026-08-26T20:10:27.248Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "nd-hhs",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
