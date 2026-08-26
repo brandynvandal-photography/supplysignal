@@ -118,9 +118,63 @@ function mayCache(url) {
   return CACHEABLE.test(path);
 }
 
+/* THE SHELL IS FETCHED BEFORE THE CACHE IS TRUSTED, and everything else is
+ * not. This is the one asymmetry in here and it is the whole point of it.
+ *
+ * Stale-while-revalidate on EVERY request meant a returning reader always got
+ * the previous deploy's index.html, and the current one only on the visit
+ * after that. One refresh was never enough - reported exactly that way - and
+ * the same mechanism caused the county map to vanish earlier: a cached shell
+ * asking for a chunk whose content-hashed name the deploy had already removed.
+ *
+ * So a navigation goes to the network first and falls back to the cache. The
+ * shell is the only file whose name never changes, which is exactly why it is
+ * the only one that can go stale; everything under it is content-hashed, so
+ * cache-first is not just safe there, it is correct - a hash that matches is
+ * the same bytes by definition.
+ *
+ * WITH A DEADLINE, because this app is opened on bad connections at three in
+ * the morning and a network-first shell with no timeout is a white screen. Two
+ * seconds, then the cached shell. Offline is unchanged: the fetch throws at
+ * once and the cache answers.
+ *
+ * cache: "no-store" so the browser's own HTTP cache cannot serve the stale
+ * copy the service worker just declined to serve. */
+const SHELL_DEADLINE_MS = 2000;
+
+function isShell(url, request) {
+  if (request.mode === "navigate") return true;
+  const path = url.pathname.replace(/^.*\/site\//, "");
+  return path === "" || path === "/" || path === "index.html";
+}
+
+async function shellFirst(request) {
+  const cache = await caches.open(VERSION);
+  try {
+    const net = await Promise.race([
+      fetch(request, { cache: "no-store" }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("slow")), SHELL_DEADLINE_MS)),
+    ]);
+    if (net && net.ok) {
+      /* Under ./index.html, not under the request: every route on this site -
+         /alerts, /test, a county deep link - is that one file, and caching it
+         per URL would fill the cache with copies and still miss the next
+         route someone opens offline. */
+      cache.put("./index.html", net.clone());
+      return net;
+    }
+  } catch { /* offline, or slower than the deadline */ }
+  return (await cache.match("./index.html")) || (await cache.match(request)) || Response.error();
+}
+
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== "GET" || url.origin !== location.origin) return;
+
+  if (isShell(url, e.request)) {
+    e.respondWith(shellFirst(e.request));
+    return;
+  }
 
   e.respondWith(
     caches.open(VERSION).then(async (cache) => {
@@ -134,11 +188,11 @@ self.addEventListener("fetch", (e) => {
         .catch(() => null);
 
       /* Serve cache instantly when there is one; fall back to the network
-         while populating the cache when there is not. A navigation with
-         neither gets the shell, so deep links still open offline. */
-      return cached
-        || (await refresh)
-        || (e.request.mode === "navigate" ? cache.match("./index.html") : Response.error());
+         while populating the cache when there is not. Navigations never reach
+         here - see shellFirst above - so this is the content-hashed half of
+         the site, where a cache hit is the same bytes as the network by
+         definition and waiting for the network would be pure latency. */
+      return cached || (await refresh) || Response.error();
     })
   );
 });
