@@ -3030,6 +3030,28 @@ table.data--pairs th[scope="row"], table.data--pairs thead th:first-child { widt
    spaces. */
 table.data--pairs th { overflow-wrap: break-word; }
 
+/* CENTRED, CAPTION INCLUDED (2026-08-26, on request).
+ *
+ * These two columns used to run down the left edge on the argument that a
+ * column of times is scanned down one edge. Centring is what was asked for and
+ * it is coherent in its own terms: the caption, the two column headings and
+ * both columns of every row now share one axis, so a route table reads as a
+ * single centred block rather than as text pinned to a rule.
+ *
+ * Every cell is named explicitly. table.data sets text-align: left on th, td
+ * and thead th separately, and each of those needs a same-or-higher specificity
+ * answer here - a single .data--pairs td would have left the header band
+ * left-aligned over centred rows, which is worse than either choice made
+ * consistently.
+ *
+ * Only .data--pairs. The Test page's tables are ordinary .data and keep the
+ * left alignment a two-column reference table wants. */
+table.data--pairs caption { text-align: center; }
+table.data--pairs th,
+table.data--pairs td,
+table.data--pairs thead th,
+table.data--pairs th[scope="row"] { text-align: center; }
+
 /* The widen button had 14px above it and nothing below - it sat flush against
    the privacy callout that follows the section, so it read as that callout's
    first line rather than as the end of the list it belongs to. */
@@ -3040,7 +3062,7 @@ table.data--pairs th { overflow-wrap: break-word; }
    when it follows a paragraph. */
 .chips--window { margin-top: 14px; }
 
-/* HOW LONG IT LASTS, READ DOWN THE LEFT EDGE.
+/* LABEL / VALUE TABLES READ DOWN THE LEFT EDGE.
  *
  * A duration table is five times in a column - 1-3 minutes, 5-15 minutes,
  * 15-45 minutes - and the comparison the reader is making is between them, down
@@ -3048,58 +3070,31 @@ table.data--pairs th { overflow-wrap: break-word; }
  * eye already starts from: every value begins at the same x, and the ragged
  * ends fall away from where the scanning happens.
  *
- * Written as its own rule rather than left to the default, because the centred
- * pair rule below targets these same cells above 700px and would otherwise pull
- * the value column to meet the label in the middle. Duration tables opt out of
- * that at every width.
+ * DOSE TABLES NOW DO THE SAME (2026-08-26, on request). They used to meet label
+ * and value in the middle of a wide screen, on the argument that a dose range is
+ * read one row at a time rather than compared down a column. Whatever that is
+ * worth in the abstract, on the page it put the two kinds of table in one
+ * section disagreeing with each other - "Threshold" pushed right against a
+ * centre line, "Onset" hard left an inch away - and nothing on screen tells the
+ * reader the disagreement was meant. One treatment for both, at every width.
  *
- * Dose tables are unaffected: those are ranges taken one at a time rather than
- * a series compared down a column. */
-table.data--right td,
-table.data--right thead th + th { text-align: left; }
+ * 11rem, not a percentage: these labels are a closed set of short words -
+ * Threshold, Come-up, Offset - and at this width there is no accessibility-type
+ * squeeze to protect against, which is the reason the phone rule uses 42%. The
+ * header band and the row rules still run the full width of the card they sit
+ * in, so the table does not narrow, only its columns move left.
+ *
+ * There is no .data--right modifier any more: it existed solely to opt duration
+ * tables out of the centring above, and with the centring gone it styled
+ * nothing. A class that is applied but inert is worse than no class. */
 @media (min-width: 700px) {
-  table.data--pairs.data--right td,
-  table.data--pairs.data--right thead th + th { text-align: left; }
-}
-
-/* On a wide screen the pair drifts apart.
- *
- * A phone is the constraint these tables were shaped for, and there a 11rem
- * label and the value beside it fill the row. On a desktop the same table is
- * 875px wide, so the value column starts at a third and the right two-thirds of
- * every row is empty - the reader's eye crosses a hand's width of nothing to
- * get from "Offset" to "2.5-3.5 hours", four times a page.
- *
- * Meeting the two columns at the middle closes that gap without narrowing the
- * table, so the header band and the row rules still run the full width of the
- * card they sit in. Only above 700px: the phone layout is the verified one and
- * has no gap to close. */
-@media (min-width: 700px) {
+  /* An even split above 700px, where a fixed 11rem label would have put its
+     centre near the table's left edge with the value's centre far off to the
+     right - two centred columns that do not look centred. 50/50 puts them at
+     the quarter points, symmetric about the middle of the card. The phone keeps
+     42/58 for the accessibility-type reason documented above. */
   table.data--pairs th[scope="row"], table.data--pairs thead th:first-child {
     width: 50%;
-    text-align: right;
-  }
-  table.data--pairs td, table.data--pairs thead th + th { text-align: left; }
-
-  /* EXCEPT A DURATION TABLE, WHICH READS DOWN THE LEFT EDGE.
-   *
-   * The rule above closes the desktop gap by meeting the two columns in the
-   * middle, which is right for a dose range read one row at a time. A duration
-   * table is the other kind: five times compared down a column, and the note
-   * above table.data--right says the eye needs one edge to run down. Meeting in
-   * the middle put the labels hard against the centre with a hand's width of
-   * empty page to their left - reported on the web view of "How long it lasts".
-   *
-   * So the label column goes back to the left and takes only what it needs.
-   * 11rem, not a percentage: these labels are a closed set of short words -
-   * Onset, Come-up, Peak, Offset, Total - and at this width there is no
-   * accessibility-type squeeze to protect against, which is the reason the
-   * phone rule uses 42%. The header band and the row rules still run the full
-   * width of the card. */
-  table.data--pairs.data--right th[scope="row"],
-  table.data--pairs.data--right thead th:first-child {
-    width: 11rem;
-    text-align: left;
   }
 }
 

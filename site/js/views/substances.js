@@ -1688,7 +1688,7 @@ function durationTable(r) {
   ].filter(([, v]) => v);
 
   return h("div", { class: "tablewrap" },
-    h("table", { class: "data data--pairs data--right" },
+    h("table", { class: "data data--pairs" },
       h("caption", null, `${routeLabel(r.name)} — duration`),
       h("thead", null, h("tr", null,
         h("th", { scope: "col" }, "Stage"), h("th", { scope: "col" }, "Time"))),
