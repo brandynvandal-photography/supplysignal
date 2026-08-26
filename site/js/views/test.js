@@ -898,7 +898,16 @@ function brandPicker(brands) {
 
       d.note ? h("p", { class: "sec__note" }, d.note) : null,
       d.sources ? sourceRow(d.sources) : null,
-      b.onlyFor ? callout("stop", "Only for fentanyl", h("p", null, b.onlyFor)) : null,
+      /* THE HEADING IS ABOUT THE SAMPLE, NOT THE STRIP, and it used to say the
+         opposite. The one brand carrying this is BTNX's XYLAZINE strip, and
+         "Only for fentanyl" over it reads as "this strip only detects
+         fentanyl" - which is false, and false in the direction that matters:
+         somebody could take it to mean a xylazine strip does not test for
+         xylazine. What the warning underneath actually says is which SAMPLE to
+         put it in, because the strip cross-reacts and can read positive on
+         cocaine and other drugs when no xylazine is present. Reported as
+         inaccurate. The title now says that. */
+      b.onlyFor ? callout("stop", "Only use on fentanyl samples", h("p", null, b.onlyFor)) : null,
       b.blindSpot ? h("p", { class: "sec__note" }, b.blindSpot) : null,
       sourceRow(b.sources),
     ));

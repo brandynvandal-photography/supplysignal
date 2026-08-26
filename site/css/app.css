@@ -98,8 +98,25 @@
    * 3:1, not 4.5:1. These are the bar, and the bar is non-text content
    * carrying information - WCAG 1.4.11. The label beside it is the real name;
    * the colour is the aid. */
-  --l-cls-cannabinoids: #4c433e; --l-cls-nootropics: #6f6152;
-  --l-cls-deliriants: #938362;   --l-cls-other: #978d59;
+  /* SPREAD, after the four read as one colour. They were a single warm ramp -
+     min pairwise dE 10.7, which is four shades of the same brown - reported as
+     too close together twice. Now 24.0, more than double, measured in Lab.
+     
+     THE FAMILY IS THE CONSTRAINT, not a preference. Green is --ok, blue-grey
+     is depressants, red and amber are severity, and 205 to 332 degrees is the
+     six hued classes. What is left for these four is brown to olive plus a
+     neutral, which is why they were close in the first place; an optimiser
+     told to maximise separation without that constraint returns roses and
+     pinks that would read as a severity or as the psychedelic family.
+     
+     Both nootropics and deliriants sit 21 and 24 from --elevated and --ok
+     rather than the 27 the six keep. That is deliberate and it is safe here:
+     a class bar appears on class cards and section headings, a severity colour
+     on an alert card's rail and badge, and the two never appear in the same
+     list - so the number that matters is how far these four are from EACH
+     OTHER. */
+  --l-cls-cannabinoids: #3d3529; --l-cls-nootropics: #7c5a37;
+  --l-cls-deliriants: #6d7a3d;   --l-cls-other: #8d8177;
   --l-shadow: 0 1px 2px rgba(70,55,40,.04), 0 6px 24px rgba(70,55,40,.06);
   --l-shadow-lg: 0 12px 40px rgba(70,55,40,.14);
   /* The map's own palette, as the canvas reads it. map.js cannot use a CSS
@@ -135,8 +152,9 @@
   --d-cls-depressants: #8ebfe1;   --d-cls-opioids: #8e9de1;
   --d-cls-dissociatives: #a492e2; --d-cls-psychedelics: #c18ee1;
   --d-cls-empathogens: #e18eda;   --d-cls-stimulants: #e18eb5;
-  --d-cls-cannabinoids: #e9e4e2; --d-cls-nootropics: #d0c7bd;
-  --d-cls-deliriants: #bdb198;   --d-cls-other: #b0a673;
+  /* Same spread, lifted: min pairwise dE 24.3, up from 11.2. */
+  --d-cls-cannabinoids: #e9e3d8; --d-cls-nootropics: #d3a97c;
+  --d-cls-deliriants: #b9c47e;   --d-cls-other: #a99e94;
   --d-shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.28);
   --d-shadow-lg: 0 12px 40px rgba(0,0,0,.45);
   /* See --l-map-*. Up and down are the dark severity/ok inks; the flat and
@@ -1996,16 +2014,46 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
   width: 3px; height: .85em; margin-right: 9px; border-radius: 2px;
   background: var(--line-2);
 }
-[data-class="depressants"]   .classcard__label::before { background: var(--cls-depressants); }
-[data-class="opioids"]       .classcard__label::before { background: var(--cls-opioids); }
-[data-class="dissociatives"] .classcard__label::before { background: var(--cls-dissociatives); }
-[data-class="psychedelics"]  .classcard__label::before { background: var(--cls-psychedelics); }
-[data-class="empathogens"]   .classcard__label::before { background: var(--cls-empathogens); }
-[data-class="stimulants"]    .classcard__label::before { background: var(--cls-stimulants); }
-[data-class="cannabinoids"]  .classcard__label::before { background: var(--cls-cannabinoids); }
-[data-class="nootropics"]    .classcard__label::before { background: var(--cls-nootropics); }
-[data-class="deliriants"]    .classcard__label::before { background: var(--cls-deliriants); }
-[data-class="other"]         .classcard__label::before { background: var(--cls-other); }
+/* ONE PROPERTY PER CARD, read by both the bar and the light behind it.
+ *
+ * These ten rules set the class colour once as --cls; the bar below takes it,
+ * and so does --ident, which is what the wide layer of --shadow-float is mixed
+ * from. So each card on this grid is lit by its own class rather than by the
+ * tab - asked for as "each halo should represent color indicated" - while
+ * every other surface in the app keeps the tab's light.
+ *
+ * --ident and not a new token, because the halo already reads --ident and
+ * adding a second name for the same job is how two things that must agree stop
+ * agreeing. A card with no data-class inherits the tab's --ident and is lit
+ * like everything else. */
+[data-class="depressants"]   { --cls: var(--cls-depressants); }
+[data-class="opioids"]       { --cls: var(--cls-opioids); }
+[data-class="dissociatives"] { --cls: var(--cls-dissociatives); }
+[data-class="psychedelics"]  { --cls: var(--cls-psychedelics); }
+[data-class="empathogens"]   { --cls: var(--cls-empathogens); }
+[data-class="stimulants"]    { --cls: var(--cls-stimulants); }
+[data-class="cannabinoids"]  { --cls: var(--cls-cannabinoids); }
+[data-class="nootropics"]    { --cls: var(--cls-nootropics); }
+[data-class="deliriants"]    { --cls: var(--cls-deliriants); }
+[data-class="other"]         { --cls: var(--cls-other); }
+/* THE HALO IS SET HERE, NOT VIA --ident, and the difference is a real trap.
+ *
+ * --shadow-float is declared on :root and its value contains var(--ident), so
+ * that var is substituted when the token is computed ON :ROOT. Elements
+ * inherit the already-resolved string. Setting --ident on a card therefore
+ * moves nothing - measured: every card's halo came back #de94e6, the Drugs
+ * tab's colour, while the bars were correctly per class.
+ *
+ * It works per TAB because --ident changes on :root itself, which recomputes
+ * the token. To vary it per element the colour has to be resolved in the rule
+ * that uses it, so the pair is written out here with --cls in the wide layer.
+ * The tight contact layer stays neutral, as everywhere else. */
+.classcard[data-class] {
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 7%, transparent),
+    0 10px 30px -12px color-mix(in srgb, var(--cls) 22%, transparent);
+}
+.classcard__label::before { background: var(--cls, var(--line-2)); }
 /* A caption needs room on BOTH sides to read as a caption. At 3px from the
    heading and 5px from the count it was just the middle line of a paragraph;
    the eye could not tell which part was the answer to "what is this". */
