@@ -4,15 +4,18 @@
   "state": "PA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-26T03:59:37.122Z",
+    "lastScan": "2026-08-26T07:15:38.798Z",
     "windowDays": 365,
     "sourcesChecked": 33,
     "sourcesFailed": [
+      "de-dhss",
+      "ks-kdhe",
       "la-ldh",
+      "va-vdh",
+      "grassroots-hr",
       "cook-me",
       "santaclara-me",
-      "sandiego-me",
-      "google-news"
+      "sandiego-me"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
