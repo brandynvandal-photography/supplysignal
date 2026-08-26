@@ -766,7 +766,7 @@ async function countyView({ fips, days }, { go, data }) {
   wrap.appendChild(
     h("button", { type: "button", class: "nbr", onClick: () => go("#/emerging") },
       h("span", { class: "nbr__text" },
-        h("span", { class: "nbr__name" }, "Early warning"),
+        h("span", { class: "nbr__name" }, "Published alerts"),
         h("span", { class: "nbr__sub nbr__sub--wrap" },
           "drugs showing up elsewhere, not local")),
       h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")))
