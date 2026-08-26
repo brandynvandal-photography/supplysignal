@@ -19,7 +19,7 @@
  * detection is a date and a name; that is all it honestly is. */
 
 import {
-  h, frag, section, subsection, callout, extLink, empty, badge, disclosure, sourcesDisclosure,
+  h, frag, section, callout, extLink, empty, badge, disclosure, sourcesDisclosure,
 } from "../ui.js";
 import * as data from "../data.js";
 
@@ -42,7 +42,12 @@ export async function render(route, { go }) {
 
   wrap.appendChild(
     h("div", { class: "county-head" },
-      h("h1", null, "Early warning"),
+      /* THE PAGE IS ITS CONTENTS. It was "Early warning", which names the
+         purpose of the screen rather than what is on it, and then carried a
+         "Published alerts" heading directly underneath saying the same thing
+         one level down. The h1 is that name now and the sub-head is gone -
+         asked for 2026-08-26. */
+      h("h1", null, "Published alerts"),
       h("p", { class: "classcard__hint" },
         "Substances being identified elsewhere, often before they are documented locally."))
   );
@@ -61,22 +66,17 @@ export async function render(route, { go }) {
 
   /* ---- US alerts ---- */
   if (doc.alerts?.length) {
-    /* A SUBHEADING, NOT A SECTION HEAD. Asked for 2026-08-26.
-     *
-     * The h2 stays an h2 - the outline, the jump chips and reveal()'s
-     * match-by-visible-text all key off it, and demoting the element to fit a
-     * visual weight would cost all three. What changes is the treatment: the
-     * same .subhead the map's ranked lists use, so it reads as a label over
-     * the cards rather than as a peer of "Early warning" itself. */
+    /* No heading of its own: the page's h1 IS "Published alerts", and a
+       section head repeating it under the title was the duplication this was
+       reported as. The cards follow the title directly. */
     wrap.appendChild(
-      subsection("Published alerts", "United States, national",
-        frag(doc.alerts.map((a) =>
-          h("div", { class: "card" },
-            h("div", { class: "card__top" },
-              badge("Alert", "neutral"),
-              h("time", { class: "card__meta", datetime: a.date }, monthYear(a.date))),
-            h("h3", null, a.title),
-            h("div", { class: "sources" }, extLink(a.url, "Read the alert"))))))
+      frag(doc.alerts.map((a) =>
+        h("div", { class: "card" },
+          h("div", { class: "card__top" },
+            badge("Alert", "neutral"),
+            h("time", { class: "card__meta", datetime: a.date }, monthYear(a.date))),
+          h("h3", null, a.title),
+          h("div", { class: "sources" }, extLink(a.url, "Read the alert")))))
     );
   }
 
