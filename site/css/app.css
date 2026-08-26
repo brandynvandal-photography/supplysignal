@@ -1130,9 +1130,15 @@ details.acc > summary:focus-visible,
    * costing legibility.
    *
    * Each glyph takes its OWN tab's hue rather than --ident, which is only ever
-   * the current tab's. Six drawn icons, six colours, all the time. SOS keeps
-   * --critical, the one hue here that means something rather than identifying
-   * something. And the open tab's wash goes 12% -> 22%.
+   * the current tab's. Five drawn icons, five colours, all the time. And the
+   * open tab's wash goes 12% -> 22%.
+   *
+   * SOS IS NOT IN THAT LIST, and it was, briefly, which erased its plus sign.
+   * That glyph is not a line drawing on the bar's ground like the other five -
+   * it is a filled --critical circle with the mark punched out of it in --bg.
+   * Colouring the glyph --critical painted the plus the same colour as the
+   * disc behind it. It needs no help being prominent: it is the one solid tab
+   * in the row, findable by shape before hue.
    *
    * THE DARK GUARD IS THE MEDIA QUERY, not the :not(). A first version leaned
    * on :root:not([data-theme="light"]) alone - which is TRUE when nothing is
@@ -1145,7 +1151,6 @@ details.acc > summary:focus-visible,
     :root:not([data-theme="light"]) .nav a[data-tab="test"] .ico { color: var(--ident-test); }
     :root:not([data-theme="light"]) .nav a[data-tab="support"] .ico { color: var(--ident-support); }
     :root:not([data-theme="light"]) .nav a[data-tab="alerts"] .ico { color: var(--ident-alerts); }
-    :root:not([data-theme="light"]) .nav a[data-tab="help"] .ico { color: var(--critical); }
     :root:not([data-theme="light"]) .nav a[aria-current="page"] {
       background: color-mix(in srgb, var(--ident) 22%, transparent);
     }
@@ -1155,7 +1160,6 @@ details.acc > summary:focus-visible,
   :root[data-theme="dark"] .nav a[data-tab="test"] .ico { color: var(--ident-test); }
   :root[data-theme="dark"] .nav a[data-tab="support"] .ico { color: var(--ident-support); }
   :root[data-theme="dark"] .nav a[data-tab="alerts"] .ico { color: var(--ident-alerts); }
-  :root[data-theme="dark"] .nav a[data-tab="help"] .ico { color: var(--critical); }
   :root[data-theme="dark"] .nav a[aria-current="page"] {
     background: color-mix(in srgb, var(--ident) 22%, transparent);
   }
