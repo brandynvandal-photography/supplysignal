@@ -285,6 +285,15 @@
    * every surface on saying nothing. It follows --ident now, so the light
    * behind an item belongs to the tab it is in.
    *
+   * HALF THE HUE, NOT ALL OF IT, and that is a correction. Mixing --ident in
+   * at full strength made the light DIMMER: in dark mode --ink is #f2ece2 at
+   * about 0.85 relative luminance and a tab hue like #94d0e6 is about 0.55, so
+   * the same layer lifted the surface roughly a fifth less than it had. It was
+   * reported as the tabs going darker and the text getting harder to read, and
+   * the measurement agrees - I traded brightness for colour without noticing
+   * the trade. Mixing the hue halfway back toward --ink keeps the tint and
+   * restores the lift.
+   *
    * THE TIGHT LAYER STAYS NEUTRAL, deliberately. That 1px contact shadow is
    * what puts an object on the page rather than floating it, and in light mode
    * it is doing real work: --ident is a mid-tone, and tinting the contact
@@ -296,7 +305,8 @@
    * make the whole box-shadow invalid rather than merely uncoloured. */
   --shadow-float:
     0 1px 2px color-mix(in srgb, var(--ink) 7%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--ident, var(--ink)) 22%, transparent);
+    0 10px 30px -12px color-mix(in srgb,
+      color-mix(in srgb, var(--ident, var(--ink)) 50%, var(--ink)) 22%, transparent);
 
   /* The left rule that carries severity - on an alert card, a critical limit,
      the early-access caveat. One width, so a 4px rule and a 3px rule on the
@@ -2051,7 +2061,8 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
 .classcard[data-class] {
   box-shadow:
     0 1px 2px color-mix(in srgb, var(--ink) 7%, transparent),
-    0 10px 30px -12px color-mix(in srgb, var(--cls) 22%, transparent);
+    0 10px 30px -12px color-mix(in srgb,
+      color-mix(in srgb, var(--cls) 50%, var(--ink)) 22%, transparent);
 }
 .classcard__label::before { background: var(--cls, var(--line-2)); }
 /* A caption needs room on BOTH sides to read as a caption. At 3px from the
