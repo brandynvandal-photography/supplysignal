@@ -780,7 +780,7 @@ async function countyView({ fips, days }, { go, data }) {
       h("span", { class: "nbr__text" },
         h("span", { class: "nbr__name" }, "Published alerts"),
         h("span", { class: "nbr__sub nbr__sub--wrap" },
-          "drugs showing up elsewhere, not local")),
+          "Drugs showing up elsewhere, not local")),
       h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")))
   );
 
@@ -1154,9 +1154,9 @@ function mortalityBlock(m, county) {
     /* The caveats are not small print. A provisional count that revises upward
        is the difference between "it is improving" and "we do not know yet". */
     h("p", { class: "sec__note" },
-      "Provisional CDC counts. They lag by months and are revised upward as investigations " +
-      "close, so the most recent figure is usually an undercount. Deaths are counted where " +
-      "they happened, which is not always where the person lived."),
+      "Provisional CDC counts: months behind, and the count climbs as cases close, so the "
+      + "newest number is almost always low. They count where it happened, not where the "
+      + "person lived."),
     prior !== null && (now < 20 || prior < 20)
       ? h("p", { class: "sec__note" },
           "Small numbers move a lot on chance alone — treat one year against one year " +

@@ -13,8 +13,7 @@
  */
 
 import {
-  h, frag, section, callout, extLink, disclosure, jumpNav, sourcesDisclosure,
-} from "../ui.js";
+  h, frag, section, callout, extLink, disclosure, jumpNav, sourcesDisclosure, checkedLine,} from "../ui.js";
 import * as data from "../data.js";
 import { privacyBlock } from "./help.js";
 
@@ -186,9 +185,6 @@ async function sourcesBlock() {
         r.note ? h("p", null, r.note) : null,
         r.url ? h("div", { class: "sources" }, extLink(r.url, "Source")) : null))),
 
-    checking?.lastVerified
-      ? h("p", { class: "sec__note" },
-          `Hand-checked program directories were last verified ${checking.lastVerified}.`)
-      : null
+    checkedLine("Program directories hand-checked", checking?.lastVerified)
   );
 }

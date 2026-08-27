@@ -15,7 +15,7 @@
  * bag", and every extra step in that chain loses people.
  */
 
-import { h, frag, section, callout, extLink, disclosure, jumpNav, jumpTo } from "../ui.js";
+import { h, frag, section, callout, extLink, disclosure, jumpNav, jumpTo, checkedLine} from "../ui.js";
 import * as data from "../data.js";
 import { practiceBlock } from "../practice.js";
 
@@ -200,8 +200,8 @@ export async function render(route, { go }) {
   );
 
   wrap.appendChild(
-    h("p", { class: "sec__note" },
-      `Links checked ${e.lastVerified}. Courses and prices change; the organizations are stable.`)
+    checkedLine("Links checked", e.lastVerified,
+      "Courses and prices change; the organizations are stable.")
   );
 
   void go; void route;
@@ -368,7 +368,7 @@ async function sittingBlock() {
       h("h3", null, s.after.title),
       h("p", null, s.after.body),
 
-      h("p", { class: "sec__note" }, `Links checked ${s.lastVerified}.`)));
+      checkedLine("Links checked", s.lastVerified)));
 }
 
 /* Consent, and repairing harm you caused.
@@ -506,9 +506,7 @@ async function consentBlock() {
 
   if (!blocks.length) return null;
 
-  if (c.lastVerified) {
-    blocks.push(h("p", { class: "sec__note" }, `Checked ${c.lastVerified}.`));
-  }
+  if (c.lastVerified) blocks.push(checkedLine("Checked", c.lastVerified));
 
   return section(c.headline, c.blurb, ...blocks);
 }
@@ -568,7 +566,7 @@ async function harmBlock() {
     for (const [id, sec] of seats) blocks.push(disclosure(id, sec.title, { open: false }, body(sec)));
   }
 
-  if (d.lastVerified) blocks.push(h("p", { class: "sec__note" }, `Checked ${d.lastVerified}.`));
+  if (d.lastVerified) blocks.push(checkedLine("Checked", d.lastVerified));
   if (!blocks.length) return null;
   return section("Harm between people", null, ...blocks);
 }

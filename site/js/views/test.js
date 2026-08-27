@@ -13,8 +13,7 @@
 
 import {
   h, frag, clear, section, callout, badge, extLink, empty, disclosure, jumpNav,
-  group, sourceSink, SEV_GLYPH,
-} from "../ui.js";
+  group, sourceSink, SEV_GLYPH, checkedLine,} from "../ui.js";
 import * as data from "../data.js";
 import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
 import { paintBar } from "../reagentcolor.js";
@@ -394,8 +393,8 @@ export async function render(route, ctx) {
               g.buying.legal.sources.map((x) => extLink(x.url, x.name)))),
 
           sourceRow(g.buying.sources),
-          h("p", { class: "sec__note" },
-            `Prices and availability checked ${g.buying.lastVerified}. Both change.`))
+          checkedLine("Prices and availability checked", g.buying.lastVerified,
+            "Both change."))
       ) : null,
       (
       disclosure("sec-legal", "Is this legal where you are?", null,

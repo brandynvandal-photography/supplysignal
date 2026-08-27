@@ -20,8 +20,7 @@
  */
 
 import {
-  h, frag, section, callout, extLink, empty, jumpNav, sourceSink,
-} from "../ui.js";
+  h, frag, section, callout, extLink, empty, jumpNav, sourceSink, checkedLine,} from "../ui.js";
 import * as data from "../data.js";
 
 let SRC = null;
@@ -170,9 +169,9 @@ export async function render() {
       SRC.add(hr.sources))));
 
   wrap.appendChild(
-    h("p", { class: "sec__note" },
-      `Checked ${g.verified}. Testing rules and state supervision law both change — ` +
-      "anything here without a date should be treated as unverified."));
+    checkedLine("Checked", g.verified,
+      "Testing rules and state supervision law both change — anything here "
+      + "without a date should be treated as unverified."));
 
   const foot = SRC.render();
   if (foot) wrap.appendChild(foot);

@@ -31,8 +31,7 @@
  */
 
 import {
-  h, frag, section, callout, extLink, empty, jumpNav, sourceSink,
-} from "../ui.js";
+  h, frag, section, callout, extLink, empty, jumpNav, sourceSink, checkedLine,} from "../ui.js";
 import * as data from "../data.js";
 
 let SRC = null;
@@ -118,9 +117,9 @@ export async function render(route, { go }) {
      as when it was last checked, and the reader should know that before they
      read it rather than after. */
   wrap.appendChild(
-    h("p", { class: "sec__note" },
-      `Checked ${g.verified}. Drug policy changes faster than this app updates — ` +
-      "anything here without a date should be treated as unverified."));
+    checkedLine("Checked", g.verified,
+      "Drug policy changes faster than this app updates — anything here without "
+      + "a date should be treated as unverified."));
 
   /* ---- calling 911 -------------------------------------------------------
      First, and outside any collapsing, because it is the only thing on this

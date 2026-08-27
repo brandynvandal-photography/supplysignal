@@ -17,7 +17,7 @@
  * after, anchors on wrapper divs because section() returns a fragment.
  */
 
-import { h, frag, section, callout, empty, jumpNav, sourceSink } from "../ui.js";
+import { h, frag, section, callout, empty, jumpNav, sourceSink, checkedLine} from "../ui.js";
 import * as data from "../data.js";
 
 let SRC = null;
@@ -109,9 +109,9 @@ export async function render() {
         + "down with what is in the room, and how much water is too much.")));
 
   wrap.appendChild(
-    h("p", { class: "sec__note" },
-      `Checked ${g.verified}. Guidance and access rules change — anything here ` +
-      "without a date should be treated as unverified."));
+    checkedLine("Checked", g.verified,
+      "Guidance and access rules change — anything here without a date should "
+      + "be treated as unverified."));
 
   const foot = SRC.render();
   if (foot) wrap.appendChild(foot);
