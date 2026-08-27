@@ -425,7 +425,8 @@
           "substance": "MDMA / MDA",
           "color": "Black, often purple or brown tinted",
           "key": "black",
-          "note": "Near-instant"
+          "note": "Near-instant, and it can smoke too — the timing is the difference, not the smoke",
+          "unpublished": "The smoking is a first-hand observation by this site's maintainer, not a published reading. It is recorded because printing 'often smoking' on the DXM row alone invites a reader to use smoke as the tell, and the tell is the timing. Do not promote this to a cited claim without a source that states it."
         },
         {
           "substance": "Amphetamine / methamphetamine",
@@ -558,6 +559,12 @@
           "substance": "MDMA",
           "color": "Bright blue, near-instant",
           "key": "blue"
+        },
+        {
+          "substance": "MDA",
+          "color": "No reaction, or a muddy gray-green — both are expected",
+          "key": "gray",
+          "note": "Not blue either way, which is what separates it from MDMA"
         },
         {
           "substance": "Methamphetamine",
@@ -839,6 +846,332 @@
         "Not very sensitive: detection limits are around 1.25 mg.",
         "A \"not ketamine\" result does not identify what it actually is. Several newer dissociatives are uncharacterized."
       ]
+    },
+    {
+      "id": "hofmann",
+      "name": "Hofmann",
+      "base": "Not published by the kits that sell it. Like Ehrlich's, it reacts with indoles.",
+      "useFor": "The second step on LSD, after Ehrlich's. It also separates the other indoles from each other.",
+      "reactions": [
+        {
+          "substance": "LSD",
+          "color": "Blue",
+          "key": "blue"
+        },
+        {
+          "substance": "DMT",
+          "color": "Yellow",
+          "key": "yellow"
+        },
+        {
+          "substance": "Psilocin",
+          "color": "Brown",
+          "key": "brown"
+        },
+        {
+          "substance": "2C-D, 2C-E, 2C-I, 2C-P",
+          "color": "Yellow",
+          "key": "yellow"
+        },
+        {
+          "substance": "2C-B, cocaine, ketamine",
+          "color": "No reaction",
+          "key": "none"
+        }
+      ],
+      "caveats": [
+        "A blank does not rule out an LSD-like drug: 1P-LSD, 1V-LSD and 1cP-LSD are all listed as no reaction, while 1B-LSD turns yellow then green.",
+        "It is a second test. Ehrlich's is what tells you there is an indole there at all."
+      ],
+      "sources": [
+        {
+          "name": "PsychonautWiki — reagent testing results",
+          "url": "https://psychonautwiki.org/wiki/Reagent_testing_kit"
+        },
+        {
+          "name": "Grassroots Harm Reduction — Hofmann reagent",
+          "url": "https://grassrootsharmreduction.org/product/hofmann-reagent/"
+        }
+      ]
+    },
+    {
+      "id": "zimmermann",
+      "name": "Zimmermann",
+      "twoPart": true,
+      "base": "Two-part: 1% 1,3-dinitrobenzene in methanol, then 15% potassium hydroxide in water.",
+      "useFor": "Benzodiazepines. Always a second test, never a first.",
+      "reactions": [
+        {
+          "substance": "Alprazolam",
+          "color": "Blue",
+          "key": "blue"
+        },
+        {
+          "substance": "Diazepam",
+          "color": "Pink turning purple",
+          "key": "pink",
+          "keys": [
+            "pink",
+            "purple"
+          ]
+        },
+        {
+          "substance": "Etizolam",
+          "color": "Purple",
+          "key": "purple"
+        },
+        {
+          "substance": "Clonazepam",
+          "color": "Yellow turning brown",
+          "key": "yellow",
+          "keys": [
+            "yellow",
+            "brown"
+          ]
+        },
+        {
+          "substance": "MDMA",
+          "color": "Yellow",
+          "key": "yellow"
+        },
+        {
+          "substance": "Cocaine, amphetamine, ketamine",
+          "color": "No reaction",
+          "key": "none"
+        }
+      ],
+      "caveats": [
+        "Purple is not proof of a benzodiazepine — methylphenidate, methylone, mephedrone and several cathinones are listed purple as well."
+      ],
+      "sources": [
+        {
+          "name": "PsychonautWiki — reagent testing results",
+          "url": "https://psychonautwiki.org/wiki/Reagent_testing_kit"
+        },
+        {
+          "name": "Zimmermann reagent — composition",
+          "url": "https://en.wikipedia.org/wiki/Zimmermann_reagent"
+        }
+      ]
+    },
+    {
+      "id": "scott",
+      "name": "Scott",
+      "twoPart": true,
+      "criticalCaveat": true,
+      "base": "Three liquids in order: cobalt thiocyanate, then concentrated hydrochloric acid, then chloroform.",
+      "useFor": "The classic cocaine test. The answer is the color of the bottom chloroform layer, not the powder.",
+      "reactions": [
+        {
+          "substance": "Cocaine",
+          "color": "Pink turning blue",
+          "key": "pink",
+          "keys": [
+            "pink",
+            "blue"
+          ]
+        },
+        {
+          "substance": "a-PVP, a-PHP, diphenidine",
+          "color": "Pink turning blue",
+          "key": "pink",
+          "keys": [
+            "pink",
+            "blue"
+          ],
+          "note": "The same reading cocaine gives"
+        },
+        {
+          "substance": "3-MeO-PCP, MDPV, 25D-NBOMe",
+          "color": "Pink turning green",
+          "key": "pink",
+          "keys": [
+            "pink",
+            "green"
+          ]
+        },
+        {
+          "substance": "MDMA, methamphetamine, heroin, ketamine",
+          "color": "No reaction",
+          "key": "none"
+        }
+      ],
+      "caveats": [
+        "Blue here is not proof of cocaine: a-PVP, a-PHP and diphenidine give the same pink-to-blue.",
+        "Pink is the color the reagent already is. Cobalt thiocyanate is pink until something reacts with it, so pink on its own means nothing happened.",
+        "Same chemistry as Morris, run as three liquids rather than two bottles — the chloroform step is what Morris does not have."
+      ],
+      "sources": [
+        {
+          "name": "PsychonautWiki — reagent testing results",
+          "url": "https://psychonautwiki.org/wiki/Reagent_testing_kit"
+        },
+        {
+          "name": "Clarifying the chemistry of cobalt(II) thiocyanate tests for cocaine (J Forensic Sci, 2024)",
+          "url": "https://onlinelibrary.wiley.com/doi/full/10.1111/1556-4029.15403"
+        }
+      ],
+      "partsLabel": "three-part"
+    },
+    {
+      "id": "gallic",
+      "name": "Gallic",
+      "base": "Gallic acid in concentrated sulfuric acid — about 0.05 g to every 10 mL.",
+      "useFor": "A second opinion. Its one distinctive reading is MDMA, which passes through green.",
+      "reactions": [
+        {
+          "substance": "MDMA / MDA",
+          "color": "Brown, then green, then brown",
+          "key": "brown",
+          "keys": [
+            "brown",
+            "green",
+            "brown"
+          ]
+        },
+        {
+          "substance": "Methylone, butylone, ephylone, MDPV",
+          "color": "Brown turning yellow",
+          "key": "brown",
+          "keys": [
+            "brown",
+            "yellow"
+          ]
+        },
+        {
+          "substance": "1P-LSD, 25I-NBOMe, 4-AcO-DMT",
+          "color": "Brown",
+          "key": "brown"
+        },
+        {
+          "substance": "Ketamine, and 47 others",
+          "color": "No reaction",
+          "key": "none"
+        }
+      ],
+      "caveats": [
+        "Brown is the common answer — 34 of the substances with a published reading turn some shade of it, so brown alone separates almost nothing.",
+        "Nearly half the substances in the table have no reaction listed at all, which is not the same as a tested negative."
+      ],
+      "sources": [
+        {
+          "name": "PsychonautWiki — reagent testing results",
+          "url": "https://psychonautwiki.org/wiki/Reagent_testing_kit"
+        },
+        {
+          "name": "Gallic acid reagent — composition",
+          "url": "https://en.wikipedia.org/wiki/Gallic_acid_reagent"
+        }
+      ]
+    },
+    {
+      "id": "robadope",
+      "name": "Robadope",
+      "base": "Water, acetone, sodium nitroprusside and sodium carbonate. Simon's, reversed.",
+      "useFor": "Primary amines only — MDA, amphetamine, the 2C-x family. MDMA and methamphetamine are secondary amines and do not react.",
+      "reactions": [
+        {
+          "substance": "MDA",
+          "color": "Pink turning brown",
+          "key": "pink",
+          "keys": [
+            "pink",
+            "brown"
+          ]
+        },
+        {
+          "substance": "Amphetamine",
+          "color": "Pink",
+          "key": "pink"
+        },
+        {
+          "substance": "2C-B, 2C-C, 2C-E",
+          "color": "Orange, then pink, then purple",
+          "key": "orange",
+          "keys": [
+            "orange",
+            "pink",
+            "purple"
+          ]
+        },
+        {
+          "substance": "MDMA, methamphetamine",
+          "color": "No reaction",
+          "key": "none"
+        },
+        {
+          "substance": "Ketamine",
+          "color": "No reaction",
+          "key": "none"
+        }
+      ],
+      "caveats": [
+        "Run alongside Simon's it answers what neither answers alone: a reaction on both at once means a primary and a secondary amine are in there together."
+      ],
+      "sources": [
+        {
+          "name": "PsychonautWiki — reagent testing results",
+          "url": "https://psychonautwiki.org/wiki/Reagent_testing_kit"
+        },
+        {
+          "name": "Robadope reagent — primary amines",
+          "url": "https://en.wikipedia.org/wiki/Robadope_reagent"
+        }
+      ]
+    },
+    {
+      "id": "folin",
+      "name": "Folin",
+      "criticalCaveat": true,
+      "base": "Sodium 1,2-naphthoquinone-4-sulfonate.",
+      "useFor": "Separating MDA from MDMA. MDA is the yellow one.",
+      "reactions": [
+        {
+          "substance": "MDMA",
+          "color": "Orange",
+          "key": "orange"
+        },
+        {
+          "substance": "MDA",
+          "color": "Yellow",
+          "key": "yellow"
+        },
+        {
+          "substance": "Methamphetamine",
+          "color": "Orange",
+          "key": "orange"
+        },
+        {
+          "substance": "PMMA",
+          "color": "Orange",
+          "key": "orange",
+          "note": "The same reading MDMA gives"
+        },
+        {
+          "substance": "PMA",
+          "color": "Yellow",
+          "key": "yellow"
+        },
+        {
+          "substance": "Cocaine, ketamine, methylone",
+          "color": "No reaction",
+          "key": "none"
+        }
+      ],
+      "caveats": [
+        "This test cannot tell PMMA from MDMA — both are orange, and PMMA is the one where being wrong matters most.",
+        "Only fifteen substances have a published reading here, so a blank is usually an absence of data rather than an absence of reaction."
+      ],
+      "sources": [
+        {
+          "name": "PsychonautWiki — reagent testing results",
+          "url": "https://psychonautwiki.org/wiki/Reagent_testing_kit"
+        },
+        {
+          "name": "Folin's reagent",
+          "url": "https://en.wikipedia.org/wiki/Folin's_reagent"
+        }
+      ]
     }
   ],
   "procedure": [
@@ -872,7 +1205,7 @@
     }
   ],
   "safety": {
-    "ppe": "Wear gloves and eye protection. Marquis, Mecke, Mandelin, Froehde, Liebermann and Hofmann are concentrated sulfuric acid; Ehrlich's is hydrochloric acid in ethanol. They damage skin and eyes. Work in a ventilated area — DXM on Marquis often smokes.",
+    "ppe": "Wear gloves and eye protection. Marquis, Mecke, Mandelin, Froehde, Liebermann and Hofmann are concentrated sulfuric acid; Ehrlich's is hydrochloric acid in ethanol. They damage skin and eyes. Work in a ventilated area — a Marquis drop can smoke, DXM most of all.",
     "firstAid": [
       "Skin: wash with water immediately.",
       "Eyes: flood with water for at least 10 minutes, holding the eye open.",
@@ -1301,10 +1634,110 @@
         }
       },
       {
+        "id": "lochness-fentanyl",
+        "strip": "fentanyl",
+        "name": "Lochness Medical",
+        "maker": "The BTNX Rapid Response strip under Lochness Medical's own name — their product pages name BTNX Inc. as the manufacturer. Their liquid and powder pack is the 200 ng/mL cut-off; their urine strip is 20 ng/mL. Use the BTNX amounts below, and your own insert if it disagrees.",
+        "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
+        "water": "5 mL of water for every 10 mg — one teaspoon.",
+        "residue": "Testing residue instead? That is what is left in a cap, a cooker, or the corner of a bag. Add 2 mL of clean water, about half a teaspoon, and mix well.",
+        "dip": "Dip for 15 seconds, holding the dark blue end.",
+        "dipLimit": "Do not dip past the wavy blue lines.",
+        "wait": "Wait 5 minutes.",
+        "positive": "ONE red line",
+        "negative": "TWO red lines — look closely, the second can be very faint",
+        "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
+        "blindSpot": "It missed 52 of the fentanyl analogues in the lab screen. That is more misses than the other brand. It did find more compounds overall at high amounts: 173 against 149.",
+        "sources": [
+          {
+            "name": "Lochness Medical — Rapid Response Fentanyl Test Strips (Liquid/Powder)",
+            "url": "https://www.lochnessmedical.com/Product/fentanyl-test-strips-10-pack"
+          },
+          {
+            "name": "BTNX — Fentanyl Test Strip product insert (FYL-1S48)",
+            "url": "https://www.btnx.com/files/FYL-1S48%20IFU%20Fentanyl%20Test%20Strip%20(Urine).PDF"
+          },
+          {
+            "name": "Washington State DOH — Using BTNX Rapid Response Fentanyl Test Strips (DOH 150-240)",
+            "url": "https://doh.wa.gov/sites/default/files/2024-03/150240-BTNXFentanylTestStripsPoster.pdf"
+          },
+          {
+            "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+          }
+        ],
+        "byDrug": {
+          "opioid": {
+            "label": "Heroin, fentanyl or another opioid",
+            "water": null,
+            "note": "The standard amount above. Opioids do not cross-react with this strip."
+          },
+          "cocaine": {
+            "label": "Cocaine",
+            "water": null,
+            "note": "The standard amount above — do not over-dilute it. Cocaine was tested and produced no false positives at any concentration tried, so it does not need the stimulant treatment. Lidocaine, a common cocaine cut, does fool the strip from about 2.5 mg per mL, which the standard amount already sits under.",
+            "sources": [
+              {
+                "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7941948/"
+              }
+            ]
+          },
+          "stim": {
+            "label": "Meth or MDMA",
+            "water": "10 mg into 20 mL — four teaspoons. Four times the usual amount.",
+            "note": "The usual 5 mL puts the sample at 2 mg per mL. At that strength this strip reads positive with no fentanyl in it at all: 1.5 mg/mL of methamphetamine, or 2 mg/mL of MDMA, is enough to do it.",
+            "sources": [
+              {
+                "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7941948/"
+              }
+            ]
+          },
+          "ketamine": {
+            "label": "Ketamine",
+            "water": "10 mg into 20 mL — four teaspoons.",
+            "note": "Ketamine was not in the cross-reaction study, so there is no published number either way. Dilute anyway: ketamine is usually taken with something else, and that something else is what the list is about.",
+            "sources": [
+              {
+                "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7941948/"
+              }
+            ]
+          },
+          "unknown": {
+            "label": "An unknown powder",
+            "water": "10 mg into 20 mL — four teaspoons.",
+            "note": "Diphenhydramine — Benadryl — fools this strip from 1 mg per mL. That is lower than meth or MDMA. It is also a common cut in powders sold as anything.",
+            "sources": [
+              {
+                "name": "High concentrations of illicit stimulants and cutting agents cause false positives on fentanyl test strips (Harm Reduct J, 2021)",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7941948/"
+              }
+            ]
+          },
+          "pill": {
+            "label": "A pill, pressed or pharmaceutical",
+            "water": null,
+            "note": "Crush it completely first, then use the standard amount. A pill dropped in whole only wets its surface, and fentanyl is not spread evenly through a pressed tablet — one corner can carry all of it."
+          },
+          "blotter": {
+            "label": "Blotter or a tab",
+            "water": "Soak it in 5 mL — one teaspoon — for about 10 minutes.",
+            "note": "It has to actually come off the paper, which takes longer than a dip."
+          },
+          "residue": {
+            "label": "Residue in a cap, cooker or bag",
+            "water": "2 mL of clean water — about half a teaspoon.",
+            "note": "Nothing to weigh: the residue is the sample. Rinse it around and test the rinse."
+          }
+        }
+      },
+      {
         "id": "whpm-fentanyl",
         "strip": "fentanyl",
         "name": "DanceSafe",
-        "maker": "Since 12 March 2026 the store and the shipping are run by Transparency, the group behind Bunk Police. The strip and its instructions did not change. The packet may just arrive with a different name on it.",
+        "maker": "Since March 12, 2026 the store and the shipping are run by Transparency, the group behind Bunk Police. The strip and its instructions did not change. The packet may just arrive with a different name on it.",
         "sample": "10 mg of drug — about a match head or a grain of rice — crushed and mixed.",
         "water": "1 mL of water for every 10 mg — about 20 drops, or a fifth of a teaspoon.",
         "residue": "Testing residue instead? That is what is left in a cap, a cooker, or the corner of a bag. Add 2 mL of clean water, about half a teaspoon, and mix well.",
@@ -1579,7 +2012,7 @@
         "positive": "ONE red line",
         "negative": "TWO red lines — if two appear, however faint, it is negative",
         "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
-        "onlyFor": "A version 1.0 strip can read positive on cocaine when no xylazine is there, because it cross-reacts with lidocaine, a standard cocaine cut \u2014 BTNX says version 2.0 does not, which is the manufacturer\u2019s claim rather than an independent finding.",
+        "onlyFor": "A version 1.0 strip can read positive on cocaine when no xylazine is there, because it cross-reacts with lidocaine, a standard cocaine cut — BTNX says version 2.0 does not, which is the manufacturer’s claim rather than an independent finding.",
         "sources": [
           {
             "name": "Washington State DOH — Using BTNX Rapid Response Xylazine Test Strips (DOH 150-238)",
@@ -1613,7 +2046,7 @@
         }
       }
     ],
-    "gap": "Wondfo, DetectaChem, Lochness Medical and MD-Bio are not here yet. Neither are benzodiazepine or nitazene strips. We only print a number once we have read it off the sheet it came from.",
+    "gap": "Wondfo, DetectaChem and MD-Bio are not here yet. Neither are benzodiazepine or nitazene strips. We only print a number once we have read it off the sheet it came from.",
     "drugHeadline": "What are you testing?",
     "notListed": "Not listed? Most strips sold for harm reduction in the US are made by one of two companies — BTNX or WHPM — whatever name is on the front. DanceSafe, Bunk Police and Grassroots all sell the same WHPM strip. Look for the maker on the packet, the box or the insert and use that row. If it names neither, your insert is the authority.",
     "lotsTitle": "Read the instructions that came with your strips",

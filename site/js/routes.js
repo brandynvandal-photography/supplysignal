@@ -35,6 +35,7 @@ export const PATHS = {
   sex: "sex",
   stimulants: "stimulants",
   about: "about",
+  donate: "donate",
 };
 
 export const SEGMENTS = Object.fromEntries(

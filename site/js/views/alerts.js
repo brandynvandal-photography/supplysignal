@@ -132,10 +132,13 @@ async function pickerView(route, { go, data }) {
      The dot separator goes with it. A pill does not need punctuation to be
      told apart from the sentence beside it; the row is a line of text and a
      button now, spaced rather than joined. */
+  /* THE DATE IS A PILL, not a run of grey text. It sits beside a ghost-pill
+     button, and a bare sentence next to a pill reads as the button's caption
+     rather than as its own fact. Same .badge the rest of the app uses for a
+     small standing label - neutral, because a date is not a severity. */
   const updatedLine = () =>
     h("p", { class: "sec__note updatedline" },
-      h("span", null,
-        t("alerts.dataUpdated", { date: new Date(a.generated).toISOString().slice(0, 10) })),
+      badge(t("alerts.dataUpdated", { date: new Date(a.generated).toISOString().slice(0, 10) })),
       h("button", {
         type: "button", class: "btn btn--ghost btn--sm",
         onClick: async () => {

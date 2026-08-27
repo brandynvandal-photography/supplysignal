@@ -670,6 +670,19 @@ export async function support() {
   return load("support", null);
 }
 
+/* Donation links for the organizations this app cites.
+ *
+ * NOT in the topics bundle, deliberately. Everything in that bundle is fetched
+ * by every reader at boot so the access log carries no signal about who read
+ * what, and the price of a seat in it is bytes on every single visit. The
+ * subject here is not sensitive - "somebody opened the donate page" discloses
+ * nothing about them - so it does not need the cover, and one screen that few
+ * readers will open should not cost every reader the download. Lazy, like
+ * substances.json and for the same reason. */
+export async function donate() {
+  return load("donate", { checked: null, orgs: [] });
+}
+
 /* Substances, with the adulterants merged in.
  *
  * They live in a SEPARATE file rather than inside substances.json, because
