@@ -31,7 +31,7 @@
     ]
   },
   "allegheny-me": {
-    "fingerprint": "{\"latest\":\"2026-01-31\",\"recentTotal\":75,\"baseTotal\":323,\"counts\":[[\"acetylfentanyl\",6],[\"carfentanil\",2],[\"fluorofentanyl\",4],[\"xylazine\",16]],\"base\":[[\"acetylfentanyl\",36],[\"bromazolam\",7],[\"carfentanil\",11],[\"fluorofentanyl\",54],[\"medetomidine\",1],[\"xylazine\",74]]}",
+    "fingerprint": "{\"latest\":\"2026-05-31\",\"recentTotal\":37,\"baseTotal\":313,\"counts\":[[\"acetylfentanyl\",1],[\"fluorofentanyl\",4],[\"xylazine\",3]],\"base\":[[\"acetylfentanyl\",34],[\"bromazolam\",3],[\"carfentanil\",10],[\"fluorofentanyl\",29],[\"medetomidine\",1],[\"xylazine\",59]]}",
     "items": []
   },
   "santaclara-me": {
