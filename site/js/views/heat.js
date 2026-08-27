@@ -30,7 +30,7 @@
  * for the ladder, callout() for the two asides that are genuinely urgent.
  */
 
-import { h, frag, section, callout, empty, jumpNav, sourceSink } from "../ui.js";
+import { h, frag, section, callout, empty, jumpNav, sourceSink, checkedLine} from "../ui.js";
 import * as data from "../data.js";
 
 let SRC = null;
@@ -122,9 +122,9 @@ export async function render() {
   wrap.appendChild(block("sec-risk", g.risk));
 
   wrap.appendChild(
-    h("p", { class: "sec__note" },
-      `Checked ${g.verified}. Where this page and common party advice disagree, ` +
-      "it follows the clinical evidence and says so."));
+    checkedLine("Checked", g.verified,
+      "Where this page and common party advice disagree, it follows the clinical "
+      + "evidence and says so."));
 
   const foot = SRC.render();
   if (foot) wrap.appendChild(foot);

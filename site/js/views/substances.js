@@ -12,8 +12,7 @@
 
 import {
   h, frag, clear, section, callout, badge, extLink, empty, englishOnlyNotice, group,
-  jumpNav, disclosure, sourcesDisclosure, skeleton, SEV_GLYPH,
-} from "../ui.js";
+  jumpNav, disclosure, sourcesDisclosure, skeleton, SEV_GLYPH, checkedLine,} from "../ui.js";
 import * as data from "../data.js";
 import { CLASSES, classInfo, groupAll } from "../taxonomy.js";
 import { draw as drawStructure } from "../structure.js";
@@ -339,9 +338,7 @@ async function marketBlock() {
             h("strong", null, m.scope.title + " "), m.scope.body)
         : null,
 
-      m.lastVerified
-        ? h("p", { class: "sec__note" }, `Checked ${m.lastVerified}.`)
-        : null));
+      checkedLine("Checked", m.lastVerified)));
 }
 
 /** One substance row. Shared by search results and class listings so the two
@@ -1755,9 +1752,9 @@ async function rxBlock() {
                   (it.sources || []).map((x) => extLink(x.url, x.name))))))))),
       callout("info", "Where the honest answer is “nobody knows”",
         h("p", null, d.unresolved)),
-      h("p", { class: "sec__note" },
-        `Sources verified ${d.lastVerified}. Never stop a prescribed medication ` +
-        "over anything on this page — talk to whoever prescribes it.")));
+      checkedLine("Sources verified", d.lastVerified,
+        "Never stop a prescribed medication over anything on this page — talk to "
+        + "whoever prescribes it.")));
 }
 
 /* The condition lens - what PartyWise's Profile should have been.

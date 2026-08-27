@@ -43,7 +43,7 @@
     "activeAlert": "{count} alerta activa",
     "updated": "datos actualizados el {date}",
     "awaitingScan": "esperando el primer escaneo",
-    "privacy": "No se guarda nada — cerrar esta pestaña lo borra. ✕ sale ahora mismo y quita esta página de tu historial."
+    "privacy": "No guardamos ni vendemos ninguno de tus datos. ✕ borra este dispositivo y sobrescribe el botón de retroceso. Una ventana privada es la única forma de no dejar rastro, ya que no podemos borrar el historial de tu navegador."
   },
   "alerts": {
     "heading": "Qué está apareciendo cerca de ti",

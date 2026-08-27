@@ -18,8 +18,7 @@
 
 import {
   h, frag, clear, section, callout, extLink, empty, disclosure, jumpNav, badge, group, safeHref,
-  sourceSink,
-} from "../ui.js";
+  sourceSink, checkedLine,} from "../ui.js";
 import * as data from "../data.js";
 import { saferUseBlock } from "./help.js";
 import { communitiesBlock } from "../communities.js";
@@ -171,8 +170,7 @@ export async function render() {
             x.note ? h("p", { class: "sec__note" }, x.note) : null,
             SRC.add(x.sources)))),
         P.gap ? h("p", { class: "sec__note" }, P.gap) : null,
-        P.lastVerified
-          ? h("p", { class: "sec__note" }, `Checked ${P.lastVerified}.`) : null));
+        checkedLine("Checked", P.lastVerified)));
   }
 
   /* The culturally-specific directory. Last of the sections because it is the
@@ -387,12 +385,9 @@ function renderSupplies(s) {
           h("ul", null, s.closed.items.map((i) => h("li", null, i))))
       : null,
     s.legalNote ? callout("warn", "Check your own state first", h("p", null, s.legalNote)) : null,
-    s.lastVerified
-      ? h("p", { class: "sec__note" },
-          `State programs verified ${s.lastVerified}. These change often — ` +
-          `especially test strip programs, since federal grant money can no ` +
-          `longer buy them.`)
-      : null
+    checkedLine("State programs verified", s.lastVerified,
+      "These change often — especially test strip programs, since federal grant "
+      + "money can no longer buy them.")
   );
 }
 
@@ -514,9 +509,8 @@ async function checkingBlock() {
       h("div", { class: "sources" },
         d.legality.sources.map((x) => extLink(x.url, x.name)))),
 
-    h("p", { class: "sec__note" },
-      `Every link above was checked alive on ${d.lastVerified}. Programs change ` +
-      "fast — if one is gone, the locators are the fallback."));
+    checkedLine("Every link above checked alive", d.lastVerified,
+      "Programs change fast — if one is gone, the locators are the fallback."));
 }
 
 /* For the person who loves someone who uses.
@@ -638,7 +632,7 @@ function lovedBlock(g) {
         h("p", null, x.note),
         h("div", { class: "sources" }, extLink(x.url, "Visit"))))),
 
-    h("p", { class: "sec__note" },
-      `Links checked ${L.lastVerified}. Nothing here is a technique for getting ` +
-      "someone to do something — it is how to stay close enough to matter."));
+    checkedLine("Links checked", L.lastVerified,
+      "Nothing here is a technique for getting someone to do something — it is "
+      + "how to stay close enough to matter."));
 }

@@ -218,6 +218,31 @@ export function badge(text, kind = "neutral") {
  * counts... usually an undercount"), safety notes ("Breathing is the target,
  * not waking up") and the lines that tell a reader how to work a control all
  * carry something the reader cannot get from the heading. They stay. */
+/**
+ * A "we checked this on" line, with the date as a pill.
+ *
+ * Eighteen screens carried one of these and every one was grey body text - the
+ * same tier as a caveat, a source note or an aside - so the one fact on the line
+ * that a reader might act on, HOW OLD IS THIS, read as the least important thing
+ * in the paragraph. The date is now a badge, which is what the rest of the app
+ * uses for a small standing label, and the sentence that usually follows it is
+ * unchanged prose beside it.
+ *
+ * Neutral, because a date is not a severity. The badge is inline-flex, so it
+ * sits at the head of the paragraph and the prose wraps around it normally -
+ * no flex row, no new rule, nothing for a long sentence to fight with.
+ *
+ * Returns null with no date rather than an empty pill: several call sites are
+ * already guarded on lastVerified and several are not, and a bare "Checked"
+ * with nothing after it would be worse than the line not being there.
+ */
+export function checkedLine(label, date, ...rest) {
+  if (!date) return null;
+  return h("p", { class: "sec__note" },
+    badge(`${label} ${date}`),
+    ...(rest.filter(Boolean).length ? [" ", ...rest] : []));
+}
+
 export function section(title, note, ...kids) {
   void note;
   return frag(

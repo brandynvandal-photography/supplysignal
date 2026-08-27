@@ -15,7 +15,7 @@
     "loadFailedHint": "Check your connection and try again.",
     "tryAgain": "Try again",
     "earlyTitle": "Early access — tell us if something here is wrong",
-    "earlyBody": "This is new, and some of it may be wrong. Every clinical claim is checked against a source before it goes in, and that still is not the same as being right. If you spot something inaccurate — especially anything that could get somebody hurt — please say so.",
+    "earlyBody": "Some of this may be wrong. Every clinical claim is checked against a source prior to you seeing it, but we still may have made mistakes. If you see anything wrong, especially something that could hurt someone, please reach out:",
     "earlyContact": "hello@nightlight.help",
     "earlyBanner": "Early access — some of this may be wrong.",
     "earlyBannerCta": "Tell us"
@@ -42,7 +42,7 @@
     "activeAlert": "{count} active alert",
     "updated": "data updated {date}",
     "awaitingScan": "awaiting first scan",
-    "privacy": "Nothing is saved — closing this tab clears it. ✕ leaves right now, clears this device and overwrites the back button. It cannot erase the browser's own history: a private window is the only way to leave no trace at all."
+    "privacy": "We do not save or sell any of your data. ✕ clears this device and overwrites the back button. A private window is the only way to leave no trace, as we cannot erase your browser history."
   },
   "alerts": {
     "heading": "What's showing up near you",

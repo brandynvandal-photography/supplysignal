@@ -27,7 +27,7 @@
  *     links between every two paragraphs. See sourceSink() in ui.js.
  */
 
-import { h, frag, callout, disclosure, jumpNav, sourceSink } from "../ui.js";
+import { h, frag, callout, disclosure, jumpNav, sourceSink, checkedLine} from "../ui.js";
 import * as data from "../data.js";
 
 export async function render(route, { go }) {
@@ -78,9 +78,9 @@ export async function render(route, { go }) {
 
   if (d.lastVerified) {
     wrap.appendChild(
-      h("p", { class: "sec__note" },
-        `Checked ${d.lastVerified}. The risk figures come from published `
-        + `studies and do not change quickly; the links can.`));
+      checkedLine("Checked", d.lastVerified,
+        "The risk figures come from published studies and do not change quickly; "
+        + "the links can."));
   }
 
   void go; void route;

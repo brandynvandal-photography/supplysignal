@@ -20,7 +20,7 @@
  * FORMATTING: same surfaces as every other view.
  */
 
-import { h, frag, section, callout, empty, jumpNav, sourceSink } from "../ui.js";
+import { h, frag, section, callout, empty, jumpNav, sourceSink, checkedLine} from "../ui.js";
 import * as data from "../data.js";
 
 let SRC = null;
@@ -104,8 +104,8 @@ export async function render() {
   wrap.appendChild(block("sec-coming", g.coming));
 
   wrap.appendChild(
-    h("p", { class: "sec__note" },
-      `Checked ${g.verified}. Where the evidence is thin or contested, this page says so.`));
+    checkedLine("Checked", g.verified,
+      "Where the evidence is thin or contested, this page says so."));
 
   const foot = SRC.render();
   if (foot) wrap.appendChild(foot);
