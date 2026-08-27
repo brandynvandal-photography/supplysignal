@@ -209,6 +209,7 @@ const SCREENS = [
   ["after", {}],
   ["emerging", {}],
   ["about", {}],
+  ["donate", {}],
   ["help", {}],
 ];
 

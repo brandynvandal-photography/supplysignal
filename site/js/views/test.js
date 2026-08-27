@@ -17,6 +17,7 @@ import {
 } from "../ui.js";
 import * as data from "../data.js";
 import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
+import { paintBar } from "../reagentcolor.js";
 import { liveRegion, dropRow, slotLabel, removeButton, relabelRows } from "../slots.js";
 
 export async function render(route, ctx) {
@@ -165,16 +166,16 @@ export async function render(route, ctx) {
       disclosure("sec-reagents", "Reagents",
         null,
         reagentFilter(g.reagents),
-        /* The picker and the colour tables know six reagents this guide does
-           not teach: the table has rows for them, so readings count, but no
-           source in this repo says how they are supplied or run. Said here
-           rather than left for a reader to discover as a gap - and pointed at
-           the one instruction sheet that is always correct for the bottle in
-           their hand. */
+        /* Hofmann, Zimmermann, Scott, Gallic, Robadope and Folin were listed
+           here as a gap for as long as no source in this repo said how they are
+           supplied or run. They have cards now, so the gap note is gone and
+           what replaced it is the line that was always the important half of
+           it: whatever a card says, the sheet in the box is the authority for
+           the bottle in your hand. */
         h("p", { class: "sec__note" },
-          "Hofmann, Zimmermann, Scott, Gallic, Robadope and Folin appear in the "
-          + "color tables, but this guide does not cover them yet. Their readings "
-          + "still count. Follow the instructions that came with your kit."),
+          "Every reagent in the color tables has a card here now. Where a card "
+          + "and the sheet that came with your kit disagree, your sheet is the "
+          + "one that describes the bottle you are holding."),
         h("details", { class: "acc" },
           h("summary", null, h("span", null, "Why a color can be hidden")),
           h("div", { class: "acc__body" },
@@ -730,6 +731,26 @@ function dilutionBlock(d) {
 
 /* Colours the reagent bar can paint. Anything outside this renders as an empty
    band rather than a wrong one - see .reagbar in app.css. */
+/* The bar for one reading.
+ *
+ * Two renderings, and which one you get depends on whether the WORDS could be
+ * read. reagentcolor.js parses the prose - "Deep purplish red", "muddy
+ * gray-green", "light pink to deep peach" - and paints a scale that carries the
+ * modifiers and the mixtures the key alone throws away. Anything it cannot read
+ * keeps the key-driven bands exactly as before, which is why the bands are
+ * still built here rather than only on the fallback path: they are what is on
+ * screen until the paint succeeds, and what stays there if it does not.
+ *
+ * The paint happens on the node after it is built, through the CSSOM, because
+ * a style attribute would be stripped by the CSP - see reagentcolor.js. */
+function scaleBar(x) {
+  const el = h("span", { class: "reagbar", "aria-hidden": "true" },
+    (x.keys || [x.key]).map((k) =>
+      h("span", { class: KNOWN_COLORS.has(k) ? `swatch--${k}` : "" })));
+  paintBar(el, x.color);
+  return el;
+}
+
 const KNOWN_COLORS = new Set([
   "yellow", "green", "blue", "purple", "black", "brown",
   "orange", "red", "pink", "gray", "white", "violet", "olive",
@@ -742,7 +763,12 @@ function reagentCard(r) {
   return h("details", { class: `acc ${r.criticalCaveat ? "acc--flag" : ""}` },
     h("summary", null,
       h("h3", null, r.name),                    // see stripCard
-      r.twoPart ? badge("two-part", "neutral") : null,
+      /* The label, not the flag. Scott is three liquids in order and wore a
+         "two-part" badge for as long as the badge was hardcoded - a wrong
+         number on the one card whose whole procedure is the number of
+         steps. The flag still means "not a single drop"; what it is called
+         comes from the card. */
+      r.twoPart ? badge(r.partsLabel || "two-part", "neutral") : null,
       r.criticalCaveat ? badge("read the caveat", "critical") : null),
     h("div", { class: "acc__body" },
       h("p", { class: "sec__note" }, r.base),
@@ -793,11 +819,17 @@ function reagentCard(r) {
                    The bar is aria-hidden; x.color - the full prose, which
                    carries nuance no bar can - is what gets read out. */
                 h("span", { class: "reagrow" },
-                  h("span", { class: "reagbar", "aria-hidden": "true" },
-                    (x.keys || [x.key]).map((k) =>
-                      h("span", { class: KNOWN_COLORS.has(k) ? `swatch--${k}` : "" }))),
+                  scaleBar(x),
                   h("span", { class: "reagrow__words" }, x.color)),
                 x.note ? h("span", { class: "cellnote" }, x.note) : null)))))),
+
+      /* WHERE THE CARD GOT IT. The eight original cards predate this and carry
+         their provenance in the section's attribution; the six added on
+         2026-08-26 - Hofmann, Zimmermann, Scott, Gallic, Robadope, Folin - make
+         claims about composition and about what a colour does not prove, and
+         those have to be checkable from the card that makes them. Rendered only
+         where a card has them, so nothing changes on the cards that do not. */
+      (r.sources || []).length ? sourceRow(r.sources) : null,
 
       (r.caveats || []).length
         ? frag(h("h4", null, "Watch out for"),

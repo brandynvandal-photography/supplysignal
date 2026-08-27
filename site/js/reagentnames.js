@@ -71,23 +71,37 @@ export const NAMED_REAGENTS = Object.keys(LABELS);
  * table use. The tracker renders it under the row the moment the reagent is
  * chosen, and appends it when it tells somebody to go run one.
  *
- * ONLY VERIFIED PROCEDURES. These two come from data/testing.json's reagent
- * cards, and DanceSafe's own flowchart corroborates the Morris read window
- * (its Morris steps carry read: "5:00"). Hofmann, Zimmermann and Scott are in
- * the picker because the colour table has rows for them, but no source in
- * this repo describes how they are supplied or run - so they say nothing here
- * rather than something guessed, and the Reagents section says so out loud.
+ * ONLY VERIFIED PROCEDURES. Simon's and Morris come from data/testing.json's
+ * reagent cards, and DanceSafe's own flowchart corroborates the Morris read
+ * window (its Morris steps carry read: "5:00").
+ *
+ * Zimmermann and Scott were blank here for the same reason the Reagents section
+ * used to call them uncovered: nothing in this repo said how they are supplied.
+ * Both now have a published composition - Zimmermann is two bottles, Scott is
+ * three liquids in order and the answer is in the chloroform layer rather than
+ * in the powder - so both say it, and the cards carry the sources.
+ *
+ * Hofmann, Gallic, Robadope and Folin are still single-drop as far as any
+ * source here says, which is the default, so they say nothing rather than
+ * repeat it.
  * test/reagentmatch.test.mjs holds this map and the twoPart flags together. */
 /* Card ids in data/testing.json are long ("morris"); picker and table keys
    are short ("Morr"). This is the one join, used by the Reagents cards and by
    the guard test - a second copy of it is how the two drift. */
-const CARD_KEYS = { simons: "Simons", morris: "Morr" };
+const CARD_KEYS = {
+  simons: "Simons", morris: "Morr", hofmann: "Hofmann", zimmermann: "Zimmermann",
+  scott: "Scott", gallic: "Gallic", robadope: "Roba", folin: "Foli",
+};
 export const reagentKeyForCard = (id) => CARD_KEYS[String(id || "").toLowerCase()] || null;
 
 const HOWTO = {
   Simons: "Simon's is two bottles on one sample: bottle A, then bottle B on the same spot.",
   Morr: "Morris is two bottles on one sample: use double the sample, add both bottles, then stir " +
         "20 seconds with a toothpick. Read within 5 minutes.",
+  Zimmermann: "Zimmermann is two bottles on one sample: the dinitrobenzene first, then the "
+        + "potassium hydroxide on the same spot.",
+  Scott: "Scott is three liquids in order on one sample - cobalt thiocyanate, then hydrochloric "
+        + "acid, then chloroform. Read the bottom chloroform layer, not the powder.",
 };
 
 /** The run instructions for a reagent, where they differ from the default. */

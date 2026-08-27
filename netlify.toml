@@ -207,6 +207,10 @@
   from = "/about"
   to = "/site/index.html"
   status = 200
+[[redirects]]
+  from = "/donate"
+  to = "/site/index.html"
+  status = 200
 
 # Everything that is not the app, 404'd.
 #

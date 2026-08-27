@@ -1,0 +1,371 @@
+{
+ "note": "Donation links for the organizations this app cites. Built by scripts/build-donate.mjs; every URL was fetched and read by hand before it landed here. Crisis, suicide and domestic-violence hotlines are cited throughout the app and are deliberately NOT on this page - see the header of the build script. Tracking parameters are stripped.",
+ "checked": "2026-08-26",
+ "excluded": "113 cited nonprofits were checked. The ones missing here had no donate page this could confirm - several are small county programs with no way to give online, and a few block an automated fetch. A missing organization is a gap in the checking, not a judgement about them.",
+ "orgs": [
+  {
+   "name": "DanceSafe",
+   "domain": "dancesafe.org",
+   "donate": "https://dancesafe.org/donate/",
+   "refs": 35,
+   "group": "harm"
+  },
+  {
+   "name": "NEXT Distro",
+   "domain": "nextdistro.org",
+   "donate": "https://nextdistro.org/donate",
+   "refs": 9,
+   "group": "harm"
+  },
+  {
+   "name": "National Center on Domestic Violence, Trauma and Mental Health",
+   "domain": "ncdvtmh.org",
+   "donate": "https://donorbox.org/ncdvtmh",
+   "refs": 7,
+   "group": "harm"
+  },
+  {
+   "name": "Never Use Alone",
+   "domain": "neverusealone.com",
+   "donate": "https://givebutter.com/never-use-alone",
+   "refs": 4,
+   "group": "support"
+  },
+  {
+   "name": "North American Syringe Exchange Network",
+   "domain": "nasen.org",
+   "donate": "https://nasen.org/donate",
+   "refs": 4,
+   "group": "support"
+  },
+  {
+   "name": "Partnership to End Addiction",
+   "domain": "drugfree.org",
+   "donate": "https://drugfree.org/ways-to-give/",
+   "refs": 3,
+   "group": "support"
+  },
+  {
+   "name": "American College of Obstetricians and Gynecologists",
+   "domain": "acog.org",
+   "donate": "https://www.acog.org/giving",
+   "refs": 2,
+   "group": "support"
+  },
+  {
+   "name": "American Red Cross",
+   "domain": "redcross.org",
+   "donate": "https://www.redcross.org/donate/donation.html",
+   "refs": 2,
+   "group": "policy"
+  },
+  {
+   "name": "GRASP",
+   "domain": "grasphelp.org",
+   "donate": "https://grasphelp.org/about-us/donate/",
+   "refs": 2,
+   "group": "support"
+  },
+  {
+   "name": "Recovery Dharma",
+   "domain": "recoverydharma.org",
+   "donate": "https://recoverydharma.org/contribute/",
+   "refs": 2,
+   "group": "support"
+  },
+  {
+   "name": "Remedy Alliance / For The People",
+   "domain": "remedyallianceftp.org",
+   "donate": "https://givebutter.com/ScOTky",
+   "refs": 2,
+   "group": "support"
+  },
+  {
+   "name": "Students for Sensible Drug Policy",
+   "domain": "ssdp.org",
+   "donate": "https://ssdp.org/donate/",
+   "refs": 2,
+   "group": "support"
+  },
+  {
+   "name": "ACR Health",
+   "domain": "acrhealth.org",
+   "donate": "https://acrhealth.org/donate/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "Adult Survivors of Child Abuse",
+   "domain": "ascasupport.org",
+   "donate": "https://ascasupport.org/contribute/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "AIDS Project of Southern Vermont",
+   "domain": "aidsprojectsouthernvermont.org",
+   "donate": "https://www.aidsprojectsouthernvermont.org/donate",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "American Association for the Study of Liver Diseases",
+   "domain": "aasld.org",
+   "donate": "https://my.aasld.org/donatenow?pid=a1B5f000002KLIREA4",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "American Society of Addiction Medicine",
+   "domain": "asam.org",
+   "donate": "https://www.asam.org/about-us/charitable-giving",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "Berkeley NEED",
+   "domain": "berkeleyneed.org",
+   "donate": "https://berkeleyneed.org/donate/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "Black Emotional and Mental Health Collective",
+   "domain": "beam.community",
+   "donate": "https://beam.community/donate/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "Bridge to Treatment",
+   "domain": "bridgetotreatment.org",
+   "donate": "https://bridgetotreatment.org/donate/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "Broken No More",
+   "domain": "broken-no-more.org",
+   "donate": "https://broken-no-more.org/donate/",
+   "refs": 1,
+   "group": "policy"
+  },
+  {
+   "name": "Chicago Recovery Alliance",
+   "domain": "anypositivechange.org",
+   "donate": "https://anypositivechange.org/donate/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "Crew 2000",
+   "domain": "crew.scot",
+   "donate": "https://www.crew.scot/support-crew/donate/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "Drug Policy Alliance",
+   "domain": "drugpolicy.org",
+   "donate": "https://drugpolicy.org/ways-to-give/",
+   "refs": 1,
+   "group": "policy"
+  },
+  {
+   "name": "Faces & Voices of Recovery",
+   "domain": "facesandvoicesofrecovery.org",
+   "donate": "https://facesandvoicesofrecovery.org/engage/donate/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "HIV Education and Prevention Project of Alameda County",
+   "domain": "heppac.org",
+   "donate": "https://heppac.org/donate/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "Inland Empire Harm Reduction",
+   "domain": "ieharmreduction.org",
+   "donate": "https://www.ieharmreduction.org/donate/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "Law Enforcement Action Partnership",
+   "domain": "lawenforcementactionpartnership.org",
+   "donate": "https://lawenforcementactionpartnership.org/give/",
+   "refs": 1,
+   "group": "policy"
+  },
+  {
+   "name": "Learn to Cope",
+   "domain": "learn2cope.org",
+   "donate": "https://learn2cope.org/donate/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "Lyon-Martin Community Health Services",
+   "domain": "lyon-martin.org",
+   "donate": "https://donorbox.org/save-lyon-martin",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "MaineHealth",
+   "domain": "mainehealth.org",
+   "donate": "https://www.mainehealth.org/about-mainehealth/giving-mainehealth",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "Multidisciplinary Association for Psychedelic Studies",
+   "domain": "maps.org",
+   "donate": "https://maps.org/donate",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "National Alliance For Hispanic Health",
+   "domain": "healthyamericas.org",
+   "donate": "https://www.healthyamericas.org/donation",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "National Council of Urban Indian Health",
+   "domain": "ncuih.org",
+   "donate": "https://donorbox.org/ncuih",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "OnPoint NYC",
+   "domain": "onpointnyc.org",
+   "donate": "https://onpointnyc.org/donations/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "Open Path Psychotherapy Collective",
+   "domain": "openpathcollective.org",
+   "donate": "https://openpathcollective.org/donate/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "Oxford House",
+   "domain": "oxfordhouse.org",
+   "donate": "https://www.oxfordhouse.org/donations",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "Planned Parenthood",
+   "domain": "plannedparenthood.org",
+   "donate": "https://www.plannedparenthood.org/donate",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "Pregnancy Justice",
+   "domain": "pregnancyjusticeus.org",
+   "donate": "https://www.pregnancyjusticeus.org/donate/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "Root & Rebound",
+   "domain": "rootandreboundsc.org",
+   "donate": "https://www.rootandreboundsc.org/donate/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "San Francisco AIDS Foundation",
+   "domain": "sfaf.org",
+   "donate": "https://sfaf.org/donate/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "Savage Sisters Recovery",
+   "domain": "savagesisters.org",
+   "donate": "https://savagesisters.org/sponsorship",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "SWOP Los Angeles",
+   "domain": "swoplosangeles.org",
+   "donate": "https://swoplosangeles.org/donate-now/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "Tacoma Needle Exchange",
+   "domain": "tacomaneedleexchange.org",
+   "donate": "https://tacomaneedleexchange.org/donate",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "Tapestry Health",
+   "domain": "tapestryhealth.org",
+   "donate": "https://www.tapestryhealth.org/give/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "The Compassionate Friends",
+   "domain": "compassionatefriends.org",
+   "donate": "https://www.compassionatefriends.org/donate/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "The Fortune Society",
+   "domain": "fortunesociety.org",
+   "donate": "https://fortunesociety.org/ways-to-give/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "The Loveland Foundation",
+   "domain": "thelovelandfoundation.org",
+   "donate": "https://thelovelandfoundation.org/donorbox/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "Vermont CARES",
+   "domain": "vtcares.org",
+   "donate": "https://vtcares.org/donate/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "White Bird Clinic",
+   "domain": "whitebirdclinic.org",
+   "donate": "https://whitebirdclinic.org/donate/",
+   "refs": 1,
+   "group": "harm"
+  },
+  {
+   "name": "White Bison",
+   "domain": "whitebison.org",
+   "donate": "https://whitebison.org/donate/",
+   "refs": 1,
+   "group": "support"
+  },
+  {
+   "name": "With You",
+   "domain": "wearewithyou.org.uk",
+   "donate": "https://www.wearewithyou.org.uk/get-involved/make-a-donation",
+   "refs": 1,
+   "group": "support"
+  }
+ ]
+}

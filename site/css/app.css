@@ -2523,6 +2523,14 @@ ol.steps > li::after {
   width: 2px; background: var(--line);
 }
 ol.steps > li:last-child { padding-bottom: 0; }
+/* AIR AFTER THE LAST STEP. The rule above strips the last step's bottom
+   padding so the numbered rail ends with the text rather than trailing into
+   space - correct when the list is the end of a section, wrong when something
+   follows it. On the reagent procedure two cards do: "If it gets on you" sat
+   directly under step 7's one-line body, so it read as part of step 7 rather
+   than as a separate box. Reported from the live site. The gap goes back for
+   whatever follows, and only for what follows. */
+ol.steps + .card, ol.steps + .callout, ol.steps + .disc { margin-top: var(--sp-4); }
 ol.steps > li:last-child::after { display: none; }
 ol.steps h4 { margin: 4px 0 5px; font-size: 1rem; }
 ol.steps p { font-size: .95rem; color: var(--ink-2); }
@@ -3999,17 +4007,44 @@ details.disc[open] { margin-bottom: var(--sp-3); }
 /* Reagent swatch colors. Classes, not inline styles - the CSP (no
    unsafe-inline) strips style attributes, which produced a table of empty
    squares until this was caught by screenshot. */
-.swatch--yellow { background: #d4b106; } .swatch--green { background: #3f7d4e; }
-.swatch--blue { background: #2f5f98; }   .swatch--purple, .swatch--violet { background: #6b4d9e; }
-.swatch--black { background: #26221c; }  .swatch--brown { background: #7a5230; }
-.swatch--orange { background: #c67117; } .swatch--red { background: #b3301c; }
-.swatch--pink { background: #c76b8f; }   .swatch--gray { background: #8a8076; }
+/* ONE SOURCE OF TRUTH for a reagent colour, as tokens.
+ *
+ * The dots below and the blended bands built in js/reagentcolor.js have to be
+ * the same colour or a reader comparing a table to a bar is comparing two
+ * palettes. The classes read the tokens; the blends read the tokens; nobody
+ * writes a hex twice.
+ *
+ * --sw-lift and --sw-sink are what "pale" and "very dark" mix toward. Not white
+ * and black literally: mixing toward pure white washes a hue out to paper and
+ * toward pure black kills it, and the words mean lighter and darker versions of
+ * the same colour, not a step toward the page. Slightly warm, to match the ink.
+ *
+ * --sw-slate exists because Mecke on codeine settles to it and no other reading
+ * needs it; without a token it fell through as an unknown word and painted
+ * nothing. */
+:root {
+  --sw-yellow: #d4b106; --sw-green: #3f7d4e;  --sw-blue: #2f5f98;
+  --sw-purple: #6b4d9e; --sw-violet: #6b4d9e; --sw-black: #26221c;
+  --sw-brown: #7a5230;  --sw-orange: #c67117; --sw-red: #b3301c;
+  --sw-pink: #c76b8f;   --sw-gray: #8a8076;   --sw-white: #eee6d8;
+  --sw-olive: #6f7d3f;  --sw-peach: #e0a074;  --sw-magenta: #b0417a;
+  --sw-slate: #5f6b74;
+  --sw-lift: #f6efe2;   --sw-sink: #14120f;
+  --sw-hatch-a: #d8dede; --sw-hatch-b: #f2f5f5;
+}
+
+.swatch--yellow { background: var(--sw-yellow); } .swatch--green { background: var(--sw-green); }
+.swatch--blue { background: var(--sw-blue); }   .swatch--purple, .swatch--violet { background: var(--sw-purple); }
+.swatch--black { background: var(--sw-black); }  .swatch--brown { background: var(--sw-brown); }
+.swatch--orange { background: var(--sw-orange); } .swatch--red { background: var(--sw-red); }
+.swatch--pink { background: var(--sw-pink); }   .swatch--gray { background: var(--sw-gray); }
+.swatch--slate { background: var(--sw-slate); }
 /* The three the DanceSafe charts fork on. Each sits deliberately between its
    neighbours — peach between orange and pink, magenta between pink and purple,
    olive between green and yellow — because that is what the reader is being
    asked to tell apart. */
-.swatch--peach { background: #e0a074; }  .swatch--magenta { background: #b0417a; }
-.swatch--white { background: #eee6d8; }  .swatch--olive { background: #6f7d3f; }
+.swatch--peach { background: var(--sw-peach); }  .swatch--magenta { background: var(--sw-magenta); }
+.swatch--white { background: var(--sw-white); }  .swatch--olive { background: var(--sw-olive); }
 
 /* ------------------------------------------------- reagent reaction scale
 
@@ -4091,8 +4126,20 @@ details.disc[open] { margin-bottom: var(--sp-3); }
    surface it is actually on, rather than against the one the dots were
    designed for. The colour WORD is unchanged either way - it is what carries
    the meaning, and this only has to look like what it says. */
-.reagbar > .swatch--black { background: #0a0908; }
-.reagbar > .swatch--white { background: #fdfaf4; box-shadow: inset 0 0 0 1px var(--line-2); }
+/* Scoped to the BAND, so the blends built from these tokens get the legible
+   value too - a "bluish black" mixed from the dot-sized black would vanish into
+   the card exactly the way the flat band used to. */
+.reagbar { --sw-black: #0a0908; --sw-white: #fdfaf4; }
+.reagbar > .swatch--black { background: var(--sw-black); }
+.reagbar > .swatch--white { background: var(--sw-white); box-shadow: inset 0 0 0 1px var(--line-2); }
+
+/* A bar reagentcolor.js has painted. Its background carries the whole reading,
+   so the key-driven child bands would sit on top of it saying something coarser
+   - they go, and the words beside the bar are unchanged either way.
+
+   data-scale is on the element for the same reason the words are: it says which
+   of the three shapes this is, so a screenshot of a bug names its own cause. */
+.reagbar--painted > span { display: none; }
 /* White needs an outline of its own on light backgrounds; the blend handles
    the boundary, so this is only about the band not vanishing into the card. */
 @media (prefers-color-scheme: dark) {
@@ -4280,7 +4327,10 @@ details.disc .groupkids > details.disc > summary h2 {
 .lovedhard { margin: var(--sp-2) 0 var(--sp-3); }
 .lovedhard p { margin: 0; }
 
-.foot__links { margin-top: var(--sp-2); }
+/* Two pills now - About and Where to donate - so this is a row with a gap
+   rather than two inline-blocks touching. flex-wrap so the second drops
+   under the first on a narrow phone instead of overflowing the footer. */
+.foot__links { margin-top: var(--sp-2); display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 /* :not(.btn), because "About this site" is a pill down here and this rule
    would otherwise win the cascade against it — (0,2,1) against .btn--ghost's
    (0,1,0) — and repaint it as brand-coloured text with `padding: 4px 0`,

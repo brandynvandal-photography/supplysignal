@@ -484,6 +484,10 @@ const VIEWS = {
   sex:        () => import("./views/sex.js"),
   stimulants: () => import("./views/stimulants.js"),
   about:      () => import("./views/about.js"),
+  /* Not a tab either. Reached from the footer, beside About - the two pages
+     somebody goes looking for once they have decided the thing is worth
+     trusting, rather than while they are using it. */
+  donate:     () => import("./views/donate.js"),
   help:       () => import("./views/help.js"),
   /* Not a tab. Reached from Support and from the foot of Emergency - the two
      places someone is standing when the question occurs to them. The tab bar
