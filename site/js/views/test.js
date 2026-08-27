@@ -101,8 +101,14 @@ export async function render(route, ctx) {
       brandPicker(g.brands),
       /* The one-line-means-positive panel is gone too. It sat directly above
          the strip diagram that shows exactly this, labelled. */
+      /* BOTH AT BODY SIZE. The faint-line rule was .sec__note - the tier this
+         app uses for asides, sources and caveats - sitting under the sentence
+         that explains how the strip works, at body size. They are one
+         instruction in two halves: how the test works, and the mistake that
+         makes somebody read a positive as a negative. The second is not the
+         smaller of the two. */
       h("p", null, fts.reading.explain),
-      h("p", { class: "sec__note" }, fts.reading.faintLine),
+      h("p", null, fts.reading.faintLine),
       /* Each type, under the reading it shares. Shut: the picker above has
          already answered how to read one; each card is a type's limits and
          field accuracy, opened when that type is the one in hand. */
@@ -221,7 +227,12 @@ export async function render(route, ctx) {
                 h("span", null, g.reagentIntro.pureSampleNote.q)),
               h("div", { class: "acc__body" },
                 h("p", null, g.reagentIntro.pureSampleNote.a),
-                h("p", null, g.reagentIntro.pureSampleNote.b),
+                /* `b` was a second paragraph and is gone from the data. Guarded
+                   rather than deleted: the field is optional now, and an
+                   unguarded h("p", null, undefined) prints the word "undefined"
+                   to a reader. */
+                g.reagentIntro.pureSampleNote.b
+                  ? h("p", null, g.reagentIntro.pureSampleNote.b) : null,
                 sourceRow(g.reagentIntro.pureSampleNote.sources)))
           : null),
     })

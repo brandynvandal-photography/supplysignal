@@ -3193,6 +3193,19 @@ table.data--pairs thead th + th {
  * its own margin - a block that looked like nothing else in the app, under
  * pages made entirely of disclosures. The container is now `disclosure()`
  * like every other section, so all that is left to style is the list. */
+/* MYTH ROWS. One belief, its correction, its source, repeated - so the row
+   boundary is what a reader scans, not the prose. A rule between rather than a
+   card each: thirty-two cards in six folds is a lot of border for a list whose
+   whole job is to be skimmed until something looks familiar.
+
+   The heading is the BELIEF, which is the thing somebody arrives holding. It is
+   set at body weight rather than as a louder heading on purpose - a bold false
+   claim scanned on its own is the one outcome this section must not have. */
+.mythrow + .mythrow { margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px solid var(--line); }
+.mythrow h4 { margin: 0 0 4px; font-size: 1rem; color: var(--ink-2); font-weight: 650; }
+.mythrow p { margin: 0; }
+.mythrow .sources { margin-top: 6px; }
+
 .srclist { margin: 0; padding-left: 18px; font-size: .9rem; color: var(--ink-2); }
 .srclist li { margin-bottom: 6px; }
 .srclist li:last-child { margin-bottom: 0; }
@@ -3484,6 +3497,15 @@ tr[hidden], details[hidden] { display: none !important; }
 .map__ramp .map__chip { width: 22px; border-radius: 2px; }
 .map__ramp .map__chip:first-child { border-radius: 4px 2px 2px 4px; }
 .map__ramp .map__chip:last-child { border-radius: 2px 4px 4px 2px; }
+/* Both of these are rows of pills now, not sentences - the gestures under the
+   map, the legend's "blank is not none" caveat, and the reset control, which
+   sits in the same row as a peer rather than trailing the prose. Wrapping,
+   because three pills and a button do not fit across a 375px phone. The
+   font-size stays for anything that is still plain text in here; the pills
+   carry their own. */
+.map__note, .map__help {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
+}
 .map__note { font-size: .82rem; color: var(--ink-3); margin-top: 8px; }
 .map__help { font-size: .86rem; color: var(--ink-3); margin: 0 0 16px; }
 .map__toph { font-size: 1rem; margin: 18px 0 10px; }

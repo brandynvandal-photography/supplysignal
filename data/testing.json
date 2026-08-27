@@ -392,8 +392,7 @@
     "mixtures": "Genuine mixtures blend like mixing two colors of paint. If you can see visually different crystals, separate them and test each one.",
     "pureSampleNote": {
       "q": "Does pure fentanyl react with a reagent?",
-      "a": "In a forensic lab, yes — reference-grade fentanyl does produce a color change. It is irrelevant to anyone holding a bag. Drug checking in Los Angeles found consumer fentanyl averaged 10% fentanyl by weight, and 42.5% of samples sold as fentanyl were under 5%. The eleven pills in that study averaged 1.4% — eleven is too few to call it a rule, but it points the same way. What you have is mostly filler, which is exactly the case reagents cannot read.",
-      "b": "DanceSafe went through a public lab database. Oxycodone with fentanyl in it gave the same reagent colors as clean oxycodone. The pills that came back from overdose deaths looked correct.",
+      "a": "In a forensic lab, yes — reference-grade fentanyl does produce a color change. Drug checking in Los Angeles found consumer fentanyl averaged 10% fentanyl by weight, and 42.5% of samples sold as fentanyl were under 5%. The eleven pills in that study averaged 1.4%. Given these are mostly filler, reagents will react to the filler and not fentanyl.",
       "sources": [
         {
           "name": "DanceSafe — drug checking",
@@ -2046,7 +2045,7 @@
         }
       }
     ],
-    "gap": "Wondfo, DetectaChem and MD-Bio are not here yet. Neither are benzodiazepine or nitazene strips. We only print a number once we have read it off the sheet it came from.",
+    "gap": "Wondfo, DetectaChem and MD-Bio are not listed as we have not verified instructions at this time.",
     "drugHeadline": "What are you testing?",
     "notListed": "Not listed? Most strips sold for harm reduction in the US are made by one of two companies — BTNX or WHPM — whatever name is on the front. DanceSafe, Bunk Police and Grassroots all sell the same WHPM strip. Look for the maker on the packet, the box or the insert and use that row. If it names neither, your insert is the authority.",
     "lotsTitle": "Read the instructions that came with your strips",
