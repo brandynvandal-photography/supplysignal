@@ -61,7 +61,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export const TOPICS = [
   "after", "adulterants", "checking", "comedown", "communities", "conditions",
   "consent", "descriptions", "education", "emerging", "harm", "heat", "index", "market",
-  "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
+  "myths", "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
   "sex", "sitting", "stimulants", "supervision", "support", "testing",
 ];
 

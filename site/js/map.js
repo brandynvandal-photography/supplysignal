@@ -17,7 +17,7 @@
  * below it stay primary, because a canvas is unreachable by a screen reader.
  */
 
-import { h, frag, clear, callout } from "./ui.js";
+import { h, frag, clear, callout, badge } from "./ui.js";
 import * as data from "./data.js";
 import { buildMesh as buildMeshFrom, hitTest } from "./mesh.js";
 
@@ -347,10 +347,23 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
   const topHead = h("h3", { class: "map__toph" });
   const topList = h("div", { class: "list" });   // grouped inset list, like every other row list
 
+  /* A GHOST PILL, like "More alerts" and Refresh. It was a .linkbtn - an
+     underlined run of text inside the help sentence - while every other action
+     on this screen is a pill, and this one is the only way back from a zoom
+     somebody did not mean to do. One action, one shape. */
   const resetBtn = h("button", {
-    type: "button", class: "linkbtn",
+    type: "button", class: "btn btn--ghost btn--sm",
     onClick: () => { state.zoom = 1; state.panX = 0; state.panY = 0; draw(); },
   }, "Reset view");
+
+  /* THE GESTURES AND THE CAVEATS ARE PILLS, one per fact.
+     Both of these were a run-on grey sentence under the map - the tier this app
+     uses for asides - and both are read while somebody is trying to work the
+     thing, not while they are reading. Split at the sentence and each fact gets
+     its own object, in a row that wraps, with the reset control sitting in the
+     same row as a peer rather than trailing the prose. */
+  const pills = (...parts) => parts.filter(Boolean).map((x) =>
+    (typeof x === "string" ? badge(x) : x));
 
   host.appendChild(
     compact
@@ -358,8 +371,8 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
           stage,
           legend,
           h("p", { class: "map__help" },
-            "Drag to move around. Scroll or pinch to zoom. Tap any county to open it. ",
-            resetBtn))
+            ...pills("Drag to move around", "Scroll or pinch to zoom",
+                     "Tap any county to open it", resetBtn)))
       : frag(
           h("div", { class: "map__controls" }, metricChips),
           hint,
@@ -367,8 +380,8 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
           stage,
           legend,
           h("p", { class: "map__help" },
-            "Drag to move around. Scroll or pinch to zoom. Tap a county to open it. ",
-            resetBtn),
+            ...pills("Drag to move around", "Scroll or pinch to zoom",
+                     "Tap a county to open it", resetBtn)),
           topHead,
           topList)
   );
@@ -761,8 +774,8 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     });
     legend.appendChild(
       h("p", { class: "map__note" },
-        "Counties with no shading have no published figure. Counts of 1–9 are " +
-        "withheld for confidentiality, so blank is not the same as none.")
+        badge("No shading means no published figure"),
+        badge("Counts of 1–9 are withheld for confidentiality, so blank is not the same as none"))
     );
   }
 

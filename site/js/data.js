@@ -51,7 +51,7 @@ const inflight = new Map();
 const TOPICS = new Set([
   "after", "adulterants", "checking", "comedown", "communities", "conditions",
   "consent", "descriptions", "education", "emerging", "harm", "heat", "index", "market",
-  "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
+  "myths", "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
   "sex", "sitting", "stimulants", "supervision", "support", "testing",
 ]);
 
@@ -668,6 +668,11 @@ export async function rx() {
 /** Recovery, mental health, trauma, and supply sources. */
 export async function support() {
   return load("support", null);
+}
+
+/** Common beliefs that are wrong, each with the source that says so. */
+export async function myths() {
+  return load("myths", null);
 }
 
 /* Donation links for the organizations this app cites.

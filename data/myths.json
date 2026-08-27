@@ -1,0 +1,387 @@
+{
+  "note": "Common beliefs about drugs and overdose that are wrong, each with the source that says so. Rules for editing: state the belief as people actually say it, keep the correction to a sentence or two, and never add an entry without a source that supports the specific claim being corrected. An uncited debunk is just a competing assertion, and this is the one page where the reader arrives believing the opposite.",
+  "lastVerified": "2026-08-26",
+  "intro": "Things people are told that are not true. Every correction below is sourced — follow the links if any of it contradicts what you have heard.",
+  "groups": [
+    {
+      "id": "myth-helping",
+      "title": "Helping someone who is overdosing",
+      "items": [
+        {
+          "myth": "Put them in a cold shower to bring them round.",
+          "truth": "It raises the risk of falling, drowning and shock. SAMHSA lists it as a don't.",
+          "sources": [
+            {
+              "name": "SAMHSA Overdose Prevention and Response Toolkit (2023)",
+              "url": "https://library.samhsa.gov/sites/default/files/overdose-prevention-response-kit-pep23-03-00-001.pdf"
+            }
+          ]
+        },
+        {
+          "myth": "You have naloxone, so rescue breathing is not needed.",
+          "truth": "Rescue breathing can be lifesaving on its own, and naloxone takes minutes to work.",
+          "sources": [
+            {
+              "name": "SAMHSA Overdose Prevention and Response Toolkit (2023)",
+              "url": "https://library.samhsa.gov/sites/default/files/overdose-prevention-response-kit-pep23-03-00-001.pdf"
+            }
+          ]
+        },
+        {
+          "myth": "Slap them hard or shake them awake.",
+          "truth": "Forceful stimulation only causes injury. Shout, then rub your knuckles on their sternum; if that fails they are unconscious.",
+          "sources": [
+            {
+              "name": "SAMHSA Overdose Prevention and Response Toolkit (2023)",
+              "url": "https://library.samhsa.gov/sites/default/files/overdose-prevention-response-kit-pep23-03-00-001.pdf"
+            }
+          ]
+        },
+        {
+          "myth": "Inject them with saltwater, milk or a stimulant.",
+          "truth": "None of it works. The only appropriate treatment is an opioid overdose reversal medication.",
+          "sources": [
+            {
+              "name": "SAMHSA Overdose Prevention and Response Toolkit (2023)",
+              "url": "https://library.samhsa.gov/sites/default/files/overdose-prevention-response-kit-pep23-03-00-001.pdf"
+            }
+          ]
+        },
+        {
+          "myth": "Make them throw up whatever they swallowed.",
+          "truth": "Choking or inhaling vomit can cause a fatal injury.",
+          "sources": [
+            {
+              "name": "SAMHSA Overdose Prevention and Response Toolkit (2023)",
+              "url": "https://library.samhsa.gov/sites/default/files/overdose-prevention-response-kit-pep23-03-00-001.pdf"
+            }
+          ]
+        },
+        {
+          "myth": "They are breathing again, so it is over.",
+          "truth": "Most opioids outlast the naloxone. Stay at least four hours from the last dose.",
+          "sources": [
+            {
+              "name": "SAMHSA Overdose Prevention and Response Toolkit (2023)",
+              "url": "https://library.samhsa.gov/sites/default/files/overdose-prevention-response-kit-pep23-03-00-001.pdf"
+            }
+          ]
+        },
+        {
+          "myth": "They are just asleep — let them sleep it off.",
+          "truth": "Deep sedation looks like sleep and is not. Put them on their side and stay.",
+          "sources": [
+            {
+              "name": "SAMHSA Overdose Prevention and Response Toolkit (2023)",
+              "url": "https://library.samhsa.gov/sites/default/files/overdose-prevention-response-kit-pep23-03-00-001.pdf"
+            }
+          ]
+        },
+        {
+          "myth": "They can hear you, so they are fine.",
+          "truth": "A high enough dose of ketamine leaves someone awake, aware and unable to respond or call for help.",
+          "sources": [
+            {
+              "name": "Poison Control — What is pink cocaine?",
+              "url": "https://www.poison.org/articles/what-is-pink-cocaine"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "myth-touching",
+      "title": "Touching fentanyl",
+      "items": [
+        {
+          "myth": "You can overdose by touching fentanyl.",
+          "truth": "Incidental skin contact is unlikely to cause toxicity, and no responder has been reported with opioid toxicity from it. Soap and water removes it.",
+          "sources": [
+            {
+              "name": "ACMT and AACT position statement — occupational fentanyl exposure",
+              "url": "https://www.acmt.net/wp-content/uploads/2022/06/PRS_170701_Preventing-Occupational-Fentanyl-and-Fentanyl-Analog-Exposure-to-Emergency-Responders.pdf"
+            },
+            {
+              "name": "Same statement, PubMed",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/28842825/"
+            }
+          ]
+        },
+        {
+          "myth": "Fentanyl in the air will drop you just from being in the room.",
+          "truth": "Street fentanyl is not volatile. Where particles are actually airborne, an N95 is enough.",
+          "sources": [
+            {
+              "name": "ACMT and AACT position statement — occupational fentanyl exposure",
+              "url": "https://www.acmt.net/wp-content/uploads/2022/06/PRS_170701_Preventing-Occupational-Fentanyl-and-Fentanyl-Analog-Exposure-to-Emergency-Responders.pdf"
+            },
+            {
+              "name": "Same statement, PubMed",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/28842825/"
+            }
+          ]
+        },
+        {
+          "myth": "You need a hazmat suit to be near it.",
+          "truth": "Nitrile gloves are sufficient for routine handling.",
+          "sources": [
+            {
+              "name": "ACMT and AACT position statement — occupational fentanyl exposure",
+              "url": "https://www.acmt.net/wp-content/uploads/2022/06/PRS_170701_Preventing-Occupational-Fentanyl-and-Fentanyl-Analog-Exposure-to-Emergency-Responders.pdf"
+            },
+            {
+              "name": "Same statement, PubMed",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/28842825/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "myth-naloxone",
+      "title": "Naloxone",
+      "items": [
+        {
+          "myth": "Giving naloxone to someone who has not taken opioids will hurt them.",
+          "truth": "In another emergency it generally has no effect and causes no additional harm.",
+          "sources": [
+            {
+              "name": "SAMHSA Overdose Prevention and Response Toolkit (2023)",
+              "url": "https://library.samhsa.gov/sites/default/files/overdose-prevention-response-kit-pep23-03-00-001.pdf"
+            }
+          ]
+        },
+        {
+          "myth": "Having naloxone around makes people use more.",
+          "truth": "A systematic review of seven studies and 2,578 people found no evidence of it.",
+          "sources": [
+            {
+              "name": "Systematic review of a naloxone 'moral hazard' (Int J Drug Policy, 2021)",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/34798434/"
+            }
+          ]
+        },
+        {
+          "myth": "There is xylazine in it, so naloxone is pointless.",
+          "truth": "Naloxone does nothing to xylazine, but xylazine is nearly always mixed with fentanyl. Give it.",
+          "sources": [
+            {
+              "name": "CDC — What you should know about xylazine",
+              "url": "https://www.cdc.gov/overdose-prevention/about/what-you-should-know-about-xylazine.html"
+            }
+          ]
+        },
+        {
+          "myth": "Medetomidine means naloxone will not work.",
+          "truth": "It works on the fentanyl it is mixed with. Check breathing before you check whether they respond.",
+          "sources": [
+            {
+              "name": "PA Department of Health HAN #794 (relaying Philadelphia DPH)",
+              "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/health/documents/topics/documents/2025%20HAN/2025-794-06-18%20Medetomidine%20Guidance.pdf"
+            }
+          ]
+        },
+        {
+          "myth": "Nitazenes need many times the usual amount of naloxone.",
+          "truth": "The published evidence does not support that.",
+          "sources": [
+            {
+              "name": "Comparative review, 2025",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/40422647/"
+            },
+            {
+              "name": "CDC MMWR — nitazenes",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9484803/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "myth-testing",
+      "title": "Testing",
+      "items": [
+        {
+          "myth": "A reagent kit will find fentanyl.",
+          "truth": "Reagents react to whatever there is most of. Fentanyl is active far below what a color change can show.",
+          "sources": [
+            {
+              "name": "Two brands of fentanyl test strips against 251 synthetic opioids (Harm Reduct J, 2023)",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+            }
+          ]
+        },
+        {
+          "myth": "Pure fentanyl reacts, so a reagent would catch it.",
+          "truth": "Consumer fentanyl averaged 10% by weight in Los Angeles drug checking. What reacts is the filler.",
+          "sources": [
+            {
+              "name": "Fentanyl purity in consumer samples, Los Angeles 2023–25 (preprint)",
+              "url": "https://www.medrxiv.org/content/10.1101/2025.06.27.25330446v1"
+            }
+          ]
+        },
+        {
+          "myth": "One line on a test strip means it is clean.",
+          "truth": "It is the other way round. One line is positive; the drug being there makes a line disappear.",
+          "sources": [
+            {
+              "name": "Two brands of fentanyl test strips against 251 synthetic opioids (Harm Reduct J, 2023)",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+            }
+          ]
+        },
+        {
+          "myth": "A faint second line is a positive.",
+          "truth": "Any second line, however faint, is negative. Wait the full time — a faint line can appear and then fade.",
+          "sources": [
+            {
+              "name": "Two brands of fentanyl test strips against 251 synthetic opioids (Harm Reduct J, 2023)",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+            }
+          ]
+        },
+        {
+          "myth": "A negative strip clears the whole bag.",
+          "truth": "It speaks for the pinch you dissolved. Fentanyl is not spread evenly.",
+          "sources": [
+            {
+              "name": "Two brands of fentanyl test strips against 251 synthetic opioids (Harm Reduct J, 2023)",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
+            }
+          ]
+        },
+        {
+          "myth": "Test strips just give people false confidence.",
+          "truth": "A positive result is associated with using less, taking turns and keeping naloxone close.",
+          "sources": [
+            {
+              "name": "Test strip results and change in drug use behavior (Int J Drug Policy, 2025)",
+              "url": "https://www.sciencedirect.com/science/article/pii/S0955395925001677"
+            },
+            {
+              "name": "Drug use behaviors among people who do and do not use test strips (Harm Reduct J, 2023)",
+              "url": "https://harmreductionjournal.biomedcentral.com/articles/10.1186/s12954-023-00767-0"
+            }
+          ]
+        },
+        {
+          "myth": "Xylazine strips catch xylazine.",
+          "truth": "In one Los Angeles study of 333 fentanyl-positive samples they missed a large share.",
+          "sources": [
+            {
+              "name": "Test strip field performance, Los Angeles",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12236865/"
+            }
+          ]
+        },
+        {
+          "myth": "Nitazene strips catch nitazenes.",
+          "truth": "A lab evaluation found 24 of 33, and they need a fairly large amount to be present.",
+          "sources": [
+            {
+              "name": "Nitazene test strip evaluation, 2024",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11350930/"
+            }
+          ]
+        },
+        {
+          "myth": "A reagent can tell you what a pink powder is.",
+          "truth": "It reads the majority. A powder that is 80% ketamine reads as ketamine, whatever else is in it.",
+          "sources": [
+            {
+              "name": "DEA — Pink cocaine",
+              "url": "https://www.dea.gov/pink-cocaine"
+            }
+          ]
+        },
+        {
+          "myth": "Test strips are illegal.",
+          "truth": "Legal in most states, not all. As of July 2026 the ones where drug-checking equipment may still be criminal are Iowa, North Dakota and Texas — and the five-state lists circulating online are out of date.",
+          "sources": [
+            {
+              "name": "LAPPA — Drug Checking Equipment 50-State Summary (Sept 2025)",
+              "url": "https://legislativeanalysis.org/wp-content/uploads/2025/09/Drug-Checking-Equipment-50-State-Summary.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "myth-supply",
+      "title": "What is in the supply",
+      "items": [
+        {
+          "myth": "Nitazenes are hundreds of times stronger than fentanyl.",
+          "truth": "True of some members in lab tests, not of the family. Some are weaker than fentanyl.",
+          "sources": [
+            {
+              "name": "CDC MMWR — nitazenes",
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9484803/"
+            },
+            {
+              "name": "Comparative review, 2025",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/40422647/"
+            }
+          ]
+        },
+        {
+          "myth": "Xylazine wounds are a flesh-eating infection.",
+          "truth": "They are not. The leading explanation is blood vessels constricting and tissue being starved of blood.",
+          "sources": [
+            {
+              "name": "Philadelphia DPH — xylazine wound care",
+              "url": "https://hip.phila.gov/document/2698/PDPH-HAN_Advisory_10_Xylazine_10.05.2022.pdf/"
+            }
+          ]
+        },
+        {
+          "myth": "Medetomidine causes wounds like xylazine does.",
+          "truth": "Health officials state it does not appear to.",
+          "sources": [
+            {
+              "name": "PA Department of Health HAN #794 (relaying Philadelphia DPH)",
+              "url": "https://www.pa.gov/content/dam/copapwp-pagov/en/health/documents/topics/documents/2025%20HAN/2025-794-06-18%20Medetomidine%20Guidance.pdf"
+            }
+          ]
+        },
+        {
+          "myth": "You can tell by looking, or by taste.",
+          "truth": "Counterfeit pills are pressed to match, and fentanyl is active in amounts too small to see or taste.",
+          "sources": [
+            {
+              "name": "Fentanyl purity in consumer samples, Los Angeles 2023–25 (preprint)",
+              "url": "https://www.medrxiv.org/content/10.1101/2025.06.27.25330446v1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "myth-after",
+      "title": "Afterwards",
+      "items": [
+        {
+          "myth": "They woke up angry, so they are ungrateful.",
+          "truth": "Waking into precipitated withdrawal is documented and studied. It is not about you.",
+          "sources": [
+            {
+              "name": "Neale et al., J Substance Abuse Treatment (2020)",
+              "url": "https://pubmed.ncbi.nlm.nih.gov/31801658/"
+            }
+          ]
+        },
+        {
+          "myth": "Your tolerance is where you left it.",
+          "truth": "It drops after any break — jail, hospital, treatment, illness — and a previously normal amount can cause an accident.",
+          "sources": [
+            {
+              "name": "SAMHSA Overdose Prevention and Response Toolkit (2023)",
+              "url": "https://library.samhsa.gov/sites/default/files/overdose-prevention-response-kit-pep23-03-00-001.pdf"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

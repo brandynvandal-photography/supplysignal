@@ -41,6 +41,7 @@ export async function render(route, { go }) {
 
   const consent = await consentBlock();
   const harm = await harmBlock();
+  const myths = await mythsBlock();
 
   /* SEVEN CHIPS, not eighteen. The strip had grown a chip per section and per
      course group and per pointer, which on a phone was three rows of chips
@@ -59,6 +60,7 @@ export async function render(route, { go }) {
          look like the chip did nothing. Label matches the section heading. */
       { id: "sec-sitting", label: "Being the calm person" },
       { id: "sec-courses", label: "Free courses" },
+      ...(myths ? [{ id: "sec-myths", label: "Myths" }] : []),
       ...(consent ? [{ id: "sec-consent", label: "Consent" },
                      { id: "sec-repair", label: "After you hurt someone" }] : []),
       ...(e.beforeTheNight ? [{ id: "sec-before", label: "Long nights" }] : []),
@@ -160,6 +162,11 @@ export async function render(route, { go }) {
   /* After the courses, before "teach someone else". Someone who opened Learn
      to find a naloxone class should not be met by a section about hurting
      people; someone who came looking for this will use the jump chip. */
+  /* After the courses and before Consent, matching the chip order above.
+     views.test.mjs checks the two agree: a chip that jumps BACKWARDS reads as
+     a broken link even though it works. */
+  if (myths) wrap.appendChild(myths);
+
   if (consent) wrap.appendChild(consent);
   /* Directly after consent and repair, because it continues them: repair
      covers the first five minutes after you hurt someone; this is what comes
@@ -206,6 +213,47 @@ export async function render(route, { go }) {
 
   void go; void route;
   return wrap;
+}
+
+/* MYTHS, AND THE SOURCE THAT SAYS OTHERWISE.
+ *
+ * The rest of this app corrects things in passing, wherever the subject comes
+ * up - a reagent cannot find fentanyl, naloxone is worth giving even with
+ * xylazine in it, waking up angry is documented. Somebody who has been TOLD
+ * one of these has no way to go looking for the correction, because they do
+ * not know which page it lives on. This is that index.
+ *
+ * The shape is deliberately flat and repetitive: the belief as people say it,
+ * then one or two sentences, then the source. No preamble and no argument -
+ * a reader who already believes the claim is not going to read three
+ * paragraphs to find out they are wrong, and the citation is what does the
+ * work here rather than the prose.
+ *
+ * EVERY ITEM CARRIES A SOURCE and test/myths.test.mjs fails the build if one
+ * does not. An uncited debunk is a competing assertion, which on this page is
+ * worth less than nothing.
+ *
+ * Renders nothing at all if the dataset is missing, like every other
+ * conditional block on this page. */
+async function mythsBlock() {
+  const m = await data.myths();
+  if (!m?.groups?.length) return null;
+
+  return h("div", { id: "sec-myths" },
+    section("Myths", null,
+      h("p", { class: "sec__note" }, m.intro),
+      ...m.groups.map((g) =>
+        disclosure(g.id, g.title, null,
+          h("div", { class: "card" },
+            g.items.map((it) =>
+              h("div", { class: "mythrow" },
+                h("h4", null, it.myth),
+                h("p", null, it.truth),
+                it.sources?.length
+                  ? h("div", { class: "sources" },
+                      it.sources.map((x) => extLink(x.url, x.name)))
+                  : null))))),
+      checkedLine("Checked", m.lastVerified)));
 }
 
 /* One row in the "More guides" list: a cross-page link with its one-line
