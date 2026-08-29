@@ -83,6 +83,13 @@ export async function render(route, { go }) {
     h("div", { id: "sec-guides" },
       section("More guides", null,
         h("div", { class: "list" },
+          /* First in the list on purpose. It is the only page that explains
+             why any of the other advice is what it is, and a reader who
+             takes it in reads everything under it differently. */
+          moreGuide("#/supply", "Why the supply is like this",
+            "Why it keeps getting stronger, why two bags off one batch differ, "
+            + "why a pill that looks right proves nothing, and why coming from "
+            + "another country is a different set of unknowns rather than fewer."),
           moreGuide("#/stimulants", "Staying up and coming down",
             "Sleep loss alone will bring on psychosis-like states eventually — "
             + "the timeline, what it looks like, and why sleep is the treatment."),

@@ -478,6 +478,7 @@ const VIEWS = {
   substances: () => import("./views/substances.js"),
   support:    () => import("./views/support.js"),
   emerging:   () => import("./views/emerging.js"),
+  supply:     () => import("./views/supply.js"),
   learn:      () => import("./views/learn.js"),
   policy:     () => import("./views/policy.js"),
   supervision: () => import("./views/supervision.js"),

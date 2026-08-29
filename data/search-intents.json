@@ -1,529 +1,580 @@
 {
-  "note": "Hand-curated, not generated. Fifty deliberate mappings beat any amount of clever text matching, because these are the words and questions people actually type. Edit freely; nothing downstream is generated from it.",
-  "verified": "2026-08-13",
-  "slang": {
-    "tranq": "xylazine",
-    "tranq dope": "xylazine",
-    "sleep cut": "xylazine",
-    "rhino tranq": "medetomidine",
-    "mede": "medetomidine",
-    "dex": "medetomidine",
-    "molly": "mdma",
-    "mandy": "mdma",
-    "rolls": "mdma",
-    "ecstasy": "mdma",
-    "blues": "fentanyl",
-    "m30": "fentanyl",
-    "m30s": "fentanyl",
-    "percs": "oxycodone",
-    "fenty": "fentanyl",
-    "fent": "fentanyl",
-    "china white": "fentanyl",
-    "gear": "heroin",
-    "dope": "heroin",
-    "h": "heroin",
-    "boy": "heroin",
-    "tina": "methamphetamine",
-    "crystal": "methamphetamine",
-    "shard": "methamphetamine",
-    "girl": "cocaine",
-    "coke": "cocaine",
-    "crack": "cocaine",
-    "k": "ketamine",
-    "special k": "ketamine",
-    "ket": "ketamine",
-    "g": "ghb",
-    "gbl": "ghb",
-    "liquid ecstasy": "ghb",
-    "xanax": "alprazolam",
-    "xannies": "alprazolam",
-    "bars": "alprazolam",
-    "benzos": "alprazolam",
-    "pins": "clonazepam",
-    "klonopin": "clonazepam",
-    "subs": "buprenorphine",
-    "suboxone": "buprenorphine",
-    "bupe": "buprenorphine",
-    "methadone clinic": "methadone",
-    "done": "methadone",
-    "weed": "cannabis",
-    "pot": "cannabis",
-    "bud": "cannabis",
-    "thc": "cannabis",
-    "acid": "lsd",
-    "tabs": "lsd",
-    "shrooms": "psilocybin-mushrooms",
-    "boomers": "psilocybin-mushrooms",
-    "nangs": "nitrous-oxide",
-    "whippits": "nitrous-oxide",
-    "poppers": "amyl-nitrite",
-    "gabby": "gabapentin",
-    "nitazene": "nitazenes",
-    "iso": "nitazenes",
-    "narcan": "naloxone",
-    "nally": "naloxone"
+ "note": "Hand-curated, not generated. Fifty deliberate mappings beat any amount of clever text matching, because these are the words and questions people actually type. Edit freely; nothing downstream is generated from it.",
+ "verified": "2026-08-29",
+ "slang": {
+  "tranq": "xylazine",
+  "tranq dope": "xylazine",
+  "sleep cut": "xylazine",
+  "rhino tranq": "medetomidine",
+  "mede": "medetomidine",
+  "dex": "medetomidine",
+  "molly": "mdma",
+  "mandy": "mdma",
+  "rolls": "mdma",
+  "ecstasy": "mdma",
+  "blues": "fentanyl",
+  "m30": "fentanyl",
+  "m30s": "fentanyl",
+  "percs": "oxycodone",
+  "fenty": "fentanyl",
+  "fent": "fentanyl",
+  "china white": "fentanyl",
+  "gear": "heroin",
+  "dope": "heroin",
+  "h": "heroin",
+  "boy": "heroin",
+  "tina": "methamphetamine",
+  "crystal": "methamphetamine",
+  "shard": "methamphetamine",
+  "girl": "cocaine",
+  "coke": "cocaine",
+  "crack": "cocaine",
+  "k": "ketamine",
+  "special k": "ketamine",
+  "ket": "ketamine",
+  "g": "ghb",
+  "gbl": "ghb",
+  "liquid ecstasy": "ghb",
+  "xanax": "alprazolam",
+  "xannies": "alprazolam",
+  "bars": "alprazolam",
+  "benzos": "alprazolam",
+  "pins": "clonazepam",
+  "klonopin": "clonazepam",
+  "subs": "buprenorphine",
+  "suboxone": "buprenorphine",
+  "bupe": "buprenorphine",
+  "methadone clinic": "methadone",
+  "done": "methadone",
+  "weed": "cannabis",
+  "pot": "cannabis",
+  "bud": "cannabis",
+  "thc": "cannabis",
+  "acid": "lsd",
+  "tabs": "lsd",
+  "shrooms": "psilocybin-mushrooms",
+  "boomers": "psilocybin-mushrooms",
+  "nangs": "nitrous-oxide",
+  "whippits": "nitrous-oxide",
+  "poppers": "amyl-nitrite",
+  "gabby": "gabapentin",
+  "nitazene": "nitazenes",
+  "iso": "nitazenes",
+  "narcan": "naloxone",
+  "nally": "naloxone"
+ },
+ "intents": [
+  {
+   "q": [
+    "will i get arrested if i call 911",
+    "can i get in trouble for calling 911",
+    "good samaritan",
+    "911 and the law",
+    "police overdose",
+    "call 911 arrested"
+   ],
+   "label": "If you call 911, what happens to you",
+   "route": "#/policy",
+   "anchor": "sec-calling",
+   "why": "The most consequential question on the site, and the one people are most afraid to ask."
   },
-  "intents": [
-    {
-      "q": [
-        "will i get arrested if i call 911",
-        "can i get in trouble for calling 911",
-        "good samaritan",
-        "911 and the law",
-        "police overdose",
-        "call 911 arrested"
-      ],
-      "label": "If you call 911, what happens to you",
-      "route": "#/policy",
-      "anchor": "sec-calling",
-      "why": "The most consequential question on the site, and the one people are most afraid to ask."
-    },
-    {
-      "q": [
-        "how long does it stay in your system",
-        "how long does weed stay in your system",
-        "detection window",
-        "how long to pass a drug test",
-        "drug test how long",
-        "how long is it detectable",
-        "urine test how long"
-      ],
-      "label": "How long it stays detectable",
-      "route": "#/supervision",
-      "anchor": "sec-windows"
-    },
-    {
-      "q": [
-        "failed drug test",
-        "positive drug test",
-        "false positive",
-        "contest a drug test",
-        "drug test wrong",
-        "dispute drug test"
-      ],
-      "label": "A positive screen is not a result yet",
-      "route": "#/supervision",
-      "anchor": "sec-rights"
-    },
-    {
-      "q": [
-        "probation",
-        "parole",
-        "violation",
-        "po drug test",
-        "supervision"
-      ],
-      "label": "Drug testing, probation and parole",
-      "route": "#/supervision"
-    },
-    {
-      "q": [
-        "can they make me stop methadone",
-        "methadone probation",
-        "suboxone probation",
-        "court ordered off methadone",
-        "ada methadone"
-      ],
-      "label": "They cannot make you stop your medication",
-      "route": "#/supervision",
-      "anchor": "sec-medication"
-    },
-    {
-      "q": [
-        "free naloxone",
-        "where to get narcan",
-        "naloxone near me",
-        "get narcan free",
-        "naloxone by mail"
-      ],
-      "label": "Where to get naloxone free",
-      "route": "#/learn",
-      "anchor": "sec-naloxone"
-    },
-    {
-      "q": [
-        "overdose",
-        "someone is overdosing",
-        "not breathing",
-        "od",
-        "how to use narcan",
-        "what to do overdose"
-      ],
-      "label": "If someone is overdosing right now",
-      "route": "#/help"
-    },
-    {
-      "q": [
-        "recovery position",
-        "roll them on their side",
-        "choking on vomit"
-      ],
-      "label": "Overdose response",
-      "route": "#/help",
-      "anchor": "sec-response"
-    },
-    {
-      "q": [
-        "fentanyl test strips",
-        "test strips",
-        "how to test my drugs",
-        "check my drugs",
-        "reagent",
-        "drug checking"
-      ],
-      "label": "Testing your supply",
-      "route": "#/test"
-    },
-    {
-      "q": [
-        "are test strips legal",
-        "test strip legal",
-        "paraphernalia"
-      ],
-      "label": "Where the law actually stands",
-      "route": "#/policy",
-      "anchor": "sec-law"
-    },
-    {
-      "q": [
-        "drink spiked",
-        "spiked my drink",
-        "drink test strips",
-        "roofied",
-        "date rape drug"
-      ],
-      "label": "Drink spiking, honestly",
-      "route": "#/sex",
-      "anchor": "sec-spiking"
-    },
-    {
-      "q": [
-        "prep",
-        "pep",
-        "hiv exposure",
-        "hiv prevention",
-        "post exposure"
-      ],
-      "label": "PrEP, PEP and testing",
-      "route": "#/sex",
-      "anchor": "sec-prep"
-    },
-    {
-      "q": [
-        "morning after pill",
-        "plan b",
-        "emergency contraception",
-        "ella",
-        "copper iud"
-      ],
-      "label": "Emergency contraception",
-      "route": "#/sex",
-      "anchor": "sec-ec"
-    },
-    {
-      "q": [
-        "poppers viagra",
-        "poppers and viagra",
-        "erection pills poppers"
-      ],
-      "label": "The combinations that put people in the hospital",
-      "route": "#/sex",
-      "anchor": "sec-interactions"
-    },
-    {
-      "q": [
-        "consent",
-        "he didnt stop",
-        "she didnt stop",
-        "too high to consent",
-        "did i consent"
-      ],
-      "label": "Consent and making things right",
-      "route": "#/learn",
-      "anchor": "sec-consent"
-    },
-    {
-      "q": [
-        "i hurt someone",
-        "i crossed a line",
-        "made a mistake",
-        "apologize",
-        "repair harm"
-      ],
-      "label": "After you have hurt someone",
-      "route": "#/learn",
-      "anchor": "sec-repair"
-    },
-    {
-      "q": [
-        "someone died",
-        "grief",
-        "lost someone",
-        "my friend died"
-      ],
-      "label": "If someone died",
-      "route": "#/support",
-      "anchor": "grp-grief"
-    },
-    {
-      "q": [
-        "getting out of jail",
-        "leaving prison",
-        "reentry",
-        "just got out",
-        "tolerance after jail"
-      ],
-      "label": "Coming out is the most dangerous time",
-      "route": "#/supervision",
-      "anchor": "sec-reentry"
-    },
-    {
-      "q": [
-        "treatment",
-        "rehab",
-        "detox",
-        "want to stop",
-        "quit",
-        "methadone clinic near me",
-        "suboxone doctor"
-      ],
-      "label": "Finding help",
-      "route": "#/support",
-      "anchor": "grp-help"
-    },
-    {
-      "q": [
-        "i love someone who uses",
-        "my son uses",
-        "my daughter uses",
-        "family support",
-        "my partner uses",
-        "al anon alternative"
-      ],
-      "label": "When it’s someone you love",
-      "route": "#/support",
-      "anchor": "sec-loved"
-    },
-    {
-      "q": [
-        "safe supply",
-        "what is in my drugs",
-        "adulterants",
-        "cuts",
-        "whats in the supply"
-      ],
-      "label": "Why the supply is like this",
-      "route": "#/substances",
-      "anchor": "sec-market"
-    },
-    {
-      "q": [
-        "using alone",
-        "never use alone",
-        "alone hotline",
-        "spotting"
-      ],
-      "label": "Numbers that answer 24/7",
-      "route": "#/help",
-      "anchor": "sec-lines"
-    },
-    {
-      "q": [
-        "syringe program",
-        "needle exchange",
-        "clean needles",
-        "works",
-        "ssp"
-      ],
-      "label": "Getting supplies",
-      "route": "#/support",
-      "anchor": "grp-now"
-    },
-    {
-      "q": [
-        "who do i contact",
-        "contact my representative",
-        "write to congress",
-        "advocacy",
-        "get involved",
-        "donate"
-      ],
-      "label": "Making yourself heard",
-      "route": "#/policy",
-      "anchor": "sec-voice"
-    },
-    {
-      "q": [
-        "is this app private",
-        "do you track me",
-        "privacy",
-        "what do you know about me"
-      ],
-      "label": "What it knows about you",
-      "route": "#/about",
-      "anchor": "sec-privacy"
-    },
-    {
-      "q": [
-        "cant sleep",
-        "havent slept",
-        "up for days",
-        "no sleep for days",
-        "three days no sleep",
-        "sleep deprivation",
-        "staying up"
-      ],
-      "label": "Sleep loss alone will do this eventually",
-      "route": "#/stimulants",
-      "anchor": "sec-hallucination"
-    },
-    {
-      "q": [
-        "seeing things",
-        "hearing things",
-        "hallucinating",
-        "am i hallucinating",
-        "shadow people",
-        "paranoid",
-        "psychosis",
-        "meth psychosis",
-        "losing my mind"
-      ],
-      "label": "What stimulant psychosis looks like",
-      "route": "#/stimulants",
-      "anchor": "sec-psychosis"
-    },
-    {
-      "q": [
-        "my friend is freaking out",
-        "someone is paranoid",
-        "how to calm someone down",
-        "de-escalate",
-        "talking someone down"
-      ],
-      "label": "Helping somebody who is in it",
-      "route": "#/stimulants",
-      "anchor": "sec-helping"
-    },
-    {
-      "q": [
-        "should i call 988",
-        "will they send police",
-        "involuntary hold",
-        "psych hold",
-        "will i get committed",
-        "calling for help risk"
-      ],
-      "label": "What calling for help actually costs",
-      "route": "#/stimulants",
-      "anchor": "sec-calling"
-    },
-    {
-      "q": [
-        "comedown",
-        "crashing",
-        "coming down",
-        "meth comedown",
-        "how long does the crash last"
-      ],
-      "label": "Coming down",
-      "route": "#/stimulants",
-      "anchor": "sec-coming"
-    },
-    {
-      "q": [
-        "mixing",
-        "can i mix",
-        "is it safe to mix",
-        "mixing drugs",
-        "benzos and opioids",
-        "opioids and benzos",
-        "combining drugs"
-      ],
-      "label": "Is this mix dangerous?",
-      "route": "#/substances",
-      "anchor": "sec-checker",
-      "why": "\"Mixing\" used to land on a Test row; the combination checker is the thing that answers it."
-    },
-    {
-      "q": [
-        "overamping",
-        "too much stimulant",
-        "too much speed",
-        "took too much meth"
-      ],
-      "label": "Helping somebody who is in it",
-      "route": "#/stimulants",
-      "anchor": "sec-helping"
-    },
-    {
-      "q": [
-        "heat stroke",
-        "heatstroke",
-        "heat exhaustion",
-        "overheating",
-        "too hot",
-        "overheated",
-        "someone is overheating",
-        "hyperthermia",
-        "body temperature too high"
-      ],
-      "label": "Spotting heat exhaustion and heat stroke",
-      "route": "#/heat",
-      "anchor": "sec-spot",
-      "why": "Overheating is the thing that actually kills people at events, and the word most likely to be typed in a hurry is the plainest one."
-    },
-    {
-      "q": [
-        "how to cool someone down",
-        "cooling someone down",
-        "they are burning up",
-        "what to do heat stroke",
-        "how to help someone overheating"
-      ],
-      "label": "Cooling someone down with what is in the room",
-      "route": "#/heat",
-      "anchor": "sec-cool"
-    },
-    {
-      "q": [
-        "drank too much water",
-        "too much water",
-        "water intoxication",
-        "hyponatremia",
-        "low sodium",
-        "water poisoning",
-        "can you drink too much water",
-        "overhydration",
-        "drinking water on molly",
-        "how much water on mdma"
-      ],
-      "label": "Drinking too much water",
-      "route": "#/heat",
-      "anchor": "sec-water",
-      "why": "'Drink water' is the most repeated piece of party advice there is, and taken literally it kills people."
-    },
-    {
-      "q": [
-        "how much water should i drink",
-        "electrolytes",
-        "dehydrated",
-        "dehydration",
-        "not drinking enough water",
-        "staying hydrated"
-      ],
-      "label": "How much to drink, and what else you need",
-      "route": "#/heat",
-      "anchor": "sec-prevent"
-    }
-  ],
-  "starters": [
-    "If someone is overdosing right now",
-    "Where to get naloxone free",
-    "If you call 911, what happens to you",
-    "Testing your supply",
-    "How long it stays detectable",
-    "Finding help"
-  ],
-  "_startersNote": "Shown in the search panel BEFORE anything is typed. The 35 intents below are hand-written for people who cannot name what they need, and they were invisible until a query happened to match one - opening search showed an empty box. Six, matching the tab bar's own ceiling, ordered by what somebody in trouble needs first rather than by how often it is asked: the emergency, then preventing the next one, then the fear that stops people calling, then testing, supervision, and help. Each must match an intent label exactly; the search test fails if one stops resolving."
+  {
+   "q": [
+    "how long does it stay in your system",
+    "how long does weed stay in your system",
+    "detection window",
+    "how long to pass a drug test",
+    "drug test how long",
+    "how long is it detectable",
+    "urine test how long"
+   ],
+   "label": "How long it stays detectable",
+   "route": "#/supervision",
+   "anchor": "sec-windows"
+  },
+  {
+   "q": [
+    "failed drug test",
+    "positive drug test",
+    "false positive",
+    "contest a drug test",
+    "drug test wrong",
+    "dispute drug test"
+   ],
+   "label": "A positive screen is not a result yet",
+   "route": "#/supervision",
+   "anchor": "sec-rights"
+  },
+  {
+   "q": [
+    "probation",
+    "parole",
+    "violation",
+    "po drug test",
+    "supervision"
+   ],
+   "label": "Drug testing, probation and parole",
+   "route": "#/supervision"
+  },
+  {
+   "q": [
+    "can they make me stop methadone",
+    "methadone probation",
+    "suboxone probation",
+    "court ordered off methadone",
+    "ada methadone"
+   ],
+   "label": "They cannot make you stop your medication",
+   "route": "#/supervision",
+   "anchor": "sec-medication"
+  },
+  {
+   "q": [
+    "free naloxone",
+    "where to get narcan",
+    "naloxone near me",
+    "get narcan free",
+    "naloxone by mail"
+   ],
+   "label": "Where to get naloxone free",
+   "route": "#/learn",
+   "anchor": "sec-naloxone"
+  },
+  {
+   "q": [
+    "overdose",
+    "someone is overdosing",
+    "not breathing",
+    "od",
+    "how to use narcan",
+    "what to do overdose"
+   ],
+   "label": "If someone is overdosing right now",
+   "route": "#/help"
+  },
+  {
+   "q": [
+    "recovery position",
+    "roll them on their side",
+    "choking on vomit"
+   ],
+   "label": "Overdose response",
+   "route": "#/help",
+   "anchor": "sec-response"
+  },
+  {
+   "q": [
+    "fentanyl test strips",
+    "test strips",
+    "how to test my drugs",
+    "check my drugs",
+    "reagent",
+    "drug checking"
+   ],
+   "label": "Testing your supply",
+   "route": "#/test"
+  },
+  {
+   "q": [
+    "are test strips legal",
+    "test strip legal",
+    "paraphernalia"
+   ],
+   "label": "Where the law actually stands",
+   "route": "#/policy",
+   "anchor": "sec-law"
+  },
+  {
+   "q": [
+    "drink spiked",
+    "spiked my drink",
+    "drink test strips",
+    "roofied",
+    "date rape drug"
+   ],
+   "label": "Drink spiking, honestly",
+   "route": "#/sex",
+   "anchor": "sec-spiking"
+  },
+  {
+   "q": [
+    "prep",
+    "pep",
+    "hiv exposure",
+    "hiv prevention",
+    "post exposure"
+   ],
+   "label": "PrEP, PEP and testing",
+   "route": "#/sex",
+   "anchor": "sec-prep"
+  },
+  {
+   "q": [
+    "morning after pill",
+    "plan b",
+    "emergency contraception",
+    "ella",
+    "copper iud"
+   ],
+   "label": "Emergency contraception",
+   "route": "#/sex",
+   "anchor": "sec-ec"
+  },
+  {
+   "q": [
+    "poppers viagra",
+    "poppers and viagra",
+    "erection pills poppers"
+   ],
+   "label": "The combinations that put people in the hospital",
+   "route": "#/sex",
+   "anchor": "sec-interactions"
+  },
+  {
+   "q": [
+    "consent",
+    "he didnt stop",
+    "she didnt stop",
+    "too high to consent",
+    "did i consent"
+   ],
+   "label": "Consent and making things right",
+   "route": "#/learn",
+   "anchor": "sec-consent"
+  },
+  {
+   "q": [
+    "i hurt someone",
+    "i crossed a line",
+    "made a mistake",
+    "apologize",
+    "repair harm"
+   ],
+   "label": "After you have hurt someone",
+   "route": "#/learn",
+   "anchor": "sec-repair"
+  },
+  {
+   "q": [
+    "someone died",
+    "grief",
+    "lost someone",
+    "my friend died"
+   ],
+   "label": "If someone died",
+   "route": "#/support",
+   "anchor": "grp-grief"
+  },
+  {
+   "q": [
+    "getting out of jail",
+    "leaving prison",
+    "reentry",
+    "just got out",
+    "tolerance after jail"
+   ],
+   "label": "Coming out is the most dangerous time",
+   "route": "#/supervision",
+   "anchor": "sec-reentry"
+  },
+  {
+   "q": [
+    "treatment",
+    "rehab",
+    "detox",
+    "want to stop",
+    "quit",
+    "methadone clinic near me",
+    "suboxone doctor"
+   ],
+   "label": "Finding help",
+   "route": "#/support",
+   "anchor": "grp-help"
+  },
+  {
+   "q": [
+    "i love someone who uses",
+    "my son uses",
+    "my daughter uses",
+    "family support",
+    "my partner uses",
+    "al anon alternative"
+   ],
+   "label": "When it’s someone you love",
+   "route": "#/support",
+   "anchor": "sec-loved"
+  },
+  {
+   "q": [
+    "safe supply",
+    "what is in my drugs",
+    "adulterants",
+    "cuts",
+    "whats in the supply"
+   ],
+   "label": "Why the supply is like this",
+   "route": "#/substances",
+   "anchor": "sec-market"
+  },
+  {
+   "q": [
+    "using alone",
+    "never use alone",
+    "alone hotline",
+    "spotting"
+   ],
+   "label": "Numbers that answer 24/7",
+   "route": "#/help",
+   "anchor": "sec-lines"
+  },
+  {
+   "q": [
+    "syringe program",
+    "needle exchange",
+    "clean needles",
+    "works",
+    "ssp"
+   ],
+   "label": "Getting supplies",
+   "route": "#/support",
+   "anchor": "grp-now"
+  },
+  {
+   "q": [
+    "who do i contact",
+    "contact my representative",
+    "write to congress",
+    "advocacy",
+    "get involved",
+    "donate"
+   ],
+   "label": "Making yourself heard",
+   "route": "#/policy",
+   "anchor": "sec-voice"
+  },
+  {
+   "q": [
+    "is this app private",
+    "do you track me",
+    "privacy",
+    "what do you know about me"
+   ],
+   "label": "What it knows about you",
+   "route": "#/about",
+   "anchor": "sec-privacy"
+  },
+  {
+   "q": [
+    "cant sleep",
+    "havent slept",
+    "up for days",
+    "no sleep for days",
+    "three days no sleep",
+    "sleep deprivation",
+    "staying up"
+   ],
+   "label": "Sleep loss alone will do this eventually",
+   "route": "#/stimulants",
+   "anchor": "sec-hallucination"
+  },
+  {
+   "q": [
+    "seeing things",
+    "hearing things",
+    "hallucinating",
+    "am i hallucinating",
+    "shadow people",
+    "paranoid",
+    "psychosis",
+    "meth psychosis",
+    "losing my mind"
+   ],
+   "label": "What stimulant psychosis looks like",
+   "route": "#/stimulants",
+   "anchor": "sec-psychosis"
+  },
+  {
+   "q": [
+    "my friend is freaking out",
+    "someone is paranoid",
+    "how to calm someone down",
+    "de-escalate",
+    "talking someone down"
+   ],
+   "label": "Helping somebody who is in it",
+   "route": "#/stimulants",
+   "anchor": "sec-helping"
+  },
+  {
+   "q": [
+    "should i call 988",
+    "will they send police",
+    "involuntary hold",
+    "psych hold",
+    "will i get committed",
+    "calling for help risk"
+   ],
+   "label": "What calling for help actually costs",
+   "route": "#/stimulants",
+   "anchor": "sec-calling"
+  },
+  {
+   "q": [
+    "comedown",
+    "crashing",
+    "coming down",
+    "meth comedown",
+    "how long does the crash last"
+   ],
+   "label": "Coming down",
+   "route": "#/stimulants",
+   "anchor": "sec-coming"
+  },
+  {
+   "q": [
+    "mixing",
+    "can i mix",
+    "is it safe to mix",
+    "mixing drugs",
+    "benzos and opioids",
+    "opioids and benzos",
+    "combining drugs"
+   ],
+   "label": "Is this mix dangerous?",
+   "route": "#/substances",
+   "anchor": "sec-checker",
+   "why": "\"Mixing\" used to land on a Test row; the combination checker is the thing that answers it."
+  },
+  {
+   "q": [
+    "overamping",
+    "too much stimulant",
+    "too much speed",
+    "took too much meth"
+   ],
+   "label": "Helping somebody who is in it",
+   "route": "#/stimulants",
+   "anchor": "sec-helping"
+  },
+  {
+   "q": [
+    "heat stroke",
+    "heatstroke",
+    "heat exhaustion",
+    "overheating",
+    "too hot",
+    "overheated",
+    "someone is overheating",
+    "hyperthermia",
+    "body temperature too high"
+   ],
+   "label": "Spotting heat exhaustion and heat stroke",
+   "route": "#/heat",
+   "anchor": "sec-spot",
+   "why": "Overheating is the thing that actually kills people at events, and the word most likely to be typed in a hurry is the plainest one."
+  },
+  {
+   "q": [
+    "how to cool someone down",
+    "cooling someone down",
+    "they are burning up",
+    "what to do heat stroke",
+    "how to help someone overheating"
+   ],
+   "label": "Cooling someone down with what is in the room",
+   "route": "#/heat",
+   "anchor": "sec-cool"
+  },
+  {
+   "q": [
+    "drank too much water",
+    "too much water",
+    "water intoxication",
+    "hyponatremia",
+    "low sodium",
+    "water poisoning",
+    "can you drink too much water",
+    "overhydration",
+    "drinking water on molly",
+    "how much water on mdma"
+   ],
+   "label": "Drinking too much water",
+   "route": "#/heat",
+   "anchor": "sec-water",
+   "why": "'Drink water' is the most repeated piece of party advice there is, and taken literally it kills people."
+  },
+  {
+   "q": [
+    "how much water should i drink",
+    "electrolytes",
+    "dehydrated",
+    "dehydration",
+    "not drinking enough water",
+    "staying hydrated"
+   ],
+   "label": "How much to drink, and what else you need",
+   "route": "#/heat",
+   "anchor": "sec-prevent"
+  },
+  {
+   "q": [
+    "black market",
+    "street drugs",
+    "why is fentanyl in everything",
+    "why is the supply so strong",
+    "why is it cut",
+    "what is my drug cut with",
+    "why do drugs get stronger",
+    "unregulated supply",
+    "drug market"
+   ],
+   "label": "Why the supply is like this",
+   "route": "#/supply",
+   "anchor": "sec-strength",
+   "why": "People ask why the supply is the way it is far more often than they ask what to do about it, and there was nowhere for that question to land."
+  },
+  {
+   "q": [
+    "counterfeit pills",
+    "fake pills",
+    "fake percocet",
+    "pressed pills",
+    "is my pill real",
+    "how to tell if a pill is fake",
+    "m30 pill",
+    "fake xanax",
+    "pill imprint"
+   ],
+   "label": "Pills that look like pharmacy pills",
+   "route": "#/supply",
+   "anchor": "sec-pills",
+   "why": "The most common form of “can you check this for me” the app cannot answer — and the answer is that appearance is not evidence, which needs saying explicitly."
+  },
+  {
+   "q": [
+    "dark web drugs",
+    "ordering drugs online",
+    "buying drugs online",
+    "is it safer to buy online",
+    "drugs from another country",
+    "imported drugs",
+    "nitazenes",
+    "lab tested vendor",
+    "vendor reviews"
+   ],
+   "label": "When it comes from another country",
+   "route": "#/supply",
+   "anchor": "sec-abroad",
+   "why": "Somebody typing this is usually looking for reassurance that a distant supply is a cleaner one. It is not — it is a different set of adulterants, and often one the strips they own cannot see."
+  }
+ ],
+ "starters": [
+  "If someone is overdosing right now",
+  "Where to get naloxone free",
+  "If you call 911, what happens to you",
+  "Testing your supply",
+  "How long it stays detectable",
+  "Finding help"
+ ],
+ "_startersNote": "Shown in the search panel BEFORE anything is typed. The 35 intents below are hand-written for people who cannot name what they need, and they were invisible until a query happened to match one - opening search showed an empty box. Six, matching the tab bar's own ceiling, ordered by what somebody in trouble needs first rather than by how often it is asked: the emergency, then preventing the next one, then the fear that stops people calling, then testing, supervision, and help. Each must match an intent label exactly; the search test fails if one stops resolving."
 }

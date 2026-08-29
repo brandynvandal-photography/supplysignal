@@ -20,6 +20,7 @@ published. It does not verify, advise, or clear anything as safe.
 | **Alerts** | Published supply warnings for a county, plus every bordering county, with distance. Cross-state by construction. |
 | **Test** | How to use fentanyl, xylazine, benzodiazepine and nitazene strips, and eight reagents — with each tool's documented limits. |
 | **Substances** | Dose, duration, tolerance, and a **combination checker** covering 841 substance-pair interactions. |
+| **Supply** | Why an unregulated supply behaves the way it does: 13 mechanisms in 6 groups, covering potency, adulterants, counterfeit pills, and supply from other countries. Mechanics only — it explains the market and helps nobody buy in it. |
 | **Help** | Overdose response, naloxone access, 24/7 hotlines, and what this site does and does not know about you. |
 
 ---

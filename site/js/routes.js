@@ -30,6 +30,7 @@ export const PATHS = {
   after: "after",
   heat: "heat",
   emerging: "emerging",
+  supply: "supply",
   policy: "policy",
   supervision: "supervision",
   sex: "sex",

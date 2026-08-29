@@ -39,7 +39,6 @@ const PAGES = [
   { file: "sex.json",        route: "#/sex",         kind: "Sex and being out" },
   { file: "stimulants.json", route: "#/stimulants",  kind: "Staying up" },
   { file: "heat.json",       route: "#/heat",        kind: "Heat and water" },
-  { file: "market.json",     route: "#/substances",  kind: "Drugs" },
   { file: "conditions.json", route: "#/substances",  kind: "Drugs" },
   { file: "rx.json",         route: "#/substances",  kind: "Drugs" },
 ];
@@ -143,6 +142,28 @@ for (const page of PAGES) {
   }
   walk(doc, page, null);
 }
+
+/* market.json walks on its own, because the generic walker cannot give it the
+   right anchors.
+ *
+ * anchorFor() maps a file's TOP-LEVEL key to one id, which works everywhere
+ * else because those pages are a flat set of named sections. The supply page is
+ * two levels: six groups, each with its own id, each holding several blocks -
+ * so every block's anchor depends on which group it sits in, not on the key it
+ * hangs off. Walked generically, all thirteen blocks came out with topKey
+ * "groups" and no anchor at all, and views.test caught every one of them
+ * landing at the top of the page.
+ *
+ * Both levels are indexed. Somebody types "counterfeit pills" and wants the
+ * block; somebody types "black market" and wants the group. */
+try {
+  const m = JSON.parse(await readFile(path.join(DATA, "market.json"), "utf8"));
+  for (const g of m.groups || []) {
+    if (!g?.id) continue;
+    add(g.headline, "#/supply", "Supply", g.id);
+    for (const b of g.blocks || []) add(b.title, "#/supply", "Supply", g.id);
+  }
+} catch { /* not built yet is not fatal, same as any other page above */ }
 
 /* Substances, with their aliases. This is the largest single contributor and
    the one people use most - somebody arriving with a name in their head. */

@@ -789,7 +789,21 @@ async function countyView({ fips, days }, { go, data }) {
   const regional = await regionalForState(c.state, c.name);
   if (regional) {
     wrap.appendChild(
-      section("Common in this region", "From national drug-checking data", regional)
+      section("Common in this region", "From national drug-checking data", regional,
+        /* The regional fingerprint answers "what turns up around here" and
+           immediately raises the one it cannot: why that list is not the same
+           list it was a year ago. Adulterants turn over faster than any of the
+           reporting behind this block, and a reader who takes these rows as a
+           current inventory of the local supply has read them as more than they
+           are. The supply page is where that is spelled out, so it is linked
+           from directly underneath rather than left to be found. */
+        h("a", { class: "nbr", href: "#/supply", "data-reveal": "sec-batch" },
+          h("span", { class: "nbr__text" },
+            h("span", { class: "nbr__name" }, "Why this changes, and faster than it is reported"),
+            h("span", { class: "nbr__sub nbr__sub--wrap" },
+              "What is in a local supply turns over in months; the reporting "
+              + "behind it runs weeks to years behind")),
+          h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "\u203a"))))
     );
   }
 
@@ -875,7 +889,18 @@ function notHere(c, nearCount, win, everScanned) {
       "That does not mean the supply here is safe. Most changes in a local drug " +
       "supply are never announced by anyone, and the reporting that does happen " +
       "runs weeks behind. Read this as “no information”, not “no risk”."),
-    nearLine);
+    nearLine,
+    /* The empty state is where "no information" is hardest to sit with, and
+       where a reader is most likely to fill the silence themselves. The supply
+       page is the one place that says why a local supply changes without
+       anyone announcing it - which is the actual answer to the question this
+       screen leaves open. Last, so it never comes between the warning and the
+       bordering-county count. */
+    h("a", { class: "bigptr", href: "#/supply" },
+      h("span", { class: "bigptr__hd" }, "Why a local supply changes without anyone saying so"),
+      h("span", { class: "bigptr__sub" },
+        "What makes an unregulated supply behave this way, and why reporting "
+        + "always runs behind it.")));
 }
 
 /**

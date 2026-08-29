@@ -87,7 +87,7 @@ export async function starters() {
   const WHERE = {
     "#/help": "Emergency", "#/alerts": "Alerts", "#/test": "Test",
     "#/substances": "Drugs", "#/learn": "Learn", "#/support": "Support",
-    "#/policy": "Policy", "#/supervision": "Supervision", "#/sex": "Sex",
+    "#/supply": "Supply", "#/policy": "Policy", "#/supervision": "Supervision", "#/sex": "Sex",
     "#/stimulants": "Staying up", "#/heat": "Heat", "#/after": "After",
     "#/about": "About",
   };

@@ -63,7 +63,7 @@ export async function render(route, ctx) {
      "fast" app spends a metered connection on nothing. */
   const warmIndex = !route.id;
   const pre = warmIndex
-    ? [data.rx(), data.conditions(), data.market(), data.regional(), import("../regional.js")]
+    ? [data.rx(), data.conditions(), data.regional(), import("../regional.js")]
     /* A detail page is the ONLY thing that renders reagent colors, so it is
        the only route that pays for that bundle - started here so it arrives
        alongside the drug list instead of after it. A class page renders
@@ -118,7 +118,7 @@ async function indexView(subs, combosP, { go }) {
       { id: "sec-checker", label: "Is this mix dangerous?" },
       { id: "grp-yours", label: "Your situation" },
       { id: "sec-food", label: "Food and drink" },
-      { id: "sec-market", label: "In your region" },
+      { id: "sec-market", label: "Why the supply is like this" },
     ]));
 
   /* ---- search ---- */
@@ -268,7 +268,7 @@ async function indexView(subs, combosP, { go }) {
   if (regional) wrap.appendChild(regional);
   const uncAttr = await uncAttribution();
 
-  wrap.appendChild(await marketBlock());
+  wrap.appendChild(marketPointer());
 
   const attrSlot = h("div");
   wrap.appendChild(attrSlot);
@@ -293,52 +293,33 @@ async function indexView(subs, combosP, { go }) {
   return wrap;
 }
 
-/* Why an unregulated supply behaves the way it does.
+/* A pointer to /supply, where the mechanics of an unregulated supply now live.
  *
- * Every other section of this app tells someone WHAT to do. This one explains
- * why, and it earns its place because the rules stick better when the
- * mechanism behind them is visible: "assume a new batch is stronger" is an
- * instruction, but "micrograms cannot be mixed evenly by hand" is a reason.
+ * This used to render the whole explainer inline, as a collapsed `details` at
+ * the foot of this page. It outgrew that twice over. It is now thirteen
+ * mechanisms in six groups - too much to sit folded under one summary on the
+ * page a reader opened to look up a drug - and, more to the point, it is the
+ * only part of the app that explains WHY the rest of the advice says what it
+ * says. That should not be reachable only by someone who scrolled to the
+ * bottom of Drugs and thought to open a box.
  *
- * The hard boundary, and the reason this is written from data rather than
- * improvised: it explains the market and helps nobody buy in it. No
- * marketplaces, no vendors, no sourcing, no advice on avoiding detection while
- * purchasing. Mechanics, not logistics. Anything added here that would help a
- * person acquire drugs rather than understand them does not belong. */
-async function marketBlock() {
-  const m = await data.market();
-  if (!m) return h("span");
-
-  return h("details", { class: "disc", id: "sec-market" },
-    h("summary", null, h("h2", null, m.headline)),
-    h("div", { class: "disc__body" },
-      /* No intro line. It said the section exists to give the reasoning behind
-         the rules - which is what the four mechanisms below do, at length and
-         with sources, immediately underneath. Opening a section by explaining
-         what the section is for delays the first real sentence by a paragraph,
-         and the heading already carries it: somebody who opened "Why the supply
-         is like this" knows why they opened it. */
-      frag(m.blocks.map((b) =>
-        h("div", { class: "card" },
-          h("h3", null, b.title),
-          h("p", null, b.body),
-          b.sotu ? h("p", { class: "sec__note" }, b.sotu) : null,
-          b.sources?.length
-            ? h("div", { class: "sources" }, b.sources.map((x) => extLink(x.url, x.name)))
-            : null))),
-
-      callout("info", m.close.title, h("p", null, m.close.body)),
-
-      /* The omission, said out loud. A reader who came looking for sourcing
-         deserves to know it is absent on purpose rather than concluding the
-         page is half-finished - and the reason is honest: none of it would
-         make them safer. */
-      m.scope
-        ? h("p", { class: "sec__note" },
-            h("strong", null, m.scope.title + " "), m.scope.body)
-        : null,
-
-      checkedLine("Checked", m.lastVerified)));
+ * So the content moved to its own section and this is the doorway. It keeps
+ * the `sec-market` id because the jump chip and everything else that points
+ * here uses it, and it is a real section with a heading so the chip has
+ * something to land on.
+ *
+ * The one-line summary is not decoration: a bare "read more" link asks the
+ * reader to spend a tap on faith. Saying what is on the other side is what
+ * makes the tap worth it. */
+function marketPointer() {
+  return h("div", { id: "sec-market" },
+    section("Why the supply is like this", null,
+      h("a", { class: "bigptr", href: "#/supply" },
+        h("span", { class: "bigptr__hd" }, "What makes an unregulated supply behave this way"),
+        h("span", { class: "bigptr__sub" },
+          "Why it keeps getting stronger, why two bags off one batch differ, "
+          + "why a pill that looks right proves nothing, and why coming from "
+          + "another country is a different set of unknowns rather than fewer."))));
 }
 
 /** One substance row. Shared by search results and class listings so the two
