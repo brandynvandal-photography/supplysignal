@@ -73,7 +73,14 @@ const server = createServer(async (req, res) => {
 
     const body = await readFile(target);
     res.writeHead(200, {
-      "content-type": TYPES[path.extname(file)] || "application/octet-stream",
+      /* TARGET, not `file`. An app route has no extension - /supply, /policy,
+         /alerts - so extname() on the REQUEST returned "" and every one of
+         them was served as application/octet-stream. Browsers download an
+         octet-stream instead of rendering it, so no route could be opened
+         locally at all; only /site/index.html worked, because that path
+         happens to end in .html. `target` is the file actually being sent,
+         which is what the header is supposed to describe. */
+      "content-type": TYPES[path.extname(target)] || "application/octet-stream",
       // The whole point.
       "cache-control": "no-store, no-cache, must-revalidate, max-age=0",
       pragma: "no-cache",
