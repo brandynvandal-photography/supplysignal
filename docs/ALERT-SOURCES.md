@@ -255,11 +255,21 @@ Socrata. 872 records, most recent `death_date` **2026-07-06** (~5.5 weeks) —
 the second-freshest in the tier. Free-text `cause_of_death`. Carries
 age/race/gender/ZIP/lat/lon, so the same `$select` discipline applies.
 
-### 2.5 Not yet checked
+### 2.5 Milwaukee and Sacramento — CHECKED 2026-08-14, both publish nothing
 
-Milwaukee and Sacramento are named by the survey paper and were **not** verified
-in this sweep. They are the obvious next two to try, and the cheapest remaining
-work in this tier.
+Named by the survey paper, not verified in the original sweep, and checked
+since: a Socrata catalog search over both counties' domains returns **zero**
+overdose or medical-examiner datasets. Whatever the JAMIA survey saw is not
+public today.
+
+This heading said "Not yet checked" for fifteen days after the check was run
+and recorded in §6, so the same two counties sat in the backlog as the cheapest
+remaining work in this tier while being neither cheap nor remaining. Corrected
+2026-08-29.
+
+Worth a re-probe at some point — a county can start publishing, and neither
+result here is permanent — but that is speculative work, not the open lead it
+was listed as.
 
 ---
 
@@ -1021,26 +1031,41 @@ discovery tool, not a source list.
   entirely. It cannot produce a current alert until they publish again.
   Asking them for a live feed remains the highest-value action.
 
+**Done since, and struck from the list below (reconciled 2026-08-29):**
+
+- ~~**Verify Milwaukee and Sacramento.**~~ Checked 2026-08-14; both publish
+  nothing. See §2.5, which was itself corrected in the same pass — it had gone
+  on saying "not yet checked" for fifteen days after the check.
+- ~~**Scrape Philadelphia PDPH.**~~ Shipped. `src/sources/philly.mjs`, config
+  entry `pa-pdph` under `scrapers` (enabled, verified 2026-08-15: 24 labelled
+  anchors, 16 dated, 3 inside a 365-day window), dispatched from
+  `src/ingest.mjs`. It is the project's only HTML-scraped alert source.
+
+Both sat in the list as open work after the work was finished, which is the
+expensive kind of stale: the list's whole job is to say what to do next, and
+following it would have meant re-doing a Socrata sweep and re-writing a scraper
+that already runs hourly.
+
 **Still open, in order:**
 
-3. **Ask UNC / StreetSafe for a machine-readable feed.** Biggest coverage gain
+1. **Ask UNC / StreetSafe for a machine-readable feed.** Biggest coverage gain
    for the least work — the best drug-checking data in the country, no public
    API (§4). One email. **A draft is ready in `docs/OUTREACH.md`**, addressed to
    opioiddatalab@unc.edu (a lab inbox, verified 2026-08-14), with the current
    state of their published data checked so the message does not ask for
    something that already exists. Not sent — it needs signing as yourself.
-4. **Verify Milwaukee and Sacramento**, the two counties named in the JAMIA
-   survey that have not been checked. If either matches the Cook or Allegheny
-   shape it is a config entry, no new code.
-5. **Scrape Philadelphia PDPH**, whose PDF naming convention is regular enough
-   to make it tractable, and which is a genuine alert product rather than
-   mortality data.
-6. **Contact SOAR and King County** as partners rather than scraping them.
-7. **Schedule a Socrata Discovery sweep** so new county datasets surface on
-   their own instead of being found by hand.
+2. **Contact SOAR and King County** as partners rather than scraping them.
+   Neither appears anywhere in `config/sources.json` or `src/sources/`, so this
+   is untouched.
+3. **Schedule a Socrata Discovery sweep** so new county datasets surface on
+   their own instead of being found by hand. No script and no workflow exists
+   for this yet. It is also what would have caught §2.5 drifting: a standing
+   sweep re-answers "does this county publish anything" on a schedule, instead
+   of one person answering it once and the note going stale.
 
-Steps 4 and 5 are the ones that put alerts on more county pages. Everything
-above them is cheaper; everything below is slower.
+All three need a human or a new script; none is a config entry. The cheap
+config-entry work in this tier is finished, which is worth saying plainly,
+because the previous version of this list implied otherwise.
 
 ---
 
