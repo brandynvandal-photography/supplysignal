@@ -34,6 +34,7 @@
 //   node scripts/build-regional.mjs
 
 import { writeFileSync } from "node:fs";
+import { stableStamp } from "./stable.mjs";
 
 const SRC =
   "https://opioiddatalab.github.io/dataviz/regional/regional_drugs_infographic.html";
@@ -116,7 +117,8 @@ const payload = {
   substances,
 };
 
-writeFileSync("data/regional.json", JSON.stringify(payload));
+writeFileSync("data/regional.json",
+  JSON.stringify(stableStamp("data/regional.json", payload)));
 
 const kb = (Buffer.byteLength(JSON.stringify(payload)) / 1024).toFixed(0);
 console.log(`substances: ${substances.length}`);

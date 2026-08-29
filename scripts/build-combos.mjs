@@ -22,6 +22,7 @@
 //   node scripts/build-combos.mjs
 
 import { writeFileSync } from "node:fs";
+import { stableStamp } from "./stable.mjs";
 
 const RAW = "https://raw.githubusercontent.com/TripSit/drugs/main";
 
@@ -328,7 +329,8 @@ const payload = {
   food: FOOD,
 };
 
-writeFileSync("data/combos.json", JSON.stringify(payload));
+writeFileSync("data/combos.json",
+  JSON.stringify(stableStamp("data/combos.json", payload)));
 
 const covered = drugList.filter((d) => d.cats.length).length;
 const kb = (Buffer.byteLength(JSON.stringify(payload)) / 1024).toFixed(0);

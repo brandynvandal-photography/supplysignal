@@ -18,6 +18,7 @@
 //   node scripts/build-mortality.mjs
 
 import { readFileSync, writeFileSync } from "node:fs";
+import { stableStamp } from "./stable.mjs";
 
 const API = "https://data.cdc.gov/resource/gb4e-yj24.json";
 const UA = "Nightlight/1.0 (public health harm reduction; +https://nightlight.help)";
@@ -236,7 +237,8 @@ const payload = {
   counties,
 };
 
-writeFileSync("data/mortality.json", JSON.stringify(payload));
+writeFileSync("data/mortality.json",
+  JSON.stringify(stableStamp("data/mortality.json", payload)));
 
 const kb = (Buffer.byteLength(JSON.stringify(payload)) / 1024).toFixed(0);
 console.log(

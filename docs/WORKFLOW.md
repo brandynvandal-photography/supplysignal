@@ -124,8 +124,44 @@ the ASC web UI.
 - Nothing is packaged that was not shipped (trace gate).
 - Every TestFlight build is in the ledger with the tree it packaged, under
   the number App Store Connect gave it (upload truth).
-- The bot's data is never overwritten by a deploy, in either environment.
+- The bot's data is never overwritten by a deploy **or by a commit**, in
+  either environment. See below.
 - Staging is never indexed.
+
+## Never commit `data/` from a stale clone (2026-08-29)
+
+The refresh bot rebuilds six reference datasets weekly and commits them.
+Twice, a hand-written commit about something else swept a stale working copy of
+`data/` along with it and reverted the bot's work:
+
+| when | what | effect |
+|---|---|---|
+| 2026-08-17 05:57 | `refresh: reference data` | six datasets rebuilt |
+| 2026-08-18 14:32 | a commit about `ship.mjs` | five of them reverted |
+| 2026-08-24 05:59 | `refresh: reference data` | six datasets rebuilt |
+| 2026-08-24 14:33 | a commit about a workflow | six of them reverted |
+
+Nothing was lost either time — upstream had published nothing, so the only
+reverted bytes were timestamps. That is precisely why it went unnoticed for
+eleven days, and precisely why it would have gone unnoticed on a week when
+something *was* published.
+
+**The structural half of the fix is in place.** `scripts/stable.mjs` keeps a
+rebuilt dataset byte-identical when the payload has not changed, so the weekly
+no-op commit no longer exists and there is nothing routine to revert.
+`test/stable.test.mjs` holds it, and holds the rule that every dataset
+`refresh.yml` rebuilds goes through it.
+
+**The human half is a habit.** Before committing anything that touches `data/`:
+
+```bash
+git pull --rebase origin main
+git status --short data/     # expect nothing you did not mean to change
+```
+
+If `data/` shows modified files you did not deliberately rebuild, do not stage
+them. `git restore data/` and commit only your own work. `git add -A` in this
+repository is how both incidents above happened.
 
 ## The offline policy, decided once (2026-08-19)
 
