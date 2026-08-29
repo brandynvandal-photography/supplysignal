@@ -1,69 +1,162 @@
 {
- "note": "HAND-WRITTEN. Explains the MECHANICS of an unregulated supply — why potency varies, why adulterants appear, why the same source is not the same product. Deliberately contains NOTHING that helps anyone buy: no marketplaces, no vendor guidance, no sourcing, no advice on avoiding detection while purchasing. That line is the difference between harm reduction and a buying guide.",
- "lastVerified": "2026-08-11",
+ "note": "HAND-WRITTEN. Explains the MECHANICS of an unregulated supply — why potency varies, why adulterants appear, why the same source is not the same product, and why a supply from somewhere else is a different set of unknowns rather than fewer. Deliberately contains NOTHING that helps anyone buy: no marketplaces, no vendors, no sourcing, no shipping or customs guidance, no advice on avoiding detection while purchasing. That line is the difference between harm reduction and a buying guide.",
+ "lastVerified": "2026-08-29",
  "headline": "Why the supply is like this",
- "blocks": [
+ "blurb": "Every other part of this app says what to do. This part says why. The rules stick better when the mechanism behind them is visible: “assume a new batch is stronger” is an instruction, and “micrograms cannot be mixed evenly by hand” is a reason.",
+ "groups": [
   {
-   "title": "Enforcement pushes drugs toward stronger, smaller forms",
-   "body": "This has a name: the Iron Law of Prohibition. When a supply is squeezed, the economics favor whatever is most compact — a trafficker faces roughly the same penalty for a small package as a large one, so potency per unit of volume goes up. That is the path the US market has taken: prescription pills to heroin, heroin to fentanyl, and now fentanyl to nitazenes. Each step is smaller, stronger, and harder to dose.",
-   "sotu": "It also explains why cracking down on one drug so reliably produces a stronger replacement, rather than less supply.",
-   "sources": [
+   "id": "sec-strength",
+   "headline": "Why it keeps getting stronger",
+   "blocks": [
     {
-     "name": "Beletsky & Davis — Prohibition’s Iron Law, revisited (Int J Drug Policy, 2017)",
-     "url": "https://doi.org/10.1016/j.drugpo.2017.05.050"
+     "title": "Enforcement pushes drugs toward stronger, smaller forms",
+     "body": "This has a name: the Iron Law of Prohibition. When a supply is squeezed, the economics favor whatever is most compact — a trafficker faces roughly the same penalty for a small package as a large one, so potency per unit of volume goes up. That is the path the US market has taken: prescription pills to heroin, heroin to fentanyl, and now fentanyl to nitazenes. Each step is smaller, stronger, and harder to dose.",
+     "sotu": "It also explains why cracking down on one drug so reliably produces a stronger replacement, rather than less supply.",
+     "sources": [
+      {
+       "name": "Beletsky & Davis — Prohibition’s Iron Law, revisited (Int J Drug Policy, 2017)",
+       "url": "https://doi.org/10.1016/j.drugpo.2017.05.050"
+      }
+     ]
+    },
+    {
+     "title": "A disruption changes what is on the street, not how much",
+     "body": "When a supply line is interrupted — an arrest, a seizure, a source going quiet — demand does not pause with it. What fills the gap is whatever can be got there fastest, and it is rarely the same chemical at the same strength. The dangerous stretch is the days right after, when everybody's usual amount is being measured against something that is not what it was measured on.",
+     "sotu": "If your source changed, or what you have looks or feels different, treat it as a first time even if you have used for years.",
+     "sources": [
+      {
+       "name": "UNODC — World Drug Report",
+       "url": "https://www.unodc.org/unodc/en/data-and-analysis/world-drug-report.html"
+      }
+     ]
     }
    ]
   },
   {
-   "title": "Potency is an accident of mixing, not a recipe",
-   "body": "Fentanyl is active in microgram amounts. Mixing micrograms evenly through a kilogram of powder is an industrial process, and this is not an industrial process. What reaches you was cut and re-cut by people without equipment to do it evenly, so two bags off the same batch can differ, and so can two ends of the same bag.",
-   "sotu": "This is the whole reason “start with much less than usual” is the first rule, and why testing a dissolved portion of everything beats testing a pinch.",
-   "sources": [
+   "id": "sec-batch",
+   "headline": "Why two bags are not the same",
+   "blocks": [
     {
-     "name": "NIDA — Fentanyl",
-     "url": "https://nida.nih.gov/research-topics/fentanyl"
+     "title": "Potency is an accident of mixing, not a recipe",
+     "body": "Fentanyl is active in microgram amounts. Mixing micrograms evenly through a kilogram of powder is an industrial process, and this is not an industrial process. What reaches you was cut and re-cut by people without equipment to do it evenly, so two bags off the same batch can differ, and so can two ends of the same bag.",
+     "sotu": "This is the whole reason “start with much less than usual” is the first rule, and why testing a dissolved portion of everything beats testing a pinch.",
+     "sources": [
+      {
+       "name": "NIDA — Fentanyl",
+       "url": "https://nida.nih.gov/research-topics/fentanyl"
+      }
+     ]
+    },
+    {
+     "title": "What is in a local supply turns over faster than anyone can report it",
+     "body": "Adulterants are not stable. Xylazine spread across the eastern US over a few years; medetomidine turned up in several cities within months of first being identified; nitazenes appear in one region and not the next one over. Drug checking and health department reporting both run weeks to months behind that, and most changes are never published by anyone at all.",
+     "sotu": "Which is why an alerts page showing nothing for your county means nobody has published — never that nothing has changed.",
+     "sources": [
+      {
+       "name": "UNC Street Drug Analysis Lab",
+       "url": "https://www.opioiddata.org/"
+      }
+     ]
     }
    ]
   },
   {
-   "title": "Adulterants are added for reasons that have nothing to do with you",
-   "body": "Xylazine lengthens a short fentanyl high, which makes a supply feel more like heroin and reduces how often someone needs to buy. Levamisole and lidocaine bulk out cocaine and mimic its numbing. Caffeine and diphenhydramine are cheap filler. None of these are chosen for effect on the person taking them — they are chosen for cost, weight, and how the product behaves in a market.",
-   "sotu": "Which is why the adulterant in your supply can change without anything about your source changing.",
-   "sources": [
+   "id": "sec-cuts",
+   "headline": "What gets added, and why",
+   "blocks": [
     {
-     "name": "DEA — Fentanyl",
-     "url": "https://www.dea.gov/factsheets/fentanyl"
+     "title": "Adulterants are added for reasons that have nothing to do with you",
+     "body": "Xylazine lengthens a short fentanyl high, which makes a supply feel more like heroin and reduces how often someone needs to buy. Levamisole and lidocaine bulk out cocaine and mimic its numbing. Caffeine and diphenhydramine are cheap filler. None of these are chosen for effect on the person taking them — they are chosen for cost, weight, and how the product behaves in a market.",
+     "sotu": "Which is why the adulterant in your supply can change without anything about your source changing.",
+     "sources": [
+      {
+       "name": "DEA — Fentanyl",
+       "url": "https://www.dea.gov/factsheets/fentanyl"
+      }
+     ]
     }
    ]
   },
   {
-   "title": "A trusted source is not a quality control system",
-   "body": "The person selling to you is usually near the end of a long chain and did not make what they are selling. They can be completely honest with you and still not know what is in it — most people at that end of the chain are using the same supply themselves. Trust tells you about a person. It tells you nothing about a batch.",
-   "sotu": "This is the single most common way people are caught out: the supply changed, the source did not.",
-   "sources": []
-  },
-  {
-   "title": "Ratings and “lab tested” claims are not verification",
-   "body": "Buying through a screen adds review scores, vendor histories and sometimes a photographed lab report — the visual furniture of a regulated market. None of it is verification. A rating measures whether previous orders arrived and matched a description, which is a delivery record, not a chemical one. A lab report can be real and still describe a different batch than the one in your hand, or belong to someone else entirely, or be edited.",
-   "sotu": "Every earlier point on this page still applies: the person selling is rarely the person who made it, potency still varies within a batch, and nobody in the chain tested what you received.",
-   "sources": []
-  },
-  {
-   "title": "Counterfeit pills are the sharpest version of this",
-   "body": "A pressed pill looks finished and identical to the next one, which is exactly what makes it dangerous — it carries the visual signals of a regulated product with none of the process behind them. Pill presses do not distribute a microgram-scale drug evenly, so within a single batch one pill can hold a survivable amount and the next several times that.",
-   "sotu": "An imprint, a color, and a shape can all be copied. None of them are evidence of what is inside.",
-   "sources": [
+   "id": "sec-source",
+   "headline": "Why nobody in the chain can vouch for it",
+   "blocks": [
     {
-     "name": "DEA — Fentanyl",
-     "url": "https://www.dea.gov/factsheets/fentanyl"
+     "title": "A trusted source is not a quality control system",
+     "body": "The person selling to you is usually near the end of a long chain and did not make what they are selling. They can be completely honest with you and still not know what is in it — most people at that end of the chain are using the same supply themselves. Trust tells you about a person. It tells you nothing about a batch.",
+     "sotu": "This is the single most common way people are caught out: the supply changed, the source did not.",
+     "sources": []
+    },
+    {
+     "title": "Ratings and “lab tested” claims are not verification",
+     "body": "Buying through a screen adds review scores, vendor histories and sometimes a photographed lab report — the visual furniture of a regulated market. None of it is verification. A rating measures whether previous orders arrived and matched a description, which is a delivery record, not a chemical one. A lab report can be real and still describe a different batch than the one in your hand, or belong to someone else entirely, or be edited.",
+     "sotu": "Every earlier point on this page still applies: the person selling is rarely the person who made it, potency still varies within a batch, and nobody in the chain tested what you received.",
+     "sources": []
     }
    ]
   },
   {
-   "title": "Distance does not change the chemistry",
-   "body": "It is easy to believe a supply that arrives in the mail is cleaner than one bought in person — better presented, more anonymous, further from anyone you might blame. The adulterants that matter get added early, near production, long before anything is packaged or listed. Where the last handover happened does not change what is in the powder.",
-   "sotu": "Which is why a sample you did not test yourself is an unknown regardless of how it reached you.",
-   "sources": []
+   "id": "sec-pills",
+   "headline": "Pills that look like pharmacy pills",
+   "blocks": [
+    {
+     "title": "Counterfeit pills are the sharpest version of this",
+     "body": "A pressed pill looks finished and identical to the next one, which is exactly what makes it dangerous — it carries the visual signals of a regulated product with none of the process behind them. Pill presses do not distribute a microgram-scale drug evenly, so within a single batch one pill can hold a survivable amount and the next several times that.",
+     "sotu": "An imprint, a color, and a shape can all be copied. None of them are evidence of what is inside.",
+     "sources": [
+      {
+       "name": "DEA — Fentanyl",
+       "url": "https://www.dea.gov/factsheets/fentanyl"
+      }
+     ]
+    },
+    {
+     "title": "An imprint is a logo, not a certificate",
+     "body": "M30, a K-number, the scoring on a benzodiazepine bar — these are the marks of a particular pharmaceutical, and they are put there by whoever owns the press. Dies are bought, copied and reused. A pill that matches a reference photo tells you somebody had the right die. Color, weight, and how cleanly it breaks are copied the same way.",
+     "sotu": "There is no look-at-it check that separates a pressed pill from a pharmacy one. If it did not come from a pharmacy in its own packaging, appearance is not evidence of anything.",
+     "sources": [
+      {
+       "name": "DEA — One Pill Can Kill",
+       "url": "https://www.dea.gov/onepill"
+      }
+     ]
+    },
+    {
+     "title": "Half a pill is not half a dose",
+     "body": "Splitting a pressed pill assumes the active drug is spread evenly through it, and even mixing at microgram scale is the one thing a press like that cannot do. The active portion can sit anywhere in the tablet. Halving lowers how much you take on average across many pills; it does not lower the worst case in the one in your hand.",
+     "sotu": "Starting with much less still helps — it works by taking less overall and waiting, not by dividing a pill you cannot see inside.",
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "sec-abroad",
+   "headline": "When it comes from another country",
+   "blocks": [
+    {
+     "title": "Distance does not change the chemistry",
+     "body": "It is easy to believe a supply that arrives in the mail is cleaner than one bought in person — better presented, more anonymous, further from anyone you might blame. The adulterants that matter get added early, near production, long before anything is packaged or listed. Where the last handover happened does not change what is in the powder.",
+     "sotu": "Which is why a sample you did not test yourself is an unknown regardless of how it reached you.",
+     "sources": []
+    },
+    {
+     "title": "Another country is a different set of unknowns, not fewer",
+     "body": "Unregulated supplies differ by region, because production and the routes into a place differ. The US supply is shaped by fentanyl and, more recently, by xylazine and medetomidine. The UK and parts of Europe have seen nitazenes — a family of synthetic opioids, some of them more potent than fentanyl — show up in heroin, in counterfeit benzodiazepine tablets, and in what was sold as oxycodone. Somewhere else is not a cleaner version of the same supply. It is a different supply, with its own adulterants and often less local drug checking to describe them.",
+     "sotu": "This is also where your usual check can quietly stop working: strips are matched to particular chemicals, and a fentanyl strip does not see nitazenes.",
+     "sources": [
+      {
+       "name": "EUDA — European Drug Report",
+       "url": "https://www.euda.europa.eu/publications/european-drug-report_en"
+      }
+     ]
+    },
+    {
+     "title": "Where something came from is a claim you cannot check",
+     "body": "Origin is the easiest thing to assert and the hardest thing to confirm. A country, a lab, a batch number — all of it reaches you through the same chain the drug did, and none of it can be tested for. There is no check available to you that returns where a powder was made, which means origin can never be the thing you lean on.",
+     "sotu": "What you can actually check works the same regardless of what you were told: a strip, a reagent, a much smaller first dose, and somebody with you.",
+     "sources": []
+    }
+   ]
   }
  ],
  "close": {
@@ -71,7 +164,7 @@
   "body": "None of it is a reason to give up, and none of it makes anything safe. But it does point at four things that genuinely lower your odds: assume a new batch is stronger than the last one, test what you can, start with much less than you mean to take, and don't be alone. Nobody is handing those down as rules — they are just what everything above works out to in practice."
  },
  "scope": {
-  "title": "What you won't find here",
-  "body": "Where to buy, who to buy from, and how not to get caught. Not because anyone here is squeamish about it, but because none of it would keep you safer. Every risk on this page comes from what is in the drugs, and where you got them does not change what is in them. Testing, dose, and not being alone do."
+  "title": "What you won’t find here",
+  "body": "Where to buy, who to buy from, how to have it sent, and how not to get caught. Not because anyone here is squeamish about it, but because none of it would keep you safer. Every risk on this page comes from what is in the drugs, and neither where you got them nor how far they traveled changes what is in them. Testing, dose, and not being alone do."
  }
 }

@@ -208,6 +208,7 @@ const SCREENS = [
   ["heat", {}],
   ["after", {}],
   ["emerging", {}],
+  ["supply", {}],
   ["about", {}],
   ["donate", {}],
   ["help", {}],

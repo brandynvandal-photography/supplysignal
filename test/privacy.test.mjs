@@ -222,7 +222,10 @@ check("no page-naming dataset is fetched on its own", () => {
   /* Exactly one fetch template may interpolate a name, and topics must not
      reach it - they are served from loadTopics() before that line. */
   if (!/TOPICS\.has\(name\)/.test(dataJs)) return "load() no longer routes topics to the bundle";
-  const sensitive = ["sex", "supervision", "consent", "after", "communities", "policy"];
+  const sensitive = ["sex", "supervision", "consent", "after", "communities", "policy",
+    /* market.json backs /supply. "IP -> read the page about the drug market"
+       is the same class of record as the probation page, so it bundles too. */
+    "market"];
   const missing = sensitive.filter((x) => !topics.has(x));
   return missing.length ? `not bundled: ${missing.join(", ")}` : null;
 });
