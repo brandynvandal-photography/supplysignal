@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-29T10:09:29.205Z",
+  "generated": "2026-08-29T16:40:18.271Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -13510,7 +13510,7 @@
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-08-29T10:09:29.095Z"
+      "t": "2026-08-29T16:40:18.270Z"
     },
     "42005": {
       "n": "Armstrong County",
@@ -13853,7 +13853,7 @@
       "s": "PA",
       "c": 1,
       "sev": "critical",
-      "t": "2026-08-29T10:09:29.077Z"
+      "t": "2026-08-29T16:40:18.267Z"
     },
     "42103": {
       "n": "Pike County",
