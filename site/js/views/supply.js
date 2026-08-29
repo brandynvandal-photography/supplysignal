@@ -62,11 +62,22 @@ export async function render() {
   const wrap = h("div");
   wrap.appendChild(h("h1", null, m.headline));
 
+  /* SHORT chip labels, carried in the data as `chip` rather than reusing the
+     headline.
+   *
+   * They were the headlines, on the reasoning that two names for one section is
+   * how a jump nav starts lying about where it goes. Rendered at 390px that was
+   * plainly wrong: "Why it keeps getting stronger" alone filled the strip and
+   * the other five chips sat off-screen, so the nav pointed at one section and
+   * hid the existence of the rest. Every other page in the app already labels
+   * chips short and distinct from the heading - supervision's "A positive
+   * screen", policy's "Calling 911" - and this is why.
+   *
+   * Falls back to the headline so a group added without a chip still renders a
+   * working chip rather than an empty one. */
   wrap.appendChild(jumpNav(m.groups.map((g) => ({
     id: g.id,
-    /* The group headline is the chip label. Two names for one section is how a
-       jump nav starts lying about where it goes. */
-    label: g.headline,
+    label: g.chip || g.headline,
   }))));
 
   /* The opener is a scope note that warns of nothing, so it is worn as .intro

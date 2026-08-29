@@ -7,6 +7,7 @@
   {
    "id": "sec-strength",
    "headline": "Why it keeps getting stronger",
+   "chip": "Getting stronger",
    "blocks": [
     {
      "title": "Enforcement pushes drugs toward stronger, smaller forms",
@@ -35,6 +36,7 @@
   {
    "id": "sec-batch",
    "headline": "Why two bags are not the same",
+   "chip": "Two bags differ",
    "blocks": [
     {
      "title": "Potency is an accident of mixing, not a recipe",
@@ -63,6 +65,7 @@
   {
    "id": "sec-cuts",
    "headline": "What gets added, and why",
+   "chip": "What gets added",
    "blocks": [
     {
      "title": "Adulterants are added for reasons that have nothing to do with you",
@@ -80,6 +83,7 @@
   {
    "id": "sec-source",
    "headline": "Why nobody in the chain can vouch for it",
+   "chip": "Who can vouch",
    "blocks": [
     {
      "title": "A trusted source is not a quality control system",
@@ -98,6 +102,7 @@
   {
    "id": "sec-pills",
    "headline": "Pills that look like pharmacy pills",
+   "chip": "Pressed pills",
    "blocks": [
     {
      "title": "Counterfeit pills are the sharpest version of this",
@@ -132,6 +137,7 @@
   {
    "id": "sec-abroad",
    "headline": "When it comes from another country",
+   "chip": "From abroad",
    "blocks": [
     {
      "title": "Distance does not change the chemistry",
