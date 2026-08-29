@@ -42,6 +42,7 @@
  */
 
 import { writeFile, mkdir } from "node:fs/promises";
+import { stableStamp } from "./stable.mjs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -248,7 +249,7 @@ const doc = {
 };
 
 await mkdir(path.dirname(OUT), { recursive: true });
-await writeFile(OUT, JSON.stringify(doc, null, 2));
+await writeFile(OUT, JSON.stringify(stableStamp(OUT, doc), null, 2));
 
 console.log(`first detections (Canada): ${doc.firstDetections.length}`);
 console.log(`public alerts (US):        ${doc.alerts.length}`);

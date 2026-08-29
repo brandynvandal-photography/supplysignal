@@ -21,6 +21,7 @@
 //   node scripts/build-substances.mjs
 
 import { writeFileSync } from "node:fs";
+import { stableStamp } from "./stable.mjs";
 
 const PW_API = "https://api.psychonautwiki.org/";
 const FDA_API = "https://api.fda.gov/drug/label.json";
@@ -229,7 +230,8 @@ const payload = {
   substances,
 };
 
-writeFileSync("data/substances.json", JSON.stringify(payload));
+writeFileSync("data/substances.json",
+  JSON.stringify(stableStamp("data/substances.json", payload)));
 
 const withDose = substances.filter((s) => s.roas.some((r) => r.dose)).length;
 const withDanger = substances.filter((s) => s.interactions.dangerous.length).length;
