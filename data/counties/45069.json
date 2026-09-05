@@ -4,12 +4,14 @@
   "state": "SC",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-26T20:10:27.222Z",
+    "lastScan": "2026-09-05T23:01:53.858Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
+      "de-dhss",
       "la-ldh",
       "cook-me",
+      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
