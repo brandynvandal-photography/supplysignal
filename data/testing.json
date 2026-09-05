@@ -109,7 +109,7 @@
         "negative": "TWO lines",
         "invalid": "No lines, or only a line on the end you dipped",
         "explain": "The strip works by competition: fentanyl in the sample blocks the test line from forming. The drug being present makes a line disappear.",
-        "faintLine": "A second line can be very faint and still count as negative. A faint line may also appear and then fade — wait the full three minutes before deciding."
+        "faintLine": "A second line can be very faint and still count as negative. A faint line may also appear and then fade — wait the full time for your strip, above, before deciding."
       },
       "procedure": [
         "Dissolve the drug in water. How much water depends on the drug and the brand of strip — see below.",
@@ -247,7 +247,8 @@
           "name": "Ontario Drug Checking Community — FTS performance",
           "url": "https://drugchecking.community/wp-content/uploads/dlm_uploads/2026/01/Fentanyl-test-strip-performance-assessment-v1_ODCC-1.pdf"
         }
-      ]
+      ],
+      "readCeilingSeconds": 600
     },
     {
       "id": "xylazine",
@@ -292,7 +293,8 @@
           "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12236865/"
         }
       ],
-      "accuracy": "A 2022 evaluation got 20 of 20 xylazine-positive samples right — but on strips that were not commercially available. Across seven brands you can actually buy, detection limits vary by more than double, with BTNX among the weaker ones. Levamisole, a common cocaine adulterant, causes false positives from 0.5 mg/mL."
+      "accuracy": "A 2022 evaluation got 20 of 20 xylazine-positive samples right — but on strips that were not commercially available. Across seven brands you can actually buy, detection limits vary by more than double, with BTNX among the weaker ones. Levamisole, a common cocaine adulterant, causes false positives from 0.5 mg/mL.",
+      "readCeilingSeconds": 600
     },
     {
       "id": "benzodiazepine",
@@ -1630,7 +1632,9 @@
             "water": "2 mL of clean water — about half a teaspoon.",
             "note": "Nothing to weigh: the residue is the sample. Rinse it around and test the rinse."
           }
-        }
+        },
+        "dipSeconds": 15,
+        "waitSeconds": 300
       },
       {
         "id": "lochness-fentanyl",
@@ -1730,7 +1734,9 @@
             "water": "2 mL of clean water — about half a teaspoon.",
             "note": "Nothing to weigh: the residue is the sample. Rinse it around and test the rinse."
           }
-        }
+        },
+        "dipSeconds": 15,
+        "waitSeconds": 300
       },
       {
         "id": "whpm-fentanyl",
@@ -1820,7 +1826,9 @@
             "water": "2 mL of clean water — about half a teaspoon.",
             "note": "Nothing to weigh: the residue is the sample. Rinse it around and test the rinse."
           }
-        }
+        },
+        "dipSeconds": 15,
+        "waitSeconds": 180
       },
       {
         "id": "bunk-fentanyl",
@@ -1906,7 +1914,9 @@
             "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
             "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
           }
-        ]
+        ],
+        "dipSeconds": 15,
+        "waitSeconds": 180
       },
       {
         "id": "grassroots-fentanyl",
@@ -1996,7 +2006,9 @@
             "name": "Assessment of two brands of fentanyl test strips with 251 synthetic opioids (Harm Reduct J, 2023)",
             "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10702106/"
           }
-        ]
+        ],
+        "dipSeconds": 15,
+        "waitSeconds": 180
       },
       {
         "id": "btnx-xylazine",
@@ -2042,7 +2054,9 @@
             "water": "2 mL of clean water — about half a teaspoon.",
             "note": "Nothing to weigh: the residue is the sample. Rinse it around and test the rinse."
           }
-        }
+        },
+        "dipSeconds": 15,
+        "waitSeconds": 300
       }
     ],
     "gap": "Wondfo, DetectaChem and MD-Bio are not listed as we have not verified instructions at this time.",

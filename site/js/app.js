@@ -1442,7 +1442,13 @@ function reveal(anchor, label, wantRoute) {
      resolver was narrower than the app. Widened to what the app actually
      renders as a title, and test/views.test.mjs now mirrors this list so the
      two cannot drift apart again. */
-  const HEADINGS = "#view h1, #view h2, #view h3, #view h4, #view h5, #view summary, #view .lbl";
+  /* .answer joined on 2026-09-05. Each screen now opens on its one sentence
+     (see answerLine in ui.js), and on Test that sentence USED to be the h2
+     inside .intro - so a search result indexed against "Testing finds red
+     flags" stopped resolving the moment it was promoted. It is still a title
+     in every sense that matters here: it is the first thing on the page and
+     landing on it puts the reader exactly where the result promised. */
+  const HEADINGS = "#view h1, #view h2, #view h3, #view h4, #view h5, #view summary, #view .lbl, #view .answer";
   const findByText = () => {
     const nodes = document.querySelectorAll(HEADINGS);
     for (const n of nodes) {

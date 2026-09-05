@@ -46,6 +46,7 @@
     "privacy": "No guardamos ni vendemos ninguno de tus datos. ✕ borra este dispositivo y sobrescribe el botón de retroceso. Una ventana privada es la única forma de no dejar rastro, ya que no podemos borrar el historial de tu navegador."
   },
   "alerts": {
+    "answer": "Son avisos que otras personas ya publicaron. Un condado sin nada no es un condado donde no pasa nada: la mayor\u00eda de los cambios en un suministro local nunca se anuncian.",
     "heading": "Qué está apareciendo cerca de ti",
     "intro": "Avisos publicados por departamentos de salud, medios locales y laboratorios de análisis — para tu condado y los que lo rodean. El suministro cruza los límites de los condados, así que ambos importan. Busca una ciudad o un condado para empezar.",
     "searchLabel": "Buscar una ciudad o un condado",

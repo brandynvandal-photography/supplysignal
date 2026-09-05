@@ -13,10 +13,11 @@
 
 import {
   h, frag, clear, section, callout, badge, extLink, empty, disclosure, jumpNav,
-  group, sourceSink, SEV_GLYPH, checkedLine,} from "../ui.js";
+  group, sourceSink, SEV_GLYPH, checkedLine, answerLine, stepper,} from "../ui.js";
 import * as data from "../data.js";
 import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
 import { paintBar } from "../reagentcolor.js";
+import { countdown, mmss, readAt } from "../clock.js";
 import { liveRegion, dropRow, slotLabel, removeButton, relabelRows } from "../slots.js";
 
 export async function render(route, ctx) {
@@ -30,6 +31,12 @@ export async function render(route, ctx) {
   const wrap = h("div");
 
   wrap.appendChild(h("h1", null, "Test your supply"));
+
+  /* The framing headline, promoted out of the .intro below and no longer
+     printed twice. It was already the sentence this whole tab exists to make -
+     it was just arriving after the jump strip, which is to say after the reader
+     had been asked to choose a destination. */
+  wrap.appendChild(answerLine(g.framing.headline));
 
   wrap.appendChild(
     /* One chip per top-level section, in page order. It had accumulated one
@@ -67,7 +74,8 @@ export async function render(route, ctx) {
      the page worth slightly less. */
   wrap.appendChild(
     h("div", { class: "intro" },
-      h("h2", null, g.framing.headline),
+      /* The headline is the answer line at the top of the page now, so this
+         block keeps only what it adds: the mechanism behind it. */
       h("p", null, g.framing.ruleInRuleOut))
   );
 
@@ -104,7 +112,7 @@ export async function render(route, ctx) {
          answer were the same for every strip - and then the section below
          quietly said it was not. Two answers to one question on one screen is
          worse than either answer alone. */
-      brandPicker(g.brands),
+      brandPicker(g.brands, g.strips),
       /* The one-line-means-positive panel is gone too. It sat directly above
          the strip diagram that shows exactly this, labelled. */
       /* BOTH AT BODY SIZE. The faint-line rule was .sec__note - the tier this
@@ -157,6 +165,16 @@ export async function render(route, ctx) {
            still meets it. The steps start at the first step. */
         h("ol", { class: "steps" },
           g.procedure.map((p) => h("li", null, h("h4", null, p.title), h("p", null, p.body)))),
+
+        /* THE SAME SEVEN STEPS, ONE AT A TIME, for somebody actually doing it.
+           The list above is untouched and stays the default - see the note in
+           ui.js: emptying it into the stepper would recreate the closed bug
+           where a reader met the procedure without the acid warning.
+
+           g.safety.ppe rides into every step. It is the line that gets somebody
+           hurt if it is missed at the wrong second, and one step here is "one
+           drop, and never touch the sample with the bottle". */
+        stepper(g.procedure, { always: g.safety?.ppe, label: "Walk me through it" }),
 
         h("div", { class: "card" },
           h("h3", null, "If it gets on you"),
@@ -889,7 +907,119 @@ function reagentCard(r) {
  *
  * Session-only: two selects whose values nothing writes down.
  */
-function brandPicker(brands) {
+/* What a brand's wait line says beyond the number, if anything. Returns null
+   when the sentence is only a duration - see the call site. */
+function waitCondition(wait) {
+  if (!wait) return null;
+  const rest = String(wait)
+    .replace(/^\s*wait\s+[\w.]+\s+minutes?\s*/i, "")
+    .replace(/^[,\s—-]+/, "")
+    .trim();
+  if (!rest || rest === ".") return null;
+  const text = rest.charAt(0).toUpperCase() + rest.slice(1);
+  return h("p", { class: "sec__note" }, text.endsWith(".") ? text : `${text}.`);
+}
+
+/* The strip clock, for the brand currently selected.
+ *
+ * TWO PRESSES, NEVER AN AUTO-ADVANCE. The dip ends and the card says so; it
+ * does not start the wait on its own. That is the WCAG 2.2.1 line described in
+ * clock.js - the timer may follow a chemical reaction, it may not move the
+ * interface underneath somebody. It is also just true to the act: the app has
+ * no idea when the strip actually came out of the liquid, and pretending it
+ * does would put a countdown on screen that is wrong by however long the reader
+ * took to notice.
+ *
+ * THE WALL-CLOCK TIME IS THE POINT. "You took it out at 7:42 - read at 7:47"
+ * is the one thing here that still works after the app is killed, the battery
+ * dies, or the phone is taken. The countdown is the convenience; that line is
+ * the safety net, so it is printed as soon as the wait starts and it stays.
+ *
+ * Renders fully disarmed. No interval exists until a press, which is also what
+ * lets test/views.test.mjs render this card against a DOM shim that has no
+ * setInterval at all. */
+function waitClock(b, strip) {
+  if (!b?.waitSeconds || !b?.dipSeconds) return null;
+
+  const readout = h("p", { class: "clock__t" }, `${mmss(b.dipSeconds)}`);
+  const line = h("p", { class: "clock__line" });
+  const wrap = h("div", { class: "card clock" });
+
+  const btn = (label, onClick) =>
+    h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick }, label);
+
+  const action = h("div", { class: "clock__act" });
+
+  /* Stage 2: the wait. Past zero it keeps counting UP rather than resting at
+     0:00 - a strip that has been out for nine minutes is a different situation
+     from one that has just finished, and a frozen 0:00 says nothing about
+     which. Past the strip's published ceiling it prints that strip's own
+     sentence, which is the only ceiling any source here states. */
+  const startWait = () => {
+    const at = new Date();
+    line.textContent =
+      `Out at ${readAt(at, 0)} \u2014 read at ${readAt(at, b.waitSeconds)}.`;
+    clear(action);
+    const c = countdown({
+      seconds: b.waitSeconds,
+      el: wrap,
+      onPaint: ({ remaining, elapsed, over }) => {
+        if (!over) { readout.textContent = mmss(remaining); wrap.dataset.stage = "waiting"; return; }
+        wrap.dataset.stage = "ready";
+        readout.textContent = `Read it now \u2014 ${mmss(elapsed - b.waitSeconds)} past`;
+        const ceiling = strip?.readCeilingSeconds;
+        if (ceiling && elapsed > ceiling) {
+          wrap.dataset.stage = "stale";
+          readout.textContent = `${mmss(elapsed)} since you took it out`;
+          line.textContent = strip.procedure?.find?.((p) =>
+            /after \d+ minutes|within \d+ minutes/i.test(JSON.stringify(p)))?.body
+            || line.textContent;
+        }
+      },
+    });
+    c.start();
+  };
+
+  /* Stage 1: the dip. */
+  const startDip = () => {
+    clear(action);
+    action.appendChild(h("p", { class: "sec__note" }, "Hold it in for the count."));
+    const c = countdown({
+      seconds: b.dipSeconds,
+      el: wrap,
+      onPaint: ({ remaining, over }) => {
+        readout.textContent = over ? "Take it out" : mmss(remaining);
+        wrap.dataset.stage = over ? "dipped" : "dipping";
+        if (over) {
+          c.stop();
+          clear(action);
+          action.appendChild(btn("I took it out \u2014 start the wait", startWait));
+        }
+      },
+    });
+    c.start();
+  };
+
+  action.appendChild(btn(`Start the ${b.dipSeconds}-second dip`, startDip));
+
+  wrap.appendChild(frag(
+    h("h4", null, "Time it"),
+    readout,
+    line,
+    action,
+    /* THE CONDITION, NOT THE DURATION.
+       A clock is an assertion and its caveat has to travel with it - but the
+       caveat is the part the number cannot carry. "Wait 3 minutes" printed
+       under a 3:00 countdown, one row below a table that already says it, reads
+       as a rendering bug. What the clock genuinely cannot say is HOW to wait:
+       face up on a flat surface, lying flat. So the duration clause is dropped
+       and whatever the brand adds after it is kept. Brands that add nothing
+       (BTNX's bare "Wait 5 minutes.") get nothing here, which is correct. */
+    waitCondition(b.wait)));
+  return wrap;
+}
+
+function brandPicker(brands, strips) {
   const items = brands?.items || [];
   if (!items.length) return null;
 
@@ -943,6 +1073,19 @@ function brandPicker(brands) {
             row("Dip", b.dip),
             row("Do not dip past", b.dipLimit),
             row("Wait", b.wait)))),
+
+      /* THE CLOCK. See site/js/clock.js for why this is the one place in the
+         app that gets a timer, and for everything it deliberately does not do.
+         Built here rather than in ui.js because ui.js is pure builders with no
+         lifecycle and should stay that way.
+
+         b.maker and b.wait stay above it, verbatim, and that is not an
+         accident: Bunk Police's maker line says their older DARK BLUE strips
+         are BTNX and take the BTNX timing instead, and WHPM's wait line says
+         face up on a flat surface. A clock that reaches zero is an assertion,
+         not a caveat somebody skims - so the caveat has to be adjacent to it,
+         exactly as it is in the table. */
+      waitClock(b, (strips || []).find((x) => x.id === b.strip)),
 
       d.note ? h("p", { class: "sec__note" }, d.note) : null,
       d.sources ? sourceRow(d.sources) : null,

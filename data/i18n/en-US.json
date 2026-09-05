@@ -45,6 +45,7 @@
     "privacy": "We do not save or sell any of your data. ✕ clears this device and overwrites the back button. A private window is the only way to leave no trace, as we cannot erase your browser history."
   },
   "alerts": {
+    "answer": "These are warnings other people already published. A county with nothing in it is not a county with nothing going on \u2014 most changes in a local supply are never announced.",
     "heading": "What's showing up near you",
     "intro": "Warnings published by health departments, local reporting, and drug-checking labs — for your county and the ones around it. Supply moves across county lines, so both matter. Search a city or a county to start.",
     "searchLabel": "Search for a city or county",
