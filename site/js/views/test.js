@@ -42,6 +42,12 @@ export async function render(route, ctx) {
        Each chip sits exactly where its section sits. */
     jumpNav([
       { id: "sec-strips", label: "Test strips" },
+      /* Second, because that is where the section is. sec-reagents lives
+         inside the "Reagent testing" group, and jumpTo opens every ancestor
+         details on the way, so a chip may point at a nested section - what it
+         may not do is appear out of DOM order, which views.test.mjs checks and
+         which reads as a broken chip even when it works. */
+      { id: "sec-reagents", label: "Reagents" },
       { id: "sec-companion", label: "Whatever the test says" },
       { id: "sec-prevalence", label: "What's out there" },
       /* The GROUP, not the first section inside it. The chip is labelled
