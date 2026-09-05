@@ -4,12 +4,13 @@
   "state": "NY",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-26T10:04:11.857Z",
+    "lastScan": "2026-09-05T17:30:01.247Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
+      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
