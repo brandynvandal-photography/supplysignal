@@ -4,11 +4,12 @@
   "state": "TN",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-05T17:30:01.197Z",
+    "lastScan": "2026-09-05T20:28:08.771Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
+      "grassroots-hr",
       "cook-me",
       "allegheny-me",
       "santaclara-me",

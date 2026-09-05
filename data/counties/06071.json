@@ -4,11 +4,12 @@
   "state": "CA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-05T17:30:01.205Z",
+    "lastScan": "2026-09-05T20:28:08.777Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
+      "grassroots-hr",
       "cook-me",
       "allegheny-me",
       "santaclara-me",
