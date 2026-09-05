@@ -236,6 +236,128 @@ export function badge(text, kind = "neutral") {
  * already guarded on lastVerified and several are not, and a bare "Checked"
  * with nothing after it would be worse than the line not being there.
  */
+/**
+ * THE ONE SENTENCE THE PAGE IS FOR, above everything else on it.
+ *
+ * Measured on 2026-09-05, the first thing a reader met on Drugs, Test, Learn and
+ * Support was the jump strip: a title, then a row of chips, then sections. They
+ * met NAVIGATION before they met a fact, and had to pick a destination to find
+ * out what the page could tell them. Emergency was the exception and is the
+ * model - "Call 911. Give naloxone if you have it. Stay with them." arrives
+ * before anything asks the reader to choose.
+ *
+ * So each screen now opens on its answer. Not a summary of the page and not a
+ * welcome: the single thing somebody would be worse off not knowing, said
+ * before they are asked to do anything.
+ *
+ * QUIET, NOT LOUD. This is deliberately not a callout. A callout means "danger
+ * here" and this appears on every screen; making them all shout would flatten
+ * the difference between a page opener and the reagent acid warning. It reads
+ * as the page's first sentence, set slightly larger, and nothing else.
+ *
+ * WHERE THE WORDS COME FROM. Four of the five are copy the app already carried
+ * somewhere lower down - testing's framing headline, education's intro, the
+ * support letter, the "nothing published is not the same as safe" line from
+ * i18n. Promoting an existing sentence is preferred to writing a new one: it is
+ * already reviewed, and a page whose opener contradicts its body is the failure
+ * this is supposed to prevent.
+ */
+/**
+ * ONE STEP AT A TIME, over a list that is already on the page.
+ *
+ * Built for the reagent procedure, which is the other thing on this site that
+ * is genuinely performed rather than read: seven steps, done with one hand,
+ * against a surface, with an acid open. A reader working through it on a phone
+ * has to hold their place in a seven-item list while looking away from the
+ * screen, and loses it every time.
+ *
+ * WHAT THIS IS CAREFUL NOT TO DO.
+ *
+ * It does not MOVE the list. The steps stay rendered where they are and this is
+ * an alternative view of them, toggled on. There is a finding recorded in
+ * views/test.js from when the procedure and the safety card were separate
+ * sections: "a reader who opened the procedure got the steps without the acid
+ * warning." Emptying the list into a stepper reopens exactly that, one layer
+ * down, for anybody who never presses the button.
+ *
+ * It never advances itself. Every move is a press. See clock.js for the same
+ * rule and the reason - WCAG 2.2.1, and the fact that this readership is
+ * impaired by definition.
+ *
+ * It remembers nothing. The index lives in a closure and dies with the view,
+ * like every other piece of state in this app.
+ *
+ * `always` is the line that must be true at every step - the acid warning for
+ * the reagent run. It is REPEATED into each step rather than pinned above them,
+ * because a sticky region cannot be scrolled away on a small screen and is
+ * invisible to a screen reader, which reads DOM order and has no gesture for
+ * "the part that is stuck". Repetition is the accessible form of "this is
+ * always true".
+ */
+export function stepper(items, opts = {}) {
+  const list = (items || []).filter(Boolean);
+  if (list.length < 2) return null;
+  const always = opts.always || null;
+  const label = opts.label || "Walk me through it";
+
+  const body = h("div", { class: "stepper__body" });
+  const count = h("p", { class: "stepper__count" });
+  const wrap = h("div", { class: "stepper", hidden: true });
+  let at = 0;
+
+  const paint = () => {
+    const item = list[at];
+    count.textContent = `Step ${at + 1} of ${list.length}`;
+    clear(body);
+    body.appendChild(frag(
+      h("h4", null, item.title),
+      h("p", null, item.body),
+      always ? h("p", { class: "stepper__always" }, always) : null));
+    prev.disabled = at === 0;
+    next.disabled = at === list.length - 1;
+  };
+
+  const move = (by) => () => {
+    at = Math.min(list.length - 1, Math.max(0, at + by));
+    paint();
+    /* Focus the new step so a screen reader and a keyboard user both land on
+       the thing that changed, rather than staying on a button whose label did
+       not move. */
+    if (body.focus) body.focus();
+  };
+
+  const prev = h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: move(-1) }, "Back");
+  const next = h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick: move(1) }, "Next");
+
+  wrap.appendChild(frag(
+    count,
+    h("div", { class: "stepper__pane", tabindex: "-1" }, body),
+    h("div", { class: "stepper__nav" }, prev, next)));
+
+  /* PAINTED AT BUILD, not on first open. Hidden content that does not exist is
+     invisible to the browser's own find-in-page and to anything that walks the
+     document, and it made the always-line absent from the DOM until somebody
+     pressed a button - which is the opposite of "always". The panel is hidden;
+     its contents are real. */
+  paint();
+
+  const toggle = h("button", { type: "button", class: "btn btn--ghost btn--sm" }, label);
+  toggle.onClick = null;
+  toggle.addEventListener("click", () => {
+    const showing = !wrap.hidden;
+    wrap.hidden = showing;
+    toggle.textContent = showing ? label : "Show all steps";
+    if (!showing) { at = 0; paint(); }   // reopening starts at step one
+  });
+
+  return frag(h("div", { class: "stepper__open" }, toggle), wrap);
+}
+
+export function answerLine(text, ...rest) {
+  if (!text) return null;
+  return h("p", { class: "answer" }, text, ...rest.filter(Boolean));
+}
+
 export function checkedLine(label, date, ...rest) {
   if (!date) return null;
   return h("p", { class: "sec__note" },

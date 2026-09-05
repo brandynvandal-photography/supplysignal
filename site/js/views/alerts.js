@@ -7,8 +7,7 @@
  * silently merged into the home county's numbers. */
 
 import {
-  h, frag, clear, section, empty, callout, sevBadge, badge, extLink, relTime, isoDate, ageBand,
-} from "../ui.js";
+  h, frag, clear, section, empty, callout, sevBadge, badge, extLink, relTime, isoDate, ageBand, answerLine,} from "../ui.js";
 import { t } from "../i18n.js";
 import { countNew, lastVisit, FALLBACK_DAYS } from "../seen.js";
 
@@ -87,6 +86,17 @@ async function pickerView(route, { go, data }) {
     h("div", { class: "county-head" },
       h("h1", null, t("alerts.heading")))
   );
+
+  /* WHAT AN EMPTY COUNTY MEANS, said before the reader searches rather than
+     after they come back with nothing.
+     
+     The app already carried this claim - it is alerts.notHereBody, and it only
+     appeared once somebody had already searched and found silence. But the
+     reading that gets somebody hurt is formed BEFORE the search: a person who
+     believes this page can tell them their county is clear will read an empty
+     result as an all-clear. The welcome block above says what the app is, and
+     shows on a first visit only; this says what the results mean, every time. */
+  wrap.appendChild(answerLine(t("alerts.answer")));
 
   wrap.appendChild(viewToggle("list", go));
 

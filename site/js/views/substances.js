@@ -12,7 +12,7 @@
 
 import {
   h, frag, clear, section, callout, badge, extLink, empty, englishOnlyNotice, group,
-  jumpNav, disclosure, sourcesDisclosure, skeleton, SEV_GLYPH, checkedLine,} from "../ui.js";
+  jumpNav, disclosure, sourcesDisclosure, skeleton, SEV_GLYPH, checkedLine, answerLine,} from "../ui.js";
 import * as data from "../data.js";
 import { CLASSES, classInfo, groupAll } from "../taxonomy.js";
 import { draw as drawStructure } from "../structure.js";
@@ -103,6 +103,14 @@ async function indexView(subs, combosP, { go }) {
   const wrap = h("div");
   wrap.appendChild(h("h1", null, "Drugs"));
   { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
+
+  /* The comment below used to say this page never told a reader what it was,
+     and then went straight to the jump strip anyway. This is what it was
+     missing - and it is the honest limit of the whole tab, said first rather
+     than discovered later. */
+  wrap.appendChild(answerLine(
+    "Nothing here can tell you what is in your bag. It can tell you what a drug "
+    + "does, and what it should never be mixed with."));
 
   /* This page never said what it was. Every other tab opens by telling you,
      and this is the one people arrive at holding a name they half-remember. */

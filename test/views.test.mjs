@@ -225,6 +225,115 @@ function walkEls(root) {
   return out;
 }
 
+/* EVERY TAB OPENS ON ITS ANSWER, BEFORE IT OPENS ON NAVIGATION.
+ *
+ * Measured before this existed: Drugs, Test, Learn and Support all rendered a
+ * title, then the jump strip, then sections - so the first thing a reader met
+ * was a row of destinations to choose between rather than a single fact. Only
+ * Emergency led with the answer, and Emergency is the one nobody had to be told
+ * to get right.
+ *
+ * So: each top-level screen carries exactly one .answer, and it comes before
+ * any jump nav in DOM order. Emergency is exempt because its opener IS the
+ * answer already - "Call 911. Give naloxone if you have it. Stay with them." -
+ * in an .intro--urgent block that does the same job louder, and wrapping that
+ * in a second element would say it twice. */
+const EN = JSON.parse(readFileSync(path.join(ROOT, "data/i18n/en-US.json"), "utf8"));
+const ANSWER_SCREENS = ["alerts", "substances", "test", "learn", "support"];
+{
+  const problems = [];
+  for (const name of ANSWER_SCREENS) {
+    let node;
+    try {
+      const mod = await import(`../site/js/views/${name}.js`);
+      node = await mod.render({}, ctx);
+    } catch (e) { problems.push(`${name} threw: ${e.message}`); continue; }
+
+    const els = walkEls(node);
+    const hasClass = (el, c) =>
+      String(el.className || el.attrs?.class || "").split(/\s+/).includes(c);
+    const answers = els.filter((el) => hasClass(el, "answer"));
+
+    if (answers.length !== 1) {
+      problems.push(`${name} has ${answers.length} answer lines, expected 1`);
+      continue;
+    }
+    /* textContent, not the visibleText helper below - that one is scoped to the
+       search-resolution block further down and is not in scope here. */
+    const text = String(answers[0].textContent || "").trim();
+
+    /* A screen may pass its answer through t(). Outside a browser there is no
+       locale loaded, so t() hands back the KEY - "alerts.answer" - and a naive
+       length check reads that as a too-short sentence. Resolve it against
+       en-US.json instead, which is stricter than letting keys through: a key
+       that does not exist in the locale file renders as itself on the live
+       site, and that is a real bug this now catches. */
+    const looksLikeKey = /^[a-z][\w-]*(\.[\w-]+)+$/i.test(text);
+    const resolved = looksLikeKey
+      ? text.split(".").reduce((o, k) => (o && typeof o === "object" ? o[k] : undefined), EN)
+      : text;
+    if (looksLikeKey && typeof resolved !== "string") {
+      problems.push(`${name}'s answer line is the key "${text}", which is not in en-US.json`);
+    } else if (String(resolved || "").trim().length < 20) {
+      problems.push(`${name}'s answer line is too short to be one: "${resolved || text}"`);
+    }
+
+    const jump = els.find((el) => el.tag === "nav" && hasClass(el, "jump"));
+    if (jump && els.indexOf(jump) < els.indexOf(answers[0])) {
+      problems.push(`${name} puts its jump strip before its answer`);
+    }
+  }
+  /* This file counts by fails.length against a fixed total, so a passing block
+     adds nothing and a failing one pushes. No `pass` counter here. */
+  for (const p of problems) fails.push("answer line: " + p);
+  console.log(problems.length
+    ? "  not ok  " + problems.join("; ")
+    : `  ok   ${ANSWER_SCREENS.length} screens open on their answer, before any jump strip`);
+}
+
+/* THE STEPPER IS AN ADDITION, NEVER A REPLACEMENT.
+ *
+ * views/test.js carries a finding from when the reagent procedure and the
+ * safety card were separate sections: "a reader who opened the procedure got
+ * the steps without the acid warning." Moving the seven steps INTO the stepper
+ * recreates that one layer down, for everybody who never presses the button.
+ *
+ * So: the ordered list still renders every step, the stepper exists alongside
+ * it, and the always-line it repeats is the PPE warning rather than something
+ * milder that happened to be nearby. */
+{
+  const problems = [];
+  try {
+    const mod = await import("../site/js/views/test.js");
+    const node = await mod.render({}, ctx);
+    const els = walkEls(node);
+    const hasClass = (el, c) =>
+      String(el.className || el.attrs?.class || "").split(/\s+/).includes(c);
+
+    const lists = els.filter((el) => el.tag === "ol" && hasClass(el, "steps"));
+    const items = lists.flatMap((ol) => (ol.children || []).filter((c) => c.tag === "li"));
+    const testing = JSON.parse(readFileSync(path.join(ROOT, "data/testing.json"), "utf8"));
+    const want = (testing.procedure || []).length;
+
+    if (items.length < want) {
+      problems.push(`the procedure list renders ${items.length} of ${want} steps`);
+    }
+    if (!els.some((el) => hasClass(el, "stepper"))) {
+      problems.push("the stepper is missing from the procedure");
+    }
+    const always = els.find((el) => hasClass(el, "stepper__always"));
+    if (!always) problems.push("the stepper does not repeat an always-true line");
+    else if (!/gloves|eye protection/i.test(String(always.textContent || ""))) {
+      problems.push(`the stepper repeats "${String(always.textContent || "").slice(0, 40)}" rather than the PPE warning`);
+    }
+  } catch (e) { problems.push(`test view threw: ${e.message}`); }
+
+  for (const p of problems) fails.push("stepper: " + p);
+  console.log(problems.length
+    ? "  not ok  " + problems.join("; ")
+    : "  ok   the procedure list is intact and the stepper sits beside it");
+}
+
 console.log("VIEWS\n");
 for (const [name, route] of SCREENS) {
   const label = route.id ? `${name}/${route.sub || route.id}` : name;
@@ -405,7 +514,7 @@ for (const [name, route] of SCREENS) {
     return out;
   };
   const HEAD = new Set(["h1", "h2", "h3", "h4", "h5", "summary"]);
-  const isHeading = (el) => HEAD.has(el.tag) || String(el.className || el.attrs?.class || "").split(/\s+/).includes("lbl");
+  const isHeading = (el) => HEAD.has(el.tag) || String(el.className || el.attrs?.class || "").split(/\s+/).some((c) => c === "lbl" || c === "answer");
 
   let checked = 0, unresolved = [];
   for (const e of entries) {

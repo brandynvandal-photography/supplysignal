@@ -2535,6 +2535,68 @@ ol.steps > li:last-child::after { display: none; }
 ol.steps h4 { margin: 4px 0 5px; font-size: 1rem; }
 ol.steps p { font-size: .95rem; color: var(--ink-2); }
 
+/* -------------------------------------------------------------- stepper
+
+   One step of a procedure at a time, over a list that stays on the page. See
+   stepper() in ui.js for why the list stays.
+
+   The pane is a card so a step reads as an object rather than as a paragraph
+   that replaced another paragraph, and min-height stops the whole page jumping
+   when a short step follows a long one - a layout shift under somebody's thumb
+   is how a fast page still feels broken. */
+.stepper__open { margin-top: var(--sp-3); }
+.stepper { margin-top: var(--sp-3); }
+.stepper[hidden] { display: none; }
+.stepper__count {
+  margin: 0 0 var(--sp-2); font-size: var(--fs-sm); color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: .05em; font-weight: 700;
+}
+.stepper__pane {
+  background: var(--glass-strong); border: 1px solid var(--glass-line);
+  border-radius: var(--radius); padding: var(--sp-3) var(--sp-4);
+  min-height: 9rem;
+}
+.stepper__pane:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.stepper__body h4 { margin: 0 0 var(--sp-2); }
+.stepper__body p { margin: 0; }
+/* The line that is true at every step, restated inside each one. Quieter than
+   the step itself but never hidden - it is a reminder, not the instruction. */
+.stepper__always {
+  margin-top: var(--sp-3) !important; padding-top: var(--sp-2);
+  border-top: 1px solid var(--line);
+  font-size: .88rem; color: var(--ink-2);
+}
+.stepper__nav { display: flex; gap: var(--sp-2); margin-top: var(--sp-3); }
+.stepper__nav button[disabled] { opacity: .45; pointer-events: none; }
+
+/* ------------------------------------------------------------ strip clock
+
+   The countdown under the brand picker. Big enough to read at arm's length with
+   a wet strip in the other hand, which is the whole situation this is for.
+
+   tabular-nums so the digits do not jitter as they change - a number that
+   shifts left and right every second reads as broken, and this one is being
+   watched continuously rather than glanced at.
+
+   The stage colours are a REINFORCEMENT, never the message: every state also
+   says what it is in words, because "ready" and "stale" are the two that matter
+   and neither may depend on somebody seeing a hue. */
+.clock { text-align: center; }
+.clock h4 { margin: 0 0 var(--sp-2); }
+.clock__t {
+  margin: 0; font-size: 2.4rem; line-height: 1.1; font-weight: 700;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.clock__line { margin: var(--sp-2) 0 0; color: var(--ink-2); font-size: .95rem; }
+.clock__act { margin-top: var(--sp-3); display: flex; justify-content: center; flex-wrap: wrap; gap: var(--sp-2); }
+.clock .sec__note { margin-top: var(--sp-3); }
+.clock[data-stage="ready"] .clock__t { color: var(--brand); }
+.clock[data-stage="stale"] .clock__t { color: var(--critical); font-size: 1.5rem; }
+/* A finished dip is the one moment the reader has to act on, so it stops being
+   a number and becomes an instruction - sized down because it is words now. */
+.clock[data-stage="dipped"] .clock__t { font-size: 1.6rem; color: var(--brand); }
+
 /* ---------------------------------------------------------------- table */
 
 .tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch;
@@ -3839,6 +3901,32 @@ a.nbr { text-decoration: none; color: inherit; }
    A soft brand wash and a left rule, never a filled severity panel - those are
    reserved for callout(), and a page opening that borrows a warning's styling
    spends urgency it does not have. */
+/* THE PAGE'S ANSWER. See answerLine() in ui.js for why this exists.
+ *
+ * Larger than body and at full ink, so it reads as the first sentence rather
+ * than as a caption - but with no border, no fill and no icon, because those
+ * belong to .callout and mean "danger". This appears on every screen; if it
+ * shouted, nothing that genuinely shouts would be heard.
+ *
+ * 1.15rem is a deliberate half-step: enough to sit above the 1rem body without
+ * competing with the 1.08rem .intro h2 that often follows it. max-width in ch
+ * because this is one sentence and a sentence that runs the width of a desktop
+ * card is harder to read, not easier - the same 58ch the intro paragraphs use.
+ *
+ * The bottom margin is the whole point of the block: it separates the answer
+ * from the jump strip underneath, which is what stopped the two reading as one
+ * header. */
+.answer {
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: var(--ink);
+  max-width: 58ch;
+  margin: 0 0 var(--sp-4);
+  text-wrap: balance;
+}
+/* Straight under the h1 it needs less air above than a paragraph would take. */
+h1 + .answer { margin-top: calc(var(--sp-2) * -1 + 4px); }
+
 .intro, .welcome, .letter {
   /* --sp-3 --sp-4, the same inset as .card and callout(). These were on
      --sp-3 all round, so the first block on a page sat 12px narrower than
@@ -3911,6 +3999,13 @@ a.nbr { text-decoration: none; color: inherit; }
 /* A lone row outside a group (e.g. the Early warning link) keeps clear of
    whatever sits above it. */
 .list + .nbr, .sec + .nbr { margin-top: var(--sp-3); }
+/* And so does a FOLD. Same gap, same reason, found on Emergency: .list carries
+   no bottom margin and .disc carries no top one, so "Responding to an opioid
+   overdose" sat flush against the grouped row list above it - zero pixels,
+   measured - while every other fold in that column is spaced by its own
+   margin-bottom. The row list reads as a table, so the heading looked like its
+   last row rather than the next section. */
+.list + .disc, .list + .acc, .list + .card, .list + .callout { margin-top: var(--sp-3); }
 
 /* --------------------------------------------- open-section breathing room */
 

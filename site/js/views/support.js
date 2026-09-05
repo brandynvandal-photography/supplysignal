@@ -18,7 +18,7 @@
 
 import {
   h, frag, clear, section, callout, extLink, empty, disclosure, jumpNav, badge, group, safeHref,
-  sourceSink, checkedLine,} from "../ui.js";
+  sourceSink, checkedLine, answerLine,} from "../ui.js";
 import * as data from "../data.js";
 import { saferUseBlock } from "./help.js";
 import { communitiesBlock } from "../communities.js";
@@ -35,6 +35,12 @@ export async function render() {
   SRC = sourceSink();          // fresh per render; see the note on sourceRow
   const wrap = h("div");
   wrap.appendChild(h("h1", null, "Support"));
+
+  /* The second line of the letter, promoted above the fold. The letter is good
+     and it is long, and this is the sentence in it that decides whether
+     somebody keeps reading or closes the tab. */
+  wrap.appendChild(answerLine(
+    "You don\u2019t have to be done using, or want to stop, to ask for support."));
 
   /* A letter, not a callout.
      As a filled info panel with a headline this read as a banner - a notice

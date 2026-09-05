@@ -15,7 +15,7 @@
  * bag", and every extra step in that chain loses people.
  */
 
-import { h, frag, section, callout, extLink, disclosure, jumpNav, jumpTo, checkedLine} from "../ui.js";
+import { h, frag, section, callout, extLink, disclosure, jumpNav, jumpTo, checkedLine, answerLine} from "../ui.js";
 import * as data from "../data.js";
 import { practiceBlock } from "../practice.js";
 
@@ -29,6 +29,12 @@ export async function render(route, { go }) {
   const wrap = h("div");
 
   wrap.appendChild(h("h1", null, "Learn"));
+
+  /* education.json's own intro, promoted. It was two screens down, under the
+     course list, where it read as a caption for the courses; at the top it is
+     the reason the tab exists. */
+  wrap.appendChild(answerLine(
+    "Nobody is born knowing how to reverse an overdose."));
 
   if (!e) {
     wrap.appendChild(
