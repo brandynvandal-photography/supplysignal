@@ -167,6 +167,10 @@
   to = "/site/index.html"
   status = 200
 [[redirects]]
+  from = "/supply"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
   from = "/support"
   to = "/site/index.html"
   status = 200
