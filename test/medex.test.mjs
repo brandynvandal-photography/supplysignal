@@ -157,18 +157,42 @@ check("a county whose caseload genuinely halved is not frozen out", () => {
   return eq(completeThrough(declined, 0.7)?.through, "2026-06-30", "anchor");
 });
 
+/* MONTHS RELATIVE TO NOW, not literal ones.
+ *
+ * completeThrough reads the wall clock - a month has to be minAgeMonths old
+ * before it may anchor - so a fixture written with literal months tests
+ * something different every time the calendar moves. The surge case below was
+ * pinned to a literal 2026-07 and passed for exactly as long as July was the
+ * recent month it was meant to stand for. Two months later July was genuinely
+ * old enough to trust, the code correctly returned it, and the test failed
+ * while nothing was wrong.
+ *
+ * So the fixtures that are ABOUT recency build their months from today. */
+const monthsBack = (n) => {
+  const d = new Date();
+  d.setUTCDate(1);
+  d.setUTCMonth(d.getUTCMonth() - n);
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
+};
+const endOfMonthsBack = (n) => {
+  const d = new Date();
+  d.setUTCDate(1);
+  d.setUTCMonth(d.getUTCMonth() - n + 1);
+  d.setUTCDate(0);
+  return d.toISOString().slice(0, 10);
+};
+
 check("a surge does not drag the anchor into a half-filled month", () => {
-  /* 13 steady months at 30, then a July whose real count is 60 with only 33
-     filed. 33 clears a level bar, so the old code ended the window inside it -
-     and the missing 45% skews toward the cases needing confirmatory testing,
-     which is to say toward the unusual adulterants. A false negative exactly
-     when the feed's one job is to fire. */
+  /* 13 steady months at 30, then a CURRENT month whose real count is 60 with
+     only 33 filed. 33 clears a level bar, so the old code ended the window
+     inside it - and the missing 45% skews toward the cases needing
+     confirmatory testing, which is to say toward the unusual adulterants. A
+     false negative exactly when the feed's one job is to fire. */
   const surge = [
-    ...["2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12",
-        "2026-01","2026-02","2026-03","2026-04","2026-05","2026-06"].map((m) => ({ m, n: 30 })),
-    { m: "2026-07", n: 33 },
+    ...Array.from({ length: 13 }, (_, i) => ({ m: monthsBack(13 - i), n: 30 })),
+    { m: monthsBack(0), n: 33 },
   ];
-  return eq(completeThrough(surge, 0.7)?.through, "2026-06-30", "anchor");
+  return eq(completeThrough(surge, 0.7)?.through, endOfMonthsBack(2), "anchor");
 });
 
 check("a seasonal trough is not discarded every winter", () => {
