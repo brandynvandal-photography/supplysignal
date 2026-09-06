@@ -4,12 +4,17 @@
   "state": "PR",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-28T15:26:57.330Z",
+    "lastScan": "2026-09-06T23:02:33.339Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
+      "de-dhss",
       "la-ldh",
+      "mt-dphhs",
+      "va-vdh",
+      "grassroots-hr",
       "cook-me",
+      "allegheny-me",
       "santaclara-me",
       "sandiego-me",
       "google-news"
