@@ -4,12 +4,13 @@
   "state": "GA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-29T21:02:59.106Z",
+    "lastScan": "2026-09-07T19:18:10.156Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
+      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],

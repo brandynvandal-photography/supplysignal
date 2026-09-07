@@ -4,12 +4,13 @@
   "state": "IL",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-29T23:25:34.968Z",
+    "lastScan": "2026-09-07T19:18:10.200Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
+      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
