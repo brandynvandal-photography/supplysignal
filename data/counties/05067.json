@@ -4,12 +4,13 @@
   "state": "AR",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-08-29T01:49:58.938Z",
+    "lastScan": "2026-09-07T04:37:32.356Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
+      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
