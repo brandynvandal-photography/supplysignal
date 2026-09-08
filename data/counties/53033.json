@@ -4,12 +4,11 @@
   "state": "WA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-07T23:38:48.011Z",
+    "lastScan": "2026-09-08T04:36:45.593Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "mt-dphhs",
       "grassroots-hr",
       "cook-me",
       "allegheny-me",

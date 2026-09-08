@@ -1,14 +1,13 @@
 {
-  "generated": "2026-09-07T23:38:48.819Z",
+  "generated": "2026-09-08T04:36:46.223Z",
   "windowDays": 365,
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "countyCount": 3231,
   "coverage": {
-    "lastScan": "2026-09-07T23:38:48.135Z",
+    "lastScan": "2026-09-08T04:36:45.698Z",
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "mt-dphhs",
       "grassroots-hr",
       "cook-me",
       "allegheny-me",
