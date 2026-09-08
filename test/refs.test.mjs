@@ -213,6 +213,40 @@ for (const file of files) {
   }
 }
 
+/* AN IMPORT NOTHING CALLS IS A CLAIM NOTHING BACKS.
+ *
+ * This file has always looked for the opposite mistake - a name used and never
+ * defined - and that asymmetry hid a real one. views/test.js imported
+ * liveRegion, dropRow, slotLabel, removeButton, relabelRows, isBlankReading and
+ * blankColorsFor and called none of them: the reagent tracker had been taken
+ * off that page and its wiring was left behind. Seven names, every one
+ * resolving fine, every one dead. Found on 2026-09-05 by reading, which is not
+ * a strategy.
+ *
+ * It matters beyond tidiness. A dead import makes a module look like it does
+ * something it does not - three other files still described that tracker as
+ * live, and a reader chasing them finds nothing - and it drags a real
+ * dependency in for a caller that is not there.
+ *
+ * WHAT COUNTS AS USED: the name appearing anywhere in the file other than in
+ * the import statement itself. Deliberately loose. A stricter reading needs a
+ * parser, and the failure this catches is total absence rather than subtle
+ * misuse. */
+for (const file of files) {
+  const src = readFileSync(file, "utf8");
+  for (const m of src.matchAll(/import \{([^}]+)\} from "([^"]+)";/g)) {
+    const names = m[1].split(",")
+      .map((n) => n.trim().split(/\s+as\s+/).pop().trim())
+      .filter(Boolean);
+    const rest = src.slice(0, m.index) + src.slice(m.index + m[0].length);
+    for (const n of names) {
+      if (!new RegExp(`\\b${n}\\b`).test(rest)) {
+        problems.push(`${file}: imports ${n} from ${m[2]} and never uses it`);
+      }
+    }
+  }
+}
+
 const seen = [...new Set(problems)];
 
 console.log("REFS\n");
@@ -222,4 +256,5 @@ if (seen.length) {
   process.exit(1);
 }
 console.log("  ok   every called function is defined or imported");
+console.log("  ok   every import is used by the file that asks for it");
 console.log(`\n1 passed, 0 failed  |  ${files.length} files`);

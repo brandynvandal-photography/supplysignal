@@ -85,12 +85,24 @@ function stripExercise(cfg) {
     /* The affirmation is added here, not stored in the data - a fact that
        reads "Yes. One line is POSITIVE" is wrong the moment it follows "Not
        quite". Same sentence, different frame, depending on what happened. */
-    feedback.appendChild(
-      callout(right ? "info" : "warn",
-        right ? `Yes. ${card.right}` : "Not quite — and this is the one worth getting wrong here.",
-        right ? null : h("p", null, card.right),
-        h("p", null, card.explain))
-    );
+    /* OPEN, AND FOCUSED - both of which were wrong until 2026-09-05.
+     *
+     * callout() renders info and warn as a <details> with no `open`, which is
+     * right for a box sitting on a page and exactly wrong here: this callout IS
+     * the answer to the question the reader just answered. It was arriving
+     * shut, so the explanation - the entire teaching payload of the drill - was
+     * behind a fold the reader had to notice and open.
+     *
+     * And the line below used to focus feedback.querySelector("button"), which
+     * is the NEXT button, not the explanation. Its own comment said it was
+     * moving focus to the explanation. So a screen reader user answered a
+     * question and landed on the control that skips what they had just earned.
+     * The comment described the right behaviour; the code did the opposite. */
+    const said = explain(right ? "info" : "warn",
+      right ? `Yes. ${card.right}` : "Not quite — and this is the one worth getting wrong here.",
+      right ? null : h("p", null, card.right),
+      h("p", null, card.explain));
+    feedback.appendChild(said);
 
     const more = i + 1 < cfg.cards.length;
     feedback.appendChild(
@@ -100,13 +112,30 @@ function stripExercise(cfg) {
           onClick: () => { i = more ? i + 1 : 0; paint(); },
         }, more ? "Next strip" : "Start over"))
     );
-    // Move focus to the explanation so a keyboard or screen reader user is not
-    // left on a button whose meaning just changed underneath them.
-    feedback.querySelector("button")?.focus();
+    said.focus?.();
   };
 
   paint();
   return wrap;
+}
+
+/* A drill's answer: the app's callout, forced open and made focusable.
+ *
+ * callout() folds info and warn by design - shut, they are one line, which is
+ * the right default for a box a reader meets while scrolling. A drill's
+ * feedback is the opposite case: the reader asked for it by answering, and it
+ * is the only thing on screen worth reading. So it opens.
+ *
+ * tabindex -1 so focus can land on it. A <details> is not focusable otherwise,
+ * and focus is what makes a screen reader read the explanation instead of
+ * announcing the button that skips it. */
+function explain(kind, title, ...body) {
+  const el = callout(kind, title, ...body);
+  if (el && el.tagName === "DETAILS") {
+    el.open = true;
+    el.setAttribute("tabindex", "-1");
+  }
+  return el;
 }
 
 /* -------------------------------------------------------- overdose walkthrough */
@@ -159,16 +188,16 @@ function overdoseExercise(cfg) {
     clear(feedback);
     const right = !!choice.ok;
 
-    feedback.appendChild(
-      callout(right ? "info" : "warn",
-        right ? step.right : (step.onWrong?.[choice.id] ? "Worth thinking about" : "Not this one"),
-        /* A wrong answer gets the reason it is reasonable FIRST, then the
-           correct action. Being told why your instinct made sense is what
-           makes the correction stick. */
-        right ? null : h("p", null, step.onWrong?.[choice.id] || ""),
-        h("p", null, h("strong", null, right ? "" : step.right + " ")),
-        h("p", null, step.explain))
-    );
+    /* Open and focused - see the note in the strip drill above. */
+    const said = explain(right ? "info" : "warn",
+      right ? step.right : (step.onWrong?.[choice.id] ? "Worth thinking about" : "Not this one"),
+      /* A wrong answer gets the reason it is reasonable FIRST, then the
+         correct action. Being told why your instinct made sense is what
+         makes the correction stick. */
+      right ? null : h("p", null, step.onWrong?.[choice.id] || ""),
+      h("p", null, h("strong", null, right ? "" : step.right + " ")),
+      h("p", null, step.explain));
+    feedback.appendChild(said);
 
     feedback.appendChild(
       h("div", { class: "chips" },
@@ -177,7 +206,7 @@ function overdoseExercise(cfg) {
           onClick: () => { i += 1; paint(); },
         }, i + 1 < cfg.steps.length ? "Next situation" : "Finish"))
     );
-    feedback.querySelector("button")?.focus();
+    said.focus?.();
   };
 
   paint();

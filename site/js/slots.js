@@ -1,7 +1,14 @@
-/* The slot row, shared by the two tools that are built from it.
+/* The slot row.
  *
- * The reagent tracker on Test and the combination checker on Drugs are the
- * same kind of control: a short list of things you have, added one at a time,
+ * WHAT USES IT TODAY: the combination checker on Drugs, and nothing else.
+ * It was written for two tools - the checker and a reagent tracker on Test -
+ * and the tracker has since been removed from that page. This file stayed
+ * because the checker is built on it and because the shape is the part worth
+ * keeping; if a tracker is ever rebuilt, this is still what it should compose.
+ * Said plainly here because the header used to name a caller that no longer
+ * exists, which is how a reader ends up looking for code that is not there.
+ *
+ * The control is a short list of things you have, added one at a time,
  * each row a word and a field ("I took [Opioids]", "I used [Marquis]"), a × on
  * the rows past the floor, a "+ Add another" beneath, and one off-screen
  * sentence per change for a screen reader. They were written twice, and the

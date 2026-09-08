@@ -1828,6 +1828,17 @@ main {
 /* The severity words are one or two tokens and must never break mid-phrase -
    "critical" wrapping to "criti/cal" would read as damage. */
 .badge--critical, .badge--elevated, .badge--advisory { white-space: nowrap; }
+/* EXCEPT A TILE FLAG, which is a sentence rather than a severity token.
+   .badge--critical opts into nowrap because it normally holds one word
+   ("critical", "2 alerts"); a warning sentence in the same class ran under the
+   tile's chevron and off the card - seen at 375px before it shipped. It wraps,
+   and it stops short of the +/- control rather than sliding beneath it. */
+.disc__flag {
+  white-space: normal;
+  max-width: 100%;
+  margin: 4px 0 2px;
+  line-height: 1.3;
+}
 /* Severity keeps the uppercase treatment. Everything else reads as normal
    language - the shouty styling was most of what made this feel like a
    readout instead of a page written for a person. */
@@ -3901,32 +3912,6 @@ a.nbr { text-decoration: none; color: inherit; }
    A soft brand wash and a left rule, never a filled severity panel - those are
    reserved for callout(), and a page opening that borrows a warning's styling
    spends urgency it does not have. */
-/* THE PAGE'S ANSWER. See answerLine() in ui.js for why this exists.
- *
- * Larger than body and at full ink, so it reads as the first sentence rather
- * than as a caption - but with no border, no fill and no icon, because those
- * belong to .callout and mean "danger". This appears on every screen; if it
- * shouted, nothing that genuinely shouts would be heard.
- *
- * 1.15rem is a deliberate half-step: enough to sit above the 1rem body without
- * competing with the 1.08rem .intro h2 that often follows it. max-width in ch
- * because this is one sentence and a sentence that runs the width of a desktop
- * card is harder to read, not easier - the same 58ch the intro paragraphs use.
- *
- * The bottom margin is the whole point of the block: it separates the answer
- * from the jump strip underneath, which is what stopped the two reading as one
- * header. */
-.answer {
-  font-size: 1.15rem;
-  line-height: 1.45;
-  color: var(--ink);
-  max-width: 58ch;
-  margin: 0 0 var(--sp-4);
-  text-wrap: balance;
-}
-/* Straight under the h1 it needs less air above than a paragraph would take. */
-h1 + .answer { margin-top: calc(var(--sp-2) * -1 + 4px); }
-
 .intro, .welcome, .letter {
   /* --sp-3 --sp-4, the same inset as .card and callout(). These were on
      --sp-3 all round, so the first block on a page sat 12px narrower than

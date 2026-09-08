@@ -786,10 +786,27 @@ export async function reagentTable() {
  * A different claim from the table above and a stronger one: run these
  * reagents in this order, and this sequence of colors is the expected result.
  * Hand-transcribed from published artwork rather than generated; the file's
- * own header carries the source and the reasoning. */
-export async function reagentFlows() {
-  return load("flowcharts", { flows: [], source: null, unknownRule: "" });
-}
+ * own header carries the source and the reasoning.
+ *
+ * THE ACCESSOR IS DELIBERATELY GONE, 2026-09-05. It read the file the lazy way,
+ * as its own request, and "flowcharts" is not in TOPICS - so the first screen to
+ * call it would have made the browser ask for /data/flowcharts.json, and that
+ * request in an access log says THIS READER IS RUNNING A REAGENT TEST. That is
+ * finer-grained than the /test path already discloses, and it is what PRIVACY.md
+ * section 1 and this file's own header exist to prevent. Nothing called it, so
+ * nothing leaked; it was a loaded gun rather than a wound.
+ *
+ * IF YOU WANT THE FLOWS ON SCREEN: add "flowcharts" to TOPICS here AND in
+ * scripts/build-topics.mjs first, then write the accessor. That costs every
+ * reader 3.4 KB gzipped on every visit - measured, not guessed - which is the
+ * right price for the disclosure it buys back, and the wrong price to pay while
+ * nothing renders it.
+ *
+ * data/flowcharts.json stays where it is: scripts/build-reagents.mjs reads it at
+ * BUILD time, which is not a request anybody makes.
+ *
+ * test/privacy.test.mjs now fails on any new non-topic load() outside its
+ * documented allowlist, so this cannot come back by accident. */
 
 
 /** Is this a plant or fungal material, where a reagent color table would be

@@ -12,7 +12,7 @@
  * average.
  */
 
-import { h, frag, section, callout, extLink, badge } from "./ui.js";
+import { h, section, callout, extLink, badge } from "./ui.js";
 import * as data from "./data.js";
 
 /** Substances most concentrated in `region`, most concentrated first. */

@@ -1,8 +1,12 @@
 /* One answer to "does this substance match what the reader typed".
  *
- * Two surfaces ask it: the Drugs index (and its class pages), and the sold-as
- * picker inside the reagent tracker on Test. They used to answer it
- * differently. The index matched name + aliases + searchAliases as a flat
+ * WHO ASKS IT TODAY: the Drugs index and its class pages. The other caller this
+ * header used to name - a sold-as picker inside a reagent tracker on Test - is
+ * gone; that tracker was removed from the page. The reasoning below is written
+ * in terms of "the tracker" because that is the surface the rule was worked out
+ * against, and it is preserved rather than reworded: the RULE is about any
+ * caller that cannot render a name warning beside a deceptive-alias hit, which
+ * is a rule about callers in general and not about that one screen. The index matched name + aliases + searchAliases as a flat
  * list, which is right there - "tusi" has to find the page that says tusi is
  * almost never 2C-B, and that page opens on the warning. The tracker offered
  * a <select> of proper names only, so "molly" found nothing and a reader had

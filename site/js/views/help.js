@@ -140,8 +140,11 @@ export async function render() {
      because its first block is an action, not an introduction. */
   wrap.appendChild(
     jumpNav([
-      { id: "sec-lines", label: "Hotlines" },
+      /* Response before hotlines, matching the page. views.test.mjs fails a
+         chip that appears out of DOM order, and a chip that jumps backwards
+         reads as broken even when it works. */
       { id: "sec-response", label: "Overdose response" },
+      { id: "sec-lines", label: "Hotlines" },
       { id: "sec-collapse", label: "Collapsed, cause unknown" },
       { id: "sec-festival", label: "At a festival" },
       { id: "sec-club", label: "At a club or bar" },
@@ -151,19 +154,6 @@ export async function render() {
     ])
   );
 
-
-  /* ---- hotlines. Open: nobody should have to expand anything to find a
-         number during an emergency. ---- */
-  wrap.appendChild(
-    disclosure("sec-lines", "Numbers that answer 24/7", { open: true, tone: "urgent" },
-      h("div", { class: "hotline" },
-        LINES.map((l) =>
-          h("a", { href: `tel:${l.tel}` },
-            h("span", null,
-              h("span", { class: "lbl" }, l.name),
-              h("span", { class: "sub" }, l.sub)),
-            h("span", { class: "num" }, l.num)))))
-  );
 
   /* The red tab covered exactly one emergency. There was no route from here to
      the heat page or the stimulant page, and heat's own copy carries a "call
@@ -182,28 +172,34 @@ export async function render() {
     h("div", { class: "list" },
       h("a", { class: "nbr", href: "#/heat", "data-reveal": "sec-spot" },
         h("span", { class: "nbr__text" },
-          h("span", { class: "nbr__name" }, "If they are burning up, or confused"),
-          h("span", { class: "nbr__sub nbr__sub--wrap" },
-            "Overheating and drinking too much water both end in the same place — "
-            + "somebody who stops making sense. How to tell, and how to cool them "
-            + "down with what is in the room.")),
+          h("span", { class: "nbr__name" }, "If they are burning up, or confused")),
         h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›"))),
       h("a", { class: "nbr", href: "#/stimulants", "data-reveal": "sec-helping" },
         h("span", { class: "nbr__text" },
-          h("span", { class: "nbr__name" }, "If they are panicking, or seeing things"),
-          h("span", { class: "nbr__sub nbr__sub--wrap" },
-            "Too much of a stimulant, or days without sleep. What actually helps, "
-            + "and the point where it stops being psychological and becomes "
-            + "medical.")),
+          h("span", { class: "nbr__name" }, "If they are panicking, or seeing things")),
         h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")))));
 
-  /* ---- opioid overdose response, immediately after the numbers ----
-     Moved above "Collapsed, cause unknown" and the festival block. The
-     differential reads first if you do not know WHAT you are looking at,
-     which was the old order's argument - but the overwhelmingly common
-     case for this app is somebody who already knows, and making them
-     scroll past two other scenarios to reach the steps is the wrong
-     default for a page that opens on hotlines for exactly that reason. */
+  /* ---- opioid overdose response, FIRST ----
+   *
+   * Measured on 2026-09-05 at 375x812: the Call 911 button sat correctly at
+   * 380px and step 1 - "look at their chest" - sat at 1,665px. Two full
+   * screens. Between them were five hotline rows and two links to OTHER PAGES,
+   * so a person holding somebody who is not breathing scrolled past a phone
+   * directory and an article about heat illness to reach the breathing check.
+   * An earlier comment here records the steps being moved above the
+   * differential for this exact reason; that move happened and they were still
+   * two screens down, because the cost was never the differential.
+   *
+   * The two arguments this order used to encode are both still honoured:
+   *   - the not-opioid pointers stay ABOVE the steps, because somebody whose
+   *     friend is overheating must be sent elsewhere before reading six
+   *     naloxone steps. They are two compact rows now instead of two
+   *     three-line cards, which is what makes that affordable.
+   *   - the hotlines stay OPEN and expand nothing. They moved below the steps,
+   *     not behind a tap. 911 is already a button at the top of the page, and
+   *     the jump chip reaches the rest in one press. The numbers below are for
+   *     situations that are not "they are not breathing right now".
+   */
   wrap.appendChild(
     disclosure("sec-response", "Responding to an opioid overdose",
       { open: true, tone: "urgent" },
@@ -218,6 +214,19 @@ export async function render() {
            response section. Nobody doing rescue breathing needs epidemiology; it
            diluted the one instruction that matters. It lives on the xylazine
            page, properly sourced. */))
+  );
+
+  /* ---- hotlines. Open: nobody should have to expand anything to find a
+         number during an emergency. ---- */
+  wrap.appendChild(
+    disclosure("sec-lines", "Numbers that answer 24/7", { open: true, tone: "urgent" },
+      h("div", { class: "hotline" },
+        LINES.map((l) =>
+          h("a", { href: `tel:${l.tel}` },
+            h("span", null,
+              h("span", { class: "lbl" }, l.name),
+              h("span", { class: "sub" }, l.sub)),
+            h("span", { class: "num" }, l.num)))))
   );
 
   /* ---- collapsed, cause unknown ----

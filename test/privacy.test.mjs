@@ -227,6 +227,69 @@ check("no page-naming dataset is fetched on its own", () => {
   return missing.length ? `not bundled: ${missing.join(", ")}` : null;
 });
 
+check("every dataset is bundled, or is on the list of ones that need not be", () => {
+  /* THE GENERAL FORM OF THE CHECK ABOVE.
+   *
+   * That one names six datasets whose subject is obviously sensitive. This one
+   * turns the burden around: EVERY name data.js can load must be either in the
+   * bundle or on the allowlist below, and adding a new dataset therefore forces
+   * the question "does asking for this file by name say something about the
+   * person asking?" at the moment it is added.
+   *
+   * It exists because of data/flowcharts.json, found on 2026-09-05. It had a
+   * lazy accessor and no place in TOPICS, so the first screen to render a
+   * reagent flow would have made the browser ask for it by name - a request
+   * that says THIS READER IS RUNNING A REAGENT TEST, finer-grained than the
+   * /test path already gives away. Nothing called it, so nothing leaked. The
+   * accessor is gone and this is what stops the shape returning.
+   *
+   * THE ALLOWLIST IS NOT "THINGS WE COULD NOT BE BOTHERED TO BUNDLE." Each one
+   * is here because it is large AND its subject is a whole section that the URL
+   * path already discloses. Folding 2.6 MB of geography into the boot path
+   * would cost every reader on a phone far more than it buys them - the
+   * argument build-topics.mjs makes in its own header. If a new name wants to
+   * join this list, the test to apply is that one, not convenience. */
+  const NOT_BUNDLED = {
+    /* Geography and search indexes. "Opened the map", "used the search". */
+    adjacency: "county adjacency, 222 KB, needed only by the map",
+    counties: "the gazetteer, 176 KB",
+    "county-shapes": "map geometry, 794 KB",
+    places: "place-name index, 299 KB",
+    "places-rural": "rural place names, 235 KB",
+    search: "the search index, 58 KB",
+    /* Section-level reference. "Opened Drugs", "opened Test" - which the path
+       already says. */
+    substances: "the substance reference, 258 KB",
+    combos: "the combination matrix, 174 KB",
+    reagents: "per-substance reagent readings, 69 KB",
+    structures: "molecule drawings, 143 KB",
+    /* Alerts data, which is the whole point of the tab the path names. */
+    alerts: "the alert feed",
+    mortality: "CDC counts, 103 KB",
+    /* Not sensitive: "somebody opened the donate page" says nothing about them,
+       and it is a page few readers open. */
+    donate: "donation links, 9.5 KB, subject is not sensitive",
+  };
+
+  const dataJs = readFileSync(path.join(ROOT, "site/js/data.js"), "utf8");
+  const i = dataJs.indexOf("const TOPICS = new Set([");
+  const topics = new Set([...dataJs.slice(i, dataJs.indexOf("]", i))
+    .matchAll(/"([a-z-]+)"/g)].map((m) => m[1]));
+
+  const loads = new Set([...dataJs.matchAll(/load\("([a-z-]+)"/g)].map((m) => m[1]));
+  const stray = [...loads].filter((n) => !topics.has(n) && !(n in NOT_BUNDLED));
+  if (stray.length) {
+    return `fetched as its own file and not on the allowlist: ${stray.join(", ")}`
+      + " - either add it to TOPICS in data.js AND scripts/build-topics.mjs, or"
+      + " add it to NOT_BUNDLED here with the reason";
+  }
+
+  /* And the allowlist may not rot: an entry for a dataset nothing loads any
+     more is a stale exemption that would silently cover a future name. */
+  const unused = Object.keys(NOT_BUNDLED).filter((n) => !loads.has(n));
+  return unused.length ? `allowlist entries nothing loads: ${unused.join(", ")}` : null;
+});
+
 check("no data fetch built from a county or substance identifier", () => {
   const bad = [];
   for (const f of byExt(".js")) {
