@@ -54,6 +54,17 @@ export function reagentLabel(key) {
 }
 
 /** Every key this module can name. Used by the build to reject the rest. */
+/* THREE DERIVED LISTS WITH NO CONSUMER as of 2026-09-05: NAMED_REAGENTS here,
+   TWO_PART_REAGENTS and BLANK_REAGENTS below. All three were read by the
+   reagent tracker on Test, which has been removed from that page; the dead
+   imports that pointed here are gone and test/refs.test.mjs now fails on any
+   new ones.
+
+   They are one line each and derive from maps this file keeps anyway, so the
+   cost of keeping them is a line and the cost of deleting them is that whoever
+   rebuilds a tracker re-derives them - and, for BLANK_REAGENTS, re-establishes
+   the finding behind it. Left in place deliberately, named here so the next
+   person sweeping dead code does not have to work out whether they matter. */
 export const NAMED_REAGENTS = Object.keys(LABELS);
 
 /* HOW A REAGENT IS ACTUALLY RUN, WHERE IT DIFFERS FROM "ONE DROP, WATCH".
@@ -161,6 +172,24 @@ const BLANK = {
   Morr: ["pink", "green"],
   Scott: ["pink"],
 };
+
+/* NOTHING CALLS isBlankReading OR blankColorsFor as of 2026-09-05.
+ *
+ * Both were written for the reagent tracker on Test, which has been removed
+ * from that page - views/test.js imported them and never called them, and that
+ * dead import is what led here. They are kept rather than deleted because the
+ * BLANK map above is a verified finding, not a convenience: "green is the sole
+ * published Morris colour for zero substances" took work to establish, and any
+ * future tracker or flow router needs exactly it to avoid scoring a reader
+ * against 44 rows on the strength of a test that did nothing.
+ *
+ * The reader-facing half of the same fact is already live and does not depend
+ * on this code: the Scott card in data/testing.json says pink is the colour
+ * cobalt thiocyanate already is, and the note above says the same for Morris.
+ *
+ * If you are reading this because you are removing dead code: this is the
+ * deliberate exception, and deleting it loses the finding rather than the
+ * function. */
 
 /**
  * Is this reading just the unreacted reagent?

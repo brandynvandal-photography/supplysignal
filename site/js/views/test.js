@@ -11,14 +11,11 @@
  * as settled, this teaches the mechanism and says where sources disagree.
  * Every source is linked so a reader can check the original. */
 
-import {
-  h, frag, clear, section, callout, badge, extLink, empty, disclosure, jumpNav,
-  group, sourceSink, SEV_GLYPH, checkedLine, answerLine, stepper,} from "../ui.js";
+import { h, frag, clear, section, callout, badge, extLink, empty, disclosure, jumpNav, group, sourceSink, SEV_GLYPH, checkedLine, stepper } from "../ui.js";
 import * as data from "../data.js";
-import { reagentLabel, isBlankReading, blankColorsFor, reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
+import { reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
 import { paintBar } from "../reagentcolor.js";
 import { countdown, mmss, readAt } from "../clock.js";
-import { liveRegion, dropRow, slotLabel, removeButton, relabelRows } from "../slots.js";
 
 export async function render(route, ctx) {
   const go = ctx?.go || (() => {});
@@ -31,12 +28,6 @@ export async function render(route, ctx) {
   const wrap = h("div");
 
   wrap.appendChild(h("h1", null, "Test your supply"));
-
-  /* The framing headline, promoted out of the .intro below and no longer
-     printed twice. It was already the sentence this whole tab exists to make -
-     it was just arriving after the jump strip, which is to say after the reader
-     had been asked to choose a destination. */
-  wrap.appendChild(answerLine(g.framing.headline));
 
   wrap.appendChild(
     /* One chip per top-level section, in page order. It had accumulated one
@@ -74,8 +65,7 @@ export async function render(route, ctx) {
      the page worth slightly less. */
   wrap.appendChild(
     h("div", { class: "intro" },
-      /* The headline is the answer line at the top of the page now, so this
-         block keeps only what it adds: the mechanism behind it. */
+      h("h2", null, g.framing.headline),
       h("p", null, g.framing.ruleInRuleOut))
   );
 
@@ -86,7 +76,8 @@ export async function render(route, ctx) {
    * reading before the first control, on a page whose first control is the
    * one that tells somebody how to read the strip in their hand. Most people
    * who open this tab already own something. So the page now opens on the
-   * two tools - the strip picker and the reagent tracker - and the material a
+   * strip picker - a reagent tracker sat beside it until it was removed from
+   * this page - and the material a
    * reader consults BEFORE they own a kit (what is out there, what a test
    * cannot do, which one to get, how to store it) follows under its own
    * heading. Prevalence-first was a deliberate decision and is recorded as
@@ -161,8 +152,8 @@ export async function render(route, ctx) {
       disclosure("sec-procedure", "How to run a reagent test", null,
         /* The acid warning used to open this section. It is the GROUP's
            intro now - see `opts.intro` below - so that a reader who opens the
-           tracker or the reagent list without ever opening the procedure
-           still meets it. The steps start at the first step. */
+           reagent list without ever opening the procedure still meets it. The
+           steps start at the first step. */
         h("ol", { class: "steps" },
           g.procedure.map((p) => h("li", null, h("h4", null, p.title), h("p", null, p.body)))),
 
@@ -220,8 +211,7 @@ export async function render(route, ctx) {
        *
        * Both of these apply to reagent testing as a whole, so they sit on
        * reagent testing, above every section they qualify - a reader who
-       * opens the procedure, the reagent list or the tracker meets them
-       * either way.
+       * opens the procedure or the reagent list meets them either way.
        *
        * The fentanyl heading is scoped to the question a reader actually asks
        * — "is fentanyl in MY drugs" — rather than to reagent chemistry.
@@ -240,9 +230,11 @@ export async function render(route, ctx) {
        *
        * The acid warning follows. It opened "How to run a reagent test" and
        * was therefore only met by somebody who opened that row; the bottle is
-       * the same bottle whichever section you came for. The same two render
-       * at the head of the tracker screen - reagentWarnings() - so neither
-       * surface can drift from the other. */
+       * the same bottle whichever section you came for. reagentWarnings()
+       * built these for two surfaces; the second was a reagent tracker on this
+       * page and it is gone, so today there is one caller and nothing to drift
+       * against. The function stays a function because the words belong
+       * together, not because two screens still share them. */
       intro: frag(
         reagentWarnings(g),
         g.reagentIntro.pureSampleNote
@@ -471,6 +463,14 @@ export async function render(route, ctx) {
        being opened - same as the reagent tile above. */
     ["Which test tells you what", "Buying one", "Legality", "Labs"],
     {
+      /* ...AND ON THE CLOSED TILE TOO, 2026-09-05. Measured: 575 of this
+         page's 6,472 words are visible at zero taps, and this fact was not
+         among them - it needed the tile opened. The reader it protects is the
+         one who thinks they know what to buy, so it has to be legible without
+         a decision to look. Short on purpose: the badge is the hook, the
+         callout inside is the explanation. */
+      flag: "Most sold in shops test a person, not a drug",
+
       /* THE TRAP, ON THE TILE. "Most fentanyl test strips sold in stores test
          a person, not a drug" is the fact that stops a $10 mistake, and it
          sat inside "Buying it over the counter", inside this tile - two taps
@@ -510,9 +510,10 @@ export async function render(route, ctx) {
   return wrap;
 }
 
-/* The two warnings every reagent surface opens with. One function, two
-   callers - the group intro on the Test page and the head of the tracker
-   screen - so the words and the order cannot drift between them. Both are
+/* The two warnings every reagent surface opens with. Written for two callers -
+   the group intro on this page and the head of a reagent tracker that has since
+   been removed - so today it has one. Kept as a function because these two
+   warnings belong together and in this order wherever they appear next. Both are
    stop callouts: they do not fold, because they carry the two things that
    get somebody hurt at a spot plate. */
 function reagentWarnings(g) {
@@ -809,7 +810,8 @@ function reagentCard(r) {
       h("p", null, h("strong", null, "Use for: "), r.useFor),
       /* The run instructions, up front rather than buried in the caveats -
          reported for Morris, whose stir lived at the foot of the card while
-         the tracker said nothing at all. Same map the tracker uses. */
+         the reagent tracker - since removed from this page - said nothing at
+         all. Same map reagentnames.js still exports for any future one. */
       reagentHowTo(reagentKeyForCard(r.id))
         ? h("p", null, h("strong", null, "How to run it: "),
             reagentHowTo(reagentKeyForCard(r.id)))

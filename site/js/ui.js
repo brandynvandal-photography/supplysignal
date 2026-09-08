@@ -237,32 +237,6 @@ export function badge(text, kind = "neutral") {
  * with nothing after it would be worse than the line not being there.
  */
 /**
- * THE ONE SENTENCE THE PAGE IS FOR, above everything else on it.
- *
- * Measured on 2026-09-05, the first thing a reader met on Drugs, Test, Learn and
- * Support was the jump strip: a title, then a row of chips, then sections. They
- * met NAVIGATION before they met a fact, and had to pick a destination to find
- * out what the page could tell them. Emergency was the exception and is the
- * model - "Call 911. Give naloxone if you have it. Stay with them." arrives
- * before anything asks the reader to choose.
- *
- * So each screen now opens on its answer. Not a summary of the page and not a
- * welcome: the single thing somebody would be worse off not knowing, said
- * before they are asked to do anything.
- *
- * QUIET, NOT LOUD. This is deliberately not a callout. A callout means "danger
- * here" and this appears on every screen; making them all shout would flatten
- * the difference between a page opener and the reagent acid warning. It reads
- * as the page's first sentence, set slightly larger, and nothing else.
- *
- * WHERE THE WORDS COME FROM. Four of the five are copy the app already carried
- * somewhere lower down - testing's framing headline, education's intro, the
- * support letter, the "nothing published is not the same as safe" line from
- * i18n. Promoting an existing sentence is preferred to writing a new one: it is
- * already reviewed, and a page whose opener contradicts its body is the failure
- * this is supposed to prevent.
- */
-/**
  * ONE STEP AT A TIME, over a list that is already on the page.
  *
  * Built for the reagent procedure, which is the other thing on this site that
@@ -342,7 +316,6 @@ export function stepper(items, opts = {}) {
   paint();
 
   const toggle = h("button", { type: "button", class: "btn btn--ghost btn--sm" }, label);
-  toggle.onClick = null;
   toggle.addEventListener("click", () => {
     const showing = !wrap.hidden;
     wrap.hidden = showing;
@@ -351,11 +324,6 @@ export function stepper(items, opts = {}) {
   });
 
   return frag(h("div", { class: "stepper__open" }, toggle), wrap);
-}
-
-export function answerLine(text, ...rest) {
-  if (!text) return null;
-  return h("p", { class: "answer" }, text, ...rest.filter(Boolean));
 }
 
 export function checkedLine(label, date, ...rest) {
@@ -847,6 +815,21 @@ export function group(id, title, blurb, children, preview = null, opts = null) {
          the +/- keeps its place at the far right. */
       h("div", { class: "disc__sum" },
         h("h2", null, title),
+        /* A WARNING THE CLOSED TILE CARRIES.
+         *
+         * `preview` is aria-hidden - it repeats headings a screen reader will
+         * reach anyway once the group is open - so it is the wrong place for
+         * anything a reader needs before deciding whether to open. `flag` is
+         * real text in the summary, on the same badge the reagent cards use
+         * for "read the caveat".
+         *
+         * It exists for one fact: most "fentanyl test strips" sold in shops
+         * test a person, not a drug. That is inside "Which one to get", which
+         * is exactly right for somebody who opens it - and useless to the
+         * person who thinks they already know what to buy and never does. */
+        opts?.flag
+          ? h("span", { class: "badge badge--critical disc__flag" }, opts.flag)
+          : null,
         /* aria-hidden: the list is a visual affordance that repeats headings
            the screen reader will reach anyway once the group is open.
            Announcing it here would read every child title twice. */
