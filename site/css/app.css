@@ -2840,6 +2840,8 @@ table.data th[scope="row"] { font-weight: 650; }
    has never been visible. Do not move these up. */
 .hotline .sub--hours { color: var(--ink-2); }
 .hotline .sub--dispatch { color: var(--elevated); }
+.hotline .sub--dispatch-ok { color: var(--ink-2); }
+.hotline .sub--dispatch-unknown { color: var(--ink-3); }
 
 /* ------------------------------------------------------- content typography */
 

@@ -255,6 +255,26 @@ function renderGetting(x) {
 /* One crisis-line row. Extracted so the "Someone to talk to now" section and
    nothing else renders it identically - the lines it lists are the verbatim
    `getting.lines` entries, moved, not rewritten. */
+/* ONE LABELLED ROW FOR THE ONE QUESTION EVERY CALLER HAS: will they send
+   someone? Five lines carried the answer in five formats - a quoted policy,
+   a paraphrase, "not stated", a routing note, silence - and the reader was
+   left to parse each one. dispatchKind is set by hand from the line's own
+   published policy (that wording stays underneath as the detail). "unknown"
+   means we have not verified a policy, not that there is none. The glyph and
+   the words both carry it; colour never does alone. */
+const DISPATCH = {
+  possible: ["▲", "Emergency dispatch: possible without your agreement", "sub--dispatch"],
+  mandated: ["▲", "Emergency dispatch: possible — required by law to report in some cases", "sub--dispatch"],
+  ifSilent: ["●", "Emergency dispatch: only if you stop responding", "sub--dispatch-ok"],
+  request: ["●", "Emergency dispatch: only at your request", "sub--dispatch-ok"],
+  unknown: ["○", "Emergency dispatch: policy unknown", "sub--dispatch-unknown"],
+};
+function dispatchLine(l) {
+  const d = DISPATCH[l.dispatchKind];
+  if (!d) return null;
+  return h("span", { class: `sub ${d[2]}` }, h("span", { "aria-hidden": "true" }, `${d[0]} `), d[1]);
+}
+
 function hotlineRow(l) {
   return (
     /* safeHref, not the raw URL. This was the one place a shipped org link
@@ -274,12 +294,11 @@ function hotlineRow(l) {
         /* Who can send police is not a footnote. An unmarked entry next to
            Trans Lifeline's stated no-dispatch policy reads as vetted rather
            than undocumented, which is backwards. */
-        l.dispatch ? h("span", { class: "sub sub--dispatch" }, l.dispatch) : null,
-        /* The amber line is one sentence - the fact that they can send
-           someone. The numbers behind it (2 in 100; half of imminent-risk
-           calls; half of those without agreement) sit under it in plain
-           grey: still there for the reader who needs to weigh it, no longer
-           a 44-word warning as the first thing on the tab. */
+        dispatchLine(l),
+        /* The line's own published wording, and any numbers, sit under the
+           label in plain grey: still there for the reader who needs to weigh
+           it, no longer five formats for one fact. */
+        l.dispatch ? h("span", { class: "sub" }, l.dispatch) : null,
         l.dispatchDetail ? h("span", { class: "sub" }, l.dispatchDetail) : null),
       h("span", { class: "num" }, l.phone || "Open"))
   );

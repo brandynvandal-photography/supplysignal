@@ -182,9 +182,9 @@ function aboutBlock2() {
       h("p", null,
         "People who use drugs, the people who love them, and the outreach workers who " +
         "sit with both. Nothing here is conditional on wanting to stop."))
-    /* The Emergency tab's short aboutBlock() is NOT reused here - it is a
-       one-card summary of exactly this, and rendering both put two headings
-       saying the same thing on one page. */
+    /* The Emergency tab once carried a one-card aboutBlock() that summarised
+       exactly this; rendering both put two headings saying the same thing on
+       one page, so it was never used, and it was deleted on 2026-09-09. */
   );
 }
 

@@ -451,7 +451,7 @@ export async function render(route, ctx) {
             "Both change."))
       ) : null,
       (
-      disclosure("sec-legal", "Is this legal where you are?", null,
+      disclosure("sec-legal", "Is this legal where you live?", null,
         h("div", { class: "card" },
           h("h3", null, g.legal.headline),
           h("p", null, g.legal.body),
