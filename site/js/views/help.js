@@ -187,7 +187,31 @@ export async function render() {
         /* Regional prevalence used to sit here, inside the always-open overdose
            response section. Nobody doing rescue breathing needs epidemiology; it
            diluted the one instruction that matters. It lives on the xylazine
-           page, properly sourced. */))
+           page, properly sourced. */),
+      /* NALMEFENE, 2026-09-09. Some programs now hand out Opvee or Zurnai
+         instead of naloxone, and a person holding one at the moment of use
+         needs one thing: use it the same way. Everything else here is the
+         label's own words - the half-life, "as long as most opioids", the
+         recurrence warning - plus the maker's post-marketing count for
+         withdrawal. No comparison of withdrawal severity is claimed, because
+         no source read here makes one. */
+      h("div", { class: "card" },
+        h("h3", null, "If the spray says nalmefene, not naloxone"),
+        h("p", null,
+          "Opvee is a nalmefene nasal spray and Zurnai is a nalmefene auto-injector. "
+          + "Use them exactly as you would naloxone. Nalmefene lasts far longer: its "
+          + "label gives a half-life of about 11 hours and says it lasts as long as "
+          + "most opioids, but that breathing can still stop again, so call 911 and "
+          + "keep watching. Like naloxone it can set off withdrawal in somebody "
+          + "dependent on opioids; in 246 reversals reported to the maker through "
+          + "July 2025, that was reported twice. It is prescription-only."),
+        h("div", { class: "sources" },
+          extLink("https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=999a4269-9e54-4801-b2ac-2a7276f0b94f",
+            "FDA label — Opvee (nalmefene nasal spray), June 2023"),
+          extLink("https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a59a5847-9fe4-4341-a203-be0a5e6d3e36",
+            "FDA label — Zurnai (nalmefene auto-injector)"),
+          extLink("https://pmc.ncbi.nlm.nih.gov/articles/PMC12640375/",
+            "Cureus (2025) — post-marketing surveillance of intranasal nalmefene: withdrawal reported in 2 of 246 reversals"))))
   );
 
   /* ---- hotlines. Open: nobody should have to expand anything to find a
@@ -863,18 +887,3 @@ export function privacyBlock() {
 
   }
 
-export function aboutBlock() {
-return (
-    disclosure("sec-about", "What this site is", null,
-      h("div", { class: "card" },
-        h("p", null,
-          "Nightlight collects what public sources — health departments, local news, " +
-          "and drug-checking labs — have already published about drug supply in each " +
-          "county, and puts it in one place."),
-        h("p", null,
-          h("strong", null, "It is not medical advice, and it is not a safety check. "),
-          "Nothing here verifies a drug, clears it, or says it is safe to take. " +
-          "An absence of alerts means nobody published anything — not that a supply is safe.")))
-  );
-
-}

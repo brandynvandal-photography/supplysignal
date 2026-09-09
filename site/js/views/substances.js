@@ -808,7 +808,7 @@ function mixChecker(combos, yours) {
      callout); a mortality tagline on the section header was tone, not
      information. The map's mortality layers keep the word "deaths" because
      there it labels the data. */
-  return section("Is this combination dangerous?", null,
+  return section("Is this mix dangerous?", null,
     h("div", { class: "card" },
       rows,
       /* This sentence maps the pill in someone's hand onto a menu of category

@@ -208,7 +208,7 @@ export async function render(route, { go }) {
 /* Group the first detections by class, describing each only from what is
    already published here or by a lab. See the block comment at the call site
    for why nothing is inferred from the substance's name. */
-const NO_CLASS = "No published description";
+const NO_CLASS = "Not yet described here";
 
 async function describeFirstDetections(items) {
   const [subsDoc, regional] = await Promise.all([
