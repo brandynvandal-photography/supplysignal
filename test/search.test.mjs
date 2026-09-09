@@ -181,6 +181,7 @@ const CASES = [
   // Ordinary drug lookups.
   ["fentanyl", "#/substances/fentanyl"],
   ["xylazine", "#/substances/xylazine"],
+  ["carfentanil", "#/substances/carfentanil"],
   // Content that is not a drug.
   ["free naloxone", "#/learn"],
   ["someone is overdosing", "#/help"],
