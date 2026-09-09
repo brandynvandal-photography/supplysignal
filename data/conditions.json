@@ -97,7 +97,7 @@
       "label": "On methadone, bupe, or naltrexone",
       "items": [
         {
-          "text": "Each has its own section under \"On prescribed medication?\" below - naltrexone especially: tolerance drops during treatment, and opioid use after a missed dose carries heightened overdose risk per its label.",
+          "text": "Each has its own section under \"On prescribed medication?\" below. Naltrexone especially: tolerance drops during treatment, and opioid use after a missed dose carries heightened overdose risk per its label.",
           "sources": [
             {
               "name": "Vivitrol label (DailyMed)",
@@ -121,7 +121,7 @@
           ]
         },
         {
-          "text": "Estrogen raises the risk of a blood clot, and this is the risk that has actually been measured in trans people rather than borrowed from somebody else. Across 18 studies covering 11,542 people on feminizing hormones, about 2 in 100 had a clot. It concentrates in one form: ethinylestradiol, the estrogen in older birth-control pills and in a lot of what is sold without a prescription, ran 2 to 6 in 100 — roughly twenty times the rate in cis men. Estradiol through the skin does not show the same rise, because swallowing it sends it through the liver first and that is where the clotting factors go up. Long hours sitting still, dehydration and smoking stack on top.",
+          "text": "Estrogen raises the risk of a blood clot, and this is the risk that has actually been measured in trans people rather than borrowed from somebody else. Across 18 studies covering 11,542 people on feminizing hormones, about 2 in 100 had a clot. It concentrates in one form. Ethinylestradiol, the estrogen in older birth-control pills and in a lot of what is sold without a prescription, ran 2 to 6 in 100. That is roughly twenty times the rate in cis men. Estradiol through the skin does not show the same rise, because swallowing it sends it through the liver first and that is where the clotting factors go up. Long hours sitting still, dehydration and smoking stack on top.",
           "sources": [
             {
               "name": "Pooled VTE prevalence, 18 studies, 11,542 people (Front Endocrinol 2021)",
@@ -134,7 +134,7 @@
           ]
         },
         {
-          "text": "Testosterone thickens your blood — it raises hematocrit, which is why prescribers check bloodwork. Be clear about what that does and does not mean: the clot warnings printed on testosterone labels come from replacement therapy in cis men, and the studies that have looked at trans men specifically have not found an increased clot risk. The label's own instruction if hematocrit runs high is to stop until it comes down, not to keep going — so this is a reason to get the blood test, not a reason to stop on your own.",
+          "text": "Testosterone thickens your blood — it raises hematocrit, which is why prescribers check bloodwork. Be clear about what that does and does not mean. The clot warnings printed on testosterone labels come from replacement therapy in cis men. The studies that have looked at trans men specifically have not found an increased clot risk. The label's own instruction if hematocrit runs high is to stop until it comes down, not to keep going. So this is a reason to get the blood test, not a reason to stop on your own.",
           "sources": [
             {
               "name": "Testosterone cypionate label (DailyMed)",

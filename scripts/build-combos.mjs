@@ -296,7 +296,7 @@ const FOOD = {
     },
     {
       "t": "An empty stomach is a different dose",
-      "d": "Anything swallowed hits faster and harder on an empty stomach, and that is where redosing goes wrong — nothing happens for an hour, a second dose goes in, then both arrive together. Food slows and flattens the same amount. It does not reduce it.",
+      "d": "Anything swallowed hits faster and harder on an empty stomach, and that is where redosing goes wrong. Nothing happens for an hour, a second dose goes in, then both arrive together. Food slows and flattens the same amount. It does not reduce it.",
       "note": "This is timing, not a safety margin: eating does not make a dose smaller.",
       "sources": []
     }

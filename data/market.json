@@ -5,7 +5,7 @@
  "blocks": [
   {
    "title": "Enforcement pushes drugs toward stronger, smaller forms",
-   "body": "This has a name: the Iron Law of Prohibition. When a supply is squeezed, the economics favor whatever is most compact — a trafficker faces roughly the same penalty for a small package as a large one, so potency per unit of volume goes up. That is the path the US market has taken: prescription pills to heroin, heroin to fentanyl, and now fentanyl to nitazenes. Each step is smaller, stronger, and harder to dose.",
+   "body": "This has a name: the Iron Law of Prohibition. When a supply is squeezed, the economics favor whatever is most compact. A trafficker faces roughly the same penalty for a small package as a large one, so potency per unit of volume goes up. That is the path the US market has taken: prescription pills to heroin, heroin to fentanyl, and now fentanyl to nitazenes. Each step is smaller, stronger, and harder to dose.",
    "sotu": "It also explains why cracking down on one drug so reliably produces a stronger replacement, rather than less supply.",
    "sources": [
     {
@@ -16,7 +16,7 @@
   },
   {
    "title": "Potency is an accident of mixing, not a recipe",
-   "body": "Fentanyl is active in microgram amounts. Mixing micrograms evenly through a kilogram of powder is an industrial process, and this is not an industrial process. What reaches you was cut and re-cut by people without equipment to do it evenly, so two bags off the same batch can differ, and so can two ends of the same bag.",
+   "body": "Fentanyl is active in microgram amounts. Mixing micrograms evenly through a kilogram of powder is an industrial process, and this is not an industrial process. What reaches you was cut and re-cut by people without equipment to do it evenly. Two bags off the same batch can differ, and so can two ends of the same bag.",
    "sotu": "This is the whole reason “start with much less than usual” is the first rule, and why testing a dissolved portion of everything beats testing a pinch.",
    "sources": [
     {
@@ -45,12 +45,12 @@
   {
    "title": "Ratings and “lab tested” claims are not verification",
    "body": "Buying through a screen adds review scores, vendor histories and sometimes a photographed lab report — the visual furniture of a regulated market. None of it is verification. A rating measures whether previous orders arrived and matched a description, which is a delivery record, not a chemical one. A lab report can be real and still describe a different batch than the one in your hand, or belong to someone else entirely, or be edited.",
-   "sotu": "Every earlier point on this page still applies: the person selling is rarely the person who made it, potency still varies within a batch, and nobody in the chain tested what you received.",
+   "sotu": "Every earlier point on this page still applies. The person selling is rarely the person who made it, potency still varies within a batch, and nobody in the chain tested what you received.",
    "sources": []
   },
   {
    "title": "Counterfeit pills are the sharpest version of this",
-   "body": "A pressed pill looks finished and identical to the next one, which is exactly what makes it dangerous — it carries the visual signals of a regulated product with none of the process behind them. Pill presses do not distribute a microgram-scale drug evenly, so within a single batch one pill can hold a survivable amount and the next several times that.",
+   "body": "A pressed pill looks finished and identical to the next one, which is exactly what makes it dangerous. It carries the visual signals of a regulated product with none of the process behind them. Pill presses do not distribute a microgram-scale drug evenly, so within a single batch one pill can hold a survivable amount and the next several times that.",
    "sotu": "An imprint, a color, and a shape can all be copied. None of them are evidence of what is inside.",
    "sources": [
     {
@@ -68,7 +68,7 @@
  ],
  "close": {
   "title": "What all of this adds up to",
-  "body": "None of it is a reason to give up, and none of it makes anything safe. But it does point at four things that genuinely lower your odds: assume a new batch is stronger than the last one, test what you can, start with much less than you mean to take, and don't be alone. Nobody is handing those down as rules — they are just what everything above works out to in practice."
+  "body": "None of it is a reason to give up, and none of it makes anything safe. But it does point at four things that genuinely lower your odds. Assume a new batch is stronger than the last one. Test what you can. Start with much less than you mean to take. And don't be alone. Nobody is handing those down as rules — they are just what everything above works out to in practice."
  },
  "scope": {
   "title": "What you won't find here",

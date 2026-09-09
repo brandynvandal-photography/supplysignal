@@ -2,7 +2,7 @@
   "note": "Heat illness and water. Three rules if you edit this. (1) The sweating myth is load-bearing: NHS, CDC's traveller page and DanceSafe all say heat stroke means hot dry skin, which describes the heat wave kind, not the dancing kind. NATA's position statement and StatPearls both say exertional heat stroke patients are usually still sweating. If somebody reinstates 'no sweating' here they will teach a reader to rule out the thing that is killing the person in front of them. (2) Ice packs to neck, armpits and groin are near-worthless — 0.028 C/min against the 0.155 that counts as adequate. Most first aid still leads with them. Do not put them back at the top. (3) The fluid ceiling is ~500 mL/h, not the liter this site used to say and most party advice still says; a liter an hour is the whole excretory capacity of a healthy person doing nothing, and MDMA lowers it. See PRIVACY.md rules on denominators — every figure here carries one.",
   "verified": "2026-08-13",
   "headline": "Heat and water",
-  "blurb": "How to tell when hot has become dangerous, how to cool somebody down with what is actually in the room, and why drinking too much water swells the brain in people who thought they were being careful.",
+  "blurb": "How to tell when hot has become dangerous, and how to cool somebody down with what is actually in the room. Why drinking too much water swells the brain in people who thought they were being careful.",
   "spot": {
     "headline": "Telling the difference",
     "lead": "Heat exhaustion, drinking too much water and simply being very high on a stimulant share most of their early signs. You are not going to separate them from a symptom list, and neither would a doctor without a blood test. What you are looking for is the one change that decides what you do.",
@@ -47,7 +47,7 @@
   },
   "cool": {
     "headline": "Cooling somebody down",
-    "lead": "With what is in the room. Speed matters more than technique — the harm tracks how long they spend above 104°F, and the target every guideline agrees on is to have them cooled within half an hour of going down.",
+    "lead": "With what is in the room. Speed matters more than technique. The harm tracks how long they spend above 104°F, and the target every guideline agrees on is to have them cooled within half an hour of going down.",
     "steps": [
       {
         "t": "Get them out of the heat",
@@ -104,7 +104,7 @@
   },
   "water": {
     "headline": "The other way this goes wrong",
-    "lead": "\"Drink water\" is the most repeated piece of advice at any event, and the version people act on — drink constantly, drink more if you feel bad — is the version that has put them in intensive care.",
+    "lead": "\"Drink water\" is the most repeated piece of advice at any event. The version people act on — drink constantly, drink more if you feel bad — is the version that has put them in intensive care.",
     "body": [
       "Your kidneys can only get rid of so much water: somewhere around a liter an hour at the absolute best, in a healthy person with nothing else going on. Stimulants and MDMA stop your body clearing it properly. Drink past what you can pass and the sodium in your blood dilutes, cells swell, and the cells with nowhere to swell into are the ones in your skull.",
       "In four pooled trials, 96 healthy adults were given an ordinary dose of MDMA in a lab — sitting still, air conditioned, drinking as much or as little as they wanted. Among those left to drink freely, 37% became hyponatremic. Among the 15 whose fluids were limited, none did. Nobody in that study was dancing, and nobody was in a hot room."
@@ -168,7 +168,7 @@
       },
       {
         "t": "Get off the floor before you need to",
-        "d": "In a study that measured real clubs — 29°C and 90% humidity among the dancers — an hour of dancing raised core temperature by 1.8°C, and four hours without a break modeled out to 39.1°C. Twenty minutes somewhere cooler, before anything is wrong, does more for you than anything you can drink.",
+        "d": "In a study that measured real clubs — 29°C and 90% humidity among the dancers — an hour of dancing raised core temperature by 1.8°C. Four hours without a break modeled out to 39.1°C. Twenty minutes somewhere cooler, before anything is wrong, does more for you than anything you can drink.",
         "sources": [
           {
             "name": "McNeill & Parsons — Heat stress in night-clubs (1996)",
@@ -198,7 +198,7 @@
       },
       {
         "t": "Not being able to go somewhere cooler",
-        "d": "The single largest risk factor is having nowhere to get out of it. Across Las Vegas and Los Angeles, researchers estimated that half of all deaths among people experiencing homelessness in Clark County were attributable to temperature — a figure they described as orders of magnitude above the general population. In Maricopa County, Arizona, 208 of the 430 heat deaths recorded in 2025 were among people who were unhoused.",
+        "d": "The single largest risk factor is having nowhere to get out of it. Across Las Vegas and Los Angeles, researchers estimated that half of all deaths among people experiencing homelessness in Clark County were attributable to temperature. They described that figure as orders of magnitude above the general population. In Maricopa County, Arizona, 208 of the 430 heat deaths recorded in 2025 were among people who were unhoused.",
         "note": "Of the indoor heat deaths in that county, 94% happened in homes that had air conditioning. In 72% of those, it was not running — broken, or shut off because of the bill.",
         "sources": [
           {
@@ -258,7 +258,7 @@
       },
       {
         "t": "Smaller bodies have less room for error",
-        "d": "Less total body water means a given surplus moves your sodium further. In the MDMA case reports the skew is stark — in one poison-center series of 73 people with hyponatremia, 55 were women, and women had about four times the odds of it. Some of that is body size and some is how much people drink, but it is not nothing.",
+        "d": "Less total body water means a given surplus moves your sodium further. In the MDMA case reports the skew is stark. In one poison-center series of 73 people with hyponatremia, 55 were women, and women had about four times the odds of it. Some of that is body size and some is how much people drink, but it is not nothing.",
         "note": "This is not a reason for anyone else to relax. It means the margin is narrower if you are small, not that it is wide if you are not.",
         "sources": [
           {

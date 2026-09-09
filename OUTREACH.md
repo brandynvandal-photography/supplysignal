@@ -1,6 +1,6 @@
 # Data permission requests — drafts
 
-Four emails. **Nothing here has been sent.** Review, edit the bracketed fields,
+Five emails. **Nothing here has been sent.** Review, edit the bracketed fields,
 and send them yourself from your official address — coming from a named public
 health official rather than an anonymous project is most of what gets these
 answered.
@@ -13,6 +13,7 @@ Ordered by how much they unblock:
 | 2 | TripSit | Written terms for the combination chart already bundled | High — resolves a live ambiguity |
 | 3 | PsychonautWiki | Which license covers API output | Medium — affects how the bundle must be licensed |
 | 4 | Erowid Center | Republishing DrugsData lab results | Low — archive is frozen, deep-links work today |
+| 5 | NASEN | Syringe-services listings by county, resolved on the device | Medium — the map is linked today; bundling it is the unlock |
 
 ---
 
@@ -153,6 +154,49 @@ public address is exposed, and a widely-cited `info@drugsdata.org` is unverified
 
 ---
 
+## 5. NASEN — syringe services directory
+
+**To:** the directory contact mailbox listed on `nasen.org`. It is a staff
+member's own named address, so it is not recorded here — copy it from the site
+when you send.
+**Subject:** Permission request — syringe service program listings by county in a free harm reduction app
+
+> Hello,
+>
+> I'm [NAME], [TITLE] with [AGENCY]. I'm building a free, non-commercial
+> harm reduction reference organized by US county. It is harm reduction
+> information only — it does not sell anything, carry advertising, or collect
+> any user data. It already links to your directory and to your programs page
+> from its Support and Policy sections.
+>
+> I'd like to ask whether we may bundle the public directory listings —
+> program name, city, state and county, services offered, hours, and the
+> program's own published contact details — so that a reader who picks their
+> county sees the syringe service programs there and in the bordering
+> counties without leaving the app. Nothing would be scraped: we would use
+> whatever export or feed you specify, refresh it on the cadence you set, and
+> stop if you ask.
+>
+> Specifically:
+>
+> 1. Whether that use is acceptable, and under what attribution wording.
+> 2. Whether a bulk export or feed exists, or whether you would rather
+>    provide one on a schedule.
+> 3. How you would like the opt-in, not-comprehensive nature of the map
+>    stated wherever listings appear — we would show that caveat on every
+>    county, so an empty county never reads as "no programs here".
+> 4. Whether any programs have asked not to be listed elsewhere, so they are
+>    excluded from the start.
+>
+> If the answer is no, that is completely understood and we'll keep linking
+> to the map as we do today.
+>
+> [NAME]
+> [TITLE], [AGENCY]
+> [PHONE] · [OFFICIAL EMAIL]
+
+---
+
 ## Notes before sending
 
 - **Send from an official address.** A `.gov` address is the single biggest
@@ -163,6 +207,9 @@ public address is exposed, and a widely-cited `info@drugsdata.org` is unverified
 - **UNC is the one worth chasing.** DrugsData has been frozen since April 2024;
   UNC's dataset is current and covers 42 states. If only one of these gets
   answered, it should be that one.
+- **NASEN's map is opt-in and not comprehensive** — NASEN says so itself.
+  Any bundled copy has to say the same on every county, or an empty county
+  reads as "no programs here".
 - If TripSit declines, remove `data/combos.json` and the combination checker
   falls back to the PsychonautWiki per-substance interaction lists, which are
   CC BY-SA and need no permission.

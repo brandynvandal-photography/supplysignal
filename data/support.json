@@ -138,7 +138,8 @@
         "name": "988 Suicide & Crisis Lifeline",
         "who": "Call, text or chat 988 · Spanish: press 2 · ASL videophone available",
         "phone": "988",
-        "dispatch": "They may send emergency services. Across nearly two million calls, that happened in about 2 in 100 — but in about half of the calls where the counselor judged someone to be at imminent risk. Roughly half of those dispatches were without the person's agreement."
+        "dispatch": "They may send emergency services, sometimes without your agreement.",
+        "dispatchDetail": "Across nearly two million calls, that happened in about 2 in 100 — but in about half of the calls where the counselor judged someone to be at imminent risk. Roughly half of those dispatches were without the person's agreement."
       },
       {
         "name": "Never Use Alone",
@@ -632,7 +633,7 @@
       },
       {
         "t": "Don’t treat abstinence as the only good outcome.",
-        "b": "Using less, using more safely, being alive in six months, staying in contact — those are real outcomes, and treating them as failure is how people stop telling you the truth."
+        "b": "Using less, using more safely, being alive in six months, staying in contact — those are real outcomes. Treating them as failure is how people stop telling you the truth."
       },
       {
         "t": "Don’t search their things or monitor them secretly.",
@@ -645,7 +646,7 @@
     ],
     "hard": {
       "title": "If they are not ready",
-      "body": "Most people are not, most of the time, and readiness is not something you can argue someone into. What you can do is stay someone they will call. The person who kept the door open is who people reach for when the moment does come — and that moment is far more often a quiet Tuesday than a rock bottom."
+      "body": "Most people are not, most of the time, and readiness is not something you can argue someone into. What you can do is stay someone they will call. The person who kept the door open is who people reach for when the moment does come. That moment is far more often a quiet Tuesday than a rock bottom."
     },
     "help": [
       {

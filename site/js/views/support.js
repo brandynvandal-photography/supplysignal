@@ -274,7 +274,13 @@ function hotlineRow(l) {
         /* Who can send police is not a footnote. An unmarked entry next to
            Trans Lifeline's stated no-dispatch policy reads as vetted rather
            than undocumented, which is backwards. */
-        l.dispatch ? h("span", { class: "sub sub--dispatch" }, l.dispatch) : null),
+        l.dispatch ? h("span", { class: "sub sub--dispatch" }, l.dispatch) : null,
+        /* The amber line is one sentence - the fact that they can send
+           someone. The numbers behind it (2 in 100; half of imminent-risk
+           calls; half of those without agreement) sit under it in plain
+           grey: still there for the reader who needs to weigh it, no longer
+           a 44-word warning as the first thing on the tab. */
+        l.dispatchDetail ? h("span", { class: "sub" }, l.dispatchDetail) : null),
       h("span", { class: "num" }, l.phone || "Open"))
   );
 }

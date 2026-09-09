@@ -382,7 +382,7 @@
       "effects": [
         {
           "title": "On strength claims",
-          "body": "\"Hundreds of times stronger than fentanyl\" is true of some members of this family in laboratory tests and not true of the family as a whole — CDC notes metonitazene's potency is similar to fentanyl's. Researchers also note that real-world potency often comes out lower than lab figures, and that human data is scarce.",
+          "body": "\"Hundreds of times stronger than fentanyl\" is true of some members of this family in laboratory tests and not true of the family as a whole. CDC notes metonitazene's potency is similar to fentanyl's. Researchers also note that real-world potency often comes out lower than lab figures, and that human data is scarce.",
           "sources": [
             {
               "name": "CDC MMWR",
@@ -467,7 +467,7 @@
       "effects": [
         {
           "title": "There is no human research at all",
-          "body": "Health officials state there are no studies of BTMPS use in people. What exists is animal data showing heart toxicity and eye damage. People who have encountered it report ringing ears, blurred vision and a taste like plastic or bug spray when smoking it, and burning when injecting — these are self-reports, not clinical findings.",
+          "body": "Health officials state there are no studies of BTMPS use in people. What exists is animal data showing heart toxicity and eye damage. People who have encountered it report ringing ears, blurred vision and a taste like plastic or bug spray when smoking it, and burning when injecting. These are self-reports, not clinical findings.",
           "sources": [
             {
               "name": "Philadelphia DPH health alert",
@@ -592,7 +592,7 @@
         },
         {
           "title": "Overheating, from the half you did not plan for",
-          "body": "Most pink powder carries MDMA as well, which pushes body temperature and heart rate up. Somebody hot, confused and not making sense needs cooling and an ambulance, and that is a different emergency from the sedation above — both can be present in one person at once.",
+          "body": "Most pink powder carries MDMA as well, which pushes body temperature and heart rate up. Somebody hot, confused and not making sense needs cooling and an ambulance. That is a different emergency from the sedation above, and both can be present in one person at once.",
           "sources": [
             {
               "name": "What Is Pink Cocaine? (J Med Chem, 2025)",
@@ -634,7 +634,7 @@
         ]
       },
       "prevalence": {
-        "text": "Consistent across every dataset that has looked. The DEA examined 960 pink powders seized since 2020 and found 2C-B in four of them; an analysis of nearly a thousand DEA seizures found 99.5% were ketamine mixed with something else. Of 68 samples submitted to DrugsData between 2016 and 2024 as “pink cocaine”, “tusi” or “2C-B”, 94% contained ketamine and 81% MDMA. In Spain, 470 tusi samples ran 93.2% ketamine and 92.1% MDMA against 3.6% 2C-B. A 2025 Miami-Dade medical examiner series of fourteen powders taken from eight deaths found 2C-B in none of them.",
+        "text": "Consistent across every dataset that has looked. The DEA examined 960 pink powders seized since 2020 and found 2C-B in four of them. An analysis of nearly a thousand DEA seizures found 99.5% were ketamine mixed with something else. Of 68 samples submitted to DrugsData between 2016 and 2024 as “pink cocaine”, “tusi” or “2C-B”, 94% contained ketamine and 81% MDMA. In Spain, 470 tusi samples ran 93.2% ketamine and 92.1% MDMA against 3.6% 2C-B. A 2025 Miami-Dade medical examiner series of fourteen powders taken from eight deaths found 2C-B in none of them.",
         "sources": [
           {
             "name": "DEA — Pink cocaine",
