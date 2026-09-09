@@ -107,7 +107,7 @@
     "lead": "\"Drink water\" is the most repeated piece of advice at any event. The version people act on — drink constantly, drink more if you feel bad — is the version that has put them in intensive care.",
     "body": [
       "Your kidneys can only get rid of so much water: somewhere around a liter an hour at the absolute best, in a healthy person with nothing else going on. Stimulants and MDMA stop your body clearing it properly. Drink past what you can pass and the sodium in your blood dilutes, cells swell, and the cells with nowhere to swell into are the ones in your skull.",
-      "In four pooled trials, 96 healthy adults were given an ordinary dose of MDMA in a lab — sitting still, air conditioned, drinking as much or as little as they wanted. Among those left to drink freely, 37% became hyponatremic. Among the 15 whose fluids were limited, none did. Nobody in that study was dancing, and nobody was in a hot room."
+      "In four pooled trials, 96 healthy adults were given an ordinary dose of MDMA in a lab — sitting still, air conditioned, drinking as much or as little as they wanted. Among those left to drink freely, 37% ended up with low blood sodium. Among the 15 whose fluids were limited, none did. Nobody in that study was dancing, and nobody was in a hot room."
     ],
     "items": [
       {
@@ -258,7 +258,7 @@
       },
       {
         "t": "Smaller bodies have less room for error",
-        "d": "Less total body water means a given surplus moves your sodium further. In the MDMA case reports the skew is stark. In one poison-center series of 73 people with hyponatremia, 55 were women, and women had about four times the odds of it. Some of that is body size and some is how much people drink, but it is not nothing.",
+        "d": "Less total body water means a given surplus moves your sodium further. In the MDMA case reports the skew is stark. In one poison-center series of 73 people with low blood sodium, 55 were women, and women had about four times the odds of it. Some of that is body size and some is how much people drink, but it is not nothing.",
         "note": "This is not a reason for anyone else to relax. It means the margin is narrower if you are small, not that it is wide if you are not.",
         "sources": [
           {
@@ -269,7 +269,7 @@
       },
       {
         "t": "Hours, not doses",
-        "d": "In 488 runners tested at the end of a marathon, 13% were hyponatremic. The things that predicted it were gaining weight during the race and being out there more than four hours — not sex, and not what they drank. Time spent in it is the exposure.",
+        "d": "In 488 runners tested at the end of a marathon, 13% had low blood sodium. The things that predicted it were gaining weight during the race and being out there more than four hours — not sex, and not what they drank. Time spent in it is the exposure.",
         "sources": [
           {
             "name": "Almond et al., N Engl J Med 2005 — hyponatremia among marathon runners",

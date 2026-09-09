@@ -329,7 +329,7 @@
     {
       "id": "reentry",
       "title": "Leaving jail or prison",
-      "blurb": "This is the most dangerous window in the whole app. Tolerance drops fast inside. The amount that was normal before is now enough to cause an accident on your first day out. A North Carolina study followed 229,274 people. In the first two weeks after release, the risk of a fatal opioid overdose was about 40 times the general population's. Almost nothing is built for this moment. So most of what follows is a general line that will take your call, rather than a reentry service. Reentry services with phone numbers mostly do not exist.",
+      "blurb": "This is the most dangerous window in the whole app. Tolerance drops fast inside. The amount that was normal before is now enough to cause an accident on your first day out. A North Carolina study followed 229,274 people. In the first two weeks after release, the risk of a fatal opioid overdose was about 40 times the general population's. Almost nothing is built for this moment, so most of what follows is a general line that will take your call rather than a reentry service.",
       "items": [
         {
           "name": "Never Use Alone",

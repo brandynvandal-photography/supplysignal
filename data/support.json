@@ -22,7 +22,7 @@
       {
         "name": "Buprenorphine (Suboxone, Sublocade)",
         "what": "A partial opioid agonist. It has a ceiling effect, which is why it carries a much lower overdose risk than the opioids it replaces.",
-        "how": "Any clinician with a normal DEA registration can prescribe it — a regular doctor, a clinic, a community health center, telehealth, or an emergency room. It is filled at an ordinary pharmacy. The old special waiver was abolished in 2023 and there is no longer any cap on how many patients a prescriber can treat.",
+        "how": "Any clinician with a normal DEA registration can prescribe it — a regular doctor, a clinic, a community health center, telehealth, or an emergency room — and an ordinary pharmacy fills it. The old special waiver ended in 2023, and there is no cap on how many patients a prescriber can treat.",
         "note": "Usually started when you are already in mild withdrawal, to avoid precipitated withdrawal. Ask about low-dose initiation if that is a barrier for you.",
         "sources": [
           {
@@ -128,7 +128,7 @@
       },
       {
         "name": "If you are pregnant",
-        "what": "Fear of losing a child keeps many people away from care. A federal Plan of Safe Care is a health plan for you and the baby — it is not automatically a child protective services report. What is actually required varies a lot by state, and is often narrower than hospital practice suggests. This free toolkit covers your rights around drug testing, disclosure, and what happens after birth. Methadone and buprenorphine are the standard of care in pregnancy; being pregnant is not a reason to stop.",
+        "what": "Fear of losing a child keeps many people away from care. A federal Plan of Safe Care is a health plan for you and the baby — it is not automatically a child protective services report. What is actually required varies a lot by state, and is often narrower than hospital practice suggests. This free toolkit covers your rights around drug testing, disclosure, and what happens after birth.",
         "url": "https://harmreduction.org/issues/pregnancy-and-substance-use-a-harm-reduction-toolkit/",
         "linkText": "Pregnancy and substance use toolkit"
       }
@@ -237,7 +237,7 @@
       {
         "name": "Narcotics Anonymous",
         "what": "The largest and easiest to find. Abstinence-based and explicitly spiritual, though not tied to a religion.",
-        "medication": "NA as an organization takes no position on your medication and you are welcome to attend. But NA's own literature says individual groups may limit whether you can share or hold a service position, and warns you may meet strong opinions. NA's own advice is to try several meetings.",
+        "medication": "NA itself takes no position on your medication, and you are welcome to attend. Its own literature says individual groups may limit whether you can share or hold a service position, and warns of strong opinions. Its advice is to try several meetings.",
         "url": "https://virtual-na.org"
       },
       {
@@ -346,7 +346,7 @@
   },
   "cost": {
     "headline": "If you cannot pay",
-    "body": "Most of these routes have a version that needs no money and no paperwork. The SAMHSA line refers you to state-funded and sliding-scale programs without asking who you are. Community health centers cannot turn you away over money. Medicaid has no enrollment deadline.",
+    "body": "Most of these routes have a version that needs no money and no paperwork. The SAMHSA line refers you to state-funded and sliding-scale programs without asking who you are. Medicaid has no enrollment deadline.",
     "note": "Community health centers are required to see people regardless of ability to pay."
   },
   "supplies": {

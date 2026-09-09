@@ -75,9 +75,9 @@
         "note": "Repeated investigations of alarming reports have not produced a single laboratory-confirmed case."
       }
     ],
-    "coUse": "You will also see that fentanyl appears alongside cocaine or meth in a huge share of overdose deaths. That is true, but it mostly reflects people using both — deliberately or at different times — not stimulants being secretly cut. The supply figures above and the death figures cannot both be explained by contamination. In one San Francisco study of overdoses, about 43% of people had not intended to take an opioid; the majority had.",
+    "coUse": "Fentanyl shows up alongside cocaine or meth in a large share of overdose deaths. That mostly reflects people using both, not stimulants being secretly cut: the supply figures above and the death figures cannot both be explained by contamination. In one San Francisco study, about 43% of people who overdosed had not meant to take an opioid; most had.",
     "regional": "These are national averages and they move. What is in the supply where you are can look nothing like the country as a whole, and it changes within months. Local drug-checking data beats any national number.",
-    "bottomLine": "The reason to test is not that everything is contaminated — it is that you cannot tell by looking. Testing is the only way to know what you are actually holding, and knowing changes what you can do about it.",
+    "bottomLine": "You test because you cannot tell by looking, not because everything is contaminated. Knowing what you are holding changes what you can do about it.",
     "sources": [
       {
         "name": "Russell et al. — fentanyl in stimulant samples, 25 states",
@@ -141,7 +141,7 @@
             "threshold": "no false positives found at tested concentrations"
           }
         ],
-        "conflict": "Protocols used to disagree by as much as ten times, and that is why the rule above is to follow the instructions in your own kit. The gap has narrowed. In October 2025 DanceSafe replaced its own older “50 mg per teaspoon” method with 10 mg per teaspoon, and said it had aligned its steps with other brands. How you use a strip is now the same even where the chemistry inside it differs. The amounts below are that standard. They are not a promise about the strips in your hand: if your kit says something different, your kit wins.",
+        "conflict": "Brands used to disagree by as much as ten times on how much water to use. Since October 2025 they agree, and the amounts below are that standard. They are not a promise about the strips in your hand: if your kit says something different, your kit wins.",
         "guidance": [
           "Follow the instructions that came with YOUR strips. Brands differ.",
           "If you do not have them, use MORE water rather than less. Too little water causes false positives on stimulants; only extreme over-dilution risks a false negative.",
@@ -206,12 +206,12 @@
         },
         {
           "title": "Sensitivity varies between batches",
-          "body": "Labels claim 10–20 ng/mL. Independent testing has found real thresholds as poor as 200 ng/mL. One study found 2017 lots hit 20 ng/mL, while 2021 lots of the same product only reached 200 ng/mL."
+          "body": "Labels claim 10–20 ng/mL. Independent testing has found real thresholds as poor as 200 ng/mL: 2017 lots of one product hit 20 ng/mL, and 2021 lots of the same product only 200."
         },
         {
           "severity": "critical",
           "title": "The strip you buy today may be weaker than the one a study tested",
-          "body": "Comparing BTNX lots, 2017 strips detected fentanyl at 20 ng/mL while 2021 lots needed 200 ng/mL — a tenfold loss of sensitivity. Cross-reactivity moved the same way: false positives from diphenhydramine started at 100 mg/mL in the old lots and as low as 0.5 mg/mL in the new ones.",
+          "body": "Between those same lots, false positives moved too: diphenhydramine set the strip off from 100 mg/mL in the old lots and from as little as 0.5 mg/mL in the new ones.",
           "nuance": "So an accuracy number from a 2018 paper may not describe the strip in your hand in 2026. It is also why diluting properly matters more than which brand you buy.",
           "sources": [
             {
@@ -271,12 +271,12 @@
       "limits": [
         {
           "title": "A negative result means much less here",
-          "body": "In a study of 333 fentanyl-positive street samples, xylazine strips caught only 49% of the samples that actually contained xylazine — 34 of 69. Most samples held less than 1% xylazine by weight, which is below what the strip can see. Roughly half of xylazine-positive samples read negative.",
+          "body": "In a study of 333 fentanyl-positive street samples, xylazine strips caught only 49% of the samples that actually contained xylazine — 34 of 69. Most samples held less than 1% xylazine by weight, which is below what the strip can see.",
           "severity": "critical"
         },
         {
           "title": "False positives on older strips",
-          "body": "Version 1.0 strips cross-react with lidocaine, methamphetamine, ketamine, and diphenhydramine. The manufacturer says version 2.0 removed the lidocaine cross-reactivity, which matters because lidocaine is a standard cocaine cut. Independent evaluation of those claims is still pending — treat them as manufacturer statements, not verified fact."
+          "body": "Version 1.0 strips cross-react with lidocaine, methamphetamine, ketamine and diphenhydramine. The manufacturer says version 2.0 fixed lidocaine, which matters because lidocaine is a standard cocaine cut. Nobody independent has checked that yet."
         },
         {
           "title": "Naloxone does not reverse xylazine",
@@ -372,7 +372,7 @@
         },
         {
           "title": "Still worth using if nitazenes are in your area",
-          "body": "Nitazene-involved overdose deaths in the US rose from 27 in 2020 to 409 in 2024. Naloxone does work on nitazenes, though multiple doses may be needed."
+          "body": "Nitazene-involved overdose deaths in the US rose from 27 in 2020 to 409 in 2024. Naloxone works on nitazenes. If there is no change after 2–3 minutes, give another dose."
         }
       ],
       "sources": [
