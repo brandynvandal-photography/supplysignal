@@ -167,10 +167,15 @@ const SUPPLEMENT = [
     with: "opioids",
     status: "Dangerous",
     note:
+      /* No prevalence figures here. This note's one source is the FDA
+         communication, which covers what xylazine does and not how often it
+         turns up; the numbers that used to sit here ("most fentanyl samples
+         in Philadelphia") were unsourced in this note and a year out of date
+         by 2026-09-09. The xylazine page carries them, by region, with
+         sources, and is refreshed each quarter against CFSRE. */
       "Xylazine is a veterinary sedative, not an opioid. How often it turns up in " +
-      "fentanyl depends enormously on where you are - it has been found in most " +
-      "fentanyl samples in Philadelphia, around one in four or five in Los Angeles, " +
-      "and far less across much of the country. It deepens and lengthens sedation, " +
+      "fentanyl depends enormously on where you are; the xylazine page carries the " +
+      "current figures by region. It deepens and lengthens sedation, " +
       "and naloxone does NOT reverse it. Give naloxone anyway - the fentanyl " +
       "alongside it is what stops breathing, and that is what naloxone fixes. Watch " +
       "breathing rather than alertness: someone may stay drowsy after a successful " +
