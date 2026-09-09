@@ -274,6 +274,16 @@ for (const [q, want] of CASES) {
   }
 }
 
+/* EVERY SLANG TARGET IS A REAL INDEX ID. "nangs" and "whippits" pointed at
+   "nitrous-oxide" while the id is "nitrous", and "poppers" at an id that does
+   not exist, so three of the most-typed party words resolved to nothing
+   (2026-09-09). */
+{
+  const drugIds = new Set((idx.drugs || []).map((x) => x.i));
+  const dead = Object.entries(intents.slang || {}).filter(([, id]) => !drugIds.has(id)).map(([w, id]) => `${w} -> ${id}`);
+  if (dead.length) fails.push(`slang targets that are not in the index: ${dead.join(", ")}`); else pass++;
+}
+
 console.log("SEARCH\n");
 for (const f of fails) console.log("  not ok " + f);
 if (!fails.length) console.log(`  ok   all ${pass} realistic queries reach the right page`);

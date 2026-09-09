@@ -141,7 +141,7 @@
     "locateOutside": "That location isn’t inside a US county. Search by name instead.",
     "locateNoData": "Couldn’t load the map data. Search by name instead.",
     "sessionTitle": "Nothing you do here is saved",
-    "sessionBody": "No account, and nothing kept between visits — close the tab and it is gone. The ✕ in the corner is for when you need to leave this second. It clears what this site stored, walks the back button back over where you have been, and sends you to a weather site. What it cannot do is erase the browser's own history — for that, use a private window.",
+    "sessionBody": "No account, and nothing kept between visits — close the tab and it is gone. The ✕ in the corner is for when you need to leave this second. It clears what this site stored, walks the back button back over where you have been, and replaces this screen with a plain clock page. What it cannot do is erase the browser's own history — for that, use a private window.",
     "everywhereTitle": "National alerts",
     "everywhereIntro": "Every alert published anywhere in the country, newest and most serious first.",
     "everywhereCount": "{count} published anywhere in the country in the last {window}.",

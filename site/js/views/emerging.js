@@ -166,7 +166,7 @@ export async function render(route, { go }) {
 
   if (!doc.alerts?.length && !doc.firstDetections?.length) {
     wrap.appendChild(
-      empty("The early-warning feed didn’t load with this copy of the app.",
+      empty("This feed didn’t load with this copy of the app.",
         "Try reloading. If it keeps happening, this copy is incomplete.")
     );
   }

@@ -738,14 +738,24 @@ function mixChecker(combos, yours) {
 
     /* The warning the matrix cannot give. */
     if (deps.length >= 2) {
+      /* Two drugs are a pair, not a stack. "More dangerous than any pair
+         above shows" only means something with three or more, when the matrix
+         has rated them two at a time; with exactly two, the pair rating above
+         IS the picture, and the box says only what it adds (2026-09-09). */
+      const pair = deps.length === 2;
+      const title = pair
+        ? "Both of these slow your breathing down"
+        : `${deps.length} of these slow your breathing down`;
       /* The callout's heading, verbatim. */
-      notes.push(`${deps.length} of these slow your breathing down.`);
+      notes.push(`${title}.`);
       out.appendChild(
-        callout("stop", `${deps.length} of these slow your breathing down`,
+        callout("stop", title,
           h("p", null,
-            deps.map(prettyCat).join(", ") + " all suppress breathing, and the " +
-            "effects stack. Together they are more dangerous than any pair above " +
-            "shows — the pair view only rates two at a time."),
+            pair
+              ? deps.map(prettyCat).join(" and ") + " both suppress breathing, and the effects stack."
+              : deps.map(prettyCat).join(", ") + " all suppress breathing, and the " +
+                "effects stack. Together they are more dangerous than any pair above " +
+                "shows — the pair view only rates two at a time."),
           h("p", null,
             "Naloxone reverses the opioid. It does nothing for alcohol, " +
             "benzodiazepines, GHB or pregabalin — so breathing can stay " +
@@ -1297,7 +1307,11 @@ async function detailView(id, subs, combos, { go }) {
         h("summary", null, h("span", null, "FDA Boxed Warning"), badge("FDA", "critical")),
         h("div", { class: "acc__body" },
           h("p", { class: "sec__note" }, "The FDA’s strongest warning, quoted from the drug label."),
-          h("p", { class: "quote" }, warn.text.slice(0, 1400) + (warn.text.length > 1400 ? "…" : ""))))
+          /* Whole, not cut at 1,400 characters with an ellipsis. It sits under
+             a line that says "quoted from the drug label", and an abridged
+             quotation under that label is the one thing this app does not do
+             to a citation. The fold above it is what keeps the page short. */
+          h("p", { class: "quote" }, warn.text)))
     );
   }
 
@@ -1382,7 +1396,7 @@ function comedownFor(doc, s) {
               "That goes double for mushrooms. Nothing you can buy identifies a " +
               "species: ordinary supermarket mushrooms produce the same color as " +
               "psilocybin ones, and so does death cap. A color is not an " +
-              "identification, and no color does not mean it is clean.")
+              "identification, and no color does not mean it is safe.")
           : h("p", null,
               "The blue that stands for THC in the cannabis reagent has been recorded " +
               "coming from ordinary thyme and oregano, and no spot test detects synthetic " +

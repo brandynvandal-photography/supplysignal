@@ -93,9 +93,9 @@ export async function render(route, ctx) {
   if (!orgs.length) {
     wrap.appendChild(
       callout("info", "This list has not loaded",
-        h("p", null,
-          "It needs a connection the first time. Everything else on this site "
-          + "keeps working without one."))
+        /* Not "the first time": the cache is cleared at every start, so every
+           cold open is a first time. Say only what is true. */
+        h("p", null, "It needs a connection. Try again once you have one."))
     );
     return wrap;
   }

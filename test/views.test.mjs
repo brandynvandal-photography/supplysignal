@@ -512,6 +512,12 @@ for (const [name, route] of SCREENS) {
   console.log(`  ok   search results land (${checked} checked, ${unresolved.length} unresolved)`);
 }
 
+/* NO HELPER DISCARDS WHAT IT IS HANDED. section() voided its note and group()
+   dropped its blurb for months, and fifteen authored lines never rendered -
+   the dose table's disclaimer and every county-page count among them. */
+const uiSrc = readFileSync(path.join(ROOT, "site", "js", "ui.js"), "utf8");
+if (/^\s*void [A-Za-z_]+;/m.test(uiSrc)) fails.push("ui.js voids a parameter - a helper is dropping copy it was handed");
+
 for (const f of fails) console.log("  not ok " + f);
 console.log(`\n${SCREENS.length + 1 - fails.length} passed, ${fails.length} failed`);
 if (fails.length) process.exit(1);

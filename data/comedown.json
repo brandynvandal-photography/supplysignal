@@ -1,5 +1,5 @@
 {
-  "_doc": "Coming down — what to do after the effects have worn off. Keyed by substance id, and ONLY by substance id: a drug with no entry here renders no section at all. There was once a per-class fallback so that any stimulant, psychedelic and so on inherited generic advice, and it put a 'Coming down' section on pages whose drug the words did not address — the stimulant text names cocaine, meth and amphetamines, and rendered on drugs that are none of them. Removed for good. The rule for this file is that an absence is better than a guess, and 'drink water and rest' padded onto every drug page would teach the reader to skip the one page where the advice is specific. Every item carries a source that was read at source. Nothing here is a product, a supplement stack or a 'detox' — where those are marketed and unevidenced, the file says so rather than staying silent, because silence is what lets the marketing stand.",
+  "_doc": "Coming down — what to do after the effects have worn off. Keyed by substance id, and ONLY by substance id: a drug with no entry here renders no section at all. There was once a per-class fallback so that any stimulant, psychedelic and so on inherited generic advice, and it put a 'Coming down' section on pages whose drug the words did not address — the stimulant text names cocaine, meth and amphetamines, and rendered on drugs that are none of them. Removed for good. The rule for this file is that an absence is better than a guess, and 'drink water and rest' padded onto every drug page would teach the reader to skip the one page where the advice is specific. Every item that makes a factual claim carries a source that was read at source; plain advice - water, food, sleep, patience - does not, and a claim without one is a claim to cut. Nothing here is a product, a supplement stack or a 'detox' — where those are marketed and unevidenced, the file says so rather than staying silent, because silence is what lets the marketing stand.",
   "lastVerified": "2026-08-17",
   "bySubstance": {
     "ghb": {
@@ -288,8 +288,8 @@
           "d": "Physical dependence means abrupt stopping can cause seizures. That is a taper worked out with a clinician, not a resolution made on a bad morning.",
           "sources": [
             {
-              "name": "FDA benzodiazepine boxed warning (2020)",
-              "url": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requiring-boxed-warning-updated-improve-safe-use-benzodiazepine-drug-class"
+              "name": "MedlinePlus (NIH) — Alcohol withdrawal",
+              "url": "https://medlineplus.gov/ency/article/000764.htm"
             }
           ]
         },

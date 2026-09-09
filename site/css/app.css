@@ -1962,7 +1962,7 @@ h1 + .sec__note, h2 + .sec__note, h3 + .sec__note, p + .sec__note { margin-top: 
    route() sets on every navigation including a tab tap; a class toggled from
    a hashchange listener missed exactly those taps. app.js KIND_ROUTES names
    the same two routes and must stay in step. */
-#kindbar { display: none; margin: 0 0 var(--sp-3); }
+#kindbar { display: none; margin: 0 0 var(--sp-2); }
 html[data-tab="support"] #kindbar,
 html[data-tab="after"] #kindbar { display: block; }
 /* An unmounted bar must take no space at all. The margin above would otherwise
@@ -1980,11 +1980,15 @@ html[data-tab="after"] #kindbar { display: block; }
    - measured 62px vs 39px at 375px. Short lines simply centre in the space.
    The wrap is wide enough on desktop that nothing wraps, so the reservation
    drops back down there. */
+/* ONE LINE, 2026-09-09. The bubble reserved 62px at the top of Support and
+   After and the reader asked for it gone or made a single line. A single
+   line it is: no reserved height, no top margin, caption-sized, never
+   wrapping, and (see below) without the emoji, so that every line in
+   kindness.js fits 375px. */
 #kindbar > div {
-  min-height: 62px;
+  min-height: 0;
   display: flex; align-items: center; justify-content: center;
 }
-@media (min-width: 600px) { #kindbar > div { min-height: 42px; } }
 #kindbar .kind { transition: opacity .6s ease; }
 #kindbar .kind--out { opacity: 0; }
 #kindbar .kind--in { opacity: 0; transition: none; }
@@ -1996,9 +2000,17 @@ html[data-tab="after"] #kindbar { display: block; }
 }
 #kindbar .kind {
   margin: 0 auto;
-  padding: 7px var(--sp-3);
-  font-size: .92rem;
+  padding: 4px var(--sp-3);
+  font-size: .82rem;
+  line-height: 1.3;
+  max-width: 100%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+/* No emoji in the one-line form: measured at 375px, the longest lines ran
+   to 359px against 341px available with one emoji beside them, and an
+   ellipsis on a sentence meant kindly is worse than no emoji. Without them
+   every line fits with room. */
+#kindbar .kind__deco { display: none; }
 
 .kind {
   /* A bubble now, not a footnote - made deliberately more visible at the
@@ -3475,6 +3487,13 @@ details.disc .groupkids > details.disc > summary:active { background: none; }
   font-size: min(.86rem, 15px); color: var(--ink-3); line-height: 1.35;
 }
 .disc__sep { margin: 0 6px; opacity: .6; }
+/* The note beside a section heading and the blurb under a group title - the
+   fifteen lines that never rendered until ui.js section()/group() stopped
+   dropping them (2026-09-09). Same tier as the preview list. The blurb does
+   not fade when the group opens: unlike the preview, its children do not
+   repeat it. */
+.sec__sub { color: var(--ink-3); font-size: min(.86rem, 15px); line-height: 1.35; }
+.disc__blurb { color: var(--ink-3); font-size: min(.86rem, 15px); line-height: 1.35; }
 /* Opening the tile reveals the same headings a few pixels below, so the
    preview would just be saying it twice. It fades out instead of vanishing,
    which keeps the summary from jumping height as it goes. */

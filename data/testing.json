@@ -1225,12 +1225,12 @@
   },
   "legal": {
     "headline": "Test strips are legal in most, but not all, states",
-    "body": "The same carve-out covers xylazine strips in 36 states plus DC. Ohio and Florida joined after the earlier count. Reagent kits are covered in fewer states still. So a strip that is legal for one drug may not be legal for another.",
+    "body": "As of July 1 2026, fentanyl strips are outside paraphernalia law in 47 states plus DC. Xylazine strips are covered in 36 states plus DC, because 11 states wrote their carve-out for fentanyl strips only: Alabama, Arizona, Arkansas, Hawaii, Idaho, Kansas, Kentucky, Mississippi, Missouri, South Dakota and Tennessee. Florida and Wisconsin cover fentanyl and xylazine strips but not strips for other drugs. Equipment that tests for anything — reagent kits included — is covered in 32 states plus DC. So a strip that is legal for one drug may not be legal for another.",
     "stale": "Lists circulating online are out of date. Idaho changed in July 2024 and Indiana in 2025, so the commonly repeated five-state list is wrong. As of July 2026 the three remaining states where possessing drug-checking equipment may still be criminal are Iowa, North Dakota and Texas.",
     "advice": "Check your own state's current law. Nothing here is legal advice.",
     "source": {
-      "name": "LAPPA — Drug Checking Equipment 50-State Summary (Sept 2025)",
-      "url": "https://legislativeanalysis.org/wp-content/uploads/2025/09/Drug-Checking-Equipment-50-State-Summary.pdf"
+      "name": "LAPPA — Drug Checking Equipment fact sheet, July 2026",
+      "url": "https://legislativeanalysis.org/wp-content/uploads/2026/07/Drug-Checking-Equipment-Fact-Sheet-Update-1.pdf"
     }
   },
   "labs": {
@@ -1288,7 +1288,7 @@
     "Start low and go slow. Tolerance and how long you've been away from a substance is a factor.",
     "Using alone is what turns most overdoses into accidents — not the dose, the fact that nobody was there to notice. If there is no one around, Never Use Alone answers 24/7 at 1-800-484-3731 and sends help if you stop responding.",
     "Carry naloxone, and make sure whoever is with you knows where it is.",
-    "Fentanyl and nitazenes are opioids — naloxone works on both. It may take more than one dose."
+    "Fentanyl and nitazenes are opioids — naloxone works on both. If there is no change after 2–3 minutes, give another dose."
   ],
   "storage": {
     "headline": "Storing your supplies",
@@ -1465,11 +1465,15 @@
     ],
     "legal": {
       "title": "Whether you can buy them depends on your state",
-      "body": "Drug-checking equipment is fully legal to sell, give away and possess in 20 states. Thirteen more allow it only for specific drugs — usually fentanyl strips. In Iowa, North Dakota and Texas, possessing it arguably remains a crime. Puerto Rico's status is unknown rather than clear — the July 2026 review covers four of five territories without naming which ones. Massachusetts and Michigan allow possession and free distribution but not sale.",
-      "note": "These laws are actively changing. The counts above are from a July 2026 review; anything you read elsewhere without a date on it is probably older. Availability varies by store and by state and cannot be verified nationally — if a chain near you does not carry it, a local harm reduction program can.",
+      "body": "As of July 1 2026, possessing or using a fentanyl test strip is outside drug-paraphernalia law in 47 states, DC and four US territories — for at least some people, since a few states protect only certain people or uses. Iowa, North Dakota and Texas are the three states where a paraphernalia charge can still reach anyone holding one. Whether a shop can sell them is a separate question. An August 2024 survey found all drug-checking equipment legal to sell, give away and possess in 20 states, with Massachusetts and Michigan allowing possession and free distribution but not sale. That survey listed Puerto Rico among the places where possession arguably remained a crime; the July 2026 sheet counts four territories without naming them.",
+      "note": "These laws are actively changing. The possession counts are LAPPA's, as of July 1 2026; the sale and distribution detail is from an August 2024 survey and may be older than the law in your state. Anything you read elsewhere without a date on it is probably older still. Availability varies by store and by state and cannot be verified nationally — if a chain near you does not carry it, a local harm reduction program can.",
       "sources": [
         {
-          "name": "Network for Public Health Law — 50-state survey",
+          "name": "LAPPA — Drug Checking Equipment fact sheet, July 2026",
+          "url": "https://legislativeanalysis.org/wp-content/uploads/2026/07/Drug-Checking-Equipment-Fact-Sheet-Update-1.pdf"
+        },
+        {
+          "name": "Network for Public Health Law — Legality of Drug Checking Equipment, August 2024 update",
           "url": "https://www.networkforphl.org/wp-content/uploads/2025/01/2024-50-State-DCE-Fact-Sheet.pdf"
         },
         {
