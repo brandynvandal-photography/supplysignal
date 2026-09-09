@@ -105,3 +105,16 @@ jobs:
             echo "::error::could not push after 3 attempts"
             exit 1
           fi
+
+  # Deploy what was just pushed. Commits made with GITHUB_TOKEN do not fire
+  # push events (GitHub's recursion guard), so this calls the deploy directly.
+  # Skipped entirely until the PAGES_PROJECT variable is set - see
+  # docs/HOSTING.md. `before` is the commit this run started from, so the
+  # deploy's skip check diffs exactly what this run changed.
+  deploy:
+    needs: ingest
+    if: ${{ vars.PAGES_PROJECT != '' }}
+    uses: ./.github/workflows/pages.yml
+    with:
+      before: ${{ github.sha }}
+    secrets: inherit

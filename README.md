@@ -78,7 +78,9 @@ it is a frozen archive, not a current feed.
    pipeline still runs; ambiguous items park in `review/pending.json`.
 4. **Set `SITE_URL`** as a repository *variable*.
 5. **Edit `config/watchlist.json`** with the FIPS codes to poll hourly.
-6. **Enable Pages**: *Settings → Pages → Deploy from branch → main → / (root)*.
+6. **Hosting**: Cloudflare Pages, deployed by direct upload from Actions — see
+   [docs/HOSTING.md](docs/HOSTING.md). `netlify.toml` stays the single source
+   of the rewrite and header rules; the build derives Pages' files from it.
 7. **Run it once**: *Actions → ingest → Run workflow*.
 
 ### Build the reference data

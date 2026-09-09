@@ -182,6 +182,15 @@ for (const rel of all) {
   }
 }
 
+/* ------------------------------------- 6. the Cloudflare Pages rule files */
+checked++;
+if (!has("_redirects") || !has("_headers")) fails.push("dist/_redirects or dist/_headers is missing - scripts/hosting.mjs did not run");
+else {
+  const hdr = readFileSync(path.join(ROOT, "dist", "_headers"), "utf8");
+  if (!/Service-Worker-Allowed: \//.test(hdr)) fails.push("dist/_headers lost the service worker's scope header");
+  if (!/X-Frame-Options: DENY/.test(hdr)) fails.push("dist/_headers lost X-Frame-Options");
+}
+
 console.log("DIST\n");
 for (const f of fails) console.log("  not ok " + f);
 if (!fails.length) {

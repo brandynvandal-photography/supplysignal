@@ -1,0 +1,101 @@
+name: pages
+
+# Deploys dist/ to Cloudflare Pages by DIRECT UPLOAD.
+#
+# WHY DIRECT UPLOAD AND NOT THE GIT INTEGRATION. Pages meters the builds it
+# runs itself (500 a month on the free plan), and the ingest workflow commits
+# every few hours - a Git-integrated project would spend that allowance on
+# timestamp commits, which is the exact failure that took nightlight.help down
+# on Netlify (usage_exceeded, a 503 on a harm reduction site). A deployment
+# uploaded by wrangler is not a build: this workflow does the build on a GitHub
+# runner (free on a public repository), scripts/deploy-needed.mjs decides
+# whether anything a reader can reach actually changed, and only then is dist/
+# uploaded. Bandwidth on Pages is unmetered.
+#
+# HOW IT IS INVOKED. Three ways:
+#   - a push to main or staging, which is a human ship via scripts/ship.mjs;
+#   - as a reusable workflow at the end of ingest, maintain and refresh -
+#     the commits those bots push with GITHUB_TOKEN do not fire push events
+#     (GitHub's recursion guard), so they call this directly;
+#   - by hand, for the first deploy and for a redeploy of the current tree.
+#
+# OFF UNTIL THE PROJECT EXISTS. The job is gated on the repository variable
+# PAGES_PROJECT; unset, it is skipped and nothing here runs, so Netlify keeps
+# serving while the Cloudflare side is being set up. Setting it is step 3 of
+# docs/HOSTING.md.
+
+on:
+  push:
+    branches: [main, staging]
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      before:
+        description: The commit the site was last deployed from, for the skip check
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ vars.PAGES_PROJECT != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The branch HEAD, not github.sha: when a bot workflow calls this
+          # after committing, github.sha is the commit it STARTED from and the
+          # one to deploy is the one it just pushed.
+          ref: ${{ github.ref_name }}
+          # Enough history for deploy-needed to diff against the previous
+          # deploy. If the ref is out of reach the script builds anyway - a
+          # missed deploy is worse than a wasted one.
+          fetch-depth: 30
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Worth a deploy?
+        id: need
+        env:
+          # A bot caller passes the commit it started from; a push event
+          # carries the previous head itself. A manual run has neither and
+          # builds unconditionally.
+          CACHED_COMMIT_REF: ${{ inputs.before || github.event.before }}
+        run: |
+          export COMMIT_REF="$(git rev-parse HEAD)"
+          # Netlify's convention, kept: exit 0 means SKIP.
+          if node scripts/deploy-needed.mjs; then
+            echo "deploy=no" >> "$GITHUB_OUTPUT"
+            echo "nothing a reader can reach changed since ${CACHED_COMMIT_REF:-(unknown)}"
+          else
+            echo "deploy=yes" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build dist/
+        if: steps.need.outputs.deploy == 'yes'
+        run: node scripts/build-site.mjs
+
+      - name: Upload to Cloudflare Pages
+        if: steps.need.outputs.deploy == 'yes'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: "false"
+        run: |
+          npx --yes wrangler@4 pages deploy dist \
+            --project-name "${{ vars.PAGES_PROJECT }}" \
+            --branch "${{ github.ref_name }}" \
+            --commit-hash "$(git rev-parse HEAD)" \
+            --commit-dirty=true

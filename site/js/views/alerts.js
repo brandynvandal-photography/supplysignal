@@ -86,6 +86,26 @@ async function pickerView(route, { go, data }) {
       h("h1", null, t("alerts.heading")))
   );
 
+  /* THE DOOR TO THE STARTERS. Search holds six hand-written questions for
+     the reader who cannot name what they need - "If someone is overdosing
+     right now", "Where to get naloxone free" - and they were reachable only
+     behind a magnifier icon in the header, on the one screen (this one) that
+     most often has nothing local to say. One row, under the title, that
+     opens the same panel: the search panel renders the starters on an empty
+     query, so nothing is duplicated here and nothing new has to be kept in
+     step. The row is a native list row like every other door in the app.
+     Guarded because test/views.test.mjs renders this without the shell. */
+  wrap.appendChild(
+    h("button", {
+        type: "button", class: "nbr",
+        onClick: () => document.getElementById("searchbtn")?.click(),
+      },
+      h("span", { class: "nbr__text" },
+        h("span", { class: "nbr__name" }, t("alerts.startTitle")),
+        h("span", { class: "nbr__sub nbr__sub--wrap" }, t("alerts.startSub"))),
+      h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")))
+  );
+
   wrap.appendChild(viewToggle("list", go));
 
   wrap.appendChild(await searchBar({ go, data }));
@@ -826,10 +846,58 @@ async function countyView({ fips, days }, { go, data }) {
               e.currentTarget.textContent = "Link copied";
             } catch { /* clipboard blocked; nothing to fall back to that is private */ }
           },
-        }, "Copy link")))
+        }, "Copy link"),
+        /* THE HAND-OUT. Outreach workers photocopy, and the person with no
+           smartphone is the reader every digital product drops. The county
+           page already prints cleanly (app.css, @media print): this adds the
+           six overdose steps, the 24/7 numbers and the page's own address to
+           the foot of the printout, and sends it to the printer.
+
+           Built on the press, not on render: the steps live in the Emergency
+           view, and importing that module statically would load it on every
+           home-screen visit for a button most readers never tap. The web
+           only - WKWebView has no reliable print path, and the packaged app
+           already carries the steps offline on its own tab. */
+        data.packaged() ? null : h("button", {
+          type: "button", class: "btn btn--ghost btn--sm",
+          onClick: async () => {
+            if (!wrap.querySelector(".print-only")) {
+              const { STEPS, LINES } = await import("./help.js");
+              wrap.appendChild(printSheet(c, STEPS, LINES));
+            }
+            window.print();
+          },
+        }, t("alerts.print"))))
   );
 
   return wrap;
+}
+
+/* The foot of the county hand-out. On screen it is display:none (see
+   .print-only in app.css); on paper it follows the county's own sections. The
+   steps are printed title, instruction, then the note - every fact from the
+   Emergency tab, nothing rewritten - and the address is written out because
+   a link on paper is only useful if you can read where it goes. */
+function printSheet(c, STEPS, LINES) {
+  const url = `https://nightlight.help/alerts#/${c.fips}`;
+  const when = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  return h("section", { class: "print-only", "aria-hidden": "true" },
+    h("p", { class: "print__meta" },
+      `${c.name}, ${c.state} — printed from ${url} on ${when}. `
+      + "No published alert does not mean a safe supply; most changes in a local "
+      + "supply are never announced."),
+    h("h2", null, "If someone is overdosing right now"),
+    h("p", null,
+      "Call 911. Give naloxone if you have it. Stay with them. You do not have to "
+      + "say what they took — only that someone is not breathing."),
+    h("ol", null, STEPS.map((s) =>
+      h("li", null, h("strong", null, `${s.title}. `), s.body, s.note ? ` ${s.note}` : null))),
+    h("h2", null, "Numbers that answer 24/7"),
+    h("ul", null, LINES.map((l) =>
+      h("li", null, h("strong", null, `${l.name}: ${l.num}`), ` — ${l.sub}`))),
+    h("p", { class: "print__meta" },
+      "Information, not medical advice. Nothing you look up on the site leaves "
+      + "your device. nightlight.help"));
 }
 
 const labelFor = (d) => (d === 365 ? "12 months" : `${d} days`);

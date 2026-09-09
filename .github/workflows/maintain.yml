@@ -43,6 +43,19 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
+      # Which counties have started publishing overdose toxicology? The four
+      # medical-examiner sources were found by hand; this repeats the catalog
+      # sweep weekly and writes candidates for a person to read (nothing is
+      # ingested). docs/ALERT-SOURCES.md step 7; scripts/discover-sources.mjs.
+      # Weekly only: it is six catalog calls and up to forty aggregate queries
+      # against county portals, which is polite once a week and rude nightly.
+      - name: Discover new county datasets
+        if: github.event.schedule == '17 4 * * SUN' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        env:
+          SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
+        run: node scripts/discover-sources.mjs | tee -a "$GITHUB_STEP_SUMMARY"
+
       # GitHub disables scheduled workflows in public repos after 60 days with
       # no repository activity. Hourly ingest commits normally cover this, but a
       # long quiet stretch produces no commits — so touch a marker weekly.
@@ -55,10 +68,23 @@ jobs:
         run: |
           git config user.name  "supplysignal-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/ archive/ .github/last-activity
+          git add data/ archive/ .github/last-activity review/source-candidates.json
           if git diff --staged --quiet; then
             echo "no changes"
           else
             git commit -m "maintain: $(date -u +%FT%TZ)"
             git push
           fi
+
+  # Deploy what was just pushed. Commits made with GITHUB_TOKEN do not fire
+  # push events (GitHub's recursion guard), so this calls the deploy directly.
+  # Skipped entirely until the PAGES_PROJECT variable is set - see
+  # docs/HOSTING.md. `before` is the commit this run started from, so the
+  # deploy's skip check diffs exactly what this run changed.
+  deploy:
+    needs: maintain
+    if: ${{ vars.PAGES_PROJECT != '' }}
+    uses: ./.github/workflows/pages.yml
+    with:
+      before: ${{ github.sha }}
+    secrets: inherit

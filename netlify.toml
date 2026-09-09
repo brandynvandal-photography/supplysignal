@@ -400,6 +400,119 @@
   [headers.values]
     Cache-Control = "no-cache"
 
+
+# THE TAB PATHS THEMSELVES. A header rule keys on the path REQUESTED, not on
+# the file served, so the no-cache on /site/index.html above never reaches
+# /alerts - the rewrite hands the shell to a path with no rule of its own.
+# Netlify defaulted those to max-age=0 with must-revalidate, which is no-cache
+# by another name; Cloudflare Pages is not documented to do the same, so it is
+# stated, one rule per rewritten path, mirroring the redirect list above.
+# test/hosting.test.mjs fails if a route has a rewrite and no rule here.
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache"
+# The shell's own directory: where the root fallback hops to, and where old
+# /site/ bookmarks land. Same regime as /site/index.html.
+[[headers]]
+  for = "/site/"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/w"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/alerts"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/test"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/drugs"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/learn"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/support"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/sos"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/after"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/heat"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/emerging"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/policy"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/supervision"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/sex"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/stimulants"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/about"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/donate"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+# THE SHELL'S OWN DIRECTORY PATHS. Old bookmarks and every per-county RSS feed
+# still arrive at /site/ and /site/#/47065, and on Cloudflare Pages the tab
+# rewrites proxy to /site/ rather than to the file (scripts/hosting.mjs). The
+# rule above names the file, which a request for the directory does not match.
+[[headers]]
+  for = "/site/"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/site/w/"
+  [headers.values]
+    Cache-Control = "no-cache"
+
 [[headers]]
   for = "/site/manifest.webmanifest"
   [headers.values]

@@ -5,7 +5,10 @@ import {
   h, callout, extLink, disclosure, jumpNav, englishOnlyNotice,
 } from "../ui.js";
 
-const LINES = [
+/* Exported: the county page prints these on its hand-out sheet (views/alerts.js
+   imports this module lazily, on the print button, so the home route never
+   pays for the Emergency view). */
+export const LINES = [
   { name: "Emergency", sub: "Overdose is a medical emergency", num: "911", tel: "911" },
   { name: "Never Use Alone", sub: "Someone stays on the line and sends help if you stop responding",
     num: "1-800-484-3731", tel: "18004843731" },
@@ -41,7 +44,7 @@ const LINES = [
  * em-dash asides, and the verb first when it is a thing to do. Every fact and
  * every protocol decision is unchanged. The reasoning stays in the comments,
  * which is where reasoning belongs. */
-const STEPS = [
+export const STEPS = [
   /* Breathing is checked FIRST, before responsiveness. This is the 2025
      protocol change from Philadelphia DPH / PA DOH (HAN #794, verbatim: "the
      first step should be to check for breathing"), driven by medetomidine:
@@ -358,6 +361,31 @@ export async function render() {
      Placed directly under the 911 instruction because it CHANGES that
      instruction, and below it because it does not replace it.
 
+     SOURCED 2026-09-09. This was the one section on the page with no source
+     row at all, and reading the pages it described changed the copy:
+       - "aid stations sited so nobody is more than a five-minute walk away"
+         is in no guidance that could be found. HSG195 puts a medical point
+         near the stage and the rest on the perimeter and names no minutes.
+         Cut.
+       - "Lollapalooza tells attendees to do both" - its safety page says
+         contact any uniformed staff member OR call 911. Doing both is our
+         advice, and it now reads as ours.
+       - "on the same page Insomniac says police work inside its events" -
+         the amnesty line and the police line are on DIFFERENT Insomniac
+         pages (a festival's Health & Wellness guide; the General Festival
+         Guidelines). Okeechobee is the page that says both in one breath.
+       - "Most large US festivals publish nothing like it" was a
+         generalization nobody had counted. Cut.
+       - "Naming a drug on that call is what brings police" is not what the
+         dispatch studies show: police are commonly sent to an overdose call
+         whatever is said. Replaced with the two studies that measured it.
+       - The Ultra note said the partner was charged "using evidence from a
+         separate investigation". What was reported: four people were
+         charged a year on, the partner among them for possession, on text
+         messages about buying the pill. Rewritten to that; nobody is named.
+     Every card carries its sources in the same .sources row the police
+     section below uses. Never re-add a claim here without one.
+
      What is deliberately NOT here: the "arms crossed in an X above your head"
      signal and the phone-torch signal. Both circulate widely and neither is
      taught by any festival, promoter, event-medical provider or crowd-safety
@@ -375,79 +403,137 @@ export async function render() {
         h("div", { class: "card" },
           h("h3", null, "The nearest radio beats the nearest phone"),
           h("p", null,
-            "On-site medics are already inside the perimeter, and aid stations "
-            + "at a well-run event are sited so nobody is more than about a "
-            + "five-minute walk away. Look for a medical tent, a medic, or any "
-            + "staff member with a radio — vendors and ticket staff included. "
-            + "They are supposed to know where the aid stations are."),
+            "On-site medics are already inside the perimeter. Look for a "
+            + "medical tent, a medic, or any staff member with a radio — "
+            + "vendors and ticket staff included. Lollapalooza's own advice is "
+            + "the same: look for any festival staff member or anyone with a "
+            + "radio."),
           h("p", { class: "sec__note" },
-            "Send a specific person and tell them to come back. \"Somebody call "
-            + "for help\" in a crowd is how nobody does.")),
+            "Send a specific person, and tell them to come back. The more "
+            + "people there are, the less likely any one of them acts — "
+            + "\"somebody call for help\" in a crowd is how nobody does."),
+          h("div", { class: "sources" },
+            extLink("https://www.lollapalooza.com/safety", "Lollapalooza — Safety"),
+            extLink("https://www.redcross.org.uk/stories/health-and-social-care/first-aid/what-is-the-bystander-effect",
+              "British Red Cross — What is the bystander effect?"))),
         h("div", { class: "card" },
           h("h3", null, "Near the front, the barrier crew is already looking"),
           h("p", null,
             "The staff in the pit between the barrier and the stage are there "
-            + "to spot people in trouble and lift them out, and the event "
-            + "safety guidance says their platform exists so they can see over "
-            + "the crowd to do it. If you are anywhere near the front, they are "
-            + "the closest help there is and they are already facing you.")),
+            + "to lift out people in distress. The UK's event safety guide says "
+            + "it in as many words: the pit exists to help stewards, first "
+            + "aiders and paramedics, and a raised platform inside the barrier "
+            + "lets stewards oversee the audience and pick out anyone in "
+            + "trouble. If you are near the front, they are the closest help "
+            + "there is, and they are already facing you."),
+          h("div", { class: "sources" },
+            extLink("https://livemusicexchange.org/wp-content/uploads/The-Event-Safety-Guide-HSE-PURPLE-GUIDE.pdf",
+              "HSE — The Event Safety Guide (HSG195), paragraphs 321 and 410"))),
         h("div", { class: "card" },
-          h("h3", null, "Do both — they are not alternatives"),
+          h("h3", null, "Get staff moving and call 911"),
           h("p", null,
-            "Get staff moving and call 911. Lollapalooza tells attendees to do "
-            + "both. At a small event there may be no on-site medical at all, "
-            + "and then 911 is the whole answer."),
+            "Do both. Lollapalooza's safety page says to contact any uniformed "
+            + "staff member or call 911 — there is no reason to pick one. At a "
+            + "small event there may be no on-site medical at all, and then 911 "
+            + "is the whole answer."),
           h("p", { class: "sec__note" },
             "Note where you are before you call — the nearest numbered pole, "
             + "stage, bar or vendor. It is the difference between help arriving "
-            + "and help searching.")),
+            + "and help searching."),
+          h("div", { class: "sources" },
+            extLink("https://www.lollapalooza.com/safety", "Lollapalooza — Safety"))),
         h("div", { class: "card" },
           h("h3", null, "Tell the event's medics what they took"),
           h("p", null,
-            "They can treat faster when they know, and on-site care is free at "
-            + "most big events where an ambulance is not. Lollapalooza, "
-            + "Insomniac's festivals and Okeechobee all publish in writing that "
-            + "you will not get in trouble for seeking medical help."),
+            "They can treat faster when they know. Lollapalooza asks you to be "
+            + "honest with emergency personnel: “they are here to help you; NOT "
+            + "get you in trouble.” Insomniac's festivals and Okeechobee say it "
+            + "too — you will not get in trouble for seeking medical help, and "
+            + "their on-site care is free of charge, no questions asked. An "
+            + "ambulance usually is not free: about half of emergency ground "
+            + "ambulance rides for privately insured people end in an "
+            + "out-of-network charge."),
           h("p", { class: "sec__note" },
-            "Read that as narrowly as it is written. Most large US festivals "
-            + "publish nothing like it, and several publish the opposite — "
-            + "Coachella and Burning Man both say in their own rules that you "
-            + "can be removed or arrested. Even where the promise exists it is "
-            + "the medical team's, and on the same page Insomniac says police "
-            + "work inside its events and narcotics laws are enforced.")),
+            "Read that as narrowly as it is written. It is the medical team's "
+            + "promise, not the law's. Okeechobee's same page says police work "
+            + "inside and outside the event and all narcotics laws are strictly "
+            + "enforced; Insomniac's guidelines say the same. Coachella's rules "
+            + "say possession of illegal drugs can get you removed and your "
+            + "wristband revoked, and that offenders may be arrested. Burning "
+            + "Man's survival guide says illegal action can lead to citation or "
+            + "arrest."),
+          h("div", { class: "sources" },
+            extLink("https://www.lollapalooza.com/safety", "Lollapalooza — Safety"),
+            extLink("https://www.nocturnalwonderland.com/guide/health/",
+              "Insomniac (Nocturnal Wonderland) — Health & Wellness"),
+            extLink("https://www.okeechobeefest.com/guide/during-the-event",
+              "Okeechobee — During the event"),
+            extLink("https://www.insomniac.com/general-festival-guidelines/",
+              "Insomniac — General Festival Guidelines"),
+            extLink("https://coachella.com/festival-info", "Coachella — Festival info"),
+            extLink("https://survival.burningman.org/law-enforcement/",
+              "Burning Man Survival Guide — Law enforcement"),
+            extLink("https://www.kff.org/health-costs/analysis-half-of-emergency-ambulance-rides-lead-to-out-of-network-bills-for-privately-insured-patients/",
+              "KFF — Half of emergency ambulance rides lead to out-of-network bills (2021)"))),
         h("div", { class: "card" },
           h("h3", null, "What the promise does and does not cover"),
           h("p", null,
-            "Your state's Good Samaritan law can stop the police arresting you "
-            + "for what they find because you asked for help. It does not stop "
-            + "the festival throwing you out. The law binds the police; your "
-            + "ticket is a permission the event can take back at any time."),
+            "Your state's Good Samaritan law can protect you from charges for "
+            + "what is found because you asked for help. It does not stop the "
+            + "festival throwing you out. The law binds the police; your ticket "
+            + "is a permission the event can take back at any time. What the law "
+            + "covers where you live is under “Calling 911 and the law”, below."),
           h("p", { class: "sec__note" },
-            "It also only covers that night. At Ultra in 2025 a woman did not survive "
-            + "after being taken to a medical tent; the partner who carried her "
-            + "in was charged a year later, using evidence from a separate "
-            + "investigation. Go and get help anyway — just know that the "
-            + "protection is narrower than it sounds.")),
+            "It also only covers that night. At Ultra in 2025 a woman's partner "
+            + "carried her to a medical tent, and she did not survive. A year "
+            + "later four people were charged over the pill — the partner among "
+            + "them, for possession — on the strength of text messages about "
+            + "buying it. Go and get help anyway; just know that the protection "
+            + "is narrower than it sounds."),
+          h("div", { class: "sources" },
+            extLink("https://www.cbsnews.com/miami/news/arrests-2025-overdose-death-ultra-music-festival/",
+              "CBS Miami — Four arrested after the 2025 Ultra overdose (March 2026)"),
+            extLink("https://www.local10.com/news/local/2026/03/18/4-face-charges-after-georgia-womans-fatal-overdose-at-ultra-music-festival-cops-say/",
+              "Local 10 — Four face charges after the 2025 Ultra overdose (March 2026)"))),
         h("div", { class: "card" },
           h("h3", null, "The disclosure nobody warns you about"),
           h("p", null,
-            "If you are on somebody else's insurance — a parent's plan covers "
-            + "you until 26 — an ambulance ride and an emergency room visit "
-            + "generate an explanation of benefits, and it is mailed to "
-            + "whoever holds the policy. That is the most likely way a night "
-            + "like this gets disclosed, and it has nothing to do with "
-            + "police.")),
+            "If you are on somebody else's insurance — a parent's job-based plan "
+            + "can cover you until you turn 26 — an ambulance ride and an "
+            + "emergency room visit generate an explanation of benefits, and "
+            + "insurers send it to the policyholder even when the care was a "
+            + "dependent's. It is a common way a night like this gets disclosed, "
+            + "and it has nothing to do with police."),
+          h("div", { class: "sources" },
+            extLink("https://www.healthcare.gov/young-adults/children-under-26/",
+              "HealthCare.gov — Coverage for children under 26"),
+            extLink("https://www.guttmacher.org/gpr/2013/12/new-frontier-era-health-reform-protecting-confidentiality-individuals-insured-dependents",
+              "Guttmacher Institute — Protecting confidentiality for individuals insured as dependents (2013)"))),
         h("div", { class: "card" },
           h("h3", null, "A 911 call is a different conversation"),
           h("p", null,
             "That amnesty is the event's, not the state's. On the phone, "
             + "describe what you can see — not breathing, not waking up — give "
-            + "the location, and ask for medics. Naming a drug on that call is "
-            + "what brings police."),
+            + "the location, and ask for medics. In many places police are sent "
+            + "to an overdose call whatever you say: in one Arizona city they "
+            + "were the first responder dispatched on 77% of overdose calls. "
+            + "Arrests at the scene are rare — 3 of 211 police-attended "
+            + "overdoses in one Rhode Island city — but police are usually "
+            + "there, so give the call what the medics need and nothing else."),
           h("p", { class: "sec__note" },
-            "Medics carry naloxone whether or not you say the word. If you are "
-            + "worried they will not, you can ask them to bring it — knowing "
-            + "that asking may bring police too."))));
+            "Medics carry naloxone whether or not you say the word. Intranasal "
+            + "naloxone for a suspected opioid overdose is in the national EMS "
+            + "scope of practice at every level, first responders included. If "
+            + "you are worried they will not have it, you can ask them to bring "
+            + "it."),
+          h("div", { class: "sources" },
+            extLink("https://pmc.ncbi.nlm.nih.gov/articles/PMC12208077/",
+              "Glenn et al., West J Emerg Med 2025 — 911 calls for opioid overdose in Nogales, Arizona"),
+            extLink("https://pmc.ncbi.nlm.nih.gov/articles/PMC9578237/",
+              "Macmadu et al., Harm Reduction Journal 2022 — police responses to overdoses in Rhode Island"),
+            extLink("https://www.nremt.org/getmedia/d82edd97-1425-423f-954c-fdd63cf1daa3/National_EMS_Scope_of_Practice_Model_2019_Change_Notices_1_and-_2_August_2021",
+              "National EMS Scope of Practice Model 2019 (2021 edition), p. 29"))))
+  );
 
   /* ---- a nightclub or a bar ----
      Not the festival section with the word changed. A festival has medics
@@ -494,7 +580,14 @@ export async function render() {
             + "Keeping it in the pharmacy packaging helps, and so does saying "
             + "what it is before they find it. If it is confiscated, ask "
             + "whether the venue keeps its own — many now do, and the person "
-            + "on the door may not be the person who knows.")),
+            + "on the door may not be the person who knows."),
+          /* One sourced counter-example, for the argument at the door. */
+          h("p", { class: "sec__note" },
+            "For comparison, Insomniac's festival guidelines list sealed "
+            + "intranasal naloxone as an acceptable item to bring in."),
+          h("div", { class: "sources" },
+            extLink("https://www.insomniac.com/general-festival-guidelines/",
+              "Insomniac — General Festival Guidelines"))),
         /* The pointer sits here rather than at the foot of the page. It used to
            be the second-to-last thing on Help, where somebody reading about
            getting naloxone past a door had already stopped scrolling. This is

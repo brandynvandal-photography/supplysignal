@@ -4088,7 +4088,23 @@ details.disc[open] { margin-bottom: var(--sp-3); }
     content: " (" attr(href) ")"; font-size: .85em; color: #333;
   }
   .badge { border: 1px solid #000; color: #000; background: #fff; }
+  /* The county page as a hand-out: the map is a canvas and prints as a grey
+     block, and the print sheet below carries what the map showed as words. */
+  .map, .fresh, .earlybar, .updatedline, .mortslot { display: none !important; }
+  .print-only { display: block !important; }
+  .print-only h2 { font-size: 13pt; margin: 12pt 0 4pt; }
+  .print-only ol, .print-only ul { padding-left: 1.2em; }
+  .print-only li { margin: 0 0 5pt; }
+  .print-only .print__meta { font-size: 9pt; color: #333; }
 }
+
+/* THE PRINT SHEET. Rendered on every county page and never shown on a screen:
+   the six overdose steps, the 24/7 numbers, the county's alerts and the page's
+   own address, laid out for a photocopier. An outreach worker with a county
+   page open and a printer nearby gets a hand-out in one tap; nobody else ever
+   sees it. display:none on screen, so its text is not read twice by a screen
+   reader and it costs the page no height. */
+.print-only { display: none; }
 
 /* The map's ranked-counties heading used to be the first child of the .list and
    needed this rule to stop it inheriting row chrome. It is a sibling above the
