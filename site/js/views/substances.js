@@ -997,6 +997,18 @@ async function detailView(id, subs, combos, { go }) {
     wrap.appendChild(
       h("div", { class: "leadin" }, h("p", null, s.description))
     );
+    /* WHAT IS SOLD AS THIS, on its own line. The description answers "what is
+       it" and stops there (descriptions.json, last rule); what pressed pills
+       actually contain, batch variance and cutting agents are a different
+       kind of fact - about the market, not the molecule - and they read as
+       one when they share a paragraph. Labelled, so a reader can tell which
+       sentence is which; kept, because "pills stamped M30 are very often
+       pressed fentanyl" is the sentence that stops a mistake. */
+    if (s.supply) {
+      wrap.appendChild(
+        h("p", { class: "sec__note supplyline" }, h("strong", null, "In the supply: "), s.supply)
+      );
+    }
   } else {
     /* Say so, rather than opening on a dose chart for something the reader
        cannot identify. The entries left in this state are research chemicals
@@ -1665,7 +1677,9 @@ function doseTable(r) {
 
   /* data--pairs: a fixed first column, so the four dose tables stacked on one
      page all start their Amount column at the same x. See the note in app.css. */
-  return h("div", { class: "tablewrap" },
+  /* Focusable and named: see the note on the dilution tables in views/test.js. */
+  return h("div", { class: "tablewrap", tabindex: "0", role: "region",
+                    "aria-label": `${routeLabel(r.name)} dose ranges` },
     h("table", { class: "data data--pairs" },
       h("caption", null, `${routeLabel(r.name)} — dose`),
       h("thead", null, h("tr", null,
@@ -1682,7 +1696,8 @@ function durationTable(r) {
     ["Offset", d.offset], ["Total", d.total],
   ].filter(([, v]) => v);
 
-  return h("div", { class: "tablewrap" },
+  return h("div", { class: "tablewrap", tabindex: "0", role: "region",
+                    "aria-label": `${routeLabel(r.name)} duration` },
     h("table", { class: "data data--pairs" },
       h("caption", null, `${routeLabel(r.name)} — duration`),
       h("thead", null, h("tr", null,

@@ -16,7 +16,7 @@
  * without touching code.
  */
 
-import { h, frag, clear, section, callout, extLink, empty, disclosure, jumpNav, badge, group, safeHref, sourceSink, checkedLine } from "../ui.js";
+import { h, frag, clear, section, callout, extLink, empty, disclosure, jumpNav, badge, group, safeHref, sourceSink, checkedLine, englishOnlyNotice } from "../ui.js";
 import * as data from "../data.js";
 import { saferUseBlock } from "./help.js";
 import { communitiesBlock } from "../communities.js";
@@ -33,6 +33,7 @@ export async function render() {
   SRC = sourceSink();          // fresh per render; see the note on sourceRow
   const wrap = h("div");
   wrap.appendChild(h("h1", null, "Support"));
+  { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
 
   /* A letter, not a callout.
      As a filled info panel with a headline this read as a banner - a notice
@@ -109,7 +110,11 @@ export async function render() {
        an open group repeats its child headings a few pixels below it. */
     group("grp-help", "Finding help",
       "Treatment, peer support, and what to do about cost.", [
-        sectionOrPending("sec-options", "Treatment options", g.options, renderOptions),
+        /* Open: the three medications are the page's first answer, and
+           measured 2026-09-09 they were three taps from the tab (the tile,
+           the row, the card). 593 of Support's 8,449 words were visible with
+           no tap, and none of them said what treatment is. */
+        sectionOrPending("sec-options", "Treatment options", g.options, renderOptions, { open: true }),
         sectionOrPending("sec-getting", "Getting services", g.getting, renderGetting),
         sectionOrPending("sec-peer", "Peer support", g.peer, renderPeer),
         /* Cost sits inside this group rather than last on the page: it is the
@@ -130,7 +135,10 @@ export async function render() {
         await checkingBlock(),
         saferUseBlock(),
       ],
-      ["Getting supplies", "Getting your supply checked", "If you are going to use"])
+      /* Open, no preview list - an open group repeats its child headings a
+         few pixels below the preview. The three rows are what a reader who
+         is not stopping came for, and they were behind the tile. */
+      null, { open: true })
   );
 
   wrap.appendChild(letter);
@@ -188,7 +196,7 @@ export async function render() {
 }
 
 /** Render a section, or a plain note if its data has not been added yet. */
-function sectionOrPending(id, title, payload, renderer) {
+function sectionOrPending(id, title, payload, renderer, opts = null) {
   if (!payload) {
     return disclosure(id, title, null,
       h("div", { class: "card" },
@@ -196,7 +204,7 @@ function sectionOrPending(id, title, payload, renderer) {
           "Being verified. This section appears once every link and phone " +
           "number has been confirmed.")));
   }
-  return disclosure(id, title, null, renderer(payload));
+  return disclosure(id, title, opts, renderer(payload));
 }
 
 /* --------------------------------------------------------------- sections */

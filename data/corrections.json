@@ -1,0 +1,126 @@
+{
+  "_note": "HAND-WRITTEN. The public corrections log, rendered on About. One entry per thing the app said that was wrong, overstated or unsupported: the date it was corrected, what it said, what was wrong with it, what it says now, and where. Written in the app's own voice, no names, and never edited after the fact - a later correction of a correction is a new entry. Dates are the day the fix shipped or was recorded in EVIDENCE.md; nothing undated goes in. test/corrections.test.mjs holds the shape.",
+  "lastVerified": "2026-09-09",
+  "entries": [
+    {
+      "date": "2026-08-09",
+      "where": "Test",
+      "title": "\"Fentanyl is in most of the current supply\"",
+      "said": "That fentanyl was in most of the drug supply.",
+      "wrong": "True of illicit opioids, not of the supply generally. Heroin and other street opioids test positive for fentanyl 85–98% of the time; powder cocaine and methamphetamine about 6–15%; crack under 2%; crystal meth under 1%; cannabis has no laboratory-confirmed case.",
+      "now": "A per-drug table of how often fentanyl is found, by what the drug was sold as, with the sources."
+    },
+    {
+      "date": "2026-08-09",
+      "where": "Drugs · Xylazine",
+      "title": "\"Xylazine is mixed into much of the fentanyl supply\"",
+      "said": "That xylazine was in much of the fentanyl supply nationally.",
+      "wrong": "Heavily regional. Around 65% of fentanyl samples in Philadelphia and falling, 22–29% in Los Angeles, about 8% in national forensic reporting. Not defensible as a national statement.",
+      "now": "Regional figures, each with where and when it was measured."
+    },
+    {
+      "date": "2026-08-09",
+      "where": "SOS",
+      "title": "\"Fentanyl often needs more than one naloxone dose\"",
+      "said": "That fentanyl overdoses usually take several doses of naloxone.",
+      "wrong": "Fentanyl is not naloxone-resistant: a cumulative 4 mg reversed about 97% of suspected fentanyl overdoses. The impression comes from responders redosing before the first dose has had time to work.",
+      "now": "Wait 2–3 minutes, then give another dose. Fentanyl is not immune to naloxone. The instruction to give a second dose is unchanged."
+    },
+    {
+      "date": "2026-08-09",
+      "where": "Drugs · combination checker",
+      "title": "\"Opioids with benzodiazepines or alcohol is the most common combination in overdose deaths\"",
+      "said": "That opioids with benzodiazepines or alcohol was the combination found most often.",
+      "wrong": "Fentanyl with a stimulant is the most frequent combination in the death data; benzodiazepines were involved in about 10%. The warning about benzodiazepines and alcohol stands on mechanism — they stack with the breathing suppression of an opioid — not on frequency.",
+      "now": "The mechanism is the warning; the frequency figure names fentanyl with a stimulant."
+    },
+    {
+      "date": "2026-08-09",
+      "where": "SOS · Calling 911 and the law",
+      "title": "\"Most states have Good Samaritan laws\"",
+      "said": "That most states had an overdose Good Samaritan law, and implied that calling was protected.",
+      "wrong": "Understated and over-reassuring at once. All 50 states and DC have one, but what they cover is narrower than readers assume: usually not distribution, not existing warrants, and probation or parole violations only in some states. Some give only a defense to raise in court, not immunity.",
+      "now": "Its own section listing what the laws usually do not cover, and the plain line that far more people are lost to accidents where nobody called than are prosecuted for calling."
+    },
+    {
+      "date": "2026-08-09",
+      "where": "SOS",
+      "title": "\"Naloxone wears off in 30–90 minutes\" — kept, softened",
+      "said": "That the overdose could return in full when naloxone wore off.",
+      "wrong": "The range is right. Re-sedation is more typical than a full recurrence of a life-threatening overdose; the wording overstated how often it happens.",
+      "now": "\"They can go under again. It does not happen often. It is still why you stay.\""
+    },
+    {
+      "date": "2026-08-10",
+      "where": "Support · Getting supplies",
+      "title": "Hawaii \"free naloxone by mail for residents\"",
+      "said": "That Hawaii mailed free naloxone to residents statewide, as most secondary sources say.",
+      "wrong": "The program's own terms cover Kauaʻi, Lānaʻi and Molokaʻi only.",
+      "now": "Listed with the three islands named."
+    },
+    {
+      "date": "2026-08-10",
+      "where": "Support · Someone to talk to now",
+      "title": "988 \"Press 3\" for LGBTQ+ young people",
+      "said": "That 988 offered a dedicated option for LGBTQ+ youth.",
+      "wrong": "The service ended on 17 July 2025. It was rejected before publication rather than corrected after, and it is logged because most guides still list it.",
+      "now": "The Trevor Project is listed instead."
+    },
+    {
+      "date": "2026-08-10",
+      "where": "Support · Peer support",
+      "title": "Recovery Dharma described as medication-friendly",
+      "said": "That Recovery Dharma welcomes people on methadone or buprenorphine, as it is widely described.",
+      "wrong": "Their own current FAQ takes no position on medication at all. A reassurance the organization has not given is not ours to give.",
+      "now": "\"No published position.\""
+    },
+    {
+      "date": "2026-09-05",
+      "where": "Test · Test strips",
+      "title": "\"Wait the full three minutes before deciding\"",
+      "said": "A sentence shared by every strip said to wait three minutes before reading a faint line.",
+      "wrong": "Three of the six brands the page lists say to wait five. A reader who picked one of them got a five-minute instruction and a three-minute instruction twenty pixels apart, and the three-minute one was the more emphatic.",
+      "now": "\"Wait the full time for your strip, above, before deciding\" — and a test that fails the build if any shared sentence ever names a duration the brands disagree on."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "SOS · At a festival",
+      "title": "\"Lollapalooza tells attendees to do both\"",
+      "said": "That Lollapalooza's own guidance was to get staff moving and call 911.",
+      "wrong": "Its safety page says to contact any uniformed staff member or call 911. Doing both is this app's advice, and it was attributed to them.",
+      "now": "\"Do both\" is stated as our advice, with Lollapalooza's wording quoted as written."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "SOS · At a festival",
+      "title": "\"Aid stations are sited so nobody is more than about a five-minute walk away\"",
+      "said": "That event safety guidance places medical points within a five-minute walk of anyone.",
+      "wrong": "No guidance that could be found says it. The UK event safety guide puts one medical point near the stage and the rest on the perimeter, and names no minutes.",
+      "now": "The sentence is gone. What the guide does say — that pit stewards have a raised platform to see the audience and lift people out — is quoted with its paragraph number."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "SOS · At a festival",
+      "title": "\"Most large US festivals publish nothing like it\"",
+      "said": "That most large US festivals publish no medical-amnesty statement.",
+      "wrong": "Nobody had counted. A generalization with no source behind it.",
+      "now": "The specific festivals that do publish one (Lollapalooza, Insomniac's, Okeechobee) and the two whose rules say the opposite (Coachella, Burning Man), each linked."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "SOS · At a festival",
+      "title": "\"Naming a drug on that call is what brings police\"",
+      "said": "That mentioning a drug to the 911 dispatcher was the thing that got police sent.",
+      "wrong": "Not what the dispatch studies show. In one Arizona city police were the first responder dispatched on 77% of overdose calls whatever was said; in a Rhode Island city they attended 211 overdoses in a year and arrested somebody at 3 of them.",
+      "now": "Police are commonly sent to an overdose call regardless; arrests at the scene are rare; give the call what the medics need. Both studies cited."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "SOS · At a festival",
+      "title": "The Ultra 2025 note",
+      "said": "That the partner who carried a woman to the medical tent was charged a year later \"using evidence from a separate investigation\".",
+      "wrong": "Four people were charged a year on — the partner among them, for possession — on the strength of text messages about buying the pill. There was no separate investigation.",
+      "now": "The reported facts, from two news sources, with nobody named."
+    }
+  ]
+}

@@ -15,7 +15,7 @@
  * bag", and every extra step in that chain loses people.
  */
 
-import { h, frag, section, callout, extLink, disclosure, jumpNav, jumpTo, checkedLine } from "../ui.js";
+import { h, frag, section, callout, extLink, disclosure, jumpNav, jumpTo, checkedLine, englishOnlyNotice } from "../ui.js";
 import * as data from "../data.js";
 import { practiceBlock } from "../practice.js";
 
@@ -29,6 +29,7 @@ export async function render(route, { go }) {
   const wrap = h("div");
 
   wrap.appendChild(h("h1", null, "Learn"));
+  { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
 
   if (!e) {
     wrap.appendChild(
@@ -242,8 +243,12 @@ async function mythsBlock() {
   return h("div", { id: "sec-myths" },
     section("Myths", null,
       h("p", { class: "sec__note" }, m.intro),
-      ...m.groups.map((g) =>
-        disclosure(g.id, g.title, null,
+      /* The first group open, the rest shut. "Helping someone who is
+         overdosing" is eight short corrections and the ones most likely to
+         be acted on tonight; a reader who meets them without a tap learns
+         what the section is, and opens the others if they want them. */
+      ...m.groups.map((g, i) =>
+        disclosure(g.id, g.title, i === 0 ? { open: true } : null,
           h("div", { class: "card" },
             g.items.map((it) =>
               h("div", { class: "mythrow" },

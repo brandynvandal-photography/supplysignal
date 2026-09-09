@@ -29,6 +29,7 @@ export async function render(route, { go }) {
       { id: "sec-updates", label: "How often it updates" },
       { id: "sec-privacy", label: "What it knows about you" },
       { id: "sec-wrong", label: "If something is wrong" },
+      { id: "sec-corrected", label: "What we got wrong" },
     ])
   );
 
@@ -106,6 +107,16 @@ export async function render(route, { go }) {
             "what is wrong with it is all we need."))))
   );
 
+  /* THE CORRECTIONS LOG. Every clinical claim here is meant to be checked,
+     and the honest consequence of checking is a list of what was wrong. This
+     is that list, dated, in the app's own words: what it said, what was wrong
+     with it, what it says now. It is the strongest thing an information
+     source can publish about itself, and it is the reason to trust the
+     paragraph above it. Entries are data (data/corrections.json) so the log
+     can be added to without touching this file, and test/corrections.test.mjs
+     fails the build on an entry with no date or no "now". */
+  wrap.appendChild(await correctionsBlock());
+
   wrap.appendChild(
     section("Built on other people’s work", null,
       h("p", { class: "sec__note" },
@@ -125,6 +136,27 @@ export async function render(route, { go }) {
 
 const li = (strong, rest) =>
   h("li", null, h("strong", null, strong), rest ? " " + rest : null);
+
+async function correctionsBlock() {
+  const c = await data.corrections().catch(() => null);
+  const entries = (c?.entries || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  return disclosure("sec-corrected", "What we have got wrong", null,
+    h("p", { class: "sec__note" },
+      "Things this app said that were wrong, overstated or unsupported, and what "
+      + "it says now. Newest first. Nothing here is edited after the fact."),
+    entries.length
+      ? frag(entries.map((e) =>
+          h("div", { class: "card" },
+            h("div", { class: "card__top" },
+              h("span", { class: "badge badge--neutral" }, e.date),
+              e.where ? h("span", { class: "card__meta" }, e.where) : null),
+            h("h3", null, e.title),
+            h("p", null, h("strong", null, "It said: "), e.said),
+            h("p", null, h("strong", null, "What was wrong: "), e.wrong),
+            h("p", null, h("strong", null, "It says now: "), e.now))))
+      : h("p", { class: "sec__note" }, "Nothing has been logged yet."),
+    c?.lastVerified ? checkedLine("Log checked", c.lastVerified) : null);
+}
 
 /** What it is / is not. Longer than the Emergency-tab version, which is a
  *  one-card summary; this is the full account. */

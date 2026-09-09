@@ -222,7 +222,14 @@ export async function practiceBlock() {
   return frag(
     section("Practice", null,
 
-      h("details", { class: "acc" },
+      /* OPEN. The strip drill is the one interactive thing on Learn and it sat
+         shut behind a one-line summary - measured 2026-09-09, 735 of the
+         page's 10,616 words were visible without a tap and the drill was not
+         among them. A reader who never opens it never finds out the app can
+         be practised, which was the point of building it. The overdose
+         walkthrough below stays shut: it is longer and the strip drill is the
+         invitation to it. */
+      h("details", { class: "acc", open: true },
         h("summary", null, h("span", null, p.strip.title)),
         h("div", { class: "acc__body" },
           h("p", { class: "sec__note" }, p.strip.why),

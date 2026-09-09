@@ -4,109 +4,85 @@
 import {
   h, callout, extLink, disclosure, jumpNav, englishOnlyNotice,
 } from "../ui.js";
+import { t } from "../i18n.js";
 
-/* Exported: the county page prints these on its hand-out sheet (views/alerts.js
-   imports this module lazily, on the print button, so the home route never
-   pays for the Emergency view). */
-export const LINES = [
-  { name: "Emergency", sub: "Overdose is a medical emergency", num: "911", tel: "911" },
-  { name: "Never Use Alone", sub: "Someone stays on the line and sends help if you stop responding",
-    num: "1-800-484-3731", tel: "18004843731" },
-  { name: "Poison Control", sub: "Free, 24/7, confidential",
-    num: "1-800-222-1222", tel: "18002221222" },
-  { name: "SAMHSA National Helpline", sub: "Treatment and support referrals, 24/7, free",
-    num: "1-800-662-4357", tel: "18006624357" },
-  { name: "988 Suicide & Crisis Lifeline", sub: "Call or text 988", num: "988", tel: "988" },
+/* THE STEPS AND THE NUMBERS COME FROM THE LOCALE FILE.
+ *
+ * Moved out of this file on 2026-09-09 so that they can be translated. The
+ * six steps and the five numbers are the highest-stakes 250 words in the app,
+ * and they were the one block of reader-facing text no translator could
+ * reach - every content page is English-only by design until a person has
+ * reviewed a translation, but the Emergency tab is where a partial
+ * translation earns the most. The English lives in data/i18n/en-US.json
+ * under "sos" and is still the source of truth: a locale that leaves a key
+ * out falls back to it (i18n.js), so shipping the steps in one language
+ * ahead of the rest is safe. docs/TRANSLATION.md is the translator's brief.
+ *
+ * Functions, not constants: t() reads strings loaded at boot, after this
+ * module has been evaluated. Exported because the county page prints both on
+ * its hand-out sheet (views/alerts.js imports this module lazily, on the
+ * print button, so the home route never pays for the Emergency view).
+ *
+ * THE REASONING BEHIND THE STEPS stays here, because it is the record of why
+ * the protocol reads the way it does and a locale file is no place for it:
+ *
+ *  - Two fields, and the split is the whole point. `body` is what to DO, in
+ *    as few words as it can be said. `note` is the fact that stops a mistake
+ *    - why to give naloxone when you are not sure, why two minutes of nothing
+ *    is not failure, why you do not leave afterwards. Someone reading this is
+ *    doing it one-handed next to a person who is not breathing. Prose makes
+ *    them hunt for the verb.
+ *  - PLAIN WORDS, SHORT SENTENCES, ONE IDEA EACH. Fear takes reading age down
+ *    several grades on its own, so the version that has to work is the one a
+ *    frightened fourteen-year-old can follow: no sentence much over twelve
+ *    words, one instruction per sentence, the common word over the
+ *    correct-but-longer one ("wears off", not "duration of action"), no
+ *    em-dash asides, the verb first. A translation has to keep that register,
+ *    not only the facts.
+ *  - Step 1: breathing is checked FIRST, before responsiveness. This is the
+ *    2025 protocol change from Philadelphia DPH / PA DOH (HAN #794, verbatim:
+ *    "the first step should be to check for breathing"), driven by
+ *    medetomidine: alpha-2 sedatives now common in the supply can leave
+ *    someone impossible to wake while their breathing is fine - and someone
+ *    breathing badly needs naloxone no matter what they respond to.
+ *    Responsiveness alone now misleads in both directions, so the chest is
+ *    the signal, here and in step 5. The old order (wake-check first)
+ *    survived here for months after the adulterant pages taught the new one
+ *    - the contradiction was found by review, not by luck.
+ *  - Step 2: PA's medetomidine protocol orders naloxone before the call;
+ *    CDC's classic steps call first. Both are one sentence rather than a
+ *    silently picked winner: with naloxone already in hand, seconds of spray
+ *    beat seconds of hold music.
+ *  - Step 4: the nose pinch is not optional - without it the breath escapes
+ *    and does nothing. It was missing here while the xylazine page taught it
+ *    correctly from CDC guidance, so the main steps were the incomplete
+ *    version.
+ *  - The steps carried hand-drawn figures until 2026-08-10, when they were
+ *    removed at the user's request. The originals are in
+ *    .attic/od-illustrations rather than deleted, along with a note on what
+ *    the removal cost: the brief argued a picture of the recovery position is
+ *    understood faster than a paragraph by someone impaired, frightened, or
+ *    not reading English easily. The wording carries that load by itself,
+ *    which is why it is written as an instruction first and a reason second.
+ */
+const LINE_KEYS = [
+  { key: "emergency",     name: "Emergency",                     num: "911",            tel: "911" },
+  { key: "neverUseAlone", name: "Never Use Alone",               num: "1-800-484-3731", tel: "18004843731" },
+  { key: "poison",        name: "Poison Control",                num: "1-800-222-1222", tel: "18002221222" },
+  { key: "samhsa",        name: "SAMHSA National Helpline",      num: "1-800-662-4357", tel: "18006624357" },
+  { key: "lifeline",      name: "988 Suicide & Crisis Lifeline", num: "988",            tel: "988" },
 ];
-
-/* Two fields, and the split is the whole point.
- *
- * `body` is what to DO, in as few words as it can be said. `note` is the fact
- * that stops a mistake - why to give naloxone when you are not sure, why two
- * minutes of nothing is not failure, why you do not leave afterwards.
- *
- * Someone reading this is doing it one-handed next to a person who is not
- * breathing. Prose makes them hunt for the verb. Nothing was cut to shorten
- * these: every number, caveat and reason from the longer version is still
- * here, moved to the line beneath the instruction instead of buried inside a
- * paragraph with it. */
-/* PLAIN WORDS, SHORT SENTENCES, ONE IDEA EACH.
- *
- * These six steps get read by somebody kneeling on a floor at 3am, and they
- * were written at about a high-school reading level: 20-word sentences,
- * subordinate clauses, asides inside em-dashes. Fear takes reading age down
- * several grades on its own, so the version that has to work is the one a
- * frightened fourteen-year-old can follow.
- *
- * The rules applied here, worth keeping for anything added later: no sentence
- * much over twelve words, one instruction per sentence, the common word over
- * the correct-but-longer one ("wears off", not "duration of action"), no
- * em-dash asides, and the verb first when it is a thing to do. Every fact and
- * every protocol decision is unchanged. The reasoning stays in the comments,
- * which is where reasoning belongs. */
-export const STEPS = [
-  /* Breathing is checked FIRST, before responsiveness. This is the 2025
-     protocol change from Philadelphia DPH / PA DOH (HAN #794, verbatim: "the
-     first step should be to check for breathing"), driven by medetomidine:
-     alpha-2 sedatives now common in the supply can leave someone impossible
-     to wake while their breathing is fine - and someone breathing badly needs
-     naloxone no matter what they respond to. Responsiveness alone now
-     misleads in both directions, so the chest is the signal, here and in
-     step 5. The old order (wake-check first) survived here for months after
-     the adulterant pages taught the new one - the contradiction was found by
-     review, not by luck. */
-  {
-    title: "Look at their chest, then try to wake them",
-    body: "Is their breathing slow or stopped? Does it sound like snoring or gurgling? " +
-          "Then go to step 2. Shout their name. Rub your knuckles hard on their breastbone.",
-    note: "Check breathing first. Some drugs in the supply now (xylazine, medetomidine) can " +
-          "make a person impossible to wake up even when they are breathing fine. " +
-          "Bad breathing or no waking up: treat it as an overdose.",
-  },
-  {
-    title: "Call 911",
-    body: "Tell them: not breathing, or will not wake up.",
-    /* PA's medetomidine protocol orders naloxone before the call; CDC's
-       classic steps call first. Both are one sentence here rather than a
-       silently picked winner: with naloxone already in hand, seconds of
-       spray beat seconds of hold music. */
-    note: "You do not have to say what they took. Alone, with naloxone in your hand? " +
-          "Give it first, then call. Two of you? One calls, one gives it.",
-  },
-  {
-    title: "Give naloxone",
-    body: "Put the nozzle in one nostril. Push the plunger all the way in.",
-    note: "Give it even if you are not sure. It only works on opioids. It cannot hurt a " +
-          "person who has not taken any. No pulse? Do CPR first.",
-  },
-  {
-    title: "Help them breathe",
-    /* The nose pinch is not optional - without it the breath escapes and does
-       nothing. It was missing here while the xylazine page taught it correctly
-       from CDC guidance, so the main steps were the incomplete version. */
-    body: "Tip their head back. Lift their chin. Pinch their nose shut. " +
-          "Give one breath every 5 seconds.",
-    note: "Going without air is what does the damage.",
-  },
-  {
-    title: "No better after 2–3 minutes? Give another dose",
-    body: "Naloxone in the nose takes 2–3 minutes to work. Watch their chest, not their eyes.",
-    note: "One or two doses fix most overdoses, fentanyl included. Fentanyl is not immune to " +
-          "naloxone. They may stay asleep after it has worked. That is the other drugs, not a " +
-          "failed dose. Do not keep giving more.",
-  },
-  {
-    title: "Stay with them, and roll them on their side",
-    body: "On their side, they will not choke if they throw up.",
-    note: "Naloxone wears off in 30–90 minutes. Most opioids last longer, so they can go under " +
-          "again. It does not happen often. It is still why you stay.",
-  },
-];
+export const lines = () => LINE_KEYS.map((l) => ({ ...l, sub: t(`sos.lines.${l.key}`) }));
+export const steps = () => [0, 1, 2, 3, 4, 5].map((i) => ({
+  title: t(`sos.steps.${i}.title`),
+  body: t(`sos.steps.${i}.body`),
+  note: t(`sos.steps.${i}.note`),
+}));
 
 export async function render() {
   const wrap = h("div");
 
-  wrap.appendChild(h("h1", null, "Emergency"));
+  wrap.appendChild(h("h1", null, t("sos.title")));
   { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
 
 
@@ -124,16 +100,15 @@ export async function render() {
        nothing stood out. The red left rule and wash keep the signal; the shape
        matches Alerts, Support, Test and About. */
     h("div", { class: "intro intro--urgent" },
-      h("h2", null, "If someone is overdosing right now"),
-      h("p", null, "Call 911. Give naloxone if you have it. Stay with them."),
-      h("p", null,
-        "You do not have to say what they took — only that someone is not breathing."),
+      h("h2", null, t("sos.introTitle")),
+      h("p", null, t("sos.introBody")),
+      h("p", null, t("sos.introNote")),
       /* The most important action on the site was prose. The nearest tel: link
          sat below the fold, in a list. Two taps now: SOS, then this.
          The cost is real - a full-width red button raises the odds of an
          accidental dial. An accidental 911 call is recoverable. A missed one
          is not. */
-      h("a", { class: "callbtn", href: "tel:911" }, "Call 911"))
+      h("a", { class: "callbtn", href: "tel:911" }, t("sos.call911")))
   );
 
   /* The jump nav renders AFTER the emergency opener, not before it.
@@ -204,15 +179,11 @@ export async function render() {
    *     situations that are not "they are not breathing right now".
    */
   wrap.appendChild(
-    disclosure("sec-response", "Responding to an opioid overdose",
+    disclosure("sec-response", t("sos.stepsTitle"),
       { open: true, tone: "urgent" },
-      h("ol", { class: "steps" }, STEPS.map(step)),
-      callout("warn", "Naloxone doesn’t work on tranq, benzos, or stimulants — give it anyway",
-        h("p", null,
-          "Xylazine (“tranq”) isn’t an opioid, so naloxone won’t lift its sedation. " +
-          "Give it anyway: it reverses the fentanyl, and the fentanyl is what stops " +
-          "the breathing. Watch their breathing, not whether they wake up. If the " +
-          "breathing gets better, it worked — even if they stay out of it."),
+      h("ol", { class: "steps" }, steps().map(step)),
+      callout("warn", t("sos.tranqTitle"),
+        h("p", null, t("sos.tranqBody")),
         /* Regional prevalence used to sit here, inside the always-open overdose
            response section. Nobody doing rescue breathing needs epidemiology; it
            diluted the one instruction that matters. It lives on the xylazine
@@ -222,9 +193,9 @@ export async function render() {
   /* ---- hotlines. Open: nobody should have to expand anything to find a
          number during an emergency. ---- */
   wrap.appendChild(
-    disclosure("sec-lines", "Numbers that answer 24/7", { open: true, tone: "urgent" },
+    disclosure("sec-lines", t("sos.linesTitle"), { open: true, tone: "urgent" },
       h("div", { class: "hotline" },
-        LINES.map((l) =>
+        lines().map((l) =>
           h("a", { href: `tel:${l.tel}` },
             h("span", null,
               h("span", { class: "lbl" }, l.name),
@@ -560,8 +531,8 @@ export async function render() {
           h("p", null,
             "A locked stall, alone, is the most common way an overdose in a "
             + "venue is found too late. If somebody went in and has been quiet "
-            + "a while, knock, then get staff to open it. Feeling awkward about "
-            + "being wrong costs nothing; being right and late costs everything."),
+            + "a while, knock, then get staff to open it. Being wrong costs an "
+            + "awkward minute. Being late can cost far more."),
           h("p", { class: "sec__note" },
             "If you use in a venue bathroom, leave the latch off and tell "
             + "somebody to check on you at a specific time.")),

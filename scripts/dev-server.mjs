@@ -73,7 +73,13 @@ const server = createServer(async (req, res) => {
 
     const body = await readFile(target);
     res.writeHead(200, {
-      "content-type": TYPES[path.extname(file)] || "application/octet-stream",
+      /* TYPED BY THE FILE SERVED, NOT THE PATH ASKED FOR. A rewritten route
+         (/sos, /alerts) has no extension, so keying on the request sent the
+         shell as application/octet-stream. Chromium sniffs and renders it;
+         Safari does not, and offered to download "sos" - found the first
+         time this tree was checked on real WebKit (iOS Simulator, 2026-09-09).
+         Production is unaffected: Netlify and Pages type index.html. */
+      "content-type": TYPES[path.extname(target)] || "application/octet-stream",
       // The whole point.
       "cache-control": "no-store, no-cache, must-revalidate, max-age=0",
       pragma: "no-cache",
