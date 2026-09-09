@@ -62,3 +62,9 @@ negative / invalid, in `data/testing.json` under `brands.items`), because
 `npm test` runs on every deploy; `test/copy.test.mjs` guards US English
 spellings in the English file and will not object to Spanish text in
 `es.json`.
+
+`test/i18n.test.mjs` holds the facts. Every number in a translated `sos`
+value must match the English exactly; no key may be missing from `en-US.json`;
+no translated value may be the English left as it was; and a locale marked
+reviewed must carry the whole `sos` block. A delivery that fails it is not
+wrong to have made - it is the check working as described above.
