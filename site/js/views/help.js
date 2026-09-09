@@ -243,12 +243,12 @@ export async function render() {
           h("div", { class: "card statcard" },
             h("p", { class: "stat__n" }, "Not breathing, or gasping"),
             h("p", null,
+              /* The figures live in the source cards under this section. Here,
+                 the reader needs the shape of the mistake, not the study. */
               "Slow deep gasps that sound like snoring are not breathing. They "
-              + "happen in up to about half of witnessed cardiac arrests, and "
-              + "they are behind up to half of the arrests that 911 call takers "
-              + "miss. In as many as 4 in 10 arrests the caller was never talked "
-              + "through CPR because they said the person was breathing. Start "
-              + "CPR. Do not put them on their side.")),
+              + "happen in up to half of cardiac arrests, and callers often tell "
+              + "911 the person is breathing, so CPR never starts. Start CPR. "
+              + "Do not put them on their side.")),
           h("div", { class: "card statcard" },
             h("p", { class: "stat__n" }, "Slow, shallow, or going blue"),
             h("p", null,
@@ -259,16 +259,16 @@ export async function render() {
           h("div", { class: "card statcard" },
             h("p", { class: "stat__n" }, "Breathing normally"),
             h("p", null,
-              "A k-hole, fainting, minutes after a seizure, GHB, heat, too "
-              + "much water, a knock on the head, or low blood-sugar fall into "
-              + "this category. Keep the person on their side, stay, and "
-              + "monitor their breathing, as this could change."))),
+              "A k-hole, fainting, the minutes after a seizure, GHB, heat, too "
+              + "much water, a knock on the head, or low blood sugar all look "
+              + "like this. Keep them on their side, stay, and watch their "
+              + "breathing. It can change."))),
 
         h("div", { class: "card" },
           h("h3", null, "What you genuinely cannot tell apart"),
           h("p", null,
-            "These pairs are not separable without a hospital, and the safe "
-            + "move is the same either way."),
+            "You cannot tell these apart without a hospital. The safe move is "
+            + "the same either way."),
           h("ul", null,
             h("li", null,
               h("strong", null, "GHB and an opioid overdose. "),
@@ -281,8 +281,8 @@ export async function render() {
               + "Breathing decides."),
             h("li", null,
               h("strong", null, "Heat stroke and a stimulant running too hot. "),
-              "Often the same person. Do not try — hot and confused means cool "
-              + "them, either way."),
+              "Often the same person. Hot and confused means cool them, either "
+              + "way."),
             h("li", null,
               h("strong", null, "Heat stroke and too much water. "),
               "Both are confusion and collapse in a hot room. This is the one "
@@ -292,13 +292,13 @@ export async function render() {
               h("strong", null, "The minutes after a seizure and being high. "),
               "Afterwards people spit, drool, wipe their nose and talk "
               + "nonsense for five to thirty minutes. It looks exactly like "
-              + "intoxication."),
+              + "being high."),
             h("li", null,
               h("strong", null, "A hard fall and the drugs. "),
-              "Of people who were intoxicated and seemed only mildly hurt, "
-              + "about 8 in 100 had a bleed on the brain, and the standard "
-              + "screening rules missed a fifth to a third of them. If they "
-              + "hit their head, that is an ambulance regardless."))),
+              "Of people who were drunk or high and seemed only mildly hurt, "
+              + "about 8 in 100 had a bleed on the brain, and the checks "
+              + "hospitals use missed a fifth to a third of them. If they hit "
+              + "their head, that is an ambulance regardless."))),
 
         callout("info", "Regardless of what caused it",
           h("ul", null,
@@ -321,11 +321,10 @@ export async function render() {
             + "It does nothing at all to somebody with no opioids in them; the "
             + "label on the box says so."),
           h("p", { class: "sec__note" },
-            "Breathing is the target, not waking up. Somebody who breathes but "
-            + "stays under is naloxone working — do not keep dosing to chase "
-            + "consciousness. And waking up is the middle of this, not the "
-            + "end: naloxone wears off in 30–90 minutes and most opioids "
-            + "last longer.")),
+            "Breathing is the goal, not waking up. Somebody who breathes but "
+            + "stays out is naloxone working. Do not keep dosing to wake them. "
+            + "Naloxone wears off in 30–90 minutes and most opioids last "
+            + "longer, so stay.")),
 
         /* SOURCED 2026-09-09. This section carried six numbers and no source,
            beside a festival section with a card for every claim. The gasping
@@ -389,11 +388,9 @@ export async function render() {
         h("div", { class: "card" },
           h("h3", null, "The nearest radio beats the nearest phone"),
           h("p", null,
-            "On-site medics are already inside the perimeter. Look for a "
-            + "medical tent, a medic, or any staff member with a radio — "
-            + "vendors and ticket staff included. Lollapalooza's own advice is "
-            + "the same: look for any festival staff member or anyone with a "
-            + "radio."),
+            "Medics are already inside. Look for a medical tent, a medic, or "
+            + "anyone with a radio — vendors and ticket staff included. "
+            + "Lollapalooza's safety page says the same."),
           h("p", { class: "sec__note" },
             "Send a specific person, and tell them to come back. The more "
             + "people there are, the less likely any one of them acts — "
@@ -405,13 +402,10 @@ export async function render() {
         h("div", { class: "card" },
           h("h3", null, "Near the front, the barrier crew is already looking"),
           h("p", null,
-            "The staff in the pit between the barrier and the stage are there "
-            + "to lift out people in distress. The UK's event safety guide says "
-            + "it in as many words: the pit exists to help stewards, first "
-            + "aiders and paramedics, and a raised platform inside the barrier "
-            + "lets stewards oversee the audience and pick out anyone in "
-            + "trouble. If you are near the front, they are the closest help "
-            + "there is, and they are already facing you."),
+            "The crew in the pit between the barrier and the stage are there "
+            + "to lift out people in trouble; the UK event safety guide says "
+            + "so in as many words. If you are near the front, they are the "
+            + "closest help there is, and they are already facing you."),
           h("div", { class: "sources" },
             extLink("https://livemusicexchange.org/wp-content/uploads/The-Event-Safety-Guide-HSE-PURPLE-GUIDE.pdf",
               "HSE — The Event Safety Guide (HSG195), paragraphs 321 and 410"))),
@@ -484,12 +478,11 @@ export async function render() {
         h("div", { class: "card" },
           h("h3", null, "The disclosure nobody warns you about"),
           h("p", null,
-            "If you are on somebody else's insurance — a parent's job-based plan "
-            + "can cover you until you turn 26 — an ambulance ride and an "
-            + "emergency room visit generate an explanation of benefits, and "
-            + "insurers send it to the policyholder even when the care was a "
-            + "dependent's. It is a common way a night like this gets disclosed, "
-            + "and it has nothing to do with police."),
+            "If you are on somebody else's insurance — a parent's plan can "
+            + "cover you until you turn 26 — the ambulance and the emergency "
+            + "room generate an explanation of benefits, and insurers send it "
+            + "to the policyholder. That is a common way a night like this gets "
+            + "disclosed, and it has nothing to do with police."),
           h("div", { class: "sources" },
             extLink("https://www.healthcare.gov/young-adults/children-under-26/",
               "HealthCare.gov — Coverage for children under 26"),
