@@ -151,7 +151,10 @@ function survivorBlock(s, src) {
 /* ------------------------------------------------------------ the witness */
 
 function witnessBlock(w, src) {
-  return disclosure("sec-witness", w.title, { open: false },
+  /* Open since 2026-09-09. The witness is the second reader this page
+     exists for and the anger finding is the one fact they most need; shut,
+     the page read as if it were only for the survivor. */
+  return disclosure("sec-witness", w.title, { open: true },
 
     w.anger
       ? callout("info", w.anger.title,

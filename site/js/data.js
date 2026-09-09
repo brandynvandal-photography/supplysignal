@@ -684,6 +684,12 @@ export async function myths() {
  * nothing about them - so it does not need the cover, and one screen that few
  * readers will open should not cost every reader the download. Lazy, like
  * substances.json and for the same reason. */
+/* What the app got wrong, by date. Per-file for the same reason donate is:
+   "somebody opened About" discloses nothing, and most readers never do. */
+export async function corrections() {
+  return load("corrections", { entries: [] });
+}
+
 export async function donate() {
   return load("donate", { checked: null, orgs: [] });
 }
@@ -722,6 +728,10 @@ export async function substances() {
        two fields had different names. */
     const plain = desc.descriptions?.[s.id] || s.summary || null;
     let out = plain ? { ...s, description: plain } : s;
+    /* The supply line rides beside the description, never inside it - see
+       the last rule in descriptions.json. */
+    const supply = desc.supply?.[s.id] || null;
+    if (supply) out = { ...out, supply };
     /* Deceptive street names: the warning renders on the page, and the names
        join the aliases so searching "tusi" finds the page that says tusi is
        probably not this. */

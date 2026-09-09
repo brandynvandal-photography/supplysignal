@@ -30,6 +30,57 @@
     "learn": "Learn",
     "helpAria": "Emergency"
   },
+  "sos": {
+    "_note": "The Emergency tab's six steps and five numbers - the highest-stakes 250 words in the app, and the first block to translate. The reasoning behind each step is recorded in site/js/views/help.js; the words are here so a translator can reach them. Facts are not negotiable in translation: 2-3 minutes, 30-90 minutes, one breath every 5 seconds, 'check breathing first'. See docs/TRANSLATION.md.",
+    "title": "Emergency",
+    "introTitle": "If someone is overdosing right now",
+    "introBody": "Call 911. Give naloxone if you have it. Stay with them.",
+    "introNote": "You do not have to say what they took — only that someone is not breathing.",
+    "call911": "Call 911",
+    "stepsTitle": "Responding to an opioid overdose",
+    "steps": [
+      {
+        "title": "Look at their chest, then try to wake them",
+        "body": "Is their breathing slow or stopped? Does it sound like snoring or gurgling? Then go to step 2. Shout their name. Rub your knuckles hard on their breastbone.",
+        "note": "Check breathing first. Some drugs in the supply now (xylazine, medetomidine) can make a person impossible to wake up even when they are breathing fine. Bad breathing or no waking up: treat it as an overdose."
+      },
+      {
+        "title": "Call 911",
+        "body": "Tell them: not breathing, or will not wake up.",
+        "note": "You do not have to say what they took. Alone, with naloxone in your hand? Give it first, then call. Two of you? One calls, one gives it."
+      },
+      {
+        "title": "Give naloxone",
+        "body": "Put the nozzle in one nostril. Push the plunger all the way in.",
+        "note": "Give it even if you are not sure. It only works on opioids. It cannot hurt a person who has not taken any. No pulse? Do CPR first."
+      },
+      {
+        "title": "Help them breathe",
+        "body": "Tip their head back. Lift their chin. Pinch their nose shut. Give one breath every 5 seconds.",
+        "note": "Going without air is what does the damage."
+      },
+      {
+        "title": "No better after 2–3 minutes? Give another dose",
+        "body": "Naloxone in the nose takes 2–3 minutes to work. Watch their chest, not their eyes.",
+        "note": "One or two doses fix most overdoses, fentanyl included. Fentanyl is not immune to naloxone. They may stay asleep after it has worked. That is the other drugs, not a failed dose. Do not keep giving more."
+      },
+      {
+        "title": "Stay with them, and roll them on their side",
+        "body": "On their side, they will not choke if they throw up.",
+        "note": "Naloxone wears off in 30–90 minutes. Most opioids last longer, so they can go under again. It does not happen often. It is still why you stay."
+      }
+    ],
+    "tranqTitle": "Naloxone doesn’t work on tranq, benzos, or stimulants — give it anyway",
+    "tranqBody": "Xylazine (“tranq”) isn’t an opioid, so naloxone won’t lift its sedation. Give it anyway: it reverses the fentanyl, and the fentanyl is what stops the breathing. Watch their breathing, not whether they wake up. If the breathing gets better, it worked — even if they stay out of it.",
+    "linesTitle": "Numbers that answer 24/7",
+    "lines": {
+      "emergency": "Overdose is a medical emergency",
+      "neverUseAlone": "Someone stays on the line and sends help if you stop responding",
+      "poison": "Free, 24/7, confidential",
+      "samhsa": "Treatment and support referrals, 24/7, free",
+      "lifeline": "Call or text 988"
+    }
+  },
   "footer": {
     "disclaimerLead": "This is information, not medical advice.",
     "disclaimerBody": "Nightlight reports what public sources published. It does not verify, advise, or clear any drug as safe. No test, and no absence of alerts, makes a supply safe.",

@@ -862,8 +862,8 @@ async function countyView({ fips, days }, { go, data }) {
           type: "button", class: "btn btn--ghost btn--sm",
           onClick: async () => {
             if (!wrap.querySelector(".print-only")) {
-              const { STEPS, LINES } = await import("./help.js");
-              wrap.appendChild(printSheet(c, STEPS, LINES));
+              const { steps, lines } = await import("./help.js");
+              wrap.appendChild(printSheet(c, steps(), lines()));
             }
             window.print();
           },

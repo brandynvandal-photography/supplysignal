@@ -269,6 +269,7 @@ check("every dataset is bundled, or is on the list of ones that need not be", ()
     /* Not sensitive: "somebody opened the donate page" says nothing about them,
        and it is a page few readers open. */
     donate: "donation links, 9.5 KB, subject is not sensitive",
+    corrections: "the corrections log, opened from About; subject is not sensitive",
   };
 
   const dataJs = readFileSync(path.join(ROOT, "site/js/data.js"), "utf8");

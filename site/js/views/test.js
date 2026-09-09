@@ -11,7 +11,7 @@
  * as settled, this teaches the mechanism and says where sources disagree.
  * Every source is linked so a reader can check the original. */
 
-import { h, frag, clear, section, callout, badge, extLink, empty, disclosure, jumpNav, group, sourceSink, SEV_GLYPH, checkedLine, stepper } from "../ui.js";
+import { h, frag, clear, section, callout, badge, extLink, empty, disclosure, jumpNav, group, sourceSink, SEV_GLYPH, checkedLine, stepper, englishOnlyNotice } from "../ui.js";
 import * as data from "../data.js";
 import { reagentHowTo, reagentKeyForCard } from "../reagentnames.js";
 import { paintBar } from "../reagentcolor.js";
@@ -28,6 +28,7 @@ export async function render(route, ctx) {
   const wrap = h("div");
 
   wrap.appendChild(h("h1", null, "Test your supply"));
+  { const n = englishOnlyNotice(); if (n) wrap.appendChild(n); }
 
   wrap.appendChild(
     /* One chip per top-level section, in page order. It had accumulated one
@@ -312,7 +313,10 @@ export async function render(route, ctx) {
   }
 
   wrap.appendChild(
-    disclosure("sec-limits", "What testing can and cannot tell you", null,
+    /* Open. Two short lists that are the frame for everything above them,
+       and the target of Learn's "Start here" step 5 - shut, that step landed
+       on a closed row. */
+    disclosure("sec-limits", "What testing can and cannot tell you", { open: true },
       h("div", { class: "card" },
         h("div", { class: "twocol" },
           h("div", null,
@@ -733,7 +737,13 @@ function dilutionBlock(d) {
        the second table came back there was only one, so the section heading was
        enough. */
     h("h5", { class: "lbl" }, "Which drugs read positive when the water is too little"),
-    h("div", { class: "tablewrap" },
+    /* A scrolling region a keyboard can reach. The wrapper scrolls sideways on
+       a phone (overflow-x: auto), and a scrollable box with no tabindex is
+       unreachable without a mouse - axe "scrollable-region-focusable",
+       found on the first automated pass, 2026-09-09. Named for the screen
+       reader with the same sentence the caption carries. */
+    h("div", { class: "tablewrap", tabindex: "0", role: "region",
+               "aria-label": "Substances that cause false positives, and at what concentration" },
       h("table", { class: "data" },
         h("caption", { class: "sr-only" }, "Substances that cause false positives, and at what concentration"),
         h("thead", null, h("tr", null,
@@ -770,7 +780,8 @@ function dilutionBlock(d) {
        water. CDC's current fentanyl page was checked the same day and gives no
        volume at all, so it is no longer cited as a dissenting number. */
     h("h5", { class: "lbl" }, "How much water to use"),
-    h("div", { class: "tablewrap" },
+    h("div", { class: "tablewrap", tabindex: "0", role: "region",
+               "aria-label": "How much water to use for each amount and form" },
       h("table", { class: "data" },
         h("caption", { class: "sr-only" }, "How much water to use for each amount and form"),
         h("thead", null, h("tr", null,

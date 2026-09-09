@@ -793,7 +793,13 @@ function applyStrings() {
      reader - the tab switcher, history, a handed-over phone - and this line
      was overwriting it with "drug supply alerts and harm reduction" on every
      boot. The decision had been made twice and shipped neither time. */
-  document.title = t("app.name");
+  /* Only once the strings are real. t() returns its key while the locale
+     file has not arrived, and the title is read by people who are not the
+     reader - a tab called "app.name" was seen in Safari's tab strip when a
+     load was cut short (2026-09-09). The static <title> already says the
+     right thing; leave it alone rather than replace it with a key. */
+  const appName = t("app.name");
+  if (appName !== "app.name") document.title = appName;
 
   const skip = document.querySelector(".skip");
   if (skip) skip.textContent = t("app.skipToContent");
@@ -1224,10 +1230,14 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
      warmth or as content. Flip this to true to bring it back; nothing else
      needs changing, and kindness.js is untouched so the lines and their
      rules survive the experiment either way. */
-  const KIND_BAR = false;
+  /* BACK ON FOR TWO ROUTES, 2026-09-09. The open question above has an
+     answer for Support and After, where the register is already a letter to
+     the reader and the strip is not competing with an instruction. Every
+     other tab keeps the space for content, and Emergency never shows it. */
+  const KIND_ROUTES = new Set(["support", "after"]);
 
   const kindbar = document.getElementById("kindbar");
-  if (kindbar && KIND_BAR) {
+  if (kindbar && KIND_ROUTES.size) {
     /* Mounted ONCE. Navigation toggles visibility with a class rather than
        re-rendering, so the cycle keeps its own rhythm instead of restarting
        every time someone touches a tab - a bar that reset on navigation would
@@ -1238,15 +1248,21 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
     /* Loaded here and only here - see the import block at the top of the
        file. While the bar is off this line never runs and the module is
        never fetched. */
-    const { mountKindBar } = await import("./kindness.js");
-    mountKindBar(inner);
+    /* Guarded: offline on a first visit this module may not be cached yet,
+       and a warm line is not worth a failed boot. */
+    try {
+      const { mountKindBar } = await import("./kindness.js");
+      mountKindBar(inner);
+    } catch { /* no line; the page is unaffected */ }
 
-    const syncKind = () => {
-      // Never on Emergency: nothing sits between someone and the overdose steps.
-      kindbar.classList.toggle("is-hidden", parseRoute().tab === "help");
-    };
-    syncKind();
-    onNavigate(syncKind);
+    /* WHICH ROUTES SHOW IT IS DECIDED IN CSS, keyed on the data-tab attribute
+       route() sets on every navigation - the same mechanism that hides the
+       early-access banner on Emergency. It used to be toggled here from
+       onNavigate, which listens to hashchange and popstate only; a tab tap
+       is a pushState and fires neither, so the bar never re-evaluated when
+       somebody tapped Support (found 2026-09-09 on the first verification).
+       The CSS cannot be late. KIND_ROUTES above decides only whether the
+       module is mounted at all; app.css names the same two routes. */
   }
 
   /* The tab bar's hrefs are real paths in the HTML, so right-click-copy and
