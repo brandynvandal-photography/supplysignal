@@ -247,12 +247,12 @@
           "caution": "Minneapolis only."
         }
       ],
-      "gap": "SWOP USA's own site lists chapters in Hawaii, Philadelphia, Denton, Grand Rapids, Orlando, Houston and Austin. We checked every one: most of those domains no longer resolve, Houston's has not been touched since 2015, and SWOP USA publishes no working phone number and no working contact page. We are not linking chapters we could not confirm are still there — but it means this list is much shorter than the movement actually is. If you know a live local group, tell us."
+      "gap": "SWOP USA's own site lists chapters in Hawaii, Philadelphia, Denton, Grand Rapids, Orlando, Houston and Austin. We checked every one. Most of those domains no longer resolve, Houston's has not been touched since 2015, and SWOP USA publishes no working phone number and no working contact page. We are not linking chapters we could not confirm are still there — but it means this list is much shorter than the movement actually is. If you know a live local group, tell us."
     },
     {
       "id": "pregnancy",
       "title": "Pregnant or parenting",
-      "blurb": "The fear of losing a child is the single biggest reason people avoid help here. That fear is reasonable, and the answer depends heavily on your state — so the most useful thing we can give you is a free lawyer rather than our own guess.",
+      "blurb": "The fear of losing a child is the single biggest reason people avoid help here. That fear is reasonable, and the answer depends heavily on your state. So the most useful thing we can give you is a free lawyer rather than our own guess.",
       "items": [
         {
           "name": "Repro Legal Helpline",
@@ -337,7 +337,7 @@
           "tel": "18004843731",
           "url": "https://neverusealone.com/",
           "hours": "24/7",
-          "what": "You give an address, stay on the line while you use, and if you stop responding for more than 30 seconds they send EMS to that address as an unresponsive person.",
+          "what": "You give an address and stay on the line while you use. If you stop responding for more than 30 seconds they send EMS to that address as an unresponsive person.",
           "note": "If you use in the first days out, this is the single most useful number here. Lost tolerance means a dose that used to be normal for you can stop your breathing, and alone in a room there is no one to notice it happening."
         },
         {
@@ -464,7 +464,7 @@
           "tel": "18004843731",
           "url": "https://neverusealone.com/",
           "hours": "24/7",
-          "what": "You give an address, stay on the line while you use, and if you stop responding for more than 30 seconds they send EMS to that address as an unresponsive person.",
+          "what": "You give an address and stay on the line while you use. If you stop responding for more than 30 seconds they send EMS to that address as an unresponsive person.",
           "note": "Worth knowing exactly what that means before you call: no one is dispatched because you called or because you said you use — only if you go quiet."
         },
         {

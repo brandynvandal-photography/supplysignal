@@ -376,8 +376,10 @@ function row(s, go, fromClass = null) {
         : null),
     h("span", { class: "nbr__right" },
       /* Labelled in the list, not just on the page, so nobody taps into a
-         xylazine entry expecting a dose chart. */
-      s.adulterant ? badge("Adulterant", "elevated") : null,
+         xylazine entry expecting a dose chart. "Mixed in", not "Adulterant":
+         the badge has to work for a reader who has never met the word, and
+         "found mixed into other drugs" is what it means. */
+      s.adulterant ? badge("Mixed in", "elevated") : null,
       s.interactions.dangerous.length
         ? badge(`${s.interactions.dangerous.length} dangerous`, "critical")
         : null,

@@ -97,7 +97,7 @@
       },
       {
         "drug": "Methadone",
-        "urine": "1 to 14 days. Many methadone assays detect only the parent drug and not its metabolite EDDP — which is why EDDP testing is what distinguishes actually taking it from a sample it was added to.",
+        "urine": "1 to 14 days. Many methadone assays detect only the parent drug and not its metabolite EDDP. That is why EDDP testing is what distinguishes actually taking it from a sample it was added to.",
         "ids": [
           "methadone"
         ]
@@ -218,7 +218,7 @@
         "url": "https://arupconsult.com/content/drug-half-lives-and-urine-detection-windows"
       }
     ],
-    "perDrugNote": "Urine, and only as a range — how much you used, for how long, which threshold the lab set and which machine they ran all move this more than the drug does."
+    "perDrugNote": "Urine, and only as a range. How much you used, for how long, which threshold the lab set and which machine they ran all move this more than the drug does."
   },
   "misreads": {
     "headline": "When the test is wrong",
@@ -264,7 +264,7 @@
       "So a negative followed by a positive is a documented excretion pattern in people who have not used. It is not proof of anything.",
       "How long you stay positive depends enormously on the cutoff, which is why any single number is close to meaningless without one attached. The same frequent users in the same study were positive for 17 days at one threshold, 22 at a lower one, and 27 at a lower one still."
     ],
-    "note": "Most chronic users clear faster than the famous long-tail figures suggest — but in one study of 37 people, roughly one in four were still above the cutoff after two weeks. Both things are true.",
+    "note": "Most chronic users clear faster than the famous long-tail figures suggest. But in one study of 37 people, roughly one in four were still above the cutoff after two weeks. Both things are true.",
     "sources": [
       {
         "name": "Goodwin et al., J Anal Toxicol 2008 (N=60, 6,158 specimens)",
@@ -325,7 +325,7 @@
       },
       {
         "t": "Calling 911 may not protect you from a violation",
-        "d": "27 states and DC extend Good Samaritan protection to probation and parole violations. 23 do not. And in Minnesota and North Carolina the statutes expressly preserve the authority to drug test you anyway — meaning the call itself is protected but the test that follows it is not. That is a real trap and worth knowing before the night it matters.",
+        "d": "27 states and DC extend Good Samaritan protection to probation and parole violations. 23 do not. And in Minnesota and North Carolina the statutes expressly preserve the authority to drug test you anyway. The call itself is protected but the test that follows it is not. That is a real trap and worth knowing before the night it matters.",
         "sources": [
           {
             "name": "LAPPA — Good Samaritan laws, July 2025",
@@ -357,12 +357,12 @@
     "headline": "If they use a hair test",
     "body": [
       "Hair testing has problems the government's own proposed rule concedes.",
-      "It cannot see recent use at all — drugs do not appear in hair for 5 to 7 days after they are taken. And the first centimeter of hair does not represent the last month: because of the time it takes hair to reach the surface, it represents roughly one to two months ago.",
+      "It cannot see recent use at all — drugs do not appear in hair for 5 to 7 days after they are taken. And the first centimeter of hair does not represent the last month. Because of the time it takes hair to reach the surface, it represents roughly one to two months ago.",
       "A federal proposal published in September 2020 — still not finalized six years later, so it binds nobody today — would not let a hair result stand alone. An agency choosing to test hair must also collect another specimen type, and the rule cites litigation warning that action taken on a hair test alone may be legally vulnerable."
     ],
     "bias": {
       "title": "It is not the same test for everyone",
-      "body": "In a study where 44 people took an identical controlled dose of codeine, the amount ending up in their hair tracked hair melanin — the correlation explained about 73% of the variance. Concentrations in black hair were around seven times those in brown and fourteen to fifteen times those in blond. At the cutoff the government proposes, 100% of the black-haired subjects would have been reported positive and only half of the brown-haired ones. Same drug, same dose, different hair.",
+      "body": "In a study where 44 people took an identical controlled dose of codeine, the amount ending up in their hair tracked hair melanin. The correlation explained about 73% of the variance. Concentrations in black hair were around seven times those in brown and fourteen to fifteen times those in blond. At the cutoff the government proposes, 100% of the black-haired subjects would have been reported positive and only half of the brown-haired ones. Same drug, same dose, different hair.",
       "sources": [
         {
           "name": "Rollins et al., J Anal Toxicol 2003 (N=44)",

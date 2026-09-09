@@ -2029,7 +2029,7 @@
         "positive": "ONE red line",
         "negative": "TWO red lines — if two appear, however faint, it is negative",
         "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
-        "onlyFor": "A version 1.0 strip can read positive on cocaine when no xylazine is there, because it cross-reacts with lidocaine, a standard cocaine cut — BTNX says version 2.0 does not, which is the manufacturer’s claim rather than an independent finding.",
+        "onlyFor": "A version 1.0 strip can read positive on cocaine when no xylazine is there, because it cross-reacts with lidocaine, a standard cocaine cut. BTNX says version 2.0 does not. That is the manufacturer’s claim rather than an independent finding.",
         "sources": [
           {
             "name": "Washington State DOH — Using BTNX Rapid Response Xylazine Test Strips (DOH 150-238)",
