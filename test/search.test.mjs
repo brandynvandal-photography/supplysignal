@@ -284,6 +284,13 @@ for (const [q, want] of CASES) {
   if (dead.length) fails.push(`slang targets that are not in the index: ${dead.join(", ")}`); else pass++;
 }
 
+/* STREET NAMES REACH THE PAGE BY PREFIX, not only by the exact-match slang
+   map: "vike", "shard", "sizz" each land on their drug (2026-09-09). */
+for (const [q, id] of [["vikes", "hydrocodone"], ["shards", "methamphetamine"], ["sizzurp", "codeine"], ["k-pins", "clonazepam"], ["blotter", "lsd"]]) {
+  const hit = search(q).find((r) => r.route === `#/substances/${id}`);
+  if (hit) pass++; else fails.push(`"${q}" does not reach ${id}`);
+}
+
 console.log("SEARCH\n");
 for (const f of fails) console.log("  not ok " + f);
 if (!fails.length) console.log(`  ok   all ${pass} realistic queries reach the right page`);

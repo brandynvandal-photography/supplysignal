@@ -52,7 +52,7 @@ const TOPICS = new Set([
   "after", "adulterants", "checking", "comedown", "communities", "conditions",
   "consent", "descriptions", "education", "emerging", "harm", "heat", "index", "market",
   "myths", "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
-  "sex", "sitting", "stimulants", "supervision", "support", "testing",
+  "sex", "sitting", "stimulants", "street-names", "supervision", "support", "testing",
 ]);
 
 let topicsP = null;
@@ -707,11 +707,12 @@ export async function donate() {
  * so this file can never quietly shadow the real dose data for something like
  * a benzodiazepine that is both prescribed and used as an adulterant. */
 export async function substances() {
-  const [base, extra, desc, nameWarn] = await Promise.all([
+  const [base, extra, desc, nameWarn, street] = await Promise.all([
     load("substances", { generated: null, substances: [], warnings: {} }),
     load("adulterants", { substances: [], attribution: [] }),
     load("descriptions", { descriptions: {} }),
     load("name-warnings", { warnings: {} }),
+    load("street-names", { names: {} }),
   ]);
 
   const have = new Set((base.substances || []).map((s) => s.id));
@@ -735,6 +736,12 @@ export async function substances() {
     /* Deceptive street names: the warning renders on the page, and the names
        join the aliases so searching "tusi" finds the page that says tusi is
        probably not this. */
+    /* Street names ride in their own field and render FIRST under "Also
+       called" - the pharmacy brands PsychonautWiki lists are what a label
+       says, not what a person arriving here says (data/street-names.json,
+       every name sourced, 2026-09-09). */
+    const sn = street.names?.[s.id];
+    if (sn?.length) out = { ...out, street: sn.map((x) => x[0]) };
     const w = nameWarn.warnings?.[s.id];
     /* SEARCHABLE, BUT NOT "ALSO CALLED".
      *

@@ -149,6 +149,10 @@ for (const page of PAGES) {
 const subs = JSON.parse(await readFile(path.join(DATA, "substances.json"), "utf8"));
 let extra = { substances: [] };
 try { extra = JSON.parse(await readFile(path.join(DATA, "adulterants.json"), "utf8")); } catch {}
+/* Street names join the aliases, and go first so the cap below keeps them:
+   a prefix of "vikes" or "shards" has to reach the page. */
+let street = { names: {} };
+try { street = JSON.parse(await readFile(path.join(DATA, "street-names.json"), "utf8")); } catch {}
 
 const drugs = [];
 for (const s of [...(subs.substances || []), ...(extra.substances || [])]) {
@@ -158,7 +162,7 @@ for (const s of [...(subs.substances || []), ...(extra.substances || [])]) {
     n: s.name,
     /* Aliases are how this audience actually names things. Capped so one drug
        with forty street names cannot dominate the file. */
-    a: (s.aliases || []).slice(0, 12),
+    a: [...(street.names?.[s.id] || []).map((x) => x[0]), ...(s.aliases || [])].slice(0, 12),
   });
 }
 
