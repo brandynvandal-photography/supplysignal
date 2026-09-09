@@ -84,7 +84,12 @@ const HASH_ONLY = env === "hash";
 
 /* Directories rsynced with --delete (wholly ours), and root files copied.
    data/ is special-cased below because the bot owns part of it. */
-const OURS_DIRS = ["site", "scripts", "test", "src", "docs"];
+/* .github/workflows joined the list on 2026-09-09 with the Cloudflare Pages
+   deploy: pages.yml and the deploy job at the foot of ingest, maintain and
+   refresh are part of what makes a ship reach a reader. The narrower path,
+   not .github/, because .github/last-activity is the maintain bot's keepalive
+   and belongs to the repository, not to this tree. */
+const OURS_DIRS = ["site", "scripts", "test", "src", "docs", ".github/workflows"];
 /* package-lock.json ships WITH package.json, always. The workflows install
    with `npm ci`, which refuses to run when the two disagree - so a dependency
    added here (esbuild, 2026-08-19, for the build's minify pass) and shipped

@@ -64,5 +64,57 @@ jobs:
             echo "no changes"
           else
             git commit -m "ingest: $(date -u +%FT%TZ)"
-            git push
+            # REBASE BEFORE PUSHING, AND RETRY.
+            #
+            # A run checks out main, works for ten to fifteen minutes, then
+            # pushes. Anything landing on main in that window makes the push a
+            # non-fast-forward and the job fails - and the whole ingest is
+            # thrown away with it, including any finding it published. That
+            # happened on 2026-08-25: the 18:52 run committed 231 files and
+            # could not push because a site deploy landed mid-run, so alerts
+            # sat unpublished until the next cron three hours later.
+            #
+            # Nothing here conflicts in practice: this job only ever touches
+            # data/, feeds/ and review/seen.json, and nothing else writes them.
+            # A rebase replays this commit onto whatever arrived and pushes.
+            for attempt in 1 2 3; do
+              if git push; then
+                echo "pushed on attempt $attempt"
+                exit 0
+              fi
+              echo "push rejected (attempt $attempt) - rebasing onto origin/main"
+              # -X theirs: during a rebase "theirs" is the commit being
+              # replayed, i.e. THIS run's scan. Two ingests that overlap both
+              # rewrite data/alerts.json, data/counties/*.json and the fetch
+              # cache in full, so a conflict between them is not a disagreement
+              # to resolve - it is two complete answers, and the later scan is
+              # the one to keep. That happened on 2026-08-25: a dispatched run
+              # and the scheduled one overlapped, and the rebase stopped on
+              # every county file at once.
+              #
+              # It cannot silently drop a SITE change, which was the original
+              # reason for the rebase: this job only ever commits data/, feeds/
+              # and review/seen.json, so its commit can only conflict inside
+              # those. Anything outside them is not in the replayed commit and
+              # is carried through untouched.
+              git pull --rebase -X theirs --autostash origin main || {
+                echo "::error::rebase failed even with -X theirs - a human needs to look"
+                exit 1
+              }
+            done
+            echo "::error::could not push after 3 attempts"
+            exit 1
           fi
+
+  # Deploy what was just pushed. Commits made with GITHUB_TOKEN do not fire
+  # push events (GitHub's recursion guard), so this calls the deploy directly.
+  # Skipped entirely until the PAGES_PROJECT variable is set - see
+  # docs/HOSTING.md. `before` is the commit this run started from, so the
+  # deploy's skip check diffs exactly what this run changed.
+  deploy:
+    needs: ingest
+    if: ${{ vars.PAGES_PROJECT != '' }}
+    uses: ./.github/workflows/pages.yml
+    with:
+      before: ${{ github.sha }}
+    secrets: inherit

@@ -36,6 +36,8 @@
 //   app-support/  App Store Connect requires a reachable support URL
 //   index.html    the no-JavaScript fallback at /
 //   404.html      the page every denied path resolves to
+//   _redirects    } Cloudflare Pages' copy of netlify.toml's rules, derived at
+//   _headers      } build time by scripts/hosting.mjs (see docs/HOSTING.md)
 //
 // Everything else - src/, config/, scripts/, test/, docs/, review/, archive/,
 // .github/, package.json, node_modules/ - simply is not copied.
@@ -57,11 +59,12 @@
 // that every reference in it resolves and that the caching rules in
 // netlify.toml match the two regimes.
 
-import { cp, rm, mkdir, readdir, stat, writeFile } from "node:fs/promises";
+import { cp, rm, mkdir, readdir, stat, writeFile, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { stageShell, stageData, dirSize } from "./assets.mjs";
+import { parseNetlify, toRedirects, toHeaders } from "./hosting.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -152,6 +155,14 @@ async function main() {
 
   const shell = await stageShell({ site: path.join(ROOT, "site"), hash: true, data: dataManifest });
   await emit(path.join(OUT, "site"), shell.files);
+
+  /* Cloudflare Pages reads its rules from these two files in the output
+     directory. Derived from netlify.toml so there is one list of rules, not
+     two - see scripts/hosting.mjs, and test/hosting.test.mjs for the proof
+     that nothing was lost in translation. Netlify ignores both files. */
+  const rules = parseNetlify(await readFile(path.join(ROOT, "netlify.toml"), "utf8"));
+  await writeFile(path.join(OUT, "_redirects"), toRedirects(rules));
+  await writeFile(path.join(OUT, "_headers"), toHeaders(rules));
 
   /* Fail loudly if anything server-side made it in. This is the assertion the
      denylist could not make: it is a statement about what EXISTS, not about

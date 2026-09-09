@@ -101,3 +101,16 @@ jobs:
             echo "| regional | ${{ steps.regional.outcome }} |"
             echo "| mortality | ${{ steps.mortality.outcome }} |"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  # Deploy what was just pushed. Commits made with GITHUB_TOKEN do not fire
+  # push events (GitHub's recursion guard), so this calls the deploy directly.
+  # Skipped entirely until the PAGES_PROJECT variable is set - see
+  # docs/HOSTING.md. `before` is the commit this run started from, so the
+  # deploy's skip check diffs exactly what this run changed.
+  deploy:
+    needs: refresh
+    if: ${{ vars.PAGES_PROJECT != '' }}
+    uses: ./.github/workflows/pages.yml
+    with:
+      before: ${{ github.sha }}
+    secrets: inherit

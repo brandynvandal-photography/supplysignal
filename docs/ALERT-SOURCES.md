@@ -1036,8 +1036,16 @@ discovery tool, not a source list.
    to make it tractable, and which is a genuine alert product rather than
    mortality data.
 6. **Contact SOAR and King County** as partners rather than scraping them.
-7. **Schedule a Socrata Discovery sweep** so new county datasets surface on
-   their own instead of being found by hand.
+7. ~~**Schedule a Socrata Discovery sweep** so new county datasets surface on
+   their own instead of being found by hand.~~ **Done 2026-09-09:**
+   `scripts/discover-sources.mjs` runs from the weekly maintain job, queries
+   the catalog with six phrasings, asks each candidate's own endpoint for
+   `max(date)` and `count(*)` (aggregates only — never a row), and writes
+   `review/source-candidates.json` for a person to read. Nothing is ingested.
+   The first dry run listed 27 candidates; the freshness column is what
+   separates them — CDC's county file is current to the week, Connecticut's
+   `updatedAt` is July 2026 while its newest record is still 2024-12-31. To
+   reject one for good, move it into `dismissed` in that file with a reason.
 
 Steps 4 and 5 are the ones that put alerts on more county pages. Everything
 above them is cheaper; everything below is slower.

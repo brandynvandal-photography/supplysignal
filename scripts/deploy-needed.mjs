@@ -44,6 +44,8 @@ const SERVED = [
      under site/ or data/, and skipping that deploy would leave production on
      the old packing. */
   "scripts/build-site.mjs", "scripts/assets.mjs", "scripts/build-topics.mjs",
+  /* Derives dist/_redirects and dist/_headers from netlify.toml. */
+  "scripts/hosting.mjs",
 ];
 
 /* Fields that churn on every run without changing anything a reader can see.
