@@ -99,6 +99,12 @@ class Node {
 class Text extends Node {
   constructor(t) { super(); this._t = t; }
   get textContent() { return this._t; }
+  /* nodeType and nodeName are what ui.js's splitLead reads to find the first
+     sentence of a stop callout. Without them the split never applied under
+     this shim, and the one-sentence rule looked broken in nine boxes that
+     are fine in a browser - the shim was lying, not the views. */
+  get nodeType() { return 3; }
+  get nodeName() { return "#text"; }
 }
 
 class El extends Node {
@@ -112,6 +118,8 @@ class El extends Node {
     this.hidden = false;
     this.style = {};
   }
+  get nodeType() { return 1; }
+  get nodeName() { return this.tag.toUpperCase(); }
   get className() { return this._class; }
   set className(v) { this._class = String(v); }
   get classList() {
@@ -276,6 +284,26 @@ for (const [name, route] of SCREENS) {
     const node = await mod.render(route, ctx);
 
     if (!node) { fails.push(`${label} rendered nothing`); continue; }
+
+    /* ONE SENTENCE IN A STOP BOX.
+     *
+     * The rule for callouts is one sentence, or a heading and one sentence.
+     * ui.js holds it structurally: info and warn boxes fold and show only
+     * their heading shut; a stop box cannot fold, so callout() keeps the lead
+     * sentence in the box and demotes the rest beneath it (splitLead). This
+     * checks the stop half on the RENDERED result, because the split is
+     * silent when it stops applying - it reads nodeName and nodeType, and a
+     * body handed over as anything but a paragraph is kept whole. */
+    const txt = (n) => (n instanceof Text ? n.textContent : n.childNodes.map(txt).join(" "));
+    for (const box of node.querySelectorAll(".callout--stop")) {
+      const hd = box.querySelector(".callout__hd");
+      const body = box.childNodes.filter((c) => c !== hd).map(txt).join(" ").replace(/\s+/g, " ").trim();
+      const count = body ? body.split(/(?<=[.!?]["”’)]?)\s+(?=[A-Z"“(])/).length : 0;
+      if (count > 1) {
+        fails.push(`${label}: stop callout "${(hd?.textContent || "").replace(/\s+/g, " ").trim().slice(0, 50)}" `
+          + `holds ${count} sentences in the box - the lead split did not apply`);
+      }
+    }
     const text = String(node.textContent || "").trim();
     if (text.length < 40) {
       fails.push(`${label} rendered only ${text.length} characters of text`);
