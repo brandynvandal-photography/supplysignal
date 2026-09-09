@@ -165,6 +165,7 @@ const ADULTERANTS = {
   medetomidine: "depressants",    // alpha-2 agonist - naloxone does NOT reverse
   nitazenes: "opioids",           // IS an opioid - naloxone DOES work
   btmps: "other",                 // industrial chemical, no psychoactive class
+  carfentanil: "opioids",         // fentanyl analog - naloxone DOES work (2026-09-09)
 };
 
 check("the adulterants driving current overdose deaths exist and are searchable", () => {
@@ -212,12 +213,14 @@ check("non-opioid adulterants still tell people to give naloxone", () => {
   return bad.length ? bad.join("; ") : null;
 });
 
-check("nitazenes are recorded as reversible by naloxone", () => {
-  const s = byId("nitazenes");
-  if (!s) return null;
-  return s.naloxone?.reverses === true
-    ? null
-    : "nitazenes are opioids; naloxone works on them and the data must say so";
+check("the opioid adulterants are recorded as reversible by naloxone", () => {
+  const bad = [];
+  for (const id of ["nitazenes", "carfentanil"]) {
+    const s = byId(id);
+    if (!s) continue;
+    if (s.naloxone?.reverses !== true) bad.push(`${s.name} is an opioid; naloxone works on it and the data must say so`);
+  }
+  return bad.length ? bad.join("; ") : null;
 });
 
 /* This one guards against a claim that is widely repeated and NOT supported.

@@ -209,6 +209,7 @@ const SCREENS = [
   ["substances", { id: "class", sub: "opioids" }],
   ["substances", { id: "mix", sub: "alcohol+benzodiazepines" }], // the checker, pre-picked
   ["substances", { id: "cocaine" }],
+  ["substances", { id: "carfentanil" }],        // an adulterant page (2026-09-09)
   ["support", {}],
   ["learn", {}],
   ["policy", {}],
