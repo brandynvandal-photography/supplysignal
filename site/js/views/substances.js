@@ -40,6 +40,7 @@ import { liveRegion, dropRow, slotLabel, removeButton, relabelRows } from "../sl
 const lc = (x) => String(x || "").toLowerCase();
 function rank(s, t) {
   const n = lc(s.name);
+  if ((s.street || []).some((a) => lc(a) === t)) return -1;   // "meth" IS methamphetamine
   if (n.startsWith(t)) return 0;
   if ((s.street || []).some((a) => lc(a).startsWith(t))) return 1;
   if ((s.aliases || []).some((a) => lc(a).startsWith(t))) return 2;

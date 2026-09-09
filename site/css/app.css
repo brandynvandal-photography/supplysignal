@@ -1863,6 +1863,9 @@ main {
 /* The emergency door reads the way the SOS tab does: the words say it, the
    colour only underlines it. */
 .nbr--sos .nbr__name { color: var(--critical); }
+/* A phone number in prose, made a link by app.js telify(): it must not break
+   across a line, and it reads as a link the way every other one does. */
+.tel { white-space: nowrap; }
 /* Severity keeps the uppercase treatment. Everything else reads as normal
    language - the shouty styling was most of what made this feel like a
    readout instead of a page written for a person. */

@@ -516,6 +516,42 @@ const VIEWS = {
  * Rewriting the href rather than only intercepting the click keeps
  * right-click-copy, middle-click and no-JS honest: what the reader copies is
  * the address the page actually lives at. */
+/* EVERY PHONE NUMBER IS A LINK, in every view, from one place.
+ *
+ * Asked for 2026-09-09 about the sexual assault hotline on the Learn consent
+ * page, which was printed as text. The number was one of nine in prose - the
+ * Never Use Alone line on four screens, the drug-checking programs' contact
+ * numbers, a TTY line - and wiring each view is how one gets missed. This
+ * runs after linkify on every render and turns any US number written in the
+ * app's own form (800-656-4673, 1-800-484-3731) into a tel: link, skipping
+ * text that already sits inside a link or a control. A text-only line such
+ * as 741741 or 988 is left alone: neither is a number a phone dials the same
+ * way, and both are already buttons where they are offered. */
+const PHONE = /\b(?:1-)?\d{3}-\d{3}-\d{4}\b/g;
+function telify(root) {
+  if (!root || typeof document.createTreeWalker !== "function") return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const hits = [];
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    if (!/\d{3}-\d{3}-\d{4}/.test(n.textContent)) continue;
+    if (n.parentElement?.closest("a, button, input, textarea, select, option, code")) continue;
+    hits.push(n);
+  }
+  for (const n of hits) {
+    const text = n.textContent;
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    for (const m of text.matchAll(PHONE)) {
+      frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      const digits = m[0].replace(/\D/g, "");
+      frag.appendChild(h("a", { class: "tel", href: `tel:+${digits.length === 10 ? "1" + digits : digits}` }, m[0]));
+      last = m.index + m[0].length;
+    }
+    frag.appendChild(document.createTextNode(text.slice(last)));
+    n.replaceWith(frag);
+  }
+}
+
 function linkify(root) {
   for (const a of root.querySelectorAll?.('a[href^="#/"]') || []) {
     a.setAttribute("href", toUrl(a.getAttribute("href")));
@@ -629,6 +665,7 @@ async function route() {
     const node = await mod.render(r, { go, data });
     if (mine !== token) return;
     linkify(node);
+    telify(node);
     clear(view).appendChild(node);
     /* THE LANGUAGE THE VIEW IS ACTUALLY IN. The document carries the interface
        locale (i18n applyDocument), but the clinical bodies - every tab except
