@@ -744,6 +744,17 @@ details.acc > summary:focus-visible,
   border-bottom: 1px solid color-mix(in srgb, var(--elevated) 28%, transparent);
   font-size: var(--fs-xs); line-height: 1;
 }
+/* NOT ON THE EMERGENCY SCREEN. "Some of this may be wrong" as the first line
+   above the overdose steps undercuts them at the one moment they are being
+   used, and every pixel of that screen above Call 911 is measured. The
+   statement still stands - the footer carries the full early-access note on
+   every page, this one included - it just does not sit on top of the steps.
+   --banner-h goes to zero with it, so --bar-h and everything keyed off it
+   (scroll margins, the search panel, the pinned jump strip) measure the bar
+   that is actually there. app.js sets data-tab on the root at every route;
+   the kindbar is already hidden on this one the same way. */
+html[data-tab="help"] { --banner-h: 0px; }
+html[data-tab="help"] .earlybar { display: none; }
 /* (0,3,0), so it beats `.topbar .wrap` no matter where either sits in the
    file. The banner IS inside .topbar, so that rule matches it too and would
    otherwise stretch this row to the menu row's 66px - which it did, making the
@@ -2205,7 +2216,17 @@ a.card--link > span[aria-hidden] { color: var(--ink-3); }
   a.card--link:hover { border-color: var(--brand); }
 }
 .nbr__dist { color: var(--ink-3); font-size: var(--fs-caption); }
-.nbr__right { margin-left: auto; display: flex; align-items: center; gap: 9px; }
+/* WRAPS WHEN IT HAS TO. A row carrying two badges - "Adulterant" plus "N
+   dangerous" on Nitazenes - is 246px of accessories in a 341px row, which left
+   the name 52px and broke "Nitazenes" in half now that names wrap (and cut it
+   to "Nit..." when they truncated). Capped at 60% of the row and allowed to
+   wrap, the two badges stack on two lines, the chevron rides the second, and
+   the name keeps a line of its own. One-badge rows are under the cap and do
+   not change. Measured 2026-09-09 at 375px: name back to 113px, row 94px. */
+.nbr__right {
+  margin-left: auto; display: flex; align-items: center; gap: 4px 9px;
+  flex-wrap: wrap; justify-content: flex-end; max-width: 60%;
+}
 
 /* ---------------------------------------------------------- callout box */
 
@@ -2534,6 +2555,31 @@ ol.steps > li::after {
   width: 2px; background: var(--line);
 }
 ol.steps > li:last-child { padding-bottom: 0; }
+
+/* "Why" under a step. The instruction is the step; this is the reason, the
+   failure mode and the hedge, one rung down - see the note in views/test.js.
+
+   A bare summary rather than the .disc or .acc treatment: those are section
+   furniture and there are up to six of these inside one ordered list, so a
+   card each would turn a seven-step procedure back into a wall. Small, quiet,
+   and it does not compete with the numbered rail. */
+.stepwhy { margin-top: 6px; }
+.stepwhy > summary {
+  cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 5px;
+  font-size: var(--fs-sm); font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--ink-3);
+  min-height: var(--tap); padding: 2px 0;
+}
+.stepwhy > summary::-webkit-details-marker { display: none; }
+.stepwhy > summary::after {
+  content: "＋"; font-weight: 600; font-size: .9em; color: var(--ink-3);
+}
+.stepwhy[open] > summary::after { content: "−"; }
+.stepwhy > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+.stepwhy > p { margin: 2px 0 0; font-size: .92rem; color: var(--ink-2); }
+
+/* The same text, printed rather than folded, inside the walkthrough. */
+.stepper__more { margin-top: var(--sp-2) !important; color: var(--ink-2); font-size: .95rem; }
 /* AIR AFTER THE LAST STEP. The rule above strips the last step's bottom
    padding so the numbered rail ends with the text rather than trailing into
    space - correct when the list is the end of a section, wrong when something
@@ -3515,11 +3561,23 @@ details.disc--urgent > summary h2 { color: var(--critical); }
   /* Room for the fade so the last chip is not clipped mid-word. The fade ends
      short of the strip's own rounded border rather than running into it. */
   padding: 2px 16px 2px 0;
-  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
-  mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  /* A swipe lands on whole chips, not between two. */
+  scroll-snap-type: x proximity;
 }
 .jump .chips::-webkit-scrollbar { display: none; }
-.jump .chip { flex: 0 0 auto; }
+.jump .chip { flex: 0 0 auto; scroll-snap-align: start; }
+/* THE CAPTION LEAVES ON A PHONE. At 375px "JUMP TO" and its gap took about
+   70px of a 343px strip - a fifth of the row - so the third chip was always
+   the one cut at the edge ("Bei...", "Is this mix dang..."). The nav's own
+   aria-label says the same words, so a screen reader loses nothing, and a
+   row of section names in a pill at the top of a page reads as what it is
+   without a caption. The fade is 32px rather than 24 for the same reason: a
+   chip cut at the edge has to read as continuing, not as clipped. */
+@media (max-width: 430px) {
+  .jump__label { display: none; }
+}
 
 
 /* ------------------------------------------------------------------ filter */
@@ -3791,11 +3849,18 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
 /* min-width:0 is what actually lets the subtitle ellipsis. Without it the flex
    child refuses to shrink below its content and the text wraps instead. */
 .nbr__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
-/* The name must TRUNCATE, not overflow. Without this it had no limit, so on a
-   narrow screen a row carrying two badges ("Adulterant" plus "N dangerous")
-   squeezed the text column to nothing and the name ran out underneath them -
-   which is what read as the tags overlapping the drug name on iOS. */
-.nbr__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The name WRAPS. It used to truncate, and the reason was real: on a narrow
+   screen a row carrying two badges ("Adulterant" plus "N dangerous") squeezed
+   the text column to nothing and the name ran out underneath them, which is
+   what read as the tags overlapping the drug name on iOS. That was overflow,
+   not wrapping - .nbr__text has min-width:0 and flex:1, so a name that wraps
+   stays inside its column. Truncation cost more than it saved: "If they are
+   panicking, or seeing thi..." on the Emergency screen and "When you do not
+   know what i..." on Learn were instructions cut mid-word. overflow-wrap:
+   anywhere so one long chemical name cannot push the badges either. The
+   subtitle still truncates - that is a list of aliases, and cutting it short
+   is right. */
+.nbr__name { white-space: normal; overflow-wrap: anywhere; }
 .nbr__sub {
   color: var(--ink-2);
   font-size: .85rem;

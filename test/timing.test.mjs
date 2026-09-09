@@ -133,6 +133,45 @@ const badCeiling = ceilings.filter((s) =>
 ok("every read ceiling is stated in that strip's own procedure"
    + (badCeiling.length ? `: ${badCeiling.map((s) => s.id).join(", ")}` : ""), !badCeiling.length);
 
+/* ---- 5. demoting a footnote may not delete it ----
+ *
+ * The reagent procedure's steps were split on 2026-09-05: the instruction stays
+ * in `body`, the reasoning moves to `more` and renders behind a "Why" fold. A
+ * split like that is one careless edit away from being a deletion, and the
+ * sentences most at risk are exactly the ones worth keeping - the hedges and
+ * the failure modes, which are what a demotion is tempted to drop.
+ *
+ * So the load-bearing phrases are named. Each is checked against body AND more
+ * together, because which side of the split it sits on is a judgement that may
+ * change; whether it is on the page at all is not. */
+const MUST_SURVIVE = [
+  ["Use a pinhead of sample", "10 mg of active drug"],
+  ["Never test the whole pill, and never in the bag", "concentrated acids"],
+  ["Never test the whole pill, and never in the bag", "Ehrlich"],
+  ["One drop, and never touch the sample with the bottle", "contaminates the entire bottle"],
+  ["One drop, and never touch the sample with the bottle", "SAME sample"],
+  ["Watch from the moment the drop lands", "no single correct number"],
+  ["Watch from the moment the drop lands", "40 seconds to 3 minutes"],
+  ["Run a blank next to it", "darken with age"],
+];
+const lost = [];
+for (const [title, phrase] of MUST_SURVIVE) {
+  const step = (d.procedure || []).find((x) => x.title === title);
+  if (!step) { lost.push(`step "${title}" is gone`); continue; }
+  const all = `${step.body || ""} ${step.more || ""}`;
+  if (!all.includes(phrase)) lost.push(`"${title}" no longer says "${phrase}"`);
+}
+ok("no sentence was lost when the footnotes were demoted"
+   + (lost.length ? `: ${lost.join("; ")}` : ""), !lost.length);
+
+/* And the instruction itself stays on the surface: a step whose body is only a
+   fragment has had too much moved down. */
+const thin = (d.procedure || [])
+  .filter((x) => (x.body || "").trim().length < 40)
+  .map((x) => `${x.title} (${(x.body || "").length} chars)`);
+ok("every step's instruction is still readable without opening anything"
+   + (thin.length ? `: ${thin.join("; ")}` : ""), !thin.length);
+
 for (const f of fails) console.log("  not ok " + f);
 if (!fails.length) {
   console.log(`  ok   ${brands.length} brands state their own dip and wait times`);

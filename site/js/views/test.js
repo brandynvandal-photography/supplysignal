@@ -154,8 +154,31 @@ export async function render(route, ctx) {
            intro now - see `opts.intro` below - so that a reader who opens the
            reagent list without ever opening the procedure still meets it. The
            steps start at the first step. */
+        /* THE INSTRUCTION, THEN THE REASON, one rung down.
+         *
+         * Every step used to be an instruction with its footnote welded on -
+         * "Finely crushed. Blotter: a tiny corner. Liquids: one drop. Morris:
+         * double. For low-dose pressed pills use MORE - a 150 mg pill may hold
+         * only 10 mg of active drug." The bodies ran to 381 characters and the
+         * thing to DO was somewhere in the first sentence.
+         *
+         * The split is on what you have to do versus why. Amounts, actions and
+         * timings stay in the body even when they are specialist - "Morris:
+         * double" is an instruction, and a Morris user who never opens the fold
+         * must still meet it. What moves is the reasoning, the failure modes
+         * and the hedges.
+         *
+         * A step with nothing to demote gets no control: "Clean up" is one
+         * sentence and stays one sentence. */
         h("ol", { class: "steps" },
-          g.procedure.map((p) => h("li", null, h("h4", null, p.title), h("p", null, p.body)))),
+          g.procedure.map((p) => h("li", null,
+            h("h4", null, p.title),
+            h("p", null, p.body),
+            p.more
+              ? h("details", { class: "stepwhy" },
+                  h("summary", null, "Why"),
+                  h("p", null, p.more))
+              : null))),
 
         /* THE SAME SEVEN STEPS, ONE AT A TIME, for somebody actually doing it.
            The list above is untouched and stays the default - see the note in
