@@ -85,7 +85,7 @@ export async function render(route, { go }) {
       section("More guides", null,
         h("div", { class: "list" },
           moreGuide("#/stimulants", "Staying up and coming down",
-            "Sleep loss alone will bring on psychosis-like states eventually — "
+            "Sleep loss alone can bring on psychosis-like states — "
             + "the timeline, what it looks like, and why sleep is the treatment."),
           moreGuide("#/sex", "Sexual health",
             "Barriers, PrEP and PEP, emergency contraception, the mixes that put "

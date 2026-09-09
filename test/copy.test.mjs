@@ -82,6 +82,8 @@ const BRITISH = [
      every spelling check and still read as written somewhere else. */
   ["haven’t got to", "haven’t gotten to"], ["haven't got to", "haven't gotten to"],
   ["whilst", "while"], ["fortnight", "two weeks"], ["car park", "parking lot"],
+  ["switched off", "turned off"], ["switched on", "turned on"], ["sold in shops", "sold in stores"],
+  ["go and get", "go get"], ["have got wrong", "got wrong"],
 ];
 
 /* Hand-written content files. The first version of this test scanned only

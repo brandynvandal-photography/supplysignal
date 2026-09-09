@@ -49,7 +49,7 @@ export async function render(route, { go }) {
          asked for 2026-08-26. */
       h("h1", null, "Published alerts"),
       h("p", { class: "classcard__hint" },
-        "Substances being identified elsewhere, often before they are documented locally."))
+        "Substances turning up in labs elsewhere, often before anyone reports them locally."))
   );
 
   /* The framing has to do real work here, so it is a callout rather than fine

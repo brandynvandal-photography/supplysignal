@@ -140,7 +140,7 @@ const li = (strong, rest) =>
 async function correctionsBlock() {
   const c = await data.corrections().catch(() => null);
   const entries = (c?.entries || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));
-  return disclosure("sec-corrected", "What we have got wrong", null,
+  return disclosure("sec-corrected", "What we got wrong", null,
     h("p", { class: "sec__note" },
       "Things this app said that were wrong, overstated or unsupported, and what "
       + "it says now. Newest first. Nothing here is edited after the fact."),

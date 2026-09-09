@@ -1476,9 +1476,10 @@ function comedownFor(doc, s) {
         callout("warn", "This reads the main drug. It can’t see what else is in there",
           h("p", null,
             "These are the colors you get from this drug on its own. If the expected " +
-            "reaction doesn’t show up, that tells you a lot — walk away. If it does " +
-            "show up, that tells you very little: it speaks for the bulk of what you " +
-            "have, not for everything in it."),
+            "reaction doesn’t show up, do not assume it is what it was sold as — and " +
+            "check the bottle first, because an expired reagent gives no reaction " +
+            "either. If it does show up, that tells you very little: it speaks for " +
+            "the bulk of what you have, not for everything in it."),
           h("p", null,
             "A reagent cannot find fentanyl mixed into something else. Fentanyl is " +
             "active in microgram amounts, far below the amount a color change can show, " +
@@ -1556,7 +1557,7 @@ function comedownFor(doc, s) {
           h("p", null, "These ranges assume a pure drug that is what it says it is. " +
             "What you have may be a different drug, a different strength, or mixed " +
             "unevenly through the batch. Start well below the low end.")),
-        disclosure("sec-dose", "Reported Dosage Ranges", { open: false },
+        disclosure("sec-dose", "Reported dosage ranges", { open: false },
           dosed.map((r) => doseTable(r))))
     );
   }
@@ -1633,9 +1634,8 @@ function comedownFor(doc, s) {
           s.tolerance?.half ? h("p", null, h("strong", null, "Tolerance halves in: "), s.tolerance.half) : null,
           s.tolerance?.zero ? h("p", null, h("strong", null, "Back to baseline: "), s.tolerance.zero) : null,
           h("p", { class: "sec__note" },
-            "Tolerance dropping is a leading cause of overdose accidents. After any " +
-            "break — jail, hospital, treatment, illness — a previously normal amount can " +
-            "cause one.")))
+            "Tolerance drops during any break — jail, hospital, treatment, illness — " +
+            "and a previously normal amount can then cause an overdose.")))
     );
   }
 

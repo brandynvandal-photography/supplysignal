@@ -96,8 +96,8 @@ export async function render() {
     h("a", { class: "bigptr", href: "#/heat" },
       h("span", { class: "bigptr__hd" }, "Heat and water"),
       h("span", { class: "bigptr__sub" },
-        "Overheating is the most likely way this becomes an emergency, and the "
-        + "fastest. Spotting it, cooling them down with what is in the room, and "
+        "Overheating is the emergency to watch for, and the fastest to arrive. "
+        + "Spotting it, cooling them down with what is in the room, and "
         + "why giving them water to drink can be the wrong move.")));
 
   wrap.appendChild(block("sec-calling", g.calling));

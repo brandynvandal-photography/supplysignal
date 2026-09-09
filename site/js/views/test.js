@@ -496,7 +496,7 @@ export async function render(route, ctx) {
          one who thinks they know what to buy, so it has to be legible without
          a decision to look. Short on purpose: the badge is the hook, the
          callout inside is the explanation. */
-      flag: "Most sold in shops test a person, not a drug",
+      flag: "Most kits sold in stores test a person, not a drug",
 
       /* THE TRAP, ON THE TILE. "Most fentanyl test strips sold in stores test
          a person, not a drug" is the fact that stops a $10 mistake, and it

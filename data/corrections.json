@@ -193,6 +193,38 @@
       "said": "That no adulterant is chosen for its effect on the person, in the same paragraph that said xylazine lengthens a short fentanyl high.",
       "wrong": "Self-contradicting, and the Adulterants page already said the sources document two motives and do not agree. Its only source did not cover levamisole or lidocaine.",
       "now": "The two-motive framing, a CDC source for levamisole, and the line that none of it is tested on the person who ends up taking it."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "Alerts · empty states",
+      "title": "\"The hourly job\" and \"over about a week\"",
+      "said": "That the scanner ran hourly, and that a full sweep of every county took about a week.",
+      "wrong": "It runs every three hours, and a full sweep takes weeks. The About page and the county callout had it right; the two empty states did not.",
+      "now": "Every three hours, and a few weeks, in all four places."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "Learn · More guides",
+      "title": "\"Sleep loss alone will bring on psychosis-like states\"",
+      "said": "That sleep loss alone will bring on psychosis-like states eventually.",
+      "wrong": "\"Will\" is a promise no source makes. The guide it points to says \"can\".",
+      "now": "Sleep loss alone can bring on psychosis-like states."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "Drugs · reagent colors",
+      "title": "\"That tells you a lot — walk away\"",
+      "said": "That a missing color reaction tells you a lot, and to walk away.",
+      "wrong": "The Test tab's own kit-care card says an expired reagent also gives no reaction. A missing color can be the bottle, not the bag.",
+      "now": "Do not assume it is what it was sold as, and check the bottle first."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "Test, Learn and Drugs",
+      "title": "Three \"most\" claims with no source on the screen",
+      "said": "That using alone turns most overdoses into accidents; that overheating is the most likely way a stimulant night becomes an emergency; that tolerance dropping is a leading cause of overdose accidents.",
+      "wrong": "Rankings with no source where the reader could see one. Each may well be true. None was shown to be.",
+      "now": "Each says the mechanism and drops the ranking."
     }
   ]
 }

@@ -466,7 +466,7 @@ export async function render() {
           h("p", null,
             "Your state's Good Samaritan law can protect you from charges for "
             + "what is found because you asked for help. It does not stop the "
-            + "festival throwing you out. The law binds the police; your ticket "
+            + "festival from throwing you out. The law binds the police; your ticket "
             + "is a permission the event can take back at any time. What the law "
             + "covers where you live is under “Calling 911 and the law”, below."),
           h("p", { class: "sec__note" },
@@ -474,7 +474,7 @@ export async function render() {
             + "carried her to a medical tent, and she did not survive. A year "
             + "later four people were charged over the pill — the partner among "
             + "them, for possession — on the strength of text messages about "
-            + "buying it. Go and get help anyway; just know that the protection "
+            + "buying it. Go get help anyway; just know that the protection "
             + "is narrower than it sounds."),
           h("div", { class: "sources" },
             extLink("https://www.cbsnews.com/miami/news/arrests-2025-overdose-death-ultra-music-festival/",
@@ -534,7 +534,7 @@ export async function render() {
           h("p", null,
             "There is no medical tent. Door and floor staff are trained to "
             + "remove a problem from the room, and somebody unconscious can be "
-            + "walked outside and left on the pavement while everyone assumes "
+            + "walked outside and left on the sidewalk while everyone assumes "
             + "they are drunk. If staff are moving them, go with them and stay "
             + "with them — the street outside is where being alone starts."),
           h("p", { class: "sec__note" },
@@ -654,7 +654,7 @@ export async function render() {
     disclosure("sec-police", "If police come while you are helping", null,
       callout("warn", "Keep helping. None of this is worth stopping for",
         h("p", null,
-          "Carry on with what you are doing — rescue breaths, naloxone, staying with them.")),
+          "Keep doing what you are doing — rescue breaths, naloxone, staying with them.")),
 
       h("div", { class: "card" },
         h("h3", null, "What you can do"),
@@ -809,7 +809,13 @@ export function saferUseBlock() {
           li("Coming back after a break?", "Jail, hospital, detox, treatment, or just time away — tolerance falls fast, and the amount you used before the break is enough to stop your breathing after it. The first days back are the most dangerous. Use a fraction, go slow, and do not be alone."),
           li("Go slow, and wait.", "Take a small amount and wait to feel it before taking more."),
           li("Keep naloxone within reach.", "Not in another room, and make sure whoever is with you knows where it is and how to use it."),
-          li("Be careful mixing.", "Opioids with benzodiazepines or alcohol is especially dangerous, because all three slow breathing and the effects stack — naloxone reverses the opioid and does nothing for the rest. The combination found most often in overdose deaths today is actually fentanyl with a stimulant, which mostly reflects how many people use both."),
+          /* The frequency figure carries its source on the screen now, and says
+             what the source says: opioids with stimulants, nearly half, 2023,
+             a subset of jurisdictions - not "fentanyl with a stimulant, most
+             often", which was the claim with nothing under it (2026-09-09). */
+          li("Be careful mixing.", h("span", null,
+            "Opioids with benzodiazepines or alcohol is especially dangerous, because all three slow breathing and the effects stack — naloxone reverses the opioid and does nothing for the rest. In the CDC’s 2023 death data, nearly half of overdose deaths involved both an opioid and a stimulant, which mostly reflects how many people use both. ",
+            extLink("https://www.cdc.gov/overdose-prevention/about/understanding-the-opioid-overdose-epidemic.html", "CDC — Understanding the opioid overdose epidemic"))),
           li("Test what you have.", "See the Test section — it will not make anything safe, but it can tell you something you did not know."))))
   );
 
@@ -834,7 +840,7 @@ export function privacyBlock() {
              app.js/seen.js/i18n.js after touching any of them. */
           li("Nothing outlives the session.", "No account, no cookies, no record of what you searched or which counties you opened. Your light/dark choice and your language are held only until you close the tab, and the offline copy is deleted when you leave. Nothing is left on this device for next time.")),
 
-        h("h3", null, "Quick exit"),
+        h("h3", null, "Quick Exit"),
         /* "At the top right", not "in the header". The X used to ride in the
            header row and left the screen with it on scroll; it is a pinned
            pill now (index.html, app.css "Quick Exit, pinned") and is at the

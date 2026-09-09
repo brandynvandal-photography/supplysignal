@@ -52,7 +52,7 @@
       {
         "title": "Give naloxone",
         "body": "Put the nozzle in one nostril. Push the plunger all the way in.",
-        "note": "Give it even if you are not sure. It only works on opioids. It cannot hurt a person who has not taken any. No pulse? Do CPR first."
+        "note": "Give it even if you are not sure. It only works on opioids. It cannot hurt a person who has not taken any. No pulse? Do CPR first. Narcan is one brand of naloxone."
       },
       {
         "title": "Help them breathe",
@@ -108,7 +108,7 @@
     "locationPrivacyTitle": "Your location never leaves this device",
     "locationPrivacyBody": "“Near me” works out your county inside this browser, using map data that came down with the page. Nothing is asked of a location service, and your coordinates are never sent anywhere.",
     "noScanTitle": "No scan has run yet.",
-    "noScanBody": "Once the hourly job runs, alerts will appear here. Until then this page has nothing to report — which is not the same as nothing happening.",
+    "noScanBody": "The scanner runs every three hours. Once it has, alerts will appear here. Until then this page has nothing to report, which is not the same as nothing happening.",
     "windowLabel": "Time window",
     "window30": "30 days",
     "window90": "90 days",
@@ -153,7 +153,7 @@
     "startTitle": "Not sure where to start?",
     "startSub": "Six questions people arrive with — if someone is overdosing right now, where to get naloxone free, what happens if you call 911.",
     "print": "Print this county",
-    "refresh": "Refresh"
+    "refresh": "Check again"
   },
   "severity": {
     "critical": "Critical",
@@ -179,7 +179,7 @@
     "largestChanges": "Largest changes",
     "highest": "Highest — {metric}",
     "noAlertsTitle": "No alerts published yet",
-    "noAlertsBody": "The scanner works through all 3,231 counties over about a week, and genuine supply advisories are rare in any given hour. Nothing has qualified so far.",
+    "noAlertsBody": "The scanner works through all 3,231 counties over a few weeks, and genuine supply advisories are rare in any given run. Nothing has qualified so far.",
     "noAlertsMeaning": "This is an absence of reporting, not evidence of a safe supply. Try “Change vs last year”, which has data for every county with a published figure.",
     "noDataTitle": "No figures available for this measure",
     "noDataBody": "Nothing to map yet. Try another measure.",
