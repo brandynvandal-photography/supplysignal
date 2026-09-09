@@ -39,6 +39,7 @@ const PAGES = [
   { file: "sex.json",        route: "#/sex",         kind: "Sex and being out" },
   { file: "stimulants.json", route: "#/stimulants",  kind: "Staying up" },
   { file: "heat.json",       route: "#/heat",        kind: "Heat and water" },
+  { file: "injection.json",  route: "#/injection",   kind: "If you inject" },
   { file: "market.json",     route: "#/substances",  kind: "Drugs" },
   { file: "conditions.json", route: "#/substances",  kind: "Drugs" },
   { file: "rx.json",         route: "#/substances",  kind: "Drugs" },

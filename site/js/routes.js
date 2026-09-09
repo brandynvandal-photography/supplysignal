@@ -33,6 +33,7 @@ export const PATHS = {
   sos: "help",
   after: "after",
   heat: "heat",
+  injection: "injection",
   emerging: "emerging",
   policy: "policy",
   supervision: "supervision",

@@ -485,6 +485,7 @@ const VIEWS = {
   supervision: () => import("./views/supervision.js"),
   sex:        () => import("./views/sex.js"),
   stimulants: () => import("./views/stimulants.js"),
+  injection:  () => import("./views/injection.js"),
   about:      () => import("./views/about.js"),
   /* Not a tab either. Reached from the footer, beside About - the two pages
      somebody goes looking for once they have decided the thing is worth

@@ -90,6 +90,9 @@ export async function render(route, { go }) {
           moreGuide("#/sex", "Sexual health",
             "Barriers, PrEP and PEP, emergency contraception, the mixes that put "
             + "people in the hospital, and why drink test strips mostly do not work."),
+          moreGuide("#/injection", "If you inject",
+            "Abscesses, a missed shot, the fever that passes and the one that "
+            + "does not — and the five habits that stop most of it."),
           moreGuide("#/heat", "Heat and water",
             "When hot has become dangerous, how to cool somebody down with what "
             + "is in the room, and why too much plain water swells the brain."),

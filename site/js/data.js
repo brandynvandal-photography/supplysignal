@@ -50,7 +50,7 @@ const inflight = new Map();
  */
 const TOPICS = new Set([
   "after", "adulterants", "checking", "comedown", "communities", "conditions",
-  "consent", "descriptions", "education", "emerging", "harm", "heat", "index", "market",
+  "consent", "descriptions", "education", "emerging", "harm", "heat", "index", "injection", "market",
   "myths", "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
   "sex", "sitting", "stimulants", "street-names", "supervision", "support", "testing",
 ]);
@@ -608,6 +608,11 @@ export async function stimulants() {
 /** Heat illness and water. */
 export async function heat() {
   return load("heat", null);
+}
+
+/** If you inject: infections and injuries, and the fever rule. */
+export async function injection() {
+  return load("injection", null);
 }
 
 /** What to do once the drug has worn off. Null for anything with no entry —

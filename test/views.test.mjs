@@ -215,6 +215,7 @@ const SCREENS = [
   ["sex", {}],
   ["stimulants", {}],
   ["heat", {}],
+  ["injection", {}],
   ["after", {}],
   ["emerging", {}],
   ["about", {}],

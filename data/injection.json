@@ -1,0 +1,198 @@
+{
+  "note": "HAND-WRITTEN. If you inject: the infections injecting causes, what to do about each while it is small, and the one rule about a fever. Every claim carries a source read at source. Wound care for xylazine lives on the xylazine page and is pointed to, not repeated; hepatitis C and HIV testing live on the Sex page. Where NHRC's two chapters differ on a missed shot (ice and elevation right after; warm soaks after that) both are given in that order rather than one chosen.",
+  "verified": "2026-09-09",
+  "headline": "If you inject",
+  "blurb": "The infections injecting causes, what to do about each while it is small, and the one rule about a fever.",
+  "before": {
+    "headline": "Before the shot",
+    "lead": "Almost every infection on this page started with something that touched the shot: a used needle, an old cotton, water that was not clean, skin that was not wiped. Each is one thing to change.",
+    "items": [
+      {
+        "t": "A sterile, sharp needle for every shot",
+        "d": "Never share needles, syringes, cookers, cottons or water with anyone. That is the only certain way to stop a virus passing between people."
+      },
+      {
+        "t": "Sterile water, then boiled, then cold tap",
+        "d": "Sterile water from a pharmacy is safest. Boiled water is next, then fresh cold tap water or bottled water. Never water from a toilet bowl; if the tank is all there is, use the tank."
+      },
+      {
+        "t": "Your own cooker and a fresh cotton",
+        "d": "Cook in something as clean as you can make it, and never share it. Filter through clean 100% cotton from a cotton ball or a swab, and use it once. Old cottons grow bacteria and fungi, and that is where cotton fever comes from."
+      },
+      {
+        "t": "Wash your hands, then wipe the spot one way",
+        "d": "Soap and water on your hands first. Then clean the injection site, wiping in one direction rather than in circles. Cleaning the skin is one of the most important things you can do against endocarditis and blood infection."
+      },
+      {
+        "t": "Rotate sites, arms first",
+        "d": "Use a new site for each shot, and go back to one only after it has had time to heal. The upper arm is safest, then the forearm."
+      }
+    ],
+    "sources": [
+      {
+        "name": "National Harm Reduction Coalition — Getting Off Right: preparing yourself and your equipment",
+        "url": "https://harmreduction.org/issues/safer-drug-use/injection-safety-manual/preparing-equipment/"
+      },
+      {
+        "name": "National Harm Reduction Coalition — Getting Off Right: the basics of safer injection",
+        "url": "https://harmreduction.org/issues/safer-drug-use/injection-safety-manual/safer-injection-basics/"
+      },
+      {
+        "name": "National Harm Reduction Coalition — Getting Off Right, full manual (PDF)",
+        "url": "https://harmreduction.org/wp-content/uploads/2020/08/Resource-SaferDruguse-GettingOffRightASafetyManualforInjectionDrugUsers.pdf"
+      }
+    ]
+  },
+  "missed": {
+    "headline": "A missed shot",
+    "lead": "Drug under the skin instead of in the vein is how most abscesses start.",
+    "items": [
+      {
+        "t": "Ice it and raise it, right away",
+        "d": "Ice the spot and keep it raised for at least 30 minutes. That will not stop an abscess that is already forming, but it eases the swelling."
+      },
+      {
+        "t": "Then warmth",
+        "d": "Over the days after, a warm water soak or a warm compress on the spot lowers the chance of irritation and of an abscess."
+      },
+      {
+        "t": "Watch it",
+        "d": "Redness, swelling and a lump that hardens and hurts mean an abscess is forming. That is the moment for warm compresses three times a day, and for getting it looked at."
+      }
+    ],
+    "sources": [
+      {
+        "name": "National Harm Reduction Coalition — Getting Off Right: potential health complications",
+        "url": "https://harmreduction.org/issues/safer-drug-use/injection-safety-manual/potential-health-injections/"
+      },
+      {
+        "name": "National Harm Reduction Coalition — Getting Off Right: the basics of safer injection",
+        "url": "https://harmreduction.org/issues/safer-drug-use/injection-safety-manual/safer-injection-basics/"
+      },
+      {
+        "name": "MedlinePlus (NIH) — Skin abscess, reviewed October 2024",
+        "url": "https://medlineplus.gov/ency/article/000863.htm"
+      }
+    ]
+  },
+  "abscess": {
+    "headline": "An abscess",
+    "lead": "A pocket of pus under the skin. It is the most common injection infection, and a small one is simple to treat once it is drained.",
+    "items": [
+      {
+        "t": "What it looks like",
+        "d": "Swelling, redness, warmth and tenderness around the spot, a lump that hardens, sometimes a sore that opens and drains. Fever or chills in some cases."
+      },
+      {
+        "t": "Warm compresses, and hands off",
+        "d": "Moist heat, at least three times a day, helps it come to a head and heal. Do not squeeze it, and do not try to drain it yourself."
+      },
+      {
+        "t": "A clinic drains it",
+        "d": "The treatment is opening and draining it under numbing medicine, sometimes with antibiotics after. A syringe service program can point you to a clinic that does this."
+      },
+      {
+        "t": "Go the same day if it is spreading",
+        "d": "Redness that grows by the hour, red streaks or a dark line running from the sore, fever with chills, pain out of proportion, or feeling very unwell. That is the infection moving into the skin around it. It can spread within a day, and untreated it can reach the blood and the bone."
+      }
+    ],
+    "sources": [
+      {
+        "name": "MedlinePlus (NIH) — Skin abscess, reviewed October 2024",
+        "url": "https://medlineplus.gov/ency/article/000863.htm"
+      },
+      {
+        "name": "MedlinePlus (NIH) — Cellulitis, reviewed April 2025",
+        "url": "https://medlineplus.gov/ency/article/000855.htm"
+      },
+      {
+        "name": "National Harm Reduction Coalition — Getting Off Right: potential health complications",
+        "url": "https://harmreduction.org/issues/safer-drug-use/injection-safety-manual/potential-health-injections/"
+      }
+    ]
+  },
+  "fever": {
+    "headline": "A fever after a shot",
+    "lead": "Two things cause it. One passes on its own. The other is the most serious thing on this page, and at the start they look the same.",
+    "items": [
+      {
+        "t": "Cotton fever",
+        "d": "Chills, sweating and fever that start within minutes of injecting, usually after an old cotton. Bacteria and fungi grow in used cottons. It usually passes on its own."
+      },
+      {
+        "t": "The rule",
+        "d": "A fever that is still there the next day, that comes back, or that comes with chest pain, breathlessness, fainting or a racing heart is not cotton fever until a hospital has said so. There are people whose endocarditis began as what they took for cotton fever."
+      },
+      {
+        "t": "A fresh cotton prevents it",
+        "d": "A new sterile cotton for every shot is the whole prevention."
+      }
+    ],
+    "emergency": {
+      "title": "Fever past a day, or with chest pain or breathlessness: hospital",
+      "body": "Say that you inject. It changes what they look for."
+    },
+    "sources": [
+      {
+        "name": "National Harm Reduction Coalition — Getting Off Right: preparing yourself and your equipment",
+        "url": "https://harmreduction.org/issues/safer-drug-use/injection-safety-manual/preparing-equipment/"
+      },
+      {
+        "name": "Cureus (2022) — Just a bad case of cotton fever: case report and literature review",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/36168352/"
+      },
+      {
+        "name": "Cureus (2022) — Enterobacter endocarditis in a patient with a history of cotton fever",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9336567/"
+      },
+      {
+        "name": "MedlinePlus (NIH) — Endocarditis, reviewed November 2024",
+        "url": "https://medlineplus.gov/ency/article/001098.htm"
+      }
+    ]
+  },
+  "endocarditis": {
+    "headline": "Endocarditis",
+    "lead": "An infection of the heart valves. Bacteria go in with the shot, settle on a valve and grow there. It is the injection infection that puts people in hospital for weeks, and it is rising.",
+    "items": [
+      {
+        "t": "How it starts",
+        "d": "Like the flu: fever, chills and sweats, tiredness, aches, going off food, losing weight. Then chest pain, shortness of breath, fainting, or a heart that races. Nothing about the early days says heart."
+      },
+      {
+        "t": "What it takes to treat",
+        "d": "Weeks in hospital on antibiotics through a vein, four to six as a rule, and sometimes surgery to replace the valve. Caught early it is antibiotics. Left alone it damages the heart and can send a clot to the brain."
+      },
+      {
+        "t": "The numbers",
+        "d": "Hospital admissions for endocarditis linked to injecting went from about 2,900 in 2013 to more than 20,000 in 2017, and between 5 and 8 in 100 of the people admitted did not leave the hospital. Skin infections are far more common: somewhere between 155,000 and 540,000 a year in the US, and in one city 7 in 10 people at a program had had one in the past year."
+      }
+    ],
+    "sources": [
+      {
+        "name": "MedlinePlus (NIH) — Endocarditis, reviewed November 2024",
+        "url": "https://medlineplus.gov/ency/article/001098.htm"
+      },
+      {
+        "name": "National Harm Reduction Coalition — Getting Off Right: potential health complications",
+        "url": "https://harmreduction.org/issues/safer-drug-use/injection-safety-manual/potential-health-injections/"
+      },
+      {
+        "name": "See et al., J Infect Dis 2020 — burden of endocarditis and skin infections related to injection drug use",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8112118/"
+      }
+    ]
+  },
+  "pointers": [
+    {
+      "href": "#/substances/xylazine",
+      "hd": "Wounds that will not heal",
+      "sub": "Xylazine wounds can appear anywhere on the body, whatever the route. The cleaning, dressing and when-to-get-help steps are on the xylazine page."
+    },
+    {
+      "href": "#/sex",
+      "hd": "Hepatitis C and HIV",
+      "sub": "Both pass through shared equipment far more readily than through sex. Where to test free, and why hepatitis C is curable, on the sexual health page."
+    }
+  ]
+}

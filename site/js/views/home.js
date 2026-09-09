@@ -27,6 +27,7 @@ const ROWS = [
   { key: "naloxone", route: "#/learn", anchor: "sec-naloxone" },
   { key: "calling", route: "#/policy", anchor: "sec-calling" },
   { key: "testing", route: "#/test" },
+  { key: "inject", route: "#/injection" },
   { key: "reentry", route: "#/supervision", anchor: "sec-reentry" },
   { key: "detect", route: "#/supervision", anchor: "sec-windows" },
   { key: "help", route: "#/support", anchor: "grp-help" },
