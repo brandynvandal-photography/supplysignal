@@ -4,12 +4,11 @@
   "state": "ND",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-05T20:28:08.802Z",
+    "lastScan": "2026-09-09T04:43:00.798Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "grassroots-hr",
       "cook-me",
       "allegheny-me",
       "santaclara-me",
