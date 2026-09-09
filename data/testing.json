@@ -1285,8 +1285,8 @@
     }
   },
   "companion": [
-    "Start low and go slow. Tolerance and how long you've been away from a substance is a factor.",
-    "Using alone is what turns most overdoses into accidents — not the dose, the fact that nobody was there to notice. If there is no one around, Never Use Alone answers 24/7 at 1-800-484-3731 and sends help if you stop responding.",
+    "Start low and go slow. What you can handle depends on your tolerance, and on how long it has been since you last used.",
+    "Using alone is what turns an overdose into an accident: not the dose, but that nobody was there to notice. If there is no one around, Never Use Alone answers 24/7 at 1-800-484-3731 and sends help if you stop responding.",
     "Carry naloxone, and make sure whoever is with you knows where it is.",
     "Fentanyl and nitazenes are opioids — naloxone works on both. If there is no change after 2–3 minutes, give another dose."
   ],
@@ -1566,7 +1566,7 @@
         "positive": "ONE red line",
         "negative": "TWO red lines — look closely, the second can be very faint",
         "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
-        "blindSpot": "It missed 52 of the fentanyl analogues in the lab screen. That is more misses than the other brand. It did find more compounds overall at high amounts: 173 against 149.",
+        "blindSpot": "No strip catches every fentanyl-like drug. In the lab screen this brand missed 52 of them, more than the other brand, though it found more compounds overall at high amounts (173 against 149). Treat a negative as \"nothing found\", not \"nothing there\".",
         "sources": [
           {
             "name": "Washington State DOH — Using BTNX Rapid Response Fentanyl Test Strips (DOH 150-240)",
@@ -1660,7 +1660,7 @@
         "positive": "ONE red line",
         "negative": "TWO red lines — look closely, the second can be very faint",
         "invalid": "A line only on the left, or no lines at all. Redo it with a new strip.",
-        "blindSpot": "It missed 52 of the fentanyl analogues in the lab screen. That is more misses than the other brand. It did find more compounds overall at high amounts: 173 against 149.",
+        "blindSpot": "No strip catches every fentanyl-like drug. In the lab screen this brand missed 52 of them, more than the other brand, though it found more compounds overall at high amounts (173 against 149). Treat a negative as \"nothing found\", not \"nothing there\".",
         "sources": [
           {
             "name": "Lochness Medical — Rapid Response Fentanyl Test Strips (Liquid/Powder)",
@@ -2069,7 +2069,7 @@
         "waitSeconds": 300
       }
     ],
-    "gap": "Wondfo, DetectaChem and MD-Bio are not listed as we have not verified instructions at this time.",
+    "gap": "Wondfo, DetectaChem and MD-Bio strips are not here yet. We have not verified their instructions.",
     "drugHeadline": "What are you testing?",
     "notListed": "Not listed? Most strips sold for harm reduction in the US are made by one of two companies — BTNX or WHPM — whatever name is on the front. DanceSafe, Bunk Police and Grassroots all sell the same WHPM strip. Look for the maker on the packet, the box or the insert and use that row. If it names neither, your insert is the authority.",
     "lotsTitle": "Read the instructions that came with your strips",

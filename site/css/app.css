@@ -1850,6 +1850,12 @@ main {
   margin: 4px 0 2px;
   line-height: 1.3;
 }
+/* A flag is a sentence, so it reads as one: sentence case at the caption
+   size, not the shouted uppercase the one-word severity badges keep. */
+.badge.disc__flag { text-transform: none; letter-spacing: .01em; font-size: var(--fs-sm); font-weight: 700; }
+/* The home-screen door is a list row without a list around it; on a wide
+   screen it ran the full 900px with one line of text in it. */
+.nbr--door { max-width: 68ch; }
 /* Severity keeps the uppercase treatment. Everything else reads as normal
    language - the shouty styling was most of what made this feel like a
    readout instead of a page written for a person. */

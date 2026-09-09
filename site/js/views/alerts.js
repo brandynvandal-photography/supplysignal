@@ -97,7 +97,7 @@ async function pickerView(route, { go, data }) {
      Guarded because test/views.test.mjs renders this without the shell. */
   wrap.appendChild(
     h("button", {
-        type: "button", class: "nbr",
+        type: "button", class: "nbr nbr--door",
         onClick: () => document.getElementById("searchbtn")?.click(),
       },
       h("span", { class: "nbr__text" },
@@ -569,7 +569,7 @@ async function searchBar({ go, data }) {
         : err.code === 3
           ? "Location is taking too long. Try again, or search by name."
         : "Your device couldn’t work out where it is — location services may be " +
-          "switched off. Search by city or county name instead.", true);
+          "turned off. Search by city or county name instead.", true);
     }
 
     try {
@@ -1155,6 +1155,15 @@ function card(k, showCounty = false) {
  *     opening this page may have been at one of them. Plain, quiet, no
  *     celebration when the arrow points down.
  */
+/* "2025-12-31" -> "December 2025". An ISO date belongs in a <time> attribute,
+   not in a sentence a person reads. */
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July",
+  "August", "September", "October", "November", "December"];
+const monthYear = (iso) => {
+  const m = /^(\d{4})-(\d{2})/.exec(String(iso || ""));
+  return m ? `${MONTHS[Number(m[2]) - 1]} ${m[1]}` : "";
+};
+
 function mortalityBlock(m, county) {
   const rec = m?.counties?.[county.fips];
   const asOf = m?.asOf ? String(m.asOf).slice(0, 10) : null;
@@ -1204,7 +1213,7 @@ function mortalityBlock(m, county) {
     h("h3", null, "Overdose deaths here"),
     h("p", { class: "mort__n" }, `${now}`),
     h("p", { class: "mort__unit" },
-      `in the 12 months to ${asOf || "the latest published date"}, in ${county.name}`),
+      `in the 12 months ending ${monthYear(asOf) || "the latest published date"}, in ${county.name}`),
     rate !== null
       ? h("p", { class: "mort__rate" },
           h("strong", null, `${rate.toFixed(1)} per 100,000`),
@@ -1219,7 +1228,9 @@ function mortalityBlock(m, county) {
     /* The caveats are not small print. A provisional count that revises upward
        is the difference between "it is improving" and "we do not know yet". */
     h("p", { class: "sec__note" },
-      "Provisional CDC counts: months behind, and the count climbs as cases close, so the "
+      /* Linked: the card named its source and pointed nowhere. */
+      m?.source?.url ? extLink(m.source.url, "Provisional CDC counts") : "Provisional CDC counts",
+      ": months behind, and the count climbs as cases close, so the "
       + "newest number is almost always low. They count where it happened, not where the "
       + "person lived."),
     prior !== null && (now < 20 || prior < 20)
