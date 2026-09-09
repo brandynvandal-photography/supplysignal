@@ -62,7 +62,7 @@ export const TOPICS = [
   "after", "adulterants", "checking", "comedown", "communities", "conditions",
   "consent", "descriptions", "education", "emerging", "harm", "heat", "index", "market",
   "myths", "name-warnings", "policy", "practice", "regional", "rx", "search-intents",
-  "sex", "sitting", "stimulants", "supervision", "support", "testing",
+  "sex", "sitting", "stimulants", "street-names", "supervision", "support", "testing",
 ];
 
 /**

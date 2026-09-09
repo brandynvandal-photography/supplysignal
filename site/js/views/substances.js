@@ -32,6 +32,21 @@ import { liveRegion, dropRow, slotLabel, removeButton, relabelRows } from "../sl
    picker on Test — which needs the same names but must NOT take a searchAlias
    hit silently; see the note there. Here a searchAlias hit is safe: the page
    it opens leads with the warning. */
+/* WHAT A PERSON TYPED COMES FIRST. "oxy" used to list 3-HO-PCE above
+   oxycodone because the filter kept the file's order and "hydroxy" contains
+   the letters. A name or street name that STARTS with the query outranks an
+   alias that starts with it, which outranks a name that merely contains it
+   (2026-09-09). Stable sort, so ties keep the file's order. */
+const lc = (x) => String(x || "").toLowerCase();
+function rank(s, t) {
+  const n = lc(s.name);
+  if (n.startsWith(t)) return 0;
+  if ((s.street || []).some((a) => lc(a).startsWith(t))) return 1;
+  if ((s.aliases || []).some((a) => lc(a).startsWith(t))) return 2;
+  if (n.includes(t)) return 3;
+  return 4;
+}
+
 const matches = (s, t) => matchSubstance(s, t) !== null;
 
 const RISK = {
@@ -158,7 +173,10 @@ async function indexView(subs, combosP, { go }) {
 
     const hits = subs.substances
       .filter((s) => matches(s, t))
-      .slice(0, 40);
+      .map((s) => [rank(s, t), s])
+      .sort((a, b) => a[0] - b[0])
+      .slice(0, 40)
+      .map(([, s]) => s);
 
     if (!hits.length) {
       list.appendChild(empty("No match.",
@@ -371,8 +389,10 @@ function row(s, go, fromClass = null) {
        a native list row keeps one line each and truncates the second. */
     h("span", { class: "nbr__text" },
       h("span", { class: "nbr__name" }, s.name),
-      s.aliases.length
-        ? h("span", { class: "nbr__sub" }, s.aliases.slice(0, 3).join(", "))
+      /* Street names first, then the pharmacy names: "fent, china white,
+         blues" tells a reader what this is faster than "Sublimaze, Actiq". */
+      (s.street?.length || s.aliases.length)
+        ? h("span", { class: "nbr__sub" }, [...(s.street || []), ...otherNames(s)].slice(0, 3).join(", "))
         : null),
     h("span", { class: "nbr__right" },
       /* Labelled in the list, not just on the page, so nobody taps into a
@@ -384,6 +404,15 @@ function row(s, go, fromClass = null) {
         ? badge(`${s.interactions.dangerous.length} dangerous`, "critical")
         : null,
       h("span", { "aria-hidden": "true" }, "›")));
+}
+
+/* The upstream alias list mixes brands with street names ("Smack", "Meth",
+   "Crystal" are PsychonautWiki's too). A name already said in the street
+   list is not said again in the pharmacy line. */
+const normName = (x) => String(x).toLowerCase().replace(/[^a-z0-9]/g, "");
+function otherNames(s) {
+  const said = new Set((s.street || []).map(normName));
+  return (s.aliases || []).filter((a) => !said.has(normName(a)));
 }
 
 /* =========================================================== adulterant == */
@@ -940,7 +969,12 @@ async function detailView(id, subs, combos, { go }) {
 
   wrap.appendChild(h("div", { class: "county-head" },
     h("h1", null, s.name),
-    s.aliases.length ? h("p", { class: "sec__note" }, `Also called: ${s.aliases.join(", ")}`) : null));
+    /* The street names lead and the pharmacy list follows under its own
+       label, so "Also called" says what people say. */
+    s.street?.length ? h("p", { class: "sec__note" }, `Also called: ${s.street.join(", ")}`) : null,
+    otherNames(s).length
+      ? h("p", { class: "sec__note" }, `${s.street?.length ? "Other names" : "Also called"}: ${otherNames(s).join(", ")}`)
+      : null));
 
   /* The molecule.
    *
