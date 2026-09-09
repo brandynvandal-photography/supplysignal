@@ -75,7 +75,7 @@
         {
           "name": "The Steve Fund",
           "num": "Text STEVE to 741741",
-          "url": "https://www.stevefund.org",
+          "url": "https://stevefund.org/",
           "hours": "24/7",
           "what": "Mental health support for young people of color. The only round-the-clock option in this group."
         },
@@ -205,7 +205,7 @@
         },
         {
           "name": "National Center on Domestic Violence, Trauma and Mental Health",
-          "url": "https://www.ncdvtmh.org",
+          "url": "https://ncdvtmh.org/",
           "what": "The national resource on substance use coercion — when the person harming you forces you to use, controls your supply, or blocks your access to recovery.",
           "caution": "Written material and referrals, not a crisis line."
         }
@@ -258,7 +258,7 @@
           "name": "Repro Legal Helpline",
           "num": "844-868-2812",
           "tel": "8448682812",
-          "url": "https://www.reprolegalhelpline.org/",
+          "url": "https://reprolegalhelpline.org/",
           "what": "Free, confidential legal help about pregnancy, parenting and child protective services — in all 50 states, whatever your age or immigration status.",
           "note": "If you have one question about what could happen to you, ask it here."
         },

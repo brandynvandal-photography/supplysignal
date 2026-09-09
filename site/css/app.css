@@ -1853,13 +1853,13 @@ main {
 /* A flag is a sentence, so it reads as one: sentence case at the caption
    size, not the shouted uppercase the one-word severity badges keep. */
 .badge.disc__flag { text-transform: none; letter-spacing: .01em; font-size: var(--fs-sm); font-weight: 700; }
-/* The home-screen door is a list row without a list around it; on a wide
-   screen it ran the full 900px with one line of text in it. */
 /* ---- home: one question, then doors (views/home.js) ---- */
+/* The doors are ordinary .list rows and wear nothing of their own. A 68ch cap
+   on the ROW used to sit here from before they were grouped; inside the group
+   frame it left every row short of the frame on a wide screen, so the hover
+   tint stopped 200px before the edge (2026-09-09). The group is the shape. */
 .home h1 { margin-bottom: 4px; }
-.home__sub { color: var(--ink-2); margin: 0 0 var(--sp-3); }
 .home__doors { margin-bottom: var(--sp-4); }
-.home .nbr { max-width: 68ch; }
 /* The emergency door reads the way the SOS tab does: the words say it, the
    colour only underlines it. */
 .nbr--sos .nbr__name { color: var(--critical); }
@@ -3633,6 +3633,28 @@ details.disc--urgent > summary h2 { color: var(--critical); }
 }
 .jump .chips::-webkit-scrollbar { display: none; }
 .jump .chip { flex: 0 0 auto; scroll-snap-align: start; }
+/* SMALLER THAN THE CHIPS ELSEWHERE. This strip is a table of contents, not a
+   row of choices, and at .87rem in a 44px pill Learn's eight entries were
+   998px of buttons in a strip that has 681px at a desktop width and 309px on
+   a phone (measured 2026-09-09). A 36px pill still clears the 24px target
+   minimum, and the strip's own padding adds to it. */
+.jump .chip { font-size: .8rem; padding: 6px 11px; min-height: 36px; }
+.jump .chips { gap: 6px; }
+/* ON A WIDE SCREEN IT WRAPS INSTEAD OF SCROLLING. With 680px to work with,
+   every page's list fits in one or two lines with nothing hidden behind an
+   edge, which beats a sideways scroll on a mouse. Phones keep the scrolling
+   strip: the same eight chips wrap to three lines there, and that wall above
+   the content is what the strip was built to avoid. */
+@media (min-width: 768px) {
+  .jump { align-items: flex-start; }
+  .jump__label { padding-top: 9px; }
+  .jump .chips {
+    flex-wrap: wrap; overflow-x: visible;
+    padding-right: 0;
+    -webkit-mask-image: none; mask-image: none;
+    scroll-snap-type: none;
+  }
+}
 /* THE CAPTION LEAVES ON A PHONE. At 375px "JUMP TO" and its gap took about
    70px of a 343px strip - a fifth of the row - so the third chip was always
    the one cut at the edge ("Bei...", "Is this mix dang..."). The nav's own
@@ -3970,16 +3992,15 @@ h3.sec__note { margin-top: var(--sp-4); margin-bottom: var(--sp-2); }
    worse than the cramping this set out to fix. Same value, enough weight. */
 .list > .nbr:has(.nbr__sub--wrap):first-child { padding-top: var(--nbr-wrap-pad); }
 .list > .nbr:has(.nbr__sub--wrap):last-child { padding-bottom: var(--nbr-wrap-pad); }
-/* BUT NOT INSIDE AN OPENED GROUP. A row in a list nested in an accordion body
-   - the compounds under a class on Alerts, the substances under a class on
-   Early warning - is part of a grouped bubble: flush rows, a hairline between
-   them. The margin above opened a 12px band between every one of those, which
-   is what "the spacing is weird" was.
-   
-   Scoped to .acc__body deliberately, NOT to every .list. The two SOS pointers
-   are a .list as well, and their gap is the spacing that was asked for a few
-   hours ago; a broader selector took it away again. */
-.acc__body .list > .nbr:has(.nbr__sub--wrap) { margin-bottom: 0; }
+/* BUT NOT INSIDE A GROUP. A row in a .list is part of a grouped bubble: flush
+   rows, a hairline between them, one hover tint running edge to edge. The
+   margin above opened a 12px band between every pair of rows - first noticed
+   under a class on Alerts ("the spacing is weird"), then on the home doors and
+   Learn's More guides, where the tint stopped 12px short of the next row and
+   each row read as a loose box inside the frame (2026-09-09). Every .list now,
+   the two SOS pointers included: their breathing room is the 20px row padding
+   above, not a gap. The margin stays for a row standing on its own. */
+.list > .nbr:has(.nbr__sub--wrap) { margin-bottom: 0; }
 
 /* The step number on Learn's "Start here" rows.
    A number rather than a bullet because the order is the whole point of that
@@ -4748,9 +4769,9 @@ details.disc .groupkids > details.disc > summary h2 {
 .practice__ask { font-weight: 620; margin-bottom: var(--sp-2); }
 .practice__options { display: flex; flex-direction: column; gap: 8px; margin-bottom: var(--sp-2); }
 .practice__options.chips { flex-direction: row; flex-wrap: wrap; }
-/* An answer button is a choice, not a row that navigates - square the chevron
-   affordance off so it does not read as "this goes somewhere". */
-.practice__opt { border-radius: var(--radius-sm); }
+/* The walkthrough's answers are a grouped .list (practice.js), so the rows
+   are flush and the group is the shape; the gap above is for the chip row. */
+.practice__options.list { gap: 0; }
 .practice__feedback:empty { display: none; }
 .practice__feedback { margin-top: var(--sp-2); }
 

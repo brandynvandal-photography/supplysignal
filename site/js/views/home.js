@@ -57,7 +57,6 @@ export async function render() {
   const wrap = h("div", { class: "home" });
   wrap.append(
     h("h1", null, t("home.title")),
-    h("p", { class: "home__sub" }, t("home.sub")),
     h("div", { class: "list home__doors" }, ROWS.map(door)),
     section(t("home.browseTitle"), null,
       h("div", { class: "list" }, BROWSE.map(door))),

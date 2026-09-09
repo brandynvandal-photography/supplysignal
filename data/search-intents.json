@@ -1,6 +1,6 @@
 {
   "note": "Hand-curated, not generated. Fifty deliberate mappings beat any amount of clever text matching, because these are the words and questions people actually type. Edit freely; nothing downstream is generated from it.",
-  "verified": "2026-08-13",
+  "verified": "2026-09-09",
   "slang": {
     "tranq": "xylazine",
     "tranq dope": "xylazine",
@@ -61,7 +61,24 @@
     "nitazene": "nitazenes",
     "iso": "nitazenes",
     "narcan": "naloxone",
-    "nally": "naloxone"
+    "nally": "naloxone",
+    "meth": "methamphetamine",
+    "oxy": "oxycodone",
+    "roxy": "oxycodone",
+    "roxies": "oxycodone",
+    "percocet": "oxycodone",
+    "percocets": "oxycodone",
+    "oxycontin": "oxycodone",
+    "xans": "alprazolam",
+    "xan": "alprazolam",
+    "xanny": "alprazolam",
+    "2cb": "2c-b",
+    "k2": "synthetic-cannabinoid",
+    "spice": "synthetic-cannabinoid",
+    "sublocade": "buprenorphine",
+    "zaza": "tianeptine",
+    "tianna": "tianeptine",
+    "vicodin": "hydrocodone"
   },
   "intents": [
     {
@@ -71,7 +88,13 @@
         "good samaritan",
         "911 and the law",
         "police overdose",
-        "call 911 arrested"
+        "call 911 arrested",
+        "cops",
+        "police",
+        "will police come",
+        "police come",
+        "police show up",
+        "do police come"
       ],
       "label": "If you call 911, what happens to you",
       "route": "#/policy",
@@ -147,16 +170,116 @@
         "not breathing",
         "od",
         "how to use narcan",
-        "what to do overdose"
+        "what to do overdose",
+        "overdosing",
+        "overdosed",
+        "unconscious",
+        "not breathing right",
+        "stopped breathing",
+        "blue lips",
+        "lips are blue",
+        "turning blue",
+        "cant breathe",
+        "can t breathe",
+        "cannot breathe",
+        "too much fentanyl",
+        "took too much",
+        "nodding out",
+        "fentanyl overdose",
+        "nodding",
+        "nodding off",
+        "on the nod",
+        "nodded out"
       ],
       "label": "If someone is overdosing right now",
       "route": "#/help"
     },
     {
       "q": [
+        "chest pain",
+        "chest pains",
+        "heart attack",
+        "stroke",
+        "stroke signs",
+        "seizure",
+        "seizures",
+        "seizing",
+        "convulsing",
+        "having a seizure"
+      ],
+      "label": "Chest pain, a seizure or a stroke sign: call 911",
+      "route": "#/stimulants",
+      "anchor": "sec-helping",
+      "why": "The emergency line in the stimulants guide, which applies whatever they took."
+    },
+    {
+      "q": [
+        "passed out",
+        "unresponsive",
+        "collapsed",
+        "wont wake up",
+        "won t wake up",
+        "not waking up",
+        "cannot be woken",
+        "cant wake them up",
+        "fainted",
+        "fainting",
+        "k hole",
+        "khole",
+        "snoring",
+        "gurgling",
+        "gasping",
+        "after a seizure"
+      ],
+      "label": "Collapsed, cause unknown? Watch their breathing",
+      "route": "#/help",
+      "anchor": "sec-collapse"
+    },
+    {
+      "q": [
+        "bad trip",
+        "panic attack",
+        "panicking",
+        "too high",
+        "way too high",
+        "tripping too hard",
+        "trip sitting",
+        "trip sitter",
+        "sitting with someone",
+        "having a hard time",
+        "talk them down"
+      ],
+      "label": "Sitting with someone having a hard time",
+      "route": "#/learn",
+      "anchor": "sec-sitting"
+    },
+    {
+      "q": [
         "recovery position",
         "roll them on their side",
-        "choking on vomit"
+        "choking on vomit",
+        "how many doses",
+        "second dose",
+        "another dose",
+        "narcan not working",
+        "naloxone not working",
+        "narcan didnt work",
+        "narcan isnt working",
+        "how long does narcan take",
+        "nasal spray",
+        "narcan spray",
+        "kloxxado",
+        "opvee",
+        "zurnai",
+        "nalmefene",
+        "rescue breathing",
+        "rescue breaths",
+        "mouth to mouth",
+        "how to give narcan",
+        "how to use naloxone",
+        "give naloxone",
+        "3 minutes",
+        "three minutes"
       ],
       "label": "Overdose response",
       "route": "#/help",
@@ -169,7 +292,12 @@
         "how to test my drugs",
         "check my drugs",
         "reagent",
-        "drug checking"
+        "drug checking",
+        "fts",
+        "fentanyl strips",
+        "strips",
+        "test kit",
+        "testing kit"
       ],
       "label": "Testing your supply",
       "route": "#/test"
@@ -259,11 +387,193 @@
         "someone died",
         "grief",
         "lost someone",
-        "my friend died"
+        "my friend died",
+        "funeral",
+        "they died",
+        "he died",
+        "she died",
+        "lost my son",
+        "lost my daughter",
+        "lost my friend",
+        "passed away",
+        "grieving"
       ],
       "label": "If someone died",
       "route": "#/support",
       "anchor": "grp-grief"
+    },
+    {
+      "q": [
+        "suicidal",
+        "suicide",
+        "kill myself",
+        "want to die",
+        "end my life",
+        "self harm",
+        "hurting myself",
+        "988",
+        "crisis line",
+        "crisis text line"
+      ],
+      "label": "988 Suicide & Crisis Lifeline",
+      "route": "#/support",
+      "anchor": "sec-talknow"
+    },
+    {
+      "q": [
+        "hotline",
+        "hotlines",
+        "helpline",
+        "talk to someone",
+        "someone to talk to",
+        "need to talk",
+        "warmline"
+      ],
+      "label": "Someone to talk to now",
+      "route": "#/support",
+      "anchor": "sec-talknow"
+    },
+    {
+      "q": [
+        "rape",
+        "raped",
+        "sexual assault",
+        "sexually assaulted",
+        "assaulted",
+        "i was assaulted",
+        "rainn"
+      ],
+      "label": "National Sexual Assault Hotline (RAINN)",
+      "route": "#/support",
+      "anchor": "grp-survivors"
+    },
+    {
+      "q": [
+        "domestic violence",
+        "abusive partner",
+        "my partner hits me",
+        "abusive relationship"
+      ],
+      "label": "National Domestic Violence Hotline",
+      "route": "#/support",
+      "anchor": "grp-survivors"
+    },
+    {
+      "q": [
+        "trans",
+        "transgender",
+        "lgbtq",
+        "lgbt",
+        "lgbtqia",
+        "queer",
+        "gay",
+        "lesbian",
+        "nonbinary",
+        "non binary"
+      ],
+      "label": "LGBTQIA+ and trans people",
+      "route": "#/support",
+      "anchor": "grp-lgbtq"
+    },
+    {
+      "q": [
+        "spanish",
+        "espanol",
+        "en espanol",
+        "habla espanol",
+        "hablo espanol",
+        "ayuda",
+        "latino",
+        "latina",
+        "latinx",
+        "hispanic"
+      ],
+      "label": "Latino and Spanish-speaking people",
+      "route": "#/support",
+      "anchor": "grp-latino"
+    },
+    {
+      "q": [
+        "shelter",
+        "homeless",
+        "housing",
+        "211",
+        "food bank",
+        "benefits"
+      ],
+      "label": "211 for local shelter, food, benefits and treatment referrals",
+      "route": "#/support",
+      "anchor": "grp-reentry"
+    },
+    {
+      "q": [
+        "mail in test",
+        "mail in testing",
+        "send a sample",
+        "send sample",
+        "drug checking program",
+        "lab test my drugs",
+        "get my drugs tested",
+        "drugsdata",
+        "testing service"
+      ],
+      "label": "Getting your supply checked",
+      "route": "#/support",
+      "anchor": "sec-checking"
+    },
+    {
+      "q": [
+        "withdrawal",
+        "withdrawals",
+        "dope sick",
+        "dopesick",
+        "kicking",
+        "detoxing",
+        "cold turkey",
+        "precipitated withdrawal",
+        "suboxone withdrawal",
+        "methadone withdrawal",
+        "opioid withdrawal",
+        "get on suboxone",
+        "start suboxone",
+        "start methadone",
+        "get on methadone",
+        "medication for addiction",
+        "moud"
+      ],
+      "label": "Treatment options",
+      "route": "#/support",
+      "anchor": "sec-options"
+    },
+    {
+      "q": [
+        "alcohol withdrawal",
+        "quitting drinking",
+        "quit drinking",
+        "stop drinking",
+        "stopping drinking",
+        "the shakes",
+        "dts",
+        "delirium tremens",
+        "alcohol detox"
+      ],
+      "label": "Alcohol withdrawal: stopping suddenly can cause seizures",
+      "route": "#/substances/alcohol",
+      "anchor": "sec-comedown"
+    },
+    {
+      "q": [
+        "benzo withdrawal",
+        "xanax withdrawal",
+        "stopping xanax",
+        "quitting xanax",
+        "quitting benzos",
+        "stopping benzos",
+        "benzo detox"
+      ],
+      "label": "Benzo withdrawal: stopping suddenly can cause seizures",
+      "route": "#/substances/alprazolam",
+      "anchor": "sec-comedown"
     },
     {
       "q": [
@@ -298,7 +608,21 @@
         "my daughter uses",
         "family support",
         "my partner uses",
-        "al anon alternative"
+        "al anon alternative",
+        "nar anon",
+        "naranon",
+        "al anon",
+        "alanon",
+        "family",
+        "my brother uses",
+        "my sister uses",
+        "my husband uses",
+        "my wife uses",
+        "my mom uses",
+        "my dad uses",
+        "my friend uses",
+        "someone i love uses",
+        "how to help someone who uses"
       ],
       "label": "When it’s someone you love",
       "route": "#/support",
@@ -333,11 +657,130 @@
         "needle exchange",
         "clean needles",
         "works",
-        "ssp"
+        "ssp",
+        "syringe",
+        "syringes",
+        "needles",
+        "free syringes",
+        "sharps"
       ],
       "label": "Getting supplies",
       "route": "#/support",
       "anchor": "grp-now"
+    },
+    {
+      "q": [
+        "tranq wounds",
+        "tranq wound",
+        "xylazine wounds",
+        "xylazine sores",
+        "tranq sores",
+        "tranq wound care",
+        "xylazine wound care",
+        "wound care"
+      ],
+      "label": "Xylazine wounds, and what they actually are",
+      "route": "#/substances/xylazine"
+    },
+    {
+      "q": [
+        "abscess",
+        "abscesses",
+        "wound",
+        "wounds",
+        "sores",
+        "sore",
+        "infection",
+        "infected",
+        "cellulitis",
+        "skin infection",
+        "pus",
+        "swollen",
+        "swelling",
+        "red and hot",
+        "lump"
+      ],
+      "label": "An abscess",
+      "route": "#/injection",
+      "anchor": "sec-abscess"
+    },
+    {
+      "q": [
+        "vein",
+        "veins",
+        "injecting",
+        "inject",
+        "shooting up",
+        "shoot up",
+        "track marks",
+        "rotate sites",
+        "skin popping",
+        "muscling",
+        "slamming",
+        "iv use",
+        "how to inject",
+        "new needle",
+        "needle"
+      ],
+      "label": "Before the shot",
+      "route": "#/injection",
+      "anchor": "sec-before"
+    },
+    {
+      "q": [
+        "missed shot",
+        "missed a shot",
+        "missed the vein",
+        "missed hit",
+        "missed my shot"
+      ],
+      "label": "A missed shot",
+      "route": "#/injection",
+      "anchor": "sec-missed"
+    },
+    {
+      "q": [
+        "fever",
+        "chills",
+        "cotton fever",
+        "fever after shooting up",
+        "shaking chills",
+        "sweats and fever"
+      ],
+      "label": "A fever after a shot",
+      "route": "#/injection",
+      "anchor": "sec-fever"
+    },
+    {
+      "q": [
+        "endocarditis",
+        "heart infection",
+        "heart valve",
+        "heart valve infection"
+      ],
+      "label": "Endocarditis",
+      "route": "#/injection",
+      "anchor": "sec-endocarditis"
+    },
+    {
+      "q": [
+        "hep c",
+        "hepc",
+        "hcv",
+        "hepatitis",
+        "hepatitis c",
+        "hep b",
+        "hepatitis b",
+        "hiv test",
+        "hiv testing",
+        "sti test",
+        "std test",
+        "get tested",
+        "testing for hiv"
+      ],
+      "label": "Getting tested",
+      "route": "#/sex",
+      "anchor": "sec-testing"
     },
     {
       "q": [
@@ -362,6 +805,108 @@
       "label": "What it knows about you",
       "route": "#/about",
       "anchor": "sec-privacy"
+    },
+    {
+      "q": [
+        "alerts",
+        "alert",
+        "my county",
+        "county alerts",
+        "whats going around",
+        "what is going around",
+        "bad batch",
+        "bad batches",
+        "warnings",
+        "warning",
+        "supply alerts",
+        "outbreak"
+      ],
+      "label": "What's showing up near you",
+      "route": "#/alerts"
+    },
+    {
+      "q": [
+        "quick exit",
+        "hide this",
+        "hide the app",
+        "hide this app",
+        "delete history",
+        "browser history",
+        "cover my tracks",
+        "someone is watching",
+        "panic button",
+        "leave quickly"
+      ],
+      "label": "Quick Exit",
+      "route": "#/about",
+      "anchor": "sec-privacy"
+    },
+    {
+      "q": [
+        "who made this",
+        "who runs this",
+        "who built this",
+        "about this app",
+        "about nightlight",
+        "what is nightlight",
+        "is this legit",
+        "who are you"
+      ],
+      "label": "What it is, and what it is not",
+      "route": "#/about",
+      "anchor": "sec-what"
+    },
+    {
+      "q": [
+        "sources",
+        "citations",
+        "where does this come from",
+        "is this accurate",
+        "how do you know",
+        "evidence",
+        "references"
+      ],
+      "label": "Where data comes from",
+      "route": "#/about",
+      "anchor": "sec-sources"
+    },
+    {
+      "q": [
+        "report a mistake",
+        "something is wrong",
+        "wrong information",
+        "this is wrong",
+        "correction",
+        "corrections",
+        "report an error",
+        "feedback",
+        "mistake"
+      ],
+      "label": "If something here is wrong",
+      "route": "#/about",
+      "anchor": "sec-wrong"
+    },
+    {
+      "q": [
+        "what we got wrong",
+        "corrections log",
+        "mistakes"
+      ],
+      "label": "What we got wrong",
+      "route": "#/about",
+      "anchor": "sec-corrected"
+    },
+    {
+      "q": [
+        "last updated",
+        "how often",
+        "how current",
+        "up to date",
+        "when was this updated"
+      ],
+      "label": "How often it updates",
+      "route": "#/about",
+      "anchor": "sec-updates"
     },
     {
       "q": [
@@ -399,7 +944,15 @@
         "someone is paranoid",
         "how to calm someone down",
         "de-escalate",
-        "talking someone down"
+        "talking someone down",
+        "tweaking",
+        "tweaked out",
+        "spun out",
+        "heart racing",
+        "racing heart",
+        "heart pounding",
+        "heart is racing",
+        "overamped"
       ],
       "label": "Helping somebody who is in it",
       "route": "#/stimulants",

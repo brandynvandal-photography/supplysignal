@@ -171,8 +171,11 @@ function overdoseExercise(cfg) {
     wrap.appendChild(h("div", { class: "card practice__scene" }, h("p", null, step.scene)));
     wrap.appendChild(h("p", { class: "practice__ask" }, step.ask));
 
+    /* The choices are one grouped list, the same rows as every other list on
+       the site - flush, a hairline between them, one tint edge to edge on
+       hover - rather than loose small-radius cards of their own (2026-09-09). */
     wrap.appendChild(
-      h("div", { class: "practice__options" },
+      h("div", { class: "list practice__options" },
         step.options.map((o) =>
           h("button", {
             type: "button", class: "nbr practice__opt",

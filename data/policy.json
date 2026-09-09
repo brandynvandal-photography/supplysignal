@@ -279,12 +279,6 @@
         "title": "Led by people who use drugs",
         "items": [
           {
-            "name": "National Survivors Union",
-            "what": "The national union of drug users and sex workers. Methadone advocacy, an advocacy academy, and help starting a local chapter where there is none. Formerly Urban Survivors Union.",
-            "url": "https://www.nationalsurvivorsunion.com/",
-            "ledByPeopleWhoUse": true
-          },
-          {
             "name": "Never Use Alone",
             "what": "A peer-run overdose prevention line, staffed by people with lived experience, 24 hours a day. You give a location, they stay on the line, and they send help if you stop responding.",
             "url": "https://neverusealone.com/",
@@ -353,8 +347,8 @@
         "items": [
           {
             "name": "NASEN syringe program directory",
-            "what": "A searchable map of syringe service programs, running since 1992. NASEN itself says that listing is opt-in and not comprehensive, so an absence here is not proof nothing exists near you.",
-            "url": "https://www.nasen.org/map/"
+            "what": "A searchable directory of syringe service programs, running since 1992. NASEN itself says that listing is opt-in and not comprehensive, so an absence here is not proof nothing exists near you.",
+            "url": "https://nasen.org/"
           },
           {
             "name": "Harm Reduction Near You",

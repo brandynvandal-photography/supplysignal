@@ -207,6 +207,7 @@ const SCREENS = [
   ["substances", {}],                          // the index
   ["substances", { id: "fentanyl" }],          // a detail page
   ["substances", { id: "class", sub: "opioids" }],
+  ["substances", { id: "mix", sub: "alcohol+benzodiazepines" }], // the checker, pre-picked
   ["substances", { id: "cocaine" }],
   ["support", {}],
   ["learn", {}],
