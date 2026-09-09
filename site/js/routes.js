@@ -21,6 +21,10 @@
    `substances`, and SOS has always been `help`. The path follows the label,
    because the path is the half a reader sees and shares. */
 export const PATHS = {
+  /* The front door. Its canonical URL is "/" - toUrl special-cases it - and
+     "/home" parses to the same screen so the segment has a name like every
+     other section. */
+  home: "home",
   alerts: "alerts",
   test: "test",
   drugs: "substances",
@@ -88,6 +92,12 @@ export function parseRoute({ pathname = "/", hash = "" } = {}, pathRouting = tru
 
   if (pathRouting && PATHS[seg]) return decode(PATHS[seg], parts);
 
+  /* Nothing asked for is the home screen: "/" on the web, an empty hash in
+     the native build, "/site/" from an old bookmark. Alerts used to be the
+     default, and the county page is the wrong first answer to "what do you
+     need right now?" for most people (2026-09-09). */
+  if (!parts.length && (!pathRouting || !seg)) return { tab: "home" };
+
   if (/^\d{5}$/.test(parts[0] || "")) {
     return { tab: "alerts", fips: parts[0], days: Number(parts[1]) || DEFAULT_DAYS };
   }
@@ -105,13 +115,14 @@ export function parseRoute({ pathname = "/", hash = "" } = {}, pathRouting = tru
 export function toUrl(hash, pathRouting = true) {
   const parts = split(hash);
 
-  if (!parts.length) return pathRouting ? "/alerts" : "#/alerts";
+  if (!parts.length) return pathRouting ? "/" : "#/home";
   if (/^\d{5}$/.test(parts[0])) {
     return pathRouting ? `/alerts#/${parts.join("/")}` : `#/${parts.join("/")}`;
   }
   const id = SEGMENTS[parts[0]] ? parts[0] : (PATHS[parts[0]] || "alerts");
   const rest = parts.slice(1);
   if (!pathRouting) return `#/${[id, ...rest].join("/")}`;
+  if (id === "home") return "/";
   return `/${SEGMENTS[id]}` + (rest.length ? `#/${rest.join("/")}` : "");
 }
 
@@ -128,6 +139,6 @@ export function canonicalUrl({ pathname = "/", hash = "" } = {}, pathRouting = t
   if (!pathRouting) return null;
   const seg = String(pathname).replace(/^\/+|\/+$/g, "");
   const rest = split(hash);
-  const asHash = PATHS[seg] ? `#/${[seg, ...rest].join("/")}` : (hash || "#/alerts");
+  const asHash = PATHS[seg] ? `#/${[seg, ...rest].join("/")}` : (hash || "#/home");
   return toUrl(asHash, true);
 }

@@ -2,9 +2,10 @@
  * does and does not know about the person reading it. */
 
 import {
-  h, callout, extLink, disclosure, jumpNav, englishOnlyNotice,
+  h, clear, callout, extLink, disclosure, jumpNav, englishOnlyNotice,
 } from "../ui.js";
 import { t } from "../i18n.js";
+import { countdown, mmss, readAt } from "../clock.js";
 
 /* THE STEPS AND THE NUMBERS COME FROM THE LOCALE FILE.
  *
@@ -799,11 +800,100 @@ function supportBlock() {
  * paragraph by someone impaired, frightened, or not reading English easily.
  * The wording below now carries that load by itself, which is why it is
  * written as an instruction first and a reason second. */
-const step = (s) =>
+/* TIMERS ON THE TWO STEPS THAT NAME A NUMBER (2026-09-09).
+ *
+ * "One breath every 5 seconds" and "no better after 2-3 minutes" are the two
+ * figures on this screen a person cannot keep under stress and a phone can
+ * keep trivially. Both follow clock.js's rules for the strip clock: nothing
+ * advances by itself, no sound, no vibration, no wake lock, nothing stored,
+ * and every tick stops itself when its element leaves the document. The
+ * naloxone count prints the wall-clock time to decide at, because a time
+ * read once survives the app being killed or the phone being taken.
+ *
+ * Indexed by step: 3 is rescue breathing, 4 is the second dose. The order is
+ * the locale's (sos.steps) and the print sheet's; if a step moves, move the
+ * index with it. */
+const btn = (label, onClick) =>
+  h("button", { type: "button", class: "btn btn--ghost btn--sm", onClick }, label);
+
+function naloxoneTimer() {
+  const SECONDS = 180;
+  const wrap = h("div", { class: "card clock clock--sos" });
+  const readout = h("p", { class: "clock__t" }, mmss(SECONDS));
+  const line = h("p", { class: "clock__line" }, t("sos.timers.naloxoneWatch"));
+  const live = h("p", { class: "sr-only", "aria-live": "polite" });
+  const action = h("div", { class: "clock__act" });
+  const start = () => {
+    const at = new Date();
+    line.textContent = t("sos.timers.naloxoneAt", { from: readAt(at, 0), to: readAt(at, SECONDS) });
+    live.textContent = t("sos.timers.naloxoneStarted");
+    clear(action);
+    wrap.dataset.stage = "waiting";
+    const c = countdown({
+      seconds: SECONDS,
+      el: wrap,
+      onPaint: ({ remaining, over }) => {
+        if (!over) { readout.textContent = mmss(remaining); return; }
+        c.stop();
+        wrap.dataset.stage = "ready";
+        readout.textContent = t("sos.timers.naloxoneDone");
+        live.textContent = t("sos.timers.naloxoneDone");
+        clear(action);
+        action.appendChild(btn(t("sos.timers.naloxoneAgain"), start));
+      },
+    });
+    c.start();
+  };
+  action.appendChild(btn(t("sos.timers.naloxoneStart"), start));
+  wrap.append(readout, line, live, action);
+  return wrap;
+}
+
+function breathPacer() {
+  const PERIOD = 5000, BEAT = 700;
+  const wrap = h("div", { class: "card clock clock--pacer" });
+  const readout = h("p", { class: "clock__t" }, "5");
+  const fill = h("div", { class: "pacer__fill" });
+  const bar = h("div", { class: "pacer", "aria-hidden": "true" }, fill);
+  const line = h("p", { class: "clock__line" }, t("sos.timers.pacerHint"));
+  const action = h("div", { class: "clock__act" });
+  let handle = null;
+  const stop = () => {
+    if (handle != null) clearInterval(handle);
+    handle = null;
+    wrap.dataset.stage = "";
+    wrap.classList.remove("clock--beat");
+    readout.textContent = "5";
+    clear(action);
+    action.appendChild(btn(t("sos.timers.pacerStart"), start));
+  };
+  const start = () => {
+    const t0 = Date.now();
+    wrap.dataset.stage = "pacing";
+    clear(action);
+    action.appendChild(btn(t("sos.timers.pacerStop"), stop));
+    const paint = () => {
+      if (!wrap.isConnected) { clearInterval(handle); handle = null; return; }
+      const ms = (Date.now() - t0) % PERIOD;
+      fill.style.width = `${(ms / PERIOD) * 100}%`;
+      const beat = ms < BEAT;
+      wrap.classList.toggle("clock--beat", beat);
+      readout.textContent = beat ? t("sos.timers.pacerBreathe") : String(Math.ceil((PERIOD - ms) / 1000));
+    };
+    paint();
+    handle = setInterval(paint, 100);
+  };
+  action.appendChild(btn(t("sos.timers.pacerStart"), start));
+  wrap.append(readout, bar, line, action);
+  return wrap;
+}
+
+const step = (s, i) =>
   h("li", null,
     h("h4", null, s.title),
     h("p", { class: "step__do" }, s.body),
-    s.note ? h("p", { class: "step__why" }, s.note) : null);
+    s.note ? h("p", { class: "step__why" }, s.note) : null,
+    i === 3 ? breathPacer() : i === 4 ? naloxoneTimer() : null);
 const li = (strong, rest) => h("li", null, h("strong", null, strong), " ", rest);
 
 /* These three lived on the Emergency tab until 2026-08-10. Safer-use practice,

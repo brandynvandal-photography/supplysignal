@@ -151,6 +151,10 @@
   status = 200
 
 [[redirects]]
+  from = "/home"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
   from = "/alerts"
   to = "/site/index.html"
   status = 200
@@ -426,6 +430,10 @@
 
 [[headers]]
   for = "/alerts"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/home"
   [headers.values]
     Cache-Control = "no-cache"
 

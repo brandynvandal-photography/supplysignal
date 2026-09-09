@@ -101,7 +101,13 @@ export async function render(route, { go }) {
             + "room, and support the usual help is not built for."),
           moreGuide("#/supervision", "If you are being tested",
             "What a positive screen actually is, how to contest one, and what "
-            + "they cannot make you stop taking."))))
+            + "they cannot make you stop taking."),
+          /* The deadliest window has a section and a search intent; it had no
+             door a person could see without knowing to search (2026-09-09). */
+          moreGuide("#/supervision", "Just out, or back after a break",
+            "Your tolerance is not what it was. The first two weeks after jail, "
+            + "hospital, detox or treatment are the most dangerous — what to do, "
+            + "and who answers."))))
   );
 
   /* Practice first. It is free, instant, needs no signup and no shipping

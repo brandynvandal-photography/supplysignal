@@ -30,6 +30,58 @@
     "learn": "Learn",
     "helpAria": "Emergency"
   },
+  "home": {
+    "_note": "The front door (site/js/views/home.js): one question, then doors. Row titles are the situation in the reader's words; subs say in one line what is behind the door. Routes are in the view, not here.",
+    "title": "What do you need right now?",
+    "sub": "Tap what fits. Every tab is still here afterwards.",
+    "browseTitle": "Or start with a section",
+    "rows": {
+      "overdose": {
+        "title": "Someone is overdosing right now",
+        "sub": "Call 911, naloxone, breathing, staying — the six steps."
+      },
+      "naloxone": {
+        "title": "Where to get naloxone free",
+        "sub": "By mail in most states, and how to use it."
+      },
+      "calling": {
+        "title": "If you call 911, what happens to you",
+        "sub": "What Good Samaritan laws cover, and what they do not."
+      },
+      "testing": {
+        "title": "Testing your supply",
+        "sub": "Strips and reagents, and what each can and cannot tell you."
+      },
+      "reentry": {
+        "title": "Just out, or back after a break",
+        "sub": "Your tolerance is not what it was. The first two weeks are the most dangerous."
+      },
+      "detect": {
+        "title": "How long it stays detectable",
+        "sub": "On a urine test, with the study behind each figure."
+      },
+      "help": {
+        "title": "Finding help",
+        "sub": "Treatment, peer support, and what to do about cost."
+      },
+      "alerts": {
+        "title": "Alerts for my county",
+        "sub": "What has been published where you are, and next door."
+      },
+      "drugs": {
+        "title": "Look up a drug",
+        "sub": "Doses, interactions, and what it gets mixed with."
+      },
+      "learn": {
+        "title": "Learn",
+        "sub": "Guides on heat, sleep, sex, the law, and what comes after."
+      },
+      "about": {
+        "title": "About Nightlight",
+        "sub": "What this is, who it is for, and what it got wrong."
+      }
+    }
+  },
   "sos": {
     "_note": "The Emergency tab's six steps and five numbers - the highest-stakes 250 words in the app, and the first block to translate. The reasoning behind each step is recorded in site/js/views/help.js; the words are here so a translator can reach them. Facts are not negotiable in translation: 2-3 minutes, 30-90 minutes, one breath every 5 seconds, 'check breathing first'. See docs/TRANSLATION.md.",
     "title": "Emergency",
@@ -70,6 +122,19 @@
         "note": "Naloxone wears off in 30–90 minutes. Most opioids last longer, so they can go under again. It does not happen often. It is still why you stay."
       }
     ],
+    "timers": {
+      "_note": "The two on-screen counts on the steps. No sound, no vibration - nothing reaches anyone else in the room. The numbers here (3 minutes, 5 seconds) are the steps' own and do not move.",
+      "naloxoneStart": "Start 3 minutes",
+      "naloxoneStarted": "Three minutes started.",
+      "naloxoneWatch": "Watch their chest, not their eyes.",
+      "naloxoneAt": "Dose at {from} — decide at {to}.",
+      "naloxoneDone": "Still no better? Give another dose.",
+      "naloxoneAgain": "Start 3 minutes again",
+      "pacerStart": "Start the breath pacer",
+      "pacerStop": "Stop",
+      "pacerBreathe": "Breathe",
+      "pacerHint": "One breath every 5 seconds. Breathe for them when it says so."
+    },
     "tranqTitle": "Naloxone doesn’t work on tranq, benzos, or stimulants — give it anyway",
     "tranqBody": "Xylazine (“tranq”) isn’t an opioid, so naloxone won’t lift its sedation. Give it anyway: it reverses the fentanyl, and the fentanyl is what stops the breathing. Watch their breathing, not whether they wake up. If the breathing gets better, it worked — even if they stay out of it.",
     "linesTitle": "Numbers that answer 24/7",
@@ -150,8 +215,6 @@
     "everywhereNoneBody": "That says what has been published, not what is going around. Most changes in a local drug supply are never announced by anyone, and the reporting that does happen runs weeks behind. A quiet list means nobody has said anything — not that nothing is happening.",
     "everywhereNoneScanned": "We have looked at {count} counties recently, out of 3,231. Most of the country has not been looked at at all.",
     "dataUpdated": "Alerts data updated {date}",
-    "startTitle": "Not sure where to start?",
-    "startSub": "Six questions people arrive with — if someone is overdosing right now, where to get naloxone free, what happens if you call 911.",
     "print": "Print this county",
     "refresh": "Check again"
   },

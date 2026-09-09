@@ -2,7 +2,7 @@
   "name": "Nightlight",
   "short_name": "Nightlight",
   "description": "Nightlight.",
-  "start_url": "/alerts",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",

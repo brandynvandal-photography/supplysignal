@@ -1855,7 +1855,14 @@ main {
 .badge.disc__flag { text-transform: none; letter-spacing: .01em; font-size: var(--fs-sm); font-weight: 700; }
 /* The home-screen door is a list row without a list around it; on a wide
    screen it ran the full 900px with one line of text in it. */
-.nbr--door { max-width: 68ch; }
+/* ---- home: one question, then doors (views/home.js) ---- */
+.home h1 { margin-bottom: 4px; }
+.home__sub { color: var(--ink-2); margin: 0 0 var(--sp-3); }
+.home__doors { margin-bottom: var(--sp-4); }
+.home .nbr { max-width: 68ch; }
+/* The emergency door reads the way the SOS tab does: the words say it, the
+   colour only underlines it. */
+.nbr--sos .nbr__name { color: var(--critical); }
 /* Severity keeps the uppercase treatment. Everything else reads as normal
    language - the shouty styling was most of what made this feel like a
    readout instead of a page written for a person. */
@@ -2677,6 +2684,28 @@ ol.steps p { font-size: .95rem; color: var(--ink-2); }
 /* A finished dip is the one moment the reader has to act on, so it stops being
    a number and becomes an instruction - sized down because it is words now. */
 .clock[data-stage="dipped"] .clock__t { font-size: 1.6rem; color: var(--brand); }
+
+/* ---- the two SOS counts (help.js naloxoneTimer / breathPacer) ----
+   Inside an <li> of ol.steps, whose `ol.steps p` rule would otherwise shrink
+   the readout to body size; the compound selectors below outrank it. */
+ol.steps .clock { margin-top: var(--sp-3); }
+ol.steps .clock .clock__t { font-size: 2.2rem; color: var(--ink); }
+ol.steps .clock .clock__line { font-size: .92rem; }
+.clock--sos[data-stage="ready"] .clock__t { font-size: 1.35rem; color: var(--brand); }
+/* The pacer bar fills over five seconds and the count flips to "Breathe" for
+   the first 0.7s of each cycle. Nothing else on the page moves. */
+.pacer {
+  height: 12px; margin: var(--sp-2) auto 0; max-width: 420px;
+  border-radius: var(--radius-pill); overflow: hidden;
+  background: color-mix(in srgb, var(--ident) 14%, var(--surface));
+}
+.pacer__fill { height: 100%; width: 0; background: var(--brand); transition: width .1s linear; }
+.clock--beat .clock__t { color: var(--brand); }
+@media (prefers-reduced-motion: reduce) {
+  /* The count alone carries it; a bar that refills ten times a second is
+     exactly the motion this setting asks not to see. */
+  .pacer { display: none; }
+}
 
 /* ---------------------------------------------------------------- table */
 

@@ -732,7 +732,22 @@ function mixChecker(combos, yours) {
                 `three or more drugs behave together, so this is the worst ` +
                 `single pair — treat it as a floor, not the whole picture.`)
             : null,
-          definitionFor(combos, worst))
+          /* TWO DRUGS, ONE CARD. With exactly one pair the verdict card and
+             the pair row said the same name under the same badge twice, once
+             over the generic definition and once over the specific note. Now
+             the specific note (TripSit's text, untouched) comes first, and the
+             generic sentence folds under "What this rating means". */
+          unique.length === 2 && results[0].hit?.n ? h("p", null, results[0].hit.n) : null,
+          unique.length === 2
+            ? (() => {
+                const def = definitionFor(combos, worst);
+                return def
+                  ? h("details", { class: "acc" },
+                      h("summary", null, h("span", null, "What this rating means")),
+                      h("div", { class: "acc__body" }, def))
+                  : null;
+              })()
+            : definitionFor(combos, worst))
       );
     }
 
@@ -767,7 +782,11 @@ function mixChecker(combos, yours) {
     if (unique.length > 2) {
       out.appendChild(h("h3", { class: "mixpairs__h" }, "Pair by pair"));
     }
+    /* A pair with a rating is fully shown on the verdict card above; the
+       row would repeat it. A pair with NO rating still gets its row, because
+       there is no verdict card to carry the "no information" line. */
     for (const r of results) {
+      if (unique.length === 2 && worst) break;
       const meta = RISK[r.hit?.s] || RISK.Unknown;
       out.appendChild(
         h("details", { class: "acc", open: unique.length === 2 || null },

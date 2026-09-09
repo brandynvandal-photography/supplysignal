@@ -36,7 +36,7 @@
    that copy still imported the old src/locate.mjs path that the /src/* 404
    rule had killed. Verified in the live cache - cachedImportsOldPath: true.
    A comment saying "remember to bump this" is not a mechanism. */
-const VERSION = "nl-719ee40e";
+const VERSION = "nl-79aba2bc";
 
 /* The minimum set that makes every screen renderable offline. Data files are
    picked up on first use by the runtime cache.
@@ -60,6 +60,9 @@ const SHELL = [
      and "This section could not load" is the worst thing it can say. Its
      imports (ui.js, i18n.js) are already in the runtime cache from boot. */
   "./js/views/help.js",
+  /* The front door, for the same reason: it is the first screen of every
+     open, connection or not. */
+  "./js/views/home.js",
 ];
 
 self.addEventListener("install", (e) => {
