@@ -47,6 +47,7 @@ const CANON = [
   ["/alerts#/47065/30",        "/alerts#/47065/30"],
   ["/alerts#/map",             "/alerts#/map"],
   ["/drugs#/class/opioids",    "/drugs#/class/opioids"],
+  ["/drugs#/mix/alcohol+benzodiazepines", "/drugs#/mix/alcohol+benzodiazepines"],
 
   /* Legacy. None of these can be edited after the fact. */
   ["/site/",                   "/"],

@@ -14,7 +14,65 @@ import { readFile } from "node:fs/promises";
 const idx = JSON.parse(await readFile("data/search.json", "utf8"));
 const intents = JSON.parse(await readFile("data/search-intents.json", "utf8"));
 
-const norm = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+/* THE APP READS THE BUNDLE, NOT THIS FILE. data.js serves search-intents out
+   of data/topics.json, so an intent added here is invisible on the site until
+   scripts/build-topics.mjs runs - which is exactly how 28 new intents passed
+   every test and matched nothing in the browser (2026-09-09). */
+{
+  const bundle = JSON.parse(await readFile("data/topics.json", "utf8"))["search-intents"];
+  if (JSON.stringify(bundle) !== JSON.stringify(intents)) {
+    console.log("SEARCH\n\n  not ok data/topics.json carries a different search-intents than data/search-intents.json - run node scripts/build-topics.mjs\n\n0 passed, 1 failed");
+    process.exit(1);
+  }
+}
+
+const norm = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  .toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+
+/* Mirrors search.js hasPhrase(): whole words, a stem may run on. */
+function hasPhrase(text, phrase) {
+  if (!phrase) return false;
+  let at = text.indexOf(phrase);
+  while (at >= 0) {
+    const end = at + phrase.length;
+    const startOk = at === 0 || text[at - 1] === " ";
+    const endOk = end === text.length || text[end] === " " || phrase.length >= 4;
+    if (startOk && endOk) return true;
+    at = text.indexOf(phrase, at + 1);
+  }
+  return false;
+}
+function bagOf(q, phrase) { const w = phrase.split(" "); return q.split(" ").every((x) => w.includes(x)); }
+/* Mirrors search.js pairOf() / mixRoute(). */
+const PAIR_SPLIT = /\s*(?:\+|&|\band\b|\bwith\b|\bplus\b|\bmixed with\b|\bon top of\b)\s*/i;
+const CAT_WORDS = {
+  opioid: "opioids", opioids: "opioids", opiate: "opioids", opiates: "opioids",
+  benzo: "benzodiazepines", benzos: "benzodiazepines",
+  benzodiazepine: "benzodiazepines", benzodiazepines: "benzodiazepines",
+  ssri: "ssris", ssris: "ssris", maoi: "maois", maois: "maois",
+  mushrooms: "mushrooms", shrooms: "mushrooms", amphetamines: "amphetamines",
+  booze: "alcohol", beer: "alcohol", wine: "alcohol", liquor: "alcohol",
+  vodka: "alcohol", whiskey: "alcohol", drinking: "alcohol", drinks: "alcohol",
+  coffee: "caffeine", "energy drink": "caffeine", "energy drinks": "caffeine",
+};
+const CAT_NAMES = { opioids: "Opioids", benzodiazepines: "Benzodiazepines", ssris: "SSRIs", maois: "MAOIs", mushrooms: "Mushrooms", amphetamines: "Amphetamines", alcohol: "Alcohol", caffeine: "Caffeine" };
+function sideOf(raw) {
+  const s = norm(raw);
+  if (!s) return null;
+  if (CAT_WORDS[s]) return { cat: CAT_WORDS[s], name: CAT_NAMES[CAT_WORDS[s]] || CAT_WORDS[s] };
+  const slangId = (intents.slang || {})[s];
+  let d = slangId ? idx.drugs.find((x) => x.i === slangId) : null;
+  if (!d) d = idx.drugs.find((x) => norm(x.n) === s || (x.a || []).some((a) => norm(a) === s));
+  if (!d || !d.c?.length) return null;
+  return { cat: d.c[0], name: d.n };
+}
+function pairOf(term) {
+  const sides = String(term || "").split(PAIR_SPLIT).map((x) => x.trim()).filter(Boolean);
+  if (sides.length !== 2) return null;
+  const a = sideOf(sides[0]), b = sideOf(sides[1]);
+  return a && b ? [a, b] : null;
+}
+const mixRoute = (cats) => `#/substances/mix/${cats.map((c) => c.replace("/", "_")).join("+")}`;
 
 function within(a, b, max) {
   if (Math.abs(a.length - b.length) > max) return false;
@@ -44,12 +102,18 @@ function search(term, limit = 10) {
     const k = norm(r.label);
     if (k && !taken.has(k)) { taken.add(k); out.push(r); }
   };
+  const pair = pairOf(term);
+  if (pair) push({ kind: "Drugs", label: `${pair[0].name} + ${pair[1].name}`, route: mixRoute(pair.map((p) => p.cat)), anchor: "sec-checker" });
+  const tiers = [[], [], []];
   for (const it of intents.intents || []) {
-    if ((it.q || []).some((p) => { const np = norm(p);
-      return np === q || q.includes(np) || (q.includes(" ") && np.includes(q)); })) {
-      push({ kind: "Answer", label: it.label, route: it.route, anchor: it.anchor });
-    }
+    let best = -1;
+    for (const p of it.q || []) { const np = norm(p); let t = -1;
+      if (np === q) t = 0; else if (hasPhrase(q, np)) t = 1;
+      else if (q.includes(" ") && (hasPhrase(np, q) || bagOf(q, np))) t = 2;
+      if (t >= 0 && (best < 0 || t < best)) best = t; }
+    if (best >= 0) tiers[best].push(it);
   }
+  for (const it of tiers.flat()) push({ kind: "Answer", label: it.label, route: it.route, anchor: it.anchor });
   const slangId = (intents.slang || {})[q];
   if (slangId) {
     const d = idx.drugs.find((x) => x.i === slangId);
@@ -59,9 +123,9 @@ function search(term, limit = 10) {
   for (const d of idx.drugs) {
     const n = norm(d.n);
     const res = { kind: "Drug", label: d.n, route: `#/substances/${d.i}` };
-    if (n === q) { push(res); continue; }
+    if (n === q || (d.a || []).some((a) => norm(a) === q)) { push(res); continue; }
     if (n.startsWith(q)) { starts.push(res); continue; }
-    if ((d.a || []).some((a) => norm(a) === q || norm(a).startsWith(q))) { starts.push(res); continue; }
+    if ((d.a || []).some((a) => norm(a).startsWith(q))) { starts.push(res); continue; }
     if (n.includes(q)) contains.push(res);
   }
   starts.forEach(push);
@@ -136,6 +200,85 @@ const CASES = [
   // Typos - the fuzzy rescue.
   ["fentanol", "#/substances/fentanyl"],
   ["xanex", "#/substances/alprazolam"],
+  // 2026-09-09: the audit of what people actually type. A prescription
+  // opioid is a drug, not the overdose answer ("od" used to match inside it).
+  ["codeine", "#/substances/codeine"],
+  ["hydrocodone", "#/substances/hydrocodone"],
+  ["vicodin", "#/substances/hydrocodone"],
+  // Exact street names beat alphabetical prefix hits.
+  ["meth", "#/substances/methamphetamine"],
+  ["oxy", "#/substances/oxycodone"],
+  ["roxy", "#/substances/oxycodone"],
+  ["percocet", "#/substances/oxycodone"],
+  ["xans", "#/substances/alprazolam"],
+  ["2cb", "#/substances/2c-b"],
+  ["k2", "#/substances/synthetic-cannabinoid"],
+  ["zaza", "#/substances/tianeptine"],
+  ["sublocade", "#/substances/buprenorphine"],
+  // The crisis words.
+  ["passed out", "#/help"],
+  ["unresponsive", "#/help"],
+  ["wont wake up", "#/help"],
+  ["blue lips", "#/help"],
+  ["cant breathe", "#/help"],
+  ["can't breathe", "#/help"],
+  ["overdosed", "#/help"],
+  ["seizure", "#/stimulants"],
+  ["chest pain", "#/stimulants"],
+  ["heart racing", "#/stimulants"],
+  ["tweaking", "#/stimulants"],
+  ["bad trip", "#/learn"],
+  ["panic attack", "#/learn"],
+  ["too high", "#/learn"],
+  ["nalmefene", "#/help"],
+  ["opvee", "#/help"],
+  ["second dose", "#/help"],
+  ["narcan not working", "#/help"],
+  ["rescue breathing", "#/help"],
+  // Support, by the words for it.
+  ["suicidal", "#/support"],
+  ["kill myself", "#/support"],
+  ["hotline", "#/support"],
+  ["talk to someone", "#/support"],
+  ["rape", "#/support"],
+  ["trans", "#/support"],
+  ["espanol", "#/support"],
+  ["español", "#/support"],
+  ["nar-anon", "#/support"],
+  ["shelter", "#/support"],
+  ["withdrawal", "#/support"],
+  ["dope sick", "#/support"],
+  ["precipitated withdrawal", "#/support"],
+  ["mail in test", "#/support"],
+  ["alcohol withdrawal", "#/substances/alcohol"],
+  ["xanax withdrawal", "#/substances/alprazolam"],
+  // Injecting.
+  ["abscess", "#/injection"],
+  ["wound", "#/injection"],
+  ["infection", "#/injection"],
+  ["shooting up", "#/injection"],
+  ["missed shot", "#/injection"],
+  ["cotton fever", "#/injection"],
+  ["tranq wounds", "#/substances/xylazine"],
+  ["hep c", "#/sex"],
+  // Alerts, and the site itself.
+  ["alerts", "#/alerts"],
+  ["bad batch", "#/alerts"],
+  ["my county", "#/alerts"],
+  ["who made this", "#/about"],
+  ["sources", "#/about"],
+  ["report a mistake", "#/about"],
+  ["quick exit", "#/about"],
+  ["cops", "#/policy"],
+  ["police", "#/policy"],
+  // Two names joined the way people join them open the checker, both picked.
+  ["alcohol and xanax", "#/substances/mix/alcohol+benzodiazepines"],
+  ["xanax and alcohol", "#/substances/mix/benzodiazepines+alcohol"],
+  ["molly + coke", "#/substances/mix/mdma+cocaine"],
+  ["benzos with opioids", "#/substances/mix/benzodiazepines+opioids"],
+  ["cocaine and alcohol", "#/substances/mix/cocaine+alcohol"],
+  ["shrooms and weed", "#/substances/mix/mushrooms+cannabis"],
+  ["g and alcohol", "#/substances/mix/ghb_gbl+alcohol"],
 ];
 
 let pass = 0;
@@ -146,6 +289,40 @@ for (const [q, want] of CASES) {
   const got = r[0].route;
   if (got === want || got.startsWith(want)) pass++;
   else fails.push(`"${q}" → ${got} (wanted ${want}); top result "${r[0].label}"`);
+}
+
+/* ------------------------------------------ what must NOT happen (2026-09-09) */
+{
+  /* "od" inside a word is not the overdose answer. */
+  for (const q of ["food", "codeine", "hydrocodone", "vicodin", "methadone"]) {
+    const r = search(q)[0];
+    if (r && r.route === "#/help") fails.push(`"${q}" opens with the overdose answer: ${r.label}`);
+  }
+  /* A brand that contains a common word still reaches its own row. */
+  {
+    const rs = search("bunk police", 5);
+    if (!rs.some((r) => /bunk police/i.test(r.label))) fails.push('"bunk police" no longer reaches Bunk Police');
+  }
+  /* The old intents still match with the whole-word rule. */
+  for (const [q, want] of [["arrested 911", "#/policy"], ["overdosing", "#/help"], ["he overdosed", "#/help"], ["took too much meth", "#/stimulants"]]) {
+    const r = search(q)[0];
+    if (!r || !r.route.startsWith(want)) fails.push(`"${q}" → ${r ? r.route : "nothing"} (wanted ${want})`);
+  }
+  /* A pair the chart cannot rate falls through to the drug rows, not an
+     empty checker. */
+  {
+    const rs = search("xylazine and fentanyl");
+    if (rs.some((r) => /\/mix\//.test(r.route))) fails.push('"xylazine and fentanyl" offers the checker, which has no xylazine row');
+  }
+  /* The exact phrase outranks the partial one, and the partial one is still
+     there: "took too much meth" is the stimulant page first, SOS second. */
+  {
+    const rs = search("took too much meth");
+    if (!(rs[0]?.route === "#/stimulants" && rs[1]?.route === "#/help")) fails.push(`"took too much meth" → ${rs.slice(0, 2).map((r) => r.route).join(", ")}`);
+  }
+  /* Three names is not a pair. */
+  if (search("coke and molly and alcohol").some((r) => /\/mix\//.test(r.route))) fails.push("three names produced a pair");
+  pass += 4;
 }
 
 /* -------------------------------------------- no one page owns the list */

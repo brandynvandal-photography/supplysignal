@@ -79,11 +79,11 @@
         },
         {
           "myth": "They can hear you, so they are fine.",
-          "truth": "A high enough dose of ketamine leaves someone awake, aware and unable to respond or call for help.",
+          "truth": "A high enough dose of ketamine is immobilizing: someone can be unable to move or get help. Check their breathing, not whether they hear you.",
           "sources": [
             {
-              "name": "Poison Control — What is pink cocaine?",
-              "url": "https://www.poison.org/articles/what-is-pink-cocaine"
+              "name": "StatPearls — Ketamine Toxicity (NCBI Bookshelf, updated January 2023)",
+              "url": "https://www.ncbi.nlm.nih.gov/books/NBK541087/"
             }
           ]
         }
@@ -330,8 +330,12 @@
           "truth": "They are not. The leading explanation is blood vessels constricting and tissue being starved of blood.",
           "sources": [
             {
-              "name": "Philadelphia DPH — xylazine wound care",
-              "url": "https://hip.phila.gov/document/2698/PDPH-HAN_Advisory_10_Xylazine_10.05.2022.pdf/"
+              "name": "Philadelphia DPH — Health Update: xylazine (tranq) exposure, December 8, 2022",
+              "url": "https://hip.phila.gov/document/3154/PDPH-HAN_Update_13_Xylazine_12.08.2022.pdf/"
+            },
+            {
+              "name": "Philadelphia DPH — Recommendations for caring for individuals with xylazine-associated wounds (January 2024)",
+              "url": "https://hip.phila.gov/document/4148/Recommendations_for_Caring_for_People_with_Xylazine-Associated_Wounds_1.12.pdf/"
             }
           ]
         },

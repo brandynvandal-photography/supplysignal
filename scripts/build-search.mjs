@@ -154,16 +154,28 @@ try { extra = JSON.parse(await readFile(path.join(DATA, "adulterants.json"), "ut
    a prefix of "vikes" or "shards" has to reach the page. */
 let street = { names: {} };
 try { street = JSON.parse(await readFile(path.join(DATA, "street-names.json"), "utf8")); } catch {}
+/* The checker's row for each drug, so a search for "xanax and alcohol" can
+   open the combination checker with both rows picked without loading the
+   165KB chart on every keystroke. combos.json keys its drugs by TripSit's ids,
+   which mostly match ours; the name is the fallback for the ones that do not. */
+let combos = { drugs: [] };
+try { combos = JSON.parse(await readFile(path.join(DATA, "combos.json"), "utf8")); } catch {}
+const lc = (x) => String(x || "").toLowerCase();
+const catsById = new Map((combos.drugs || []).map((d) => [d.id, d.cats || []]));
+const catsByName = new Map((combos.drugs || []).map((d) => [lc(d.name), d.cats || []]));
+const catsOf = (s) => catsById.get(s.id) || catsByName.get(lc(s.name)) || [];
 
 const drugs = [];
 for (const s of [...(subs.substances || []), ...(extra.substances || [])]) {
   if (!s?.id || !s?.name) continue;
+  const c = catsOf(s);
   drugs.push({
     i: s.id,
     n: s.name,
     /* Aliases are how this audience actually names things. Capped so one drug
        with forty street names cannot dominate the file. */
     a: [...(street.names?.[s.id] || []).map((x) => x[0]), ...(s.aliases || [])].slice(0, 12),
+    ...(c.length ? { c } : {}),
   });
 }
 

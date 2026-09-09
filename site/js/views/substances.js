@@ -75,7 +75,7 @@ export async function render(route, ctx) {
      Guarded on the route: a detail or class page does not use any of these,
      and speculatively pulling four bundles someone will not look at is how a
      "fast" app spends a metered connection on nothing. */
-  const warmIndex = !route.id;
+  const warmIndex = !route.id || route.id === "mix";
   const pre = warmIndex
     ? [data.rx(), data.conditions(), data.market(), data.regional(), import("../regional.js")]
     /* A detail page is the ONLY thing that renders reagent colors, so it is
@@ -96,6 +96,17 @@ export async function render(route, ctx) {
   }
 
   if (route.id === "class") return classView(route.sub, subs, ctx);
+  /* /drugs#/mix/<row>+<row>: the index with the checker's rows already
+     picked. Search builds this for "xanax and alcohol" (search.js, pairOf) so
+     the verdict is the first thing on the page rather than two empty
+     dropdowns. Rows are the chart's own category names, "/" written as "_";
+     anything unknown is simply not picked. The picks travel in the fragment
+     and live in module memory - never in storage, like every other pick. */
+  if (route.id === "mix") {
+    mixPreset = String(route.sub || "").split("+")
+      .map((t) => t.replace(/_/g, "/")).filter(Boolean).slice(0, MAX_MIX);
+    return indexView(subs, combosP, ctx);
+  }
   /* The detail page genuinely needs the matrix to render interactions, so it
      still waits. The index does not - see the note at mixSlot. */
   if (route.id) return detailView(route.id, subs, await combosP, ctx);
@@ -294,6 +305,12 @@ async function indexView(subs, combosP, { go }) {
      silent on purpose: a missing combination checker is a smaller harm than
      an error banner on a page that is otherwise entirely usable. */
   combosP.then((combos) => {
+    if (mixPreset) {
+      const cats = combos?.categories || [];
+      const picks = mixPreset.filter((c) => cats.includes(c));
+      if (picks.length) checkerSession = { picks };
+      mixPreset = null;
+    }
     const checker = mixChecker(combos, yoursGroup);
     if (checker) mixSlot.replaceChildren(checker);
     else mixSlot.replaceChildren(yoursGroup);
@@ -1643,7 +1660,7 @@ function comedownFor(doc, s) {
   const cd = comedownFor(await data.comedown(), s);
   let comedownBlock = null;
   if (cd) {
-    comedownBlock = (
+    comedownBlock = h("div", { id: "sec-comedown" },
       section("Coming down", null,
         cd.lead ? h("p", { class: "leadin" }, cd.lead) : null,
         frag(cd.items.map((it) =>
@@ -1872,6 +1889,8 @@ let lensPicks = new Set();   // module-scope, deliberately not persisted
  * belt to that brace, and it is what makes "cleared on Quick Exit" true rather
  * than incidental. */
 let checkerSession = null;
+/* Rows named in a /mix/ route, consumed by the next index render. */
+let mixPreset = null;
 const forgetCheckerState = () => { checkerSession = null; lensPicks = new Set(); };
 document.addEventListener("nl:panic", forgetCheckerState);
 window.addEventListener("pagehide", forgetCheckerState);

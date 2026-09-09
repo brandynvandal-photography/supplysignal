@@ -23,7 +23,82 @@
 
 import * as data from "./data.js";
 
-const norm = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+/* Accents are folded before anything else - "español" has to reach the same
+   row as "espanol", and the old rule turned the ñ into a space. */
+const norm = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  .toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+
+/* Whole-word containment. Plain includes() let "od" match inside "food",
+   "codeine" and "hydrocodone", so a search for a prescription opioid opened
+   with the overdose answer (found 2026-09-09). A phrase has to start where a
+   word starts. It may run on into a longer word - "overdose" should still find
+   "overdosed" - but only when it is long enough to be a stem rather than a
+   fragment; two or three letters must be a whole word. */
+export function hasPhrase(text, phrase) {
+  if (!phrase) return false;
+  let at = text.indexOf(phrase);
+  while (at >= 0) {
+    const end = at + phrase.length;
+    const startOk = at === 0 || text[at - 1] === " ";
+    const endOk = end === text.length || text[end] === " " || phrase.length >= 4;
+    if (startOk && endOk) return true;
+    at = text.indexOf(phrase, at + 1);
+  }
+  return false;
+}
+
+/* A PAIR. "xanax and alcohol", "molly + coke", "benzos with opioids": two
+   names joined the way people join them. Each side resolves the way a single
+   word would - slang, exact name, exact alias, or a word for a whole row of
+   the chart - and the result opens the checker with both rows picked, so the
+   verdict is the first thing on the page instead of two empty dropdowns.
+   Only when BOTH sides are rows the chart rates; anything else falls through
+   to the ordinary per-drug rows. The rows travel in the fragment, which is
+   never sent anywhere (PRIVACY.md), and are never stored. */
+const PAIR_SPLIT = /\s*(?:\+|&|\band\b|\bwith\b|\bplus\b|\bmixed with\b|\bon top of\b)\s*/i;
+/* Words that name a whole row rather than one drug. Kept to the ones with
+   exactly one honest reading: "stimulants" is three rows and is not here. */
+const CAT_WORDS = {
+  opioid: "opioids", opioids: "opioids", opiate: "opioids", opiates: "opioids",
+  benzo: "benzodiazepines", benzos: "benzodiazepines",
+  benzodiazepine: "benzodiazepines", benzodiazepines: "benzodiazepines",
+  ssri: "ssris", ssris: "ssris", maoi: "maois", maois: "maois",
+  mushrooms: "mushrooms", shrooms: "mushrooms", amphetamines: "amphetamines",
+  booze: "alcohol", beer: "alcohol", wine: "alcohol", liquor: "alcohol",
+  vodka: "alcohol", whiskey: "alcohol", drinking: "alcohol", drinks: "alcohol",
+  coffee: "caffeine", "energy drink": "caffeine", "energy drinks": "caffeine",
+};
+const CAT_NAMES = {
+  opioids: "Opioids", benzodiazepines: "Benzodiazepines", ssris: "SSRIs",
+  maois: "MAOIs", mushrooms: "Mushrooms", amphetamines: "Amphetamines",
+  alcohol: "Alcohol", caffeine: "Caffeine",
+};
+function sideOf(raw, idx, intents) {
+  const s = norm(raw);
+  if (!s) return null;
+  if (CAT_WORDS[s]) return { cat: CAT_WORDS[s], name: CAT_NAMES[CAT_WORDS[s]] || CAT_WORDS[s] };
+  const slangId = (intents.slang || {})[s];
+  let d = slangId ? (idx.drugs || []).find((x) => x.i === slangId) : null;
+  if (!d) d = (idx.drugs || []).find((x) => norm(x.n) === s || (x.a || []).some((a) => norm(a) === s));
+  if (!d || !d.c?.length) return null;
+  return { cat: d.c[0], name: d.n };
+}
+/* Every word of a multi-word query is somewhere in the phrase, as a whole
+   word: "arrested 911" finds "will i get arrested if i call 911". */
+export function bagOf(q, phrase) {
+  const w = phrase.split(" ");
+  return q.split(" ").every((x) => w.includes(x));
+}
+export function pairOf(term, idx, intents) {
+  const sides = String(term || "").split(PAIR_SPLIT).map((x) => x.trim()).filter(Boolean);
+  if (sides.length !== 2) return null;
+  const a = sideOf(sides[0], idx, intents);
+  const b = sideOf(sides[1], idx, intents);
+  return a && b ? [a, b] : null;
+}
+/* The chart's one row with a slash travels as "ghb_gbl": a slash would split
+   the fragment into another segment, and "-" is already inside "2c-x". */
+export const mixRoute = (cats) => `#/substances/mix/${cats.map((c) => c.replace("/", "_")).join("+")}`;
 
 /* Bounded Levenshtein: stops as soon as the distance exceeds `max`, because a
    full matrix over 300 drug names on every keystroke is wasted work. */
@@ -137,21 +212,44 @@ export async function search(term, limit = 10) {
     out.push(r);
   };
 
+  /* 0. A pair, in the checker with both rows picked - see pairOf(). */
+  const pair = pairOf(term, idx, intents);
+  if (pair) {
+    push({
+      kind: "Drugs",
+      label: `${pair[0].name} + ${pair[1].name}`,
+      route: mixRoute(pair.map((p) => p.cat)),
+      anchor: "sec-checker",
+      why: "Is this mix dangerous? Opens the checker with both picked.",
+    });
+  }
+
   /* 1. Intent. Matched on whole phrasings both ways, so "arrested 911" finds
-        "will i get arrested if i call 911" and vice versa. */
+        "will i get arrested if i call 911" and vice versa. Whole words only -
+        see hasPhrase() - and in tiers: a phrase typed exactly outranks one
+        found inside the query, which outranks a query whose words are all
+        somewhere in the phrase. "took too much meth" is the stimulant page's
+        own phrase and lands there first; the overdose answer, which matches
+        the "took too much" inside it, comes second rather than above it. */
+  const tiers = [[], [], []];
   for (const it of intents.intents || []) {
-    if ((it.q || []).some((p) => {
+    let best = -1;
+    for (const p of it.q || []) {
       const np = norm(p);
-      if (np === q) return true;
-      if (q.includes(np)) return true;      // they typed more around the phrase
+      let t = -1;
+      if (np === q) t = 0;
+      else if (hasPhrase(q, np)) t = 1;        // they typed more around the phrase
       /* A phrasing CONTAINING the query only counts for a multi-word query.
          Otherwise "narcan" hijacks "where to get narcan" and "fentanyl"
          hijacks "fentanyl test strips" - a single word should reach the thing
          it names, not a question that happens to mention it. */
-      return q.includes(" ") && np.includes(q);
-    })) {
-      push({ kind: "Answer", label: it.label, route: it.route, anchor: it.anchor, why: it.why });
+      else if (q.includes(" ") && (hasPhrase(np, q) || bagOf(q, np))) t = 2;
+      if (t >= 0 && (best < 0 || t < best)) best = t;
     }
+    if (best >= 0) tiers[best].push(it);
+  }
+  for (const it of tiers.flat()) {
+    push({ kind: "Answer", label: it.label, route: it.route, anchor: it.anchor, why: it.why });
   }
 
   /* 2. Slang, exact token match only - "g" should not match everything. */
@@ -161,13 +259,17 @@ export async function search(term, limit = 10) {
     if (d) push(drugResult(d, `Also called “${term.trim()}”`));
   }
 
-  /* 3. Drugs by name and alias. */
+  /* 3. Drugs by name and alias. An EXACT alias lands with the exact names,
+        ahead of every prefix: "meth" is a street name of methamphetamine and
+        used to come fourth, under three research chemicals whose aliases
+        happen to start with those letters (2026-09-09). */
   const starts = [], contains = [];
   for (const d of idx.drugs || []) {
     const n = norm(d.n);
-    if (n === q) { push(drugResult(d)); continue; }
+    const exact = n === q ? null : (d.a || []).find((a) => norm(a) === q);
+    if (n === q || exact) { push(drugResult(d, exact ? `Also called “${exact}”` : undefined)); continue; }
     if (n.startsWith(q)) { starts.push(drugResult(d)); continue; }
-    const alias = (d.a || []).find((a) => norm(a) === q || norm(a).startsWith(q));
+    const alias = (d.a || []).find((a) => norm(a).startsWith(q));
     if (alias) { starts.push(drugResult(d, `Also called “${alias}”`)); continue; }
     if (n.includes(q)) contains.push(drugResult(d));
   }

@@ -33,7 +33,6 @@
   "home": {
     "_note": "The front door (site/js/views/home.js): one question, then doors. Row titles are the situation in the reader's words; subs say in one line what is behind the door. Routes are in the view, not here.",
     "title": "What do you need right now?",
-    "sub": "Tap what fits. Every tab is still here afterwards.",
     "browseTitle": "Or start with a section",
     "rows": {
       "overdose": {

@@ -233,6 +233,22 @@
       "said": "That xylazine had been found in most fentanyl samples in Philadelphia, and in around one in four or five in Los Angeles.",
       "wrong": "Out of date, and unsourced in that note. Philadelphia drug checking had it at 21% of fentanyl samples by late 2025 and 19% in early 2026; the Los Angeles figure had no source on the screen.",
       "now": "The note points to the xylazine page, which carries the current figures by region with their sources, checked each quarter."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "Learn · Myths · helping someone who is overdosing",
+      "title": "\"Awake, aware and unable to respond\"",
+      "said": "That a high enough dose of ketamine leaves someone awake, aware and unable to respond or call for help, cited to a Poison Control article about pink cocaine.",
+      "wrong": "The article says what pink cocaine tends to contain and nothing about ketamine and responsiveness, so the claim stood on a source that did not support it. The article's address had also changed.",
+      "now": "The line says a high enough dose of ketamine is immobilizing, which is what the clinical reference it now cites says, and tells you to check breathing rather than whether they hear you."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "Policy · organizations, and Support · peer-run and grassroots",
+      "title": "National Survivors Union link",
+      "said": "Listed the National Survivors Union with a link to its website.",
+      "wrong": "The domain has expired and now redirects to a parking page, so the link led nowhere.",
+      "now": "The listing is removed until the union has a reachable address. NEXT Distro's drug user union page still lists them."
     }
   ]
 }
