@@ -90,8 +90,6 @@
     "locateOutside": "Esa ubicación no está dentro de un condado de EE. UU. Busca por nombre.",
     "locateNoData": "No se pudieron cargar los datos del mapa. Busca por nombre.",
     "sessionTitle": "Nada de lo que hagas aquí se guarda",
-    "startTitle": "¿No sabes por dónde empezar?",
-    "startSub": "Seis preguntas con las que la gente llega: si alguien está sufriendo una sobredosis ahora mismo, dónde conseguir naloxona gratis, qué pasa si llamas al 911.",
     "print": "Imprimir este condado",
     "dataUpdated": "Datos de alertas actualizados el {date}",
     "refresh": "Actualizar"

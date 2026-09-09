@@ -201,6 +201,7 @@ const ctx = { go() {}, data };
    because indexView and detailView are different functions with different
    arguments - which is exactly the seam the Drugs bug fell through. */
 const SCREENS = [
+  ["home", {}],
   ["alerts", {}],
   ["test", {}],
   ["substances", {}],                          // the index

@@ -473,6 +473,8 @@ export function go(hash, replace = false) {
 }
 
 const VIEWS = {
+  /* The front door: one question, then the section that answers it. */
+  home:       () => import("./views/home.js"),
   alerts:     () => import("./views/alerts.js"),
   test:       () => import("./views/test.js"),
   substances: () => import("./views/substances.js"),
@@ -778,7 +780,7 @@ onNavigate(async () => {
   focusView();
 });
 
-document.getElementById("home").addEventListener("click", () => go("#/alerts"));
+document.getElementById("home").addEventListener("click", () => go("#/home"));
 
 /* ------------------------------------------------------------------ i18n
    There is deliberately no language switcher. The locale comes from the
@@ -1071,6 +1073,8 @@ const WARM = [
   "./js/app.js",
   "./js/native-flag.js",
   "./js/views/help.js",
+  /* The first screen of every open, so it must paint offline too. */
+  "./js/views/home.js",
 ];
 
 async function warmShell() {

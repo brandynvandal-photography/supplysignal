@@ -38,7 +38,8 @@ const url = (u) => {
 
 /* from -> what the address bar should end up showing. */
 const CANON = [
-  ["/",                        "/alerts"],
+  ["/",                        "/"],
+  ["/home",                    "/"],
   ["/alerts",                  "/alerts"],
   ["/sos",                     "/sos"],
   ["/drugs",                   "/drugs"],
@@ -48,7 +49,7 @@ const CANON = [
   ["/drugs#/class/opioids",    "/drugs#/class/opioids"],
 
   /* Legacy. None of these can be edited after the fact. */
-  ["/site/",                   "/alerts"],
+  ["/site/",                   "/"],
   ["/site/#/test",             "/test"],
   ["/#/47065",                 "/alerts#/47065"],       // every RSS feed
   ["/#/47065/30",              "/alerts#/47065/30"],

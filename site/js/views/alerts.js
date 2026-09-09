@@ -86,25 +86,8 @@ async function pickerView(route, { go, data }) {
       h("h1", null, t("alerts.heading")))
   );
 
-  /* THE DOOR TO THE STARTERS. Search holds six hand-written questions for
-     the reader who cannot name what they need - "If someone is overdosing
-     right now", "Where to get naloxone free" - and they were reachable only
-     behind a magnifier icon in the header, on the one screen (this one) that
-     most often has nothing local to say. One row, under the title, that
-     opens the same panel: the search panel renders the starters on an empty
-     query, so nothing is duplicated here and nothing new has to be kept in
-     step. The row is a native list row like every other door in the app.
-     Guarded because test/views.test.mjs renders this without the shell. */
-  wrap.appendChild(
-    h("button", {
-        type: "button", class: "nbr nbr--door",
-        onClick: () => document.getElementById("searchbtn")?.click(),
-      },
-      h("span", { class: "nbr__text" },
-        h("span", { class: "nbr__name" }, t("alerts.startTitle")),
-        h("span", { class: "nbr__sub nbr__sub--wrap" }, t("alerts.startSub"))),
-      h("span", { class: "nbr__right" }, h("span", { "aria-hidden": "true" }, "›")))
-  );
+  /* The "Not sure where to start?" door that sat here from 2026-09-09
+     morning to evening became the home screen (views/home.js). */
 
   wrap.appendChild(viewToggle("list", go));
 
