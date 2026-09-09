@@ -600,48 +600,6 @@ async function countyView({ fips, days }, { go, data }) {
 
   wrap.appendChild(await searchBar({ go, data }));
 
-  /* The map, on the county page itself. Two screens used to answer one
-     question - "what is around me" is spatial, and making someone choose
-     between a list and a map meant whichever they picked hid the other half.
-     It sits under the heading and above the alerts: orientation first, then
-     the detail. The county is marked; every neighbour is one tap away. */
-  const mapHost = h("div", { class: "map map--inline" });
-  wrap.appendChild(mapHost);
-  /* A MODULE THAT VANISHED UNDERNEATH A LIVE SESSION.
-   *
-   * This removed the map and said nothing. That is right for a map that cannot
-   * draw - the canvas is never the only route to anything here - but wrong for
-   * the case that actually happens. The shell's files are served under
-   * content-hashed names; a deploy renames them; a session open across that
-   * deploy asks for a map chunk that no longer exists. The county page itself
-   * renders, because its own chunk is already loaded, so the reader gets their
-   * county with the map simply absent - reported exactly that way, and fixed
-   * by the reader refreshing and finding it there.
-   *
-   * A LINE AND A BUTTON, NOT AN AUTOMATIC RELOAD. The router self-heals a
-   * missing VIEW chunk by reloading once, guarded by a marker in history.state
-   * - but that marker is cleared by any clean render, and this failure happens
-   * AFTER the render it would clear on. Wiring the same recovery here risks a
-   * page that reloads, renders, fails, and reloads again. So the reader is
-   * told, and given the action, and decides.
-   *
-   * Only when the map never mounted. Once it has drawn, a later error leaves
-   * what is on screen alone rather than replacing a working map with a notice. */
-  import("../map.js").then(({ mountMap }) =>
-    mountMap(mapHost, { go, focus: fips, focusLabel: `${c.name}, ${c.state}`, compact: true })
-  ).catch(() => {
-    if (mapHost.querySelector("canvas")) return;
-    clear(mapHost);
-    mapHost.className = "map map--inline map--failed";
-    mapHost.appendChild(
-      h("p", { class: "sec__note" },
-        "The map didn’t load. ",
-        h("button", {
-            type: "button", class: "btn btn--ghost btn--sm",
-            onClick: () => location.reload(),
-          }, "Reload")));
-  });
-
   /* Numbers for this county. The mortality data was already bundled and drawn
      as map SHADING, which tells you "darker than next door" and nothing else -
      a reader could not learn whether their own county was getting better or
@@ -710,35 +668,52 @@ async function countyView({ fips, days }, { go, data }) {
     );
   }
 
-  /* ---- bordering counties ---- */
+  /* ---- bordering counties ----
+     ONE ROW WHEN THERE IS NOTHING IN ANY OF THEM. Six rows of "none", each
+     with a chevron into another empty county, were the tallest thing on the
+     most common county page; the reader's question is answered by the count.
+     The list is still there behind the row. When any neighbour has an alert
+     the section is open, as it was (2026-09-09). */
   const nbrs = await data.neighbors(fips);
   const counts = new Map();
   for (const k of near) counts.set(k._county.fips, (counts.get(k._county.fips) || 0) + 1);
 
+  const nbrList = h("div", { class: "list" },
+    nbrs.map((n) => {
+      const cnt = counts.get(n.fips) || 0;
+      return h("button", {
+          type: "button", class: "nbr",
+          onClick: () => go(`#/alerts/${n.fips}/${win}`),
+        },
+        /* Title over subtitle. Inline, this row had no shrinkable child,
+           so "Sequatchie County, TN · 21 mi" pushed the "mi" onto its own
+           line and shoved the badge out of alignment. */
+        h("span", { class: "nbr__text" },
+          h("span", { class: "nbr__name" }, `${n.name}, ${n.state}`),
+          h("span", { class: "nbr__sub" }, `${n.mi} mi`)),
+        h("span", { class: "nbr__right" },
+          cnt ? badge(`${cnt}`, sevOf(near, n.fips)) : badge("none", "neutral"),
+          h("span", { "aria-hidden": "true" }, "›")));
+    }));
+
   wrap.appendChild(
-    section(
-      "Bordering counties",
-      `${nbrs.length} border ${c.name}`,
-      h("p", { class: "sec__note" },
-        "Supply moves across county lines. Nearest first."),
-      h("div", { class: "list" },
-        nbrs.map((n) => {
-          const cnt = counts.get(n.fips) || 0;
-          return h("button", {
-              type: "button", class: "nbr",
-              onClick: () => go(`#/alerts/${n.fips}/${win}`),
-            },
-            /* Title over subtitle. Inline, this row had no shrinkable child,
-               so "Sequatchie County, TN · 21 mi" pushed the "mi" onto its own
-               line and shoved the badge out of alignment. */
-            h("span", { class: "nbr__text" },
-              h("span", { class: "nbr__name" }, `${n.name}, ${n.state}`),
-              h("span", { class: "nbr__sub" }, `${n.mi} mi`)),
-            h("span", { class: "nbr__right" },
-              cnt ? badge(`${cnt}`, sevOf(near, n.fips)) : badge("none", "neutral"),
-              h("span", { "aria-hidden": "true" }, "›")));
-        }))
-    )
+    near.length
+      ? section(
+          "Bordering counties",
+          `${nbrs.length} border ${c.name}`,
+          h("p", { class: "sec__note" },
+            "Supply moves across county lines. Nearest first."),
+          nbrList)
+      : section("Bordering counties", null,
+          h("details", { class: "acc" },
+            h("summary", null,
+              h("span", null,
+                `${nbrs.length} bordering ${nbrs.length === 1 ? "county" : "counties"}, `
+                + `nothing published in ${nbrs.length === 1 ? "it" : "any of them"}`)),
+            h("div", { class: "acc__body" },
+              h("p", { class: "sec__note" },
+                "Supply moves across county lines. Nearest first."),
+              nbrList)))
   );
 
   /* ---- alerts from those counties ---- */
@@ -792,6 +767,72 @@ async function countyView({ fips, days }, { go, data }) {
       section("Common in this region", "From national drug-checking data", regional)
     );
   }
+
+  /* ---- the map, last, and on a phone on request ----
+     It sat under the heading, above the alerts, on the argument that "what is
+     around me" is spatial and orientation should come first. Measured on a
+     phone the cost was the answer: title, search, a 3D map, its legend, two
+     caveat pills and the drag hints all came before "is there anything
+     here?". The alerts lead now. The map follows them, open on a tablet or
+     desktop where there is room, and behind one tap on a phone - where it is
+     also the most expensive thing on the page to draw and the reader least
+     able to afford it is the one on a small screen (2026-09-09). */
+  const mapHost = h("div", { class: "map map--inline" });
+  /* A MODULE THAT VANISHED UNDERNEATH A LIVE SESSION.
+   *
+   * This removed the map and said nothing. That is right for a map that cannot
+   * draw - the canvas is never the only route to anything here - but wrong for
+   * the case that actually happens. The shell's files are served under
+   * content-hashed names; a deploy renames them; a session open across that
+   * deploy asks for a map chunk that no longer exists. The county page itself
+   * renders, because its own chunk is already loaded, so the reader gets their
+   * county with the map simply absent - reported exactly that way, and fixed
+   * by the reader refreshing and finding it there.
+   *
+   * A LINE AND A BUTTON, NOT AN AUTOMATIC RELOAD. The router self-heals a
+   * missing VIEW chunk by reloading once, guarded by a marker in history.state
+   * - but that marker is cleared by any clean render, and this failure happens
+   * AFTER the render it would clear on. Wiring the same recovery here risks a
+   * page that reloads, renders, fails, and reloads again. So the reader is
+   * told, and given the action, and decides.
+   *
+   * Only when the map never mounted. Once it has drawn, a later error leaves
+   * what is on screen alone rather than replacing a working map with a notice. */
+  const mountCountyMap = () => import("../map.js").then(({ mountMap }) =>
+    mountMap(mapHost, { go, focus: fips, focusLabel: `${c.name}, ${c.state}`, compact: true })
+  ).catch(() => {
+    if (mapHost.querySelector("canvas")) return;
+    clear(mapHost);
+    mapHost.className = "map map--inline map--failed";
+    mapHost.appendChild(
+      h("p", { class: "sec__note" },
+        "The map didn’t load. ",
+        h("button", {
+            type: "button", class: "btn btn--ghost btn--sm",
+            onClick: () => location.reload(),
+          }, "Reload")));
+  });
+  /* window.matchMedia, not the bare global: test/views.test.mjs renders
+     through a shim that defines it on window only. */
+  const wide = !!globalThis.window?.matchMedia?.("(min-width: 768px)")?.matches;
+  const mapSlot = h("div");
+  if (wide) {
+    mapSlot.appendChild(mapHost);
+    mountCountyMap();
+  } else {
+    mapSlot.appendChild(
+      h("div", { class: "chips" },
+        h("button", {
+            type: "button", class: "btn btn--ghost",
+            onClick: () => { mapSlot.replaceChildren(mapHost); mountCountyMap(); },
+          }, "Show the map")));
+  }
+  wrap.appendChild(
+    section("Map", null,
+      h("p", { class: "sec__note" },
+        `${c.name} is marked; every bordering county is one tap away.`),
+      mapSlot)
+  );
 
   /* There is deliberately NO "RSS for this county" link here.
    *
