@@ -184,6 +184,10 @@
   to = "/site/index.html"
   status = 200
 [[redirects]]
+  from = "/injection"
+  to = "/site/index.html"
+  status = 200
+[[redirects]]
   from = "/heat"
   to = "/site/index.html"
   status = 200
@@ -469,6 +473,10 @@
 
 [[headers]]
   for = "/heat"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/injection"
   [headers.values]
     Cache-Control = "no-cache"
 

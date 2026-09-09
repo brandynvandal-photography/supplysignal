@@ -88,7 +88,7 @@ export async function starters() {
     "#/help": "Emergency", "#/alerts": "Alerts", "#/test": "Test",
     "#/substances": "Drugs", "#/learn": "Learn", "#/support": "Support",
     "#/policy": "Policy", "#/supervision": "Supervision", "#/sex": "Sex",
-    "#/stimulants": "Staying up", "#/heat": "Heat", "#/after": "After",
+    "#/stimulants": "Staying up", "#/heat": "Heat", "#/after": "After", "#/injection": "If you inject",
     "#/about": "About",
   };
   return (INTENTS.starters || [])

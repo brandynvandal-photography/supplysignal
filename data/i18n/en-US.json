@@ -52,6 +52,10 @@
         "title": "Testing your supply",
         "sub": "Strips and reagents, and what each can and cannot tell you."
       },
+      "inject": {
+        "title": "If you inject",
+        "sub": "Abscesses, a missed shot, and the fever that is not cotton fever."
+      },
       "reentry": {
         "title": "Just out, or back after a break",
         "sub": "Your tolerance is not what it was. The first two weeks are the most dangerous."
