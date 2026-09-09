@@ -141,7 +141,7 @@
             "threshold": "no false positives found at tested concentrations"
           }
         ],
-        "conflict": "Protocols used to disagree by as much as ten times, and that is why the rule above is to follow the instructions in your own kit. The gap has narrowed: in October 2025 DanceSafe replaced its own older “50 mg per teaspoon” method with 10 mg per teaspoon and said it had aligned its steps with other brands, so that how you use a strip is the same even where the chemistry inside it differs. The amounts below are that standard. They are not a promise about the strips in your hand: if your kit says something different, your kit wins.",
+        "conflict": "Protocols used to disagree by as much as ten times, and that is why the rule above is to follow the instructions in your own kit. The gap has narrowed. In October 2025 DanceSafe replaced its own older “50 mg per teaspoon” method with 10 mg per teaspoon, and said it had aligned its steps with other brands. How you use a strip is now the same even where the chemistry inside it differs. The amounts below are that standard. They are not a promise about the strips in your hand: if your kit says something different, your kit wins.",
         "guidance": [
           "Follow the instructions that came with YOUR strips. Brands differ.",
           "If you do not have them, use MORE water rather than less. Too little water causes false positives on stimulants; only extreme over-dilution risks a false negative.",
@@ -1178,27 +1178,33 @@
   "procedure": [
     {
       "title": "Use a pinhead of sample",
-      "body": "Finely crushed. Blotter: a tiny corner. Liquids: one drop. Morris: double. For low-dose pressed pills use MORE — a 150 mg pill may hold only 10 mg of active drug."
+      "body": "Finely crushed. Blotter: a tiny corner. Liquids: one drop. Morris: double. For low-dose pressed pills, use more.",
+      "more": "A 150 mg pill may hold only 10 mg of active drug, so a pinhead of the pill can be almost none of the thing you are testing for."
     },
     {
       "title": "Never test the whole pill, and never in the bag",
-      "body": "Use a white, clean, dry, non-porous surface — ceramic or hard plastic. These reagents are concentrated acids and will destroy a plastic bag. Testing the whole pill destroys the dose and gives an unreadable smear. Pill and blotter dyes distort colors: orange pills throw orange specks, blue pills read muddy brown, and blotter dye is easily mistaken for a purple Ehrlich's positive."
+      "body": "Use a white, clean, dry, non-porous surface — ceramic or hard plastic.",
+      "more": "These reagents are concentrated acids and will destroy a plastic bag. Testing the whole pill destroys the dose and gives an unreadable smear. Pill and blotter dyes distort colors: orange pills throw orange specks, blue pills read muddy brown, and blotter dye is easily mistaken for a purple Ehrlich's positive."
     },
     {
       "title": "One drop, and never touch the sample with the bottle",
-      "body": "Touching the tip to the sample contaminates the entire bottle. Hold the cap upside down while you work — setting it down, or on the wrong bottle, is a common mistake. For two-part reagents, both drops go on the SAME sample."
+      "body": "Hold the cap upside down while you work. For two-part reagents, both drops go on the SAME sample.",
+      "more": "Touching the tip to the sample contaminates the entire bottle. Setting the cap down, or on the wrong bottle, is a common mistake."
     },
     {
       "title": "Watch from the moment the drop lands",
-      "body": "Intermediate colors carry information — that is how Marquis separates MDMA from DXM. Read within roughly the first minute and disregard later drift from air and moisture. Sources give anywhere from 40 seconds to 3 minutes, so there is no single correct number. Ehrlich's, Hofmann, and Morris are the slow exceptions at about 5 minutes."
+      "body": "Intermediate colors carry information. Read within roughly the first minute. Ehrlich's, Hofmann and Morris are the slow exceptions, at about five minutes.",
+      "more": "Intermediate colors are how Marquis separates MDMA from DXM. Disregard later drift from air and moisture. Sources give anywhere from 40 seconds to 3 minutes, so there is no single correct number."
     },
     {
       "title": "Use several reagents, with a fresh sample each time",
-      "body": "Never drop a second reagent onto an already-tested spot. Re-cap before opening the next bottle. One reagent narrows it down; several together tell you much more, because each one rules out something different."
+      "body": "Never drop a second reagent onto an already-tested spot. Re-cap before opening the next bottle.",
+      "more": "One reagent narrows it down; several together tell you much more, because each one rules out something different."
     },
     {
       "title": "Run a blank next to it",
-      "body": "Put a drop of the reagent alone beside your test spot. Reagents are tinted and darken with age, so a blank tells you what \"no reaction\" looks like today. Use neutral daylight. If unsure, retest with a larger sample."
+      "body": "Put a drop of the reagent alone beside your test spot. Use neutral daylight.",
+      "more": "Reagents are tinted and darken with age, so a blank tells you what “no reaction” looks like today. If unsure, retest with a larger sample."
     },
     {
       "title": "Clean up",

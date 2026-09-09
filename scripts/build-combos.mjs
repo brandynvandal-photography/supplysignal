@@ -253,7 +253,7 @@ const FOOD = {
   "items": [
     {
       "t": "Grapefruit, and it is not a small effect",
-      "d": "Grapefruit blocks the enzyme that clears a lot of drugs, so the same dose becomes a bigger one. In a controlled study grapefruit juice raised oxycodone exposure 1.7-fold and its peak level 1.5-fold. A man on 90 mg of methadone daily who drank about half a liter of grapefruit juice a day for three days was found unresponsive with pinpoint pupils — the first published case of that interaction going far enough to be an overdose.",
+      "d": "Grapefruit blocks the enzyme that clears a lot of drugs, so the same dose becomes a bigger one. In a controlled study grapefruit juice raised oxycodone exposure 1.7-fold and its peak level 1.5-fold. A man on 90 mg of methadone daily drank about half a liter of grapefruit juice a day for three days. He was found unresponsive with pinpoint pupils — the first published case of that interaction going far enough to be an overdose.",
       "note": "Also pomelo and Seville orange, which work the same way. Ordinary oranges do not. The effect can last a day or more after the last glass, so skipping it “on dosing days” does not clear it.",
       "sources": [
         {

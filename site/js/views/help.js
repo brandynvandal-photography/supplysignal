@@ -241,17 +241,23 @@ export async function render() {
      respond, with breathing and airway reflexes preserved. So responsiveness
      cannot separate "will come out of this" from "is dying". Breathing can.
      That is the whole section; everything else is downstream of it. */
-  /* OPEN, but collapsible now. It is emergency content and stays open, but as
-     a disclosure a reader who knows it is an opioid overdose can fold this and
-     the festival/club blocks below it away to shorten the page. */
+  /* SHUT, WITH THE RULE IN THE SUMMARY. Measured 2026-09-09 at 375x812: open,
+     this section ran from 3,013px to 6,186px - 558 words, three screens -
+     between the naloxone steps and "When help arrives", so a reader scrolling
+     for what to tell the paramedics crossed the whole differential to get
+     there. It stays urgent-toned and it stays where it is. What changes is
+     that the one instruction it exists to teach is the heading itself now, so
+     a reader who never opens it still meets the rule, and a reader who does
+     gets the reasoning. Learn's "Start here" step 2 lands here through
+     data-reveal, and reveal() in app.js opens a shut details on arrival. */
   wrap.appendChild(
-    disclosure("sec-collapse", "If they have collapsed and you do not know why", { open: true, tone: "urgent" },
+    disclosure("sec-collapse", "Collapsed, cause unknown? Watch their breathing, not whether they answer", { open: false, tone: "urgent" },
         h("p", { class: "leadin" },
           "You will often not know what happened, and you do not need to. "
           + "One check decides what you do."),
 
         h("div", { class: "card" },
-          h("h3", null, "Watch their breathing, not whether they answer you"),
+          h("h3", null, "Why breathing is the check"),
           h("p", null,
             "While a person's response (or lack of) is the first test, a "
             + "person in a deep k-hole may not react to anything, though their "
@@ -417,7 +423,7 @@ export async function render() {
             + "the festival throwing you out. The law binds the police; your "
             + "ticket is a permission the event can take back at any time."),
           h("p", { class: "sec__note" },
-            "It also only covers that night. At Ultra in 2025 a woman died "
+            "It also only covers that night. At Ultra in 2025 a woman did not survive "
             + "after being taken to a medical tent; the partner who carried her "
             + "in was charged a year later, using evidence from a separate "
             + "investigation. Go and get help anyway — just know that the "
@@ -549,8 +555,8 @@ export async function render() {
           li("In some states, immunity is not what you get.", "Some laws only give you a defense to raise in court after being charged.")),
         callout("info", "None of this is a reason not to call",
           h("p", null,
-            "It is a reason to know how it works where you live. Far more people die " +
-            "because nobody called than are ever prosecuted for calling.")),
+            "It is a reason to know how it works where you live. Far more people are lost " +
+            "to accidents where nobody called than are ever prosecuted for calling.")),
         h("p", { class: "sec__note" }, "This is information, not legal advice.")))
   );
 

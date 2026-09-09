@@ -286,6 +286,11 @@ export function stepper(items, opts = {}) {
     body.appendChild(frag(
       h("h4", null, item.title),
       h("p", null, item.body),
+      /* The reasoning that the list keeps behind a "Why" fold is printed in
+         full here. A walkthrough shows one step at a time and has the room; a
+         reader who chose to be walked through it has also chosen to read the
+         step rather than scan seven of them. */
+      item.more ? h("p", { class: "stepper__more" }, item.more) : null,
       always ? h("p", { class: "stepper__always" }, always) : null));
     prev.disabled = at === 0;
     next.disabled = at === list.length - 1;
