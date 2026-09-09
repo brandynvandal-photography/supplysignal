@@ -189,7 +189,7 @@ export async function fetchRadar(src, settings, { maxIssues = 2 } = {}) {
            grading our words. */
         body: `NIST RaDAR: ${c.name}, described by the program as ${c.printedClass}, `
             + `was newly detected in ${where} samples collected in `
-            + `${issue.label}. ${c.detail ? c.detail.replace(/^\s*/, "") + ". " : ""}`
+            + `${issue.label}${c.detail ? detailJoin(c.detail) : ". "}`
             + `Samples are voluntarily submitted and may not be representative `
             + `of broader trends within the United States drug supply.`,
         /* The issue it was published in. Every finding from one issue shares
@@ -212,4 +212,14 @@ export async function fetchRadar(src, settings, { maxIssues = 2 } = {}) {
     }
   }
   return { items, seen, issues: issues.length };
+}
+
+/* RaDAR's detail is a fragment - "in a single West Coast sample" - and glued
+   after a period it read as a sentence that starts lowercase, on every card
+   (2026-09-09). A fragment that starts lowercase continues the sentence with
+   a comma; one that starts with a capital is its own sentence. The words are
+   the source's either way; only the joint is ours. */
+function detailJoin(detail) {
+  const d = String(detail).replace(/^\s*/, "").replace(/\.\s*$/, "");
+  return /^[a-z]/.test(d) ? `, ${d}. ` : `. ${d}. `;
 }

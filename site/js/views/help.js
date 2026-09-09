@@ -233,30 +233,29 @@ export async function render() {
         h("div", { class: "card" },
           h("h3", null, "Why breathing is the check"),
           h("p", null,
-            "While a person's response (or lack of) is the first test, a "
-            + "person in a deep k-hole may not react to anything, though their "
-            + "eyes may be open and their breathing completely normal. This is "
-            + "not an emergency and the drug working as intended. Sedatives now "
-            + "mixed into the opioid supply do the same thing. The person's "
-            + "breathing is the key indicator in these situations.")),
+            "Whether someone answers you does not tell you much. A person deep "
+            + "in a k-hole may not react to anything — eyes open, breathing "
+            + "completely normal — and that is the drug working as intended, "
+            + "not an emergency. The sedatives now mixed into the opioid supply "
+            + "do the same thing. Their breathing is what tells you.")),
 
         h("div", { class: "statgrid" },
           h("div", { class: "card statcard" },
             h("p", { class: "stat__n" }, "Not breathing, or gasping"),
             h("p", null,
-              "Slow deep gasps that sound like snoring are not breathing — they "
-              + "happen in about half of cardiac arrests and are the most "
-              + "common reason one gets missed. In as many as 4 in 10 arrests "
-              + "the caller was never talked through CPR because they said the "
-              + "person was breathing. Start CPR. Do not put them on their "
-              + "side.")),
+              "Slow deep gasps that sound like snoring are not breathing. They "
+              + "happen in up to about half of witnessed cardiac arrests, and "
+              + "they are behind up to half of the arrests that 911 call takers "
+              + "miss. In as many as 4 in 10 arrests the caller was never talked "
+              + "through CPR because they said the person was breathing. Start "
+              + "CPR. Do not put them on their side.")),
           h("div", { class: "card statcard" },
             h("p", { class: "stat__n" }, "Slow, shallow, or going blue"),
             h("p", null,
-              "Four to six breaths a minute is the classic opioid picture; "
-              + "under about seven is the line harm reduction uses. Blue or "
-              + "gray lips and fingertips, ashen or gray skin on darker "
-              + "skin tones. On their side, naloxone, ambulance.")),
+              "Breathing that is slow, shallow, or stops for long pauses is "
+              + "the opioid picture. Blue or gray lips and fingertips, ashen or "
+              + "gray skin on darker skin tones. On their side, naloxone, "
+              + "ambulance.")),
           h("div", { class: "card statcard" },
             h("p", { class: "stat__n" }, "Breathing normally"),
             h("p", null,
@@ -325,8 +324,24 @@ export async function render() {
             "Breathing is the target, not waking up. Somebody who breathes but "
             + "stays under is naloxone working — do not keep dosing to chase "
             + "consciousness. And waking up is the middle of this, not the "
-            + "end: naloxone wears off in thirty to forty-five minutes and "
-            + "most opioids last longer."))));
+            + "end: naloxone wears off in 30–90 minutes and most opioids "
+            + "last longer.")),
+
+        /* SOURCED 2026-09-09. This section carried six numbers and no source,
+           beside a festival section with a card for every claim. The gasping
+           figures are the two dispatcher studies; the head-injury figures are
+           the intoxicated minor-head-trauma cohort (8% with an important
+           injury; the two screening rules 70% and 83% sensitive). "Four to
+           six breaths a minute" and "under about seven" could not be traced
+           to any source and were removed rather than kept on trust. Labelled
+           by journal, never by author: the app names no person. */
+        h("div", { class: "sources" },
+          extLink("https://pmc.ncbi.nlm.nih.gov/articles/PMC2727488/",
+            "BMC Emergency Medicine (2009) — agonal breathing in up to 55% of witnessed arrests; up to 50% of missed diagnoses"),
+          extLink("https://pmc.ncbi.nlm.nih.gov/articles/PMC4098453/",
+            "Critical Care (2005) — no CPR instructions in as many as 40% of arrests because the caller reported breathing"),
+          extLink("https://pubmed.ncbi.nlm.nih.gov/24033617/",
+            "Academic Emergency Medicine (2013) — intoxicated minor head trauma: 8% with an important injury; screening rules 70% and 83% sensitive"))));
 
   /* ---- at a festival or a big event ----
      Placed directly under the 911 instruction because it CHANGES that
@@ -524,8 +539,7 @@ export async function render() {
             + "with them — the street outside is where being alone starts."),
           h("p", { class: "sec__note" },
             "Call 911 yourself. Do not assume the venue has, and do not wait to "
-            + "find out — a license is at stake for them and nothing is at "
-            + "stake for you.")),
+            + "find out — a license is at stake for them.")),
         h("div", { class: "card" },
           h("h3", null, "The bathroom is where this happens"),
           h("p", null,
@@ -827,11 +841,18 @@ export function privacyBlock() {
            top right whether or not the header is showing. Same rule as the
            inventory above: this line describes a control, so it has to match
            where the control actually is. */
+        /* What the code does, in the code's own terms (app.js, Quick Exit):
+           storage and caches cleared, the Back stack walked over and
+           overwritten - a mitigation, not a deletion - and the screen
+           replaced with this site's own plain clock page. It said "removes
+           this page from your Back button" and "a weather site" until
+           2026-09-09; the exit had stopped ending at a third party a month
+           before. */
         h("p", null,
-          "The ✕ button at the top right clears everything immediately, removes this " +
-          "page from your Back button, and sends you to a weather site. It is a " +
-          "shortcut, not a requirement — closing the tab clears the same things on " +
-          "its own, and so does simply leaving."),
+          "The ✕ button at the top right clears what this site stored, walks the " +
+          "Back button back over where you have been, and replaces this screen with " +
+          "a plain clock page. It is a shortcut, not a requirement — closing the tab " +
+          "clears the same things on its own, and so does simply leaving."),
 
         callout("warn", "What Quick Exit can’t do",
           h("p", null,
@@ -854,7 +875,7 @@ return (
         h("p", null,
           h("strong", null, "It is not medical advice, and it is not a safety check. "),
           "Nothing here verifies a drug, clears it, or says it is safe to take. " +
-          "An absence of alerts means nobody published anything — not that a supply is clean.")))
+          "An absence of alerts means nobody published anything — not that a supply is safe.")))
   );
 
 }

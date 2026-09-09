@@ -78,6 +78,10 @@ const BRITISH = [
   ["paracetamol", "acetaminophen"], ["noradrenaline", "norepinephrine"],
   ["counsellor", "counselor"], ["randomised", "randomized"],
   ["licence", "license"], ["litre", "liter"], ["litres", "liters"],
+  /* Idioms, not spellings: "We haven't got to Davidson County yet" passed
+     every spelling check and still read as written somewhere else. */
+  ["haven’t got to", "haven’t gotten to"], ["haven't got to", "haven't gotten to"],
+  ["whilst", "while"], ["fortnight", "two weeks"], ["car park", "parking lot"],
 ];
 
 /* Hand-written content files. The first version of this test scanned only

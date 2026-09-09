@@ -110,6 +110,14 @@ export async function regionalOverview() {
     callout("info", doc.headline,
       h("p", null, doc.summary))
   );
+  /* The description under each substance is the lab's wording, copied as
+     published (scripts/build-regional.mjs). It reads in the app's voice
+     unless said so, and the attribution block is a screen away. */
+  if (doc.source?.attribution) {
+    wrap.appendChild(
+      h("p", { class: "sec__note" },
+        `The description under each substance is the lab’s own wording, as published by ${doc.source.attribution}, not this app’s.`));
+  }
 
   const counts = doc.groupCounts || {};
   wrap.appendChild(

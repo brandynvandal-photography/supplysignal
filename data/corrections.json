@@ -121,6 +121,78 @@
       "said": "That the partner who carried a woman to the medical tent was charged a year later \"using evidence from a separate investigation\".",
       "wrong": "Four people were charged a year on — the partner among them, for possession — on the strength of text messages about buying the pill. There was no separate investigation.",
       "now": "The reported facts, from two news sources, with nobody named."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "SOS · Collapsed, cause unknown",
+      "title": "\"Naloxone wears off in thirty to forty-five minutes\"",
+      "said": "That naloxone wears off in thirty to forty-five minutes, four screens below a step that says 30–90.",
+      "wrong": "Same page, same fact, two numbers. The step is the sourced one.",
+      "now": "30–90 minutes in both places."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "SOS · Collapsed, cause unknown",
+      "title": "\"Four to six breaths a minute is the classic opioid picture\"",
+      "said": "That four to six breaths a minute is the classic opioid picture, and that under about seven is the line harm reduction uses.",
+      "wrong": "Neither number could be traced to a source.",
+      "now": "Slow, shallow, or stopping for long pauses — the description, without the numbers."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "SOS · Collapsed, cause unknown",
+      "title": "\"About half of cardiac arrests\" — unsourced, and slightly overstated",
+      "said": "Figures for gasping in cardiac arrest, for calls never talked through CPR, and for bleeds after a fall while intoxicated, with no source card on any of them.",
+      "wrong": "The section's own rule is that nothing is claimed without one. Read at source, gasping is reported in up to 55% of witnessed arrests, not in about half of all of them.",
+      "now": "Two dispatcher studies and the intoxicated head-injury cohort are linked under the section, and the sentence says what they say."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "SOS · Calling 911 at a venue",
+      "title": "\"Nothing is at stake for you\"",
+      "said": "That a license is at stake for the venue and nothing is at stake for you.",
+      "wrong": "The Good Samaritan section on the same page lists what the laws do not cover.",
+      "now": "The clause is gone."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "About and Alerts · Quick Exit",
+      "title": "\"Sends you to a weather site\"",
+      "said": "That the ✕ removes this page from your Back button and sends you to a weather site.",
+      "wrong": "It walks the Back button over where you have been, which is a mitigation rather than a removal, and it lands on this site's own plain clock page. The description had not followed the code.",
+      "now": "What it does, in those words. The advice to use a private window stands."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "Test · Fentanyl and nitazenes",
+      "title": "\"It may take more than one dose\"",
+      "said": "That naloxone may take more than one dose for fentanyl and nitazenes.",
+      "wrong": "The framing SOS had already dropped in August: it reads as fentanyl needing extra, which the evidence does not show.",
+      "now": "Naloxone works on both. If there is no change after 2–3 minutes, give another dose — the same instruction as SOS."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "Learn · Coming down, alcohol",
+      "title": "The wrong source under a right sentence",
+      "said": "That stopping suddenly after daily drinking can cause seizures, cited to the FDA's benzodiazepine boxed warning.",
+      "wrong": "The claim is right. The source is about a different drug.",
+      "now": "Cited to MedlinePlus (NIH) on alcohol withdrawal, which says it."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "Test and Policy · Whether strips are legal",
+      "title": "Three state counts for the same law",
+      "said": "That drug-checking equipment was fully legal in 20 states on one Test section, that xylazine strips were covered in 36 states plus DC on another, and that possession was outside paraphernalia law in 47 states plus DC and four territories on Policy — with the first labeled as a July 2026 review.",
+      "wrong": "Three sections, three vintages, measuring different things. The 20-state figure was from August 2024, not July 2026.",
+      "now": "One sheet, LAPPA's as of July 1 2026, in every section. The sale and distribution detail is kept and dated to the August 2024 survey it came from."
+    },
+    {
+      "date": "2026-09-09",
+      "where": "Learn · Why the supply is like this",
+      "title": "\"None of these are chosen for effect on the person taking them\"",
+      "said": "That no adulterant is chosen for its effect on the person, in the same paragraph that said xylazine lengthens a short fentanyl high.",
+      "wrong": "Self-contradicting, and the Adulterants page already said the sources document two motives and do not agree. Its only source did not cover levamisole or lidocaine.",
+      "now": "The two-motive framing, a CDC source for levamisole, and the line that none of it is tested on the person who ends up taking it."
     }
   ]
 }

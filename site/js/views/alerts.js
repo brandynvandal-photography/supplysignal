@@ -235,11 +235,10 @@ async function pickerView(route, { go, data }) {
   if (seenElsewhere.length) {
     const label = { west: "West Coast", east: "East Coast", national: "United States" };
     wrap.appendChild(
-      section("Newly detected elsewhere in the US",
-        `${seenElsewhere.length} compound${seenElsewhere.length === 1 ? "" : "s"} in the last 12 months`,
-        /* The count lives here because section()'s note argument is voided -
-           it renders the heading and nothing else - and the number is worth
-           saying: "six" is a different picture from "sixty". */
+      section("Newly detected elsewhere in the US", null,
+        /* The count is in the paragraph, not in the heading's note slot: the
+           number is worth saying - "six" is a different picture from "sixty" -
+           and saying it twice, beside the heading and again here, is not. */
         h("p", { class: "sec__note" },
           `${seenElsewhere.length} substance${seenElsewhere.length === 1 ? "" : "s"} `
           + "a federal lab found in submitted samples for the first time. "
@@ -926,7 +925,7 @@ function notHere(c, nearCount, win, everScanned) {
      so is the same rule the rest of this file already keeps: no information is
      not no risk, and the reader is owed the difference. */
   if (!everScanned) {
-    return callout("warn", `We haven’t got to ${c.name} yet`,
+    return callout("warn", `We haven’t gotten to ${c.name} yet`,
       h("p", null,
         "Working through every county in the country takes weeks. This is a gap " +
         "in what we have looked at, not something we found about the supply here."),

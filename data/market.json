@@ -27,9 +27,17 @@
   },
   {
    "title": "Adulterants are added for reasons that have nothing to do with you",
-   "body": "Xylazine lengthens a short fentanyl high, which makes a supply feel more like heroin and reduces how often someone needs to buy. Levamisole and lidocaine bulk out cocaine and mimic its numbing. Caffeine and diphenhydramine are cheap filler. None of these are chosen for effect on the person taking them — they are chosen for cost, weight, and how the product behaves in a market.",
+   "body": "Xylazine is added on purpose, and the sources document two motives without agreeing on which dominates: to lengthen a short fentanyl high, and to add weight cheaply. Lidocaine, a standard cocaine cut, mimics cocaine's numbing. Levamisole was in about 7 in 10 seized cocaine lots by 2009, and the CDC said why it is added is unclear. Caffeine and diphenhydramine are cheap filler. Whatever the motive, none of it is tested on the person who ends up taking it.",
    "sotu": "Which is why the adulterant in your supply can change without anything about your source changing.",
    "sources": [
+    {
+     "name": "CDC — What you should know about xylazine",
+     "url": "https://www.cdc.gov/overdose-prevention/about/what-you-should-know-about-xylazine.html"
+    },
+    {
+     "name": "CDC MMWR — Agranulocytosis associated with cocaine use, December 2009",
+     "url": "https://www.cdc.gov/mmwr/preview/mmwrhtml/mm5849a3.htm"
+    },
     {
      "name": "DEA — Fentanyl",
      "url": "https://www.dea.gov/factsheets/fentanyl"

@@ -339,10 +339,16 @@ export function checkedLine(label, date, ...rest) {
 }
 
 export function section(title, note, ...kids) {
-  void note;
+  /* THE NOTE RENDERS. It was voided for months on the theory that the
+     heading says enough, and fifteen authored lines went unseen - among them
+     the dose table's "not a recommendation" and every count on the county
+     page (found 2026-09-09). It sits beside the heading in the caption tier.
+     A caller with nothing to add passes null. */
   return frag(
     h("div", { class: "sec" },
-      h("div", { class: "sec__head" }, h("h2", null, title))),
+      h("div", { class: "sec__head" },
+        h("h2", null, title),
+        note ? h("span", { class: "sec__sub" }, note) : null)),
     ...kids
   );
 }
@@ -820,6 +826,11 @@ export function group(id, title, blurb, children, preview = null, opts = null) {
          the +/- keeps its place at the far right. */
       h("div", { class: "disc__sum" },
         h("h2", null, title),
+        /* The blurb is real text in the summary, unlike the preview list
+           below it: it is the one line a screen reader gets between the
+           group's name and its children, and it stays when the group opens.
+           It was never rendered until 2026-09-09. */
+        blurb ? h("span", { class: "disc__blurb" }, blurb) : null,
         /* A WARNING THE CLOSED TILE CARRIES.
          *
          * `preview` is aria-hidden - it repeats headings a screen reader will
@@ -845,8 +856,6 @@ export function group(id, title, blurb, children, preview = null, opts = null) {
                      h("span", { class: "disc__previtem" }, label))))
           : null)),
     h("div", { class: "disc__body" },
-      /* Not rendered, same reason as section()'s note above: the group's own
-         title and its preview list already name what is inside it. */
       /* Content that belongs to the WHOLE group, above its children. The
          fentanyl warning is the case: it applies to every section under here,
          and while it lived inside the first child a reader who opened any of
