@@ -4,13 +4,12 @@
   "state": "HI",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-07T19:18:10.160Z",
+    "lastScan": "2026-09-10T23:17:05.309Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
-      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
