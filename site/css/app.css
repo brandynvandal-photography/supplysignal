@@ -1853,6 +1853,12 @@ main {
 /* A flag is a sentence, so it reads as one: sentence case at the caption
    size, not the shouted uppercase the one-word severity badges keep. */
 .badge.disc__flag { text-transform: none; letter-spacing: .01em; font-size: var(--fs-sm); font-weight: 700; }
+/* THE FLAG IS FOR THE CLOSED TILE. Open, the group's first block is the same
+   warning as a callout with its explanation under it, so the badge read as the
+   sentence said twice, one above the other (Test, "Which one to get",
+   2026-09-10). It leaves when the group opens and comes back when it closes;
+   the one thing a reader needs before deciding to open is still there then. */
+details.disc[open] > summary .disc__flag { display: none; }
 /* ---- home: one question, then doors (views/home.js) ---- */
 /* The doors are ordinary .list rows and wear nothing of their own. A 68ch cap
    on the ROW used to sit here from before they were grouped; inside the group
@@ -3562,7 +3568,9 @@ details.disc--urgent > summary h2 { color: var(--critical); }
  * chosen, jumps, and reads "Jump to…" again, so the same section can be
  * chosen twice and nothing on it goes stale as the page scrolls (2026-09-09;
  * ui.js jumpNav). */
-.jump { margin: 0 0 20px; }
+/* Clear of the page title: the h1 keeps .2em under it, which put the control
+   tight against the title on every page (2026-09-10). */
+.jump { margin: 12px 0 20px; }
 .jump .pick__field { display: inline-grid; max-width: 100%; }
 /* Compact: a navigation control at the chip's old height, not the 70px of a
    form field. The tap target is still --tap. */
