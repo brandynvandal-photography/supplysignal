@@ -56,7 +56,8 @@ code.split("\n").forEach((raw, n) => {
 
 /* Focus rings under clipping containers are drawn INSIDE the box.
  *
- * details.disc, details.acc, .list and .jump .chips all clip their children
+ * details.disc, details.acc and .list all clip their children (.jump .chips did
+ * too, until the strip became a select on 2026-09-09)
  * (overflow: hidden, or overflow-x: auto under a mask), so the default ring -
  * 3px outside the element, 2px out - was painted into the clip and never seen.
  * Closed disclosures are most of the controls on Test, Support and Learn, so
@@ -69,7 +70,6 @@ const INSET = [
   "details.disc > summary",
   "details.acc > summary",
   ".list > .nbr",
-  ".jump .chip",
   ".nav a",
 ];
 const insetFails = [];

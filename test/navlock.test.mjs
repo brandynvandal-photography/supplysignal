@@ -48,7 +48,7 @@ const digest = createHash("sha256").update(rules.join("\n")).digest("hex").slice
 
 /* The locked state. Update ONLY with --update, and only when the change was
    intended - see the header. */
-const LOCKED = "bdba6201b4cb552a";
+const LOCKED = "6cd06f58dfa069e2";
 const LOCKED_COUNT = 53;
 
 if (process.argv.includes("--update")) {

@@ -361,12 +361,14 @@ for (const [name, route] of SCREENS) {
           + `#${want}, which has no heading to scroll to`);
         continue;
       }
-      /* Only the jump STRIP counts for the order check. Other controls carry
+      /* Only the jump CONTROL counts for the order check. Other controls carry
          data-jump too - Learn's "Start here" steps are .nbr rows deliberately
          ordered by what matters at 3am, not by where their sections sit - and
          they must still RESOLVE (checked above) without being held to DOM
-         order. The jump strip is the row of .chip buttons jumpNav builds. */
-      if (chip.classList.contains("chip")) {
+         order. The jump control is the <select> jumpNav builds; its options
+         are the table of contents (it was a row of .chip buttons until
+         2026-09-09). */
+      if (chip.tag === "option" || chip.classList.contains("chip")) {
         chipTargets.push({ chip, pos: posOf.get(target) });
       }
     }
