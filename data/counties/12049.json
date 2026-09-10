@@ -4,13 +4,12 @@
   "state": "FL",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-07T12:31:22.633Z",
+    "lastScan": "2026-09-10T20:59:09.583Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
-      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
