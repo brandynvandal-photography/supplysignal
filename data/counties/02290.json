@@ -4,13 +4,12 @@
   "state": "AK",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-07T04:37:32.338Z",
+    "lastScan": "2026-09-10T16:30:50.700Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
-      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],

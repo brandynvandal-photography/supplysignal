@@ -1,19 +1,18 @@
 {
-  "generated": "2026-09-10T11:21:14.931Z",
+  "generated": "2026-09-10T16:30:51.411Z",
   "windowDays": 365,
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "countyCount": 3231,
   "coverage": {
-    "lastScan": "2026-09-10T11:21:14.265Z",
+    "lastScan": "2026-09-10T16:30:50.771Z",
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
       "santaclara-me",
-      "sandiego-me",
-      "google-news"
+      "sandiego-me"
     ],
-    "countiesScanned": 211
+    "countiesScanned": 223
   },
   "clusters": [
     {
@@ -1186,6 +1185,42 @@
         }
       ],
       "sourceCount": 1,
+      "independent": 1
+    },
+    {
+      "id": "6f8287530a1f3c0f",
+      "fips": null,
+      "state": "FL",
+      "headline": "Florida Department of Health Issues Warning on Dangerous Opioid-Like Products Sold in Stores Across Florida",
+      "eventDate": "2026-06-16",
+      "summary": "The Florida Department of Health is warning Floridians about the serious health risks associated with 7-hydroxymitragynine (7-OH) and its derivatives, potent opioid-like compounds that are increasingly being marketed and",
+      "severity": "advisory",
+      "substances": [
+        "opioid"
+      ],
+      "sourceCount": 1,
+      "confidence": 0.7307692307692307,
+      "sources": [
+        {
+          "name": "Florida Department of Health",
+          "url": "https://www.floridahealth.gov/2026/06/16/florida-department-of-health-issues-warning-on-dangerous-opioid-like-products-sold-in-stores-across-florida/",
+          "published": "2026-06-16T17:02:00.000Z",
+          "trust": 1,
+          "evidence": "official"
+        }
+      ],
+      "evidenceClasses": [
+        "official"
+      ],
+      "memberGrades": [
+        {
+          "severity": "advisory",
+          "evidenceClass": "official"
+        }
+      ],
+      "rawSeverity": "advisory",
+      "scope": "state",
+      "evidenceClass": "official",
       "independent": 1
     }
   ]
