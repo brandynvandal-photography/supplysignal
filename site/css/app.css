@@ -1864,7 +1864,7 @@ details.disc[open] > summary .disc__flag { display: none; }
    on the ROW used to sit here from before they were grouped; inside the group
    frame it left every row short of the frame on a wide screen, so the hover
    tint stopped 200px before the edge (2026-09-09). The group is the shape. */
-.home h1 { margin-bottom: 4px; }
+.home h1 { margin-bottom: 12px; }   /* 4px while a subtitle sat under it; the doors follow it directly now (2026-09-10) */
 .home__doors { margin-bottom: var(--sp-4); }
 /* The emergency door reads the way the SOS tab does: the words say it, the
    colour only underlines it. */
