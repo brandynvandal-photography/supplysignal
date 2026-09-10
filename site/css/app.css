@@ -617,9 +617,10 @@ a { color: var(--brand); }
  *
  * The ring above is drawn OUTSIDE the box, 2px out. Every container in this
  * list clips its children: details.disc and .list carry overflow: hidden to
- * hold a hover fill to their radius, .jump .chips is overflow-x: auto under a
- * fade mask, and details.acc clips the same way. So a summary, a list row or a
- * jump chip that received keyboard focus painted its ring into the clip and
+ * hold a hover fill to their radius, and details.acc clips the same way (the
+ * jump strip did too, as a scrolling row of chips, until it became a select
+ * on 2026-09-09). So a summary or a list row that received keyboard focus
+ * painted its ring into the clip and
  * showed nothing - and closed disclosures are most of the controls on Test,
  * Support and Learn, so tabbing through those pages looked like focus had
  * been lost (WCAG 2.4.7). Drawn 3px INSIDE the box instead, the ring lands on
@@ -629,7 +630,6 @@ a { color: var(--brand); }
 details.disc > summary:focus-visible,
 details.acc > summary:focus-visible,
 .list > .nbr:focus-visible,
-.jump .chip:focus-visible,
 .nav a:focus-visible { outline-offset: -3px; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3549,121 +3549,27 @@ details.disc--urgent > summary h2 { color: var(--critical); }
 
 /* ---------------------------------------------------------------- jump nav */
 
-/* ONE ROW, AND NOT PINNED.
+/* ------------------------------------------------------------------- jump */
+/* ONE CONTROL, ONE LINE, NO SCROLL.
  *
- * It was sticky for a while and is not any more, by request. What survives from
- * that is the single scrolling row, and it survives on its own merits: wrapped,
- * Learn's fifteen chips are four lines of navigation before a word of content,
- * and on a page whose whole problem is length that is the wrong way round. The
- * strip scrolls sideways instead — the same move .reagbar makes, with the same
- * fade at the edge to say there is more.
- *
- * Material is --bar-tint, so it reads as the same kind of surface as the bars
- * even though it travels with the page. */
-.jump {
-  display: flex; align-items: center; gap: 8px 10px;
-  /* THE SAME SHELL AS .input, which is what every dropdown in the app wears:
-     one --glass-line border, --sp-3 of horizontal padding and no shadow. It was
-     a bare bottom rule and square corners, which read as a divider rather than
-     as a control.
-
-     Vertical padding is smaller than .input's 14px because the chips inside
-     already carry their own min-height: var(--tap); matching it exactly would
-     stack two tap targets' worth of space for no gain. */
-  margin: 0 0 20px; padding: 8px var(--sp-3);
-  border: 1px solid var(--glass-line);
-  /* --radius-pill, not --radius. At 22px on a box only 66px tall the corners
-     read flatter than the chips sitting inside it, so the strip looked like a
-     squared-off panel wrapped around a row of pills. Fully rounded, it is the
-     same shape as its own contents and as every other bubble on the page. */
-  border-radius: var(--radius-pill);
-
-
-  /* OPAQUE, not --bar-tint, and not frosted.
-   *
-   * --bar-tint is the surface at 90% and the topbar's remaining 10% is covered
-   * by a backdrop-filter — which the @supports block at the foot of this file
-   * deliberately REMOVES on touch devices, because a live blur behind a pinned
-   * bar has to be re-sampled every frame and WebKit cannot do that on the
-   * scrolling thread. That trade is fine for the topbar: it sits at the very
-   * edge and content passes behind it briefly.
-   *
-   * This strip sits mid-page and never moves, so the same 10% read as a fault
-   * rather than as material — headings and body text were legible straight
-   * through it while the page scrolled underneath. A navigation control has to
-   * be opaque to be readable. It is a bordered, rounded surface now, so being
-   * solid is consistent with the cards it sits above rather than a departure.
-   *
-   * --bar-tint, the same material as .topbar and .nav, and it is in the
-   * @supports block at the foot of this file alongside them so it gets the same
-   * frost where the platform can afford one and the same flat 90% where it
-   * cannot. This strip is a bar; it should be made of what the bars are made
-   * of.
-   *
-   * The trade, stated because it is real: at 90% a little of the page shows
-   * through while it scrolls underneath. Rule 3 of the glass notes covers it —
-   * every glass surface has to meet contrast with no blur at all, and 90%
-   * does. */
-  background: var(--bar-tint);
-}
-.jump__label {
-  font-size: var(--fs-sm); font-weight: 700; text-transform: uppercase;
-  letter-spacing: .06em; color: var(--ink-3);
-  /* Never squeezed, never wrapped to "JUMP / TO". */
-  flex: 0 0 auto;
-}
-/* The scrolling half. .chips is flex-wrap:wrap everywhere else in the app and
-   must stay that way — this overrides it only inside the pinned strip. */
-.jump .chips {
-  flex: 1 1 auto; min-width: 0;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  /* Momentum scrolling on iOS, and no vertical rubber-banding stolen from the
-     page underneath. */
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none;
-  /* Room for the fade so the last chip is not clipped mid-word. The fade ends
-     short of the strip's own rounded border rather than running into it. */
-  padding: 2px 16px 2px 0;
-  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
-  mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
-  /* A swipe lands on whole chips, not between two. */
-  scroll-snap-type: x proximity;
-}
-.jump .chips::-webkit-scrollbar { display: none; }
-.jump .chip { flex: 0 0 auto; scroll-snap-align: start; }
-/* SMALLER THAN THE CHIPS ELSEWHERE. This strip is a table of contents, not a
-   row of choices, and at .87rem in a 44px pill Learn's eight entries were
-   998px of buttons in a strip that has 681px at a desktop width and 309px on
-   a phone (measured 2026-09-09). A 36px pill still clears the 24px target
-   minimum, and the strip's own padding adds to it. */
-.jump .chip { font-size: .8rem; padding: 6px 11px; min-height: 36px; }
-.jump .chips { gap: 6px; }
-/* ON A WIDE SCREEN IT WRAPS INSTEAD OF SCROLLING. With 680px to work with,
-   every page's list fits in one or two lines with nothing hidden behind an
-   edge, which beats a sideways scroll on a mouse. Phones keep the scrolling
-   strip: the same eight chips wrap to three lines there, and that wall above
-   the content is what the strip was built to avoid. */
-@media (min-width: 768px) {
-  .jump { align-items: flex-start; }
-  .jump__label { padding-top: 9px; }
-  .jump .chips {
-    flex-wrap: wrap; overflow-x: visible;
-    padding-right: 0;
-    -webkit-mask-image: none; mask-image: none;
-    scroll-snap-type: none;
-  }
-}
-/* THE CAPTION LEAVES ON A PHONE. At 375px "JUMP TO" and its gap took about
-   70px of a 343px strip - a fifth of the row - so the third chip was always
-   the one cut at the edge ("Bei...", "Is this mix dang..."). The nav's own
-   aria-label says the same words, so a screen reader loses nothing, and a
-   row of section names in a pill at the top of a page reads as what it is
-   without a caption. The fade is 32px rather than 24 for the same reason: a
-   chip cut at the edge has to read as continuing, not as clipped. */
-@media (max-width: 430px) {
-  .jump__label { display: none; }
+ * The strip was a row of chips: a sideways scroll on phones, and two lines on
+ * a desktop for the eight- and nine-section pages, because Learn's eight
+ * needed 998px and a 375px phone has 309. The ask was one line with nothing
+ * hidden, and eight pills cannot be one line at 375px at any readable size.
+ * So it is a select now - the site's own dropdown (select.input inside
+ * .pick__field, the checker's control) sized to its longest option, opening
+ * the native picker on a phone. It reads "Jump to…" until a section is
+ * chosen, jumps, and reads "Jump to…" again, so the same section can be
+ * chosen twice and nothing on it goes stale as the page scrolls (2026-09-09;
+ * ui.js jumpNav). */
+.jump { margin: 0 0 20px; }
+.jump .pick__field { display: inline-grid; max-width: 100%; }
+/* Compact: a navigation control at the chip's old height, not the 70px of a
+   form field. The tap target is still --tap. */
+.jump .jump__select {
+  width: auto; max-width: 100%;
+  padding-top: 8px; padding-bottom: 8px;
+  min-height: var(--tap);
 }
 
 

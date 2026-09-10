@@ -643,35 +643,35 @@ export function jumpTo(id) {
  * would scroll to a collapsed section and appear to do nothing.
  */
 export function jumpNav(items) {
+  /* A SELECT, NOT A ROW OF CHIPS (2026-09-09). Eight chips were a sideways
+     scroll on a phone and two lines on a desktop; the ask was one line with
+     nothing hidden. The control is the site's own dropdown, and it resets to
+     "Jump to…" after every jump so the same section can be chosen twice and
+     the control never claims a position the reader has scrolled away from. */
+  const sel = h(
+    "select",
+    { class: "input jump__select", "aria-label": t("common.jumpTo") },
+    h("option", { value: "" }, `${t("common.jumpTo")}…`),
+    items.map(({ id, label }) =>
+      /* The target, on the element, so it can be checked.
+       *
+       * The id lived only in a closure once, which meant a chip pointing at a
+       * section that had been renamed or moved was invisible to everything:
+       * getElementById returns null, the handler returns, and nothing happens
+       * with no error anywhere. Sections get reordered and re-parented on this
+       * app constantly. Written here so test/views.test.mjs can render every
+       * screen and assert that every option still lands on a real heading. */
+      h("option", { value: id, "data-jump": id }, label))
+  );
+  sel.addEventListener?.("change", () => {
+    const id = sel.value;
+    sel.value = "";
+    if (id) jumpTo(id);
+  });
   return h(
     "nav",
-    { class: "jump", "aria-label": "Jump to a section" },
-    h("span", { class: "jump__label" }, "Jump to"),
-    h(
-      "div",
-      { class: "chips" },
-      items.map(({ id, label }) =>
-        h(
-          "button",
-          {
-            type: "button",
-            class: "chip",
-            /* The target, on the element, so it can be checked.
-             *
-             * The id lived only in this closure, which meant a chip pointing at
-             * a section that had been renamed or moved was invisible to
-             * everything: getElementById returns null, the handler returns, and
-             * the chip does nothing at all with no error anywhere. Sections get
-             * reordered and re-parented on this app constantly. Written here so
-             * test/views.test.mjs can render every screen and assert that every
-             * chip still lands on a real heading. */
-            "data-jump": id,
-            onClick: () => jumpTo(id),
-          },
-          label
-        )
-      )
-    )
+    { class: "jump", "aria-label": t("common.jumpTo") },
+    h("span", { class: "pick__field" }, sel)
   );
 }
 
