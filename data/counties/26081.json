@@ -4,14 +4,12 @@
   "state": "MI",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-08T11:21:28.121Z",
+    "lastScan": "2026-09-11T21:05:05.943Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "de-dhss",
       "la-ldh",
       "cook-me",
-      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
