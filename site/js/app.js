@@ -1390,6 +1390,27 @@ setTimeout(dismissBoot, BOOT_MAX_MS);
    * change to the bar's outer size, padding included (content-box, the
    * default, would miss the inset entirely). resize/orientationchange stay
    * as the fallback for WebKit before the `box` option (iOS < 15.4). */
+  /* THE BANNER IS MEASURED THE SAME WAY. --banner-h was a 27px constant,
+   * and the pinned Quick Exit pill and every scroll margin are keyed off it.
+   * At an accessibility text size the row is taller than 27px - its type
+   * scales with the root - so the pill sat across the banner and headings
+   * scrolled under the bar (simulator, accessibility-large, 2026-09-13). The
+   * live border box goes into the variable; the row's own floor is the
+   * separate --banner-min so this cannot ratchet it. Hidden (the Emergency
+   * tab) measures 0, which is what that tab's stylesheet rule already says. */
+  const bannerEl = document.querySelector(".earlybar");
+  if (bannerEl) {
+    const measureBanner = () => {
+      const px = Math.round(bannerEl.getBoundingClientRect().height);
+      document.documentElement.style.setProperty("--banner-h", `${px}px`);
+    };
+    measureBanner();
+    if ("ResizeObserver" in window) {
+      try { new ResizeObserver(measureBanner).observe(bannerEl, { box: "border-box" }); }
+      catch { new ResizeObserver(measureBanner).observe(bannerEl); }
+    }
+    window.addEventListener("resize", measureBanner);
+  }
   const navEl = document.querySelector(".nav");
   if (navEl) {
     const measureNav = () => {

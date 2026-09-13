@@ -338,7 +338,9 @@
      sticky height and everything below has to know about it. Kept deliberately
      small: this is permanent chrome on a 375px screen, and every pixel here is
      a pixel of the thing somebody actually came for. */
-  --banner-h: 27px;       /* 26px row + its 1px rule */
+  --banner-h: 27px;       /* 26px row + its 1px rule - the DEFAULT; app.js measures the live row into this */
+  --banner-min: 27px;     /* the row's floor, a constant: the min-heights below use this, never --banner-h,
+                             or a measured value would ratchet the row up and never let it shrink */
 
   /* The sticky top bar's real height. The menu row is 67px at both breakpoints
      - its height comes from the logo row, not the layout - plus the banner
@@ -761,7 +763,7 @@ html[data-tab="help"] .earlybar { display: none; }
    header 134px tall and every scroll-margin off by 41. Do not lower this to
    two classes and rely on ordering. */
 .topbar .earlybar .wrap {
-  min-height: calc(var(--banner-h) - 1px);   /* the border is the other 1px */
+  min-height: calc(var(--banner-min) - 1px);   /* the border is the other 1px */
   display: flex; align-items: center; justify-content: center;
   gap: 8px; padding-top: 0; padding-bottom: 0;
 }
@@ -776,7 +778,7 @@ html[data-tab="help"] .earlybar { display: none; }
      the target grows to meet it, with a little side padding pulled back by
      a negative margin so nothing in the row moves. */
   display: inline-flex; align-items: center; align-self: stretch;
-  min-height: calc(var(--banner-h) - 1px);
+  min-height: calc(var(--banner-min) - 1px);
   padding: 0 6px; margin: 0 -6px;
 }
 /* HOVER IS GUARDED, HERE AND EVERYWHERE BELOW. A touch screen has no hover,
@@ -791,13 +793,14 @@ html[data-tab="help"] .earlybar { display: none; }
   .earlybar a:hover { color: var(--ink); }
 }
 
-/* At 375px the sentence and the link stop fitting on one line together. The
-   sentence truncates rather than wrapping, because a two-line banner is no
-   longer thin - and the link, which is the actionable half, never shrinks. */
+/* The sentence truncates rather than wrapping, at every width: a two-line
+   banner is no longer thin, and the link, which is the actionable half, never
+   shrinks. This was scoped to 430px and under; a 440pt phone at an
+   accessibility text size wrapped it to two lines (simulator, 2026-09-13). */
+.earlybar span {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+}
 @media (max-width: 430px) {
-  .earlybar span {
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
-  }
   .earlybar .wrap { gap: 6px; justify-content: space-between; }
 }
 
