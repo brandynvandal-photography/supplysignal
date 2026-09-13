@@ -108,8 +108,7 @@ export async function render() {
        reader should see its contents without a tap; the children stay shut so
        the list of them is scannable, and the preview list is dropped because
        an open group repeats its child headings a few pixels below it. */
-    group("grp-help", "Finding help",
-      "Treatment, peer support, and what to do about cost.", [
+    group("grp-help", "Finding help", null, [
         /* Open: the three medications are the page's first answer, and
            measured 2026-09-09 they were three taps from the tab (the tile,
            the row, the card). 593 of Support's 8,449 words were visible with
@@ -130,7 +129,7 @@ export async function render() {
   );
 
   wrap.appendChild(
-    group("grp-now", "Staying safer right now", "No decisions required.", [
+    group("grp-now", "Staying safer right now", null, [
         sectionOrPending("sec-supplies", "Getting supplies", g.supplies, renderSupplies),
         await checkingBlock(),
         saferUseBlock(),

@@ -368,13 +368,19 @@ async function searchBar({ go, data }) {
      This lives in the status line rather than inside the listbox: those rows
      are ARIA `option`s, and an option containing its own buttons is invalid
      and unusable by a screen reader. */
-  const offer = (fips, label, lead) => {
-    /* No longer a choice. The county page now carries the map itself, so
-       there is one destination and nothing to pick between. `lead` still
+  const offer = (fips, label, lead, { map = false } = {}) => {
+    /* Not a choice the reader makes: the two ways in each have their own
+       destination. A search result opens the county page, which carries the
+       map at its foot. Near me opens the MAP, centered on the county found -
+       somebody who tapped a location button expects to see a map, and on the
+       county page it sat below the fold (a screenful of alerts first, and on
+       a phone behind a "Show the map" button), so "the map does not show up
+       when I click near me" was the honest report (2026-09-13). The county
+       is the first row under that map, one tap from its page. `lead` still
        announces what was found for screen readers before the navigation. */
     void label;
     say(lead);
-    go(`#/alerts/${fips}`);
+    go(map ? `#/alerts/map/${fips}` : `#/alerts/${fips}`);
   };
 
   /** Turn a chosen match into that offer. Cities name their county so nobody
@@ -568,7 +574,8 @@ async function searchBar({ go, data }) {
       if (!c) return say("That location isn’t inside a US county. Search by name instead.", true);
 
       offer(fips, c.name,
-        `Found ${c.name}, ${c.state}. Your coordinates stayed on this device.`);
+        `Found ${c.name}, ${c.state}. Your coordinates stayed on this device.`,
+        { map: true });
     } catch {
       locateBtn.disabled = false;
       say("Couldn’t load the map data. Search by name instead.", true);
@@ -827,12 +834,7 @@ async function countyView({ fips, days }, { go, data }) {
             onClick: () => { mapSlot.replaceChildren(mapHost); mountCountyMap(); },
           }, "Show the map")));
   }
-  wrap.appendChild(
-    section("Map", null,
-      h("p", { class: "sec__note" },
-        `${c.name} is marked; every bordering county is one tap away.`),
-      mapSlot)
-  );
+  wrap.appendChild(section("Map", null, mapSlot));
 
   /* There is deliberately NO "RSS for this county" link here.
    *

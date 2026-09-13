@@ -129,8 +129,7 @@ export async function render(route, ctx) {
     /* The blurb stays, shortened. The preview list below it is aria-hidden, so
        for a screen reader this line is the only thing between the group's name
        and its children. */
-    group("grp-reagents", "Reagent testing",
-      "What reagents show, and how to run one safely.", [
+    group("grp-reagents", "Reagent testing", null, [
       (
       /* THE METHOD NEXT TO THE TOOL. This sat below the picker on the reasoning
          that anybody reaching for a reverse lookup has already run their
@@ -345,8 +344,7 @@ export async function render(route, ctx) {
    * unlike reagent testing, this is the section somebody is done with once
    * they own a kit. */
   wrap.appendChild(
-    group("grp-getting", "Which one to get",
-      "Which test answers which question, where to buy, and what it costs.", [
+    group("grp-getting", "Which one to get", null, [
       /* The at-a-glance comparison leads: someone deciding WHICH test to use
          cannot answer that from four separate sections read in sequence - the
          differences only become visible side by side. */

@@ -171,7 +171,6 @@
   },
   "money": {
     "headline": "Follow the money",
-    "blurb": "Where the funding actually comes from, and why that decides what exists near you.",
     "body": [
       "Roughly $58.6 billion in opioid settlement money is being paid to state and local governments over 18 years, with payments having started in 2022. Settlement agreements generally require 85% to go to opioid remediation.",
       "About $6 billion was distributed through 2023. Of the roughly $2.2 billion jurisdictions reported spending, syringe services got 1.7%, about $37.3 million, and 41.3% went to an “other” bucket that mixes law enforcement with treatment workforce and multi-category spending. Those are 2022–23 figures released in December 2024, and the database is described as incomplete: roughly a third was appropriated, a third held in reserve, and a third is unaccounted for because some jurisdictions have not reported at all.",
@@ -191,7 +190,6 @@
   },
   "voice": {
     "headline": "Making yourself heard, in a way that counts",
-    "blurb": "Congressional staff were surveyed on what actually moves them. The answers are not what most advocacy pages tell you.",
     "what": {
       "headline": "What has influence, when a position isn't already fixed",
       "items": [
