@@ -166,6 +166,7 @@ const ADULTERANTS = {
   nitazenes: "opioids",           // IS an opioid - naloxone DOES work
   btmps: "other",                 // industrial chemical, no psychoactive class
   carfentanil: "opioids",         // fentanyl analog - naloxone DOES work (2026-09-09)
+  bromazolam: "depressants",      // designer benzodiazepine - naloxone does NOT reverse (2026-09-13)
 };
 
 check("the adulterants driving current overdose deaths exist and are searchable", () => {
@@ -201,7 +202,7 @@ check("every adulterant is flagged so it never renders a dose chart", () => {
    fentanyl, so it must still be given. Both halves must be present. */
 check("non-opioid adulterants still tell people to give naloxone", () => {
   const bad = [];
-  for (const id of ["xylazine", "medetomidine"]) {
+  for (const id of ["xylazine", "medetomidine", "bromazolam"]) {
     const s = byId(id);
     if (!s) continue;
     if (s.naloxone?.reverses !== false) { bad.push(`${s.name}: should record that naloxone does not reverse it`); continue; }

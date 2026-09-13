@@ -684,6 +684,19 @@
     },
     {
       "q": [
+        "fake xanax",
+        "pressed xanax",
+        "xanax bars",
+        "pressed bars",
+        "fake bars",
+        "counterfeit xanax",
+        "bromazolam"
+      ],
+      "label": "Pressed pills sold as Xanax are often bromazolam",
+      "route": "#/substances/bromazolam"
+    },
+    {
+      "q": [
         "abscess",
         "abscesses",
         "wound",
