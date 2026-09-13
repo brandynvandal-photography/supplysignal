@@ -1444,6 +1444,22 @@ main {
   .nbr:hover, .hotline a:hover { box-shadow: var(--shadow); }
 }
 
+/* WHERE A JUMP LANDED. ui.js jumpTo() puts .is-landed on the tile it scrolled
+   to for 1.6s. The ring is drawn 3px INSIDE the tile, the same inset every
+   focus ring under a clipping container uses, so no parent can eat it; the
+   halo outside it fades out where motion is allowed. Before this the only
+   visible cue was the summary's focus fill - a strip across the top of a
+   tile that had just opened, which read as a half-painted button
+   (2026-09-13). */
+.is-landed { outline: 3px solid var(--brand); outline-offset: -3px; }
+@media (prefers-reduced-motion: no-preference) {
+  .is-landed { animation: landed 1.6s ease-out both; }
+  @keyframes landed {
+    from { box-shadow: 0 0 0 8px color-mix(in srgb, var(--brand) 32%, transparent); }
+    to   { box-shadow: 0 0 0 0 transparent; }
+  }
+}
+
 /* Disclosures open with a soft fade rather than a jump. */
 @media (prefers-reduced-motion: no-preference) {
   details.disc[open] > .disc__body,
