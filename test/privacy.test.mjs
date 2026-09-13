@@ -577,9 +577,37 @@ check("the review queue publishes no names", () => {
     if (name === "pending.json") {
       return "review/pending.json is tracked by git - it names real people";
     }
-    if (name !== "seen.json") {
-      return `git tracks review/${name} - only seen.json may ship`;
+    if (name !== "seen.json" && name !== "source-candidates.json") {
+      return `git tracks review/${name} - only seen.json and source-candidates.json may ship`;
     }
+  }
+
+  /* The weekly discovery report is the one readable file allowed here, and
+     it is allowed because of what it is: metadata ABOUT datasets from a
+     public catalog - titles, descriptions, column names, a max(date) - and a
+     reviewer's dismissals. scripts/discover-sources.mjs fetches no row of
+     any dataset, so nothing in it can be about a person. That is asserted
+     here by shape: only the generated keys, and every candidate or dismissal
+     carrying only descriptor fields. The first weekly report was committed
+     by the maintain job on 2026-09-13 and this guard, written before that
+     file existed, failed every ingest for the rest of the day. */
+  const sc = path.join(ROOT, "review", "source-candidates.json");
+  if (tracked.some((rel) => rel.endsWith("source-candidates.json"))) {
+    let rep;
+    try { rep = JSON.parse(read(sc)); } catch { return "review/source-candidates.json is not valid JSON"; }
+    const TOP = new Set(["_note", "generated", "queries", "known", "candidates", "dismissed"]);
+    const stray = Object.keys(rep).filter((k) => !TOP.has(k));
+    if (stray.length) return `review/source-candidates.json grew a key this guard does not know: ${stray.join(", ")}`;
+    const FIELDS = new Set(["id", "domain", "name", "permalink", "updatedAt", "category", "description",
+      "columns", "dateColumn", "noisy", "latest", "rows", "note", "reason", "when"]);
+    for (const list of ["candidates", "dismissed"]) {
+      for (const c of rep[list] || []) {
+        const extra = Object.keys(c).filter((k) => !FIELDS.has(k));
+        if (extra.length) return `review/source-candidates.json ${list} entry carries ${extra.join(", ")} - descriptors only`;
+        if (c.columns && !Array.isArray(c.columns)) return "review/source-candidates.json columns must be a list of names";
+      }
+    }
+    if ((rep.known || []).some((k) => typeof k !== "string")) return "review/source-candidates.json known must be dataset ids";
   }
 
   const f = path.join(ROOT, "review", "seen.json");
