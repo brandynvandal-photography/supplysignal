@@ -182,6 +182,9 @@ const CASES = [
   ["fentanyl", "#/substances/fentanyl"],
   ["xylazine", "#/substances/xylazine"],
   ["carfentanil", "#/substances/carfentanil"],
+  ["bromazolam", "#/substances/bromazolam"],
+  ["fake xanax", "#/substances/bromazolam"],
+  ["xanax bars", "#/substances/bromazolam"],
   // Content that is not a drug.
   ["free naloxone", "#/learn"],
   ["someone is overdosing", "#/help"],

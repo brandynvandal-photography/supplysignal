@@ -1053,7 +1053,11 @@ async function detailView(id, subs, combos, { go }) {
      anything else so the correction lands first. */
   if (s.nameWarning) {
     wrap.appendChild(
-      callout("warn", "This gets sold under a name that isn’t its own",
+      /* The shared title is about a street name that names another drug
+         ("tusi" for 2C-B). A warning can carry its own title where that is
+         not the shape of the problem - alprazolam's is that a pressed bar is
+         not proof of alprazolam (2026-09-13). */
+      callout("warn", s.nameWarning.title || "This gets sold under a name that isn’t its own",
         h("p", null, s.nameWarning.text),
         /* A WAY OUT, not just a correction.
            The warning tells a reader that what they are holding is probably a

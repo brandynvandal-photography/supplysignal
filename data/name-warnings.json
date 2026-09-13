@@ -1,33 +1,56 @@
 {
- "note": "Street names that MISLEAD - the name says one drug, the market sells another. Renders as a warning on the substance page and the names become searchable aliases. Every entry needs a live-verified source; this file exists because a name can be the adulteration vector.",
- "lastVerified": "2026-08-16",
- "warnings": {
-  "2c-b": {
-   "names": [
-    "Tusi",
-    "Tucibi",
-    "Pink cocaine"
-   ],
-   "text": "“Tusi” and “pink cocaine” sound like this substance — they almost never are it. Of 960 pink powders DEA seized since 2020, only 4 contained any 2C-B. The pink powder sold under these names is typically a ketamine mix, often with MDMA or caffeine, and sometimes opioids. It also usually contains no cocaine. If it is pink powder, treat it as an unknown ketamine blend, not as 2C-B.",
-   "sources": [
-    {
-     "name": "DEA — Pink cocaine",
-     "url": "https://www.dea.gov/pink-cocaine"
+  "note": "Street names that MISLEAD - the name says one drug, the market sells another. Renders as a warning on the substance page and the names become searchable aliases. Every entry needs a live-verified source; this file exists because a name can be the adulteration vector.",
+  "lastVerified": "2026-09-13",
+  "warnings": {
+    "2c-b": {
+      "names": [
+        "Tusi",
+        "Tucibi",
+        "Pink cocaine"
+      ],
+      "text": "“Tusi” and “pink cocaine” sound like this substance — they almost never are it. Of 960 pink powders DEA seized since 2020, only 4 contained any 2C-B. The pink powder sold under these names is typically a ketamine mix, often with MDMA or caffeine, and sometimes opioids. It also usually contains no cocaine. If it is pink powder, treat it as an unknown ketamine blend, not as 2C-B.",
+      "sources": [
+        {
+          "name": "DEA — Pink cocaine",
+          "url": "https://www.dea.gov/pink-cocaine"
+        },
+        {
+          "name": "Poison Control — What is pink cocaine?",
+          "url": "https://www.poison.org/articles/pink-cocaine"
+        },
+        {
+          "name": "Peer-reviewed analysis, 2025",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0955395925003408"
+        }
+      ],
+      "seeInstead": {
+        "id": "tusi",
+        "label": "What pink powder usually is",
+        "sub": "Tusi has its own page — what is actually in it, why the ketamine matters more than the name, and what to do if somebody goes under."
+      }
     },
-    {
-     "name": "Poison Control — What is pink cocaine?",
-     "url": "https://www.poison.org/articles/pink-cocaine"
-    },
-    {
-     "name": "Peer-reviewed analysis, 2025",
-     "url": "https://www.sciencedirect.com/science/article/pii/S0955395925003408"
+    "alprazolam": {
+      "names": [
+        "Xanax bars",
+        "pressed bars"
+      ],
+      "text": "A pressed pill sold as Xanax is often not alprazolam. DEA describes bromazolam, a designer benzodiazepine never approved for use in people, pressed to look like alprazolam, and in one CDC report three young adults who took such pills got naloxone without response and were unresponsive for hours. A benzodiazepine test strip cannot tell the two apart, and the pill can carry fentanyl as well. If it did not come from a pharmacy, treat it as unknown.",
+      "sources": [
+        {
+          "name": "DEA — temporary placement of bromazolam in Schedule I, Federal Register, March 16, 2026",
+          "url": "https://www.federalregister.gov/documents/2026/03/16/2026-05064/schedules-of-controlled-substances-temporary-placement-of-bromazolam-in-schedule-i"
+        },
+        {
+          "name": "CDC MMWR — three young adults who took bromazolam sold as alprazolam (January 2024)",
+          "url": "https://www.cdc.gov/mmwr/volumes/72/wr/mm725253a5.htm"
+        }
+      ],
+      "seeInstead": {
+        "id": "bromazolam",
+        "label": "Bromazolam",
+        "sub": "The designer benzodiazepine pressed into fake bars, and why naloxone does not reverse it."
+      },
+      "title": "A pressed bar is not proof of alprazolam"
     }
-   ],
-   "seeInstead": {
-    "id": "tusi",
-    "label": "What pink powder usually is",
-    "sub": "Tusi has its own page — what is actually in it, why the ketamine matters more than the name, and what to do if somebody goes under."
-   }
   }
- }
 }
