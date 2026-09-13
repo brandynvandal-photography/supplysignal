@@ -614,6 +614,22 @@ export function jumpTo(id) {
   try { document.dispatchEvent(new CustomEvent("nl:jump")); } catch {}
 
   place();
+  /* THE WHOLE TILE LIGHTS UP, briefly. Focus goes to the heading below for
+     screen readers, and until now that was also the only visible cue: the
+     summary's focus fill, a strip across the top of a tile that had just
+     opened, which read as a half-painted button (2026-09-13). The landing
+     paints the tile itself - the disclosure, or the accordion row - for a
+     moment, then lets go so the page looks the same as if you had scrolled
+     here. A plain section has no tile, so it keeps the heading's own cue. */
+  /* The target may be the tile, sit inside one, or be a plain wrapper whose
+     first child is one (Learn wraps each section in a div carrying the id). */
+  const tile = el.closest?.("details.disc, details.acc")
+    || el.querySelector?.(":scope > details.disc, :scope > details.acc")
+    || null;
+  if (tile) {
+    tile.classList.add("is-landed");
+    setTimeout(() => tile.classList.remove("is-landed"), 1600);
+  }
   requestAnimationFrame(() => {
     place();
     /* Again after the jump, because the scroll this function just performed is
