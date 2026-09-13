@@ -1,7 +1,6 @@
 {
   "note": "HAND-WRITTEN. Practice exercises, not a quiz. There is no score, no timer, no streak and no fail state anywhere in this file, and adding one would break the thing it is for. Content mirrors the real guidance in site/js/views/help.js and data/testing.json — if those change, this must change with them.",
   "lastVerified": "2026-08-11",
-  "intro": "Reading how to do something and being able to do it at 3am are different. These let you practice, with nothing riding on it.",
   "strip": {
     "title": "Read the strip",
     "why": "One line means positive. Worth getting wrong here, where it costs nothing.",

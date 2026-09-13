@@ -1331,7 +1331,7 @@
   },
   "compare": {
     "headline": "Which test tells you what",
-    "intro": "No single tool answers every question, and the differences between them are not small. This is the short version; each tool has its own section below with the detail and the sources.",
+    "intro": "No single tool answers every question, and the differences between them are not small.",
     "note": "Every one of these is better at saying yes than at saying no. They also do better in a lab than on real street samples. The numbers here are the street ones.",
     "rows": [
       {

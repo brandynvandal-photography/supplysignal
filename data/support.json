@@ -80,7 +80,6 @@
     }
   },
   "getting": {
-    "intro": "Two national front doors, then the routes that work when you have no insurance and no money.",
     "routes": [
       {
         "name": "SAMHSA National Helpline",
@@ -361,7 +360,7 @@
     "note": "Community health centers are required to see people regardless of ability to pay."
   },
   "supplies": {
-    "intro": "Naloxone, test strips, and safer-use supplies. Free options first, because most people reading this cannot pay and burying them under vendors is its own barrier.",
+    "intro": "Free options first.",
     "lastVerified": "2026-08-10",
     "free": [
       {
@@ -673,7 +672,7 @@
   "pregnancy": {
     "headline": "Pregnant, or parenting",
     "lastVerified": "2026-08-14",
-    "intro": "Written for the questions people actually ask, which are mostly legal and mostly about being reported. Nothing here is conditional on stopping, and none of it assumes what you have decided.",
+    "intro": "Nothing here is conditional on stopping, and none of it assumes what you have decided.",
     "items": [
       {
         "t": "Stopping methadone or buprenorphine is the more dangerous option, not the safer one",

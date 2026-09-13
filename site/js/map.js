@@ -795,7 +795,23 @@ export async function mountMap(host, { go, focus = null, focusLabel = null, comp
     if (!top.length) return;
     topHead.appendChild(document.createTextNode(
       m.diverging ? "Largest changes" : `Highest — ${m.label.toLowerCase()}`));
+    /* THE COUNTY NEAR ME FOUND LEADS THE LIST. The map is centred on it and
+       its name is drawn on the canvas, but the rows below were a national top
+       ten, so the county a reader had just located was in them only by
+       coincidence - and this row is the tap to its page (2026-09-13). */
+    const lead = focus ? byFips.get(focus) : null;
+    if (lead) {
+      topList.appendChild(
+        h("button", { type: "button", class: "nbr", onClick: () => go(`#/alerts/${focus}`) },
+          h("span", { class: "nbr__text" },
+            h("span", { class: "nbr__name" }, `${lead.name}, ${lead.state}`),
+            h("span", { class: "nbr__sub" }, "Your county")),
+          h("span", { class: "nbr__right" },
+            h("span", { "aria-hidden": "true" }, "›")))
+      );
+    }
     for (const [fips, v] of top) {
+      if (fips === focus) continue;
       const c = byFips.get(fips);
       if (!c) continue;
       topList.appendChild(

@@ -275,8 +275,7 @@ async function indexView(subs, combosP, { go }) {
   /* Open with the lens when the lens has picks (see conditionLens): an open
      child inside a shut parent is still a shut box, and the picks a reader
      left applied would be hidden behind two taps instead of none. */
-  const yoursGroup = group("grp-yours", "Does your situation change the picture?",
-    "Prescribed medication and health conditions both change what a combination does.", [
+  const yoursGroup = group("grp-yours", "Does your situation change the picture?", null, [
       await rxBlock(),
       await conditionLens(),
     ],
