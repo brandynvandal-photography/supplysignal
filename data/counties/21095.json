@@ -4,11 +4,13 @@
   "state": "KY",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-15T11:48:47.847Z",
+    "lastScan": "2026-09-19T11:00:33.192Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
+      "ri-doh",
+      "ok-tulsa-thd",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
