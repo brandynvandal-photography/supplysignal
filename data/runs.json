@@ -1,6 +1,62 @@
 {
   "runs": [
     {
+      "started": "2026-09-20T23:10:36.220Z",
+      "fetched": 861,
+      "notModified": 18,
+      "dropped": {
+        "prefilter": 783,
+        "outside_window": 34,
+        "evidence_not_a_supply_finding": 9,
+        "foreign_year": 1,
+        "undated": 3,
+        "evidence_no_named_originator": 10,
+        "low_confidence": 1
+      },
+      "published": 20,
+      "escalated": 11,
+      "reviewed": 0,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "cook-me",
+        "santaclara-me",
+        "sandiego-me"
+      ],
+      "socrataToken": "set",
+      "medex": {
+        "allegheny-me": {
+          "items": 0,
+          "latest": "2026-05-31",
+          "lagDays": 113,
+          "recent": 38,
+          "baseline": 313,
+          "cached": true
+        }
+      },
+      "philly": {
+        "seen": 24,
+        "dated": 16
+      },
+      "radar": {
+        "issues": 2,
+        "findings": 19
+      },
+      "publishedUnreviewed": 11,
+      "publishedStatewide": 0,
+      "publishedRegional": 19,
+      "finished": "2026-09-20T23:20:44.980Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 21,
+        "bytes": 2837
+      }
+    },
+    {
       "started": "2026-09-20T20:44:04.376Z",
       "fetched": 1165,
       "notModified": 18,
@@ -8696,35 +8752,6 @@
       "bundle": {
         "clusters": 1,
         "bytes": 750
-      }
-    },
-    {
-      "started": "2026-08-10T14:45:18.635Z",
-      "fetched": 2481,
-      "notModified": 0,
-      "dropped": {
-        "prefilter": 448,
-        "outside_window": 2029,
-        "foreign_year": 1,
-        "low_confidence": 1,
-        "state_only": 1
-      },
-      "published": 0,
-      "escalated": 1,
-      "reviewed": 1,
-      "llmCalls": 0,
-      "llmTokens": {
-        "input": 0,
-        "output": 0
-      },
-      "sourcesFailed": [
-        "la-ldh"
-      ],
-      "finished": "2026-08-10T14:46:31.034Z",
-      "newClusters": 0,
-      "bundle": {
-        "clusters": 0,
-        "bytes": 286
       }
     }
   ]
