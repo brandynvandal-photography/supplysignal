@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-14T10:48:39.482Z",
+  "generated": "2026-09-21T10:52:15.586Z",
   "globalLinks": [
     {
       "name": "EU Early Warning System on new substances",
@@ -33,6 +33,34 @@
     }
   ],
   "firstDetections": [
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-ethyl nitrazepam",
+      "date": "2026-08-21",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "4'-chloro deschloroalprazolam",
+      "date": "2026-08-21",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Clodesnitazene",
+      "date": "2026-08-13",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "Fluorofentanyl",
+      "date": "2026-07-27",
+      "mentions": 1
+    },
     {
       "kind": "first-detection",
       "source": "hc",
@@ -108,7 +136,7 @@
       "source": "hc",
       "substance": "Ethylflualprazolam",
       "date": "2025-11-10",
-      "mentions": 5
+      "mentions": 6
     },
     {
       "kind": "first-detection",
@@ -199,7 +227,7 @@
       "source": "hc",
       "substance": "Ethylbromazolam",
       "date": "2025-03-10",
-      "mentions": 12
+      "mentions": 13
     },
     {
       "kind": "first-detection",
@@ -304,7 +332,7 @@
       "source": "hc",
       "substance": "Medetomidine",
       "date": "2024-03-05",
-      "mentions": 22
+      "mentions": 23
     },
     {
       "kind": "first-detection",
@@ -409,7 +437,7 @@
       "source": "hc",
       "substance": "Alprazolam",
       "date": "2022-06-21",
-      "mentions": 8
+      "mentions": 9
     },
     {
       "kind": "first-detection",
@@ -437,7 +465,7 @@
       "source": "hc",
       "substance": "Chlorodiazepam",
       "date": "2022-05-20",
-      "mentions": 2
+      "mentions": 3
     },
     {
       "kind": "first-detection",
@@ -570,7 +598,7 @@
       "source": "hc",
       "substance": "Dimethylsulphone",
       "date": "2021-12-09",
-      "mentions": 27
+      "mentions": 28
     },
     {
       "kind": "first-detection",
@@ -619,7 +647,7 @@
       "source": "hc",
       "substance": "Carfentanil",
       "date": "2021-11-22",
-      "mentions": 5
+      "mentions": 6
     },
     {
       "kind": "first-detection",
@@ -696,7 +724,7 @@
       "source": "hc",
       "substance": "Caffeine",
       "date": "2021-10-12",
-      "mentions": 99
+      "mentions": 101
     },
     {
       "kind": "first-detection",
