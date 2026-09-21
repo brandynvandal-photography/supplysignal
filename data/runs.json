@@ -1,6 +1,52 @@
 {
   "runs": [
     {
+      "started": "2026-09-21T12:40:22.366Z",
+      "fetched": 1109,
+      "notModified": 15,
+      "dropped": {
+        "prefilter": 1019,
+        "outside_window": 37,
+        "evidence_not_a_supply_finding": 14,
+        "foreign_year": 1,
+        "evidence_no_named_originator": 16,
+        "low_confidence": 1
+      },
+      "published": 21,
+      "escalated": 11,
+      "reviewed": 0,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "cook-me",
+        "allegheny-me",
+        "santaclara-me",
+        "sandiego-me"
+      ],
+      "socrataToken": "set",
+      "philly": {
+        "seen": 24,
+        "dated": 16
+      },
+      "radar": {
+        "issues": 2,
+        "findings": 19
+      },
+      "publishedUnreviewed": 11,
+      "publishedStatewide": 1,
+      "publishedRegional": 19,
+      "finished": "2026-09-21T12:52:08.457Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 22,
+        "bytes": 3174
+      }
+    },
+    {
       "started": "2026-09-21T04:47:03.191Z",
       "fetched": 1043,
       "notModified": 20,
@@ -8695,53 +8741,6 @@
       "bundle": {
         "clusters": 2,
         "bytes": 1017
-      }
-    },
-    {
-      "started": "2026-08-15T21:30:37.660Z",
-      "fetched": 1101,
-      "notModified": 13,
-      "dropped": {
-        "prefilter": 1072,
-        "outside_window": 12,
-        "undated": 4,
-        "foreign_year": 1,
-        "evidence_not_a_supply_finding": 2,
-        "evidence_no_named_originator": 9
-      },
-      "published": 1,
-      "escalated": 1,
-      "reviewed": 0,
-      "llmCalls": 0,
-      "llmTokens": {
-        "input": 0,
-        "output": 0
-      },
-      "sourcesFailed": [
-        "la-ldh",
-        "nd-hhs",
-        "cook-me",
-        "santaclara-me",
-        "sandiego-me"
-      ],
-      "socrataToken": "set",
-      "medex": {
-        "allegheny-me": {
-          "items": 0,
-          "latest": "2026-01-31",
-          "lagDays": 197,
-          "recent": 75,
-          "baseline": 323,
-          "cached": true
-        }
-      },
-      "publishedUnreviewed": 1,
-      "publishedStatewide": 1,
-      "finished": "2026-08-15T21:37:12.411Z",
-      "newClusters": 0,
-      "bundle": {
-        "clusters": 2,
-        "bytes": 1147
       }
     }
   ]
