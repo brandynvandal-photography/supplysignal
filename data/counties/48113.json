@@ -4,12 +4,11 @@
   "state": "TX",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-22T00:14:39.655Z",
+    "lastScan": "2026-09-22T04:56:11.734Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "grassroots-hr",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
