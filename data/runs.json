@@ -1,6 +1,62 @@
 {
   "runs": [
     {
+      "started": "2026-09-23T21:26:43.366Z",
+      "fetched": 802,
+      "notModified": 11,
+      "dropped": {
+        "prefilter": 735,
+        "outside_window": 30,
+        "evidence_not_a_supply_finding": 7,
+        "foreign_year": 1,
+        "undated": 3,
+        "evidence_no_named_originator": 4
+      },
+      "published": 20,
+      "escalated": 13,
+      "reviewed": 2,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "cook-me",
+        "santaclara-me",
+        "sandiego-me",
+        "google-news"
+      ],
+      "socrataToken": "set",
+      "medex": {
+        "allegheny-me": {
+          "items": 0,
+          "latest": "2026-05-31",
+          "lagDays": 116,
+          "recent": 38,
+          "baseline": 313,
+          "cached": true
+        }
+      },
+      "philly": {
+        "seen": 24,
+        "dated": 16
+      },
+      "radar": {
+        "issues": 2,
+        "findings": 19
+      },
+      "publishedUnreviewed": 11,
+      "publishedStatewide": 0,
+      "publishedRegional": 19,
+      "finished": "2026-09-23T21:36:58.764Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 21,
+        "bytes": 2846
+      }
+    },
+    {
       "started": "2026-09-23T16:48:29.834Z",
       "fetched": 1112,
       "notModified": 7,
@@ -8736,55 +8792,6 @@
       "publishedUnreviewed": 0,
       "publishedStatewide": 0,
       "finished": "2026-08-17T15:47:02.081Z",
-      "newClusters": 0,
-      "bundle": {
-        "clusters": 2,
-        "bytes": 1007
-      }
-    },
-    {
-      "started": "2026-08-17T13:02:10.049Z",
-      "fetched": 995,
-      "notModified": 17,
-      "dropped": {
-        "prefilter": 916,
-        "outside_window": 33,
-        "evidence_not_a_supply_finding": 20,
-        "evidence_no_named_originator": 24,
-        "low_confidence": 1
-      },
-      "published": 1,
-      "escalated": 0,
-      "reviewed": 0,
-      "llmCalls": 0,
-      "llmTokens": {
-        "input": 0,
-        "output": 0
-      },
-      "sourcesFailed": [
-        "la-ldh",
-        "cook-me",
-        "santaclara-me",
-        "sandiego-me"
-      ],
-      "socrataToken": "set",
-      "medex": {
-        "allegheny-me": {
-          "items": 0,
-          "latest": "2026-01-31",
-          "lagDays": 199,
-          "recent": 75,
-          "baseline": 323,
-          "cached": true
-        }
-      },
-      "philly": {
-        "seen": 24,
-        "dated": 16
-      },
-      "publishedUnreviewed": 0,
-      "publishedStatewide": 0,
-      "finished": "2026-08-17T13:13:42.073Z",
       "newClusters": 0,
       "bundle": {
         "clusters": 2,
