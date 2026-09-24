@@ -1,6 +1,61 @@
 {
   "runs": [
     {
+      "started": "2026-09-24T11:37:16.507Z",
+      "fetched": 1289,
+      "notModified": 13,
+      "dropped": {
+        "prefilter": 1217,
+        "outside_window": 26,
+        "evidence_not_a_supply_finding": 7,
+        "foreign_year": 1,
+        "evidence_no_named_originator": 15,
+        "low_confidence": 1
+      },
+      "published": 20,
+      "escalated": 13,
+      "reviewed": 2,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "cook-me",
+        "santaclara-me",
+        "sandiego-me"
+      ],
+      "socrataToken": "set",
+      "medex": {
+        "allegheny-me": {
+          "items": 0,
+          "latest": "2026-05-31",
+          "lagDays": 116,
+          "recent": 38,
+          "baseline": 313,
+          "cached": true
+        }
+      },
+      "philly": {
+        "seen": 24,
+        "dated": 16
+      },
+      "radar": {
+        "issues": 2,
+        "findings": 19
+      },
+      "publishedUnreviewed": 11,
+      "publishedStatewide": 0,
+      "publishedRegional": 19,
+      "finished": "2026-09-24T11:48:39.710Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 21,
+        "bytes": 2837
+      }
+    },
+    {
       "started": "2026-09-24T04:36:57.718Z",
       "fetched": 1539,
       "notModified": 15,
@@ -8751,57 +8806,6 @@
       "bundle": {
         "clusters": 2,
         "bytes": 1007
-      }
-    },
-    {
-      "started": "2026-08-17T18:53:34.902Z",
-      "fetched": 1039,
-      "notModified": 11,
-      "dropped": {
-        "prefilter": 987,
-        "evidence_not_a_supply_finding": 8,
-        "outside_window": 23,
-        "evidence_no_named_originator": 19,
-        "low_confidence": 1
-      },
-      "published": 1,
-      "escalated": 0,
-      "reviewed": 0,
-      "llmCalls": 0,
-      "llmTokens": {
-        "input": 0,
-        "output": 0
-      },
-      "sourcesFailed": [
-        "la-ldh",
-        "grassroots-hr",
-        "il-willco",
-        "cook-me",
-        "santaclara-me",
-        "sandiego-me"
-      ],
-      "socrataToken": "set",
-      "medex": {
-        "allegheny-me": {
-          "items": 0,
-          "latest": "2026-01-31",
-          "lagDays": 199,
-          "recent": 75,
-          "baseline": 323,
-          "cached": true
-        }
-      },
-      "philly": {
-        "seen": 24,
-        "dated": 16
-      },
-      "publishedUnreviewed": 0,
-      "publishedStatewide": 0,
-      "finished": "2026-08-17T19:05:28.550Z",
-      "newClusters": 0,
-      "bundle": {
-        "clusters": 2,
-        "bytes": 1028
       }
     }
   ]
