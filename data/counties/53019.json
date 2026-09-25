@@ -4,13 +4,12 @@
   "state": "WA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-21T12:52:08.386Z",
+    "lastScan": "2026-09-25T17:16:06.767Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "cook-me",
-      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
