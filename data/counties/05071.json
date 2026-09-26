@@ -4,12 +4,11 @@
   "state": "AR",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-09-22T00:14:39.720Z",
+    "lastScan": "2026-09-26T04:59:29.182Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
-      "grassroots-hr",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
