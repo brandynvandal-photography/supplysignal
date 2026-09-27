@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-27T05:22:23.560Z",
+  "generated": "2026-09-27T12:06:47.095Z",
   "windowDays": 365,
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "countyCount": 3231,
   "coverage": {
-    "lastScan": "2026-09-27T05:22:23.071Z",
+    "lastScan": "2026-09-27T12:06:46.443Z",
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
