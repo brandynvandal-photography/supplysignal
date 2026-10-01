@@ -41,11 +41,12 @@
     }
   ],
   "coverage": {
-    "lastScan": "2026-09-30T22:21:45.040Z",
+    "lastScan": "2026-10-01T05:52:48.045Z",
     "windowDays": 365,
     "sourcesChecked": 33,
     "sourcesFailed": [
       "la-ldh",
+      "il-ccdph",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
