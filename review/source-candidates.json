@@ -1,6 +1,6 @@
 {
   "_note": "GENERATED weekly by scripts/discover-sources.mjs from the Socrata Discovery API. Nothing here is ingested; a person reads it. `latest` is max(date column) reported by the dataset's own endpoint - the number that separates a live source from a stale archive. To reject one for good, move it into `dismissed` with a reason.",
-  "generated": "2026-09-27T10:03:37.019Z",
+  "generated": "2026-10-04T10:37:29.658Z",
   "queries": [
     "\"medical examiner\" overdose",
     "\"overdose deaths\"",
