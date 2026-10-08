@@ -4,10 +4,11 @@
   "state": "OK",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-03T11:45:01.011Z",
+    "lastScan": "2026-10-08T10:37:13.232Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
+      "ks-kdhe",
       "la-ldh",
       "cook-me",
       "santaclara-me",
