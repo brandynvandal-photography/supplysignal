@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-05T12:24:26.929Z",
+  "generated": "2026-10-12T13:19:40.923Z",
   "globalLinks": [
     {
       "name": "EU Early Warning System on new substances",
@@ -59,7 +59,7 @@
       "source": "hc",
       "substance": "Fluorofentanyl",
       "date": "2026-07-27",
-      "mentions": 1
+      "mentions": 2
     },
     {
       "kind": "first-detection",
@@ -136,7 +136,7 @@
       "source": "hc",
       "substance": "Ethylflualprazolam",
       "date": "2025-11-10",
-      "mentions": 6
+      "mentions": 7
     },
     {
       "kind": "first-detection",
@@ -241,7 +241,7 @@
       "source": "hc",
       "substance": "N-pyrrolidino isotonitazene",
       "date": "2024-12-20",
-      "mentions": 1
+      "mentions": 2
     },
     {
       "kind": "first-detection",
@@ -521,7 +521,7 @@
       "source": "hc",
       "substance": "Desalkylgidazepam",
       "date": "2022-04-25",
-      "mentions": 17
+      "mentions": 18
     },
     {
       "kind": "first-detection",
@@ -563,7 +563,7 @@
       "source": "hc",
       "substance": "Methamphetamine",
       "date": "2022-01-28",
-      "mentions": 10
+      "mentions": 11
     },
     {
       "kind": "first-detection",
@@ -633,7 +633,7 @@
       "source": "hc",
       "substance": "Diphenhydramine",
       "date": "2021-11-26",
-      "mentions": 10
+      "mentions": 11
     },
     {
       "kind": "first-detection",
@@ -675,7 +675,7 @@
       "source": "hc",
       "substance": "Cocaine",
       "date": "2021-11-09",
-      "mentions": 9
+      "mentions": 10
     },
     {
       "kind": "first-detection",
@@ -724,7 +724,7 @@
       "source": "hc",
       "substance": "Caffeine",
       "date": "2021-10-12",
-      "mentions": 101
+      "mentions": 102
     },
     {
       "kind": "first-detection",
