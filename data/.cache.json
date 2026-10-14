@@ -12,12 +12,12 @@
     "lastModified": "Thu, 17 Sep 2026 18:19:08 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1791931031\"",
-    "lastModified": "Tue, 13 Oct 2026 22:37:11 GMT"
+    "etag": "W/\"1791936010\"",
+    "lastModified": "Wed, 14 Oct 2026 00:00:10 GMT"
   },
   "de-dhss": {
-    "etag": "\"f464371dac4c8c2c76bfcdf82b4d0e51-gzip\"",
-    "lastModified": "Tue, 13 Oct 2026 18:01:56 GMT"
+    "etag": "\"7d0acf7fa3bfabcbd1eb63a40c7edd79-gzip\"",
+    "lastModified": "Wed, 14 Oct 2026 00:16:14 GMT"
   },
   "fl-doh": {
     "etag": "W/\"59a2037c8fbfb324545d0dfa137c4339\"",
@@ -28,8 +28,8 @@
     "lastModified": "Tue, 13 Oct 2026 20:17:45 GMT"
   },
   "hi-doh": {
-    "etag": "W/\"343244f623df1d7e020ba1ac5cd499ce\"",
-    "lastModified": "Tue, 13 Oct 2026 22:33:05 GMT"
+    "etag": "W/\"0b33068478faa2a5a188b69e0d9ed2ba\"",
+    "lastModified": "Wed, 14 Oct 2026 00:15:03 GMT"
   },
   "id-dhw": {
     "etag": "\"1791920398-gzip\"",
@@ -40,8 +40,8 @@
     "lastModified": "Mon, 05 Oct 2026 05:26:36 GMT"
   },
   "me-dhhs": {
-    "etag": "\"1791931096\"",
-    "lastModified": "Tue, 13 Oct 2026 22:38:16 GMT"
+    "etag": "\"1791952972\"",
+    "lastModified": "Wed, 14 Oct 2026 04:42:52 GMT"
   },
   "mn-mdh": {
     "etag": "W/\"1791929325\"",
@@ -56,12 +56,12 @@
     "lastModified": "Mon, 11 May 2026 11:12:25 GMT"
   },
   "nc-dhhs": {
-    "etag": "\"1791921617:dtagent10345260810170330kQvi\"",
-    "lastModified": "Tue, 13 Oct 2026 20:00:16 GMT"
+    "etag": "\"1791941122:dtagent10345260810170330kQvi\"",
+    "lastModified": "Wed, 14 Oct 2026 01:25:21 GMT"
   },
   "nd-hhs": {
-    "etag": "\"1791926895\"",
-    "lastModified": "Tue, 13 Oct 2026 21:28:15 GMT"
+    "etag": "\"1791938243\"",
+    "lastModified": "Wed, 14 Oct 2026 00:37:23 GMT"
   },
   "ri-doh": {
     "etag": "W/\"1791918912\"",
@@ -76,20 +76,20 @@
     "lastModified": "Tue, 13 Oct 2026 14:37:57 GMT"
   },
   "wa-doh": {
-    "etag": "\"1791930659\"",
-    "lastModified": "Tue, 13 Oct 2026 22:30:59 GMT"
+    "etag": "\"1791951770\"",
+    "lastModified": "Wed, 14 Oct 2026 04:22:50 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1791930495\"",
-    "lastModified": "Tue, 13 Oct 2026 22:28:15 GMT"
+    "etag": "\"1791931315\"",
+    "lastModified": "Tue, 13 Oct 2026 22:41:55 GMT"
   },
   "wv-oeps": {
-    "etag": "\"1791931101\"",
-    "lastModified": "Tue, 13 Oct 2026 22:38:21 GMT"
+    "etag": "\"1791953062\"",
+    "lastModified": "Wed, 14 Oct 2026 04:44:22 GMT"
   },
   "wy-doh": {
-    "etag": "\"a9fb49ec51981e22e0c407f02c9829af\"",
-    "lastModified": "Tue, 13 Oct 2026 21:35:59 GMT"
+    "etag": "\"5d10ecc178314c80fee81dc149cf4440\"",
+    "lastModified": "Tue, 13 Oct 2026 22:20:41 GMT"
   },
   "grassroots-hr": {
     "etag": "\"7810ae57bc97659e74f7c1374a9433b9\"",
@@ -100,8 +100,8 @@
     "lastModified": "Wed, 07 Oct 2026 17:59:47 GMT"
   },
   "sc-dph": {
-    "etag": "\"1791852618\"",
-    "lastModified": "Tue, 13 Oct 2026 00:50:18 GMT"
+    "etag": "\"1791939219\"",
+    "lastModified": "Wed, 14 Oct 2026 00:53:39 GMT"
   },
   "cdc-mmwr": {
     "etag": null,
