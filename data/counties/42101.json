@@ -41,7 +41,7 @@
     }
   ],
   "coverage": {
-    "lastScan": "2026-10-16T21:09:29.147Z",
+    "lastScan": "2026-10-16T23:41:23.439Z",
     "windowDays": 365,
     "sourcesChecked": 33,
     "sourcesFailed": [
@@ -49,7 +49,6 @@
       "la-ldh",
       "me-dhhs",
       "cook-me",
-      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],

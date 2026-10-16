@@ -4,15 +4,14 @@
   "state": "PA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-16T21:09:29.163Z",
+    "lastScan": "2026-10-16T23:41:23.456Z",
     "windowDays": 365,
-    "sourcesChecked": 32,
+    "sourcesChecked": 33,
     "sourcesFailed": [
       "ks-kdhe",
       "la-ldh",
       "me-dhhs",
       "cook-me",
-      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
