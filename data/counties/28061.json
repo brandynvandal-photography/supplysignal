@@ -4,13 +4,15 @@
   "state": "MS",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-12T00:39:25.661Z",
+    "lastScan": "2026-10-16T21:09:29.279Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "ks-kdhe",
       "la-ldh",
+      "me-dhhs",
       "cook-me",
+      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
