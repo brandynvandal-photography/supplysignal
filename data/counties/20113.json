@@ -4,15 +4,17 @@
   "state": "KS",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-11T12:50:57.411Z",
+    "lastScan": "2026-10-16T11:25:11.605Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "ks-kdhe",
       "la-ldh",
+      "me-dhhs",
       "cook-me",
       "santaclara-me",
-      "sandiego-me"
+      "sandiego-me",
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."

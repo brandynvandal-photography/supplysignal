@@ -31,7 +31,7 @@
     ]
   },
   "allegheny-me": {
-    "fingerprint": "{\"latest\":\"2026-07-31\",\"recentTotal\":6,\"baseTotal\":65,\"counts\":[],\"base\":[]}",
+    "fingerprint": "{\"latest\":\"2026-07-31\",\"recentTotal\":33,\"baseTotal\":281,\"counts\":[[\"acetylfentanyl\",3],[\"xylazine\",7]],\"base\":[[\"acetylfentanyl\",28],[\"bromazolam\",2],[\"carfentanil\",9],[\"fluorofentanyl\",19],[\"medetomidine\",1],[\"xylazine\",48]]}",
     "items": []
   },
   "santaclara-me": {
