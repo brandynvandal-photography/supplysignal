@@ -4,12 +4,12 @@
   "state": "NH",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-13T06:52:18.239Z",
+    "lastScan": "2026-10-17T04:25:38.768Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "ks-kdhe",
       "la-ldh",
+      "me-dhhs",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
