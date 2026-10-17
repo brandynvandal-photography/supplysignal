@@ -1,6 +1,52 @@
 {
   "runs": [
     {
+      "started": "2026-10-17T15:27:01.628Z",
+      "fetched": 1049,
+      "notModified": 20,
+      "dropped": {
+        "prefilter": 963,
+        "outside_window": 26,
+        "evidence_not_a_supply_finding": 6,
+        "evidence_no_named_originator": 23,
+        "low_confidence": 3
+      },
+      "published": 20,
+      "escalated": 19,
+      "reviewed": 8,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "me-dhhs",
+        "cook-me",
+        "allegheny-me",
+        "santaclara-me",
+        "sandiego-me"
+      ],
+      "socrataToken": "set",
+      "philly": {
+        "seen": 25,
+        "dated": 17
+      },
+      "radar": {
+        "issues": 2,
+        "findings": 19
+      },
+      "publishedUnreviewed": 11,
+      "publishedStatewide": 0,
+      "publishedRegional": 19,
+      "finished": "2026-10-17T15:35:04.946Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 21,
+        "bytes": 2849
+      }
+    },
+    {
       "started": "2026-10-17T10:32:54.907Z",
       "fetched": 1439,
       "notModified": 18,
@@ -9069,53 +9115,6 @@
       "bundle": {
         "clusters": 21,
         "bytes": 2857
-      }
-    },
-    {
-      "started": "2026-09-05T17:18:12.443Z",
-      "fetched": 1511,
-      "notModified": 3,
-      "dropped": {
-        "prefilter": 1389,
-        "outside_window": 43,
-        "evidence_not_a_supply_finding": 13,
-        "foreign_year": 3,
-        "undated": 3,
-        "evidence_no_named_originator": 31,
-        "low_confidence": 4
-      },
-      "published": 21,
-      "escalated": 15,
-      "reviewed": 4,
-      "llmCalls": 0,
-      "llmTokens": {
-        "input": 0,
-        "output": 0
-      },
-      "sourcesFailed": [
-        "la-ldh",
-        "cook-me",
-        "allegheny-me",
-        "santaclara-me",
-        "sandiego-me"
-      ],
-      "socrataToken": "set",
-      "philly": {
-        "seen": 24,
-        "dated": 16
-      },
-      "radar": {
-        "issues": 2,
-        "findings": 19
-      },
-      "publishedUnreviewed": 11,
-      "publishedStatewide": 1,
-      "publishedRegional": 19,
-      "finished": "2026-09-05T17:30:01.309Z",
-      "newClusters": 0,
-      "bundle": {
-        "clusters": 22,
-        "bytes": 3174
       }
     }
   ]

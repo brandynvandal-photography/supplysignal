@@ -4,13 +4,14 @@
   "state": "OK",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-13T22:49:38.188Z",
+    "lastScan": "2026-10-17T15:35:04.907Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "ks-kdhe",
       "la-ldh",
+      "me-dhhs",
       "cook-me",
+      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
