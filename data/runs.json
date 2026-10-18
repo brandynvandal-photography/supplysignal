@@ -1,6 +1,52 @@
 {
   "runs": [
     {
+      "started": "2026-10-18T10:55:02.410Z",
+      "fetched": 1194,
+      "notModified": 18,
+      "dropped": {
+        "prefilter": 1119,
+        "evidence_not_a_supply_finding": 5,
+        "outside_window": 21,
+        "foreign_year": 1,
+        "evidence_no_named_originator": 19
+      },
+      "published": 20,
+      "escalated": 20,
+      "reviewed": 9,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "me-dhhs",
+        "cook-me",
+        "allegheny-me",
+        "santaclara-me",
+        "sandiego-me"
+      ],
+      "socrataToken": "set",
+      "philly": {
+        "seen": 25,
+        "dated": 17
+      },
+      "radar": {
+        "issues": 2,
+        "findings": 19
+      },
+      "publishedUnreviewed": 11,
+      "publishedStatewide": 0,
+      "publishedRegional": 19,
+      "finished": "2026-10-18T11:04:54.175Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 21,
+        "bytes": 2848
+      }
+    },
+    {
       "started": "2026-10-18T04:19:59.077Z",
       "fetched": 1133,
       "notModified": 20,
@@ -9097,54 +9143,6 @@
       "bundle": {
         "clusters": 21,
         "bytes": 2848
-      }
-    },
-    {
-      "started": "2026-09-06T10:49:08.267Z",
-      "fetched": 705,
-      "notModified": 16,
-      "dropped": {
-        "prefilter": 625,
-        "outside_window": 24,
-        "foreign_year": 2,
-        "evidence_no_named_originator": 16,
-        "evidence_not_a_supply_finding": 10,
-        "low_confidence": 5
-      },
-      "published": 20,
-      "escalated": 14,
-      "reviewed": 3,
-      "llmCalls": 0,
-      "llmTokens": {
-        "input": 0,
-        "output": 0
-      },
-      "sourcesFailed": [
-        "de-dhss",
-        "la-ldh",
-        "cook-me",
-        "allegheny-me",
-        "santaclara-me",
-        "sandiego-me",
-        "google-news"
-      ],
-      "socrataToken": "set",
-      "philly": {
-        "seen": 24,
-        "dated": 16
-      },
-      "radar": {
-        "issues": 2,
-        "findings": 19
-      },
-      "publishedUnreviewed": 11,
-      "publishedStatewide": 0,
-      "publishedRegional": 19,
-      "finished": "2026-09-06T10:59:12.348Z",
-      "newClusters": 0,
-      "bundle": {
-        "clusters": 21,
-        "bytes": 2861
       }
     }
   ]
