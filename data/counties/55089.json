@@ -4,13 +4,14 @@
   "state": "WI",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-14T21:47:20.163Z",
+    "lastScan": "2026-10-18T15:56:22.043Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "ks-kdhe",
       "la-ldh",
+      "me-dhhs",
       "cook-me",
+      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
