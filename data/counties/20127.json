@@ -4,13 +4,13 @@
   "state": "KS",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-16T11:25:11.610Z",
+    "lastScan": "2026-10-19T20:43:40.241Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "ks-kdhe",
       "la-ldh",
       "me-dhhs",
+      "grassroots-hr",
       "cook-me",
       "santaclara-me",
       "sandiego-me",
