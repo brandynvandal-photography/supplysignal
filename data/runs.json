@@ -1,6 +1,51 @@
 {
   "runs": [
     {
+      "started": "2026-10-19T04:30:17.276Z",
+      "fetched": 945,
+      "notModified": 19,
+      "dropped": {
+        "prefilter": 870,
+        "outside_window": 29,
+        "evidence_not_a_supply_finding": 5,
+        "evidence_no_named_originator": 12
+      },
+      "published": 20,
+      "escalated": 20,
+      "reviewed": 9,
+      "llmCalls": 0,
+      "llmTokens": {
+        "input": 0,
+        "output": 0
+      },
+      "sourcesFailed": [
+        "la-ldh",
+        "me-dhhs",
+        "cook-me",
+        "allegheny-me",
+        "santaclara-me",
+        "sandiego-me"
+      ],
+      "socrataToken": "set",
+      "philly": {
+        "seen": 25,
+        "dated": 17
+      },
+      "radar": {
+        "issues": 2,
+        "findings": 19
+      },
+      "publishedUnreviewed": 11,
+      "publishedStatewide": 0,
+      "publishedRegional": 19,
+      "finished": "2026-10-19T04:41:25.076Z",
+      "newClusters": 0,
+      "bundle": {
+        "clusters": 21,
+        "bytes": 2848
+      }
+    },
+    {
       "started": "2026-10-18T23:02:10.678Z",
       "fetched": 1559,
       "notModified": 19,
@@ -9092,51 +9137,6 @@
       "bundle": {
         "clusters": 22,
         "bytes": 3176
-      }
-    },
-    {
-      "started": "2026-09-07T04:26:24.561Z",
-      "fetched": 941,
-      "notModified": 21,
-      "dropped": {
-        "prefilter": 864,
-        "evidence_not_a_supply_finding": 6,
-        "outside_window": 24,
-        "evidence_no_named_originator": 21,
-        "low_confidence": 4
-      },
-      "published": 20,
-      "escalated": 13,
-      "reviewed": 2,
-      "llmCalls": 0,
-      "llmTokens": {
-        "input": 0,
-        "output": 0
-      },
-      "sourcesFailed": [
-        "la-ldh",
-        "cook-me",
-        "allegheny-me",
-        "santaclara-me",
-        "sandiego-me"
-      ],
-      "socrataToken": "set",
-      "philly": {
-        "seen": 24,
-        "dated": 16
-      },
-      "radar": {
-        "issues": 2,
-        "findings": 19
-      },
-      "publishedUnreviewed": 11,
-      "publishedStatewide": 0,
-      "publishedRegional": 19,
-      "finished": "2026-09-07T04:37:32.400Z",
-      "newClusters": 0,
-      "bundle": {
-        "clusters": 21,
-        "bytes": 2843
       }
     }
   ]
