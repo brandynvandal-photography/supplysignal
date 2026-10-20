@@ -4,11 +4,10 @@
   "state": "MO",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-16T23:41:23.545Z",
+    "lastScan": "2026-10-20T14:27:15.126Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
-      "ks-kdhe",
       "la-ldh",
       "me-dhhs",
       "cook-me",
