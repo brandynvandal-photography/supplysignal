@@ -4,14 +4,14 @@
   "state": "CO",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-18T23:13:13.700Z",
+    "lastScan": "2026-10-22T21:39:47.862Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "me-dhhs",
+      "cdc-mmwr",
       "cook-me",
-      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
