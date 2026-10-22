@@ -4,14 +4,13 @@
   "state": "PR",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-18T15:56:22.100Z",
+    "lastScan": "2026-10-22T17:13:58.479Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "me-dhhs",
       "cook-me",
-      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
