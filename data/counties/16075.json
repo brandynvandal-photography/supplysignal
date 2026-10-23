@@ -4,14 +4,13 @@
   "state": "ID",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-19T04:41:25.063Z",
+    "lastScan": "2026-10-23T11:41:54.524Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "me-dhhs",
       "cook-me",
-      "allegheny-me",
       "santaclara-me",
       "sandiego-me"
     ],
