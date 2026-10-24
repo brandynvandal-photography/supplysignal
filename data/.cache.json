@@ -12,12 +12,12 @@
     "lastModified": "Thu, 17 Sep 2026 18:19:08 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1792857005\"",
-    "lastModified": "Sat, 24 Oct 2026 15:50:05 GMT"
+    "etag": "W/\"1792871671\"",
+    "lastModified": "Sat, 24 Oct 2026 19:54:31 GMT"
   },
   "de-dhss": {
-    "etag": "\"a52ff2aa0a1bf2682ed05c79bf03285f-gzip\"",
-    "lastModified": "Fri, 23 Oct 2026 19:19:33 GMT"
+    "etag": "\"898f1ffeb623c281e4c7b3748c8fc5ef-gzip\"",
+    "lastModified": "Sat, 24 Oct 2026 19:22:43 GMT"
   },
   "fl-doh": {
     "etag": "\"bb86935803d242027cba576b3c73b71b\"",
@@ -37,7 +37,7 @@
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Sat, 24 Oct 2026 15:50:32 GMT"
+    "lastModified": "Sat, 24 Oct 2026 20:40:43 GMT"
   },
   "me-dhhs": {
     "etag": "\"1792098991\"",
@@ -92,8 +92,8 @@
     "lastModified": "Fri, 23 Oct 2026 22:30:37 GMT"
   },
   "grassroots-hr": {
-    "etag": "\"20269743ba48f884f3f55c7dadad12c4\"",
-    "lastModified": "Sat, 24 Oct 2026 15:32:53 GMT"
+    "etag": "\"32d1a9c1442b95b22b4377d5d0152370\"",
+    "lastModified": "Sat, 24 Oct 2026 18:03:28 GMT"
   },
   "rebel-hr": {
     "etag": null,
