@@ -4,12 +4,13 @@
   "state": "TX",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-25T20:56:30.043Z",
+    "lastScan": "2026-10-30T10:04:24.953Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "me-dhhs",
+      "ms-msdh",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
