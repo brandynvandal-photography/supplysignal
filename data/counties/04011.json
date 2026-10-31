@@ -4,12 +4,14 @@
   "state": "AZ",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-26T20:37:07.554Z",
+    "lastScan": "2026-10-31T12:25:21.717Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "me-dhhs",
+      "ms-msdh",
+      "cdc-mmwr",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
