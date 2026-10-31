@@ -4,16 +4,16 @@
   "state": "WY",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-26T12:59:43.211Z",
+    "lastScan": "2026-10-31T05:36:31.650Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "me-dhhs",
+      "ms-msdh",
       "cook-me",
       "santaclara-me",
-      "sandiego-me",
-      "google-news"
+      "sandiego-me"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
