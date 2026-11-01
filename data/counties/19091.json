@@ -4,12 +4,13 @@
   "state": "IA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-27T15:29:26.374Z",
+    "lastScan": "2026-11-01T13:22:38.432Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "me-dhhs",
+      "ms-msdh",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
