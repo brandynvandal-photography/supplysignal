@@ -4,12 +4,13 @@
   "state": "NC",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-10-29T10:00:47.877Z",
+    "lastScan": "2026-11-03T17:10:04.702Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "me-dhhs",
+      "ms-msdh",
       "cook-me",
       "santaclara-me",
       "sandiego-me"
