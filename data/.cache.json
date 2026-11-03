@@ -12,16 +12,16 @@
     "lastModified": "Thu, 17 Sep 2026 18:19:08 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1793725068\"",
-    "lastModified": "Tue, 03 Nov 2026 16:57:48 GMT"
+    "etag": "W/\"1793745034\"",
+    "lastModified": "Tue, 03 Nov 2026 22:30:34 GMT"
   },
   "de-dhss": {
     "etag": "\"cb9042a70a44ac8896a2e6f51bb47bdb-gzip\"",
     "lastModified": "Mon, 02 Nov 2026 20:22:49 GMT"
   },
   "fl-doh": {
-    "etag": "W/\"160048826904d283c89d95afa7a977bf\"",
-    "lastModified": "Tue, 03 Nov 2026 16:49:08 GMT"
+    "etag": "\"9b49d98f24bbb9f7c4df17d5849a436c\"",
+    "lastModified": "Tue, 03 Nov 2026 21:01:21 GMT"
   },
   "ga-dph": {
     "etag": "W/\"1793722807\"",
@@ -32,20 +32,20 @@
     "lastModified": "Tue, 03 Nov 2026 02:33:40 GMT"
   },
   "id-dhw": {
-    "etag": "\"1793723223-gzip\"",
-    "lastModified": "Tue, 03 Nov 2026 16:27:03 GMT"
+    "etag": "\"1793736912-gzip\"",
+    "lastModified": "Tue, 03 Nov 2026 20:15:12 GMT"
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Tue, 03 Nov 2026 16:58:29 GMT"
+    "lastModified": "Tue, 03 Nov 2026 23:13:31 GMT"
   },
   "me-dhhs": {
     "etag": "\"1792098991\"",
     "lastModified": "Thu, 15 Oct 2026 21:16:31 GMT"
   },
   "mn-mdh": {
-    "etag": "W/\"1793724816\"",
-    "lastModified": "Tue, 03 Nov 2026 16:53:36 GMT"
+    "etag": "W/\"1793747611\"",
+    "lastModified": "Tue, 03 Nov 2026 23:13:31 GMT"
   },
   "ms-msdh": {
     "etag": "\"0dc85591267dd1:0\"",
@@ -56,12 +56,12 @@
     "lastModified": "Mon, 11 May 2026 11:12:25 GMT"
   },
   "nc-dhhs": {
-    "etag": "\"1793724029\"",
-    "lastModified": "Tue, 03 Nov 2026 16:40:29 GMT"
+    "etag": "\"1793742442\"",
+    "lastModified": "Tue, 03 Nov 2026 21:47:22 GMT"
   },
   "nd-hhs": {
-    "etag": "\"1793722406\"",
-    "lastModified": "Tue, 03 Nov 2026 16:13:26 GMT"
+    "etag": "\"1793745908\"",
+    "lastModified": "Tue, 03 Nov 2026 22:45:08 GMT"
   },
   "ri-doh": {
     "etag": "W/\"1793653227\"",
@@ -76,20 +76,20 @@
     "lastModified": "Mon, 02 Nov 2026 17:59:20 GMT"
   },
   "wa-doh": {
-    "etag": "\"1793723683\"",
-    "lastModified": "Tue, 03 Nov 2026 16:34:43 GMT"
+    "etag": "\"1793747614\"",
+    "lastModified": "Tue, 03 Nov 2026 23:13:34 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1793723375\"",
-    "lastModified": "Tue, 03 Nov 2026 16:29:35 GMT"
+    "etag": "\"1793745681\"",
+    "lastModified": "Tue, 03 Nov 2026 22:41:21 GMT"
   },
   "wv-oeps": {
     "etag": "\"1793655612\"",
     "lastModified": "Mon, 02 Nov 2026 21:40:12 GMT"
   },
   "wy-doh": {
-    "etag": "\"7f94153503986dc40407e0a8e04c4485\"",
-    "lastModified": "Tue, 03 Nov 2026 16:06:48 GMT"
+    "etag": "\"b6b4bc6ac7090b66308adf960d29b981\"",
+    "lastModified": "Tue, 03 Nov 2026 20:36:50 GMT"
   },
   "grassroots-hr": {
     "etag": "\"5dae7ff3136ee7de0349dc071cb42001\"",
@@ -100,27 +100,27 @@
     "lastModified": "Wed, 07 Oct 2026 17:59:47 GMT"
   },
   "sc-dph": {
-    "etag": "\"1793658982\"",
-    "lastModified": "Mon, 02 Nov 2026 22:36:22 GMT"
+    "etag": "\"1793744729\"",
+    "lastModified": "Tue, 03 Nov 2026 22:25:29 GMT"
   },
   "cdc-mmwr": {
     "etag": null,
     "lastModified": null
   },
   "il-ccdph": {
-    "etag": "W/\"c5b4a06744d9c94743c05a320d1cb082-gzip\"",
-    "lastModified": "Mon, 02 Nov 2026 22:50:52 GMT"
+    "etag": "W/\"15bc4c7d84b859959a2cb32b09ec165d-gzip\"",
+    "lastModified": "Tue, 03 Nov 2026 22:10:32 GMT"
   },
   "il-willco": {
-    "etag": "W/\"06122bc24e0c531f45c7373c0f055749\"",
-    "lastModified": "Mon, 02 Nov 2026 21:13:51 GMT"
+    "etag": "W/\"9a8acf0b540517f5e7bf504b024ae9f0\"",
+    "lastModified": "Tue, 03 Nov 2026 18:53:47 GMT"
   },
   "mo-ago": {
-    "etag": "\"facf35855e68e3552c92cace9c42097d\"",
-    "lastModified": "Tue, 03 Nov 2026 16:43:58 GMT"
+    "etag": "\"4ac12507efda6f8c5a4542ba4947abcd\"",
+    "lastModified": "Tue, 03 Nov 2026 19:19:20 GMT"
   },
   "ok-tulsa-thd": {
-    "etag": "\"3e8543ae815257108b1d9f549f8df334\"",
-    "lastModified": "Mon, 02 Nov 2026 22:16:42 GMT"
+    "etag": "\"8cd43e4d85d4b95c0bde32f050b19eb4\"",
+    "lastModified": "Tue, 03 Nov 2026 16:53:42 GMT"
   }
 }
