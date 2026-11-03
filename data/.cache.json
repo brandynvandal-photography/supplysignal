@@ -12,8 +12,8 @@
     "lastModified": "Thu, 17 Sep 2026 18:19:08 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1793655233\"",
-    "lastModified": "Mon, 02 Nov 2026 21:33:53 GMT"
+    "etag": "W/\"1793685958\"",
+    "lastModified": "Tue, 03 Nov 2026 06:05:58 GMT"
   },
   "de-dhss": {
     "etag": "\"cb9042a70a44ac8896a2e6f51bb47bdb-gzip\"",
@@ -28,24 +28,24 @@
     "lastModified": "Wed, 28 Oct 2026 18:06:08 GMT"
   },
   "hi-doh": {
-    "etag": "W/\"c9f23ba555fe2d9911ba61b5ec15f261\"",
-    "lastModified": "Fri, 30 Oct 2026 00:51:57 GMT"
+    "etag": "W/\"44fde4a9fd7a1ef3dcdd8ea0e5c61551\"",
+    "lastModified": "Tue, 03 Nov 2026 02:33:40 GMT"
   },
   "id-dhw": {
-    "etag": "\"1793655194-gzip\"",
-    "lastModified": "Mon, 02 Nov 2026 21:33:14 GMT"
+    "etag": "\"1793661769-gzip\"",
+    "lastModified": "Mon, 02 Nov 2026 23:22:49 GMT"
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Mon, 02 Nov 2026 21:40:09 GMT"
+    "lastModified": "Tue, 03 Nov 2026 06:35:41 GMT"
   },
   "me-dhhs": {
     "etag": "\"1792098991\"",
     "lastModified": "Thu, 15 Oct 2026 21:16:31 GMT"
   },
   "mn-mdh": {
-    "etag": "W/\"1793655424\"",
-    "lastModified": "Mon, 02 Nov 2026 21:37:04 GMT"
+    "etag": "W/\"1793663603\"",
+    "lastModified": "Mon, 02 Nov 2026 23:53:23 GMT"
   },
   "ms-msdh": {
     "etag": "\"0dc85591267dd1:0\"",
@@ -56,12 +56,12 @@
     "lastModified": "Mon, 11 May 2026 11:12:25 GMT"
   },
   "nc-dhhs": {
-    "etag": "\"1793654511\"",
-    "lastModified": "Mon, 02 Nov 2026 21:21:51 GMT"
+    "etag": "\"1793663590\"",
+    "lastModified": "Mon, 02 Nov 2026 23:53:10 GMT"
   },
   "nd-hhs": {
-    "etag": "\"1793607659\"",
-    "lastModified": "Mon, 02 Nov 2026 08:20:59 GMT"
+    "etag": "\"1793661722\"",
+    "lastModified": "Mon, 02 Nov 2026 23:22:02 GMT"
   },
   "ri-doh": {
     "etag": "W/\"1793653227\"",
@@ -76,12 +76,12 @@
     "lastModified": "Mon, 02 Nov 2026 17:59:20 GMT"
   },
   "wa-doh": {
-    "etag": "\"1793655076\"",
-    "lastModified": "Mon, 02 Nov 2026 21:31:16 GMT"
+    "etag": "\"1793666104\"",
+    "lastModified": "Tue, 03 Nov 2026 00:35:04 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1793655025\"",
-    "lastModified": "Mon, 02 Nov 2026 21:30:25 GMT"
+    "etag": "\"1793662170\"",
+    "lastModified": "Mon, 02 Nov 2026 23:29:30 GMT"
   },
   "wv-oeps": {
     "etag": "\"1793655612\"",
@@ -92,24 +92,24 @@
     "lastModified": "Mon, 02 Nov 2026 15:47:15 GMT"
   },
   "grassroots-hr": {
-    "etag": "\"3c266174ccb77ff05b2de569e4c78ccc\"",
-    "lastModified": "Sun, 01 Nov 2026 23:51:32 GMT"
+    "etag": "\"3bbb80b2a48e7cb1d691b25b61010848\"",
+    "lastModified": "Tue, 03 Nov 2026 00:15:04 GMT"
   },
   "rebel-hr": {
     "etag": null,
     "lastModified": "Wed, 07 Oct 2026 17:59:47 GMT"
   },
   "sc-dph": {
-    "etag": "\"1793572440\"",
-    "lastModified": "Sun, 01 Nov 2026 22:34:00 GMT"
+    "etag": "\"1793658982\"",
+    "lastModified": "Mon, 02 Nov 2026 22:36:22 GMT"
   },
   "cdc-mmwr": {
     "etag": null,
     "lastModified": null
   },
   "il-ccdph": {
-    "etag": "W/\"2b1b7ad801ff35fb332665330430ec6e-gzip\"",
-    "lastModified": "Mon, 02 Nov 2026 21:20:28 GMT"
+    "etag": "W/\"c5b4a06744d9c94743c05a320d1cb082-gzip\"",
+    "lastModified": "Mon, 02 Nov 2026 22:50:52 GMT"
   },
   "il-willco": {
     "etag": "W/\"06122bc24e0c531f45c7373c0f055749\"",
@@ -120,7 +120,7 @@
     "lastModified": "Fri, 30 Oct 2026 20:14:00 GMT"
   },
   "ok-tulsa-thd": {
-    "etag": "W/\"e2e33aa69eac197927d034733303b4d4\"",
-    "lastModified": "Mon, 02 Nov 2026 21:24:15 GMT"
+    "etag": "\"3e8543ae815257108b1d9f549f8df334\"",
+    "lastModified": "Mon, 02 Nov 2026 22:16:42 GMT"
   }
 }
