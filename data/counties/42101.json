@@ -41,7 +41,7 @@
     }
   ],
   "coverage": {
-    "lastScan": "2026-11-04T14:34:00.045Z",
+    "lastScan": "2026-11-04T21:26:31.854Z",
     "windowDays": 365,
     "sourcesChecked": 33,
     "sourcesFailed": [
@@ -50,7 +50,8 @@
       "ms-msdh",
       "cook-me",
       "santaclara-me",
-      "sandiego-me"
+      "sandiego-me",
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
