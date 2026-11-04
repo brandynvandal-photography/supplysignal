@@ -12,12 +12,12 @@
     "lastModified": "Thu, 17 Sep 2026 18:19:08 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1793755774\"",
-    "lastModified": "Wed, 04 Nov 2026 01:29:34 GMT"
+    "etag": "W/\"1793802155\"",
+    "lastModified": "Wed, 04 Nov 2026 14:22:35 GMT"
   },
   "de-dhss": {
-    "etag": "\"cb9042a70a44ac8896a2e6f51bb47bdb-gzip\"",
-    "lastModified": "Mon, 02 Nov 2026 20:22:49 GMT"
+    "etag": "\"f85811e312832d2ea462a2eaf73d0a78-gzip\"",
+    "lastModified": "Wed, 04 Nov 2026 12:54:11 GMT"
   },
   "fl-doh": {
     "etag": "\"9b49d98f24bbb9f7c4df17d5849a436c\"",
@@ -37,15 +37,15 @@
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Wed, 04 Nov 2026 06:03:49 GMT"
+    "lastModified": "Wed, 04 Nov 2026 14:22:38 GMT"
   },
   "me-dhhs": {
     "etag": "\"1792098991\"",
     "lastModified": "Thu, 15 Oct 2026 21:16:31 GMT"
   },
   "mn-mdh": {
-    "etag": "W/\"1793753160\"",
-    "lastModified": "Wed, 04 Nov 2026 00:46:00 GMT"
+    "etag": "W/\"1793802158\"",
+    "lastModified": "Wed, 04 Nov 2026 14:22:38 GMT"
   },
   "ms-msdh": {
     "etag": "\"0dc85591267dd1:0\"",
@@ -56,16 +56,16 @@
     "lastModified": "Mon, 11 May 2026 11:12:25 GMT"
   },
   "nc-dhhs": {
-    "etag": "\"1793751460\"",
-    "lastModified": "Wed, 04 Nov 2026 00:17:40 GMT"
+    "etag": "\"1793800570\"",
+    "lastModified": "Wed, 04 Nov 2026 13:56:10 GMT"
   },
   "nd-hhs": {
-    "etag": "\"1793754892\"",
-    "lastModified": "Wed, 04 Nov 2026 01:14:52 GMT"
+    "etag": "\"1793801718\"",
+    "lastModified": "Wed, 04 Nov 2026 14:15:18 GMT"
   },
   "ri-doh": {
-    "etag": "W/\"1793653227\"",
-    "lastModified": "Mon, 02 Nov 2026 21:00:27 GMT"
+    "etag": "W/\"1793802138\"",
+    "lastModified": "Wed, 04 Nov 2026 14:22:18 GMT"
   },
   "ut-dhhs": {
     "etag": "\"5f9fe24bfc467bf6a511114d5ea840ac\"",
@@ -80,8 +80,8 @@
     "lastModified": "Wed, 04 Nov 2026 04:55:16 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1793754718\"",
-    "lastModified": "Wed, 04 Nov 2026 01:11:58 GMT"
+    "etag": "\"1793802024\"",
+    "lastModified": "Wed, 04 Nov 2026 14:20:24 GMT"
   },
   "wv-oeps": {
     "etag": "\"1793655612\"",
@@ -108,8 +108,8 @@
     "lastModified": null
   },
   "il-ccdph": {
-    "etag": "W/\"15bc4c7d84b859959a2cb32b09ec165d-gzip\"",
-    "lastModified": "Tue, 03 Nov 2026 22:10:32 GMT"
+    "etag": "W/\"6962c0c2a2fe45ecb9c5fc98e41639f3-gzip\"",
+    "lastModified": "Wed, 04 Nov 2026 12:44:52 GMT"
   },
   "il-willco": {
     "etag": "W/\"9a8acf0b540517f5e7bf504b024ae9f0\"",
