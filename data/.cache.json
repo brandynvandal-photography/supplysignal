@@ -12,40 +12,40 @@
     "lastModified": "Thu, 17 Sep 2026 18:19:08 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1793855715\"",
-    "lastModified": "Thu, 05 Nov 2026 05:15:15 GMT"
+    "etag": "W/\"1793899104\"",
+    "lastModified": "Thu, 05 Nov 2026 17:18:24 GMT"
   },
   "de-dhss": {
-    "etag": "\"b3ed985d990a959ed45b0a0114b7601d-gzip\"",
-    "lastModified": "Wed, 04 Nov 2026 17:18:56 GMT"
+    "etag": "\"05dbcb0f4888a19f988e1c96b04423eb-gzip\"",
+    "lastModified": "Thu, 05 Nov 2026 16:46:49 GMT"
   },
   "fl-doh": {
-    "etag": "\"b26f8f10a2cc0c98c8838d1d3594189e\"",
-    "lastModified": "Wed, 04 Nov 2026 21:41:26 GMT"
+    "etag": "\"3550acbfb28607c836020d0546709c5c\"",
+    "lastModified": "Thu, 05 Nov 2026 16:16:05 GMT"
   },
   "ga-dph": {
-    "etag": "W/\"1793722807\"",
-    "lastModified": "Tue, 03 Nov 2026 16:20:07 GMT"
+    "etag": "W/\"1793868018\"",
+    "lastModified": "Thu, 05 Nov 2026 08:40:18 GMT"
   },
   "hi-doh": {
     "etag": "W/\"13d07ac27bc72b61eae76f9881994b08\"",
     "lastModified": "Thu, 05 Nov 2026 01:57:44 GMT"
   },
   "id-dhw": {
-    "etag": "\"1793748980-gzip\"",
-    "lastModified": "Tue, 03 Nov 2026 23:36:20 GMT"
+    "etag": "\"1793892182-gzip\"",
+    "lastModified": "Thu, 05 Nov 2026 15:23:02 GMT"
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Thu, 05 Nov 2026 06:31:51 GMT"
+    "lastModified": "Thu, 05 Nov 2026 17:18:41 GMT"
   },
   "me-dhhs": {
     "etag": "\"1792098991\"",
     "lastModified": "Thu, 15 Oct 2026 21:16:31 GMT"
   },
   "mn-mdh": {
-    "etag": "W/\"1793832296\"",
-    "lastModified": "Wed, 04 Nov 2026 22:44:56 GMT"
+    "etag": "W/\"1793898908\"",
+    "lastModified": "Thu, 05 Nov 2026 17:15:08 GMT"
   },
   "ms-msdh": {
     "etag": "\"0dc85591267dd1:0\"",
@@ -56,16 +56,16 @@
     "lastModified": "Mon, 11 May 2026 11:12:25 GMT"
   },
   "nc-dhhs": {
-    "etag": "\"1793839230\"",
-    "lastModified": "Thu, 05 Nov 2026 00:40:30 GMT"
+    "etag": "\"1793894697\"",
+    "lastModified": "Thu, 05 Nov 2026 16:04:57 GMT"
   },
   "nd-hhs": {
-    "etag": "\"1793848594\"",
-    "lastModified": "Thu, 05 Nov 2026 03:16:34 GMT"
+    "etag": "\"1793899105\"",
+    "lastModified": "Thu, 05 Nov 2026 17:18:25 GMT"
   },
   "ri-doh": {
-    "etag": "W/\"1793825869\"",
-    "lastModified": "Wed, 04 Nov 2026 20:57:49 GMT"
+    "etag": "W/\"1793897114\"",
+    "lastModified": "Thu, 05 Nov 2026 16:45:14 GMT"
   },
   "ut-dhhs": {
     "etag": "\"5f9fe24bfc467bf6a511114d5ea840ac\"",
@@ -76,20 +76,20 @@
     "lastModified": "Wed, 04 Nov 2026 18:50:06 GMT"
   },
   "wa-doh": {
-    "etag": "\"1793854018\"",
-    "lastModified": "Thu, 05 Nov 2026 04:46:58 GMT"
+    "etag": "\"1793895346\"",
+    "lastModified": "Thu, 05 Nov 2026 16:15:46 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1793836220\"",
-    "lastModified": "Wed, 04 Nov 2026 23:50:20 GMT"
+    "etag": "\"1793898345\"",
+    "lastModified": "Thu, 05 Nov 2026 17:05:45 GMT"
   },
   "wv-oeps": {
     "etag": "\"1793655612\"",
     "lastModified": "Mon, 02 Nov 2026 21:40:12 GMT"
   },
   "wy-doh": {
-    "etag": "\"52c94b725b70c8542882df5145e89e52\"",
-    "lastModified": "Wed, 04 Nov 2026 20:18:49 GMT"
+    "etag": "W/\"402a27ac26acb4cd617b28f5214c26c7\"",
+    "lastModified": "Thu, 05 Nov 2026 17:12:38 GMT"
   },
   "grassroots-hr": {
     "etag": "\"5dae7ff3136ee7de0349dc071cb42001\"",
@@ -112,15 +112,15 @@
     "lastModified": "Wed, 04 Nov 2026 20:26:18 GMT"
   },
   "il-willco": {
-    "etag": "W/\"9a8acf0b540517f5e7bf504b024ae9f0\"",
-    "lastModified": "Tue, 03 Nov 2026 18:53:47 GMT"
+    "etag": "W/\"b80f9fae816449e5c60350b53fafaa45\"",
+    "lastModified": "Thu, 05 Nov 2026 16:43:55 GMT"
   },
   "mo-ago": {
-    "etag": "\"76ec356b73b99a6c2bfbecf217a1922a\"",
-    "lastModified": "Wed, 04 Nov 2026 23:04:08 GMT"
+    "etag": "\"0c34eef71513d4d1ec8f6d9ec275b322\"",
+    "lastModified": "Thu, 05 Nov 2026 15:09:25 GMT"
   },
   "ok-tulsa-thd": {
-    "etag": "\"9ed1afc23e3032bac58c0d66319a426c\"",
-    "lastModified": "Wed, 04 Nov 2026 21:07:53 GMT"
+    "etag": "\"0df508d2277ef2bd2e31ee058fa5fd87\"",
+    "lastModified": "Thu, 05 Nov 2026 16:34:00 GMT"
   }
 }
