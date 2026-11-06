@@ -12,12 +12,12 @@
     "lastModified": "Thu, 17 Sep 2026 18:19:08 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1793920243\"",
-    "lastModified": "Thu, 05 Nov 2026 23:10:43 GMT"
+    "etag": "W/\"1793925913\"",
+    "lastModified": "Fri, 06 Nov 2026 00:45:13 GMT"
   },
   "de-dhss": {
-    "etag": "\"98870091fde27d6e99a60569857910a5-gzip\"",
-    "lastModified": "Thu, 05 Nov 2026 22:36:12 GMT"
+    "etag": "\"eb3e3ad9c969e8db7ff0c80bb2b692df-gzip\"",
+    "lastModified": "Fri, 06 Nov 2026 00:37:15 GMT"
   },
   "fl-doh": {
     "etag": "W/\"b684d959b00163c760809d83cab6774f\"",
@@ -28,16 +28,16 @@
     "lastModified": "Thu, 05 Nov 2026 08:40:18 GMT"
   },
   "hi-doh": {
-    "etag": "W/\"66a82d48ea4d79431f568eed2426b71a\"",
-    "lastModified": "Thu, 05 Nov 2026 21:53:30 GMT"
+    "etag": "W/\"21ce2d78e171286ac589b56092d12392\"",
+    "lastModified": "Fri, 06 Nov 2026 01:50:45 GMT"
   },
   "id-dhw": {
-    "etag": "\"1793918704-gzip\"",
-    "lastModified": "Thu, 05 Nov 2026 22:45:04 GMT"
+    "etag": "\"1793925520-gzip\"",
+    "lastModified": "Fri, 06 Nov 2026 00:38:40 GMT"
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Thu, 05 Nov 2026 23:33:42 GMT"
+    "lastModified": "Fri, 06 Nov 2026 06:27:57 GMT"
   },
   "me-dhhs": {
     "etag": "\"1792098991\"",
@@ -56,16 +56,16 @@
     "lastModified": "Mon, 11 May 2026 11:12:25 GMT"
   },
   "nc-dhhs": {
-    "etag": "\"1793917683\"",
-    "lastModified": "Thu, 05 Nov 2026 22:28:03 GMT"
+    "etag": "\"1793926707\"",
+    "lastModified": "Fri, 06 Nov 2026 00:58:27 GMT"
   },
   "nd-hhs": {
     "etag": "\"1793918177\"",
     "lastModified": "Thu, 05 Nov 2026 22:36:17 GMT"
   },
   "ri-doh": {
-    "etag": "W/\"1793911520\"",
-    "lastModified": "Thu, 05 Nov 2026 20:45:20 GMT"
+    "etag": "W/\"1793928139\"",
+    "lastModified": "Fri, 06 Nov 2026 01:22:19 GMT"
   },
   "ut-dhhs": {
     "etag": "\"5f9fe24bfc467bf6a511114d5ea840ac\"",
@@ -76,8 +76,8 @@
     "lastModified": "Wed, 04 Nov 2026 18:50:06 GMT"
   },
   "wa-doh": {
-    "etag": "\"1793921464\"",
-    "lastModified": "Thu, 05 Nov 2026 23:31:04 GMT"
+    "etag": "\"1793923247\"",
+    "lastModified": "Fri, 06 Nov 2026 00:00:47 GMT"
   },
   "wi-dhs": {
     "etag": "\"1793918192\"",
