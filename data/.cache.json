@@ -12,40 +12,40 @@
     "lastModified": "Thu, 17 Sep 2026 18:19:08 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1794240418\"",
-    "lastModified": "Mon, 09 Nov 2026 16:06:58 GMT"
+    "etag": "W/\"1794263877\"",
+    "lastModified": "Mon, 09 Nov 2026 22:37:57 GMT"
   },
   "de-dhss": {
-    "etag": "\"498de04c54a79f70ed4dce1b8051ba1e-gzip\"",
-    "lastModified": "Mon, 09 Nov 2026 14:32:29 GMT"
+    "etag": "\"cdaf9c9fcdb5ed733911e6553d6009fc-gzip\"",
+    "lastModified": "Mon, 09 Nov 2026 23:49:36 GMT"
   },
   "fl-doh": {
-    "etag": "W/\"d5c54dfdb41c863aa659ec295fb549ef\"",
-    "lastModified": "Mon, 09 Nov 2026 14:15:03 GMT"
+    "etag": "\"4a791b873c38a0d307af7f237b38825c\"",
+    "lastModified": "Mon, 09 Nov 2026 20:30:48 GMT"
   },
   "ga-dph": {
-    "etag": "W/\"1794001684\"",
-    "lastModified": "Fri, 06 Nov 2026 21:48:04 GMT"
+    "etag": "W/\"1794255598\"",
+    "lastModified": "Mon, 09 Nov 2026 20:19:58 GMT"
   },
   "hi-doh": {
-    "etag": "W/\"acbdb3e42e4b09a257cadda520b1092f\"",
-    "lastModified": "Fri, 06 Nov 2026 23:47:54 GMT"
+    "etag": "W/\"0805787e94c23ab8eb0b22234adaa886\"",
+    "lastModified": "Mon, 09 Nov 2026 21:07:24 GMT"
   },
   "id-dhw": {
-    "etag": "\"1794239477-gzip\"",
-    "lastModified": "Mon, 09 Nov 2026 15:51:17 GMT"
+    "etag": "\"1794260808-gzip\"",
+    "lastModified": "Mon, 09 Nov 2026 21:46:48 GMT"
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Mon, 09 Nov 2026 16:07:02 GMT"
+    "lastModified": "Tue, 10 Nov 2026 01:26:54 GMT"
   },
   "me-dhhs": {
     "etag": "\"1792098991\"",
     "lastModified": "Thu, 15 Oct 2026 21:16:31 GMT"
   },
   "mn-mdh": {
-    "etag": "W/\"1794240312\"",
-    "lastModified": "Mon, 09 Nov 2026 16:05:12 GMT"
+    "etag": "W/\"1794264405\"",
+    "lastModified": "Mon, 09 Nov 2026 22:46:45 GMT"
   },
   "ms-msdh": {
     "etag": "\"0dc85591267dd1:0\"",
@@ -56,40 +56,40 @@
     "lastModified": "Mon, 11 May 2026 11:12:25 GMT"
   },
   "nc-dhhs": {
-    "etag": "\"1794239927\"",
-    "lastModified": "Mon, 09 Nov 2026 15:58:47 GMT"
+    "etag": "\"1794264316\"",
+    "lastModified": "Mon, 09 Nov 2026 22:45:16 GMT"
   },
   "nd-hhs": {
-    "etag": "\"1794239341\"",
-    "lastModified": "Mon, 09 Nov 2026 15:49:01 GMT"
+    "etag": "\"1794270104\"",
+    "lastModified": "Tue, 10 Nov 2026 00:21:44 GMT"
   },
   "ri-doh": {
-    "etag": "W/\"1794234797\"",
-    "lastModified": "Mon, 09 Nov 2026 14:33:17 GMT"
+    "etag": "W/\"1794262517\"",
+    "lastModified": "Mon, 09 Nov 2026 22:15:17 GMT"
   },
   "ut-dhhs": {
     "etag": "\"5b0ca17e7c7d474362058010c9e0783e\"",
     "lastModified": "Fri, 06 Nov 2026 19:56:28 GMT"
   },
   "va-vdh": {
-    "etag": "\"2144cf9c540b1a24877408da89c944e3\"",
-    "lastModified": "Mon, 09 Nov 2026 15:45:33 GMT"
+    "etag": "\"12f90b91232284d67c5275faf2b90762\"",
+    "lastModified": "Mon, 09 Nov 2026 21:02:01 GMT"
   },
   "wa-doh": {
-    "etag": "\"1794193258\"",
-    "lastModified": "Mon, 09 Nov 2026 03:00:58 GMT"
+    "etag": "\"1794270893\"",
+    "lastModified": "Tue, 10 Nov 2026 00:34:53 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1794240248\"",
-    "lastModified": "Mon, 09 Nov 2026 16:04:08 GMT"
+    "etag": "\"1794269506\"",
+    "lastModified": "Tue, 10 Nov 2026 00:11:46 GMT"
   },
   "wv-oeps": {
-    "etag": "\"1794004300\"",
-    "lastModified": "Fri, 06 Nov 2026 22:31:40 GMT"
+    "etag": "\"1794263506\"",
+    "lastModified": "Mon, 09 Nov 2026 22:31:46 GMT"
   },
   "wy-doh": {
-    "etag": "\"7aa807ce36a914231f2db5c5641aa49f\"",
-    "lastModified": "Fri, 06 Nov 2026 21:41:31 GMT"
+    "etag": "\"6a31a5c957684bf072a69b3ed01b69e8\"",
+    "lastModified": "Mon, 09 Nov 2026 23:14:08 GMT"
   },
   "grassroots-hr": {
     "etag": "\"5dae7ff3136ee7de0349dc071cb42001\"",
@@ -100,16 +100,16 @@
     "lastModified": "Wed, 07 Oct 2026 17:59:47 GMT"
   },
   "sc-dph": {
-    "etag": "\"1794172705\"",
-    "lastModified": "Sun, 08 Nov 2026 21:18:25 GMT"
+    "etag": "\"1794259217\"",
+    "lastModified": "Mon, 09 Nov 2026 21:20:17 GMT"
   },
   "cdc-mmwr": {
     "etag": null,
     "lastModified": null
   },
   "il-ccdph": {
-    "etag": "W/\"ea74d1d73cc66f42c8094acd0de9cefa-gzip\"",
-    "lastModified": "Fri, 06 Nov 2026 22:14:19 GMT"
+    "etag": "W/\"8e6ccb655e283fedba84d317f476e007-gzip\"",
+    "lastModified": "Mon, 09 Nov 2026 19:20:17 GMT"
   },
   "il-willco": {
     "etag": "W/\"244a6d0a6adf044611ee60b54a3d7264\"",
@@ -120,7 +120,7 @@
     "lastModified": "Fri, 06 Nov 2026 16:43:37 GMT"
   },
   "ok-tulsa-thd": {
-    "etag": "\"1128f972765d98e8282c058839bed233\"",
-    "lastModified": "Thu, 05 Nov 2026 21:05:55 GMT"
+    "etag": "\"0dc31621d79f1afbd5a74ea51d4e9338\"",
+    "lastModified": "Mon, 09 Nov 2026 20:48:41 GMT"
   }
 }
