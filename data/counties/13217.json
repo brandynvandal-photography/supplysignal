@@ -4,7 +4,7 @@
   "state": "GA",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-11-06T16:54:15.648Z",
+    "lastScan": "2026-11-12T11:06:23.464Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
