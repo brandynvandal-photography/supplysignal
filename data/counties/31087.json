@@ -4,7 +4,7 @@
   "state": "NE",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-11-08T22:06:34.915Z",
+    "lastScan": "2026-11-14T10:20:16.203Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
@@ -13,7 +13,8 @@
       "ms-msdh",
       "cook-me",
       "santaclara-me",
-      "sandiego-me"
+      "sandiego-me",
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
