@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-09T14:05:46.457Z",
+  "generated": "2026-11-16T13:50:31.091Z",
   "globalLinks": [
     {
       "name": "EU Early Warning System on new substances",
@@ -36,6 +36,20 @@
     {
       "kind": "first-detection",
       "source": "hc",
+      "substance": "R 29676",
+      "date": "2026-10-30",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
+      "substance": "N-propyl ephenidine",
+      "date": "2026-10-05",
+      "mentions": 1
+    },
+    {
+      "kind": "first-detection",
+      "source": "hc",
       "substance": "N-ethyl nitrazepam",
       "date": "2026-08-21",
       "mentions": 1
@@ -59,7 +73,7 @@
       "source": "hc",
       "substance": "Fluorofentanyl",
       "date": "2026-07-27",
-      "mentions": 2
+      "mentions": 3
     },
     {
       "kind": "first-detection",
@@ -87,7 +101,7 @@
       "source": "hc",
       "substance": "3-hydroxy desalkylgidazepam",
       "date": "2026-03-24",
-      "mentions": 3
+      "mentions": 4
     },
     {
       "kind": "first-detection",
@@ -162,7 +176,7 @@
     {
       "kind": "first-detection",
       "source": "hc",
-      "substance": "SR 17018",
+      "substance": "SR17018",
       "date": "2025-07-15",
       "mentions": 1
     },
@@ -332,7 +346,7 @@
       "source": "hc",
       "substance": "Medetomidine",
       "date": "2024-03-05",
-      "mentions": 23
+      "mentions": 24
     },
     {
       "kind": "first-detection",
@@ -703,7 +717,7 @@
       "source": "hc",
       "substance": "Fentanyl",
       "date": "2021-10-29",
-      "mentions": 84
+      "mentions": 85
     },
     {
       "kind": "first-detection",
@@ -724,7 +738,7 @@
       "source": "hc",
       "substance": "Caffeine",
       "date": "2021-10-12",
-      "mentions": 102
+      "mentions": 104
     },
     {
       "kind": "first-detection",
