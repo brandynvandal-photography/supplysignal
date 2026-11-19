@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-19T11:31:01.428Z",
+  "generated": "2026-11-19T20:38:00.790Z",
   "windowDays": 365,
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "countyCount": 3231,
   "coverage": {
-    "lastScan": "2026-11-19T11:31:01.138Z",
+    "lastScan": "2026-11-19T20:38:00.435Z",
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
@@ -15,43 +15,351 @@
       "sandiego-me",
       "google-news"
     ],
-    "countiesScanned": 9
+    "countiesScanned": 180
   },
   "clusters": [
     {
-      "id": "5156a79acb02db98",
-      "fips": null,
-      "state": "MN",
-      "headline": "Minnesota sees a decrease in opioid overdose deaths over the past three years",
-      "eventDate": "2026-10-26",
-      "summary": "Minnesota sees a decrease in opioid overdose deaths over the past three years aguilm1 Mon, 10/26/2026 - 16:09",
-      "severity": "critical",
+      "title": "Proadifen newly detected in East Coast samples",
+      "body": "NIST RaDAR: Proadifen, described by the program as research chemical, was newly detected in East Coast samples collected in October 2026, in multiple East Coast samples that also contained fentanyl, methamphetamine, and/or synthetic cathinones. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+      "pubDate": "2026-10-01T00:00:00.000Z",
+      "sourceId": "us-nist-radar",
+      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "evidence": "official",
+      "trust": 1,
+      "scope": "region",
+      "region": "east",
+      "substanceHint": "Proadifen",
+      "printedClass": "research chemical",
+      "publishedAt": "2026-10-01T00:00:00.000Z",
+      "verdict": "score",
+      "severity": "elevated",
       "substances": [
-        "opioid"
+        "Proadifen"
       ],
-      "sourceCount": 1,
-      "confidence": 0.6923076923076923,
+      "confidence": 1,
+      "audit": {
+        "substances": [
+          "fentanyl",
+          "methamphetamine",
+          "drug supply"
+        ],
+        "events": [
+          "detected",
+          "samples"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [
+          "detected"
+        ],
+        "score": 13
+      },
+      "rawSeverity": "elevated",
+      "evidenceCeiling": "critical",
+      "evidenceClass": "official",
+      "evidenceFloor": 0.55,
+      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "summary": "NIST RaDAR: Proadifen, described by the program as research chemical, was newly detected in East Coast samples collected in October 2026, in multiple East Coast samples that also contained fentanyl, methamphetamine, and/or synthetic cathinones. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "eventDate": "2026-10-01",
+      "fips": null,
+      "state": null,
+      "headline": "Proadifen newly detected in East Coast samples",
       "sources": [
         {
-          "name": "Minnesota Department of Health",
-          "url": "https://www.health.state.mn.us/news/pressrel/2026/overdose102726.html",
-          "published": "2026-10-26T21:09:20.000Z",
+          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
+          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+          "published": "2026-10-01T00:00:00.000Z",
           "trust": 1,
           "evidence": "official"
         }
       ],
-      "evidenceClasses": [
-        "official"
+      "sourceCount": 1,
+      "independent": 1
+    },
+    {
+      "title": "MDMB-PICA newly detected in East Coast samples",
+      "body": "NIST RaDAR: MDMB-PICA, described by the program as synthetic cannabinoid, was newly detected in East Coast samples collected in October 2026, in a single East Coast sample that also contained nicotine. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+      "pubDate": "2026-10-01T00:00:00.000Z",
+      "sourceId": "us-nist-radar",
+      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "evidence": "official",
+      "trust": 1,
+      "scope": "region",
+      "region": "east",
+      "substanceHint": "MDMB-PICA",
+      "printedClass": "synthetic cannabinoid",
+      "publishedAt": "2026-10-01T00:00:00.000Z",
+      "verdict": "score",
+      "severity": "elevated",
+      "substances": [
+        "MDMB-PICA"
       ],
-      "memberGrades": [
+      "confidence": 0.6923076923076923,
+      "audit": {
+        "substances": [
+          "drug supply"
+        ],
+        "events": [
+          "detected",
+          "samples"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [
+          "detected"
+        ],
+        "score": 9
+      },
+      "rawSeverity": "elevated",
+      "evidenceCeiling": "critical",
+      "evidenceClass": "official",
+      "evidenceFloor": 0.55,
+      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "summary": "NIST RaDAR: MDMB-PICA, described by the program as synthetic cannabinoid, was newly detected in East Coast samples collected in October 2026, in a single East Coast sample that also contained nicotine. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "eventDate": "2026-10-01",
+      "fips": null,
+      "state": null,
+      "headline": "MDMB-PICA newly detected in East Coast samples",
+      "sources": [
         {
-          "severity": "critical",
-          "evidenceClass": "official"
+          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
+          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+          "published": "2026-10-01T00:00:00.000Z",
+          "trust": 1,
+          "evidence": "official"
         }
       ],
-      "rawSeverity": "critical",
-      "scope": "state",
+      "sourceCount": 1,
+      "independent": 1
+    },
+    {
+      "title": "Methenolone enanthate newly detected in West Coast samples",
+      "body": "NIST RaDAR: Methenolone enanthate, described by the program as anabolic steroid, was newly detected in West Coast samples collected in October 2026, in a single West Coast sample that contained no other compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+      "pubDate": "2026-10-01T00:00:00.000Z",
+      "sourceId": "us-nist-radar",
+      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "evidence": "official",
+      "trust": 1,
+      "scope": "region",
+      "region": "west",
+      "substanceHint": "Methenolone enanthate",
+      "printedClass": "anabolic steroid",
+      "publishedAt": "2026-10-01T00:00:00.000Z",
+      "verdict": "score",
+      "severity": "elevated",
+      "substances": [
+        "Methenolone enanthate"
+      ],
+      "confidence": 0.6923076923076923,
+      "audit": {
+        "substances": [
+          "drug supply"
+        ],
+        "events": [
+          "detected",
+          "samples"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [
+          "detected"
+        ],
+        "score": 9
+      },
+      "rawSeverity": "elevated",
+      "evidenceCeiling": "critical",
       "evidenceClass": "official",
+      "evidenceFloor": 0.55,
+      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "summary": "NIST RaDAR: Methenolone enanthate, described by the program as anabolic steroid, was newly detected in West Coast samples collected in October 2026, in a single West Coast sample that contained no other compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "eventDate": "2026-10-01",
+      "fips": null,
+      "state": null,
+      "headline": "Methenolone enanthate newly detected in West Coast samples",
+      "sources": [
+        {
+          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
+          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+          "published": "2026-10-01T00:00:00.000Z",
+          "trust": 1,
+          "evidence": "official"
+        }
+      ],
+      "sourceCount": 1,
+      "independent": 1
+    },
+    {
+      "title": "N-cyclohexyl Butylone newly detected in East Coast samples",
+      "body": "NIST RaDAR: N-cyclohexyl Butylone, described by the program as synthetic cathinone, was newly detected in East Coast samples collected in October 2026, in a single East Coast sample that contained no other compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+      "pubDate": "2026-10-01T00:00:00.000Z",
+      "sourceId": "us-nist-radar",
+      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "evidence": "official",
+      "trust": 1,
+      "scope": "region",
+      "region": "east",
+      "substanceHint": "N-cyclohexyl Butylone",
+      "printedClass": "synthetic cathinone",
+      "publishedAt": "2026-10-01T00:00:00.000Z",
+      "verdict": "score",
+      "severity": "elevated",
+      "substances": [
+        "N-cyclohexyl Butylone"
+      ],
+      "confidence": 0.6923076923076923,
+      "audit": {
+        "substances": [
+          "drug supply"
+        ],
+        "events": [
+          "detected",
+          "samples"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [
+          "detected"
+        ],
+        "score": 9
+      },
+      "rawSeverity": "elevated",
+      "evidenceCeiling": "critical",
+      "evidenceClass": "official",
+      "evidenceFloor": 0.55,
+      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "summary": "NIST RaDAR: N-cyclohexyl Butylone, described by the program as synthetic cathinone, was newly detected in East Coast samples collected in October 2026, in a single East Coast sample that contained no other compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "eventDate": "2026-10-01",
+      "fips": null,
+      "state": null,
+      "headline": "N-cyclohexyl Butylone newly detected in East Coast samples",
+      "sources": [
+        {
+          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
+          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+          "published": "2026-10-01T00:00:00.000Z",
+          "trust": 1,
+          "evidence": "official"
+        }
+      ],
+      "sourceCount": 1,
+      "independent": 1
+    },
+    {
+      "title": "N-sec-butyl Butylone newly detected in East Coast samples",
+      "body": "NIST RaDAR: N-sec-butyl Butylone, described by the program as synthetic cathinone, was newly detected in East Coast samples collected in October 2026, in multiple East Coast samples. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+      "pubDate": "2026-10-01T00:00:00.000Z",
+      "sourceId": "us-nist-radar",
+      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "evidence": "official",
+      "trust": 1,
+      "scope": "region",
+      "region": "east",
+      "substanceHint": "N-sec-butyl Butylone",
+      "printedClass": "synthetic cathinone",
+      "publishedAt": "2026-10-01T00:00:00.000Z",
+      "verdict": "score",
+      "severity": "elevated",
+      "substances": [
+        "N-sec-butyl Butylone"
+      ],
+      "confidence": 0.6923076923076923,
+      "audit": {
+        "substances": [
+          "drug supply"
+        ],
+        "events": [
+          "detected",
+          "samples"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [
+          "detected"
+        ],
+        "score": 9
+      },
+      "rawSeverity": "elevated",
+      "evidenceCeiling": "critical",
+      "evidenceClass": "official",
+      "evidenceFloor": 0.55,
+      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "summary": "NIST RaDAR: N-sec-butyl Butylone, described by the program as synthetic cathinone, was newly detected in East Coast samples collected in October 2026, in multiple East Coast samples. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "eventDate": "2026-10-01",
+      "fips": null,
+      "state": null,
+      "headline": "N-sec-butyl Butylone newly detected in East Coast samples",
+      "sources": [
+        {
+          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
+          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+          "published": "2026-10-01T00:00:00.000Z",
+          "trust": 1,
+          "evidence": "official"
+        }
+      ],
+      "sourceCount": 1,
+      "independent": 1
+    },
+    {
+      "title": "Oxandrolone newly detected in West Coast samples",
+      "body": "NIST RaDAR: Oxandrolone, described by the program as anabolic steroid, was newly detected in West Coast samples collected in October 2026, in a single West Coast sample that contained no other compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+      "pubDate": "2026-10-01T00:00:00.000Z",
+      "sourceId": "us-nist-radar",
+      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "evidence": "official",
+      "trust": 1,
+      "scope": "region",
+      "region": "west",
+      "substanceHint": "Oxandrolone",
+      "printedClass": "anabolic steroid",
+      "publishedAt": "2026-10-01T00:00:00.000Z",
+      "verdict": "score",
+      "severity": "elevated",
+      "substances": [
+        "Oxandrolone"
+      ],
+      "confidence": 0.6923076923076923,
+      "audit": {
+        "substances": [
+          "drug supply"
+        ],
+        "events": [
+          "detected",
+          "samples"
+        ],
+        "negatives": [],
+        "criticalMarkers": [],
+        "elevatedMarkers": [
+          "detected"
+        ],
+        "score": 9
+      },
+      "rawSeverity": "elevated",
+      "evidenceCeiling": "critical",
+      "evidenceClass": "official",
+      "evidenceFloor": 0.55,
+      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
+      "summary": "NIST RaDAR: Oxandrolone, described by the program as anabolic steroid, was newly detected in West Coast samples collected in October 2026, in a single West Coast sample that contained no other compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
+      "eventDate": "2026-10-01",
+      "fips": null,
+      "state": null,
+      "headline": "Oxandrolone newly detected in West Coast samples",
+      "sources": [
+        {
+          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
+          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/4328689",
+          "published": "2026-10-01T00:00:00.000Z",
+          "trust": 1,
+          "evidence": "official"
+        }
+      ],
+      "sourceCount": 1,
       "independent": 1
     },
     {
@@ -170,465 +478,6 @@
       "independent": 1
     },
     {
-      "title": "2C-C newly detected in West Coast samples",
-      "body": "NIST RaDAR: 2C-C, described by the program as phenethylamine, was newly detected in West Coast samples collected in August 2026, in multiple West Coast samples that contained other phenethylamines, cocaine, and/or ketamine. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-      "pubDate": "2026-08-01T00:00:00.000Z",
-      "sourceId": "us-nist-radar",
-      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "evidence": "official",
-      "trust": 1,
-      "scope": "region",
-      "region": "west",
-      "substanceHint": "2C-C",
-      "printedClass": "phenethylamine",
-      "publishedAt": "2026-08-01T00:00:00.000Z",
-      "verdict": "score",
-      "severity": "elevated",
-      "substances": [
-        "2C-C"
-      ],
-      "confidence": 0.8461538461538461,
-      "audit": {
-        "substances": [
-          "cocaine",
-          "drug supply"
-        ],
-        "events": [
-          "detected",
-          "samples"
-        ],
-        "negatives": [],
-        "criticalMarkers": [],
-        "elevatedMarkers": [
-          "detected"
-        ],
-        "score": 11
-      },
-      "rawSeverity": "elevated",
-      "evidenceCeiling": "critical",
-      "evidenceClass": "official",
-      "evidenceFloor": 0.55,
-      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "summary": "NIST RaDAR: 2C-C, described by the program as phenethylamine, was newly detected in West Coast samples collected in August 2026, in multiple West Coast samples that contained other phenethylamines, cocaine, and/or ketamine. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "eventDate": "2026-08-01",
-      "fips": null,
-      "state": null,
-      "headline": "2C-C newly detected in West Coast samples",
-      "sources": [
-        {
-          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
-          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-          "published": "2026-08-01T00:00:00.000Z",
-          "trust": 1,
-          "evidence": "official"
-        }
-      ],
-      "sourceCount": 1,
-      "independent": 1
-    },
-    {
-      "title": "Flurazepam newly detected in East Coast samples",
-      "body": "NIST RaDAR: Flurazepam, described by the program as benzodiazepine, was newly detected in East Coast samples collected in August 2026, in a single East Coast sample that also contained BTMPS, heroin, and lidocaine. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-      "pubDate": "2026-08-01T00:00:00.000Z",
-      "sourceId": "us-nist-radar",
-      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "evidence": "official",
-      "trust": 1,
-      "scope": "region",
-      "region": "east",
-      "substanceHint": "Flurazepam",
-      "printedClass": "benzodiazepine",
-      "publishedAt": "2026-08-01T00:00:00.000Z",
-      "verdict": "score",
-      "severity": "elevated",
-      "substances": [
-        "Flurazepam"
-      ],
-      "confidence": 1,
-      "audit": {
-        "substances": [
-          "heroin",
-          "benzodiazepine",
-          "drug supply"
-        ],
-        "events": [
-          "detected",
-          "samples"
-        ],
-        "negatives": [],
-        "criticalMarkers": [],
-        "elevatedMarkers": [
-          "detected"
-        ],
-        "score": 13
-      },
-      "rawSeverity": "elevated",
-      "evidenceCeiling": "critical",
-      "evidenceClass": "official",
-      "evidenceFloor": 0.55,
-      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "summary": "NIST RaDAR: Flurazepam, described by the program as benzodiazepine, was newly detected in East Coast samples collected in August 2026, in a single East Coast sample that also contained BTMPS, heroin, and lidocaine. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "eventDate": "2026-08-01",
-      "fips": null,
-      "state": null,
-      "headline": "Flurazepam newly detected in East Coast samples",
-      "sources": [
-        {
-          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
-          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-          "published": "2026-08-01T00:00:00.000Z",
-          "trust": 1,
-          "evidence": "official"
-        }
-      ],
-      "sourceCount": 1,
-      "independent": 1
-    },
-    {
-      "title": "25B-NBOH newly detected in West Coast samples",
-      "body": "NIST RaDAR: 25B-NBOH, described by the program as phenethylamine, was newly detected in West Coast samples collected in August 2026, in a single West Coast sample that contained no other detectable compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-      "pubDate": "2026-08-01T00:00:00.000Z",
-      "sourceId": "us-nist-radar",
-      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "evidence": "official",
-      "trust": 1,
-      "scope": "region",
-      "region": "west",
-      "substanceHint": "25B-NBOH",
-      "printedClass": "phenethylamine",
-      "publishedAt": "2026-08-01T00:00:00.000Z",
-      "verdict": "score",
-      "severity": "elevated",
-      "substances": [
-        "25B-NBOH"
-      ],
-      "confidence": 0.6923076923076923,
-      "audit": {
-        "substances": [
-          "drug supply"
-        ],
-        "events": [
-          "detected",
-          "samples"
-        ],
-        "negatives": [],
-        "criticalMarkers": [],
-        "elevatedMarkers": [
-          "detected"
-        ],
-        "score": 9
-      },
-      "rawSeverity": "elevated",
-      "evidenceCeiling": "critical",
-      "evidenceClass": "official",
-      "evidenceFloor": 0.55,
-      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "summary": "NIST RaDAR: 25B-NBOH, described by the program as phenethylamine, was newly detected in West Coast samples collected in August 2026, in a single West Coast sample that contained no other detectable compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "eventDate": "2026-08-01",
-      "fips": null,
-      "state": null,
-      "headline": "25B-NBOH newly detected in West Coast samples",
-      "sources": [
-        {
-          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
-          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-          "published": "2026-08-01T00:00:00.000Z",
-          "trust": 1,
-          "evidence": "official"
-        }
-      ],
-      "sourceCount": 1,
-      "independent": 1
-    },
-    {
-      "title": "4-Propanoyloxy DMT newly detected in West Coast samples",
-      "body": "NIST RaDAR: 4-Propanoyloxy DMT, described by the program as tryptamine, was newly detected in West Coast samples collected in August 2026, in a single West Coast sample that contained other tryptamines. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-      "pubDate": "2026-08-01T00:00:00.000Z",
-      "sourceId": "us-nist-radar",
-      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "evidence": "official",
-      "trust": 1,
-      "scope": "region",
-      "region": "west",
-      "substanceHint": "4-Propanoyloxy DMT",
-      "printedClass": "tryptamine",
-      "publishedAt": "2026-08-01T00:00:00.000Z",
-      "verdict": "score",
-      "severity": "elevated",
-      "substances": [
-        "4-Propanoyloxy DMT"
-      ],
-      "confidence": 0.6923076923076923,
-      "audit": {
-        "substances": [
-          "drug supply"
-        ],
-        "events": [
-          "detected",
-          "samples"
-        ],
-        "negatives": [],
-        "criticalMarkers": [],
-        "elevatedMarkers": [
-          "detected"
-        ],
-        "score": 9
-      },
-      "rawSeverity": "elevated",
-      "evidenceCeiling": "critical",
-      "evidenceClass": "official",
-      "evidenceFloor": 0.55,
-      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "summary": "NIST RaDAR: 4-Propanoyloxy DMT, described by the program as tryptamine, was newly detected in West Coast samples collected in August 2026, in a single West Coast sample that contained other tryptamines. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "eventDate": "2026-08-01",
-      "fips": null,
-      "state": null,
-      "headline": "4-Propanoyloxy DMT newly detected in West Coast samples",
-      "sources": [
-        {
-          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
-          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-          "published": "2026-08-01T00:00:00.000Z",
-          "trust": 1,
-          "evidence": "official"
-        }
-      ],
-      "sourceCount": 1,
-      "independent": 1
-    },
-    {
-      "title": "5-Fluoro MDMB-PICA newly detected in East Coast samples",
-      "body": "NIST RaDAR: 5-Fluoro MDMB-PICA, described by the program as synthetic cannabinoid, was newly detected in East Coast samples collected in August 2026, in a single East Coast sample that contained no other detectable compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-      "pubDate": "2026-08-01T00:00:00.000Z",
-      "sourceId": "us-nist-radar",
-      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "evidence": "official",
-      "trust": 1,
-      "scope": "region",
-      "region": "east",
-      "substanceHint": "5-Fluoro MDMB-PICA",
-      "printedClass": "synthetic cannabinoid",
-      "publishedAt": "2026-08-01T00:00:00.000Z",
-      "verdict": "score",
-      "severity": "elevated",
-      "substances": [
-        "5-Fluoro MDMB-PICA"
-      ],
-      "confidence": 0.6923076923076923,
-      "audit": {
-        "substances": [
-          "drug supply"
-        ],
-        "events": [
-          "detected",
-          "samples"
-        ],
-        "negatives": [],
-        "criticalMarkers": [],
-        "elevatedMarkers": [
-          "detected"
-        ],
-        "score": 9
-      },
-      "rawSeverity": "elevated",
-      "evidenceCeiling": "critical",
-      "evidenceClass": "official",
-      "evidenceFloor": 0.55,
-      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "summary": "NIST RaDAR: 5-Fluoro MDMB-PICA, described by the program as synthetic cannabinoid, was newly detected in East Coast samples collected in August 2026, in a single East Coast sample that contained no other detectable compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "eventDate": "2026-08-01",
-      "fips": null,
-      "state": null,
-      "headline": "5-Fluoro MDMB-PICA newly detected in East Coast samples",
-      "sources": [
-        {
-          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
-          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-          "published": "2026-08-01T00:00:00.000Z",
-          "trust": 1,
-          "evidence": "official"
-        }
-      ],
-      "sourceCount": 1,
-      "independent": 1
-    },
-    {
-      "title": "Deoxymethoxetamine newly detected in West Coast samples",
-      "body": "NIST RaDAR: Deoxymethoxetamine, described by the program as arylcyclohexylamine, was newly detected in West Coast samples collected in August 2026, in multiple West Coast samples either with no other detectable compounds or with phenethylamines. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-      "pubDate": "2026-08-01T00:00:00.000Z",
-      "sourceId": "us-nist-radar",
-      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "evidence": "official",
-      "trust": 1,
-      "scope": "region",
-      "region": "west",
-      "substanceHint": "Deoxymethoxetamine",
-      "printedClass": "arylcyclohexylamine",
-      "publishedAt": "2026-08-01T00:00:00.000Z",
-      "verdict": "score",
-      "severity": "elevated",
-      "substances": [
-        "Deoxymethoxetamine"
-      ],
-      "confidence": 0.6923076923076923,
-      "audit": {
-        "substances": [
-          "drug supply"
-        ],
-        "events": [
-          "detected",
-          "samples"
-        ],
-        "negatives": [],
-        "criticalMarkers": [],
-        "elevatedMarkers": [
-          "detected"
-        ],
-        "score": 9
-      },
-      "rawSeverity": "elevated",
-      "evidenceCeiling": "critical",
-      "evidenceClass": "official",
-      "evidenceFloor": 0.55,
-      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "summary": "NIST RaDAR: Deoxymethoxetamine, described by the program as arylcyclohexylamine, was newly detected in West Coast samples collected in August 2026, in multiple West Coast samples either with no other detectable compounds or with phenethylamines. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "eventDate": "2026-08-01",
-      "fips": null,
-      "state": null,
-      "headline": "Deoxymethoxetamine newly detected in West Coast samples",
-      "sources": [
-        {
-          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
-          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-          "published": "2026-08-01T00:00:00.000Z",
-          "trust": 1,
-          "evidence": "official"
-        }
-      ],
-      "sourceCount": 1,
-      "independent": 1
-    },
-    {
-      "title": "N-Ethyl 2C-B newly detected in West Coast samples",
-      "body": "NIST RaDAR: N-Ethyl 2C-B, described by the program as phenethylamine, was newly detected in West Coast samples collected in August 2026, in a single West Coast sample that also contained deoxymethoxetamine. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-      "pubDate": "2026-08-01T00:00:00.000Z",
-      "sourceId": "us-nist-radar",
-      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "evidence": "official",
-      "trust": 1,
-      "scope": "region",
-      "region": "west",
-      "substanceHint": "N-Ethyl 2C-B",
-      "printedClass": "phenethylamine",
-      "publishedAt": "2026-08-01T00:00:00.000Z",
-      "verdict": "score",
-      "severity": "elevated",
-      "substances": [
-        "N-Ethyl 2C-B"
-      ],
-      "confidence": 0.6923076923076923,
-      "audit": {
-        "substances": [
-          "drug supply"
-        ],
-        "events": [
-          "detected",
-          "samples"
-        ],
-        "negatives": [],
-        "criticalMarkers": [],
-        "elevatedMarkers": [
-          "detected"
-        ],
-        "score": 9
-      },
-      "rawSeverity": "elevated",
-      "evidenceCeiling": "critical",
-      "evidenceClass": "official",
-      "evidenceFloor": 0.55,
-      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "summary": "NIST RaDAR: N-Ethyl 2C-B, described by the program as phenethylamine, was newly detected in West Coast samples collected in August 2026, in a single West Coast sample that also contained deoxymethoxetamine. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "eventDate": "2026-08-01",
-      "fips": null,
-      "state": null,
-      "headline": "N-Ethyl 2C-B newly detected in West Coast samples",
-      "sources": [
-        {
-          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
-          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-          "published": "2026-08-01T00:00:00.000Z",
-          "trust": 1,
-          "evidence": "official"
-        }
-      ],
-      "sourceCount": 1,
-      "independent": 1
-    },
-    {
-      "title": "Methoxyqualone newly detected in East Coast samples",
-      "body": "NIST RaDAR: Methoxyqualone, described by the program as quinazolinone, was newly detected in East Coast samples collected in August 2026, in a single East Coast sample that contained no other detectable compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-      "pubDate": "2026-08-01T00:00:00.000Z",
-      "sourceId": "us-nist-radar",
-      "sourceName": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "evidence": "official",
-      "trust": 1,
-      "scope": "region",
-      "region": "east",
-      "substanceHint": "Methoxyqualone",
-      "printedClass": "quinazolinone",
-      "publishedAt": "2026-08-01T00:00:00.000Z",
-      "verdict": "score",
-      "severity": "elevated",
-      "substances": [
-        "Methoxyqualone"
-      ],
-      "confidence": 0.6923076923076923,
-      "audit": {
-        "substances": [
-          "drug supply"
-        ],
-        "events": [
-          "detected",
-          "samples"
-        ],
-        "negatives": [],
-        "criticalMarkers": [],
-        "elevatedMarkers": [
-          "detected"
-        ],
-        "score": 9
-      },
-      "rawSeverity": "elevated",
-      "evidenceCeiling": "critical",
-      "evidenceClass": "official",
-      "evidenceFloor": 0.55,
-      "originator": "NIST Rapid Drug Analysis and Research (RaDAR)",
-      "summary": "NIST RaDAR: Methoxyqualone, described by the program as quinazolinone, was newly detected in East Coast samples collected in August 2026, in a single East Coast sample that contained no other detectable compounds. Samples are voluntarily submitted and may not be representative of broader trends within the United States drug supply.",
-      "eventDate": "2026-08-01",
-      "fips": null,
-      "state": null,
-      "headline": "Methoxyqualone newly detected in East Coast samples",
-      "sources": [
-        {
-          "name": "NIST Rapid Drug Analysis and Research (RaDAR)",
-          "url": "https://content.govdelivery.com/accounts/USNIST/bulletins/429c3a3",
-          "published": "2026-08-01T00:00:00.000Z",
-          "trust": 1,
-          "evidence": "official"
-        }
-      ],
-      "sourceCount": 1,
-      "independent": 1
-    },
-    {
       "id": "bd93b105a8ac8490",
       "fips": "17031",
       "state": "IL",
@@ -664,6 +513,42 @@
       "independent": 1,
       "n": "Cook County",
       "s": "IL"
+    },
+    {
+      "id": "6f8287530a1f3c0f",
+      "fips": null,
+      "state": "FL",
+      "headline": "Florida Department of Health Issues Warning on Dangerous Opioid-Like Products Sold in Stores Across Florida",
+      "eventDate": "2026-06-16",
+      "summary": "The Florida Department of Health is warning Floridians about the serious health risks associated with 7-hydroxymitragynine (7-OH) and its derivatives, potent opioid-like compounds that are increasingly being marketed and",
+      "severity": "advisory",
+      "substances": [
+        "opioid"
+      ],
+      "sourceCount": 1,
+      "confidence": 0.7307692307692307,
+      "sources": [
+        {
+          "name": "Florida Department of Health",
+          "url": "https://www.floridahealth.gov/2026/06/16/florida-department-of-health-issues-warning-on-dangerous-opioid-like-products-sold-in-stores-across-florida/",
+          "published": "2026-06-16T17:02:00.000Z",
+          "trust": 1,
+          "evidence": "official"
+        }
+      ],
+      "evidenceClasses": [
+        "official"
+      ],
+      "memberGrades": [
+        {
+          "severity": "advisory",
+          "evidenceClass": "official"
+        }
+      ],
+      "rawSeverity": "advisory",
+      "scope": "state",
+      "evidenceClass": "official",
+      "independent": 1
     }
   ]
 }
