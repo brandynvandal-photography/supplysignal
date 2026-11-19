@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-19T02:40:53.658Z",
+  "generated": "2026-11-19T11:31:01.134Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -2065,7 +2065,7 @@
       "s": "IL",
       "c": 0,
       "sev": null,
-      "t": "2026-11-19T02:40:53.590Z"
+      "t": "2026-11-19T11:31:01.129Z"
     },
     "17033": {
       "n": "Crawford County",
@@ -10031,7 +10031,7 @@
       "s": "NV",
       "c": 0,
       "sev": null,
-      "t": "2026-11-19T02:40:53.591Z"
+      "t": "2026-11-19T11:31:01.132Z"
     },
     "32005": {
       "n": "Douglas County",
@@ -13510,7 +13510,7 @@
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-11-19T02:40:53.598Z"
+      "t": "2026-11-19T11:31:01.134Z"
     },
     "42005": {
       "n": "Armstrong County",
@@ -13853,7 +13853,7 @@
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-11-19T02:40:53.590Z"
+      "t": "2026-11-19T11:31:01.130Z"
     },
     "42103": {
       "n": "Pike County",
@@ -15015,7 +15015,7 @@
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-11-19T02:40:53.588Z"
+      "t": "2026-11-19T11:31:01.127Z"
     },
     "47067": {
       "n": "Hancock County",
@@ -16156,7 +16156,7 @@
       "s": "TX",
       "c": 0,
       "sev": null,
-      "t": "2026-11-19T02:40:53.592Z"
+      "t": "2026-11-19T11:31:01.133Z"
     },
     "48203": {
       "n": "Harrison County",
@@ -18578,7 +18578,7 @@
       "s": "WA",
       "c": 0,
       "sev": null,
-      "t": "2026-11-19T02:40:53.590Z"
+      "t": "2026-11-19T11:31:01.131Z"
     },
     "53035": {
       "n": "Kitsap County",
@@ -20734,7 +20734,7 @@
       "s": "AZ",
       "c": 0,
       "sev": null,
-      "t": "2026-11-19T02:40:53.589Z"
+      "t": "2026-11-19T11:31:01.128Z"
     },
     "04015": {
       "n": "Mohave County",
@@ -21441,7 +21441,7 @@
       "s": "CA",
       "c": 0,
       "sev": null,
-      "t": "2026-11-19T02:40:53.589Z"
+      "t": "2026-11-19T11:31:01.129Z"
     },
     "06039": {
       "n": "Madera County",
@@ -21567,7 +21567,7 @@
       "s": "CA",
       "c": 0,
       "sev": null,
-      "t": "2026-11-19T02:40:53.592Z"
+      "t": "2026-11-19T11:31:01.133Z"
     },
     "06075": {
       "n": "San Francisco County",
