@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-19T20:38:00.790Z",
+  "generated": "2026-11-20T02:21:21.086Z",
   "windowDays": 365,
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "countyCount": 3231,
   "coverage": {
-    "lastScan": "2026-11-19T20:38:00.435Z",
+    "lastScan": "2026-11-20T02:21:20.541Z",
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
@@ -15,7 +15,7 @@
       "sandiego-me",
       "google-news"
     ],
-    "countiesScanned": 180
+    "countiesScanned": 99
   },
   "clusters": [
     {
