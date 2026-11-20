@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-20T11:31:05.390Z",
+  "generated": "2026-11-20T20:02:01.245Z",
   "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply.",
   "counties": {
     "10001": {
@@ -2065,7 +2065,7 @@
       "s": "IL",
       "c": 0,
       "sev": null,
-      "t": "2026-11-20T11:31:05.345Z"
+      "t": "2026-11-20T20:02:01.243Z"
     },
     "17033": {
       "n": "Crawford County",
@@ -13510,7 +13510,7 @@
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-11-20T11:31:05.356Z"
+      "t": "2026-11-20T20:02:01.244Z"
     },
     "42005": {
       "n": "Armstrong County",
@@ -13853,7 +13853,7 @@
       "s": "PA",
       "c": 0,
       "sev": null,
-      "t": "2026-11-20T11:31:05.346Z"
+      "t": "2026-11-20T20:02:01.244Z"
     },
     "42103": {
       "n": "Pike County",
@@ -15015,7 +15015,7 @@
       "s": "TN",
       "c": 0,
       "sev": null,
-      "t": "2026-11-20T11:31:05.342Z"
+      "t": "2026-11-20T20:02:01.241Z"
     },
     "47067": {
       "n": "Hancock County",
@@ -18578,7 +18578,7 @@
       "s": "WA",
       "c": 0,
       "sev": null,
-      "t": "2026-11-20T11:31:05.346Z"
+      "t": "2026-11-20T20:02:01.244Z"
     },
     "53035": {
       "n": "Kitsap County",
@@ -20734,7 +20734,7 @@
       "s": "AZ",
       "c": 0,
       "sev": null,
-      "t": "2026-11-20T11:31:05.344Z"
+      "t": "2026-11-20T20:02:01.242Z"
     },
     "04015": {
       "n": "Mohave County",
@@ -21441,7 +21441,7 @@
       "s": "CA",
       "c": 0,
       "sev": null,
-      "t": "2026-11-20T11:31:05.344Z"
+      "t": "2026-11-20T20:02:01.243Z"
     },
     "06039": {
       "n": "Madera County",
