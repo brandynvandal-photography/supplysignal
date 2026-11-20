@@ -12,8 +12,8 @@
     "lastModified": "Thu, 19 Nov 2026 22:00:08 GMT"
   },
   "dc-doh": {
-    "etag": "W/\"1795140584\"",
-    "lastModified": "Fri, 20 Nov 2026 02:09:44 GMT"
+    "etag": "W/\"1795173263\"",
+    "lastModified": "Fri, 20 Nov 2026 11:14:23 GMT"
   },
   "de-dhss": {
     "etag": "\"64b98197cb26aae7e5ed269fd47750c8-gzip\"",
@@ -37,15 +37,15 @@
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Fri, 20 Nov 2026 02:14:08 GMT"
+    "lastModified": "Fri, 20 Nov 2026 11:23:35 GMT"
   },
   "me-dhhs": {
     "etag": "\"1792098991\"",
     "lastModified": "Thu, 15 Oct 2026 21:16:31 GMT"
   },
   "mn-mdh": {
-    "etag": "W/\"1795127255\"",
-    "lastModified": "Thu, 19 Nov 2026 22:27:35 GMT"
+    "etag": "W/\"1795158232\"",
+    "lastModified": "Fri, 20 Nov 2026 07:03:52 GMT"
   },
   "ms-msdh": {
     "etag": "\"0dc85591267dd1:0\"",
@@ -60,8 +60,8 @@
     "lastModified": "Thu, 19 Nov 2026 23:54:17 GMT"
   },
   "nd-hhs": {
-    "etag": "\"1795130640\"",
-    "lastModified": "Thu, 19 Nov 2026 23:24:00 GMT"
+    "etag": "\"1795163042\"",
+    "lastModified": "Fri, 20 Nov 2026 08:24:02 GMT"
   },
   "ri-doh": {
     "etag": "W/\"1795123849\"",
@@ -72,16 +72,16 @@
     "lastModified": "Thu, 19 Nov 2026 19:36:07 GMT"
   },
   "va-vdh": {
-    "etag": "\"8948f0211c13f9c77f8c810f2ad3f8ea\"",
-    "lastModified": "Thu, 19 Nov 2026 19:38:54 GMT"
+    "etag": "\"f08f4c6b485a0274ce9f30cdb18003de\"",
+    "lastModified": "Fri, 20 Nov 2026 02:40:14 GMT"
   },
   "wa-doh": {
     "etag": "\"1795140091\"",
     "lastModified": "Fri, 20 Nov 2026 02:01:31 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1795136961\"",
-    "lastModified": "Fri, 20 Nov 2026 01:09:21 GMT"
+    "etag": "\"1795158885\"",
+    "lastModified": "Fri, 20 Nov 2026 07:14:45 GMT"
   },
   "wv-oeps": {
     "etag": "\"1795109488\"",
@@ -100,8 +100,8 @@
     "lastModified": "Wed, 07 Oct 2026 17:59:47 GMT"
   },
   "sc-dph": {
-    "etag": "\"1795061250\"",
-    "lastModified": "Thu, 19 Nov 2026 04:07:30 GMT"
+    "etag": "\"1795147821\"",
+    "lastModified": "Fri, 20 Nov 2026 04:10:21 GMT"
   },
   "cdc-mmwr": {
     "etag": null,
