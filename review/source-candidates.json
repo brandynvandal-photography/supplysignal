@@ -1,6 +1,6 @@
 {
   "_note": "GENERATED weekly by scripts/discover-sources.mjs from the Socrata Discovery API. Nothing here is ingested; a person reads it. `latest` is max(date column) reported by the dataset's own endpoint - the number that separates a live source from a stale archive. To reject one for good, move it into `dismissed` with a reason.",
-  "generated": "2026-11-15T11:59:36.692Z",
+  "generated": "2026-11-22T12:38:45.948Z",
   "queries": [
     "\"medical examiner\" overdose",
     "\"overdose deaths\"",
@@ -15,7 +15,34 @@
     "j8j2-ged9",
     "jkvb-n4p7"
   ],
-  "candidates": [],
+  "candidates": [
+    {
+      "id": "uy5v-d493",
+      "domain": "data.cdc.gov",
+      "name": "Vital Statistics Early Release",
+      "permalink": "https://data.cdc.gov/d/uy5v-d493",
+      "updatedAt": "2026-11-18T14:59:57.000Z",
+      "category": "National Center for Health Statistics",
+      "description": "This dataset provides provisional birth rates, infant mortality rates, maternal mortality rates, and death rates for selected leading causes for the United States. Data are presented with a 1-month lag for births and 3-month lag for deaths. Drug overdose deaths have a 6-month lag.",
+      "columns": [
+        "Unit",
+        "Significant",
+        "flag",
+        "Rate",
+        "Time period",
+        "Race and Hispanic origin",
+        "Group",
+        "Year and month",
+        "Natality Topic",
+        "Indicator"
+      ],
+      "dateColumn": null,
+      "noisy": false,
+      "latest": null,
+      "rows": null,
+      "note": "no date column"
+    }
+  ],
   "dismissed": [
     {
       "id": "qxa4-9v9w",
