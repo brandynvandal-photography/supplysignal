@@ -37,7 +37,7 @@
   },
   "ks-kdhe": {
     "etag": null,
-    "lastModified": "Sun, 22 Nov 2026 18:15:28 GMT"
+    "lastModified": "Sun, 22 Nov 2026 21:12:32 GMT"
   },
   "me-dhhs": {
     "etag": "\"1792098991\"",
@@ -76,12 +76,12 @@
     "lastModified": "Fri, 20 Nov 2026 21:19:21 GMT"
   },
   "wa-doh": {
-    "etag": "\"1795288059\"",
-    "lastModified": "Sat, 21 Nov 2026 19:07:39 GMT"
+    "etag": "\"1795374482\"",
+    "lastModified": "Sun, 22 Nov 2026 19:08:02 GMT"
   },
   "wi-dhs": {
-    "etag": "\"1795245785\"",
-    "lastModified": "Sat, 21 Nov 2026 07:23:05 GMT"
+    "etag": "\"1795381023\"",
+    "lastModified": "Sun, 22 Nov 2026 20:57:03 GMT"
   },
   "wv-oeps": {
     "etag": "\"1795273954\"",
@@ -92,8 +92,8 @@
     "lastModified": "Fri, 20 Nov 2026 23:00:33 GMT"
   },
   "grassroots-hr": {
-    "etag": "\"9cf32e4ae2996a096096702cf612731f\"",
-    "lastModified": "Sat, 21 Nov 2026 19:22:43 GMT"
+    "etag": "\"1aa4253c2062a26340fbef00b236247f\"",
+    "lastModified": "Sun, 22 Nov 2026 19:56:43 GMT"
   },
   "rebel-hr": {
     "etag": null,
