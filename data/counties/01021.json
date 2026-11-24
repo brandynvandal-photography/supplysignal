@@ -4,17 +4,17 @@
   "state": "AL",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-11-19T02:40:53.657Z",
+    "lastScan": "2026-11-24T12:30:18.263Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "me-dhhs",
       "ms-msdh",
-      "grassroots-hr",
       "cook-me",
       "santaclara-me",
-      "sandiego-me"
+      "sandiego-me",
+      "google-news"
     ],
     "scanned": true,
     "disclaimer": "Aggregated from public reporting and not independently verified. Many changes in local drug supply are never publicly announced, and reporting lags reality. No alerts does not mean a safe supply."
