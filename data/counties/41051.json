@@ -4,14 +4,13 @@
   "state": "OR",
   "clusters": [],
   "coverage": {
-    "lastScan": "2026-11-27T03:26:10.511Z",
+    "lastScan": "2026-11-27T06:30:08.366Z",
     "windowDays": 365,
     "sourcesChecked": 32,
     "sourcesFailed": [
       "la-ldh",
       "me-dhhs",
       "ms-msdh",
-      "grassroots-hr",
       "cook-me",
       "santaclara-me",
       "sandiego-me",
